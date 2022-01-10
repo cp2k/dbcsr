@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -326,30 +326,30 @@ public subroutine dbcsr_distribution_make_threads(dist, row_sizes)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_distribution_make_threads</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">row_sizes</span><span class="p">)</span>
-      <span class="c">!! Creates a distribution for threads</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_distribution_make_threads</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">row_sizes</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Creates a distribution for threads</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span> <span class="p">&amp;</span>
-         <span class="k">TARGET</span>                                          <span class="kd">::</span> <span class="n">dist</span>
-         <span class="c">!! Add thread distribution to this distribution</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">row_sizes</span>
-         <span class="c">!! row block sizes</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">TARGET</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Add thread distribution to this distribution</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">row_sizes</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! row block sizes</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">POINTER</span>              <span class="kd">::</span> <span class="n">dist_p</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">dist_p</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="n">dist_p</span> <span class="o">=&gt;</span> <span class="n">dist</span>
+<span class="w">      </span><span class="n">dist_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
 <span class="c">!$    IF (.NOT. OMP_IN_PARALLEL()) THEN</span>
 <span class="c">! GCC 10.2 refused to build with DEFAULT(NONE) SHARED(dist_p, row_sizes) here:</span>
 <span class="c">!$OMP        PARALLEL DEFAULT(SHARED)</span>
 <span class="c">!$       CALL make_threads(dist_p, row_sizes=row_sizes)</span>
 <span class="c">!$OMP        END PARALLEL</span>
 <span class="c">!$    ELSE</span>
-         <span class="k">CALL </span><span class="n">make_threads</span><span class="p">(</span><span class="n">dist_p</span><span class="p">,</span> <span class="n">row_sizes</span><span class="o">=</span><span class="n">row_sizes</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">make_threads</span><span class="p">(</span><span class="n">dist_p</span><span class="p">,</span><span class="w"> </span><span class="n">row_sizes</span><span class="o">=</span><span class="n">row_sizes</span><span class="p">)</span><span class="w"></span>
 <span class="c">!$OMP        BARRIER</span>
 <span class="c">!$    ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_distribution_make_threads</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_distribution_make_threads</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -365,7 +365,7 @@ public subroutine dbcsr_distribution_make_threads(dist, row_sizes)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

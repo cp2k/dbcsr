@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -342,50 +342,50 @@ for images.</p>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_reset_vlocals</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">,</span> <span class="n">do_rows</span><span class="p">)</span>
-      <span class="c">!! Resets local rows, columns to the correct arrays and values</span>
-      <span class="c">!! for images.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_reset_vlocals</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">imgdist</span><span class="p">,</span><span class="w"> </span><span class="n">do_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Resets local rows, columns to the correct arrays and values</span>
+<span class="w">      </span><span class="c">!! for images.</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">imgdist</span>
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">do_rows</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">imgdist</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">do_rows</span><span class="w"></span>
 
-      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">my_do_rows</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">my_do_rows</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_release_locals</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-      <span class="n">my_do_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">do_rows</span><span class="p">))</span> <span class="n">my_do_rows</span> <span class="o">=</span> <span class="n">do_rows</span>
-      <span class="c">! Rows</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">do_rows</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">my_do_rows</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">dbcsr_get_local_vrows</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_home_vprow</span><span class="p">))</span>
-      <span class="k">ELSE</span>
-<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span> <span class="o">=</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_rows</span>
-      <span class="k">ENDIF</span>
-<span class="k">      CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">has_local_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_local</span> <span class="o">=</span> <span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nblkrows_local</span><span class="p">)</span> <span class="o">=</span> <span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_get_global_vrow_map</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">)</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">has_global_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="c">! Columns</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">do_rows</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">my_do_rows</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">dbcsr_get_local_vcols</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_home_vpcol</span><span class="p">))</span>
-      <span class="k">ELSE</span>
-<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span> <span class="o">=</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_cols</span>
-      <span class="k">ENDIF</span>
-<span class="k">      CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">has_local_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols_local</span> <span class="o">=</span> <span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nblkcols_local</span><span class="p">)</span> <span class="o">=</span> <span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_get_global_vcol_map</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="p">)</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">has_global_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_reset_vlocals</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_release_locals</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">my_do_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">do_rows</span><span class="p">))</span><span class="w"> </span><span class="n">my_do_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">do_rows</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Rows</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">do_rows</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">my_do_rows</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_get_local_vrows</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_home_vprow</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_rows</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">has_local_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nblkrows_local</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_get_global_vrow_map</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">has_global_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Columns</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">do_rows</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">my_do_rows</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_get_local_vcols</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_home_vpcol</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_cols</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">has_local_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nblkcols_local</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_get_global_vcol_map</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">has_global_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_reset_vlocals</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -401,7 +401,7 @@ for images.</p>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

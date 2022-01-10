@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -327,24 +327,24 @@ given wo not be printed.</p>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_set_log_level</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
-      <span class="c">!! changes the logging level. Log messages with a level less than the one</span>
-      <span class="c">!! given wo not be printed.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_set_log_level</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! changes the logging level. Log messages with a level less than the one</span>
+<span class="w">      </span><span class="c">!! given wo not be printed.</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
-         <span class="c">!! the logger to change</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">level</span>
-         <span class="c">!! the new logging level for the logger</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">logger</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the logger to change</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">level</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the new logging level for the logger</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_set_log_level&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_logger_set_log_level&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span><span class="w"></span>
 
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger not associated&quot;</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
-      <span class="n">logger</span><span class="p">%</span><span class="n">print_level</span> <span class="o">=</span> <span class="n">level</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_set_log_level</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger not associated&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">logger</span><span class="p">%</span><span class="n">print_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_set_log_level</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -360,7 +360,7 @@ given wo not be printed.</p>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

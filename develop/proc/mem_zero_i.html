@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -326,21 +326,21 @@ private subroutine mem_zero_i(dst, n)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mem_zero_i</span> <span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-     <span class="c">!! Zeros memory area</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">mem_zero_i</span><span class="w"> </span><span class="p">(</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="c">!! Zeros memory area</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span>
-        <span class="c">!! length of elements to zero</span>
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dst</span>
-        <span class="c">!! destination memory</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! length of elements to zero</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dst</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! destination memory</span>
 <span class="cp">#if !defined(__DBCSR_DISABLE_WORKSHARE)</span>
 <span class="c">!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)</span>
 <span class="cp">#endif</span>
-      <span class="n">dst</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">      </span><span class="n">dst</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="cp">#if !defined(__DBCSR_DISABLE_WORKSHARE)</span>
 <span class="c">!$OMP     END PARALLEL WORKSHARE</span>
 <span class="cp">#endif</span>
-   <span class="k">END SUBROUTINE </span><span class="n">mem_zero_i</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">mem_zero_i</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -356,7 +356,7 @@ private subroutine mem_zero_i(dst, n)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

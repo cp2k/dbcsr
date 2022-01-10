@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -266,40 +266,40 @@
 
     <section>
       <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/acc/hip/dbcsr_hip_profiling.F&quot; 1</span>
-<a id="ln-2" name="ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
-<a id="ln-3" name="ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
-<a id="ln-4" name="ln-4"></a><span class="c">! Copyright(C) 2021 Advanced Micro Devices, Inc. All rights reserved.                              !</span>
-<a id="ln-5" name="ln-5"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
-<a id="ln-6" name="ln-6"></a><span class="c">!                                                                                                  !</span>
-<a id="ln-7" name="ln-7"></a><span class="c">! For information on the license, see the LICENSE file.                                            !</span>
-<a id="ln-8" name="ln-8"></a><span class="c">! For further information please visit https://dbcsr.cp2k.org                                      !</span>
-<a id="ln-9" name="ln-9"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
-<a id="ln-10" name="ln-10"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
-<a id="ln-11" name="ln-11"></a>
-<a id="ln-12" name="ln-12"></a><span class="k">MODULE </span><span class="n">dbcsr_hip_profiling</span>
-<a id="ln-13" name="ln-13"></a>
-<a id="ln-14" name="ln-14"></a>   <span class="k">INTERFACE</span>
-<a id="ln-15" name="ln-15"></a><span class="k">      SUBROUTINE </span><span class="n">roctxMarkA</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;roctxMarkA&quot;</span><span class="p">)</span>
-<a id="ln-16" name="ln-16"></a>         <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="kt">C_CHAR</span>
-<a id="ln-17" name="ln-17"></a><span class="kt">         </span><span class="k">IMPLICIT NONE</span>
-<a id="ln-18" name="ln-18"></a><span class="k">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="kt">C_CHAR</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-<a id="ln-19" name="ln-19"></a>      <span class="k">END SUBROUTINE </span><span class="n">roctxMarkA</span>
-<a id="ln-20" name="ln-20"></a>
-<a id="ln-21" name="ln-21"></a>      <span class="k">FUNCTION </span><span class="n">roctxRangePushA</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;roctxRangePushA&quot;</span><span class="p">)</span>
-<a id="ln-22" name="ln-22"></a>         <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span><span class="p">,</span> <span class="p">&amp;</span>
-<a id="ln-23" name="ln-23"></a>                                  <span class="kt">C_CHAR</span>
-<a id="ln-24" name="ln-24"></a><span class="kt">         </span><span class="k">IMPLICIT NONE</span>
-<a id="ln-25" name="ln-25"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="kt">C_INT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">roctxRangePushA</span>
-<a id="ln-26" name="ln-26"></a>         <span class="kt">CHARACTER</span><span class="p">(</span><span class="kt">C_CHAR</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-<a id="ln-27" name="ln-27"></a>      <span class="k">END FUNCTION </span><span class="n">roctxRangePushA</span>
-<a id="ln-28" name="ln-28"></a>
-<a id="ln-29" name="ln-29"></a>      <span class="k">SUBROUTINE </span><span class="n">roctxRangePop</span><span class="p">()</span> <span class="k">BIND</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;roctxRangePop&quot;</span><span class="p">)</span>
-<a id="ln-30" name="ln-30"></a>         <span class="k">IMPLICIT NONE</span>
-<a id="ln-31" name="ln-31"></a><span class="k">      END SUBROUTINE </span><span class="n">roctxRangePop</span>
-<a id="ln-32" name="ln-32"></a>   <span class="k">END INTERFACE</span>
-<a id="ln-33" name="ln-33"></a>
-<a id="ln-34" name="ln-34"></a><span class="k">END MODULE </span><span class="n">dbcsr_hip_profiling</span>
+    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/acc/hip/dbcsr_hip_profiling.F&quot; 1</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">! Copyright(C) 2021 Advanced Micro Devices, Inc. All rights reserved.                              !</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="c">!                                                                                                  !</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="c">! For information on the license, see the LICENSE file.                                            !</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="c">! For further information please visit https://dbcsr.cp2k.org                                      !</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="k">MODULE </span><span class="n">dbcsr_hip_profiling</span><span class="w"></span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">   </span><span class="k">INTERFACE</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="k">      SUBROUTINE </span><span class="n">roctxMarkA</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;roctxMarkA&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">         </span><span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="kt">C_CHAR</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="kt">         </span><span class="k">IMPLICIT NONE</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="k">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="kt">C_CHAR</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">message</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"></span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">roctxMarkA</span><span class="w"></span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">      </span><span class="k">FUNCTION </span><span class="n">roctxRangePushA</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;roctxRangePushA&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">         </span><span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="kt">C_INT</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">                                  </span><span class="kt">C_CHAR</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="kt">         </span><span class="k">IMPLICIT NONE</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="kt">C_INT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">roctxRangePushA</span><span class="w"></span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="kt">C_CHAR</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">message</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"></span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">      </span><span class="k">END FUNCTION </span><span class="n">roctxRangePushA</span><span class="w"></span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">roctxRangePop</span><span class="p">()</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;roctxRangePop&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="w">         </span><span class="k">IMPLICIT NONE</span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="k">      END SUBROUTINE </span><span class="n">roctxRangePop</span><span class="w"></span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">   </span><span class="k">END INTERFACE</span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="k">END MODULE </span><span class="n">dbcsr_hip_profiling</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -312,7 +312,7 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

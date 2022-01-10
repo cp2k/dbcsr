@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -286,37 +286,37 @@ Prepares the DBCSR library for use.</p>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_init_lib_low</span><span class="p">()</span>
-      <span class="c">!! Initialize the DBCSR library</span>
-      <span class="c">!! Prepares the DBCSR library for use.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_init_lib_low</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Initialize the DBCSR library</span>
+<span class="w">      </span><span class="c">!! Prepares the DBCSR library for use.</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_init_lib_low&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_init_lib_low&#39;</span><span class="w"></span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">int_1_size</span> <span class="o">/=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect assumption of an 8-bit integer size!&quot;</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">int_2_size</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect assumption of a 16-bit integer size!&quot;</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">int_4_size</span> <span class="o">/=</span> <span class="mi">4</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect assumption of a 32-bit integer size!&quot;</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">int_8_size</span> <span class="o">/=</span> <span class="mi">8</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect assumption of a 64-bit integer size!&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">int_1_size</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect assumption of an 8-bit integer size!&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">int_2_size</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect assumption of a 16-bit integer size!&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">int_4_size</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect assumption of a 32-bit integer size!&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">int_8_size</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect assumption of a 64-bit integer size!&quot;</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_mp_perf_env</span><span class="p">())</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">add_mp_perf_env</span><span class="p">()</span>
-      <span class="k">ENDIF</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">has_mp_perf_env</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">add_mp_perf_env</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span><span class="w"></span>
 
 <span class="c">!$OMP     PARALLEL DEFAULT(NONE)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_multiply_lib_init</span><span class="p">()</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_multiply_lib_init</span><span class="p">()</span><span class="w"></span>
 <span class="c">!$OMP     END PARALLEL</span>
 
-      <span class="n">is_initialized</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="w">      </span><span class="n">is_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_init_lib_low</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_init_lib_low</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -332,7 +332,7 @@ Prepares the DBCSR library for use.</p>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

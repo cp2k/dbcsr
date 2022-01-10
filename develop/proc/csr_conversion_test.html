@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -359,34 +359,34 @@ back-converted matrix is calculated.</p>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">csr_conversion_test</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
-      <span class="c">!! Test the conversion by converting to CSR format and converting back,</span>
-      <span class="c">!! where the CSR sparsity is defined by some filtering threshold eps.</span>
-      <span class="c">!! The maximum norm of the differences between the original and the</span>
-      <span class="c">!! back-converted matrix is calculated.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">csr_conversion_test</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">norm</span><span class="p">,</span><span class="w"> </span><span class="n">eps</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Test the conversion by converting to CSR format and converting back,</span>
+<span class="w">      </span><span class="c">!! where the CSR sparsity is defined by some filtering threshold eps.</span>
+<span class="w">      </span><span class="c">!! The maximum norm of the differences between the original and the</span>
+<span class="w">      </span><span class="c">!! back-converted matrix is calculated.</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">dbcsr_mat</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_csr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">csr_mat</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">norm</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">eps</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_csr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">csr_mat</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">norm</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">eps</span><span class="w"></span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">csr_sparsity</span><span class="p">,</span> <span class="n">dbcsr_mat_conv</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">csr_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat_conv</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_to_csr_filter</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">csr_sparsity</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_to_csr_filter</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">csr_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">eps</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_csr_create_from_dbcsr</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">,</span> <span class="n">dbcsr_csr_eqrow_ceil_dist</span><span class="p">,</span> <span class="n">csr_sparsity</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_convert_dbcsr_to_csr</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_csr_create_from_dbcsr</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_csr_eqrow_ceil_dist</span><span class="p">,</span><span class="w"> </span><span class="n">csr_sparsity</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_convert_dbcsr_to_csr</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">,</span> <span class="n">dbcsr_mat</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_convert_csr_to_dbcsr</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_convert_csr_to_dbcsr</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">,</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_add</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">,</span> <span class="n">dbcsr_mat</span><span class="p">,</span> <span class="mf">1.0_dp</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0_dp</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_norm</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">,</span> <span class="n">dbcsr_norm_maxabsnorm</span><span class="p">,</span> <span class="n">norm_scalar</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_add</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_norm</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_norm_maxabsnorm</span><span class="p">,</span><span class="w"> </span><span class="n">norm_scalar</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">csr_conversion_test</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">dbcsr_mat_conv</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">csr_conversion_test</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -402,7 +402,7 @@ back-converted matrix is calculated.</p>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

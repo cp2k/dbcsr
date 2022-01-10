@@ -14,8 +14,6 @@ MODULE dbcsr_mm
    !! - 2016-08    Code organization (Alfio Lazzaro).
 
    USE dbcsr_acc_device, ONLY: dbcsr_acc_clear_errors
-   USE dbcsr_acc_init, ONLY: acc_finalize, &
-                             acc_init
    USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
                                acc_stream_create, &
                                acc_stream_destroy
@@ -109,9 +107,33 @@ MODULE dbcsr_mm
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
 
+#if defined (__DBCSR_ACC)
+   USE ISO_C_BINDING, ONLY: C_INT
+#endif
+
    IMPLICIT NONE
 
    PRIVATE
+
+#if defined (__DBCSR_ACC)
+   INTERFACE
+      FUNCTION libsmm_acc_init_backend() &
+         RESULT(istat) &
+         BIND(C, name="libsmm_acc_init")
+         IMPORT
+         INTEGER(KIND=C_INT) :: istat
+      END FUNCTION libsmm_acc_init_backend
+   END INTERFACE
+
+   INTERFACE
+      FUNCTION libsmm_acc_finalize_backend() &
+         RESULT(istat) &
+         BIND(C, name="libsmm_acc_finalize")
+         IMPORT
+         INTEGER(KIND=C_INT) :: istat
+      END FUNCTION libsmm_acc_finalize_backend
+   END INTERFACE
+#endif
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_mm'
    LOGICAL, PARAMETER :: debug_mod = .FALSE.
@@ -126,16 +148,26 @@ MODULE dbcsr_mm
 
 CONTAINS
 
+   SUBROUTINE libsmm_acc_init()
+#if defined (__DBCSR_ACC)
+      IF (0 /= libsmm_acc_init_backend()) DBCSR_ABORT("libsmm_acc_init: failed")
+#else
+      DBCSR_ABORT("__DBCSR_ACC not compiled in")
+#endif
+   END SUBROUTINE libsmm_acc_init
+
+   SUBROUTINE libsmm_acc_finalize()
+#if defined (__DBCSR_ACC)
+      IF (0 /= libsmm_acc_finalize_backend()) DBCSR_ABORT("libsmm_acc_finalize: failed")
+#else
+      DBCSR_ABORT("__DBCSR_ACC not compiled in")
+#endif
+   END SUBROUTINE libsmm_acc_finalize
+
    SUBROUTINE dbcsr_multiply_lib_init()
       !! Initialize the library
 
       INTEGER                                            :: ithread, nthreads
-
-!$OMP     MASTER
-      IF (has_acc) &
-         CALL acc_init()
-!$OMP     END MASTER
-!$OMP     BARRIER
 
       nthreads = 1; ithread = 0
 !$    nthreads = OMP_GET_NUM_THREADS(); ithread = OMP_GET_THREAD_NUM()
@@ -153,6 +185,7 @@ CONTAINS
       marketing_flops = 0
       max_memory = 0
       ALLOCATE (memtype_product_wm(0:nthreads - 1))
+      IF (has_acc) CALL libsmm_acc_init()
 !$OMP     END MASTER
 !$OMP     BARRIER
 
@@ -176,7 +209,7 @@ CONTAINS
       IF (ASSOCIATED(memtype_product_wm(ithread)%p%pool)) &
          CALL dbcsr_mempool_destruct(memtype_product_wm(ithread)%p%pool)
       DEALLOCATE (memtype_product_wm(ithread)%p)
-
+      IF (has_acc) CALL libsmm_acc_finalize()
 !$OMP      BARRIER
 !$OMP      MASTER
       DEALLOCATE (memtype_product_wm)
@@ -201,8 +234,6 @@ CONTAINS
          CALL acc_stream_destroy(stream_1)
       IF (acc_stream_associated(stream_2)) &
          CALL acc_stream_destroy(stream_2)
-      IF (has_acc) &
-         CALL acc_finalize()
 !$OMP      END MASTER
    END SUBROUTINE dbcsr_multiply_lib_finalize
 

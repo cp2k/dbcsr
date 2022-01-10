@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -494,31 +494,31 @@
     
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
-    <div class="highlight"><pre><span></span>   <span class="k">TYPE </span><span class="n">dbcsr_mp_type</span>
-      <span class="c">!! A processor (process) grid distribution</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_mp_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! A processor (process) grid distribution</span>
 
-      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">mynode</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! my processor/node (process) number</span>
-      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">numnodes</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! number of processors/nodes (processes)</span>
-      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">myprow</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! my process grid row</span>
-      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">mypcol</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! my process grid column</span>
-      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">mp_group</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! message-passing group ID</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">pgrid</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! processor grid</span>
-      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">refcount</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="c">!! reference counter</span>
-      <span class="kt">LOGICAL</span>                            <span class="kd">::</span> <span class="n">subgroups_defined</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="c">!! whether the subgroups are defined</span>
-      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">prow_group</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! per-process-row communicator</span>
-      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">pcol_group</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! pre-process-column communicator</span>
-      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">source</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-   <span class="k">END TYPE </span><span class="n">dbcsr_mp_type</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">mynode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! my processor/node (process) number</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">numnodes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! number of processors/nodes (processes)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">myprow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! my process grid row</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">mypcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! my process grid column</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! message-passing group ID</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pgrid</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! processor grid</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">refcount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! reference counter</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">subgroups_defined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! whether the subgroups are defined</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">prow_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! per-process-row communicator</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">pcol_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! pre-process-column communicator</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_mp_type</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -533,7 +533,7 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

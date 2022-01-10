@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -440,27 +440,27 @@
     
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
-    <div class="highlight"><pre><span></span>   <span class="k">TYPE </span><span class="n">dbcsr_work_type</span>
-      <span class="c">!! Used for assembling a real matrix.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_work_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Used for assembling a real matrix.</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">data_area</span>
-         <span class="c">!! holds actual values.</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">row_i</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! the row index of all of the blocks.</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">col_i</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! the column index of all of the blocks.</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">blk_p</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! the pointer into the data array of this block.</span>
-      <span class="kt">INTEGER</span>                                 <span class="kd">::</span> <span class="n">lastblk</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! index of the last block entered into the row_i, col_i, and blk_p data structures</span>
-      <span class="kt">INTEGER</span>                                 <span class="kd">::</span> <span class="n">datasize</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! the actual size of data present in the data element</span>
-      <span class="kt">INTEGER</span>                                 <span class="kd">::</span> <span class="n">datasize_after_filtering</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-      <span class="c">!TYPE(btree_i8_dp2d)                       :: tree</span>
-         <span class="c">!! tree used to index data blocks (alternative to the row_i, col_i, and blk_p indices when index is scattered).</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mutable_obj</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">mutable</span>
-         <span class="c">!! the final bcsr matrix</span>
-   <span class="k">END TYPE </span><span class="n">dbcsr_work_type</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">data_area</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! holds actual values.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">row_i</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the row index of all of the blocks.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">col_i</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the column index of all of the blocks.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the pointer into the data array of this block.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">lastblk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! index of the last block entered into the row_i, col_i, and blk_p data structures</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">datasize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the actual size of data present in the data element</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">datasize_after_filtering</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="c">!TYPE(btree_i8_dp2d)                       :: tree</span>
+<span class="w">         </span><span class="c">!! tree used to index data blocks (alternative to the row_i, col_i, and blk_p indices when index is scattered).</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mutable_obj</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mutable</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the final bcsr matrix</span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_work_type</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -475,7 +475,7 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

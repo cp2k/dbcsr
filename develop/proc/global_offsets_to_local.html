@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -347,57 +347,57 @@ Which elements are local</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">global_offsets_to_local</span><span class="p">(</span><span class="n">global_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                                      <span class="n">local_elements</span><span class="p">,</span> <span class="n">local_offsets</span><span class="p">)</span>
-      <span class="c">!! Converts global offsets to local</span>
-      <span class="c">!!</span>
-      <span class="c">!! Global vs. Local Indexing</span>
-      <span class="c">!! local_offsets may be sized according to the</span>
-      <span class="c">!! local index (|local_elements+|1) or the</span>
-      <span class="c">!! global index (|global_offsets|).</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">global_offsets_to_local</span><span class="p">(</span><span class="n">global_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">local_elements</span><span class="p">,</span><span class="w"> </span><span class="n">local_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Converts global offsets to local</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Global vs. Local Indexing</span>
+<span class="w">      </span><span class="c">!! local_offsets may be sized according to the</span>
+<span class="w">      </span><span class="c">!! local index (|local_elements+|1) or the</span>
+<span class="w">      </span><span class="c">!! global index (|global_offsets|).</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">global_offsets</span><span class="p">,</span> <span class="n">local_elements</span>
-         <span class="c">!! Offsets of elements in the global grid</span>
-         <span class="c">!! Which elements are local</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">local_offsets</span>
-         <span class="c">!! Offsets of local elements.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">global_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">local_elements</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Offsets of elements in the global grid</span>
+<span class="w">         </span><span class="c">!! Which elements are local</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">local_offsets</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Offsets of local elements.</span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">acc</span><span class="p">,</span> <span class="n">el</span><span class="p">,</span> <span class="n">lel</span><span class="p">,</span> <span class="n">nglobal</span><span class="p">,</span> <span class="n">nlo</span><span class="p">,</span> <span class="n">nlocal</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                            <span class="n">prev_el</span><span class="p">,</span> <span class="n">sz</span>
-      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">local</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">acc</span><span class="p">,</span><span class="w"> </span><span class="n">el</span><span class="p">,</span><span class="w"> </span><span class="n">lel</span><span class="p">,</span><span class="w"> </span><span class="n">nglobal</span><span class="p">,</span><span class="w"> </span><span class="n">nlo</span><span class="p">,</span><span class="w"> </span><span class="n">nlocal</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">prev_el</span><span class="p">,</span><span class="w"> </span><span class="n">sz</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">local</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="n">nglobal</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">global_offsets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-      <span class="n">nlocal</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">local_elements</span><span class="p">)</span>
-      <span class="n">nlo</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">local_offsets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-      <span class="n">local</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="p">(</span><span class="n">nglobal</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">nlo</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">local</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         IF</span> <span class="p">(</span><span class="n">nlocal</span> <span class="o">/=</span> <span class="n">nlo</span><span class="p">)</span> <span class="p">&amp;</span>
-            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid size for local offsets&quot;</span><span class="p">)</span>
-      <span class="k">ENDIF</span>
-<span class="k">      IF</span> <span class="p">(</span><span class="n">local</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">acc</span> <span class="o">=</span> <span class="mi">1</span>
-         <span class="k">DO </span><span class="n">lel</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nlocal</span>
-            <span class="n">local_offsets</span><span class="p">(</span><span class="n">lel</span><span class="p">)</span> <span class="o">=</span> <span class="n">acc</span>
-            <span class="n">el</span> <span class="o">=</span> <span class="n">local_elements</span><span class="p">(</span><span class="n">lel</span><span class="p">)</span>
-            <span class="n">sz</span> <span class="o">=</span> <span class="n">global_offsets</span><span class="p">(</span><span class="n">el</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">global_offsets</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
-            <span class="n">acc</span> <span class="o">=</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">sz</span>
-         <span class="k">ENDDO</span>
-<span class="k">         </span><span class="n">local_offsets</span><span class="p">(</span><span class="n">nlocal</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">acc</span>
-      <span class="k">ELSE</span>
-<span class="k">         </span><span class="n">acc</span> <span class="o">=</span> <span class="mi">1</span>
-         <span class="n">prev_el</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="k">DO </span><span class="n">lel</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nlocal</span>
-            <span class="n">el</span> <span class="o">=</span> <span class="n">local_elements</span><span class="p">(</span><span class="n">lel</span><span class="p">)</span>
-            <span class="n">local_offsets</span><span class="p">(</span><span class="n">prev_el</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">el</span><span class="p">)</span> <span class="o">=</span> <span class="n">acc</span>
-            <span class="n">sz</span> <span class="o">=</span> <span class="n">global_offsets</span><span class="p">(</span><span class="n">el</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">global_offsets</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
-            <span class="n">acc</span> <span class="o">=</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">sz</span>
-            <span class="n">prev_el</span> <span class="o">=</span> <span class="n">el</span>
-         <span class="k">ENDDO</span>
-<span class="k">         </span><span class="n">local_offsets</span><span class="p">(</span><span class="n">prev_el</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">nglobal</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">acc</span>
-      <span class="k">ENDIF</span>
-<span class="k">   END SUBROUTINE </span><span class="n">global_offsets_to_local</span>
+<span class="w">      </span><span class="n">nglobal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">global_offsets</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">nlocal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">local_elements</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">nlo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">local_offsets</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">nglobal</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">nlo</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">local</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">nlocal</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">nlo</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid size for local offsets&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">local</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO </span><span class="n">lel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nlocal</span><span class="w"></span>
+<span class="w">            </span><span class="n">local_offsets</span><span class="p">(</span><span class="n">lel</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"></span>
+<span class="w">            </span><span class="n">el</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_elements</span><span class="p">(</span><span class="n">lel</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">sz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">global_offsets</span><span class="p">(</span><span class="n">el</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">global_offsets</span><span class="p">(</span><span class="n">el</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sz</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDDO</span>
+<span class="k">         </span><span class="n">local_offsets</span><span class="p">(</span><span class="n">nlocal</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">prev_el</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO </span><span class="n">lel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nlocal</span><span class="w"></span>
+<span class="w">            </span><span class="n">el</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_elements</span><span class="p">(</span><span class="n">lel</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">local_offsets</span><span class="p">(</span><span class="n">prev_el</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">el</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"></span>
+<span class="w">            </span><span class="n">sz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">global_offsets</span><span class="p">(</span><span class="n">el</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">global_offsets</span><span class="p">(</span><span class="n">el</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sz</span><span class="w"></span>
+<span class="w">            </span><span class="n">prev_el</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">el</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDDO</span>
+<span class="k">         </span><span class="n">local_offsets</span><span class="p">(</span><span class="n">prev_el</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nglobal</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">global_offsets_to_local</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -413,7 +413,7 @@ Which elements are local</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

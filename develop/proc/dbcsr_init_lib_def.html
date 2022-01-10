@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -341,34 +341,34 @@ private subroutine dbcsr_init_lib_def(mp_comm, io_unit, accdrv_active_device_id)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_init_lib_def</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span><span class="p">)</span>
-      <span class="c">!! Initialize the DBCSR library using internal loggers and timer callbacks</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mp_comm</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_init_lib_def</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span><span class="w"> </span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="n">accdrv_active_device_id</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Initialize the DBCSR library using internal loggers and timer callbacks</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_comm</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="n">accdrv_active_device_id</span><span class="w"></span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="n">is_initialized</span><span class="p">)</span> <span class="k">THEN</span>
-         <span class="c">! Update ext_io_unit</span>
-         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">io_unit</span><span class="p">))</span> <span class="n">ext_io_unit</span> <span class="o">=</span> <span class="n">io_unit</span>
-         <span class="k">RETURN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">is_initialized</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Update ext_io_unit</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">io_unit</span><span class="p">))</span><span class="w"> </span><span class="n">ext_io_unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io_unit</span><span class="w"></span>
+<span class="w">         </span><span class="k">RETURN</span>
 <span class="k">      ENDIF</span>
-<span class="k">      CALL </span><span class="n">dbcsr_init_lib_pre</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="c">! Declare loggers</span>
-      <span class="k">CALL </span><span class="n">dbcsr_logger_create</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">mp_env</span><span class="o">=</span><span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
-                               <span class="n">default_global_unit_nr</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="p">&amp;</span>
-                               <span class="n">close_global_unit_on_dealloc</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_add_default_logger</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_logger_release</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-      <span class="c">! abort/warn hooks</span>
-      <span class="k">CALL </span><span class="n">dbcsr_error_handling_setup</span><span class="p">()</span>
-      <span class="c">! timeset/timestop hooks</span>
-      <span class="k">CALL </span><span class="n">timings_register_hooks</span><span class="p">()</span>
-      <span class="c">! timer environment</span>
-      <span class="k">CALL </span><span class="n">add_mp_perf_env</span><span class="p">()</span>
-      <span class="k">CALL </span><span class="n">add_timer_env</span><span class="p">()</span>
-      <span class="c">!</span>
-      <span class="k">CALL </span><span class="n">dbcsr_init_lib_low</span><span class="p">()</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_init_lib_def</span>
+<span class="k">      CALL </span><span class="n">dbcsr_init_lib_pre</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span><span class="w"> </span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="n">accdrv_active_device_id</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! Declare loggers</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_logger_create</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span><span class="w"> </span><span class="n">mp_env</span><span class="o">=</span><span class="n">mp_env</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                               </span><span class="n">default_global_unit_nr</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                               </span><span class="n">close_global_unit_on_dealloc</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_add_default_logger</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_logger_release</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">! abort/warn hooks</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_error_handling_setup</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="c">! timeset/timestop hooks</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timings_register_hooks</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="c">! timer environment</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">add_mp_perf_env</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">add_timer_env</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_init_lib_low</span><span class="p">()</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_init_lib_def</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -384,7 +384,7 @@ private subroutine dbcsr_init_lib_def(mp_comm, io_unit, accdrv_active_device_id)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

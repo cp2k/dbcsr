@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -320,29 +320,29 @@ public pure function dbcsr_get_matrix_type(matrix) result(matrix_type)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">PURE FUNCTION </span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">matrix_type</span><span class="p">)</span>
-      <span class="c">!! Returns the matrix type</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">matrix_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Returns the matrix type</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix</span>
-         <span class="c">!! query this matrix</span>
-      <span class="kt">CHARACTER</span>                                          <span class="kd">::</span> <span class="n">matrix_type</span>
-         <span class="c">!! matrix_type (see dbcsr_types.F for possible values)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! query this matrix</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_type</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! matrix_type (see dbcsr_types.F for possible values)</span>
 
-      <span class="n">matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_type_invalid</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">symmetry</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         IF</span> <span class="p">((.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_type_hermitian</span>
-         <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_type_antihermitian</span>
-         <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_type_antisymmetric</span>
-         <span class="n">ELSEIF</span> <span class="p">((.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_type_symmetric</span>
-         <span class="k">ENDIF</span>
+<span class="w">      </span><span class="n">matrix_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_invalid</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">symmetry</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">((.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">matrix_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_hermitian</span><span class="w"></span>
+<span class="w">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">matrix_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_antihermitian</span><span class="w"></span>
+<span class="w">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">matrix_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_antisymmetric</span><span class="w"></span>
+<span class="w">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">((.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">matrix_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_symmetric</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDIF</span>
 <span class="k">      ELSE</span>
-<span class="k">         </span><span class="n">matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_type_no_symmetry</span>
-      <span class="k">ENDIF</span>
-<span class="k">   END FUNCTION </span><span class="n">dbcsr_get_matrix_type</span>
+<span class="k">         </span><span class="n">matrix_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_no_symmetry</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">   END FUNCTION </span><span class="n">dbcsr_get_matrix_type</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -358,7 +358,7 @@ public pure function dbcsr_get_matrix_type(matrix) result(matrix_type)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -326,49 +326,49 @@ public subroutine convert_csr_to_dbcsr(dbcsr_mat, csr_mat)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">convert_csr_to_dbcsr</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">)</span>
-      <span class="c">!! convert a CSR matrix to a DBCSR matrix</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">convert_csr_to_dbcsr</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! convert a CSR matrix to a DBCSR matrix</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">dbcsr_mat</span>
-         <span class="c">!! correctly allocated DBCSR matrix</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">csr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">csr_mat</span>
-         <span class="c">!! CSR matrix to convert</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! correctly allocated DBCSR matrix</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">csr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">csr_mat</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! CSR matrix to convert</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;convert_csr_to_dbcsr&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;convert_csr_to_dbcsr&#39;</span><span class="w"></span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">dbcsr_mat_nosym</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">dbcsr_mat_nosym</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">))</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid DBCSR matrix&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid DBCSR matrix&quot;</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">)</span> <span class="o">/=</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;DBCSR and CSR matrix must have same type&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;DBCSR and CSR matrix must have same type&quot;</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">has_mapping</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;CSR_mat must contain mapping to DBCSR format&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">%</span><span class="n">has_mapping</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;CSR_mat must contain mapping to DBCSR format&quot;</span><span class="p">)</span><span class="w"></span>
 
-      <span class="c">! Desymmetrize to assert that DBCSR matrix has sparsity pattern consistent with CSR matrix</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">dbcsr_desymmetrize_deep</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">dbcsr_mat_nosym</span><span class="p">,</span> <span class="n">untransposed_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-      <span class="k">ELSE</span>
-<span class="k">         </span><span class="n">dbcsr_mat_nosym</span> <span class="o">=</span> <span class="n">dbcsr_mat</span>
-      <span class="k">ENDIF</span>
+<span class="w">      </span><span class="c">! Desymmetrize to assert that DBCSR matrix has sparsity pattern consistent with CSR matrix</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_desymmetrize_deep</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat_nosym</span><span class="p">,</span><span class="w"> </span><span class="n">untransposed_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">dbcsr_mat_nosym</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
 
-<span class="k">      CALL </span><span class="n">csr_assert_consistency_with_dbcsr</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">,</span> <span class="n">dbcsr_mat_nosym</span><span class="p">)</span>
+<span class="k">      CALL </span><span class="n">csr_assert_consistency_with_dbcsr</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat_nosym</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">))</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">dbcsr_mat_nosym</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">))</span><span class="w"> </span><span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">dbcsr_mat_nosym</span><span class="p">)</span><span class="w"></span>
 
-      <span class="c">! 1) CSR -&gt; BRD</span>
-      <span class="k">CALL </span><span class="n">convert_csr_to_brd</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">brd_mat</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">)</span>
+<span class="w">      </span><span class="c">! 1) CSR -&gt; BRD</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">convert_csr_to_brd</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">brd_mat</span><span class="p">,</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">)</span><span class="w"></span>
 
-      <span class="c">! 2) BRD -&gt; DBCSR</span>
-      <span class="k">CALL </span><span class="n">dbcsr_complete_redistribute</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">brd_mat</span><span class="p">,</span> <span class="n">dbcsr_mat</span><span class="p">)</span>
+<span class="w">      </span><span class="c">! 2) BRD -&gt; DBCSR</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_complete_redistribute</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">brd_mat</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">convert_csr_to_dbcsr</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">convert_csr_to_dbcsr</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -384,7 +384,7 @@ public subroutine convert_csr_to_dbcsr(dbcsr_mat, csr_mat)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

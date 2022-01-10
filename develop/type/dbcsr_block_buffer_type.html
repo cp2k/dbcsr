@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -422,24 +422,24 @@
     
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
-    <div class="highlight"><pre><span></span>   <span class="k">TYPE </span><span class="n">dbcsr_block_buffer_type</span>
-      <span class="c">!! Buffer for blocks</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_block_buffer_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Buffer for blocks</span>
 
-      <span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="n">refcount</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="c">!! Reference counter</span>
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>              <span class="kd">::</span> <span class="n">dirty</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! Whether any buffers are dirty</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">buffers</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! Buffers</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">rcb</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! Row and column and offset and dimensions of data in the buffer</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">main</span>
-         <span class="c">!! Main memory</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">backing</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! Backing memory (in lieu of main memory)</span>
-      <span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="n">data_type</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! Data type used for the buffers</span>
-   <span class="k">END TYPE </span><span class="n">dbcsr_block_buffer_type</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                     </span><span class="kd">::</span><span class="w"> </span><span class="n">refcount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Reference counter</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">dirty</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Whether any buffers are dirty</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">buffers</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Buffers</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">rcb</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Row and column and offset and dimensions of data in the buffer</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">main</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Main memory</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">backing</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Backing memory (in lieu of main memory)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                     </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Data type used for the buffers</span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_block_buffer_type</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -454,7 +454,7 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

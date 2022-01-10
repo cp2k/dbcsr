@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -329,23 +329,23 @@ pointer in the data area and that the area is initialized.</p>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">set_data_p_d</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-     <span class="c">!! Sets a data pointer.</span>
-     <span class="c">!!</span>
-     <span class="c">!! Assumptions</span>
-     <span class="c">!! Assumes that no memory will be lost when repointing the</span>
-     <span class="c">!! pointer in the data area and that the area is initialized.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">set_data_p_d</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="c">!! Sets a data pointer.</span>
+<span class="w">     </span><span class="c">!!</span>
+<span class="w">     </span><span class="c">!! Assumptions</span>
+<span class="w">     </span><span class="c">!! Assumes that no memory will be lost when repointing the</span>
+<span class="w">     </span><span class="c">!! pointer in the data area and that the area is initialized.</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">area</span>
-        <span class="c">!! target data area</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">p</span>
-        <span class="c">!! source data pointer</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">area</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! target data area</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! source data pointer</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span> <span class="o">/=</span> <span class="n">dbcsr_type_real_8</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;set_data_p_d: data-area has wrong type&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;set_data_p_d: data-area has wrong type&quot;</span><span class="p">)</span><span class="w"></span>
 
-      <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="o">=&gt;</span> <span class="n">p</span>
-   <span class="k">END SUBROUTINE </span><span class="n">set_data_p_d</span>
+<span class="w">      </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">set_data_p_d</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -361,7 +361,7 @@ pointer in the data area and that the area is initialized.</p>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

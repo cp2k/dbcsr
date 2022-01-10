@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../../../../../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -165,37 +165,37 @@
 
 <h4>2. Adapt <code>tune_setup.py</code> to your environment</h4>
 <p>The <code>tune_setup.py</code> script generates job files. You have to adapt the script to the environment of your supercomputer and your personal settings.</p>
-<div class="codehilite"><pre><span></span><code><span class="o">...</span>
-  <span class="n">def</span> <span class="n">gen_jobfile</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><code><span class="o">...</span><span class="w"></span>
+<span class="w">  </span><span class="n">def</span><span class="w"> </span><span class="n">gen_jobfile</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">):</span><span class="w"></span>
 
-    <span class="o">...</span>
+<span class="w">    </span><span class="o">...</span><span class="w"></span>
 
-    <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;#!/bin/bash -l</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --nodes=</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">num_nodes</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --ntasks-per-core=1</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --ntasks-per-node=1</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --cpus-per-task=&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cpus_per_node</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --time=</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">time</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --partition=normal</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --constraint=gpu</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;source ${MODULESHOME}/init/sh;</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module load daint-gpu</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module unload PrgEnv-cray</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module load PrgEnv-gnu</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="k">if</span> <span class="n">compiler</span> <span class="o">==</span> <span class="s2">&quot;nvcc&quot;</span><span class="p">:</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="k">else</span><span class="p">:</span> <span class="c1"># i.e. compiler = hipcc</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module load hip</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module list</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;export CRAY_CUDA_MPS=1</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;cd $SLURM_SUBMIT_DIR </span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;date</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;#!/bin/bash -l</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;#SBATCH --nodes=</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">num_nodes</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;#SBATCH --ntasks-per-core=1</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;#SBATCH --ntasks-per-node=1</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;#SBATCH --cpus-per-task=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">cpus_per_node</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;#SBATCH --time=</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">time</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;#SBATCH --partition=normal</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;#SBATCH --constraint=gpu</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;source ${MODULESHOME}/init/sh;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;module load daint-gpu</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;module unload PrgEnv-cray</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;module load PrgEnv-gnu</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">compiler</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;nvcc&quot;</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="c1"># i.e. compiler = hipcc</span><span class="w"></span>
+<span class="w">        </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;module load hip</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;module list</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;export CRAY_CUDA_MPS=1</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;cd $SLURM_SUBMIT_DIR </span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;date</span><span class="se">\n</span><span class="s2">&quot;</span><span class="w"></span>
 
-    <span class="o">...</span>
+<span class="w">    </span><span class="o">...</span><span class="w"></span>
 
-<span class="o">...</span>
+<span class="o">...</span><span class="w"></span>
 </code></pre></div>
 
 <h4>3. Run the script <code>tune_setup.py</code></h4>
@@ -535,7 +535,7 @@ Wrote parameters.new.json
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

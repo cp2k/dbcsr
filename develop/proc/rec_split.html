@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -399,32 +399,32 @@ private subroutine rec_split(nele, a, split, row_or_col, nlow, mi, half)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">rec_split</span><span class="p">(</span><span class="n">nele</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">split</span><span class="p">,</span> <span class="n">row_or_col</span><span class="p">,</span> <span class="n">nlow</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">half</span><span class="p">)</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nele</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nele</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">a</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nele</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">split</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">row_or_col</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">nlow</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">mi</span><span class="p">,</span> <span class="n">half</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">rec_split</span><span class="p">(</span><span class="n">nele</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="n">row_or_col</span><span class="p">,</span><span class="w"> </span><span class="n">nlow</span><span class="p">,</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">half</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">nele</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">nele</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">nele</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">split</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">row_or_col</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">nlow</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">half</span><span class="w"></span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">el</span><span class="p">,</span> <span class="n">half_m</span><span class="p">,</span> <span class="n">p_high</span><span class="p">,</span> <span class="n">p_low</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">el</span><span class="p">,</span><span class="w"> </span><span class="n">half_m</span><span class="p">,</span><span class="w"> </span><span class="n">p_high</span><span class="p">,</span><span class="w"> </span><span class="n">p_low</span><span class="w"></span>
 
-      <span class="n">half_m</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">+</span> <span class="n">half</span> <span class="o">-</span> <span class="mi">1</span>
-      <span class="n">p_low</span> <span class="o">=</span> <span class="mi">1</span>
-      <span class="n">p_high</span> <span class="o">=</span> <span class="n">nele</span>
-      <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nele</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">row_or_col</span><span class="p">,</span> <span class="n">el</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">half_m</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">split</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">p_low</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">el</span><span class="p">)</span>
-            <span class="n">p_low</span> <span class="o">=</span> <span class="n">p_low</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="k">ELSE</span>
-<span class="k">            </span><span class="n">split</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">p_high</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">el</span><span class="p">)</span>
-            <span class="n">p_high</span> <span class="o">=</span> <span class="n">p_high</span> <span class="o">-</span> <span class="mi">1</span>
-         <span class="k">ENDIF</span>
+<span class="w">      </span><span class="n">half_m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">half</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">p_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">p_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nele</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="n">el</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nele</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">row_or_col</span><span class="p">,</span><span class="w"> </span><span class="n">el</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">half_m</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">split</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">p_low</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">el</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">p_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_low</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">split</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">p_high</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">el</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">p_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_high</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDIF</span>
 <span class="k">      ENDDO</span>
-<span class="k">      </span><span class="n">nlow</span> <span class="o">=</span> <span class="n">p_low</span> <span class="o">-</span> <span class="mi">1</span>
-      <span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">p_high</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">nlow</span><span class="p">)</span>
+<span class="k">      </span><span class="n">nlow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_low</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">p_high</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">nlow</span><span class="p">)</span><span class="w"></span>
 
-   <span class="k">END SUBROUTINE </span><span class="n">rec_split</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">rec_split</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -440,7 +440,7 @@ private subroutine rec_split(nele, a, split, row_or_col, nlow, mi, half)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

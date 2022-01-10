@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -354,43 +354,43 @@ private subroutine btree_find_leaf_i8_sp2d(tree, key, node, gti)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">btree_find_leaf_i8_sp2d</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">gti</span><span class="p">)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">btree_i8_sp2d</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tree</span>
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">keyt</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">key</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_i8_sp2d</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">node</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">gti</span>
-      <span class="c">!</span>
-      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">node</span><span class="p">)</span>
-      <span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span> <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">gti</span> <span class="o">=</span> <span class="mi">1</span>
-      <span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
-      <span class="c">! return the node.</span>
-      <span class="n">node</span> <span class="o">=&gt;</span> <span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
-      <span class="n">descent</span><span class="p">:</span> <span class="k">DO WHILE</span> <span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
-         <span class="c">! Try to find the first element equal to or greater than the</span>
-         <span class="c">! one we&#39;re searching for.</span>
-         <span class="c">!CALL btree_node_find_ge_pos_i8_sp2d (node%keys, key, position, node%filled)</span>
-         <span class="c">! One of three things is now true about position: it&#39;s now</span>
-         <span class="c">! greater than the number of keys (if all keys are smaller), or</span>
-         <span class="c">! it points to the key that is equal to or greater than the one</span>
-         <span class="c">! we are searching for. If it is found and we are just</span>
-         <span class="c">! searching for one equal element (i.e., user search), we can</span>
-         <span class="c">! return.</span>
-         <span class="c">!</span>
-         <span class="c">! If the key is not found, then either return the GE position</span>
-         <span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
-         <span class="c">! subtrees.</span>
-         <span class="k">CALL </span><span class="n">btree_node_find_gt_pos_i8_sp2d</span> <span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">gti</span><span class="p">,</span> <span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
-         <span class="c">!CALL btree_node_find_gt2_pos_i8_sp2d (node%keys, key, i, node%filled)</span>
-         <span class="c">!IF (i .NE. gti) WRITE(*,*)&#39;XXXX difference&#39;,i,gti</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">node</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">node</span> <span class="o">=&gt;</span> <span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">gti</span><span class="p">)%</span><span class="n">node</span>
-         <span class="k">ELSE</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">btree_find_leaf_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_i8_sp2d</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tree</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">keyt</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_i8_sp2d</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">node</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gti</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
+<span class="k">      </span><span class="n">gti</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
+<span class="w">      </span><span class="c">! return the node.</span>
+<span class="w">      </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="w"></span>
+<span class="w">      </span><span class="n">descent</span><span class="p">:</span><span class="w"> </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Try to find the first element equal to or greater than the</span>
+<span class="w">         </span><span class="c">! one we&#39;re searching for.</span>
+<span class="w">         </span><span class="c">!CALL btree_node_find_ge_pos_i8_sp2d (node%keys, key, position, node%filled)</span>
+<span class="w">         </span><span class="c">! One of three things is now true about position: it&#39;s now</span>
+<span class="w">         </span><span class="c">! greater than the number of keys (if all keys are smaller), or</span>
+<span class="w">         </span><span class="c">! it points to the key that is equal to or greater than the one</span>
+<span class="w">         </span><span class="c">! we are searching for. If it is found and we are just</span>
+<span class="w">         </span><span class="c">! searching for one equal element (i.e., user search), we can</span>
+<span class="w">         </span><span class="c">! return.</span>
+<span class="w">         </span><span class="c">!</span>
+<span class="w">         </span><span class="c">! If the key is not found, then either return the GE position</span>
+<span class="w">         </span><span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
+<span class="w">         </span><span class="c">! subtrees.</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">btree_node_find_gt_pos_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="c">!CALL btree_node_find_gt2_pos_i8_sp2d (node%keys, key, i, node%filled)</span>
+<span class="w">         </span><span class="c">!IF (i .NE. gti) WRITE(*,*)&#39;XXXX difference&#39;,i,gti</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">node</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">gti</span><span class="p">)%</span><span class="n">node</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
 <span class="k">            RETURN</span>
 <span class="k">         ENDIF</span>
-<span class="k">      END DO </span><span class="n">descent</span>
-   <span class="k">END SUBROUTINE </span><span class="n">btree_find_leaf_i8_sp2d</span>
+<span class="k">      END DO </span><span class="n">descent</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">btree_find_leaf_i8_sp2d</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -406,7 +406,7 @@ private subroutine btree_find_leaf_i8_sp2d(tree, key, node, gti)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

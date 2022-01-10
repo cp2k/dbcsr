@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -433,64 +433,64 @@ number of images in the new distribution</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">rebin_imaged_distribution</span><span class="p">(</span><span class="n">new_bins</span><span class="p">,</span> <span class="k">images</span><span class="p">,</span> <span class="p">&amp;</span>
-                                        <span class="n">source_bins</span><span class="p">,</span> <span class="n">source_images</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">,</span> <span class="n">nimages</span><span class="p">)</span>
-      <span class="c">!! Makes new distribution with multiplicity</span>
-      <span class="c">!!</span>
-      <span class="c">!! Definition of multiplicity and nimages</span>
-      <span class="c">!! Multiplicity and number of images are used to match process</span>
-      <span class="c">!! grid coordinates on non-square process grids. Given</span>
-      <span class="c">!! source_nbins and target_nbins, their relation is</span>
-      <span class="c">!! source_nbins * multiplicity = target_nbins * nimages.</span>
-      <span class="c">!! It is best when both multiplicity and nimages are small. To</span>
-      <span class="c">!! get these two factors, then, one can use the following formulas:</span>
-      <span class="c">!! nimages      = lcm(source_nbins, target_nbins) / target_nbins</span>
-      <span class="c">!! multiplicity = target_nbins / gcd(source_nbins, target_nbins)</span>
-      <span class="c">!!</span>
-      <span class="c">!! Mapping</span>
-      <span class="c">!! The new distribution comprises of real bins and images within</span>
-      <span class="c">!! bins. These can be view as target_nbins*nimages virtual</span>
-      <span class="c">!! columns. These same virtual columns are also</span>
-      <span class="c">!! source_nbins*multiplicity in number. Therefore these virtual</span>
-      <span class="c">!! columns are mapped from source_nbins*multiplicity onto</span>
-      <span class="c">!! target_bins*nimages (each target bin has nimages images):</span>
-      <span class="c">!! Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4*3)</span>
-      <span class="c">!! Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6*2)</span>
-      <span class="c">!! multiplicity=3, nimages=2, 12 virtual columns (1-C).</span>
-      <span class="c">!! Source bin elements are evenly mapped into one of multiplicity</span>
-      <span class="c">!! virtual columns. Other (non-even, block-size aware) mappings</span>
-      <span class="c">!! could be better.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">rebin_imaged_distribution</span><span class="p">(</span><span class="n">new_bins</span><span class="p">,</span><span class="w"> </span><span class="k">images</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">source_bins</span><span class="p">,</span><span class="w"> </span><span class="n">source_images</span><span class="p">,</span><span class="w"> </span><span class="n">nbins</span><span class="p">,</span><span class="w"> </span><span class="n">multiplicity</span><span class="p">,</span><span class="w"> </span><span class="n">nimages</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Makes new distribution with multiplicity</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Definition of multiplicity and nimages</span>
+<span class="w">      </span><span class="c">!! Multiplicity and number of images are used to match process</span>
+<span class="w">      </span><span class="c">!! grid coordinates on non-square process grids. Given</span>
+<span class="w">      </span><span class="c">!! source_nbins and target_nbins, their relation is</span>
+<span class="w">      </span><span class="c">!! source_nbins * multiplicity = target_nbins * nimages.</span>
+<span class="w">      </span><span class="c">!! It is best when both multiplicity and nimages are small. To</span>
+<span class="w">      </span><span class="c">!! get these two factors, then, one can use the following formulas:</span>
+<span class="w">      </span><span class="c">!! nimages      = lcm(source_nbins, target_nbins) / target_nbins</span>
+<span class="w">      </span><span class="c">!! multiplicity = target_nbins / gcd(source_nbins, target_nbins)</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Mapping</span>
+<span class="w">      </span><span class="c">!! The new distribution comprises of real bins and images within</span>
+<span class="w">      </span><span class="c">!! bins. These can be view as target_nbins*nimages virtual</span>
+<span class="w">      </span><span class="c">!! columns. These same virtual columns are also</span>
+<span class="w">      </span><span class="c">!! source_nbins*multiplicity in number. Therefore these virtual</span>
+<span class="w">      </span><span class="c">!! columns are mapped from source_nbins*multiplicity onto</span>
+<span class="w">      </span><span class="c">!! target_bins*nimages (each target bin has nimages images):</span>
+<span class="w">      </span><span class="c">!! Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4*3)</span>
+<span class="w">      </span><span class="c">!! Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6*2)</span>
+<span class="w">      </span><span class="c">!! multiplicity=3, nimages=2, 12 virtual columns (1-C).</span>
+<span class="w">      </span><span class="c">!! Source bin elements are evenly mapped into one of multiplicity</span>
+<span class="w">      </span><span class="c">!! virtual columns. Other (non-even, block-size aware) mappings</span>
+<span class="w">      </span><span class="c">!! could be better.</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">new_bins</span><span class="p">,</span> <span class="k">images</span>
-         <span class="c">!! new real distribution</span>
-         <span class="c">!! new image distribution</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">source_bins</span><span class="p">,</span> <span class="n">source_images</span>
-         <span class="c">!! Basis for the new distribution and images</span>
-         <span class="c">!! Basis for the new distribution and images</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">,</span> <span class="n">nimages</span>
-         <span class="c">!! number of bins in the new real distribution</span>
-         <span class="c">!! multiplicity</span>
-         <span class="c">!! number of images in the new distribution</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">new_bins</span><span class="p">,</span><span class="w"> </span><span class="k">images</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! new real distribution</span>
+<span class="w">         </span><span class="c">!! new image distribution</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">source_bins</span><span class="p">,</span><span class="w"> </span><span class="n">source_images</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Basis for the new distribution and images</span>
+<span class="w">         </span><span class="c">!! Basis for the new distribution and images</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">nbins</span><span class="p">,</span><span class="w"> </span><span class="n">multiplicity</span><span class="p">,</span><span class="w"> </span><span class="n">nimages</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! number of bins in the new real distribution</span>
+<span class="w">         </span><span class="c">!! multiplicity</span>
+<span class="w">         </span><span class="c">!! number of images in the new distribution</span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">virtual_bin</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">virtual_bin</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">new_bins</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">source_bins</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">virtual_bin</span> <span class="o">=</span> <span class="n">source_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">multiplicity</span> <span class="o">+</span> <span class="n">source_images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-         <span class="k">ELSE</span>
-            <span class="c">! Fill remainder with a cyclic distribution</span>
-            <span class="n">virtual_bin</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">nbins</span><span class="o">*</span><span class="n">nimages</span><span class="p">)</span>
-         <span class="k">ENDIF</span>
-<span class="k">         </span><span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">virtual_bin</span><span class="o">/</span><span class="n">nimages</span>
-         <span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">virtual_bin</span><span class="p">,</span> <span class="n">nimages</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">nbins</span><span class="p">)</span> <span class="p">&amp;</span>
-            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong bin calculation&quot;</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">nimages</span><span class="p">)</span> <span class="p">&amp;</span>
-            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong image calculation&quot;</span><span class="p">)</span>
-      <span class="k">ENDDO</span>
-<span class="k">   END SUBROUTINE </span><span class="n">rebin_imaged_distribution</span>
+<span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">new_bins</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">source_bins</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">virtual_bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">multiplicity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">source_images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span><span class="w"></span>
+<span class="w">            </span><span class="c">! Fill remainder with a cyclic distribution</span>
+<span class="w">            </span><span class="n">virtual_bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MOD</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">nbins</span><span class="o">*</span><span class="n">nimages</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">virtual_bin</span><span class="o">/</span><span class="n">nimages</span><span class="w"></span>
+<span class="w">         </span><span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">MOD</span><span class="p">(</span><span class="n">virtual_bin</span><span class="p">,</span><span class="w"> </span><span class="n">nimages</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GE</span><span class="p">.</span><span class="w"> </span><span class="n">nbins</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong bin calculation&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">nimages</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong image calculation&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDDO</span>
+<span class="k">   END SUBROUTINE </span><span class="n">rebin_imaged_distribution</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -506,7 +506,7 @@ number of images in the new distribution</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

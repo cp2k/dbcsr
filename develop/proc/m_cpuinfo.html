@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -311,34 +311,34 @@ public subroutine m_cpuinfo(model_name)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">m_cpuinfo</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
-      <span class="c">!! reads /proc/cpuinfo if it exists (i.e. Linux) to return relevant info</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">m_cpuinfo</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! reads /proc/cpuinfo if it exists (i.e. Linux) to return relevant info</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">model_name</span>
-         <span class="c">!! as obtained from the &#39;model name&#39; field, UNKNOWN otherwise</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">model_name</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! as obtained from the &#39;model name&#39; field, UNKNOWN otherwise</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span>                                 <span class="kd">::</span> <span class="n">bufferlen</span> <span class="o">=</span> <span class="mi">2048</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">bufferlen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2048</span><span class="w"></span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">bufferlen</span><span class="p">)</span>                           <span class="kd">::</span> <span class="n">buffer</span>
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">icol</span><span class="p">,</span> <span class="n">iline</span><span class="p">,</span> <span class="n">imod</span><span class="p">,</span> <span class="nb">stat</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">bufferlen</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">buffer</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">icol</span><span class="p">,</span><span class="w"> </span><span class="n">iline</span><span class="p">,</span><span class="w"> </span><span class="n">imod</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span>
 
-<span class="nb">      </span><span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;UNKNOWN&quot;</span>
-      <span class="n">buffer</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-      <span class="k">OPEN</span> <span class="p">(</span><span class="mi">121245</span><span class="p">,</span> <span class="k">FILE</span><span class="o">=</span><span class="s2">&quot;/proc/cpuinfo&quot;</span><span class="p">,</span> <span class="n">ACTION</span><span class="o">=</span><span class="s2">&quot;READ&quot;</span><span class="p">,</span> <span class="n">STATUS</span><span class="o">=</span><span class="s2">&quot;OLD&quot;</span><span class="p">,</span> <span class="nb">ACCESS</span><span class="o">=</span><span class="s2">&quot;STREAM&quot;</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bufferlen</span>
-            <span class="k">READ</span> <span class="p">(</span><span class="mi">121245</span><span class="p">,</span> <span class="k">END</span><span class="o">=</span><span class="mi">999</span><span class="p">)</span> <span class="n">buffer</span><span class="p">(</span><span class="n">I</span><span class="p">:</span><span class="n">I</span><span class="p">)</span>
-         <span class="k">ENDDO</span>
-<span class="mi">999</span>      <span class="k">CLOSE</span> <span class="p">(</span><span class="mi">121245</span><span class="p">)</span>
-         <span class="n">imod</span> <span class="o">=</span> <span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s2">&quot;model name&quot;</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">imod</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">icol</span> <span class="o">=</span> <span class="n">imod</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">(</span><span class="n">imod</span><span class="p">:),</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span>
-            <span class="n">iline</span> <span class="o">=</span> <span class="n">icol</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">(</span><span class="n">icol</span><span class="p">:),</span> <span class="nb">NEW_LINE</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">))</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="n">iline</span> <span class="o">==</span> <span class="n">icol</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">iline</span> <span class="o">=</span> <span class="n">bufferlen</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">model_name</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">(</span><span class="n">icol</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">iline</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-         <span class="k">ENDIF</span>
+<span class="nb">      </span><span class="n">model_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;UNKNOWN&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="k">OPEN</span><span class="w"> </span><span class="p">(</span><span class="mi">121245</span><span class="p">,</span><span class="w"> </span><span class="k">FILE</span><span class="o">=</span><span class="s2">&quot;/proc/cpuinfo&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ACTION</span><span class="o">=</span><span class="s2">&quot;READ&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">STATUS</span><span class="o">=</span><span class="s2">&quot;OLD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">ACCESS</span><span class="o">=</span><span class="s2">&quot;STREAM&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">IOSTAT</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">bufferlen</span><span class="w"></span>
+<span class="w">            </span><span class="k">READ</span><span class="w"> </span><span class="p">(</span><span class="mi">121245</span><span class="p">,</span><span class="w"> </span><span class="k">END</span><span class="o">=</span><span class="mi">999</span><span class="p">)</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">I</span><span class="p">:</span><span class="n">I</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDDO</span>
+<span class="mi">999</span><span class="w">      </span><span class="k">CLOSE</span><span class="w"> </span><span class="p">(</span><span class="mi">121245</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">imod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;model name&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">imod</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">icol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imod</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">(</span><span class="n">imod</span><span class="p">:),</span><span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">iline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">icol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">(</span><span class="n">icol</span><span class="p">:),</span><span class="w"> </span><span class="nb">NEW_LINE</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iline</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">icol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">iline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bufferlen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">model_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">icol</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">iline</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDIF</span>
 <span class="k">      ENDIF</span>
-<span class="k">   END SUBROUTINE </span><span class="n">m_cpuinfo</span>
+<span class="k">   END SUBROUTINE </span><span class="n">m_cpuinfo</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -354,7 +354,7 @@ public subroutine m_cpuinfo(model_name)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

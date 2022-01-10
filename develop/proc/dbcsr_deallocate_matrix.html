@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -311,19 +311,19 @@ public subroutine dbcsr_deallocate_matrix(matrix)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_deallocate_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-      <span class="c">!! Deallocates a DBCSR matrix for compatibility with CP2K</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_deallocate_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Deallocates a DBCSR matrix for compatibility with CP2K</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">POINTER</span>                          <span class="kd">::</span> <span class="n">matrix</span>
-      <span class="c">!! DBCSR matrix</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! DBCSR matrix</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="p">&amp;</span>
-         <span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="p">&amp;</span>
-                          <span class="s1">&#39;You should not &quot;deallocate&quot; a referenced matrix. &#39;</span><span class="o">//</span> <span class="p">&amp;</span>
-                          <span class="s1">&#39;Avoid pointers to DBCSR matrices.&#39;</span><span class="p">)</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_deallocate_matrix</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="s1">&#39;You should not &quot;deallocate&quot; a referenced matrix. &#39;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="s1">&#39;Avoid pointers to DBCSR matrices.&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_deallocate_matrix</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -339,7 +339,7 @@ public subroutine dbcsr_deallocate_matrix(matrix)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

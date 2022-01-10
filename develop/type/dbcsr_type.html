@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -1219,105 +1219,105 @@ each rows has elements row_p(row)+1:row_p(row+1).</p></td>
     
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
-    <div class="highlight"><pre><span></span>   <span class="k">TYPE </span><span class="n">dbcsr_type</span>
-      <span class="c">!! The BCSR sparse matrix type.</span>
-      <span class="c">!!</span>
-      <span class="c">!! arrays data and index hold the bulk of the data.</span>
-      <span class="c">!! @note the pointers row_p, col_i, blk_p point into the index array.</span>
-      <span class="c">!! @endnote</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! The BCSR sparse matrix type.</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! arrays data and index hold the bulk of the data.</span>
+<span class="w">      </span><span class="c">!! @note the pointers row_p, col_i, blk_p point into the index array.</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">serial_number</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! a unique number of each created matrix</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="c">!! whether the matrix is valid (consistent)</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-         <span class="c">!! name of the matrix</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">data_area</span> <span class="o">=</span> <span class="n">dbcsr_data_obj</span><span class="p">()</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>   <span class="kd">::</span> <span class="nb">index</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! agglomeration of the indices and offsets of pointers into this array.</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>               <span class="kd">::</span> <span class="n">row_p</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! points into the col_i and blk_p arrays, each element (1:nblkrows_total+1) points to the previous row&#39;s last element. So</span>
-         <span class="c">!! each rows has elements row_p(row)+1:row_p(row+1).</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>               <span class="kd">::</span> <span class="n">col_i</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! the global blocked column number of this block.</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>               <span class="kd">::</span> <span class="n">blk_p</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! the pointer into the data array of this block.</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>               <span class="kd">::</span> <span class="n">thr_c</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! elements/thread for list index</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>               <span class="kd">::</span> <span class="n">coo_l</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-         <span class="c">!! coordinate list (used for direct indexing)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">row_blk_size</span> <span class="o">=</span> <span class="n">array_i1d_obj</span><span class="p">()</span>
-         <span class="c">!! sizes (rows in a block) of blocked rows</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">col_blk_size</span> <span class="o">=</span> <span class="n">array_i1d_obj</span><span class="p">()</span>
-         <span class="c">!! sizes (columns in a block) of blocked columns</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">row_blk_offset</span> <span class="o">=</span> <span class="n">array_i1d_obj</span><span class="p">()</span>
-         <span class="c">!! row offset (size = nrow+1)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">col_blk_offset</span> <span class="o">=</span> <span class="n">array_i1d_obj</span><span class="p">()</span>
-         <span class="c">!! col offset (size = ncol+1)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">local_rows</span> <span class="o">=</span> <span class="n">array_i1d_obj</span><span class="p">()</span>
-         <span class="c">!! Map of global to local rows when local indexing is enabled</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">global_rows</span> <span class="o">=</span> <span class="n">array_i1d_obj</span><span class="p">()</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">local_cols</span> <span class="o">=</span> <span class="n">array_i1d_obj</span><span class="p">()</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">global_cols</span> <span class="o">=</span> <span class="n">array_i1d_obj</span><span class="p">()</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">has_local_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">has_global_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">has_local_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">has_global_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">max_rbs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! maximal row sizes</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">max_cbs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! maximal column sizes</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">sparsity_id</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">id_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c">! use in sm_pool</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nblks</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! number of blocks locally present</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nze</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! number of non-zero elements locally present</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nblkrows_total</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! size of entire matrix in blocked rows</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nblkcols_total</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! size of entire matrix in blocked columns</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nfullrows_total</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! size of entire matrix in full rows</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nfullcols_total</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! size of entire matrix in full columns</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nblkrows_local</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! size of local part of matrix in blocked rows</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nblkcols_local</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! size of local part of matrix in blocked columns</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nfullrows_local</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! size of local part of matrix in full rows</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">nfullcols_local</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! size of local part of matrix in full columns</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">data_type</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="c">!! &#39;r&#39;/&#39;R&#39; for single/double precision real or &#39;c&#39;/&#39;C&#39; for single/double precision complex data</span>
-      <span class="kt">CHARACTER</span>                                    <span class="kd">::</span> <span class="n">replication_type</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-         <span class="c">!! multi-process replication used in the matrix</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">symmetry</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="c">!! matrix has symmetry</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">negate_real</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="c">!! symmetry is realized by negating the real part</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">negate_imaginary</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="c">!! symmetry is realized by negating complex part (i.e., antisymmetric)</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">bcsc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="c">!! BCS Column instead of BCS Row</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">local_indexing</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="c">!! Local indexing of rows instead of global indexing.</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">list_indexing</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">data_memory_type</span> <span class="o">=</span> <span class="n">dbcsr_memtype_type</span><span class="p">()</span>
-         <span class="c">!! memory type for data</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">index_memory_type</span> <span class="o">=</span> <span class="n">dbcsr_memtype_type</span><span class="p">()</span>
-         <span class="c">!! memory type for the index</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_block_buffer_obj</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">buffers</span> <span class="o">=</span> <span class="n">dbcsr_block_buffer_obj</span><span class="p">()</span>
-         <span class="c">!! Block buffers</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">wms</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">dbcsr_distribution_obj</span><span class="p">()</span>
-         <span class="c">!! distribution used by this matrix</span>
-      <span class="kt">INTEGER</span>                                      <span class="kd">::</span> <span class="n">refcount</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="c">!! reference count</span>
-      <span class="kt">LOGICAL</span>                                      <span class="kd">::</span> <span class="n">work_mutable</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="c">!! uses the mutable data for working and not the append-only data</span>
-   <span class="k">END TYPE </span><span class="n">dbcsr_type</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">serial_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! a unique number of each created matrix</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! whether the matrix is valid (consistent)</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! name of the matrix</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">data_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_data_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! agglomeration of the indices and offsets of pointers into this array.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">row_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! points into the col_i and blk_p arrays, each element (1:nblkrows_total+1) points to the previous row&#39;s last element. So</span>
+<span class="w">         </span><span class="c">!! each rows has elements row_p(row)+1:row_p(row+1).</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">col_i</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the global blocked column number of this block.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the pointer into the data array of this block.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">thr_c</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! elements/thread for list index</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">coo_l</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! coordinate list (used for direct indexing)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">row_blk_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_i1d_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! sizes (rows in a block) of blocked rows</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">col_blk_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_i1d_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! sizes (columns in a block) of blocked columns</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">row_blk_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_i1d_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! row offset (size = nrow+1)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">col_blk_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_i1d_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! col offset (size = ncol+1)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">local_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_i1d_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Map of global to local rows when local indexing is enabled</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">global_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_i1d_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">local_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_i1d_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">global_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_i1d_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">has_local_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">has_global_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">has_local_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">has_global_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">max_rbs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! maximal row sizes</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">max_cbs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! maximal column sizes</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">sparsity_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">id_nr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="c">! use in sm_pool</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! number of blocks locally present</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! number of non-zero elements locally present</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nblkrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of entire matrix in blocked rows</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nblkcols_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of entire matrix in blocked columns</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nfullrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of entire matrix in full rows</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nfullcols_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of entire matrix in full columns</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nblkrows_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of local part of matrix in blocked rows</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nblkcols_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of local part of matrix in blocked columns</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nfullrows_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of local part of matrix in full rows</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nfullcols_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of local part of matrix in full columns</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! &#39;r&#39;/&#39;R&#39; for single/double precision real or &#39;c&#39;/&#39;C&#39; for single/double precision complex data</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">replication_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! multi-process replication used in the matrix</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">symmetry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! matrix has symmetry</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">negate_real</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! symmetry is realized by negating the real part</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">negate_imaginary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! symmetry is realized by negating complex part (i.e., antisymmetric)</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">bcsc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! BCS Column instead of BCS Row</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">local_indexing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Local indexing of rows instead of global indexing.</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">list_indexing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">data_memory_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_memtype_type</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! memory type for data</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">index_memory_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_memtype_type</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! memory type for the index</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_block_buffer_obj</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_block_buffer_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Block buffers</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">wms</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_obj</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! distribution used by this matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">refcount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! reference count</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">work_mutable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! uses the mutable data for working and not the append-only data</span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_type</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -1332,7 +1332,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

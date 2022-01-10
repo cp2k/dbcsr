@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -384,60 +384,60 @@ public subroutine setup_buffer_matrix(matrix, source_matrix, index_size, data_si
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">setup_buffer_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">source_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
-                                  <span class="n">index_size</span><span class="p">,</span> <span class="n">data_size</span><span class="p">,</span> <span class="n">data_buffer</span><span class="p">,</span> <span class="n">data_memory_type</span><span class="p">)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">source_matrix</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">index_size</span><span class="p">,</span> <span class="n">data_size</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>         <span class="kd">::</span> <span class="n">data_buffer</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>     <span class="kd">::</span> <span class="n">data_memory_type</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">setup_buffer_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">source_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">index_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_buffer</span><span class="p">,</span><span class="w"> </span><span class="n">data_memory_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">source_matrix</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">index_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_size</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">data_buffer</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">data_memory_type</span><span class="w"></span>
 
-      <span class="n">matrix</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
-      <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="p">&amp;</span>
-                        <span class="n">template</span><span class="o">=</span><span class="n">source_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
-                        <span class="n">name</span><span class="o">=</span><span class="nb">TRIM</span><span class="p">(</span><span class="s2">&quot;Buffer of &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">name</span><span class="p">)),</span> <span class="p">&amp;</span>
-                        <span class="n">nze</span><span class="o">=</span><span class="n">data_size</span><span class="p">,</span> <span class="p">&amp;</span>
-                        <span class="n">data_buffer</span><span class="o">=</span><span class="n">data_buffer</span><span class="p">,</span> <span class="p">&amp;</span>
-                        <span class="n">data_memory_type</span><span class="o">=</span><span class="n">data_memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
-                        <span class="n">index_memory_type</span><span class="o">=</span><span class="n">memtype_mpi_buffer</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span> <span class="p">&amp;</span>
-            <span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
-            <span class="n">data_size</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-      <span class="k">ENDIF</span>
-<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_size</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">ensure_array_size</span><span class="p">(</span> <span class="p">&amp;</span>
-            <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span> <span class="p">&amp;</span>
-            <span class="n">ub</span><span class="o">=</span><span class="n">index_size</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
-            <span class="n">memory_type</span><span class="o">=</span><span class="n">dbcsr_get_index_memory_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
-      <span class="k">ENDIF</span>
-<span class="k">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span> <span class="o">=</span> <span class="n">source_matrix</span><span class="p">%</span><span class="n">negate_real</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span> <span class="o">=</span> <span class="n">source_matrix</span><span class="p">%</span><span class="n">negate_imaginary</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">local_indexing</span> <span class="o">=</span> <span class="n">source_matrix</span><span class="p">%</span><span class="n">local_indexing</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">list_indexing</span> <span class="o">=</span> <span class="n">source_matrix</span><span class="p">%</span><span class="n">list_indexing</span>
-      <span class="c">!</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">has_local_rows</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span> <span class="o">=</span> <span class="n">source_matrix</span><span class="p">%</span><span class="n">local_rows</span>
-         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
-         <span class="n">matrix</span><span class="p">%</span><span class="n">has_local_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="k">ENDIF</span>
-<span class="k">      IF</span> <span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">has_global_rows</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span> <span class="o">=</span> <span class="n">source_matrix</span><span class="p">%</span><span class="n">global_rows</span>
-         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">)</span>
-         <span class="n">matrix</span><span class="p">%</span><span class="n">has_global_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="k">ENDIF</span>
-<span class="k">      IF</span> <span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">has_local_cols</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span> <span class="o">=</span> <span class="n">source_matrix</span><span class="p">%</span><span class="n">local_cols</span>
-         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span>
-         <span class="n">matrix</span><span class="p">%</span><span class="n">has_local_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="k">ENDIF</span>
-<span class="k">      IF</span> <span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">has_global_cols</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span> <span class="o">=</span> <span class="n">source_matrix</span><span class="p">%</span><span class="n">global_cols</span>
-         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="p">)</span>
-         <span class="n">matrix</span><span class="p">%</span><span class="n">has_global_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="k">ENDIF</span>
+<span class="w">      </span><span class="n">matrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">template</span><span class="o">=</span><span class="n">source_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">name</span><span class="o">=</span><span class="nb">TRIM</span><span class="p">(</span><span class="s2">&quot;Buffer of &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">name</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">nze</span><span class="o">=</span><span class="n">data_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">data_buffer</span><span class="o">=</span><span class="n">data_buffer</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">data_memory_type</span><span class="o">=</span><span class="n">data_memory_type</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">index_memory_type</span><span class="o">=</span><span class="n">memtype_mpi_buffer</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">data_size</span><span class="p">,</span><span class="w"> </span><span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_size</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">ub</span><span class="o">=</span><span class="n">index_size</span><span class="p">,</span><span class="w"> </span><span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">memory_type</span><span class="o">=</span><span class="n">dbcsr_get_index_memory_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_matrix</span><span class="p">%</span><span class="n">negate_real</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_indexing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_matrix</span><span class="p">%</span><span class="n">local_indexing</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">list_indexing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_matrix</span><span class="p">%</span><span class="n">list_indexing</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">has_local_rows</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">has_local_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">has_global_rows</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">has_global_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">has_local_cols</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">has_local_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">has_global_cols</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">has_global_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
 
-<span class="k">   END SUBROUTINE </span><span class="n">setup_buffer_matrix</span>
+<span class="k">   END SUBROUTINE </span><span class="n">setup_buffer_matrix</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -453,7 +453,7 @@ public subroutine setup_buffer_matrix(matrix, source_matrix, index_size, data_si
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

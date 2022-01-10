@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -375,50 +375,50 @@ Message passing environment identifier</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mp_iscatter_l</span> <span class="p">(</span><span class="n">msg_scatter</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
-      <span class="c">!! Scatters data from one processes to all others</span>
-      <span class="c">!!</span>
-      <span class="c">!! MPI mapping</span>
-      <span class="c">!! mpi_scatter</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">mp_iscatter_l</span><span class="w"> </span><span class="p">(</span><span class="n">msg_scatter</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Scatters data from one processes to all others</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! MPI mapping</span>
+<span class="w">      </span><span class="c">!! mpi_scatter</span>
 
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">msg_scatter</span><span class="p">(:)</span>
-         <span class="c">!! Data to scatter (for root process)</span>
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">msg</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">root</span><span class="p">,</span> <span class="n">gid</span>
-         <span class="c">!! Process which scatters data</span>
-         <span class="c">!! Message passing environment identifier</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">request</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">msg_scatter</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Data to scatter (for root process)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Process which scatters data</span>
+<span class="w">         </span><span class="c">!! Message passing environment identifier</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">request</span><span class="w"></span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_iscatter_l&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mp_iscatter_l&#39;</span><span class="w"></span>
 
-      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">ierr</span><span class="p">,</span> <span class="n">msglen</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="w"></span>
 
-      <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+<span class="w">      </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
 
-      <span class="n">msglen</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="w">      </span><span class="n">msglen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <span class="cp">#if defined(__parallel)</span>
 <span class="cp">#if __MPI_VERSION &gt; 2</span>
-      <span class="k">CALL </span><span class="n">mpi_iscatter</span><span class="p">(</span><span class="n">msg_scatter</span><span class="p">,</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_INTEGER8</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="p">&amp;</span>
-                        <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_INTEGER8</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iscatter @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">int_8_size</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">mpi_iscatter</span><span class="p">(</span><span class="n">msg_scatter</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INTEGER8</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">msglen</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INTEGER8</span><span class="p">,</span><span class="w"> </span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_iscatter @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="n">msg_size</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">int_8_size</span><span class="p">)</span><span class="w"></span>
 <span class="cp">#else</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg_scatter</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
-      <span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
-      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mp_iscatter requires MPI-3 standard&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg_scatter</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_request_null</span><span class="w"></span>
+<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mp_iscatter requires MPI-3 standard&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="cp">#endif</span>
 <span class="cp">#else</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
-      <span class="n">msg</span> <span class="o">=</span> <span class="n">msg_scatter</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-      <span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg_scatter</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_request_null</span><span class="w"></span>
 <span class="cp">#endif</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">mp_iscatter_l</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">mp_iscatter_l</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -434,7 +434,7 @@ Message passing environment identifier</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

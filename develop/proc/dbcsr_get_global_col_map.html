@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -326,35 +326,35 @@ private subroutine dbcsr_get_global_col_map(dist, col_map)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_global_col_map</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">col_map</span><span class="p">)</span>
-      <span class="c">!! Determines mapping from global to local columns</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_get_global_col_map</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Determines mapping from global to local columns</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">dist</span>
-         <span class="c">!! mapping for this distribution</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">col_map</span>
-         <span class="c">!! mapping to local columns</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! mapping for this distribution</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">col_map</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! mapping to local columns</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_get_global_col_map&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_get_global_col_map&#39;</span><span class="w"></span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">npcols</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">col_dist</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">npcols</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">cmap</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-      <span class="c">! If the current local col mappings do not exist, create them.</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_global_col_map</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">col_dist</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">cmap</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">col_dist</span><span class="p">)))</span>
-         <span class="n">npcols</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
-         <span class="k">CALL </span><span class="n">map_all_local_elements</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">,</span> <span class="n">npcols</span><span class="p">)</span>
-         <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">global_col_map</span><span class="p">,</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-         <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_global_col_map</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="k">ELSE</span>
-<span class="k">         IF</span> <span class="p">(</span><span class="n">careful_mod</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_exists</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">global_col_map</span><span class="p">))</span> <span class="p">&amp;</span>
-            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Column map does not exist.&quot;</span><span class="p">)</span>
-      <span class="k">ENDIF</span>
-<span class="k">      </span><span class="n">col_map</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">global_col_map</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_global_col_map</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">! If the current local col mappings do not exist, create them.</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_global_col_map</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">col_dist</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">cmap</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">col_dist</span><span class="p">)))</span><span class="w"></span>
+<span class="w">         </span><span class="n">npcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">map_all_local_elements</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="p">,</span><span class="w"> </span><span class="n">npcols</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">global_col_map</span><span class="p">,</span><span class="w"> </span><span class="n">cmap</span><span class="p">,</span><span class="w"> </span><span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">         </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_global_col_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">array_exists</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">global_col_map</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Column map does not exist.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">col_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">global_col_map</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_global_col_map</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -370,7 +370,7 @@ private subroutine dbcsr_get_global_col_map(dist, col_map)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

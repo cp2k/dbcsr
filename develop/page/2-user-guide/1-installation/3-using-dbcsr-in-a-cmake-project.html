@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -153,25 +153,25 @@ an alternative base installation path for DBCSR instead:</p>
 </code></pre></div>
 
 <p>In your project's CMake you can then easily search for the DBCSR library:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.17</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.17</span><span class="p">)</span>
 
-<span class="nb">enable_language</span><span class="p">(</span><span class="s">Fortran</span> <span class="s">C</span> <span class="s">CXX</span><span class="p">)</span>  <span class="c"># only request the required language</span>
+<span class="nb">enable_language</span><span class="p">(</span><span class="s">Fortran</span><span class="w"> </span><span class="s">C</span><span class="w"> </span><span class="s">CXX</span><span class="p">)</span><span class="w">  </span><span class="c"># only request the required language</span>
 
-<span class="nb">find_package</span><span class="p">(</span><span class="s">DBCSR</span> <span class="s">2.0.0</span> <span class="s">CONFIG</span> <span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">DBCSR</span><span class="w"> </span><span class="s">2.0.0</span><span class="w"> </span><span class="s">CONFIG</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
 <span class="nb">find_package</span><span class="p">(</span><span class="s">MPI</span><span class="p">)</span>
 
 <span class="c"># for Fortran:</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_Fortran_FLAGS</span> <span class="s2">&quot;-std=f2018&quot;</span><span class="p">)</span>  <span class="c"># your Fortran code likely needs to be F2018+ compatible as well</span>
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span> <span class="s">dbcsr_example.f90</span><span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span> <span class="s">DBCSR::dbcsr</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_Fortran_FLAGS</span><span class="w"> </span><span class="s2">&quot;-std=f2018&quot;</span><span class="p">)</span><span class="w">  </span><span class="c"># your Fortran code likely needs to be F2018+ compatible as well</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span><span class="w"> </span><span class="s">dbcsr_example.f90</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span><span class="w"> </span><span class="s">DBCSR::dbcsr</span><span class="p">)</span>
 
 <span class="c"># for C:</span>
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_c</span> <span class="s">dbcsr_example.c</span><span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_c</span> <span class="s">DBCSR::dbcsr_c</span> <span class="s">MPI::MPI_C</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_c</span><span class="w"> </span><span class="s">dbcsr_example.c</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_c</span><span class="w"> </span><span class="s">DBCSR::dbcsr_c</span><span class="w"> </span><span class="s">MPI::MPI_C</span><span class="p">)</span>
 
 <span class="c"># for C++:</span>
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_cpp</span> <span class="s">dbcsr_example.cpp</span><span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_cpp</span> <span class="s">DBCSR::dbcsr_c</span> <span class="s">MPI::MPI_CXX</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_cpp</span><span class="w"> </span><span class="s">dbcsr_example.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_cpp</span><span class="w"> </span><span class="s">DBCSR::dbcsr_c</span><span class="w"> </span><span class="s">MPI::MPI_CXX</span><span class="p">)</span>
 </code></pre></div>
 
 <p>If you installed DBCSR into a custom prefix, you have to make sure that CMake
@@ -377,7 +377,7 @@ is able to find the DBCSR CMake configuration:</p>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

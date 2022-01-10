@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -326,33 +326,33 @@ private subroutine mem_dealloc_s_2d(mem, mem_type)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_s_2d</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
-     <span class="c">!! Deallocates memory</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">mem_dealloc_s_2d</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">mem_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="c">!! Deallocates memory</span>
 
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>      <span class="kd">::</span> <span class="n">mem</span>
-        <span class="c">!! memory to allocate</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
-        <span class="c">!! memory type</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mem_dealloc_s&#39;</span>
-      <span class="kt">INTEGER</span>                               <span class="kd">::</span> <span class="n">error_handle</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">mem</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! memory to allocate</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">mem_type</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! memory type</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mem_dealloc_s&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="w"></span>
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">acc_hostalloc</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Accelerator host deallocate not supported for 2D arrays.&quot;</span><span class="p">)</span>
-         <span class="c">!CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)</span>
-      <span class="k">ELSE IF</span> <span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">mpi</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI deallocate not supported for 2D arrays.&quot;</span><span class="p">)</span>
-         <span class="c">!CALL mp_deallocate(mem)</span>
-      <span class="k">ELSE</span>
-<span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">mem</span><span class="p">)</span>
-      <span class="k">ENDIF</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">acc_hostalloc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Accelerator host deallocate not supported for 2D arrays.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="c">!CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)</span>
+<span class="w">      </span><span class="k">ELSE IF</span><span class="w"> </span><span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">mpi</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI deallocate not supported for 2D arrays.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="c">!CALL mp_deallocate(mem)</span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">mem</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
 
-<span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">mem_dealloc_s_2d</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">mem_dealloc_s_2d</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -368,7 +368,7 @@ private subroutine mem_dealloc_s_2d(mem, mem_type)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

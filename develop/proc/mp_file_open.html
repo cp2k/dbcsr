@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -373,66 +373,66 @@ public subroutine mp_file_open(groupid, fh, filepath, amode_status, info)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mp_file_open</span><span class="p">(</span><span class="n">groupid</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">amode_status</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
-      <span class="c">!! Opens a file</span>
-      <span class="c">!!</span>
-      <span class="c">!! MPI-I/O mapping  mpi_file_open</span>
-      <span class="c">!!</span>
-      <span class="c">!! STREAM-I/O mapping  OPEN</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">mp_file_open</span><span class="p">(</span><span class="n">groupid</span><span class="p">,</span><span class="w"> </span><span class="n">fh</span><span class="p">,</span><span class="w"> </span><span class="n">filepath</span><span class="p">,</span><span class="w"> </span><span class="n">amode_status</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Opens a file</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! MPI-I/O mapping  mpi_file_open</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! STREAM-I/O mapping  OPEN</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">groupid</span>
-         <span class="c">!! message passing environment identifier</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">fh</span>
-         <span class="c">!! file handle (file storage unit)</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">filepath</span>
-         <span class="c">!! path to the file</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">amode_status</span>
-         <span class="c">!! access mode</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">info</span>
-         <span class="c">!! info object</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">groupid</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! message passing environment identifier</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">fh</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! file handle (file storage unit)</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">filepath</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! path to the file</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">amode_status</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! access mode</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">info</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! info object</span>
 
-      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">ierr</span><span class="p">,</span> <span class="n">istat</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="n">istat</span><span class="w"></span>
 <span class="cp">#if defined(__parallel)</span>
-      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">my_info</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">my_info</span><span class="w"></span>
 <span class="cp">#else</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">fstatus</span><span class="p">,</span> <span class="n">fposition</span>
-      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">amode</span>
-      <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">exists</span><span class="p">,</span> <span class="n">is_open</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">fstatus</span><span class="p">,</span><span class="w"> </span><span class="n">fposition</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">amode</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">exists</span><span class="p">,</span><span class="w"> </span><span class="n">is_open</span><span class="w"></span>
 <span class="cp">#endif</span>
 
-      <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">istat</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">      </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="cp">#if defined(__parallel)</span>
-      <span class="n">my_info</span> <span class="o">=</span> <span class="n">mpi_info_null</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">info</span><span class="p">))</span> <span class="n">my_info</span> <span class="o">=</span> <span class="n">info</span>
-      <span class="k">CALL </span><span class="n">mpi_file_open</span><span class="p">(</span><span class="n">groupid</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">amode_status</span><span class="p">,</span> <span class="n">my_info</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">mpi_file_set_errhandler</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">MPI_ERRORS_RETURN</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_file_set_errhandler @ mp_file_open&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">my_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mpi_info_null</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">info</span><span class="p">))</span><span class="w"> </span><span class="n">my_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">info</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">mpi_file_open</span><span class="p">(</span><span class="n">groupid</span><span class="p">,</span><span class="w"> </span><span class="n">filepath</span><span class="p">,</span><span class="w"> </span><span class="n">amode_status</span><span class="p">,</span><span class="w"> </span><span class="n">my_info</span><span class="p">,</span><span class="w"> </span><span class="n">fh</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">mpi_file_set_errhandler</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ERRORS_RETURN</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_file_set_errhandler @ mp_file_open&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="cp">#else</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">groupid</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-      <span class="n">amode</span> <span class="o">=</span> <span class="n">amode_status</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">amode</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">file_amode_append</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">fposition</span> <span class="o">=</span> <span class="s2">&quot;APPEND&quot;</span>
-         <span class="n">amode</span> <span class="o">=</span> <span class="n">amode</span> <span class="o">-</span> <span class="n">file_amode_append</span>
-      <span class="k">ELSE</span>
-<span class="k">         </span><span class="n">fposition</span> <span class="o">=</span> <span class="s2">&quot;REWIND&quot;</span>
-      <span class="k">END IF</span>
-<span class="k">      IF</span> <span class="p">((</span><span class="n">amode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">file_amode_create</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
-          <span class="p">(</span><span class="n">amode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">file_amode_create</span> <span class="o">+</span> <span class="n">file_amode_wronly</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
-          <span class="p">(</span><span class="n">amode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">file_amode_create</span> <span class="o">+</span> <span class="n">file_amode_wronly</span> <span class="o">+</span> <span class="n">file_amode_excl</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">fstatus</span> <span class="o">=</span> <span class="s2">&quot;UNKNOWN&quot;</span>
-      <span class="k">ELSE</span>
-<span class="k">         </span><span class="n">fstatus</span> <span class="o">=</span> <span class="s2">&quot;OLD&quot;</span>
-      <span class="k">END IF</span>
-      <span class="c">! Get a new unit number</span>
-      <span class="k">DO </span><span class="n">fh</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">999</span>
-         <span class="k">INQUIRE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">fh</span><span class="p">,</span> <span class="n">EXIST</span><span class="o">=</span><span class="n">exists</span><span class="p">,</span> <span class="n">OPENED</span><span class="o">=</span><span class="n">is_open</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="n">istat</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">exists</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">is_open</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">istat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="k">EXIT</span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">groupid</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">info</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">amode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amode_status</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">amode</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">file_amode_append</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">fposition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;APPEND&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="n">amode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amode</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">file_amode_append</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">fposition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;REWIND&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">((</span><span class="n">amode</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">file_amode_create</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">          </span><span class="p">(</span><span class="n">amode</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">file_amode_create</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">file_amode_wronly</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">          </span><span class="p">(</span><span class="n">amode</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">file_amode_create</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">file_amode_wronly</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">file_amode_excl</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">fstatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;UNKNOWN&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">fstatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;OLD&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Get a new unit number</span>
+<span class="w">      </span><span class="k">DO </span><span class="n">fh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">999</span><span class="w"></span>
+<span class="w">         </span><span class="k">INQUIRE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">fh</span><span class="p">,</span><span class="w"> </span><span class="n">EXIST</span><span class="o">=</span><span class="n">exists</span><span class="p">,</span><span class="w"> </span><span class="n">OPENED</span><span class="o">=</span><span class="n">is_open</span><span class="p">,</span><span class="w"> </span><span class="n">IOSTAT</span><span class="o">=</span><span class="n">istat</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">exists</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">is_open</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="k">EXIT</span>
 <span class="k">      END DO</span>
-<span class="k">      OPEN</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">fh</span><span class="p">,</span> <span class="k">FILE</span><span class="o">=</span><span class="n">filepath</span><span class="p">,</span> <span class="n">STATUS</span><span class="o">=</span><span class="n">fstatus</span><span class="p">,</span> <span class="nb">ACCESS</span><span class="o">=</span><span class="s2">&quot;STREAM&quot;</span><span class="p">,</span> <span class="n">POSITION</span><span class="o">=</span><span class="n">fposition</span><span class="p">)</span>
+<span class="k">      OPEN</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">fh</span><span class="p">,</span><span class="w"> </span><span class="k">FILE</span><span class="o">=</span><span class="n">filepath</span><span class="p">,</span><span class="w"> </span><span class="n">STATUS</span><span class="o">=</span><span class="n">fstatus</span><span class="p">,</span><span class="w"> </span><span class="nb">ACCESS</span><span class="o">=</span><span class="s2">&quot;STREAM&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">POSITION</span><span class="o">=</span><span class="n">fposition</span><span class="p">)</span><span class="w"></span>
 <span class="cp">#endif</span>
-   <span class="k">END SUBROUTINE </span><span class="n">mp_file_open</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">mp_file_open</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -448,7 +448,7 @@ public subroutine mp_file_open(groupid, fh, filepath, amode_status, info)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

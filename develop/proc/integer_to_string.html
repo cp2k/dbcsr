@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -323,19 +323,19 @@ supplied string.</p>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">integer_to_string</span><span class="p">(</span><span class="n">inumber</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-      <span class="c">!! Converts an integer number to a string.</span>
-      <span class="c">!! The WRITE statement will return an error message, if the number of</span>
-      <span class="c">!! digits of the integer number is larger the than the length of the</span>
-      <span class="c">!! supplied string.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">FUNCTION </span><span class="n">integer_to_string</span><span class="p">(</span><span class="n">inumber</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Converts an integer number to a string.</span>
+<span class="w">      </span><span class="c">!! The WRITE statement will return an error message, if the number of</span>
+<span class="w">      </span><span class="c">!! digits of the integer number is larger the than the length of the</span>
+<span class="w">      </span><span class="c">!! supplied string.</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">inumber</span>
-      <span class="kt">CHARACTER</span><span class="p">(:),</span> <span class="k">ALLOCATABLE</span>                          <span class="kd">::</span> <span class="n">string</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">RANGE</span><span class="p">(</span><span class="n">inumber</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">tmp</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">inumber</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(:),</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">RANGE</span><span class="p">(</span><span class="n">inumber</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">tmp</span><span class="w"></span>
 
-      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(I0)&#39;</span><span class="p">)</span> <span class="n">inumber</span>
-      <span class="n">string</span> <span class="o">=</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
-   <span class="k">END FUNCTION </span><span class="n">integer_to_string</span>
+<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(I0)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">inumber</span><span class="w"></span>
+<span class="w">      </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END FUNCTION </span><span class="n">integer_to_string</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -351,7 +351,7 @@ supplied string.</p>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

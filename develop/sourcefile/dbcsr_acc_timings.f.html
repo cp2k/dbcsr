@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -266,69 +266,69 @@
 
     <section>
       <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_timings.F&quot; 1</span>
-<a id="ln-2" name="ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
-<a id="ln-3" name="ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
-<a id="ln-4" name="ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
-<a id="ln-5" name="ln-5"></a><span class="c">!                                                                                                  !</span>
-<a id="ln-6" name="ln-6"></a><span class="c">! For information on the license, see the LICENSE file.                                            !</span>
-<a id="ln-7" name="ln-7"></a><span class="c">! For further information please visit https://dbcsr.cp2k.org                                      !</span>
-<a id="ln-8" name="ln-8"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
-<a id="ln-9" name="ln-9"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
-<a id="ln-10" name="ln-10"></a>
-<a id="ln-11" name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_acc_timings</span>
-<a id="ln-12" name="ln-12"></a>   <span class="c">!! Accelerator support</span>
-<a id="ln-13" name="ln-13"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span><span class="p">,</span> <span class="kt">C_PTR</span><span class="p">,</span> <span class="nb">C_F_POINTER</span>
-<a id="ln-14" name="ln-14"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
-<a id="ln-15" name="ln-15"></a>
-<a id="ln-16" name="ln-16"></a>   <span class="k">IMPLICIT NONE</span>
-<a id="ln-17" name="ln-17"></a>
-<a id="ln-18" name="ln-18"></a><span class="k">   PRIVATE</span>
-<a id="ln-19" name="ln-19"></a>
-<a id="ln-20" name="ln-20"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_acc_timings&#39;</span>
-<a id="ln-21" name="ln-21"></a>
-<a id="ln-22" name="ln-22"></a><span class="k">CONTAINS</span>
-<a id="ln-23" name="ln-23"></a>
-<a id="ln-24" name="ln-24"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_timeset_F</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">routineN_len</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_timeset&quot;</span><span class="p">)</span>
-<a id="ln-25" name="ln-25"></a>
-<a id="ln-26" name="ln-26"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">routineN</span>
-<a id="ln-27" name="ln-27"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">routineN_len</span>
-<a id="ln-28" name="ln-28"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">handle</span>
-<a id="ln-29" name="ln-29"></a>
-<a id="ln-30" name="ln-30"></a>      <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">a</span><span class="p">(:)</span>
-<a id="ln-31" name="ln-31"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">routineN_len</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">routineName</span>
-<a id="ln-32" name="ln-32"></a>      <span class="kt">INTEGER</span>                                <span class="kd">::</span> <span class="n">i</span>
-<a id="ln-33" name="ln-33"></a>
-<a id="ln-34" name="ln-34"></a>      <span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="p">[</span><span class="n">routineN_len</span><span class="p">])</span>
-<a id="ln-35" name="ln-35"></a>
-<a id="ln-36" name="ln-36"></a>      <span class="c">! Convert character array &quot;a&quot; to scalar character string</span>
-<a id="ln-37" name="ln-37"></a>      <span class="c">! &quot;routineName&quot;</span>
-<a id="ln-38" name="ln-38"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">routineN_len</span>
-<a id="ln-39" name="ln-39"></a>         <span class="n">routineName</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a id="ln-40" name="ln-40"></a>      <span class="k">END DO</span>
-<a id="ln-41" name="ln-41"></a>
-<a id="ln-42" name="ln-42"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
-<a id="ln-43" name="ln-43"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineName</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
-<a id="ln-44" name="ln-44"></a><span class="cp">#else</span>
-<a id="ln-45" name="ln-45"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
-<a id="ln-46" name="ln-46"></a>      <span class="n">handle</span> <span class="o">=</span> <span class="mi">0</span>
-<a id="ln-47" name="ln-47"></a><span class="cp">#endif</span>
-<a id="ln-48" name="ln-48"></a>
-<a id="ln-49" name="ln-49"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_timeset_F</span>
-<a id="ln-50" name="ln-50"></a>
-<a id="ln-51" name="ln-51"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_timestop_F</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_timestop&quot;</span><span class="p">)</span>
-<a id="ln-52" name="ln-52"></a>
-<a id="ln-53" name="ln-53"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">handle</span>
-<a id="ln-54" name="ln-54"></a>
-<a id="ln-55" name="ln-55"></a><span class="cp">#if ! defined (__DBCSR_ACC)</span>
-<a id="ln-56" name="ln-56"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-<a id="ln-57" name="ln-57"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
-<a id="ln-58" name="ln-58"></a><span class="cp">#else</span>
-<a id="ln-59" name="ln-59"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-<a id="ln-60" name="ln-60"></a><span class="cp">#endif</span>
-<a id="ln-61" name="ln-61"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_timestop_F</span>
-<a id="ln-62" name="ln-62"></a>
-<a id="ln-63" name="ln-63"></a><span class="k">END MODULE </span><span class="n">dbcsr_acc_timings</span>
+    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_timings.F&quot; 1</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="c">!                                                                                                  !</span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="c">! For information on the license, see the LICENSE file.                                            !</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="c">! For further information please visit https://dbcsr.cp2k.org                                      !</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_acc_timings</span><span class="w"></span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">   </span><span class="c">!! Accelerator support</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">   </span><span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="kt">C_INT</span><span class="p">,</span><span class="w"> </span><span class="kt">C_PTR</span><span class="p">,</span><span class="w"> </span><span class="nb">C_F_POINTER</span><span class="w"></span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">   </span><span class="k">IMPLICIT NONE</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="k">   PRIVATE</span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="p">,</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">moduleN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_acc_timings&#39;</span><span class="w"></span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="k">CONTAINS</span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_timeset_F</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">routineN_len</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_timeset&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"></span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN_len</span><span class="w"></span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="w"></span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a>
+<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="w">      </span><span class="kt">CHARACTER</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(:)</span><span class="w"></span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">routineN_len</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">routineName</span><span class="w"></span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">      </span><span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">routineN_len</span><span class="p">])</span><span class="w"></span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">      </span><span class="c">! Convert character array &quot;a&quot; to scalar character string</span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">      </span><span class="c">! &quot;routineName&quot;</span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">routineN_len</span><span class="w"></span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">         </span><span class="n">routineName</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">      </span><span class="k">END DO</span><span class="w"></span>
+<a id="ln-41" name="ln-41" href="#ln-41"></a>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineName</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="cp">#else</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">      </span><span class="n">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="cp">#endif</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_timeset_F</span><span class="w"></span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_timestop_F</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_timestop&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="w"></span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="cp">#if ! defined (__DBCSR_ACC)</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="cp">#else</span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="cp">#endif</span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_timestop_F</span><span class="w"></span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="k">END MODULE </span><span class="n">dbcsr_acc_timings</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -341,7 +341,7 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

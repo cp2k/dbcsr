@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -374,51 +374,51 @@ that hint is in the range [0, nblocks].</p>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">find_block_of_element</span><span class="p">(</span><span class="n">full</span><span class="p">,</span> <span class="k">block</span><span class="p">,</span> <span class="n">nblocks</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">block_offsets</span><span class="p">,</span> <span class="n">hint</span><span class="p">)</span>
-      <span class="c">!! Finds block to which a full element belongs.</span>
-      <span class="c">!!</span>
-      <span class="c">!! Assumptions</span>
-      <span class="c">!! It is assumed that block_start and block_end are sorted and</span>
-      <span class="c">!! that hint is in the range [0, nblocks].</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">find_block_of_element</span><span class="p">(</span><span class="n">full</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">nblocks</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">block_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">hint</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Finds block to which a full element belongs.</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Assumptions</span>
+<span class="w">      </span><span class="c">!! It is assumed that block_start and block_end are sorted and</span>
+<span class="w">      </span><span class="c">!! that hint is in the range [0, nblocks].</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">full</span>
-         <span class="c">!! full element</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                               <span class="kd">::</span> <span class="k">block</span>
-         <span class="c">!! block to which full belongs</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nblocks</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">block_offsets</span>
-         <span class="c">!! starting full elements of blocks</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">hint</span>
-         <span class="c">!! where to start looking; ignored if 0</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">full</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! full element</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="k">block</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! block to which full belongs</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">nblocks</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblocks</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">block_offsets</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! starting full elements of blocks</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">hint</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! where to start looking; ignored if 0</span>
 
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">PARAMETER</span>                                 <span class="kd">::</span> <span class="n">dbg</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">dbg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="nb">count</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="nb">count</span>
 
-<span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="n">hint</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         block</span> <span class="o">=</span> <span class="n">hint</span>
-      <span class="k">ELSE</span>
-<span class="k">         block</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">nblocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-      <span class="k">ENDIF</span>
-<span class="k">      </span><span class="nb">count</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">full</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">full</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">full</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            block</span> <span class="o">=</span> <span class="k">block</span> <span class="o">-</span> <span class="mi">1</span>
-         <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">full</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            block</span> <span class="o">=</span> <span class="k">block</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="k">ENDIF</span>
-<span class="k">         </span><span class="nb">count</span> <span class="o">=</span> <span class="nb">count</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            IF</span> <span class="p">(</span><span class="nb">count</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">nblocks</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="k">block</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="k">block</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">nblocks</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">               WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(1X,A,I9,A,I9,A)&#39;</span><span class="p">)</span> <span class="s2">&quot;Want to find block&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
-                  <span class="k">block</span><span class="p">,</span> <span class="s2">&quot; of&quot;</span><span class="p">,</span> <span class="n">nblocks</span><span class="p">,</span> <span class="s2">&quot; blocks&quot;</span>
-               <span class="k">IF</span> <span class="p">(</span><span class="nb">count</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">nblocks</span><span class="p">)</span> <span class="p">&amp;</span>
-                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Too many searches&quot;</span><span class="p">)</span>
-            <span class="k">ENDIF</span>
+<span class="nb">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">hint</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hint</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">nblocks</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">full</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">full</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">block</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">full</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">block</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDIF</span>
+<span class="k">         </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">nblocks</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="k">block</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="k">block</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">nblocks</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(1X,A,I9,A,I9,A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;Want to find block&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; of&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nblocks</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; blocks&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">nblocks</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Too many searches&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">ENDIF</span>
 <span class="k">         ENDIF</span>
 <span class="k">      ENDDO</span>
-<span class="k">   END SUBROUTINE </span><span class="n">find_block_of_element</span>
+<span class="k">   END SUBROUTINE </span><span class="n">find_block_of_element</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -434,7 +434,7 @@ that hint is in the range [0, nblocks].</p>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

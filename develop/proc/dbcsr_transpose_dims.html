@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -326,60 +326,60 @@ public subroutine dbcsr_transpose_dims(dist_tr, dist_normal)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_transpose_dims</span><span class="p">(</span><span class="n">dist_tr</span><span class="p">,</span> <span class="n">dist_normal</span><span class="p">)</span>
-      <span class="c">!! Transposes a distribution but keeps the same mp_env</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_transpose_dims</span><span class="p">(</span><span class="n">dist_tr</span><span class="p">,</span><span class="w"> </span><span class="n">dist_normal</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Transposes a distribution but keeps the same mp_env</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">dist_tr</span>
-         <span class="c">!! transposed distribution</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">dist_normal</span>
-         <span class="c">!! current distribution</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">dist_tr</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! transposed distribution</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">dist_normal</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! current distribution</span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ncols_tr</span><span class="p">,</span> <span class="n">npcols_tr</span><span class="p">,</span> <span class="n">nprows_tr</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                            <span class="n">nrows_tr</span><span class="p">,</span> <span class="n">vgcd</span><span class="p">,</span> <span class="n">vlcm</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">col_dist_data_tr</span><span class="p">,</span> <span class="n">col_img_data_tr</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                            <span class="n">row_dist_data_tr</span><span class="p">,</span> <span class="n">row_img_data_tr</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">mp_env</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">ncols_tr</span><span class="p">,</span><span class="w"> </span><span class="n">npcols_tr</span><span class="p">,</span><span class="w"> </span><span class="n">nprows_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">nrows_tr</span><span class="p">,</span><span class="w"> </span><span class="n">vgcd</span><span class="p">,</span><span class="w"> </span><span class="n">vlcm</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">col_dist_data_tr</span><span class="p">,</span><span class="w"> </span><span class="n">col_img_data_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">row_dist_data_tr</span><span class="p">,</span><span class="w"> </span><span class="n">row_img_data_tr</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_env</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="n">mp_env</span> <span class="o">=</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="c">! transpose the rows/cols</span>
-      <span class="n">nrows_tr</span> <span class="o">=</span> <span class="n">dbcsr_distribution_ncols</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">)</span>
-      <span class="n">ncols_tr</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">)</span>
-      <span class="c">! procs are not transposed</span>
-      <span class="n">nprows_tr</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
-      <span class="n">npcols_tr</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
-      <span class="n">vgcd</span> <span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="n">nprows_tr</span><span class="p">,</span> <span class="n">npcols_tr</span><span class="p">)</span>
-      <span class="n">vlcm</span> <span class="o">=</span> <span class="n">lcm</span><span class="p">(</span><span class="n">nprows_tr</span><span class="p">,</span> <span class="n">npcols_tr</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_dist_data_tr</span><span class="p">(</span><span class="n">nrows_tr</span><span class="p">))</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_img_data_tr</span><span class="p">(</span><span class="n">nrows_tr</span><span class="p">))</span>
-      <span class="k">CALL </span><span class="n">rebin_distribution</span><span class="p">(</span><span class="n">row_dist_data_tr</span><span class="p">,</span> <span class="n">row_img_data_tr</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span> <span class="p">&amp;</span>
-                              <span class="n">nprows_tr</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">nprows_tr</span><span class="o">/</span><span class="n">vgcd</span><span class="p">,</span> <span class="n">vlcm</span><span class="o">/</span><span class="n">nprows_tr</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="c">! discard image distribution, it will be build later in the multiplication</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">row_img_data_tr</span><span class="p">)</span>
-      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">row_img_data_tr</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">col_dist_data_tr</span><span class="p">(</span><span class="n">ncols_tr</span><span class="p">))</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">col_img_data_tr</span><span class="p">(</span><span class="n">ncols_tr</span><span class="p">))</span>
-      <span class="k">CALL </span><span class="n">rebin_distribution</span><span class="p">(</span><span class="n">col_dist_data_tr</span><span class="p">,</span> <span class="n">col_img_data_tr</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span> <span class="p">&amp;</span>
-                              <span class="n">npcols_tr</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">npcols_tr</span><span class="o">/</span><span class="n">vgcd</span><span class="p">,</span> <span class="n">vlcm</span><span class="o">/</span><span class="n">npcols_tr</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="c">! discard image distribution, it will be build later in the multiplication</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">col_img_data_tr</span><span class="p">)</span>
-      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">col_img_data_tr</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist_tr</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
-                                  <span class="n">row_dist_data_tr</span><span class="p">,</span> <span class="n">col_dist_data_tr</span><span class="p">,</span> <span class="p">&amp;</span>
-                                  <span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="w">      </span><span class="n">mp_env</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! transpose the rows/cols</span>
+<span class="w">      </span><span class="n">nrows_tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_ncols</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">ncols_tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">! procs are not transposed</span>
+<span class="w">      </span><span class="n">nprows_tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">npcols_tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">vgcd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gcd</span><span class="p">(</span><span class="n">nprows_tr</span><span class="p">,</span><span class="w"> </span><span class="n">npcols_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">vlcm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lcm</span><span class="p">(</span><span class="n">nprows_tr</span><span class="p">,</span><span class="w"> </span><span class="n">npcols_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">row_dist_data_tr</span><span class="p">(</span><span class="n">nrows_tr</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">row_img_data_tr</span><span class="p">(</span><span class="n">nrows_tr</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">rebin_distribution</span><span class="p">(</span><span class="n">row_dist_data_tr</span><span class="p">,</span><span class="w"> </span><span class="n">row_img_data_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">nprows_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">nprows_tr</span><span class="o">/</span><span class="n">vgcd</span><span class="p">,</span><span class="w"> </span><span class="n">vlcm</span><span class="o">/</span><span class="n">nprows_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! discard image distribution, it will be build later in the multiplication</span>
+<span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">row_img_data_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">row_img_data_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">col_dist_data_tr</span><span class="p">(</span><span class="n">ncols_tr</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">col_img_data_tr</span><span class="p">(</span><span class="n">ncols_tr</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">rebin_distribution</span><span class="p">(</span><span class="n">col_dist_data_tr</span><span class="p">,</span><span class="w"> </span><span class="n">col_img_data_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">npcols_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">npcols_tr</span><span class="o">/</span><span class="n">vgcd</span><span class="p">,</span><span class="w"> </span><span class="n">vlcm</span><span class="o">/</span><span class="n">npcols_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! discard image distribution, it will be build later in the multiplication</span>
+<span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">col_img_data_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">col_img_data_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist_tr</span><span class="p">,</span><span class="w"> </span><span class="n">mp_env</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">row_dist_data_tr</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist_data_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
 
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_transpose_dims</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_transpose_dims</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -395,7 +395,7 @@ public subroutine dbcsr_transpose_dims(dist_tr, dist_normal)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

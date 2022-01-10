@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -388,48 +388,48 @@ Map from current to dense distribution</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_make_1dist_dense</span><span class="p">(</span><span class="n">nbins</span><span class="p">,</span> <span class="n">old_dist</span><span class="p">,</span> <span class="n">dense_dist</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">nsubdist</span><span class="p">,</span> <span class="n">subdist</span><span class="p">)</span>
-      <span class="c">!! Makes a 1-D distribution dense.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_make_1dist_dense</span><span class="p">(</span><span class="n">nbins</span><span class="p">,</span><span class="w"> </span><span class="n">old_dist</span><span class="p">,</span><span class="w"> </span><span class="n">dense_dist</span><span class="p">,</span><span class="w"> </span><span class="n">dist_map</span><span class="p">,</span><span class="w"> </span><span class="n">nsubdist</span><span class="p">,</span><span class="w"> </span><span class="n">subdist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Makes a 1-D distribution dense.</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span>
-         <span class="c">!! Number of bins in the main distribution</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">old_dist</span>
-         <span class="c">!! Current distribution</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">dense_dist</span><span class="p">,</span> <span class="n">dist_map</span>
-         <span class="c">!! Dense distribution</span>
-         <span class="c">!! Map from current to dense distribution</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nsubdist</span>
-         <span class="c">!! Number of bins in the subdistribution</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">subdist</span>
-         <span class="c">!! Subdistribution</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">nbins</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Number of bins in the main distribution</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">old_dist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Current distribution</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">dense_dist</span><span class="p">,</span><span class="w"> </span><span class="n">dist_map</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Dense distribution</span>
+<span class="w">         </span><span class="c">!! Map from current to dense distribution</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">nsubdist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Number of bins in the subdistribution</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">subdist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Subdistribution</span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n_new_bins</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">dense</span><span class="p">,</span> <span class="n">map</span><span class="p">,</span> <span class="n">old_d</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n_new_bins</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">dense</span><span class="p">,</span><span class="w"> </span><span class="n">map</span><span class="p">,</span><span class="w"> </span><span class="n">old_d</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="n">nsubdist</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">n_new_bins</span> <span class="o">=</span> <span class="n">nbins</span>
-      <span class="k">ELSE</span>
-<span class="k">         </span><span class="n">n_new_bins</span> <span class="o">=</span> <span class="n">nbins</span><span class="o">*</span><span class="n">nsubdist</span>
-      <span class="k">ENDIF</span>
-<span class="k">      </span><span class="n">old_d</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">old_dist</span><span class="p">)</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">dense</span><span class="p">(</span><span class="n">n_new_bins</span><span class="p">))</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">array_size</span><span class="p">(</span><span class="n">old_dist</span><span class="p">)))</span>
-      <span class="c">!</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">nsubdist</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">dense</span><span class="p">(:)</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_new_bins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">)</span>
-         <span class="n">map</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">old_d</span><span class="p">(:)</span> <span class="o">+</span> <span class="mi">1</span>
-      <span class="k">ELSE</span>
-<span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nbins</span>
-            <span class="n">dense</span><span class="p">((</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">nsubdist</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">nsubdist</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
-         <span class="k">ENDDO</span>
-<span class="k">         </span><span class="n">map</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">old_d</span><span class="p">(:)</span><span class="o">*</span><span class="n">nsubdist</span> <span class="o">+</span> <span class="n">subdist</span><span class="p">(:)</span> <span class="o">+</span> <span class="mi">1</span>
-      <span class="k">ENDIF</span>
-      <span class="c">!</span>
-      <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dense_dist</span><span class="p">,</span> <span class="n">dense</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-      <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist_map</span><span class="p">,</span> <span class="n">map</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_1dist_dense</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nsubdist</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">n_new_bins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nbins</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">n_new_bins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nbins</span><span class="o">*</span><span class="n">nsubdist</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">old_d</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">old_dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">dense</span><span class="p">(</span><span class="n">n_new_bins</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">array_size</span><span class="p">(</span><span class="n">old_dist</span><span class="p">)))</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nsubdist</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">dense</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">n_new_bins</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">map</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_d</span><span class="p">(:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nbins</span><span class="w"></span>
+<span class="w">            </span><span class="n">dense</span><span class="p">((</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">nsubdist</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">nsubdist</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDDO</span>
+<span class="k">         </span><span class="n">map</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_d</span><span class="p">(:)</span><span class="o">*</span><span class="n">nsubdist</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">subdist</span><span class="p">(:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDIF</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dense_dist</span><span class="p">,</span><span class="w"> </span><span class="n">dense</span><span class="p">,</span><span class="w"> </span><span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist_map</span><span class="p">,</span><span class="w"> </span><span class="n">map</span><span class="p">,</span><span class="w"> </span><span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_1dist_dense</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -445,7 +445,7 @@ Map from current to dense distribution</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

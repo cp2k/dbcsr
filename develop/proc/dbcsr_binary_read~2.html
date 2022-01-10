@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -354,14 +354,14 @@ public subroutine dbcsr_binary_read(filepath, distribution, groupid, matrix_new)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_binary_read</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">groupid</span><span class="p">,</span> <span class="n">matrix_new</span><span class="p">)</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">filepath</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">distribution</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">groupid</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix_new</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_binary_read</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="w"> </span><span class="n">distribution</span><span class="p">,</span><span class="w"> </span><span class="n">groupid</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_new</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">filepath</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">distribution</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">groupid</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_new</span><span class="w"></span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_binary_read_prv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">distribution</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">groupid</span><span class="p">,</span> <span class="n">matrix_new</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_binary_read</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_binary_read_prv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="w"> </span><span class="n">distribution</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">groupid</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_new</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_binary_read</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -377,7 +377,7 @@ public subroutine dbcsr_binary_read(filepath, distribution, groupid, matrix_new)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -335,17 +335,17 @@ public function dbcsr_memtype_equal(mt1, mt2) result(res)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">dbcsr_memtype_equal</span><span class="p">(</span><span class="n">mt1</span><span class="p">,</span> <span class="n">mt2</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-      <span class="c">!! Test if two memtypes are equal</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">mt1</span><span class="p">,</span> <span class="n">mt2</span>
-      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">res</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">FUNCTION </span><span class="n">dbcsr_memtype_equal</span><span class="p">(</span><span class="n">mt1</span><span class="p">,</span><span class="w"> </span><span class="n">mt2</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Test if two memtypes are equal</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">mt1</span><span class="p">,</span><span class="w"> </span><span class="n">mt2</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="w"></span>
 
-      <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">mpi</span> <span class="p">.</span><span class="n">EQV</span><span class="p">.</span> <span class="n">mt2</span><span class="p">%</span><span class="n">mpi</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-            <span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">acc_hostalloc</span> <span class="p">.</span><span class="n">EQV</span><span class="p">.</span> <span class="n">mt2</span><span class="p">%</span><span class="n">acc_hostalloc</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-            <span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">acc_devalloc</span> <span class="p">.</span><span class="n">EQV</span><span class="p">.</span> <span class="n">mt2</span><span class="p">%</span><span class="n">acc_devalloc</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-            <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span> <span class="p">.</span><span class="n">EQV</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mt2</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-            <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span> <span class="n">mt2</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span>
-   <span class="k">END FUNCTION </span><span class="n">dbcsr_memtype_equal</span>
+<span class="w">      </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">mpi</span><span class="w"> </span><span class="p">.</span><span class="n">EQV</span><span class="p">.</span><span class="w"> </span><span class="n">mt2</span><span class="p">%</span><span class="n">mpi</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">acc_hostalloc</span><span class="w"> </span><span class="p">.</span><span class="n">EQV</span><span class="p">.</span><span class="w"> </span><span class="n">mt2</span><span class="p">%</span><span class="n">acc_hostalloc</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">acc_devalloc</span><span class="w"> </span><span class="p">.</span><span class="n">EQV</span><span class="p">.</span><span class="w"> </span><span class="n">mt2</span><span class="p">%</span><span class="n">acc_devalloc</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQV</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mt2</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mt1</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="n">mt2</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="k">END FUNCTION </span><span class="n">dbcsr_memtype_equal</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -361,7 +361,7 @@ public function dbcsr_memtype_equal(mt1, mt2) result(res)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

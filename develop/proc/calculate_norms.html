@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -357,51 +357,51 @@ Rewritten to be very low-level.</p>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">calculate_norms</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">norms</span><span class="p">,</span> <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span><span class="p">)</span>
-      <span class="c">!! Calculates per-block norms.</span>
-      <span class="c">!! Rewritten to be very low-level.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">calculate_norms</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">norms</span><span class="p">,</span><span class="w"> </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_sizes</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Calculates per-block norms.</span>
+<span class="w">      </span><span class="c">!! Rewritten to be very low-level.</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix</span>
-         <span class="c">!! DBCSR matrix for which to calculate norms</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">norms</span>
-         <span class="c">!! Block norms</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! DBCSR matrix for which to calculate norms</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">norms</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Block norms</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_sizes</span><span class="w"></span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;calculate_norms&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;calculate_norms&#39;</span><span class="w"></span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">nblks</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
-      <span class="c">! Checks for validity</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;The matrix must be valid.&quot;</span><span class="p">)</span>
-      <span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-      <span class="n">nblks</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span>
-      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
-         <span class="k">CALL </span><span class="n">calc_norms_s</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
-         <span class="k">CALL </span><span class="n">calc_norms_d</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">dbcsr_get_data_p_d</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
-         <span class="k">CALL </span><span class="n">calc_norms_c</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">dbcsr_get_data_p_c</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
-         <span class="k">CALL </span><span class="n">calc_norms_z</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">dbcsr_get_data_p_z</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span>
-      <span class="k">CASE </span><span class="n">DEFAULT</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span>
-      <span class="k">END SELECT</span>
-      <span class="c">!</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">calculate_norms</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Checks for validity</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;The matrix must be valid.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span><span class="w"></span>
+<span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">calc_norms_s</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">calc_norms_d</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">dbcsr_get_data_p_d</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">calc_norms_c</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">dbcsr_get_data_p_c</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">calc_norms_z</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">dbcsr_get_data_p_z</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE </span><span class="n">DEFAULT</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SELECT</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">calculate_norms</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -417,7 +417,7 @@ Rewritten to be very low-level.</p>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

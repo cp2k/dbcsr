@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -437,35 +437,35 @@ whether the block was found</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">PURE SUBROUTINE </span><span class="n">dbcsr_get_block_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">,</span> <span class="p">&amp;</span>
-                                         <span class="n">stored_column</span><span class="p">,</span> <span class="nb">transpose</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">block_number</span><span class="p">,</span> <span class="n">data_offset</span><span class="p">)</span>
-      <span class="c">!! Looks up a block&#39;s index given logical coordinates.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">PURE SUBROUTINE </span><span class="n">dbcsr_get_block_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">stored_column</span><span class="p">,</span><span class="w"> </span><span class="nb">transpose</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">block_number</span><span class="p">,</span><span class="w"> </span><span class="n">data_offset</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Looks up a block&#39;s index given logical coordinates.</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix</span>
-         <span class="c">!! DBCSR matrix</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">row</span><span class="p">,</span> <span class="n">column</span>
-         <span class="c">!! logical row</span>
-         <span class="c">!! logical column</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_column</span>
-         <span class="c">!! row where block is actually stored</span>
-         <span class="c">!! column where block is actually stored</span>
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="nb">transpose</span><span class="p">,</span> <span class="n">found</span>
-         <span class="c">!! whether the data must be transposed</span>
-         <span class="c">!! whether the block was found</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">block_number</span>
-         <span class="c">!! returns the block number of the row and column</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">data_offset</span>
-         <span class="c">!! data offset for the block; 0 if nonexistent</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! DBCSR matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! logical row</span>
+<span class="w">         </span><span class="c">!! logical column</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_column</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! row where block is actually stored</span>
+<span class="w">         </span><span class="c">!! column where block is actually stored</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="nb">transpose</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! whether the data must be transposed</span>
+<span class="w">         </span><span class="c">!! whether the block was found</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">block_number</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! returns the block number of the row and column</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">data_offset</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! data offset for the block; 0 if nonexistent</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="n">stored_row</span> <span class="o">=</span> <span class="n">row</span>
-      <span class="n">stored_column</span> <span class="o">=</span> <span class="n">column</span>
-      <span class="nb">transpose</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="k">CALL </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_column</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_get_stored_block_info</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_column</span><span class="p">,</span> <span class="p">&amp;</span>
-                                       <span class="n">found</span><span class="p">,</span> <span class="n">block_number</span><span class="p">,</span> <span class="n">data_offset</span><span class="o">=</span><span class="n">data_offset</span><span class="p">,</span> <span class="n">transposed</span><span class="o">=</span><span class="nb">transpose</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_block_index</span>
+<span class="w">      </span><span class="n">stored_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="w"></span>
+<span class="w">      </span><span class="n">stored_column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="w"></span>
+<span class="w">      </span><span class="nb">transpose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_column</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_get_stored_block_info</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_column</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">block_number</span><span class="p">,</span><span class="w"> </span><span class="n">data_offset</span><span class="o">=</span><span class="n">data_offset</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="o">=</span><span class="nb">transpose</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_block_index</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -481,7 +481,7 @@ whether the block was found</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

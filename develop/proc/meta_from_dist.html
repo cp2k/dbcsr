@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -358,51 +358,51 @@ column block sizes</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">meta_from_dist</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">row_blk_size</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">)</span>
-      <span class="c">!! Fills meta information from a given distribution_2d</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">meta_from_dist</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span><span class="w"> </span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">row_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Fills meta information from a given distribution_2d</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_meta_size</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">meta</span>
-         <span class="c">!! meta information array to fill</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">dist</span>
-         <span class="c">!! processor distribution</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">row_blk_size</span><span class="p">,</span> <span class="n">col_blk_size</span>
-         <span class="c">!! row block sizes</span>
-         <span class="c">!! column block sizes</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_meta_size</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">meta</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! meta information array to fill</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! processor distribution</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">row_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_size</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! row block sizes</span>
+<span class="w">         </span><span class="c">!! column block sizes</span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">nfullcols_local</span><span class="p">,</span> <span class="n">nfullcols_total</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                            <span class="n">nfullrows_local</span><span class="p">,</span> <span class="n">nfullrows_total</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">blkcols_local</span><span class="p">,</span> <span class="n">blkrows_local</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">nfullcols_local</span><span class="p">,</span><span class="w"> </span><span class="n">nfullcols_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">nfullrows_local</span><span class="p">,</span><span class="w"> </span><span class="n">nfullrows_total</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">blkcols_local</span><span class="p">,</span><span class="w"> </span><span class="n">blkrows_local</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="n">blkrows_local</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-      <span class="n">blkcols_local</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_local_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-      <span class="n">nfullrows_total</span> <span class="o">=</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">)</span>
-      <span class="n">nfullcols_total</span> <span class="o">=</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">)</span>
-      <span class="n">nfullrows_local</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">nfullcols_local</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_distribution_nlocal_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-         <span class="n">nfullrows_local</span> <span class="o">=</span> <span class="n">nfullrows_local</span> <span class="o">+</span> <span class="n">row_blk_size</span><span class="p">(</span><span class="n">blkrows_local</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-      <span class="k">ENDDO</span>
-<span class="k">      DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_distribution_nlocal_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-         <span class="n">nfullcols_local</span> <span class="o">=</span> <span class="n">nfullcols_local</span> <span class="o">+</span> <span class="n">col_blk_size</span><span class="p">(</span><span class="n">blkcols_local</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-      <span class="k">ENDDO</span>
-<span class="k">      </span><span class="n">meta</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">meta</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-      <span class="n">meta</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_distribution_ncols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-      <span class="n">meta</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">=</span> <span class="n">nfullrows_total</span>
-      <span class="n">meta</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">=</span> <span class="n">nfullcols_total</span>
-      <span class="n">meta</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nlocal_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-      <span class="n">meta</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nlocal_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-      <span class="n">meta</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">=</span> <span class="n">nfullrows_local</span>
-      <span class="n">meta</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">=</span> <span class="n">nfullcols_local</span>
-      <span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_prow</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_mp_myprow</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
-      <span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_rowi</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-      <span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_pcol</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
-      <span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_coli</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-      <span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_vprow</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-      <span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_vpcol</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-   <span class="k">END SUBROUTINE </span><span class="n">meta_from_dist</span>
+<span class="w">      </span><span class="n">blkrows_local</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">blkcols_local</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_distribution_local_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">nfullrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SUM</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">nfullcols_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SUM</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">nfullrows_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">nfullcols_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_distribution_nlocal_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">nfullrows_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfullrows_local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_blk_size</span><span class="p">(</span><span class="n">blkrows_local</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDDO</span>
+<span class="k">      DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_distribution_nlocal_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">nfullcols_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfullcols_local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_blk_size</span><span class="p">(</span><span class="n">blkcols_local</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ENDDO</span>
+<span class="k">      </span><span class="n">meta</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_ncols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfullrows_total</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfullcols_total</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_nlocal_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_nlocal_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfullrows_local</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfullcols_local</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_prow</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_myprow</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_rowi</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_pcol</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_mypcol</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_coli</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_vprow</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_home_vpcol</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">meta_from_dist</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -418,7 +418,7 @@ column block sizes</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

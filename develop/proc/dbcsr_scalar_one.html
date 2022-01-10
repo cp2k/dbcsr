@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -320,26 +320,26 @@ public elemental function dbcsr_scalar_one(data_type) result(one)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">one</span><span class="p">)</span>
-      <span class="c">!! Returns an encapsulated scalar &quot;1&quot;</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">one</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Returns an encapsulated scalar &quot;1&quot;</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">data_type</span>
-         <span class="c">!! use the data type</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">one</span>
-         <span class="c">!! encapsulated value of one</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! use the data type</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">one</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! encapsulated value of one</span>
 
-      <span class="n">one</span> <span class="o">=</span> <span class="n">dbcsr_scalar_zero</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
-      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
-         <span class="n">one</span><span class="p">%</span><span class="n">r_sp</span> <span class="o">=</span> <span class="mf">1.0_real_4</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
-         <span class="n">one</span><span class="p">%</span><span class="n">r_dp</span> <span class="o">=</span> <span class="mf">1.0_real_8</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
-         <span class="n">one</span><span class="p">%</span><span class="n">c_sp</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">real_4</span><span class="p">)</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
-         <span class="n">one</span><span class="p">%</span><span class="n">c_dp</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span>
-      <span class="k">END SELECT</span>
-<span class="k">   END FUNCTION </span><span class="n">dbcsr_scalar_one</span>
+<span class="w">      </span><span class="n">one</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_scalar_zero</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">one</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_real_4</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">one</span><span class="p">%</span><span class="n">r_dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_real_8</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">one</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">CMPLX</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">one</span><span class="p">%</span><span class="n">c_dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">CMPLX</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SELECT</span>
+<span class="k">   END FUNCTION </span><span class="n">dbcsr_scalar_one</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -355,7 +355,7 @@ public elemental function dbcsr_scalar_one(data_type) result(one)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

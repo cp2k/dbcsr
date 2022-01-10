@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -599,159 +599,159 @@ Make columns dense</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_make_dense_low</span><span class="p">(</span><span class="n">und_matrix</span><span class="p">,</span> <span class="n">dense_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">und_local_rows</span><span class="p">,</span> <span class="n">und_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">und_row_blk_offsets</span><span class="p">,</span> <span class="n">und_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">dense_local_rows</span><span class="p">,</span> <span class="n">dense_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">dense_row_blk_offsets</span><span class="p">,</span> <span class="n">dense_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">row_map</span><span class="p">,</span> <span class="n">col_map</span><span class="p">,</span> <span class="n">join_rows</span><span class="p">,</span> <span class="n">join_cols</span><span class="p">)</span>
-      <span class="c">!! Copies a matrix and makes its data dense.</span>
-      <span class="c">!! @note the dense_matrix must have been created</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_make_dense_low</span><span class="p">(</span><span class="n">und_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dense_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">und_local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">und_local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">und_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">und_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">dense_local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">dense_local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">dense_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">dense_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="p">,</span><span class="w"> </span><span class="n">join_rows</span><span class="p">,</span><span class="w"> </span><span class="n">join_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Copies a matrix and makes its data dense.</span>
+<span class="w">      </span><span class="c">!! @note the dense_matrix must have been created</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">und_matrix</span>
-         <span class="c">!! Original non-dense matrix</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">dense_matrix</span>
-         <span class="c">!! Dense copy of und_matrix</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">und_local_rows</span><span class="p">,</span> <span class="n">und_local_cols</span><span class="p">,</span> <span class="n">und_row_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                                           <span class="n">und_col_blk_offsets</span><span class="p">,</span> <span class="n">dense_local_rows</span><span class="p">,</span> <span class="n">dense_local_cols</span><span class="p">,</span> <span class="n">dense_row_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                                           <span class="n">dense_col_blk_offsets</span><span class="p">,</span> <span class="n">row_map</span><span class="p">,</span> <span class="n">col_map</span>
-         <span class="c">!! The process-grid local rows of the non-dense und_matrix</span>
-         <span class="c">!! The process-grid local columns of the non-dense und_matrix</span>
-         <span class="c">!! The block offsets of the rows of the non-dense matrix</span>
-         <span class="c">!! The block offsets of the columns of the non-dense matrix</span>
-         <span class="c">!! The process-grid local rows of the dense matrix</span>
-         <span class="c">!! The process-grid local columns of the dense matrix</span>
-         <span class="c">!! The block offsets of the rows of the dense matrix</span>
-         <span class="c">!! The block offsets of the columns of the dense matrix</span>
-         <span class="c">!! Mapping of non-dense rows to dense rows</span>
-         <span class="c">!! Mapping of non-dense columns to dense columns</span>
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">join_rows</span><span class="p">,</span> <span class="n">join_cols</span>
-         <span class="c">!! Make rows dense</span>
-         <span class="c">!! Make columns dense</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">und_matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Original non-dense matrix</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">dense_matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Dense copy of und_matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">und_local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">und_local_cols</span><span class="p">,</span><span class="w"> </span><span class="n">und_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">und_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">dense_local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">dense_local_cols</span><span class="p">,</span><span class="w"> </span><span class="n">dense_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">dense_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! The process-grid local rows of the non-dense und_matrix</span>
+<span class="w">         </span><span class="c">!! The process-grid local columns of the non-dense und_matrix</span>
+<span class="w">         </span><span class="c">!! The block offsets of the rows of the non-dense matrix</span>
+<span class="w">         </span><span class="c">!! The block offsets of the columns of the non-dense matrix</span>
+<span class="w">         </span><span class="c">!! The process-grid local rows of the dense matrix</span>
+<span class="w">         </span><span class="c">!! The process-grid local columns of the dense matrix</span>
+<span class="w">         </span><span class="c">!! The block offsets of the rows of the dense matrix</span>
+<span class="w">         </span><span class="c">!! The block offsets of the columns of the dense matrix</span>
+<span class="w">         </span><span class="c">!! Mapping of non-dense rows to dense rows</span>
+<span class="w">         </span><span class="c">!! Mapping of non-dense columns to dense columns</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">join_rows</span><span class="p">,</span><span class="w"> </span><span class="n">join_cols</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Make rows dense</span>
+<span class="w">         </span><span class="c">!! Make columns dense</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_make_dense_low&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_make_dense_low&#39;</span><span class="w"></span>
 
-      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">dense_nblkcols_local</span><span class="p">,</span> <span class="n">dense_nblkcols_total</span><span class="p">,</span> <span class="n">dense_nblkrows_local</span><span class="p">,</span> <span class="p">&amp;</span>
-                 <span class="n">dense_nblkrows_total</span><span class="p">,</span> <span class="n">dense_nlocal_blocks</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">nfullcols</span><span class="p">,</span> <span class="n">nfullrows</span><span class="p">,</span> <span class="p">&amp;</span>
-                 <span class="n">und_nblkcols_total</span><span class="p">,</span> <span class="n">und_nblkrows_total</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">col_internal_offsets</span><span class="p">,</span> <span class="n">dense_local_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                                            <span class="n">dense_local_row_blk_offsets</span><span class="p">,</span> <span class="n">row_internal_offsets</span><span class="p">,</span> <span class="n">und_local_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                                            <span class="n">und_local_row_blk_offsets</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_meta_size</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">meta</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">dense_data</span><span class="p">,</span> <span class="n">und_data</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dense_nblkcols_local</span><span class="p">,</span><span class="w"> </span><span class="n">dense_nblkcols_total</span><span class="p">,</span><span class="w"> </span><span class="n">dense_nblkrows_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                 </span><span class="n">dense_nblkrows_total</span><span class="p">,</span><span class="w"> </span><span class="n">dense_nlocal_blocks</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">nfullcols</span><span class="p">,</span><span class="w"> </span><span class="n">nfullrows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                 </span><span class="n">und_nblkcols_total</span><span class="p">,</span><span class="w"> </span><span class="n">und_nblkrows_total</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">col_internal_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">dense_local_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="n">dense_local_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">row_internal_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">und_local_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="n">und_local_row_blk_offsets</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_meta_size</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">meta</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">dense_data</span><span class="p">,</span><span class="w"> </span><span class="n">und_data</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="n">nfullrows</span> <span class="o">=</span> <span class="n">nfull_elements</span><span class="p">(</span><span class="n">und_row_blk_offsets</span><span class="p">,</span> <span class="n">und_local_rows</span><span class="p">)</span>
-      <span class="n">nfullcols</span> <span class="o">=</span> <span class="n">nfull_elements</span><span class="p">(</span><span class="n">und_col_blk_offsets</span><span class="p">,</span> <span class="n">und_local_cols</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="n">und_nblkrows_total</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">und_row_blk_offsets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-      <span class="n">und_nblkcols_total</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">und_col_blk_offsets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-      <span class="c">!</span>
-      <span class="c">! Find the local data offsets (but indexed by the global</span>
-      <span class="c">! rows/columns) for the undense data.</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">und_local_row_blk_offsets</span><span class="p">(</span><span class="n">und_nblkrows_total</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">und_local_col_blk_offsets</span><span class="p">(</span><span class="n">und_nblkcols_total</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-      <span class="k">CALL </span><span class="n">global_offsets_to_local</span><span class="p">(</span> <span class="p">&amp;</span>
-         <span class="n">und_row_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">und_local_rows</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">und_local_row_blk_offsets</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">global_offsets_to_local</span><span class="p">(</span> <span class="p">&amp;</span>
-         <span class="n">und_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">und_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">und_local_col_blk_offsets</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="n">dense_nblkrows_total</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dense_row_blk_offsets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-      <span class="n">dense_nblkcols_total</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dense_col_blk_offsets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-      <span class="n">dense_nblkrows_local</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dense_local_rows</span><span class="p">)</span>
-      <span class="n">dense_nblkcols_local</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dense_local_cols</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="c">! Find the local data offsets (but indexed by the (dense) global</span>
-      <span class="c">! rows/columns) for the dense data.</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">dense_local_row_blk_offsets</span><span class="p">(</span><span class="n">dense_nblkrows_total</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">dense_local_col_blk_offsets</span><span class="p">(</span><span class="n">dense_nblkcols_total</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-      <span class="k">CALL </span><span class="n">global_offsets_to_local</span><span class="p">(</span> <span class="p">&amp;</span>
-         <span class="n">dense_row_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">dense_local_rows</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">dense_local_row_blk_offsets</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">global_offsets_to_local</span><span class="p">(</span> <span class="p">&amp;</span>
-         <span class="n">dense_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">dense_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">dense_local_col_blk_offsets</span><span class="p">)</span>
-      <span class="c">! Find the offset of blocks within dense rows/columns.  This is needed</span>
-      <span class="c">! since the blocked rows/columns are not necessarily in the same order.</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_internal_offsets</span><span class="p">(</span><span class="n">und_nblkrows_total</span><span class="p">))</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">col_internal_offsets</span><span class="p">(</span><span class="n">und_nblkcols_total</span><span class="p">))</span>
-      <span class="k">CALL </span><span class="n">get_internal_offsets</span><span class="p">(</span> <span class="p">&amp;</span>
-         <span class="n">und_local_rows</span><span class="p">,</span> <span class="n">row_map</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">und_local_row_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">dense_local_row_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">row_internal_offsets</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">get_internal_offsets</span><span class="p">(</span> <span class="p">&amp;</span>
-         <span class="n">und_local_cols</span><span class="p">,</span> <span class="n">col_map</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">und_local_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">dense_local_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">col_internal_offsets</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="n">und_data</span> <span class="o">=</span> <span class="n">und_matrix</span><span class="p">%</span><span class="n">data_area</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_hold</span><span class="p">(</span><span class="n">und_data</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">dense_data</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">dense_data</span><span class="p">,</span> <span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">und_data</span><span class="p">),</span> <span class="p">&amp;</span>
-                          <span class="n">data_size</span><span class="o">=</span><span class="n">nfullrows</span><span class="o">*</span><span class="n">nfullcols</span><span class="p">,</span> <span class="p">&amp;</span>
-                          <span class="n">memory_type</span><span class="o">=</span><span class="n">dbcsr_data_get_memory_type</span><span class="p">(</span><span class="n">und_data</span><span class="p">))</span>
-      <span class="c">!</span>
-      <span class="c">! Reshuffle the data</span>
-      <span class="k">CALL </span><span class="n">make_dense_data</span><span class="p">(</span><span class="n">und_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">dense_data</span><span class="p">,</span> <span class="n">nfullrows</span><span class="p">,</span> <span class="n">nfullcols</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">und_local_row_blk_offsets</span><span class="p">,</span> <span class="n">und_local_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">dense_local_row_blk_offsets</span><span class="p">,</span> <span class="n">dense_local_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">row_map</span><span class="o">=</span><span class="n">row_map</span><span class="p">,</span> <span class="n">col_map</span><span class="o">=</span><span class="n">col_map</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">row_internal_offsets</span><span class="o">=</span><span class="n">row_internal_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">col_internal_offsets</span><span class="o">=</span><span class="n">col_internal_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">join_rows</span><span class="o">=</span><span class="n">join_rows</span><span class="p">,</span> <span class="n">join_cols</span><span class="o">=</span><span class="n">join_cols</span><span class="p">,</span> <span class="n">make_tr</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_switch_data_area</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span> <span class="n">dense_data</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">dense_data</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">und_data</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="c">! Create the new dense index.</span>
-      <span class="n">dense_nlocal_blocks</span> <span class="o">=</span> <span class="n">dense_nblkrows_local</span><span class="o">*</span><span class="n">dense_nblkcols_local</span>
-      <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">dbcsr_slot_row_p</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">reservation</span><span class="o">=</span><span class="n">dense_nblkrows_total</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">dense_nlocal_blocks</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">dbcsr_slot_col_i</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">reservation</span><span class="o">=</span><span class="n">dense_nlocal_blocks</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">dbcsr_slot_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
-                                   <span class="n">reservation</span><span class="o">=</span><span class="n">dense_nlocal_blocks</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="n">meta</span> <span class="o">=</span> <span class="n">dense_matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">dbcsr_meta_size</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_pack_meta</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
-      <span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">nfullrows</span><span class="o">*</span><span class="n">nfullcols</span>
-      <span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nblks</span><span class="p">)</span> <span class="o">=</span> <span class="n">dense_nlocal_blocks</span>
-      <span class="k">CALL </span><span class="n">make_dense_index</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">,</span> <span class="p">&amp;</span>
-                            <span class="n">dense_matrix</span><span class="p">%</span><span class="n">col_i</span><span class="p">,</span> <span class="p">&amp;</span>
-                            <span class="n">dense_matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
-                            <span class="n">dense_nblkrows_total</span><span class="p">,</span> <span class="n">dense_nblkcols_total</span><span class="p">,</span> <span class="p">&amp;</span>
-                            <span class="n">dense_local_rows</span><span class="p">,</span> <span class="p">&amp;</span>
-                            <span class="n">dense_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
-                            <span class="n">dense_local_row_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                            <span class="n">dense_local_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
-                            <span class="n">make_tr</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
-                            <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_unpack_meta</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">und_local_row_blk_offsets</span><span class="p">)</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">und_local_col_blk_offsets</span><span class="p">)</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">dense_local_row_blk_offsets</span><span class="p">)</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">dense_local_col_blk_offsets</span><span class="p">)</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">row_internal_offsets</span><span class="p">)</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">col_internal_offsets</span><span class="p">)</span>
-      <span class="c">!</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_dense_low</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="n">nfullrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfull_elements</span><span class="p">(</span><span class="n">und_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">und_local_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">nfullcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfull_elements</span><span class="p">(</span><span class="n">und_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">und_local_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="n">und_nblkrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">und_row_blk_offsets</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">und_nblkcols_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">und_col_blk_offsets</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! Find the local data offsets (but indexed by the global</span>
+<span class="w">      </span><span class="c">! rows/columns) for the undense data.</span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">und_local_row_blk_offsets</span><span class="p">(</span><span class="n">und_nblkrows_total</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">und_local_col_blk_offsets</span><span class="p">(</span><span class="n">und_nblkcols_total</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">global_offsets_to_local</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_local_rows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_local_row_blk_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">global_offsets_to_local</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_local_col_blk_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="n">dense_nblkrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">dense_row_blk_offsets</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">dense_nblkcols_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">dense_col_blk_offsets</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">dense_nblkrows_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">dense_local_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">dense_nblkcols_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">dense_local_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! Find the local data offsets (but indexed by the (dense) global</span>
+<span class="w">      </span><span class="c">! rows/columns) for the dense data.</span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">dense_local_row_blk_offsets</span><span class="p">(</span><span class="n">dense_nblkrows_total</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">dense_local_col_blk_offsets</span><span class="p">(</span><span class="n">dense_nblkcols_total</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">global_offsets_to_local</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">dense_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">dense_local_rows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">dense_local_row_blk_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">global_offsets_to_local</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">dense_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">dense_local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">dense_local_col_blk_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Find the offset of blocks within dense rows/columns.  This is needed</span>
+<span class="w">      </span><span class="c">! since the blocked rows/columns are not necessarily in the same order.</span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">row_internal_offsets</span><span class="p">(</span><span class="n">und_nblkrows_total</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">col_internal_offsets</span><span class="p">(</span><span class="n">und_nblkcols_total</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">get_internal_offsets</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_local_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">dense_local_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">row_internal_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">get_internal_offsets</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_local_cols</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">und_local_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">dense_local_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">col_internal_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="n">und_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">und_matrix</span><span class="p">%</span><span class="n">data_area</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_hold</span><span class="p">(</span><span class="n">und_data</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">dense_data</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">dense_data</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">und_data</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="n">data_size</span><span class="o">=</span><span class="n">nfullrows</span><span class="o">*</span><span class="n">nfullcols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="n">memory_type</span><span class="o">=</span><span class="n">dbcsr_data_get_memory_type</span><span class="p">(</span><span class="n">und_data</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! Reshuffle the data</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">make_dense_data</span><span class="p">(</span><span class="n">und_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">dense_data</span><span class="p">,</span><span class="w"> </span><span class="n">nfullrows</span><span class="p">,</span><span class="w"> </span><span class="n">nfullcols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">und_local_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">und_local_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">dense_local_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">dense_local_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">row_map</span><span class="o">=</span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="o">=</span><span class="n">col_map</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">row_internal_offsets</span><span class="o">=</span><span class="n">row_internal_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">col_internal_offsets</span><span class="o">=</span><span class="n">col_internal_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">join_rows</span><span class="o">=</span><span class="n">join_rows</span><span class="p">,</span><span class="w"> </span><span class="n">join_cols</span><span class="o">=</span><span class="n">join_cols</span><span class="p">,</span><span class="w"> </span><span class="n">make_tr</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_switch_data_area</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dense_data</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">dense_data</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">und_data</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! Create the new dense index.</span>
+<span class="w">      </span><span class="n">dense_nlocal_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dense_nblkrows_local</span><span class="o">*</span><span class="n">dense_nblkcols_local</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">dbcsr_slot_row_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">reservation</span><span class="o">=</span><span class="n">dense_nblkrows_total</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">extra</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">dense_nlocal_blocks</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">dbcsr_slot_col_i</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">reservation</span><span class="o">=</span><span class="n">dense_nlocal_blocks</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">dbcsr_slot_blk_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">reservation</span><span class="o">=</span><span class="n">dense_nlocal_blocks</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="n">meta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dense_matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">dbcsr_meta_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_pack_meta</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">meta</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nze</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfullrows</span><span class="o">*</span><span class="n">nfullcols</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nblks</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dense_nlocal_blocks</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">make_dense_index</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">dense_matrix</span><span class="p">%</span><span class="n">col_i</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">dense_matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">dense_nblkrows_total</span><span class="p">,</span><span class="w"> </span><span class="n">dense_nblkcols_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">dense_local_rows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">dense_local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">dense_local_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">dense_local_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">make_tr</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_unpack_meta</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">meta</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">und_local_row_blk_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">und_local_col_blk_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">dense_local_row_blk_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">dense_local_col_blk_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">row_internal_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">col_internal_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_dense_low</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -767,7 +767,7 @@ Make columns dense</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

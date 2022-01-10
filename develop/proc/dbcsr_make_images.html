@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -386,37 +386,37 @@ private subroutine dbcsr_make_images(source, normalized, target_image_dist, pred
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_make_images</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">normalized</span><span class="p">,</span> <span class="n">target_image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
-                                <span class="n">predistribute</span><span class="p">,</span> <span class="n">no_copy_data</span><span class="p">,</span> <span class="n">scale_value</span><span class="p">)</span>
-      <span class="c">!! Creates row and column images of a matrix.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_make_images</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">normalized</span><span class="p">,</span><span class="w"> </span><span class="n">target_image_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">predistribute</span><span class="p">,</span><span class="w"> </span><span class="n">no_copy_data</span><span class="p">,</span><span class="w"> </span><span class="n">scale_value</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Creates row and column images of a matrix.</span>
 
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">source</span>
-         <span class="c">!! input matrix</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">normalized</span>
-         <span class="c">!! image array of the normalized matrix</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">target_image_dist</span>
-         <span class="c">!! normalize to this image distribution</span>
-      <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                    <span class="kd">::</span> <span class="n">predistribute</span>
-         <span class="c">!! predistribute data for multiplication</span>
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">no_copy_data</span>
-         <span class="c">!! try to not merge data at the end</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>      <span class="kd">::</span> <span class="n">scale_value</span>
-         <span class="c">!! scale with this value</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! input matrix</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">normalized</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! image array of the normalized matrix</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">target_image_dist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! normalize to this image distribution</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">predistribute</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! predistribute data for multiplication</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">no_copy_data</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! try to not merge data at the end</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">scale_value</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! scale with this value</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;RMA algo not supported here!&quot;</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">source</span><span class="p">))</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrix not initialized.&quot;</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">make_images</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">normalized</span><span class="p">,</span> <span class="p">&amp;</span>
-                       <span class="n">target_image_dist</span><span class="p">,</span> <span class="n">desymmetrize</span><span class="o">=</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">source</span><span class="p">),</span> <span class="p">&amp;</span>
-                       <span class="n">predistribute</span><span class="o">=</span><span class="n">predistribute</span><span class="p">,</span> <span class="p">&amp;</span>
-                       <span class="n">no_copy_data</span><span class="o">=</span><span class="n">no_copy_data</span><span class="p">,</span> <span class="p">&amp;</span>
-                       <span class="n">scale_value</span><span class="o">=</span><span class="n">scale_value</span><span class="p">)</span>
-      <span class="n">normalized</span><span class="p">%</span><span class="n">image_dist</span> <span class="o">=</span> <span class="n">target_image_dist</span>
-      <span class="k">CALL </span><span class="n">dbcsr_image_dist_hold</span><span class="p">(</span><span class="n">normalized</span><span class="p">%</span><span class="n">image_dist</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_images</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;RMA algo not supported here!&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrix not initialized.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">make_images</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">normalized</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                       </span><span class="n">target_image_dist</span><span class="p">,</span><span class="w"> </span><span class="n">desymmetrize</span><span class="o">=</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">source</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                       </span><span class="n">predistribute</span><span class="o">=</span><span class="n">predistribute</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                       </span><span class="n">no_copy_data</span><span class="o">=</span><span class="n">no_copy_data</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                       </span><span class="n">scale_value</span><span class="o">=</span><span class="n">scale_value</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">normalized</span><span class="p">%</span><span class="n">image_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target_image_dist</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_image_dist_hold</span><span class="p">(</span><span class="n">normalized</span><span class="p">%</span><span class="n">image_dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_images</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -432,7 +432,7 @@ private subroutine dbcsr_make_images(source, normalized, target_image_dist, pred
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">

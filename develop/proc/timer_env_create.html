@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-22-g1368cea096</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-23-geb1c268873</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -311,23 +311,23 @@ private subroutine timer_env_create(timer_env)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">timer_env_create</span><span class="p">(</span><span class="n">timer_env</span><span class="p">)</span>
-      <span class="c">!! creates a new timer env</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">timer_env</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">timer_env_create</span><span class="p">(</span><span class="n">timer_env</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! creates a new timer env</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">timer_env</span><span class="w"></span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="nb">stat</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
 
-<span class="nb">      </span><span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">timer_env</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timer_env_create: allocation failed&quot;</span><span class="p">)</span>
-      <span class="n">timer_env</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c">! tracing disabled by default</span>
-      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="k">CALL </span><span class="n">dict_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dict_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callgraph</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">list_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">list_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">timer_env_create</span>
+<span class="nb">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">timer_env</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timer_env_create: allocation failed&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">timer_env</span><span class="p">%</span><span class="n">ref_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="c">! tracing disabled by default</span>
+<span class="w">      </span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dict_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dict_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callgraph</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">list_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">list_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">timer_env_create</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -343,7 +343,7 @@ private subroutine timer_env_create(timer_env)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">
