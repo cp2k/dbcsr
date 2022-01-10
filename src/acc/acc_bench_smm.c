@@ -296,7 +296,7 @@ int main(int argc, char* argv[])
     if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
       const size_t size = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
       duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-      printf("copy-in (%i MB): %.1f ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20),
+      printf("copy-in (%i MB): %.2g ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20),
         1000.0 * duration, size / (duration * (1ULL << 30)));
     }
 #endif
@@ -340,10 +340,10 @@ int main(int argc, char* argv[])
     duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
     if (EXIT_SUCCESS == result) {
 # if defined(TRANSPOSE)
-      printf("transpose: %.1f ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * smm_nrepeat),
+      printf("transpose: %.2g ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * smm_nrepeat),
         1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / (duration + transpose));
 # endif
-      printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
+      printf("device: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
         1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
     }
 # if defined(VALIDATE)
@@ -359,7 +359,7 @@ int main(int argc, char* argv[])
       memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
       for (r = 0; r < warmup; ++r) {
         ACC_BENCH_USEOMP(libxsmm_gemm_batch)(
-          LIBXSMM_GEMM_PRECISION(ELEM_TYPE), LIBXSMM_GEMM_PRECISION(ELEM_TYPE),
+          LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE),
           &transa, &transb, m, n, k, &alpha, amat_hst, &m/*lda*/, bmat_hst, &k/*ldb*/,
           &beta, gold_hst, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
           stack_hst + 0, stack_hst + 1, stack_hst + 2, stack_size);
@@ -369,13 +369,13 @@ int main(int argc, char* argv[])
       /* CPU-kernel operates on data that is not initialized in NUMA-aware fashion */
       for (r = 0; r < (nrepeat * smm_nrepeat); ++r) {
         ACC_BENCH_USEOMP(libxsmm_gemm_batch)(
-          LIBXSMM_GEMM_PRECISION(ELEM_TYPE), LIBXSMM_GEMM_PRECISION(ELEM_TYPE),
+          LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE),
           &transa, &transb, m, n, k, &alpha, amat_hst, &m/*lda*/, bmat_hst, &k/*ldb*/,
           &beta, gold_hst, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
           stack_hst + 0, stack_hst + 1, stack_hst + 2, stack_size);
       }
       duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-      printf("host: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
+      printf("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
         1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
       /* validate correctness in case of successful result code/status */
       if (EXIT_SUCCESS == result) {
