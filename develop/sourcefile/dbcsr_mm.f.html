@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-24-g243adfa042</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-25-g18a837be60</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -477,9 +477,9 @@
 <a id="ln-209" name="ln-209" href="#ln-209"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_product_wm</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-210" name="ln-210" href="#ln-210"></a><span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_destruct</span><span class="p">(</span><span class="n">memtype_product_wm</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span><span class="w"></span>
 <a id="ln-211" name="ln-211" href="#ln-211"></a><span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">memtype_product_wm</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
-<a id="ln-212" name="ln-212" href="#ln-212"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">libsmm_acc_finalize</span><span class="p">()</span><span class="w"></span>
-<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="c">!$OMP      BARRIER</span>
-<a id="ln-214" name="ln-214" href="#ln-214"></a><span class="c">!$OMP      MASTER</span>
+<a id="ln-212" name="ln-212" href="#ln-212"></a><span class="c">!$OMP      BARRIER</span>
+<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="c">!$OMP      MASTER</span>
+<a id="ln-214" name="ln-214" href="#ln-214"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">libsmm_acc_finalize</span><span class="p">()</span><span class="w"></span>
 <a id="ln-215" name="ln-215" href="#ln-215"></a><span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">memtype_product_wm</span><span class="p">)</span><span class="w"></span>
 <a id="ln-216" name="ln-216" href="#ln-216"></a>
 <a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">      </span><span class="c">! Deallocate buffers</span>

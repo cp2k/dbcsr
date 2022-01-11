@@ -209,9 +209,9 @@ CONTAINS
       IF (ASSOCIATED(memtype_product_wm(ithread)%p%pool)) &
          CALL dbcsr_mempool_destruct(memtype_product_wm(ithread)%p%pool)
       DEALLOCATE (memtype_product_wm(ithread)%p)
-      IF (has_acc) CALL libsmm_acc_finalize()
 !$OMP      BARRIER
 !$OMP      MASTER
+      IF (has_acc) CALL libsmm_acc_finalize()
       DEALLOCATE (memtype_product_wm)
 
       ! Deallocate buffers
