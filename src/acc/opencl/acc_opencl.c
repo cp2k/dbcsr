@@ -116,7 +116,7 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
 {
   const cl_device_id *const a = (const cl_device_id*)dev_a;
   const cl_device_id *const b = (const cl_device_id*)dev_b;
-  cl_device_type type_a, type_b;
+  cl_device_type type_a = 0, type_b = 0;
   assert(NULL != a && NULL != b && a != b);
   ACC_OPENCL_EXPECT(EXIT_SUCCESS, clGetDeviceInfo(*a,
     CL_DEVICE_TYPE, sizeof(cl_device_type), &type_a, NULL));
@@ -153,7 +153,7 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
       }
       else if (CL_DEVICE_TYPE_CPU & type_b) return 1;
       else {
-        size_t size_a, size_b;
+        size_t size_a = 0, size_b = 0;
         ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a, NULL, NULL));
         ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b, NULL, NULL));
         return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
@@ -582,11 +582,11 @@ int c_dbcsr_acc_opencl_devuid(const char devname[], int* uid)
   result = ('\0' != *devname ? EXIT_SUCCESS : EXIT_FAILURE);
   if (CL_SUCCESS == result) {
     char skip[ACC_OPENCL_BUFFERSIZE];
-    if (2 != sscanf(devname, "%[^[][0x%xi]", skip, uid)) {
-      union { unsigned int u; int i; } hash;
-      hash.u = libxsmm_hash(devname, (unsigned int)strlen(devname), 25071975/*seed*/);
-      *uid = hash.i;
+    union { unsigned int u; int i; } cast;
+    if (2 != sscanf(devname, "%[^[][0x%xi]", skip, &cast.u)) {
+      cast.u = libxsmm_hash(devname, (unsigned int)strlen(devname), 25071975/*seed*/);
     }
+    *uid = cast.i;
   }
   ACC_OPENCL_RETURN(result);
 }
