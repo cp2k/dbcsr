@@ -175,7 +175,7 @@ int c_dbcsr_acc_init(void)
   if (NULL == c_dbcsr_acc_opencl_config.contexts) { /* avoid to initialize multiple times */
     const char *const disable = getenv("ACC_OPENCL_DISABLE");
     if (NULL == disable || '0' == *disable) {
-      cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT];
+      cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT] = { NULL };
       cl_device_id devices[ACC_OPENCL_DEVICES_MAXCOUNT];
       char buffer[ACC_OPENCL_BUFFERSIZE];
       const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE");
