@@ -71,8 +71,13 @@
 # endif
 #endif
 
+#if !defined(ACC_OPENCL_DEBUG) && (defined(_DEBUG) || 0)
+# define ACC_OPENCL_DEBUG
+#endif
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
-# define ACC_OPENCL_STREAM_PRIORITIES
+# if defined(CL_QUEUE_PRIORITY_KHR)
+#   define ACC_OPENCL_STREAM_PRIORITIES
+# endif
 #endif
 #if !defined(ACC_OPENCL_MALLOC_LIBXSMM) && 0
 # define ACC_OPENCL_MALLOC_LIBXSMM
@@ -85,15 +90,16 @@
 # define ACC_OPENCL_DEVMATCH
 #endif
 
-/* can depend on OpenCL implementation */
+/* can depend on OpenCL implementation (unlikely) */
 #if !defined(ACC_OPENCL_MEM_NOALLOC) && 1
 # define ACC_OPENCL_MEM_NOALLOC
 # define ACC_OPENCL_MEM(A) ((cl_mem*)&(A))
 #else
 # define ACC_OPENCL_MEM(A) ((cl_mem*)(A))
 #endif
-/* can depend on OpenCL implementation */
-#if !defined(ACC_OPENCL_STREAM_NOALLOC) && 1
+/* can depend on OpenCL implementation (unlikely) */
+#if !defined(ACC_OPENCL_STREAM_NOALLOC) && \
+    !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
 # define ACC_OPENCL_STREAM_NOALLOC
 # define ACC_OPENCL_STREAM(A) ((cl_command_queue*)&(A))
 #else
@@ -113,7 +119,7 @@
 # define ACC_OPENCL_COMMAND_QUEUE_PROPERTIES cl_int
 #endif
 
-#if defined(_DEBUG)
+#if defined(ACC_OPENCL_DEBUG)
 # define ACC_OPENCL_DEBUG_FPRINTF(STREAM, ...) fprintf(STREAM, __VA_ARGS__)
 # define ACC_OPENCL_DEBUG_IF(CONDITION) if (CONDITION)
 # define ACC_OPENCL_DEBUG_ELSE else
@@ -123,11 +129,7 @@
 # define ACC_OPENCL_DEBUG_ELSE
 #endif
 
-#if defined(NDEBUG)
-# define ACC_OPENCL_EXPECT(EXPECTED, EXPR) (EXPR)
-# define ACC_OPENCL_ERROR(MSG, RESULT)
-# define ACC_OPENCL_RETURN_CAUSE(RESULT, CAUSE) LIBXSMM_UNUSED(CAUSE); return RESULT
-#else
+#if !defined(NDEBUG) || defined(ACC_OPENCL_DEBUG)
 # define ACC_OPENCL_EXPECT(EXPECTED, EXPR) assert((EXPECTED) == (EXPR))
 # define ACC_OPENCL_ERROR(MSG, RESULT) do { \
     assert(CL_SUCCESS == EXIT_SUCCESS); \
@@ -154,6 +156,10 @@
     } \
     return acc_opencl_return_cause_result_; \
   } while (0)
+#else
+# define ACC_OPENCL_EXPECT(EXPECTED, EXPR) (EXPR)
+# define ACC_OPENCL_ERROR(MSG, RESULT)
+# define ACC_OPENCL_RETURN_CAUSE(RESULT, CAUSE) LIBXSMM_UNUSED(CAUSE); return RESULT
 #endif
 #define ACC_OPENCL_RETURN(RESULT) ACC_OPENCL_RETURN_CAUSE(RESULT, NULL)
 
@@ -223,13 +229,20 @@ cl_context c_dbcsr_acc_opencl_context(void);
 /** Share context for given device (start searching at optional thread_id), or return NULL). */
 cl_context c_dbcsr_acc_opencl_device_context(cl_device_id device, const int* thread_id);
 
+/** Information about host-memory pointer (c_dbcsr_acc_host_mem_allocate). */
 typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
   cl_mem buffer;
   void* mapped;
 } c_dbcsr_acc_opencl_info_hostptr_t;
-
-/** Information about host-memory pointer (c_dbcsr_acc_host_mem_allocate). */
 c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory);
+
+/** Information about streams (c_dbcsr_acc_stream_create). */
+typedef struct c_dbcsr_acc_opencl_info_stream_t {
+  void* pointer;
+  int priority;
+} c_dbcsr_acc_opencl_info_stream_t;
+c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream);
+
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
 /** Amount of device memory; local memory is only non-zero if separate from global. */

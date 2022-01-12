@@ -221,8 +221,8 @@ int opencl_libsmm_read_smm_params(char* parambuf,
 {
   const char *const end = parambuf + strlen(parambuf);
   char* s = strtok(parambuf, OPENCL_LIBSMM_PARAMS_DELIMS);
-  int result = EXIT_SUCCESS, i = 0, ivalue, consumed = 0, c = (NULL != device ? 1 : 0);
-  const int opt_consumed = (NULL != perfest ? 1 : 0) + c;
+  int result = EXIT_SUCCESS, i = 0, ivalue, consumed = 0, c = 0;
+  const int opt_consumed = (NULL != perfest ? 1 : 0) + (NULL != device ? 1 : 0);
   const int max_consumed = opt_consumed + 19;
   double gflops;
   assert(NULL != key && NULL != value);
@@ -294,6 +294,7 @@ int opencl_libsmm_read_smm_params(char* parambuf,
       case 20: if (1 == sscanf(s, "%i", &ivalue)) {
         value->ac = ivalue; ++consumed;
       } break;
+      default: s = NULL; /* break */
     }
   }
   if (max_consumed == consumed) {
@@ -326,14 +327,13 @@ int libsmm_acc_init(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = ((0 == omp_in_parallel()
-# if /*WORKAROUND*/defined(__DBCSR_ACC)
-    || 0/*master*/ == omp_get_thread_num()
-# endif
-    ) ? EXIT_SUCCESS : EXIT_FAILURE);
+  int result = ((0 == omp_in_parallel() || 0/*master*/ == omp_get_thread_num())
+    ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
+  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result) ACC_OPENCL_DEBUG_FPRINTF(stderr,
+    "ERROR ACC/OpenCL: libsmm_acc_init called in OpenMP parallel region!\n");
   /* multiple calls to libsmm_acc_init are not considered as an error */
   if (1 == LIBXSMM_ATOMIC_ADD_FETCH(&opencl_libsmm_initialized, 1, LIBXSMM_ATOMIC_RELAXED)) {
 #if !defined(__DBCSR_ACC)
@@ -376,6 +376,7 @@ int libsmm_acc_init(void)
                     ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_devuid(device, &key.devuid));
                   }
                   if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
+                    ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libxsmm_xregister failed!\n");
                     result = EXIT_FAILURE; break;
                   }
                 }
@@ -387,7 +388,10 @@ int libsmm_acc_init(void)
                 }
               }
             }
-            else result = EXIT_FAILURE; /* invalid header */
+            else { /* invalid header */
+              ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: reading %s failed!\n", env_params);
+              result = EXIT_FAILURE;
+            }
             fclose(file);
             control = '1';
           }
@@ -409,6 +413,7 @@ int libsmm_acc_init(void)
               memcpy(buffer, line, len); buffer[len] = '\0';
               if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(buffer, &key, &config, &perfest, NULL)) {
                 if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
+                  ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libxsmm_xregister failed!\n");
                   result = EXIT_FAILURE; break;
                 }
               }
@@ -523,6 +528,8 @@ int libsmm_acc_init(void)
       }
 #endif
     }
+    ACC_OPENCL_DEBUG_ELSE ACC_OPENCL_DEBUG_FPRINTF(stderr,
+      "ERROR ACC/OpenCL: c_dbcsr_acc_init failed!\n");
   }
   ACC_OPENCL_RETURN(result);
 }
@@ -536,14 +543,13 @@ int libsmm_acc_finalize(void)
    */
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = ((0 == omp_in_parallel()
-# if /*WORKAROUND*/defined(__DBCSR_ACC)
-    || 0/*master*/ == omp_get_thread_num()
-# endif
-    ) ? EXIT_SUCCESS : EXIT_FAILURE);
+  int result = ((0 == omp_in_parallel() || 0/*master*/ == omp_get_thread_num())
+    ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
+  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result) ACC_OPENCL_DEBUG_FPRINTF(stderr,
+    "ERROR ACC/OpenCL: libsmm_acc_finalize called in OpenMP parallel region!\n");
   if (0 == LIBXSMM_ATOMIC_SUB_FETCH(&opencl_libsmm_initialized, 1, LIBXSMM_ATOMIC_RELAXED)) {
 #if LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
     LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1159 <= LIBXSMM_VERSION_PATCH
@@ -624,6 +630,8 @@ int libsmm_acc_finalize(void)
      */
     if (EXIT_SUCCESS == result) {
       result = c_dbcsr_acc_finalize();
+      ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result) ACC_OPENCL_DEBUG_FPRINTF(stderr,
+        "ERROR ACC/OpenCL: c_dbcsr_acc_finalize failed!\n");
     }
 #endif
     libxsmm_finalize();
@@ -1386,8 +1394,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 if (NULL != src_kernel) {
                   const long int size = (EXIT_SUCCESS == fseek(
                     src_kernel, 0/*offset*/, SEEK_END) ? ftell(src_kernel) : 0);
-                  char *const src = (char*)(EXIT_SUCCESS == fseek(
-                    src_kernel, 0/*offset*/, SEEK_SET) ? malloc(size + 1/*terminator*/) : NULL);
+                  char *const src = (char*)(EXIT_SUCCESS == fseek(src_kernel, 0/*offset*/, SEEK_SET)
+                    ? libxsmm_aligned_scratch(size + 1/*terminator*/, 0/*auto-align*/) : NULL);
                   if (NULL != src) {
                     if ((size_t)size == fread(src, 1/*sizeof(char)*/, size/*count*/, src_kernel)) {
                       src[size] = '\0';
@@ -1396,7 +1404,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                         extensions, sizeof(extensions) / sizeof(*extensions),
                         &new_config.kernel);
                     }
-                    else free(src);
+                    else libxsmm_free(src);
                   }
                   fclose(src_kernel);
                 }

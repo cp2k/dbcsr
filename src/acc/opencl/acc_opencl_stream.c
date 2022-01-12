@@ -39,6 +39,21 @@ extern "C" {
 int c_dbcsr_acc_opencl_stream_counter;
 
 
+c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream)
+{
+  c_dbcsr_acc_opencl_info_stream_t* result = NULL;
+#if defined(ACC_OPENCL_STREAM_NOALLOC)
+  LIBXSMM_UNUSED(stream);
+#else
+  assert(NULL == stream || sizeof(c_dbcsr_acc_opencl_info_stream_t) <= (uintptr_t)stream);
+  if (NULL != stream) {
+    result = (c_dbcsr_acc_opencl_info_stream_t*)((uintptr_t)stream - sizeof(c_dbcsr_acc_opencl_info_stream_t));
+  }
+#endif
+  return result;
+}
+
+
 int c_dbcsr_acc_opencl_stream_create(int thread_id, cl_command_queue* stream_p,
   const char* name, const ACC_OPENCL_COMMAND_QUEUE_PROPERTIES* properties)
 {
@@ -89,20 +104,34 @@ int c_dbcsr_acc_opencl_stream_create(int thread_id, cl_command_queue* stream_p,
 
 int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
 {
-  int result;
+  int result, tid;
   ACC_OPENCL_COMMAND_QUEUE_PROPERTIES properties[8] = {
     CL_QUEUE_PROPERTIES, 0/*placeholder*/,
     0 /* terminator */
   };
   cl_command_queue queue = NULL;
-#if !defined(ACC_OPENCL_STREAM_PRIORITIES) || !defined(CL_QUEUE_PRIORITY_KHR)
+#if !defined(ACC_OPENCL_STREAM_PRIORITIES)
   LIBXSMM_UNUSED(priority);
 #else
-  if (0 <= priority) {
+  if (CL_QUEUE_PRIORITY_HIGH_KHR <= priority && CL_QUEUE_PRIORITY_LOW_KHR >= priority) {
+    properties[3] = priority;
+  }
+  else {
+    int least = -1, greatest = -1;
+    if (EXIT_SUCCESS == c_dbcsr_acc_stream_priority_range(&least, &greatest)
+      && least != greatest)
+    {
+      properties[3] = (0 == (1 & c_dbcsr_acc_opencl_config.devinfo.flush)
+                         && (NULL != strstr(name, "priority")))
+        ? CL_QUEUE_PRIORITY_HIGH_KHR : CL_QUEUE_PRIORITY_MED_KHR;
+    }
+    else properties[3] = least;
+  }
+  if  (CL_QUEUE_PRIORITY_HIGH_KHR <= properties[3]
+    && CL_QUEUE_PRIORITY_LOW_KHR  >= properties[3])
+  {
+    priority = properties[3]; /* sanitize */
     properties[2] = CL_QUEUE_PRIORITY_KHR;
-    properties[3] = ((  CL_QUEUE_PRIORITY_HIGH_KHR <= priority
-                      && CL_QUEUE_PRIORITY_LOW_KHR >= priority)
-      ? priority : CL_QUEUE_PRIORITY_MED_KHR);
     properties[4] = 0; /* terminator */
   }
 #endif
@@ -113,7 +142,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
   }
 #if defined(_OPENMP)
   if (1 < omp_get_num_threads()) {
-    int c, tid;
+    int c;
     assert(0 < c_dbcsr_acc_opencl_config.nthreads);
 # if (201107/*v3.1*/ <= _OPENMP)
 #   pragma omp atomic capture
@@ -127,21 +156,30 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
     LIBXSMM_ATOMIC_CMPSWP(c_dbcsr_acc_opencl_config.contexts + tid,
       NULL, c_dbcsr_acc_opencl_config.contexts[0/*master*/],
       LIBXSMM_ATOMIC_RELAXED);
-    result = c_dbcsr_acc_opencl_stream_create(tid, &queue, name, properties);
   }
   else
 #endif
-  result = c_dbcsr_acc_opencl_stream_create(0/*master*/,
-    &queue, name, properties);
+  tid = 0; /*master*/
+  result = c_dbcsr_acc_opencl_stream_create(tid, &queue, name, properties);
   assert(NULL != stream_p);
   if (EXIT_SUCCESS == result) {
-    assert(NULL != queue);
 #if defined(ACC_OPENCL_STREAM_NOALLOC)
-    assert(sizeof(void*) >= sizeof(cl_command_queue));
+    assert(sizeof(void*) >= sizeof(cl_command_queue) && NULL != queue);
     *stream_p = (void*)queue;
 #else
-    *stream_p = malloc(sizeof(cl_command_queue));
-    if (NULL != *stream_p) {
+    const size_t size_info = sizeof(c_dbcsr_acc_opencl_info_stream_t);
+    const size_t size = sizeof(cl_command_queue) + sizeof(void*) + size_info - 1;
+    void *const handle = malloc(size);
+    assert(NULL != queue);
+    if (NULL != handle) {
+      const uintptr_t address = (uintptr_t)handle;
+      const uintptr_t aligned = LIBXSMM_UP2(address + size_info, sizeof(void*));
+      c_dbcsr_acc_opencl_info_stream_t *const info =
+        (c_dbcsr_acc_opencl_info_stream_t*)(aligned - size_info);
+      assert(address + size_info <= aligned && NULL != info);
+      info->pointer = (void*)address;
+      info->priority = priority;
+      *stream_p = (void*)aligned;
       *(cl_command_queue*)*stream_p = queue;
     }
     else {
@@ -149,6 +187,15 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
       result = EXIT_FAILURE;
     }
 #endif
+    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS == result) {
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: create stream \"%s\" (tid=%i",
+        NULL != name ? name : "unknown", tid);
+#if defined(ACC_OPENCL_STREAM_PRIORITIES)
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, ", priority=%i [%i->%i->%i]", priority,
+        CL_QUEUE_PRIORITY_LOW_KHR, CL_QUEUE_PRIORITY_MED_KHR, CL_QUEUE_PRIORITY_HIGH_KHR);
+#endif
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, ").\n");
+    }
   }
   else {
     *stream_p = NULL;
@@ -197,7 +244,7 @@ int c_dbcsr_acc_stream_destroy(void* stream)
 #if defined(ACC_OPENCL_STREAM_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_command_queue));
 #else
-    free(stream);
+    if (NULL != stream) free(c_dbcsr_acc_opencl_info_stream(stream)->pointer);
 #endif
   }
   ACC_OPENCL_RETURN(result);
@@ -207,40 +254,39 @@ int c_dbcsr_acc_stream_destroy(void* stream)
 int c_dbcsr_acc_stream_priority_range(int* least, int* greatest)
 {
   int result = ((NULL != least || NULL != greatest) ? EXIT_SUCCESS : EXIT_FAILURE);
-#if defined(ACC_OPENCL_STREAM_PRIORITIES) && defined(CL_QUEUE_PRIORITY_KHR)
-  char buffer[ACC_OPENCL_BUFFERSIZE];
-  cl_platform_id platform = NULL;
-  cl_device_id active_id = NULL;
-  assert(0 < c_dbcsr_acc_opencl_config.ndevices);
-  if (EXIT_SUCCESS == result) {
-#if defined(_OPENMP)
-    const int tid = omp_get_thread_num();
-#else
-    const int tid = 0; /*master*/
-#endif
-    result = c_dbcsr_acc_opencl_device(tid, &active_id);
-  }
-  ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM,
-    sizeof(cl_platform_id), &platform, NULL),
-    "retrieve platform associated with active device", result);
-  ACC_OPENCL_CHECK(clGetPlatformInfo(platform, CL_PLATFORM_EXTENSIONS,
-    ACC_OPENCL_BUFFERSIZE, buffer, NULL),
-    "retrieve platform extensions", result);
-  if (EXIT_SUCCESS == result) {
-    if (NULL != strstr(buffer, "cl_khr_priority_hints")) {
-      if (NULL != least) *least = CL_QUEUE_PRIORITY_LOW_KHR;
-      if (NULL != greatest) *greatest = CL_QUEUE_PRIORITY_HIGH_KHR;
-    }
-    else
-#endif
-    {
-      if (NULL != least) *least = -1;
-      if (NULL != greatest) *greatest = -1;
-    }
-#if defined(ACC_OPENCL_STREAM_PRIORITIES) && defined(CL_QUEUE_PRIORITY_KHR)
-  }
-#endif
+  int priohi = -1, priolo = -1;
   assert(least != greatest); /* no alias */
+#if defined(ACC_OPENCL_STREAM_PRIORITIES)
+  if (0 < c_dbcsr_acc_opencl_config.ndevices) {
+    char buffer[ACC_OPENCL_BUFFERSIZE];
+    cl_platform_id platform = NULL;
+    cl_device_id active_id = NULL;
+    if (EXIT_SUCCESS == result) {
+#if defined(_OPENMP)
+      const int tid = omp_get_thread_num();
+#else
+      const int tid = 0; /*master*/
+#endif
+      result = c_dbcsr_acc_opencl_device(tid, &active_id);
+    }
+    ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM,
+      sizeof(cl_platform_id), &platform, NULL),
+      "retrieve platform associated with active device", result);
+    ACC_OPENCL_CHECK(clGetPlatformInfo(platform, CL_PLATFORM_EXTENSIONS,
+      ACC_OPENCL_BUFFERSIZE, buffer, NULL),
+      "retrieve platform extensions", result);
+    if (EXIT_SUCCESS == result) {
+      if (NULL != strstr(buffer, "cl_khr_priority_hints")
+        || EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia"))
+      {
+        priohi = CL_QUEUE_PRIORITY_HIGH_KHR;
+        priolo = CL_QUEUE_PRIORITY_LOW_KHR;
+      }
+    }
+  }
+#endif
+  if (NULL != greatest) *greatest = priohi;
+  if (NULL != least) *least = priolo;
   ACC_OPENCL_RETURN(result);
 }
 
@@ -248,14 +294,25 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest)
 int c_dbcsr_acc_stream_sync(void* stream)
 {
   int result = EXIT_SUCCESS;
+  cl_command_queue queue;
   assert(NULL != stream);
-  if (0 == (2 & c_dbcsr_acc_opencl_config.devinfo.flush)) {
-    ACC_OPENCL_CHECK(clFinish(*ACC_OPENCL_STREAM(stream)),
-      "synchronize stream", result);
+  queue = *ACC_OPENCL_STREAM(stream);
+  if (0 == (4 & c_dbcsr_acc_opencl_config.devinfo.flush)) {
+#if defined(ACC_OPENCL_STREAM_PRIORITIES)
+    const c_dbcsr_acc_opencl_info_stream_t *const info =
+      c_dbcsr_acc_opencl_info_stream(stream);
+    if (NULL != info
+      && CL_QUEUE_PRIORITY_HIGH_KHR <= info->priority
+      && CL_QUEUE_PRIORITY_MED_KHR   > info->priority)
+    {
+      ACC_OPENCL_CHECK(clFlush(queue), "synchronize stream (flush)", result);
+    }
+    else
+#endif
+    ACC_OPENCL_CHECK(clFinish(queue), "synchronize stream (finish)", result);
   }
   else {
-    ACC_OPENCL_CHECK(clFlush(*ACC_OPENCL_STREAM(stream)),
-      "synchronize stream", result);
+    ACC_OPENCL_CHECK(clFlush(queue), "synchronize stream (flush)", result);
   }
   ACC_OPENCL_RETURN(result);
 }
