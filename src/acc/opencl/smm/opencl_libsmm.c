@@ -221,8 +221,8 @@ int opencl_libsmm_read_smm_params(char* parambuf,
 {
   const char *const end = parambuf + strlen(parambuf);
   char* s = strtok(parambuf, OPENCL_LIBSMM_PARAMS_DELIMS);
-  int result = EXIT_SUCCESS, i = 0, ivalue, consumed = 0, c = (NULL != device ? 1 : 0);
-  const int opt_consumed = (NULL != perfest ? 1 : 0) + c;
+  int result = EXIT_SUCCESS, i = 0, ivalue, consumed = 0, c = 0;
+  const int opt_consumed = (NULL != perfest ? 1 : 0) + (NULL != device ? 1 : 0);
   const int max_consumed = opt_consumed + 19;
   double gflops;
   assert(NULL != key && NULL != value);
@@ -294,6 +294,7 @@ int opencl_libsmm_read_smm_params(char* parambuf,
       case 20: if (1 == sscanf(s, "%i", &ivalue)) {
         value->ac = ivalue; ++consumed;
       } break;
+      default: s = NULL; /* break */
     }
   }
   if (max_consumed == consumed) {
