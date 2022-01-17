@@ -242,6 +242,7 @@ typedef struct c_dbcsr_acc_opencl_info_stream_t {
   int priority;
 } c_dbcsr_acc_opencl_info_stream_t;
 c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream);
+const int* c_dbcsr_acc_opencl_stream_priority(void* stream);
 
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
