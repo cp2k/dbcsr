@@ -829,7 +829,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id)
           const int cl_nonv = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? 1 : 0);
           const char *const env_barrier = getenv("ACC_OPENCL_BARRIER"), *const env_dump = getenv("ACC_OPENCL_DUMP");
           const char *const env_async = getenv("ACC_OPENCL_ASYNC"), *const env_flush = getenv("ACC_OPENCL_FLUSH");
-          c_dbcsr_acc_opencl_config.devinfo.async = (NULL == env_async ? /*default*/cl_nonv : (0 != atoi(env_async)));
+          c_dbcsr_acc_opencl_config.devinfo.async = (NULL == env_async ? /*default*/0 : (0 != atoi(env_async)));
           c_dbcsr_acc_opencl_config.devinfo.flush = (NULL == env_flush ? /*default*/(1 | (cl_nonv ? 2 : 0)) : atoi(env_flush));
           c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/0 : atoi(env_dump));
           c_dbcsr_acc_opencl_config.devinfo.record_event = ((NULL == env_barrier ? /*default*/cl_nonv : (0 == atoi(env_barrier)))

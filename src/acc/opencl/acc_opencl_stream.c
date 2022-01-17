@@ -41,15 +41,32 @@ int c_dbcsr_acc_opencl_stream_counter;
 
 c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream)
 {
-  c_dbcsr_acc_opencl_info_stream_t* result = NULL;
+  c_dbcsr_acc_opencl_info_stream_t* result;
 #if defined(ACC_OPENCL_STREAM_NOALLOC)
   LIBXSMM_UNUSED(stream);
 #else
   assert(NULL == stream || sizeof(c_dbcsr_acc_opencl_info_stream_t) <= (uintptr_t)stream);
   if (NULL != stream) {
-    result = (c_dbcsr_acc_opencl_info_stream_t*)((uintptr_t)stream - sizeof(c_dbcsr_acc_opencl_info_stream_t));
+    result = (c_dbcsr_acc_opencl_info_stream_t*)
+      ((uintptr_t)stream - sizeof(c_dbcsr_acc_opencl_info_stream_t));
   }
+  else
 #endif
+  result = NULL;
+  return result;
+}
+
+
+const int* c_dbcsr_acc_opencl_stream_priority(void* stream)
+{
+  const int* result;
+#if defined(ACC_OPENCL_STREAM_PRIORITIES)
+  const c_dbcsr_acc_opencl_info_stream_t *const info =
+    c_dbcsr_acc_opencl_info_stream(stream);
+  if (NULL != info) result = &info->priority;
+  else
+#endif
+  result = NULL;
   return result;
 }
 
@@ -305,11 +322,10 @@ int c_dbcsr_acc_stream_sync(void* stream)
   queue = *ACC_OPENCL_STREAM(stream);
   if (0 == (4 & c_dbcsr_acc_opencl_config.devinfo.flush)) {
 #if defined(ACC_OPENCL_STREAM_PRIORITIES)
-    const c_dbcsr_acc_opencl_info_stream_t *const info =
-      c_dbcsr_acc_opencl_info_stream(stream);
-    if (NULL != info
-      && CL_QUEUE_PRIORITY_HIGH_KHR <= info->priority
-      && CL_QUEUE_PRIORITY_MED_KHR   > info->priority)
+    const int *const priority = c_dbcsr_acc_opencl_stream_priority(stream);
+    if (NULL != priority
+      && CL_QUEUE_PRIORITY_HIGH_KHR <= *priority
+      && CL_QUEUE_PRIORITY_MED_KHR   > *priority)
     {
       ACC_OPENCL_CHECK(clFlush(queue), "synchronize stream (flush)", result);
     }
