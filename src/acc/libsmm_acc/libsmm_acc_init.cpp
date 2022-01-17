@@ -85,7 +85,10 @@ extern "C" int libsmm_acc_finalize() {
     // free acc_blas handle resources
     // one handle per thread!
     for (int i = 0; i < nthreads; i++) {
-        acc_blas_destroy(acc_blashandles[i]);
+        if (NULL != acc_blashandles[i]) {
+            acc_blas_destroy(acc_blashandles[i]);
+            acc_blashandles[i] = NULL;
+        }
     }
 #if defined(__DBCSR_ACC)
     timestop(handle);
