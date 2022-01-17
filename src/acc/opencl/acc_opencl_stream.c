@@ -121,7 +121,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
     if (EXIT_SUCCESS == c_dbcsr_acc_stream_priority_range(&least, &greatest)
       && least != greatest)
     {
-      properties[3] = (0 == (1 & c_dbcsr_acc_opencl_config.devinfo.flush)
+      properties[3] = (0 != (1 & c_dbcsr_acc_opencl_config.devinfo.flush)
                          && (NULL != strstr(name, "priority")))
         ? CL_QUEUE_PRIORITY_HIGH_KHR : CL_QUEUE_PRIORITY_MED_KHR;
     }
@@ -140,6 +140,12 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
   {
     properties[1] = CL_QUEUE_PROFILING_ENABLE;
   }
+  ACC_OPENCL_DEBUG_IF(NULL == c_dbcsr_acc_opencl_config.contexts
+    || NULL == c_dbcsr_acc_opencl_config.contexts[/*master*/0])
+  {
+    ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: "
+      "pid=%u not initialized!\n", libxsmm_get_pid());
+  }
 #if defined(_OPENMP)
   if (1 < omp_get_num_threads()) {
     int c;
@@ -154,7 +160,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
       ? c : (c % c_dbcsr_acc_opencl_config.nthreads));
     /* inherit master's context if current context is NULL */
     LIBXSMM_ATOMIC_CMPSWP(c_dbcsr_acc_opencl_config.contexts + tid,
-      NULL, c_dbcsr_acc_opencl_config.contexts[0/*master*/],
+      NULL, c_dbcsr_acc_opencl_config.contexts[/*master*/0],
       LIBXSMM_ATOMIC_RELAXED);
   }
   else

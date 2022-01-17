@@ -167,11 +167,13 @@ int c_dbcsr_acc_init(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = ((0 == omp_in_parallel() || 0/*master*/ == omp_get_thread_num())
+  int result = ((0 == omp_in_parallel() || /*master*/0 == omp_get_thread_num())
     ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
+  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result) ACC_OPENCL_DEBUG_FPRINTF(stderr,
+    "ERROR ACC/OpenCL: c_dbcsr_acc_init called in OpenMP parallel region!\n");
   if (NULL == c_dbcsr_acc_opencl_config.contexts) { /* avoid to initialize multiple times */
     const char *const disable = getenv("ACC_OPENCL_DISABLE");
     if (NULL == disable || '0' == *disable) {
@@ -263,8 +265,8 @@ int c_dbcsr_acc_init(void)
           } /*else break;*/
         }
       }
-      assert(NULL == c_dbcsr_acc_opencl_config.contexts);
-      if (device_id < c_dbcsr_acc_opencl_config.ndevices) {
+      if (EXIT_SUCCESS == result && 0 < c_dbcsr_acc_opencl_config.ndevices) {
+        /* filter device by vendor (if requested) */
         if (NULL != env_device_vendor && '\0' != *env_device_vendor) {
           for (i = 0; i < (cl_uint)c_dbcsr_acc_opencl_config.ndevices;) {
             if (CL_SUCCESS == clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i],
@@ -272,7 +274,7 @@ int c_dbcsr_acc_init(void)
             {
               if (NULL == libxsmm_stristr(buffer, env_device_vendor)) {
                 --c_dbcsr_acc_opencl_config.ndevices;
-                if (i < (cl_uint)c_dbcsr_acc_opencl_config.ndevices) { /* keep relative order of IDs */
+                if (i < (cl_uint)c_dbcsr_acc_opencl_config.ndevices) { /* keep original order (stable) */
                   memmove(c_dbcsr_acc_opencl_config.devices + i, c_dbcsr_acc_opencl_config.devices + i + 1,
                     sizeof(cl_device_id) * (c_dbcsr_acc_opencl_config.ndevices - i));
                 }
@@ -285,39 +287,24 @@ int c_dbcsr_acc_init(void)
             }
           }
         }
-      }
-      if (device_id < c_dbcsr_acc_opencl_config.ndevices) {
+        /* reorder devices according to c_dbcsr_acc_opencl_order_devices */
         if (EXIT_SUCCESS == result && 1 < c_dbcsr_acc_opencl_config.ndevices) {
-          char tmp[ACC_OPENCL_BUFFERSIZE] = "";
-          cl_device_type itype;
-          /* reorder devices according to c_dbcsr_acc_opencl_order_devices */
           qsort(c_dbcsr_acc_opencl_config.devices, c_dbcsr_acc_opencl_config.ndevices,
             sizeof(cl_device_id), c_dbcsr_acc_opencl_order_devices);
-          /* search backwards to capture leading GPUs (order of devices) */
-          i = c_dbcsr_acc_opencl_config.ndevices - 1;
-          do {
-            ACC_OPENCL_CHECK(clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i],
-              CL_DEVICE_TYPE, sizeof(cl_device_type), &itype, NULL),
-              "retrieve device type", result);
-            if (EXIT_SUCCESS == result) {
-              /* preselect default device */
-              if ((NULL == env_device_id || '\0' == *env_device_id)
-                && 0 != (CL_DEVICE_TYPE_DEFAULT & itype))
-              {
-                device_id = (int)i;
-                break;
+        }
+      }
+      if (EXIT_SUCCESS == result && 0 < c_dbcsr_acc_opencl_config.ndevices) {
+        /* preselect any default device or prune to homogeneous set of GPUs */
+        if (NULL == env_device_id || '\0' == *env_device_id) {
+          char tmp[ACC_OPENCL_BUFFERSIZE] = "";
+          for (i = 0; i < (cl_uint)c_dbcsr_acc_opencl_config.ndevices; ++i) {
+            cl_device_type itype;
+            result = clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i],
+              CL_DEVICE_TYPE, sizeof(cl_device_type), &itype, NULL);
+            if (CL_SUCCESS == result) {
+              if (0 != (CL_DEVICE_TYPE_DEFAULT & itype)) {
+                device_id = (int)i; break;
               }
-              /* prune number of device to only expose requested ID */
-              else if (NULL != env_device_id && '\0' != *env_device_id) {
-                if (0 != device_id) {
-                  c_dbcsr_acc_opencl_config.devices[0] =
-                    c_dbcsr_acc_opencl_config.devices[device_id];
-                  device_id = 0;
-                }
-                c_dbcsr_acc_opencl_config.ndevices = 1;
-                break;
-              }
-              /* prune number of devices to capture GPUs only */
               else if (CL_DEVICE_TYPE_ALL == type && NULL == env_device_type
                 && CL_DEVICE_TYPE_GPU == itype && device_id <= (int)i)
               {
@@ -329,25 +316,40 @@ int c_dbcsr_acc_init(void)
                   c_dbcsr_acc_opencl_config.ndevices = i + 1;
                   strncpy(tmp, buffer, ACC_OPENCL_BUFFERSIZE);
                 }
+                else {
+                  ACC_OPENCL_ERROR("retrieve device name", result);
+                  break;
+                }
               }
             }
-            else break;
-          } while (0 < i--);
+            else {
+              ACC_OPENCL_ERROR("retrieve device type", result);
+              break;
+            }
+          }
         }
+        /* prune number of devices to only expose requested ID */
+        else if (0 != device_id) {
+          if (1 < c_dbcsr_acc_opencl_config.ndevices) {
+            c_dbcsr_acc_opencl_config.devices[0] =
+              c_dbcsr_acc_opencl_config.devices[device_id];
+            c_dbcsr_acc_opencl_config.ndevices = 1;
+          }
+          device_id = 0;
+        }
+      }
+      if (device_id < c_dbcsr_acc_opencl_config.ndevices) {
         if (EXIT_SUCCESS == result) {
           assert(NULL == c_dbcsr_acc_opencl_config.contexts && 0 < c_dbcsr_acc_opencl_config.ndevices);
           assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_DEVICES_MAXCOUNT);
           c_dbcsr_acc_opencl_config.contexts = (cl_context*)calloc( /* thread-specific */
             c_dbcsr_acc_opencl_config.nthreads, sizeof(cl_context));
           if (NULL != c_dbcsr_acc_opencl_config.contexts) {
-            result = c_dbcsr_acc_opencl_set_active_device(0/*master*/, device_id);
+            result = c_dbcsr_acc_opencl_set_active_device(/*master*/0, device_id);
             assert(EXIT_SUCCESS == result || NULL == c_dbcsr_acc_opencl_config.contexts[/*master*/0]);
           }
           else result = EXIT_FAILURE;
           if (EXIT_SUCCESS == result) {
-            ACC_OPENCL_DEBUG_FPRINTF(stderr,
-              "INFO ACC/OpenCL: created initial context %p (tid=0, device=%i).\n",
-              (const void*)c_dbcsr_acc_opencl_config.contexts[0/*master*/], device_id);
             c_dbcsr_acc_opencl_config.streams = (cl_command_queue*)calloc( /* allocate streams */
               ACC_OPENCL_STREAMS_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads, sizeof(cl_command_queue));
             if (NULL != c_dbcsr_acc_opencl_config.streams) { /* allocate counters */
@@ -356,14 +358,19 @@ int c_dbcsr_acc_init(void)
             else result = EXIT_FAILURE;
           }
         }
+        ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: started pid=%u nthreads=%i ndevices=%i (device=%i, context=%p).\n",
+          libxsmm_get_pid(), c_dbcsr_acc_opencl_config.nthreads, c_dbcsr_acc_opencl_config.ndevices, device_id,
+          NULL != c_dbcsr_acc_opencl_config.contexts ? ((const void*)c_dbcsr_acc_opencl_config.contexts[/*master*/0]) : NULL);
       }
       else { /* mark as initialized */
         c_dbcsr_acc_opencl_config.ndevices = -1;
       }
     }
-    else { /* mark as initialized */
+    else { /* mark as initialized (ACC_OPENCL_DISABLE) */
       c_dbcsr_acc_opencl_config.ndevices = -1;
     }
+    ACC_OPENCL_DEBUG_IF(0 >= c_dbcsr_acc_opencl_config.ndevices) ACC_OPENCL_DEBUG_FPRINTF(stderr,
+      "INFO ACC/OpenCL: pid=%u found no devices.\n", libxsmm_get_pid());
 #if defined(__DBCSR_ACC)
     /* DBCSR shall call c_dbcsr_acc_init as well as libsmm_acc_init (since both interfaces are used).
      * Also, libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
@@ -383,13 +390,16 @@ int c_dbcsr_acc_finalize(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = ((0 == omp_in_parallel() || 0/*master*/ == omp_get_thread_num())
+  int result = ((0 == omp_in_parallel() || /*master*/0 == omp_get_thread_num())
     ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
+  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result) ACC_OPENCL_DEBUG_FPRINTF(stderr,
+    "ERROR ACC/OpenCL: c_dbcsr_acc_finalize called in OpenMP parallel region!\n");
   if (NULL != c_dbcsr_acc_opencl_config.contexts) {
     int i;
+    ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: stopped pid=%u.\n", libxsmm_get_pid());
     assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_DEVICES_MAXCOUNT);
     assert(0 < c_dbcsr_acc_opencl_config.ndevices); /* NULL != c_dbcsr_acc_opencl_config.contexts */
 #if defined(__DBCSR_ACC)
@@ -734,8 +744,8 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id active_id)
         /* apply context to master-thread if master's context is NULL */
         LIBXSMM_ATOMIC_CMPSWP(c_dbcsr_acc_opencl_config.contexts,
           NULL, context, LIBXSMM_ATOMIC_RELAXED);
-        assert(NULL != c_dbcsr_acc_opencl_config.contexts[0/*master*/]);
-        ACC_OPENCL_DEBUG_IF(NULL == c_dbcsr_acc_opencl_config.contexts[0/*master*/]) ACC_OPENCL_DEBUG_FPRINTF(
+        assert(NULL != c_dbcsr_acc_opencl_config.contexts[/*master*/0]);
+        ACC_OPENCL_DEBUG_IF(NULL == c_dbcsr_acc_opencl_config.contexts[/*master*/0]) ACC_OPENCL_DEBUG_FPRINTF(
           stderr, "ERROR ACC/OpenCL: applying context to master-thread failed!\n");
       }
       if (0 != c_dbcsr_acc_opencl_config.verbosity) {
@@ -809,7 +819,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id)
                   (const void*)inherit, thread_id);
               }
             }
-            ACC_OPENCL_DEBUG_FPRINTF(stderr,
+            ACC_OPENCL_DEBUG_IF(/*master*/0 != thread_id) ACC_OPENCL_DEBUG_FPRINTF(stderr,
               "INFO ACC/OpenCL: created device context %p (tid=%i, device=%i).\n",
               (const void*)c_dbcsr_acc_opencl_config.contexts[thread_id],
               thread_id, device_id);
@@ -898,7 +908,7 @@ int c_dbcsr_acc_device_synchronize(void)
     }
   }
 #else
-  result = c_dbcsr_acc_opencl_device_synchronize(0/*master*/);
+  result = c_dbcsr_acc_opencl_device_synchronize(/*master*/0);
 #endif
   ACC_OPENCL_RETURN(result);
 }
