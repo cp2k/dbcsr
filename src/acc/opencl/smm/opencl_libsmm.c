@@ -327,7 +327,7 @@ int libsmm_acc_init(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = ((0 == omp_in_parallel() || 0/*master*/ == omp_get_thread_num())
+  int result = ((0 == omp_in_parallel() || /*master*/0 == omp_get_thread_num())
     ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
@@ -543,7 +543,7 @@ int libsmm_acc_finalize(void)
    */
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = ((0 == omp_in_parallel() || 0/*master*/ == omp_get_thread_num())
+  int result = ((0 == omp_in_parallel() || /*master*/0 == omp_get_thread_num())
     ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
