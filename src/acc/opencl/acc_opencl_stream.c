@@ -60,7 +60,9 @@ c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream)
 const int* c_dbcsr_acc_opencl_stream_priority(void* stream)
 {
   const int* result;
-#if defined(ACC_OPENCL_STREAM_PRIORITIES)
+#if !defined(ACC_OPENCL_STREAM_PRIORITIES)
+  LIBXSMM_UNUSED(stream);
+#else
   const c_dbcsr_acc_opencl_info_stream_t *const info =
     c_dbcsr_acc_opencl_info_stream(stream);
   if (NULL != info) result = &info->priority;

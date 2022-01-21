@@ -58,16 +58,16 @@ typedef struct opencl_libsmm_trans_t {
 typedef struct opencl_libsmm_smmkey_t {
   libsmm_acc_data_t type; /* must be the 1st data member */
   int m, n, k;
-  /* device that matches configuration (parameters) */
-  int devuid; /* must be the last data member */
+  /* device matching configuration (parameters) */
+  int devuid;
 } opencl_libsmm_smmkey_t;
 
 /** Type for SMM-kernel configuration. */
 typedef struct opencl_libsmm_smm_t {
-  cl_kernel kernel; /* must be the 1st data member */
-  size_t wgsize;
-  /* parameters (either pretuned or determined) */
-  int bs, bm, bn, bk, ws, wg, lu, nz, al, tb, tc, ap, aa, ab, ac;
+  cl_kernel kernel[2]; /* must be the 1st data member */
+  size_t wgsize[2];
+  /* (pseudo-)parameters (either pretuned or determined) */
+  int s, bs, bm, bn, bk, ws, wg, lu, nz, al, tb, tc, ap, aa, ab, ac;
   /* ACC_OPENCL_VERBOSE: perf. counters */
   double gflops_sumlog, gflops_comp;
   size_t nexec;

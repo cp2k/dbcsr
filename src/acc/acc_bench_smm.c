@@ -147,6 +147,8 @@ static size_t parse_nbytes(const char* nbytes, size_t* nelems)
 int main(int argc, char* argv[])
 {
 #if defined(USE_LIBXSMM) && defined(VALIDATE)
+  const char *const env_check = getenv("CHECK");
+  const double check = (NULL == env_check ? -1 : fabs(atof(env_check) * ACC_BENCH_SMM_EPSILON(ELEM_TYPE)));
   double maxerror = 0;
 #endif
 #if defined(WARMUP) && (0 < WARMUP) && !defined(_DEBUG)
@@ -208,39 +210,36 @@ int main(int argc, char* argv[])
     const int smm_nrepeat = 1;
 #endif
 #if defined(USE_LIBXSMM)
-# if defined(VALIDATE)
-    const char *const env_check = getenv("CHECK");
-    const double check = (NULL == env_check ? -1 : fabs(atof(env_check) * ACC_BENCH_SMM_EPSILON(ELEM_TYPE)));
-    ELEM_TYPE* gold_hst = NULL;
-# endif
     libxsmm_timer_tickint start;
 # if defined(TRANSPOSE) && defined(VALIDATE)
     double transpose;
 # endif
     double duration;
 #endif
-    int stack_size = 0, na, nb, nc, nr, r, i;
-    if (NULL != sss) {
-      size_t nelems, s;
-      const size_t nbytes = parse_nbytes(sss, &nelems);
-      if (nbytes != nelems) {
-        while (1) {
-          nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
-          na = (0 < ina ? ina : (10 * nc)); nb = (0 < inb ? inb : (10 * nc));
-          s = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
-          if (s < nbytes) ++stack_size; else break;
+    const char *const env_stack_size = getenv("SMM_BATCHSIZE");
+    int stack_size, na, nb, nc, nr, r, i;
+    if (NULL == env_stack_size) {
+      stack_size = 0;
+      if (NULL != sss) {
+        size_t nelems, s;
+        const size_t nbytes = parse_nbytes(sss, &nelems);
+        if (nbytes != nelems) {
+          while (1) {
+            nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
+            na = (0 < ina ? ina : (10 * nc)); nb = (0 < inb ? inb : (10 * nc));
+            s = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
+            if (s < nbytes) ++stack_size; else break;
+          }
         }
+        else stack_size = (int)nelems;
       }
-      else stack_size = (int)nelems;
     }
+    else stack_size = atoi(env_stack_size);
     if (0 >= stack_size) stack_size = 30000; /* default */
     nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
     na = (0 < ina ? ina : (10 * nc));
     nb = (0 < inb ? inb : (10 * nc));
     nr = nrepeat * nc;
-#if defined(USE_LIBXSMM) && defined(VALIDATE)
-    if (0 != check) gold_hst = (ELEM_TYPE*)libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc);
-#endif
     assert(m <= (mn / n) && 0 == (mn % n));
     assert(m <= (mk / k) && 0 == (mk % k));
     assert(k <= (kn / n) && 0 == (kn % n));
@@ -347,56 +346,58 @@ int main(int argc, char* argv[])
         1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
     }
 # if defined(VALIDATE)
-    /* determine host's performance independent of current result code/status */
-    if (NULL != gold_hst && NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
-      const ELEM_TYPE alpha = 1, beta = 1;
-      const char transa = 'N';
+    { ELEM_TYPE *const gold_hst = (ELEM_TYPE*)(0 != check ? libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc) : NULL);
+      /* determine host's performance independent of current result code/status */
+      if (NULL != gold_hst && NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
+        const ELEM_TYPE alpha = 1, beta = 1;
+        const char transa = 'N';
 #   if defined(TRANSPOSE)
-      const char transb = 'N';
+        const char transb = 'N';
 #   else
-      const char transb = 'T';
+        const char transb = 'T';
 #   endif
-      memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
-      for (r = 0; r < warmup; ++r) {
-        ACC_BENCH_USEOMP(libxsmm_gemm_batch)(
-          LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE),
-          &transa, &transb, m, n, k, &alpha, amat_hst, &m/*lda*/, bmat_hst, &k/*ldb*/,
-          &beta, gold_hst, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
-          stack_hst + 0, stack_hst + 1, stack_hst + 2, stack_size);
-      }
-      memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
-      start = libxsmm_timer_tick();
-      /* CPU-kernel operates on data that is not initialized in NUMA-aware fashion */
-      for (r = 0; r < (nrepeat * smm_nrepeat); ++r) {
-        ACC_BENCH_USEOMP(libxsmm_gemm_batch)(
-          LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE),
-          &transa, &transb, m, n, k, &alpha, amat_hst, &m/*lda*/, bmat_hst, &k/*ldb*/,
-          &beta, gold_hst, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
-          stack_hst + 0, stack_hst + 1, stack_hst + 2, stack_size);
-      }
-      duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-      printf("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
-        1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
-      /* validate correctness in case of successful result code/status */
-      if (EXIT_SUCCESS == result) {
-        /* transfer result from device to host for validation */
-        CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result);
-        CHECK(c_dbcsr_acc_stream_sync(stream), &result);
+        memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
+        for (r = 0; r < warmup; ++r) {
+          ACC_BENCH_USEOMP(libxsmm_gemm_batch)(
+            LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE),
+            &transa, &transb, m, n, k, &alpha, amat_hst, &m/*lda*/, bmat_hst, &k/*ldb*/,
+            &beta, gold_hst, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
+            stack_hst + 0, stack_hst + 1, stack_hst + 2, stack_size);
+        }
+        memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
+        start = libxsmm_timer_tick();
+        /* CPU-kernel operates on data that is not initialized in NUMA-aware fashion */
+        for (r = 0; r < (nrepeat * smm_nrepeat); ++r) {
+          ACC_BENCH_USEOMP(libxsmm_gemm_batch)(
+            LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE),
+            &transa, &transb, m, n, k, &alpha, amat_hst, &m/*lda*/, bmat_hst, &k/*ldb*/,
+            &beta, gold_hst, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
+            stack_hst + 0, stack_hst + 1, stack_hst + 2, stack_size);
+        }
+        duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
+        printf("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
+          1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
+        /* validate correctness in case of successful result code/status */
         if (EXIT_SUCCESS == result) {
-          libxsmm_matdiff_info diff;
-          /* validate result buffers at once (including excess/padded space) */
-          result = libxsmm_matdiff(&diff, LIBXSMM_DATATYPE(ELEM_TYPE),
-            mn, nc, gold_hst, cmat_hst, &mn, &mn);
+          /* transfer result from device to host for validation */
+          CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result);
+          CHECK(c_dbcsr_acc_stream_sync(stream), &result);
           if (EXIT_SUCCESS == result) {
-            const double relerror = 1.0 - diff.rsq;
-            printf("rel.error: %g", relerror);
-            if (maxerror < relerror && NULL != file) maxerror = relerror;
-            if (0 < relerror) {
-              if (LIBXSMM_NOTNAN(diff.v_tst)) printf(" (%g != %g)\n", diff.v_ref, diff.v_tst);
-              else printf(" (%g)\n", diff.v_tst);
+            libxsmm_matdiff_info diff;
+            /* validate result buffers at once (including excess/padded space) */
+            result = libxsmm_matdiff(&diff, LIBXSMM_DATATYPE(ELEM_TYPE),
+              mn, nc, gold_hst, cmat_hst, &mn, &mn);
+            if (EXIT_SUCCESS == result) {
+              const double relerror = 1.0 - diff.rsq;
+              printf("rel.error: %g", relerror);
+              if (maxerror < relerror && NULL != file) maxerror = relerror;
+              if (0 < relerror) {
+                if (LIBXSMM_NOTNAN(diff.v_tst)) printf(" (%g != %g)\n", diff.v_ref, diff.v_tst);
+                else printf(" (%g)\n", diff.v_tst);
+              }
+              else printf("\n");
+              if (0 < check && check < relerror) result = EXIT_FAILURE;
             }
-            else printf("\n");
-            if (0 < check && check < relerror) result = EXIT_FAILURE;
           }
         }
       }

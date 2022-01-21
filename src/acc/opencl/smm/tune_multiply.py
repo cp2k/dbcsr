@@ -7,11 +7,6 @@
 # For further information please visit https://dbcsr.cp2k.org                                      #
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
-#
-# This script is based on OpenTuner's tutorial
-# "Optimizing Block Matrix Multiplication", and
-# LIBXSMM's "xgemm" and "transpose" examples.
-#
 import opentuner
 from opentuner.search.manipulator import IntegerParameter
 from opentuner import ConfigurationManipulator
@@ -24,7 +19,8 @@ import sys
 import re
 import os
 
-mnk_default = "23x23x23"
+default_basename = "tune_multiply"
+default_mnk = "23x23x23"
 
 
 def env_isfixed(envname):
@@ -47,13 +43,21 @@ def env_value(envname, default):
     return int(default)
 
 
+def ilog2(n):
+    i, t = (0 if 1 != n else 1), 1
+    while t < n:
+        t <<= 1
+        i += 1
+    return i
+
+
 class SmmTuner(MeasurementInterface):
     def manipulator(self):
         """Setup common state and define search space"""
         manipulator = ConfigurationManipulator()
         # parse and sanitize kernel shape argument
         if not self.args.mnk:
-            self.args.mnk = mnk_default
+            self.args.mnk = default_mnk
         mnk = tuple(max(int(i), 1) for i in self.args.mnk.split("x"))
         self.mnk = (mnk + (mnk[0], mnk[0]))[:3]
         # sanitize input arguments
@@ -68,18 +72,24 @@ class SmmTuner(MeasurementInterface):
         self.ap = self.aa = self.ab = self.ac = None
         self.gfbase = self.gflops = 0
         self.config = None
-        self.exepath = os.path.join(os.path.dirname(sys.argv[0]), "..", "..")
         self.exename = "acc_bench_smm"
+        self.exepath = os.path.join(
+            os.path.dirname(sys.argv[0]), "..", "..", self.exename
+        )
         run_result = (  # verbosity to capture device name and tuned parameters
-            self.launch(["ACC_OPENCL_VERBOSE=2", "CHECK=0"], nrep=1, size=1)
+            self.launch(["ACC_OPENCL_VERBOSE=2", "CHECK=0"], nrep=1)
             if not self.args.merge
             and (self.args.update is None or "" == self.args.update)
             else None
         )
         if run_result:
-            typename = re.search(
-                "typename \\(id=([0-9]+)\\):\\s+(\\w+)", str(run_result["stdout"])
+            stdout = str(run_result["stdout"])
+            size = re.search(
+                "{}\\s+[0-9]+\\s+([0-9]+)".format(self.exepath),
+                stdout,
             )
+            self.size = int(size.group(1)) if size and size.group(1) else 0
+            typename = re.search("typename \\(id=([0-9]+)\\):\\s+(\\w+)", stdout)
             self.typename = typename.group(2) if typename and typename.group(2) else ""
             self.typeid = (
                 int(typename.group(1)) if typename and typename.group(1) else 0
@@ -92,7 +102,7 @@ class SmmTuner(MeasurementInterface):
         elif self.args.update is not None and "" != self.args.update:
             self.device = self.args.update
         else:
-            self.typename = self.typeid = self.device = None
+            self.typename = self.typeid = self.device = self.size = None
         if run_result and 0 == run_result["returncode"]:
             seedpat = "INFO ACC/OpenCL:\\s+SMM-kernel\\s+{}={}\\s+gen=".format(
                 "{t,m,n,k,bs,bm,bn,bk,ws,wg,lu,nz,al,tb,tc,ap,aa,ab,ac}",
@@ -110,81 +120,23 @@ class SmmTuner(MeasurementInterface):
             seed = re.search(seedpat, str(run_result["stderr"]))
             # setup fixed and tunable parameters
             params, paramt = [], []
-            if env_isfixed("OPENCL_LIBSMM_SMM_BS"):
-                params.append(IntegerParameter("BS", self.args.bs, self.args.bs))
-            else:
-                self.bs = int(seed.group(1)) if seed and seed.group(1) else None
-                paramt.append(IntegerParameter("BS", 1, self.args.mb))
-            if env_isfixed("OPENCL_LIBSMM_SMM_BM"):
-                params.append(IntegerParameter("BM", self.args.bm, self.args.bm))
-            else:
-                self.bm = int(seed.group(2)) if seed and seed.group(2) else None
-                paramt.append(IntegerParameter("BM", 1, self.mnk[0]))
-            if env_isfixed("OPENCL_LIBSMM_SMM_BN"):
-                params.append(IntegerParameter("BN", self.args.bn, self.args.bn))
-            else:
-                self.bn = int(seed.group(3)) if seed and seed.group(3) else None
-                paramt.append(IntegerParameter("BN", 1, self.mnk[1]))
-            if env_isfixed("OPENCL_LIBSMM_SMM_BK"):
-                params.append(IntegerParameter("BK", self.args.bk, self.args.bk))
-            else:
-                self.bk = int(seed.group(4)) if seed and seed.group(4) else None
-                paramt.append(IntegerParameter("BK", 1, self.mnk[0]))
-            if env_isfixed("OPENCL_LIBSMM_SMM_WS"):
-                params.append(IntegerParameter("WS", self.args.ws, self.args.ws))
-            else:
-                self.ws = int(seed.group(5)) if seed and seed.group(5) else None
-                paramt.append(IntegerParameter("WS", 1, self.mnk[0] * self.mnk[1]))
-            if env_isfixed("OPENCL_LIBSMM_SMM_WG"):
-                params.append(IntegerParameter("WG", self.args.wg, self.args.wg))
-            else:
-                self.wg = int(seed.group(6)) if seed and seed.group(6) else None
-                paramt.append(IntegerParameter("WG", -2, 1))  # avoid WG=2
-            if env_isfixed("OPENCL_LIBSMM_SMM_LU"):
-                params.append(IntegerParameter("LU", self.args.lu, self.args.lu))
-            else:
-                self.lu = int(seed.group(7)) if seed and seed.group(7) else None
-                paramt.append(IntegerParameter("LU", -1, 2))
-            if env_isfixed("OPENCL_LIBSMM_SMM_NZ"):
-                params.append(IntegerParameter("NZ", self.args.nz, self.args.nz))
-            else:
-                self.nz = int(seed.group(8)) if seed and seed.group(8) else None
-                paramt.append(IntegerParameter("NZ", 0, 1))
-            if env_isfixed("OPENCL_LIBSMM_SMM_AL"):
-                params.append(IntegerParameter("AL", self.args.al, self.args.al))
-            else:
-                self.al = int(seed.group(9)) if seed and seed.group(9) else None
-                paramt.append(IntegerParameter("AL", 0, 1))
-            if env_isfixed("OPENCL_LIBSMM_SMM_TB"):
-                params.append(IntegerParameter("TB", self.args.tb, self.args.tb))
-            else:
-                self.tb = int(seed.group(10)) if seed and seed.group(10) else None
-                paramt.append(IntegerParameter("TB", 0, 1))
-            if env_isfixed("OPENCL_LIBSMM_SMM_TC"):
-                params.append(IntegerParameter("TC", self.args.tc, self.args.tc))
-            else:
-                self.tc = int(seed.group(11)) if seed and seed.group(11) else None
-                paramt.append(IntegerParameter("TC", 0, 1))
-            if env_isfixed("OPENCL_LIBSMM_SMM_AP"):
-                params.append(IntegerParameter("AP", self.args.ap, self.args.ap))
-            else:
-                self.ap = int(seed.group(12)) if seed and seed.group(12) else None
-                paramt.append(IntegerParameter("AP", 0, 1))
-            if env_isfixed("OPENCL_LIBSMM_SMM_AA"):
-                params.append(IntegerParameter("AA", self.args.aa, self.args.aa))
-            else:
-                self.aa = int(seed.group(13)) if seed and seed.group(13) else None
-                paramt.append(IntegerParameter("AA", 0, 3))
-            if env_isfixed("OPENCL_LIBSMM_SMM_AB"):
-                params.append(IntegerParameter("AB", self.args.ab, self.args.ab))
-            else:
-                self.ab = int(seed.group(14)) if seed and seed.group(14) else None
-                paramt.append(IntegerParameter("AB", 0, 3))
-            if env_isfixed("OPENCL_LIBSMM_SMM_AC"):
-                params.append(IntegerParameter("AC", self.args.ac, self.args.ac))
-            else:
-                self.ac = int(seed.group(15)) if seed and seed.group(15) else None
-                paramt.append(IntegerParameter("AC", 0, 2))
+            self.create_param("BS", params, paramt, seed, 1, 1, self.args.mb)
+            self.create_param("BM", params, paramt, seed, 2, 1, self.mnk[0])
+            self.create_param("BN", params, paramt, seed, 3, 1, self.mnk[1])
+            self.create_param("BK", params, paramt, seed, 4, 1, self.mnk[0])
+            self.create_param(
+                "WS", params, paramt, seed, 5, 1, self.mnk[0] * self.mnk[1]
+            )
+            self.create_param("WG", params, paramt, seed, 6, -2, 1)  # avoid WG=2
+            self.create_param("LU", params, paramt, seed, 7, -1, 2)
+            self.create_param("NZ", params, paramt, seed, 8, 0, 1)
+            self.create_param("AL", params, paramt, seed, 9, 0, 1)
+            self.create_param("TB", params, paramt, seed, 10, 0, 1)
+            self.create_param("TC", params, paramt, seed, 11, 0, 1)
+            self.create_param("AP", params, paramt, seed, 12, 0, 1)
+            self.create_param("AA", params, paramt, seed, 13, 0, 3)
+            self.create_param("AB", params, paramt, seed, 14, 0, 3)
+            self.create_param("AC", params, paramt, seed, 15, 0, 2)
             if not paramt:
                 sys.tracebacklimit = 0
                 raise RuntimeError(
@@ -194,30 +146,50 @@ class SmmTuner(MeasurementInterface):
                 manipulator.add_parameter(param)
         # consider to update and/or merge JSONS (update first)
         if self.args.merge or self.args.update is None or "" != self.args.update:
+            filepattern = "{}-*.json".format(default_basename)
             filenames = glob.glob(
-                os.path.normpath(os.path.join(self.args.jsondir, "*.json"))
+                os.path.normpath(os.path.join(self.args.jsondir, filepattern))
             )
             if self.args.update is None or "" != self.args.update:
                 self.update_jsons(filenames)
             if self.args.merge:
                 self.merge_jsons(filenames)
             exit(0)
-        elif self.typename and self.typeid and self.device:
-            # construct label used for the database session
+        elif (
+            (self.typename and "" != self.typename)
+            and (self.device and "" != self.device)
+            and (self.size and 0 < self.size)
+            and self.typeid
+        ):  # construct label used for the database session
             if not self.args.label:  # consider to include self.device
-                self.args.label = "tune_multiply-{}-{}x{}x{}".format(
-                    self.typename, self.mnk[0], self.mnk[1], self.mnk[2]
+                self.args.label = "{}-{}-{}x{}x{}-s{}".format(
+                    default_basename,
+                    self.typename,
+                    self.mnk[0],
+                    self.mnk[1],
+                    self.mnk[2],
+                    ilog2(self.size),
                 )
         else:
             sys.tracebacklimit = 0
-            raise RuntimeError(
-                "Setup failed for {}!".format(os.path.join(self.exepath, self.exename))
-            )
+            raise RuntimeError("Setup failed for {}!".format(self.exepath))
         # register signal handler (CTRL-C)
         signal(SIGINT, self.handle_sigint)
         return manipulator
 
-    def launch(self, envs, nrep=None, size=None, verbose=None):
+    def create_param(self, name, params, paramt, match, match_id, value0, value1):
+        """Append integer-parameter to either params or paramt list"""
+        if env_isfixed("OPENCL_LIBSMM_SMM_{}".format(name)):
+            value_fix = getattr(self.args, name.lower())
+            params.append(IntegerParameter(name, value_fix, value_fix))
+        else:
+            value = (
+                int(match.group(match_id)) if match and match.group(match_id) else None
+            )
+            setattr(self, name.lower(), value)
+            paramt.append(IntegerParameter(name, value0, value1))
+
+    def launch(self, envs, nrep=None, verbose=None):
         """Launch executable supplying environment and arguments"""
         envstrs = " ".join(map(str, envs))
         if verbose is not None and 0 != int(verbose):
@@ -225,12 +197,9 @@ class SmmTuner(MeasurementInterface):
         return self.call_program(
             "OMP_PROC_BIND=TRUE {} {} {} {}".format(
                 envstrs,  # environment variables
-                "{}".format(os.path.join(self.exepath, self.exename)),
+                "{}".format(self.exepath),
                 # executable's arguments
-                "{} {}".format(
-                    self.args.r if nrep is None else nrep,
-                    self.args.s if size is None else size,
-                ),
+                "{} {}".format(self.args.r if nrep is None else nrep, 0),
                 "{} {} {}".format(self.mnk[0], self.mnk[1], self.mnk[2]),
             )
         )
@@ -351,7 +320,12 @@ class SmmTuner(MeasurementInterface):
                         data = json.load(file)
                     device = data["DEVICE"] if "DEVICE" in data else self.device
                     key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
-                    value = (data["GFLOPS"], data["BS"], data["BM"], data["BN"]) + (
+                    value = (
+                        data["S"] if "S" in data else 0,  # pseudo key component
+                        data["GFLOPS"],
+                        data["BS"],
+                        data["BM"],
+                        data["BN"],
                         data["BK"] if "BK" in data else 0,
                         data["WS"] if "WS" in data else 0,
                         data["WG"] if "WG" in data else 0,
@@ -364,13 +338,13 @@ class SmmTuner(MeasurementInterface):
                         data["AA"] if "AA" in data else 1,
                         data["AB"] if "AB" in data else 3,
                         data["AC"] if "AC" in data else 0,
-                        filename,
+                        filename,  # last entry
                     )
                     if key not in merged:
                         merged[key] = value
                     else:
                         filename2 = merged[key][-1]
-                        if merged[key][0] <= value[0]:
+                        if merged[key][1] <= value[1]:  # GFLOPS
                             merged[key] = value
                         else:
                             filename2 = filename
@@ -378,14 +352,16 @@ class SmmTuner(MeasurementInterface):
                             worse[key].append(filename2)
                         else:
                             worse[key] = [filename2]
-                except (json.JSONDecodeError, KeyError):
+                except (json.JSONDecodeError, KeyError, TypeError):
                     print("Failed to merge {} into CSV-file.".format(filename))
             if bool(merged):
                 with open(self.args.csvfile, "w") as file:
                     file.write(  # CSV header line with termination/newline
-                        "{}{}{}{}{}{}{}\n".format(  # key-part
+                        "{}{}{}{}{}{}{}{}\n".format(  # key-part
                             self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
                             self.args.csvsep,  # separator for value-part
+                            "S",  # pseudo-key component
+                            self.args.csvsep,
                             self.args.csvsep.join(["GFLOPS", "BS", "BM", "BN", "BK"]),
                             self.args.csvsep,
                             self.args.csvsep.join(["WS", "WG", "LU", "NZ", "AL"]),
@@ -430,8 +406,12 @@ class SmmTuner(MeasurementInterface):
             config["M"] = self.mnk[0]
             config["N"] = self.mnk[1]
             config["K"] = self.mnk[2]
+            config["S"] = self.size
+            filepattern = "{}-*.json".format(default_basename)
             filenames = (
-                glob.glob(os.path.normpath(os.path.join(self.args.jsondir, "*.json")))
+                glob.glob(
+                    os.path.normpath(os.path.join(self.args.jsondir, filepattern))
+                )
                 if final
                 else None
             )
@@ -495,7 +475,7 @@ if __name__ == "__main__":
     argparser.add_argument(
         "mnk",
         type=str,
-        default=mnk_default,
+        default=default_mnk,
         nargs="?",
         help="Shape of SMM-kernel (MxNxK)",
     )
@@ -521,7 +501,7 @@ if __name__ == "__main__":
         "-o",
         "--csv-filename",
         type=str,
-        default="tune_multiply.csv",
+        default="{}.csv".format(default_basename),
         nargs="?",
         dest="csvfile",
         help="Generate CSV-file",
@@ -718,7 +698,7 @@ if __name__ == "__main__":
         type=int,
         default=0,
         nargs="?",
-        dest="s",
+        dest="size",
         help="Size of batch (a.k.a. stacksize)",
     )
     args = argparser.parse_args()
