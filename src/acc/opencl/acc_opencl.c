@@ -174,7 +174,7 @@ int c_dbcsr_acc_init(void)
 #endif
   ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result) ACC_OPENCL_DEBUG_FPRINTF(stderr,
     "ERROR ACC/OpenCL: c_dbcsr_acc_init called in OpenMP parallel region!\n");
-  if (NULL == c_dbcsr_acc_opencl_config.contexts) { /* avoid to initialize multiple times */
+  if (0 == c_dbcsr_acc_opencl_config.ndevices) { /* avoid to initialize multiple times */
     const char *const disable = getenv("ACC_OPENCL_DISABLE");
     if (NULL == disable || '0' == *disable) {
       cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT] = { NULL };
@@ -377,9 +377,7 @@ int c_dbcsr_acc_init(void)
      * The implementation of c_dbcsr_acc_init should hence be safe against "over initialization".
      * However, DBCSR only calls c_dbcsr_acc_init (and expects an implicit libsmm_acc_init).
      */
-    if (EXIT_SUCCESS == result) {
-      result = libsmm_acc_init();
-    }
+    if (EXIT_SUCCESS == result) result = libsmm_acc_init();
 #endif
   }
   ACC_OPENCL_RETURN(result);
@@ -397,11 +395,10 @@ int c_dbcsr_acc_finalize(void)
 #endif
   ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result) ACC_OPENCL_DEBUG_FPRINTF(stderr,
     "ERROR ACC/OpenCL: c_dbcsr_acc_finalize called in OpenMP parallel region!\n");
-  if (NULL != c_dbcsr_acc_opencl_config.contexts) {
+  if (0 != c_dbcsr_acc_opencl_config.ndevices) {
     int i;
     ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: stopped pid=%u.\n", libxsmm_get_pid());
     assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_DEVICES_MAXCOUNT);
-    assert(0 < c_dbcsr_acc_opencl_config.ndevices); /* NULL != c_dbcsr_acc_opencl_config.contexts */
 #if defined(__DBCSR_ACC)
     /* DBCSR may call c_dbcsr_acc_init as well as libsmm_acc_init() since both interface are used.
      * libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
@@ -437,18 +434,20 @@ int c_dbcsr_acc_finalize(void)
       }
       fprintf(stderr, "}\n");
     }
-    for (i = 0; i < c_dbcsr_acc_opencl_config.nthreads; ++i) {
-      const cl_context context = c_dbcsr_acc_opencl_config.contexts[i];
-      if (NULL != context) {
-        c_dbcsr_acc_opencl_config.contexts[i] = NULL;
-        if (EXIT_SUCCESS == clReleaseContext(context)) {
-          ACC_OPENCL_DEBUG_FPRINTF(stderr,
-            "INFO ACC/OpenCL: released context %p (tid=%i).\n",
+    if (NULL != c_dbcsr_acc_opencl_config.contexts) {
+      for (i = 0; i < c_dbcsr_acc_opencl_config.nthreads; ++i) {
+        const cl_context context = c_dbcsr_acc_opencl_config.contexts[i];
+        if (NULL != context) {
+          c_dbcsr_acc_opencl_config.contexts[i] = NULL;
+          if (EXIT_SUCCESS == clReleaseContext(context)) {
+            ACC_OPENCL_DEBUG_FPRINTF(stderr,
+              "INFO ACC/OpenCL: released context %p (tid=%i).\n",
+              (const void*)context, i);
+          }
+          ACC_OPENCL_DEBUG_ELSE ACC_OPENCL_DEBUG_FPRINTF(stderr,
+            "WARNING ACC/OpenCL: releasing context %p (tid=%i) failed!\n",
             (const void*)context, i);
         }
-        ACC_OPENCL_DEBUG_ELSE ACC_OPENCL_DEBUG_FPRINTF(stderr,
-          "WARNING ACC/OpenCL: releasing context %p (tid=%i) failed!\n",
-          (const void*)context, i);
       }
     }
     for (i = 0; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
@@ -463,9 +462,10 @@ int c_dbcsr_acc_finalize(void)
     }
     /* release/reset buffers */
     free(c_dbcsr_acc_opencl_config.streams);
-    c_dbcsr_acc_opencl_config.streams = NULL;
     free(c_dbcsr_acc_opencl_config.contexts);
-    c_dbcsr_acc_opencl_config.contexts = NULL;
+    /* clear configuration */
+    memset(&c_dbcsr_acc_opencl_config, 0,
+      sizeof(c_dbcsr_acc_opencl_config));
   }
   ACC_OPENCL_RETURN(result);
 }
@@ -915,49 +915,37 @@ int c_dbcsr_acc_device_synchronize(void)
 
 
 int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
-  int* max_value, int* preferred_multiple)
+  size_t* max_value, size_t* preferred_multiple)
 {
   int result = (NULL != device && (NULL != preferred_multiple
                                 || NULL != max_value))
     ? EXIT_SUCCESS : EXIT_FAILURE;
   if (NULL != kernel) { /* kernel-specific */
     if (NULL != max_value) {
-      size_t value = 0;
       ACC_OPENCL_CHECK(clGetKernelWorkGroupInfo(kernel, device,
-        CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), &value, NULL),
+        CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), max_value, NULL),
         "query maximum WG-size of kernel", result);
-      assert(value <= INT_MAX);
-      *max_value = (int)value;
     }
     if (NULL != preferred_multiple) {
-      size_t value = 0;
       ACC_OPENCL_CHECK(clGetKernelWorkGroupInfo(kernel, device,
         CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE,
-        sizeof(size_t), &value, NULL),
+        sizeof(size_t), preferred_multiple, NULL),
         "query preferred multiple of WG-size of kernel", result);
-      assert(value <= INT_MAX);
-      *preferred_multiple = (int)value;
     }
   }
   else { /* device-specific */
     if (NULL != max_value) {
-      size_t value = 0;
       ACC_OPENCL_CHECK(clGetDeviceInfo(device,
         CL_DEVICE_MAX_WORK_GROUP_SIZE,
-        sizeof(size_t), &value, NULL),
+        sizeof(size_t), max_value, NULL),
         "query maximum WG-size of device", result);
-      assert(value <= INT_MAX);
-      *max_value = (int)value;
     }
     if (NULL != preferred_multiple) {
 #if defined(CL_VERSION_3_0)
-      size_t value = 0;
       ACC_OPENCL_CHECK(clGetDeviceInfo(device,
         CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE,
-        sizeof(size_t), &value, NULL),
+        sizeof(size_t), preferred_multiple, NULL),
         "query preferred multiple of WG-size of device", result);
-      assert(value <= INT_MAX);
-      *preferred_multiple = (int)value;
 #else
       *preferred_multiple = 1;
 #endif

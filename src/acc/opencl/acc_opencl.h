@@ -39,6 +39,11 @@
 # define __LIBXSMM
 #endif
 
+#if !defined(LIBXSMM_VERSION_NUMBER)
+# define LIBXSMM_VERSION_NUMBER LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, \
+    LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
+#endif
+
 #include "../acc.h"
 #if !defined(NDEBUG)
 # include <assert.h>
@@ -274,7 +279,7 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id device_id);
 int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id);
 /** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
 int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
-  int* max_value, int* preferred_multiple);
+  size_t* max_value, size_t* preferred_multiple);
 /**
  * Build kernel from source with given kernel_name, build_params and build_options.
  * The build_params are meant to instantiate the kernel (-D) whereas build_options
