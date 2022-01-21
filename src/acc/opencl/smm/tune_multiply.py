@@ -357,7 +357,7 @@ class SmmTuner(MeasurementInterface):
             if bool(merged):
                 with open(self.args.csvfile, "w") as file:
                     file.write(  # CSV header line with termination/newline
-                        "{}{}{}{}{}{}{}{}\n".format(  # key-part
+                        "{}{}{}{}{}{}{}{}{}\n".format(  # key-part
                             self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
                             self.args.csvsep,  # separator for value-part
                             "S",  # pseudo-key component
