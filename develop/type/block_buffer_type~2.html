@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-29-g341630079f</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-30-g416d0ceb73</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,21 +131,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 1.0% of total for derived types.</p>Including implementation: 10 statements,  0.8% of total for derived types.">10 statements</a>
+    title="<p> 1.1% of total for derived types.</p>Including implementation: 11 statements,  0.9% of total for derived types.">11 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
     
-     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
     
   
      <li class="active">block_buffer_type</li>
@@ -176,6 +176,8 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
+      <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-ndim">ndim</a>
+      
       <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-nblock~2">nblock</a>
       
       <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-indx~2">indx</a>
@@ -188,7 +190,7 @@
       
       <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-msg_c_sp~2">msg_c_sp</a>
       
-      <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-data_type~10">data_type</a>
+      <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-data_type~9">data_type</a>
       
       <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-endpos~2">endpos</a>
       
@@ -240,6 +242,8 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
+      <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-ndim">ndim</a>
+      
       <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-nblock~2">nblock</a>
       
       <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-indx~2">indx</a>
@@ -252,7 +256,7 @@
       
       <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-msg_c_sp~2">msg_c_sp</a>
       
-      <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-data_type~10">data_type</a>
+      <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-data_type~9">data_type</a>
       
       <a class="list-group-item" href="../type/block_buffer_type~2.html#variable-endpos~2">endpos</a>
       
@@ -302,6 +306,20 @@
   
 <tr>
   
+  <td><span class="anchor" id="variable-ndim"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>ndim</strong></td><td> =</td><td>-1</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" id="variable-nblock~2"></span>integer,</td>
   
   <td>private</td>
@@ -316,7 +334,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-indx~2"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-indx~2"></span>integer,</td>
   
   <td>private,</td>
   <td>DIMENSION(:, :), ALLOCATABLE</td><td>::</td>
@@ -386,7 +404,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~9"></span>integer,</td>
   
   <td>private</td>
   <td></td><td>::</td>
