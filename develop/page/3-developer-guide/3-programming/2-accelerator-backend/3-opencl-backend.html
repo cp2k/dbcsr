@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-30-g416d0ceb73</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-31-g479cd2ca1a</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -143,18 +143,17 @@
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>OpenCL Backend</h1>
 <h2>Overview</h2>
-<p>The OpenCL backend implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC interface</a>, which is also exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)acceleration based on ACC's device enumeration, data movement, and synchronization functionality. The customizations below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).</p>
+<p>The OpenCL backend implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC interface</a>, which is exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)acceleration based on ACC's device enumeration, data movement, and synchronization functionality. The customizations below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).</p>
 <h2>Customization</h2>
 <h3>Compile-time Settings</h3>
 <p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h">acc_opencl.h</a> (adjusting the build-line as per <code>-D</code> is possible as well but less convenient). For example, <code>ACC_OPENCL_STREAM_PRIORITIES</code> is enabled by default (and further confirmed at runtime/build-time) but can be disabled, or <code>ACC_OPENCL_DEBUG</code> (which is disabled by default) can be enabled for debug purpose.</p>
-<p>An application of compile-time settings (and perhaps a valuable contribution) might be to call a GPU library in OpenCL-based LIBSMM. In such case, Shared Virtual Memory support (SVM) in OpenCL comes handy and can be enabled per <code>ACC_OPENCL_SVM</code>. The latter allows then to simply take the raw pointer out of an <code>cl_mem</code> object and pass it into such library/function (which in turn can work across language borders, etc.).</p>
 <h3>Runtime Settings</h3>
 <p>Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:</p>
 <ul>
 <li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero/default: subdevices, zero: aggregated).</li>
 <li><code>ACC_OPENCL_DEVTYPE</code>: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).</li>
 <li><code>ACC_OPENCL_DEVICE</code>: non-negative integer number to select a device from the (internally enumerated) list of devices.</li>
-<li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
+<li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in a case-insensitive fashion, e.g., "intel".</li>
 <li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer) with console output on <code>stderr</code>.<ul>
 <li><code>ACC_OPENCL_VERBOSE=1</code>: outputs the number of devices found and the name of the selected device.</li>
 <li><code>ACC_OPENCL_VERBOSE=2</code>: outputs the duration needed to generate a requested kernel.</li>
@@ -162,8 +161,8 @@
 <li><code>ACC_OPENCL_VERBOSE=4</code>: outputs device-side performance of kernels (every launch profiled).</li>
 </ul>
 </li>
-<li><code>ACC_OPENCL_DUMP</code>: dump preprocessed kernel source code (1), or dump compiled OpenCL kernels (2).<ul>
-<li><code>ACC_OPENCL_DUMP=1</code>: dump preprocessed kernel source code and also use it for JIT compilation. Instantiates the original source code using preprocessor definitions (<code>-D</code>) and collapses the code accordingly.</li>
+<li><code>ACC_OPENCL_DUMP</code>: dump preprocessed kernel source code (1) or dump compiled OpenCL kernels (2).<ul>
+<li><code>ACC_OPENCL_DUMP=1</code>: dump preprocessed kernel source code and use it for JIT compilation. Instantiates the original source code using preprocessor definitions (<code>-D</code>) and collapses the code accordingly.</li>
 <li><code>ACC_OPENCL_DUMP=2</code>: dump compiled OpenCL kernels (depends on OpenCL implementation), e.g., PTX code on Nvidia.</li>
 </ul>
 </li>
