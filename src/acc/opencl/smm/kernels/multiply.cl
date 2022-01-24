@@ -535,15 +535,16 @@ kernel void FN(global T *restrict cdata,
 #   if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A)
         BARRIER(CLK_LOCAL_MEM_FENCE);
 #   endif
-#   if (SM <= SGS) && !defined(SLM_A) && !defined(REG_A)
+#   if (WRK == SM) && (SGS >= SM) && !defined(SLM_A) && !defined(REG_A)
         const T a = AMK(idx, k);
 #   endif
         UNROLL_FORCE(SM)
         for (int m = 0; m < SM; ++m) {
-#   if (SM <= SGS) && !defined(SLM_A) && !defined(REG_A)
+#   if (WRK == SM) && (SGS >= SM) && !defined(SLM_A) && !defined(REG_A)
           CNM(idx, m) = MAD(sub_group_broadcast(a, m), b, CNM(idx, m));
-#   endif
+#   else
           CNM(idx, m) = MAD(AMK(m, k), b, CNM(idx, m));
+#   endif
         }
       }
 #   if (1 == BS)
