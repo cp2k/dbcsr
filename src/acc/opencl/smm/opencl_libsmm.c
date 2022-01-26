@@ -1526,7 +1526,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         char *ainp = NULL, *binp = NULL, *test = NULL, *gold = NULL, *btrn = NULL;
         const libxsmm_datatype precision = (dbcsr_type_real_8 == datatype
           ? LIBXSMM_DATATYPE_F64 : (dbcsr_type_real_4 == datatype ? LIBXSMM_DATATYPE_F32
-          : LIBXSMM_DATATYPE_UNSUPPORTED);
+          : LIBXSMM_DATATYPE_UNSUPPORTED));
         const int typesize = OPENCL_LIBSMM_TYPESIZE(datatype);
         size_t asize, bsize, csize;
         void* scratch = NULL;
