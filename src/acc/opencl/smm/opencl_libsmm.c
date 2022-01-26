@@ -569,7 +569,8 @@ int libsmm_acc_finalize(void)
     const void *regkey = NULL, *regentry = libxsmm_get_registry_begin(LIBXSMM_KERNEL_KIND_USER, &regkey);
     for (; NULL != regentry; regentry = libxsmm_get_registry_next(regentry, &regkey)) {
       /* opencl_libsmm_trans_t/opencl_libsmm_smm_t carry cl_kernel as 1st data member */
-      const cl_kernel kernel = *(const cl_kernel*)regentry;
+      cl_kernel kernel = *(const cl_kernel*)regentry;
+      if (NULL == kernel) kernel = ((const opencl_libsmm_smm_t*)regentry)->kernel[1];
       if (NULL != kernel) {
         if (3 == c_dbcsr_acc_opencl_config.verbosity || 5 == c_dbcsr_acc_opencl_config.verbosity) {
           char fname[ACC_OPENCL_MAXSTRLEN];
@@ -595,7 +596,6 @@ int libsmm_acc_finalize(void)
                 fprintf(stderr, " ss=%i geo=%.1f GB/s\n", blocks,
                   exp(entry->membw_sumlog / entry->nexec));
                 LIBXSMM_STDIO_RELEASE();
-                entry->nexec = 0; /* reset */
               }
 # endif
             }
@@ -623,7 +623,6 @@ int libsmm_acc_finalize(void)
                 if (0 < est) fprintf(stderr, " est=%.1f", est);
                 fprintf(stderr, " GFLOPS/s\n");
                 LIBXSMM_STDIO_RELEASE();
-                entry->nexec = 0; /* reset */
               }
 # endif
             }
@@ -730,9 +729,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
             ? /*default*/m : /*LIBXSMM_CLMP(config->bm, 1, m)*/m) : MIN(blockm, m));
           size_t wgsize_max;
           opencl_libsmm_trans_t new_config;
-# if !defined(NDEBUG)
-          memset(&new_config, 0, sizeof(new_config)); /* NDEBUG: complete init */
-# endif
+          memset(&new_config, 0, sizeof(new_config));
           result = c_dbcsr_acc_opencl_wgsize(active_device,
             NULL/*kernel*/, &wgsize_max, NULL/*prefmult*/);
           if (EXIT_SUCCESS == result) {
@@ -1159,12 +1156,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           if (NULL != tname) {
             size_t wgsize_max, wgsize_prf, sgs = 0;
             opencl_libsmm_smm_t new_config;
-            if (NULL == config) { LIBXSMM_MEMZERO127(&new_config.kernel); }
+            if (NULL == config) memset(&new_config, 0, sizeof(new_config));
             else { /* preserve kernels, performance counters, etc. */
               memcpy(&new_config, config, sizeof(opencl_libsmm_smm_t));
             }
-            result = c_dbcsr_acc_opencl_wgsize(active_device,
-              NULL/*device-specific*/, &wgsize_max, &wgsize_prf);
+            result = c_dbcsr_acc_opencl_wgsize(active_device, NULL/*device-specific*/, &wgsize_max, &wgsize_prf);
             assert(EXIT_SUCCESS != result || 0 < wgsize_prf);
             if (EXIT_SUCCESS == result) {
               const char *const env_bm = getenv("OPENCL_LIBSMM_SMM_BM"), *const env_bn = getenv("OPENCL_LIBSMM_SMM_BN");
