@@ -27,7 +27,7 @@
 #endif
 
 #define MAX(A, B) ((A)<(B)?(B):(A))
-#if !defined(AL) || (SM != SN) || (SN != SK) || (1 == BS)
+#if !defined(AL) || (SM != SN) || (SM != BM) || (SN != SK) || (1 == BS)
 # define ADX(M, K) adata[SM*K+M+a0]
 # define BDX(K, N) bdata[SN*K+N+b0]
 # define CDX(M, N) cdata[SM*N+M+c0]
