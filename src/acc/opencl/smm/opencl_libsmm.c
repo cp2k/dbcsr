@@ -786,7 +786,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
                     fprintf(stderr, "=");
                     opencl_libsmm_write_trans_params(stderr, 0/*only_key*/, &key, config,
                       NULL/*delim*/, NULL/*begin*/, NULL/*close*/);
-                    fprintf(stderr, " gen=%.1f ms\n", 1000.0 * duration);
+                    fprintf(stderr, " gen=%.1f ms\n", 1E3 * duration);
                     LIBXSMM_STDIO_RELEASE();
                   }
 # endif
@@ -862,11 +862,14 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
               "query kernel start time", result);
             ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
               "query kernel end time", result);
-            duration = LIBXSMM_DELTA(begin, end); /* Nanoseconds */
+            duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
           }
-          else duration = libxsmm_timer_duration(start, libxsmm_timer_tick()) * 1E9; /* Nanoseconds */
+          else {
+            clFinish(*ACC_OPENCL_STREAM(stream));
+            duration = libxsmm_timer_duration(start, libxsmm_timer_tick()); /* seconds */
+          }
           if (EXIT_SUCCESS == result) {
-            const double membw = (1E-9 * (1ULL << 30) * stack_size * (typesize * m * n)) / duration;
+            const double membw = (1ULL * stack_size * (typesize * m * n)) / (duration * (1ULL << 30));
 #   if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
             const size_t size = sizeof(config->size) / sizeof(*config->size); assert(2 <= size);
             libxsmm_kahan_sum(log(membw), &config->membw_sumlog, &config->membw_comp);
@@ -892,7 +895,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
               opencl_libsmm_write_trans_params(stderr, 1/*only_key*/, &key, config,
                 NULL/*delim*/, NULL/*begin*/, NULL/*close*/);
               fprintf(stderr, " prio=%i ss=%i cur=%.1f GB/s dur=%.2g ms\n",
-                NULL != priority ? *priority : -1, stack_size, membw, duration);
+                NULL != priority ? *priority : -1, stack_size, membw, 1E3 * duration);
               LIBXSMM_STDIO_RELEASE();
             }
           }
@@ -1461,7 +1464,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                         fprintf(stderr, "=");
                         opencl_libsmm_write_smm_params(stderr, 0/*only_key*/, &key, &new_config,
                           NULL/*delim*/, NULL/*begin*/, NULL/*close*/);
-                        fprintf(stderr, " gen=%.1f ms\n", 1000.0 * duration);
+                        fprintf(stderr, " gen=%.1f ms\n", 1E3 * duration);
                         LIBXSMM_STDIO_RELEASE();
                       }
 # endif
@@ -1592,11 +1595,14 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 sizeof(cl_ulong), &begin, NULL), "query kernel start time", result);
               ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END,
                 sizeof(cl_ulong), &end, NULL), "query kernel end time", result);
-              duration = LIBXSMM_DELTA(begin, end); /* Nanoseconds */
+              duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
             }
-            else duration = libxsmm_timer_duration(start, libxsmm_timer_tick()) * 1E9; /* Nanoseconds */
+            else {
+              clFinish(*ACC_OPENCL_STREAM(stream));
+              duration = libxsmm_timer_duration(start, libxsmm_timer_tick()); /* seconds */
+            }
             if (EXIT_SUCCESS == result) {
-              const double gflops = (2.0 * m_max * n_max * k_max * stack_size) / duration;
+              const double gflops = 1E-9 * (2ULL * m_max * n_max * k_max * stack_size) / duration;
 #   if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
               const size_t size = sizeof(config->size) / sizeof(*config->size); assert(2 <= size);
               libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
@@ -1624,9 +1630,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 fprintf(stderr, "=");
                 opencl_libsmm_write_smm_params(stderr, 1/*only_key*/, &key, config,
                   NULL/*delim*/, NULL/*begin*/, NULL/*close*/);
-                fprintf(stderr, " prio=%i ss=%i cur=%.1f", NULL != priority ? *priority : -1, stack_size, gflops);
+                fprintf(stderr, " prio=%i ss=%i cur=%.1f",
+                  NULL != priority ? *priority : -1, stack_size, gflops);
                 if (0 < est) fprintf(stderr, " est=%.1f", est);
-                fprintf(stderr, " GFLOPS/s dur=%.2g ms\n", duration);
+                fprintf(stderr, " GFLOPS/s dur=%.2g ms\n", 1E3 * duration);
                 LIBXSMM_STDIO_RELEASE();
               }
             }
