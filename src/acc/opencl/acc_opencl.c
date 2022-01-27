@@ -22,17 +22,23 @@
 # include <process.h>
 #else
 LIBXSMM_EXTERN int mkstemp(char*) LIBXSMM_NOTHROW;
+LIBXSMM_EXTERN int putenv(char*) LIBXSMM_THROW;
+# include <sys/stat.h>
 # include <unistd.h>
+# include <errno.h>
 # include <glob.h>
 #endif
 #if defined(__DBCSR_ACC)
 # include "../acc_libsmm.h"
 #endif
 
-#if !defined(ACC_OPENCL_CPPBIN)
+#if !defined(ACC_OPENCL_CACHEDIR) && defined(__DBCSR_ACC) && 1
+# define ACC_OPENCL_CACHEDIR ".cl_cache"
+#endif
+#if !defined(ACC_OPENCL_CPPBIN) && 1
 # define ACC_OPENCL_CPPBIN "/usr/bin/cpp"
 #endif
-#if !defined(ACC_OPENCL_SEDBIN)
+#if !defined(ACC_OPENCL_SEDBIN) && 1
 # define ACC_OPENCL_SEDBIN "/usr/bin/sed"
 #endif
 #if !defined(ACC_OPENCL_DELIMS)
@@ -204,6 +210,18 @@ int c_dbcsr_acc_init(void)
         : CL_FALSE);
 #endif
       if (EXIT_SUCCESS == result) {
+#if defined(ACC_OPENCL_CACHEDIR)
+# if !defined(_WIN32)
+#   if defined(S_IRWXU) && defined(S_IRGRP) && defined(S_IXGRP) && defined(S_IROTH) && defined(S_IXOTH)
+        const int mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
+#   else
+        const int mode = 0xFFFFFFFF;
+#   endif
+        if (0 == mkdir(ACC_OPENCL_CACHEDIR, mode) || EEXIST == errno) { /* putenv before entering OpenCL */
+          ACC_OPENCL_EXPECT(0, putenv("cl_cache_dir=" ACC_OPENCL_CACHEDIR)); /* soft-error */
+        }
+# endif
+#endif
         if (CL_SUCCESS == clGetPlatformIDs(0, NULL, &nplatforms) && 0 < nplatforms) {
           ACC_OPENCL_CHECK(clGetPlatformIDs(
             nplatforms <= ACC_OPENCL_DEVICES_MAXCOUNT ? nplatforms : ACC_OPENCL_DEVICES_MAXCOUNT,
@@ -830,7 +848,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id)
           const char *const env_barrier = getenv("ACC_OPENCL_BARRIER"), *const env_dump = getenv("ACC_OPENCL_DUMP");
           const char *const env_async = getenv("ACC_OPENCL_ASYNC"), *const env_flush = getenv("ACC_OPENCL_FLUSH");
           c_dbcsr_acc_opencl_config.devinfo.async = (NULL == env_async ? /*default*/0 : (0 != atoi(env_async)));
-          c_dbcsr_acc_opencl_config.devinfo.flush = (NULL == env_flush ? /*default*/(1 | (cl_nonv ? 2 : 0)) : atoi(env_flush));
+          c_dbcsr_acc_opencl_config.devinfo.flush = (NULL == env_flush ? /*default*/1 : atoi(env_flush));
           c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/0 : atoi(env_dump));
           c_dbcsr_acc_opencl_config.devinfo.record_event = ((NULL == env_barrier ? /*default*/cl_nonv : (0 == atoi(env_barrier)))
             ? c_dbcsr_acc_opencl_enqueue_marker : c_dbcsr_acc_opencl_enqueue_barrier);
@@ -1041,12 +1059,19 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
       buffer[0] = '\0'; /* reset to empty */
     }
     /* consider preprocessing kernel for analysis (cpp); failure does not matter (result) */
+#if defined(ACC_OPENCL_CPPBIN)
     if (0 != c_dbcsr_acc_opencl_config.dump) {
       int nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), "/tmp/.%s.XXXXXX", kernel_name);
       if (0 < nchar && (int)sizeof(buffer_name) > nchar) {
         FILE *const file_cpp = fopen(ACC_OPENCL_CPPBIN, "rb");
+        const char* sed_pattern = "";
+# if defined(ACC_OPENCL_SEDBIN)
         FILE *const file_sed = fopen(ACC_OPENCL_SEDBIN, "rb");
-        if (NULL != file_sed) fclose(file_sed); /* existence-check */
+        if (NULL != file_sed) {
+          sed_pattern = "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*\\(\\/\\/.*\\)*$/d'";
+          fclose(file_sed); /* existence-check */
+        }
+# endif
         if (NULL != file_cpp) {
           const int file_src = mkstemp(buffer_name);
           fclose(file_cpp); /* existence-check */
@@ -1055,9 +1080,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
               nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), ACC_OPENCL_CPPBIN
                 " -P -C -nostdinc -D__OPENCL_VERSION__=%u %s %s %s %s > %s.cl", 100 * level_major + 10 * level_minor,
                 EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
-                NULL != build_params ? build_params : "", buffer_name,
-                NULL != file_sed ? "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*\\(\\/\\/.*\\)*$/d'" : "",
-                kernel_name);
+                NULL != build_params ? build_params : "", buffer_name, sed_pattern, kernel_name);
               if (0 < nchar && (int)sizeof(buffer) > nchar) {
                 if (EXIT_SUCCESS == system(buffer)) {
                   nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s.cl", kernel_name);
@@ -1089,6 +1112,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
         }
       }
     }
+#endif
     program = clCreateProgramWithSource(context, 1/*nlines*/, &ext_source, NULL, &result);
     if (CL_SUCCESS == result) {
       int nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s %s %s %s",

@@ -74,6 +74,11 @@ typedef struct opencl_libsmm_smm_t {
   int size[7];
 } opencl_libsmm_smm_t;
 
+typedef enum opencl_libsmm_timer_t {
+  opencl_libsmm_timer_device,
+  opencl_libsmm_timer_host
+} opencl_libsmm_timer_t;
+
 /** Type to collect statistics about tuned SMM-kernels */
 typedef struct opencl_libsmm_perfest_t {
   double gf_ai_sratio_max, gf_ai_sratio_sumlog, gf_ai_sratio_kahan;
