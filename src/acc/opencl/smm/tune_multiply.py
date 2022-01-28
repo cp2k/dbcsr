@@ -70,6 +70,8 @@ class SmmTuner(MeasurementInterface):
         self.bs = self.bm = self.bn = self.bk = self.ws = self.wg = self.lu = None
         self.nz = self.al = self.tb = self.tc = None
         self.ap = self.aa = self.ab = self.ac = None
+        self.typename = self.typeid = None
+        self.device = self.size = None
         self.gfbase = self.gflops = 0
         self.config = None
         self.exename = "acc_bench_smm"
@@ -84,11 +86,14 @@ class SmmTuner(MeasurementInterface):
         )
         if run_result:
             stdout = str(run_result["stdout"])
-            size = re.search(
-                "{}\\s+[0-9]+\\s+([0-9]+)".format(self.exepath),
-                stdout,
-            )
-            self.size = int(size.group(1)) if size and size.group(1) else 0
+            if 0 >= self.args.size:
+                size = re.search(
+                    "{}\\s+[0-9]+\\s+([0-9]+)".format(self.exepath),
+                    stdout,
+                )
+                self.size = int(size.group(1)) if size and size.group(1) else 0
+            else:
+                self.size = self.args.size
             typename = re.search("typename \\(id=([0-9]+)\\):\\s+(\\w+)", stdout)
             self.typename = typename.group(2) if typename and typename.group(2) else ""
             self.typeid = (
@@ -101,8 +106,6 @@ class SmmTuner(MeasurementInterface):
             self.device = device.group(1) if device and device.group(1) else ""
         elif self.args.update is not None and "" != self.args.update:
             self.device = self.args.update
-        else:
-            self.typename = self.typeid = self.device = self.size = None
         if run_result and 0 == run_result["returncode"]:
             seedpat = "INFO ACC/OpenCL:\\s+SMM-kernel\\s+{}={}\\s+gen=".format(
                 "{t,m,n,k,bs,bm,bn,bk,ws,wg,lu,nz,al,tb,tc,ap,aa,ab,ac}",
@@ -195,11 +198,12 @@ class SmmTuner(MeasurementInterface):
         if verbose is not None and 0 != int(verbose):
             print(envstrs.replace("OPENCL_LIBSMM_SMM_", "").replace(" CHECK=0", ""))
         return self.call_program(
-            "OMP_PROC_BIND=TRUE {} {} {} {}".format(
+            "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 {} {} {} {} {}".format(
                 envstrs,  # environment variables
                 "{}".format(self.exepath),
                 # executable's arguments
-                "{} {}".format(self.args.r if nrep is None else nrep, 0),
+                self.args.r if nrep is None else nrep,
+                self.size if self.size else self.args.size,
                 "{} {} {}".format(self.mnk[0], self.mnk[1], self.mnk[2]),
             )
         )

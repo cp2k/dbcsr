@@ -1199,7 +1199,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               new_config.bn = (0 >= blockn ? (0 == kernel_idx ? (NULL == config ? MIN(OPENCL_LIBSMM_DEFAULT_BN, n_max)
                 : LIBXSMM_CLMP(config->bn, 1, n_max)) : MIN(OPENCL_LIBSMM_DEFAULT_BN, n_max)) : MIN(blockn, n_max));
               new_config.bk = (0 >= blockk ? (0 == kernel_idx ? (NULL == config ? /*default*/m_max
-                : LIBXSMM_CLMP(config->bk, 1, m_max)) : /*default*/m_max) : MIN(blockk, m_max));
+                : LIBXSMM_CLMP(config->bk, 1, m_max)) : /*default*/MIN(OPENCL_LIBSMM_VMIN, m_max)) : MIN(blockk, m_max));
               new_config.ws = (0 >= wgmin ? (0 == kernel_idx ? (NULL == config ? /*default*/n_max
                 : LIBXSMM_CLMP(config->ws, 1, n_max * m_max)) : /*default*/n_max) : MIN(wgmin, n_max * m_max));
               new_config.bs = (0 >= blocks ? (0 == kernel_idx ? (NULL == config ? OPENCL_LIBSMM_DEFAULT_BS

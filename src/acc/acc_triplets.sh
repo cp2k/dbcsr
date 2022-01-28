@@ -35,8 +35,8 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
     -m|--limit)
       LIMIT=$2
       shift 2;;
-    -n|--size)
-      SIZE=$2
+    -n|--triplets)
+      MAXNUM=$2
       shift 2;;
     -a|--amat)
       CUTSEL=-f1,3
@@ -47,7 +47,7 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
     -c|--cmat)
       CUTSEL=-f1,2
       shift;;
-    -s|--specid)
+    -k|--specid)
       case "$2" in
       0) TRIPLETS="23, 6, 14 16 29, 5 16 13 24 26, 9 16 22, 32, 64, 78, 16 29 55";;
       1) TRIPLETS="23, 6, 14 16 29, 5 32 13 24 26, 9 32 22, 32, 64, 78, 16 29 55";;
@@ -113,10 +113,10 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
       fi
       if [ "${CUTSEL}" ]; then
         MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${CUT} -dx ${CUTSEL} | ${SORT} -u -n -tx -k1 -k2 -k3 | \
-          if [ "${SIZE}" ] && [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n"${SIZE}"; else cat; fi)
+          if [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then ${HEAD} -n"${MAXNUM}"; else cat; fi)
       else
         MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${SORT} -u -n -tx -k1 -k2 -k3 | \
-          if [ "${SIZE}" ] && [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n"${SIZE}"; else cat; fi)
+          if [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then ${HEAD} -n"${MAXNUM}"; else cat; fi)
       fi
       if [ "0" = "${LINES}" ]; then
         echo "${MNK}" | ${XARGS}
@@ -134,12 +134,12 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
     eval "${ECHO} \"       Options must precede triplet specification\""
     eval "${ECHO} \"       -l|--lines: lines instead of list of words\""
     eval "${ECHO} \"       -r|--bound L U: limit L**3 < MNK <= U**3\""
-    eval "${ECHO} \"       -m|--limit N: limit shape extents to N\""
-    eval "${ECHO} \"       -n|--size  N: limit number of elements\""
+    eval "${ECHO} \"       -m|--limit N: limit any shape extent to N\""
+    eval "${ECHO} \"       -n|--triplets N: limit number of triplet\""
     eval "${ECHO} \"       -a|--amat: select MxK instead of MxNxK\""
     eval "${ECHO} \"       -b|--bmat: select KxN instead of MxNxK\""
     eval "${ECHO} \"       -c|--cmat: select MxN instead of MxNxK\""
-    eval "${ECHO} \"       -s|--specid N: predefined triplets\""
+    eval "${ECHO} \"       -k|--specid N: predefined triplets\""
     eval "${ECHO} \"        0-10: older to newer (larger), e.g.,\""
     eval "${ECHO} \"       -s  0:  201 kernels\""
     eval "${ECHO} \"       -s 10: 1266 kernels\""
