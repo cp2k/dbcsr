@@ -189,7 +189,7 @@ test-interface: $(MAKDIR)/../dbcsr_acc_test
 
 .PHONY: test-trans
 test-trans: bench
-	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
+	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
 	$(eval DEVICE = $(shell ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_smm 1 1 1 2>&1 >/dev/null))
 	@echo "--- DBCSR OpenCL Transposes ($(words $(SHAPES)))"
 	@echo "$(DEVICE)"
@@ -208,7 +208,7 @@ endif
 	done
 
 $(MAKDIR)/test-smm.log: bench
-	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
+	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
 	$(eval DEVICE = "$(shell LIBXSMM_VERBOSE=0 ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_smm 1 1 1 2>&1 >/dev/null)")
 	$(eval WITH_GPU = $(firstword $(foreach GPU,$(WITH_GPUS),$(findstring $(GPU),$(DEVICE)))))
 	$(eval PARAMS = $(firstword $(wildcard $(PARAMS_DIR)/tune_multiply_*$(WITH_GPU).csv)))

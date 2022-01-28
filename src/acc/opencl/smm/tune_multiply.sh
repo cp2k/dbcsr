@@ -42,13 +42,13 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
     -p|--jsondir)
       JSONDIR=$2
       shift 2;;
-    -s|--specid)
+    -k|--specid)
       SPECID=$2
       shift 2;;
     -m|--limit)
       MAXEXT=$2
       shift 2;;
-    -n|--size)
+    -n|--triplets)
       MAXNUM=$2
       shift 2;;
     -r|--bound)
@@ -60,6 +60,9 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
       shift 2;;
     -j|--nparts)
       NPARTS=$2
+      shift 2;;
+    -s|--batchsize)
+      BATCHSIZE=$2
       shift 2;;
     *)
       break;;
@@ -74,15 +77,16 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
   eval "${ECHO} \"       Options must precede triplet specification\""
   eval "${ECHO} \"       -c|--continue: proceed with plan if tuning is interrupted\""
   eval "${ECHO} \"       -u|--update: retune all JSONs found in directory (see -p)\""
+  eval "${ECHO} \"       -s|--batchsize N: Number of batched SMMs (a.k.a. stacksize)\""
   eval "${ECHO} \"       -a|--tuning-level N=0..3: all, most, some, least tunables\""
   eval "${ECHO} \"       -t|--maxtime N: number of seconds spent per kernel\""
   eval "${ECHO} \"       -p|--jsondir P: path to JSON-files (tuned params)\""
   eval "${ECHO} \"       -i|--part N (1-based): Nth session out of nparts\""
   eval "${ECHO} \"       -j|--nparts N: number of total sessions (see -i)\""
   eval "${ECHO} \"       -r|--bound L U: limit L**3 < MNK <= U**3\""
-  eval "${ECHO} \"       -m|--limit N: limit shape extents to N\""
-  eval "${ECHO} \"       -n|--size  N: limit number of elements\""
-  eval "${ECHO} \"       -s|--specid N: predefined triplets\""
+  eval "${ECHO} \"       -m|--limit N: limit any shape extent to N\""
+  eval "${ECHO} \"       -n|--triplets N: limit number of triplet\""
+  eval "${ECHO} \"       -k|--specid N: predefined triplets\""
   eval "${ECHO} \"        0-10: older to newer (larger), e.g.,\""
   eval "${ECHO} \"       -s  0:  201 kernels\""
   eval "${ECHO} \"       -s 10: 1266 kernels\""
@@ -90,6 +94,7 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
   eval "${ECHO} \"         23, 5 32 13 24 26, 4 9\""
   eval "${ECHO}"
   # default settings
+  if [ ! "${BATCHSIZE}" ]; then BATCHSIZE=0; fi
   if [ ! "${JSONDIR}" ]; then JSONDIR=.; fi
   if [ ! "${TLEVEL}" ]; then TLEVEL=-1; fi
   if [ ! "${MAXEXT}" ]; then MAXEXT=0; fi
@@ -110,11 +115,11 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
   elif [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
     if [ "${UPDATE}" ] && [ "0" != "${UPDATE}" ]; then
       if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=0; fi
-      if [ ! "${MAXTIME}" ]; then MAXTIME=320; fi
+      if [ ! "${MAXTIME}" ]; then MAXTIME=160; fi
       MNKS=$(echo "${JSONS}" | ${SED} -n "s/.*tune_multiply-..*-\(..*x..*x.[^-]*\)-..*gflops\.json/\1/p" \
          | ${SORT} -u -n -tx -k1 -k2 -k3)
     elif [ "${SPECID}" ]; then
-      MNKS=$(eval "${HERE}/../../acc_triplets.sh -r ${BOUNDL} ${BOUNDU} -m ${MAXEXT} -n ${MAXNUM} -s ${SPECID} 2>/dev/null")
+      MNKS=$(eval "${HERE}/../../acc_triplets.sh -r ${BOUNDL} ${BOUNDU} -m ${MAXEXT} -n ${MAXNUM} -k ${SPECID} 2>/dev/null")
     else
       MNKS=$(eval "${HERE}/../../acc_triplets.sh -r ${BOUNDL} ${BOUNDU} -m ${MAXEXT} -n ${MAXNUM} $* 2>/dev/null")
     fi
@@ -165,7 +170,7 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
       echo "Started auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf "${HERE}/opentuner.db"
-      eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -a ${TLEVEL} ${MAXTIME}"
+      eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
       RESULT=$?
       # environment var. CONTINUE allows to proceed with next kernel
       # even if tune_multiply.py returned non-zero exit code

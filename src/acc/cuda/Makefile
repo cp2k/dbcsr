@@ -182,7 +182,7 @@ test-interface: $(MAKDIR)/../dbcsr_acc_test
 
 .PHONY: test-trans
 test-trans: bench
-	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
+	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
 	@echo "--- DBCSR CUDA Transposes ($(words $(SHAPES)))"
 	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
 ifneq (,$(LD_PRELOAD))
@@ -200,7 +200,7 @@ endif
 	done
 
 $(MAKDIR)/test-smm.log: bench
-	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
+	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
 	@echo "--- DBCSR CUDA SMMs ($(words $(SHAPES)))"
 	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
 ifneq (,$(LD_PRELOAD))
