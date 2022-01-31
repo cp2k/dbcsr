@@ -160,7 +160,7 @@ int opencl_libsmm_write_trans_params(FILE* stream, int only_key,
 {
   int result = 0;
   if (NULL != stream) {
-    const char d = (NULL == delim ? *OPENCL_LIBSMM_PARAMS_DELIMS : *delim);
+    const char d = (NULL == delim ? *ACC_OPENCL_DELIMS : *delim);
     if (NULL != key || 0 == only_key) result += fprintf(
       stream, "%c", NULL == begin ? '{' : *begin);
     if (NULL != config) {
@@ -191,7 +191,7 @@ int opencl_libsmm_write_smm_params(FILE* stream, int only_key,
 {
   int result = 0;
   if (NULL != stream) {
-    const char d = (NULL == delim ? *OPENCL_LIBSMM_PARAMS_DELIMS : *delim);
+    const char d = (NULL == delim ? *ACC_OPENCL_DELIMS : *delim);
     if (NULL != key || 0 == only_key) result += fprintf(
       stream, "%c", NULL == begin ? '{' : *begin);
     if (NULL != config) {
@@ -229,18 +229,18 @@ int opencl_libsmm_read_smm_params(char* parambuf,
   opencl_libsmm_perfest_t* perfest, char* device)
 {
   const char *const end = parambuf + strlen(parambuf);
-  char* s = strtok(parambuf, OPENCL_LIBSMM_PARAMS_DELIMS);
+  char* s = strtok(parambuf, ACC_OPENCL_DELIMS);
   int result = EXIT_SUCCESS, i = 0, ivalue, consumed = 0, c = 0;
   const int opt_consumed = (NULL != perfest ? 2 : 0) + (NULL != device ? 1 : 0);
   const int max_consumed = opt_consumed + 19;
   double gflops;
   assert(NULL != key && NULL != value);
   for (; NULL != s; ++i,
-    s = (c != consumed ? ((s + 1) < end ? strtok((s + 1) + strlen(s), OPENCL_LIBSMM_PARAMS_DELIMS) : NULL) : s),
+    s = (c != consumed ? ((s + 1) < end ? strtok((s + 1) + strlen(s), ACC_OPENCL_DELIMS) : NULL) : s),
     c = consumed)
   {
     switch (i) {
-      case 0: if (NULL != device && 1 == sscanf(s, "%[^" OPENCL_LIBSMM_PARAMS_DELIMS "]", device)) {
+      case 0: if (NULL != device && 1 == sscanf(s, "%[^" ACC_OPENCL_DELIMS "]", device)) {
         ++consumed; /* optional device name */
       } break;
       case 1: if (1 == sscanf(s, "%i", &ivalue)) {
@@ -678,7 +678,8 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
   result = EXIT_FAILURE;
 #else
   const int mn = m * n;
-  assert((NULL != dev_trs_stack && NULL != dev_data && 0 <= offset && 0 <= stack_size) || 0 == stack_size);
+  assert((NULL != dev_trs_stack && NULL != dev_data && NULL != stream
+    && 0 <= offset && 0 <= stack_size) || 0 == stack_size);
   if ((
 # if defined(OPENCL_LIBSMM_F64)
       dbcsr_type_real_8 == datatype
@@ -694,12 +695,19 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
     ) &&
     0 < stack_size && 1 < mn && m <= max_kernel_dim && n <= max_kernel_dim)
   {
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
     opencl_libsmm_trans_t* config;
     opencl_libsmm_transkey_t key;
 # if !defined(OPENCL_LIBSMM_DEBUG_TRANS)
     double duration;
     const libxsmm_timer_tickint start = libxsmm_timer_tick();
 # endif
+    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+      ACC_OPENCL_OMP_TID(), queue))
+    {
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+        "libsmm_acc_transpose called by foreign thread!\n");
+    }
     LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data (alignment gaps) */
     key.type = datatype; key.m = m; key.n = n; /* initialize key */
     config = (opencl_libsmm_trans_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
@@ -716,9 +724,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
 # endif
       if (0 < nchar && (int)sizeof(fname) > nchar) {
         cl_device_id active_device;
-        assert(NULL != stream);
-        result = clGetCommandQueueInfo(*ACC_OPENCL_STREAM(stream),
-          CL_QUEUE_DEVICE, sizeof(cl_device_id), &active_device, NULL);
+        result = clGetCommandQueueInfo(queue, CL_QUEUE_DEVICE, sizeof(cl_device_id), &active_device, NULL);
         if (CL_SUCCESS == result) {
           const char *const param_format = "-DGLOBAL=%s -DINPLACE=%i -DFN=%s -DSM=%i -DSN=%i -DSWG=%i -DT=%s";
           const char *const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant");
@@ -857,9 +863,8 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
           "set offset argument of transpose kernel", result);
         ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 2, sizeof(cl_mem), ACC_OPENCL_MEM(dev_data)),
           "set matrix-data argument of transpose kernel", result);
-        ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(*ACC_OPENCL_STREAM(stream),
-          config->kernel, 1/*work_dim*/, NULL, &work_size, &config->wgsize, 0, NULL, perf_event),
-          "launch transpose kernel", result);
+        ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(queue, config->kernel, 1/*work_dim*/, NULL,
+          &work_size, &config->wgsize, 0, NULL, perf_event), "launch transpose kernel", result);
         /* eventually update performance counters inside of locked region */
 # if !defined(OPENCL_LIBSMM_DEBUG_TRANS)
         if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
@@ -873,7 +878,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
             duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
           }
           else {
-            clFinish(*ACC_OPENCL_STREAM(stream));
+            clFinish(queue);
             duration = libxsmm_timer_duration(start, libxsmm_timer_tick()); /* seconds */
           }
           if (EXIT_SUCCESS == result) {
@@ -1065,9 +1070,14 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
     double duration;
     const libxsmm_timer_tickint start = libxsmm_timer_tick();
 # endif
-    assert(NULL != stream);
-    result = clGetCommandQueueInfo(*ACC_OPENCL_STREAM(stream),
-      CL_QUEUE_DEVICE, sizeof(cl_device_id), &active_device, NULL);
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+      ACC_OPENCL_OMP_TID(), queue))
+    {
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+        "libsmm_acc_process called by foreign thread!\n");
+    }
+    result = clGetCommandQueueInfo(queue, CL_QUEUE_DEVICE, sizeof(cl_device_id), &active_device, NULL);
     assert(CL_SUCCESS == result || NULL != active_device);
     LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data */
     key.type = datatype; key.m = m_max; key.n = n_max; key.k = k_max; /* initialize key */
@@ -1595,9 +1605,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 4, sizeof(int), &stack_size),
               "set stacksize argument of SMM-kernel", result);
           }
-          ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(*ACC_OPENCL_STREAM(stream),
-            config->kernel[kernel_idx], 1/*work_dim*/, NULL, &work_size, config->wgsize + kernel_idx,
-            0, NULL, perf_event), "launch SMM-kernel", result);
+          ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(queue, config->kernel[kernel_idx], 1/*work_dim*/, NULL,
+            &work_size, config->wgsize + kernel_idx, 0, NULL, perf_event), "launch SMM-kernel", result);
           /* eventually update performance counters inside of locked region */
 # if !defined(OPENCL_LIBSMM_DEBUG_SMM)
           if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
@@ -1611,7 +1620,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
             }
             else {
-              clFinish(*ACC_OPENCL_STREAM(stream));
+              clFinish(queue);
               duration = libxsmm_timer_duration(start, libxsmm_timer_tick()); /* seconds */
             }
             if (EXIT_SUCCESS == result) {

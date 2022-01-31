@@ -73,6 +73,23 @@ const int* c_dbcsr_acc_opencl_stream_priority(void* stream)
 }
 
 
+int c_dbcsr_acc_opencl_stream_is_thread_specific(int thread_id, cl_command_queue stream)
+{
+  const cl_command_queue *const streams = c_dbcsr_acc_opencl_config.streams
+    + ACC_OPENCL_STREAMS_MAXCOUNT * thread_id;
+  assert(0 <= thread_id && thread_id < c_dbcsr_acc_opencl_config.nthreads);
+  assert(NULL != c_dbcsr_acc_opencl_config.streams);
+  if (NULL != stream) {
+    int i = 0; for (; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
+      const cl_command_queue istream = streams[i];
+      if (istream == stream) return EXIT_SUCCESS;
+    }
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
+}
+
+
 int c_dbcsr_acc_opencl_stream_create(int thread_id, cl_command_queue* stream_p,
   const char* name, const ACC_OPENCL_COMMAND_QUEUE_PROPERTIES* properties)
 {
@@ -269,7 +286,7 @@ int c_dbcsr_acc_stream_destroy(void* stream)
 #if defined(ACC_OPENCL_STREAM_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_command_queue));
 #else
-    if (NULL != stream) free(c_dbcsr_acc_opencl_info_stream(stream)->pointer);
+    free(c_dbcsr_acc_opencl_info_stream(stream)->pointer);
 #endif
   }
   ACC_OPENCL_RETURN(result);
@@ -287,12 +304,7 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest)
     cl_platform_id platform = NULL;
     cl_device_id active_id = NULL;
     if (EXIT_SUCCESS == result) {
-#if defined(_OPENMP)
-      const int tid = omp_get_thread_num();
-#else
-      const int tid = 0; /*master*/
-#endif
-      result = c_dbcsr_acc_opencl_device(tid, &active_id);
+      result = c_dbcsr_acc_opencl_device(ACC_OPENCL_OMP_TID(), &active_id);
     }
     ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM,
       sizeof(cl_platform_id), &platform, NULL),
@@ -322,6 +334,12 @@ int c_dbcsr_acc_stream_sync(void* stream)
   cl_command_queue queue;
   assert(NULL != stream);
   queue = *ACC_OPENCL_STREAM(stream);
+  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+    ACC_OPENCL_OMP_TID(), queue))
+  {
+    ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+      "c_dbcsr_acc_stream_sync called by foreign thread!\n");
+  }
   if (0 == (4 & c_dbcsr_acc_opencl_config.devinfo.flush)) {
 #if defined(ACC_OPENCL_STREAM_PRIORITIES)
     const int *const priority = c_dbcsr_acc_opencl_stream_priority(stream);
@@ -344,10 +362,17 @@ int c_dbcsr_acc_stream_sync(void* stream)
 
 int c_dbcsr_acc_stream_wait_event(void* stream, void* event)
 { /* wait for an event (device-side) */
-  int result = EXIT_SUCCESS;
+  int result;
+  cl_command_queue queue;
   assert(NULL != stream && NULL != event);
-  ACC_OPENCL_CHECK(ACC_OPENCL_WAIT_EVENT(*ACC_OPENCL_STREAM(stream),
-    ACC_OPENCL_EVENT(event)), "wait for an event", result);
+  queue = *ACC_OPENCL_STREAM(stream);
+  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+    ACC_OPENCL_OMP_TID(), queue))
+  {
+    ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+      "c_dbcsr_acc_stream_wait_event called by foreign thread!\n");
+  }
+  result = ACC_OPENCL_WAIT_EVENT(queue, ACC_OPENCL_EVENT(event));
   ACC_OPENCL_RETURN(result);
 }
 
