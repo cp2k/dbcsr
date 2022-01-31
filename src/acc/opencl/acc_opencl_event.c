@@ -81,11 +81,11 @@ int c_dbcsr_acc_event_destroy(void* event)
 
 int c_dbcsr_acc_opencl_enqueue_barrier(void* event, void* stream)
 {
-  int result = EXIT_SUCCESS;
+  int result;
   assert(NULL != event && NULL != stream);
 #if defined(CL_VERSION_1_2)
-  ACC_OPENCL_CHECK(clEnqueueBarrierWithWaitList(*ACC_OPENCL_STREAM(stream),
-    0, NULL, ACC_OPENCL_EVENT(event)), "record event", result);
+  result =clEnqueueBarrierWithWaitList(*ACC_OPENCL_STREAM(stream),
+    0, NULL, ACC_OPENCL_EVENT(event));
 #else
   result = EXIT_FAILURE;
 #endif
@@ -95,14 +95,14 @@ int c_dbcsr_acc_opencl_enqueue_barrier(void* event, void* stream)
 
 int c_dbcsr_acc_opencl_enqueue_marker(void* event, void* stream)
 {
-  int result = EXIT_SUCCESS;
+  int result;
   assert(NULL != event && NULL != stream);
 #if defined(CL_VERSION_1_2)
-  ACC_OPENCL_CHECK(clEnqueueMarkerWithWaitList(*ACC_OPENCL_STREAM(stream),
-    0, NULL, ACC_OPENCL_EVENT(event)), "record event", result);
+  result = clEnqueueMarkerWithWaitList(*ACC_OPENCL_STREAM(stream),
+    0, NULL, ACC_OPENCL_EVENT(event));
 #else
-  ACC_OPENCL_CHECK(clEnqueueMarker(*ACC_OPENCL_STREAM(stream),
-    ACC_OPENCL_EVENT(event)), "record event", result);
+  result = clEnqueueMarker(*ACC_OPENCL_STREAM(stream),
+    ACC_OPENCL_EVENT(event));
 #endif
   return result;
 }
@@ -110,9 +110,15 @@ int c_dbcsr_acc_opencl_enqueue_marker(void* event, void* stream)
 
 int c_dbcsr_acc_event_record(void* event, void* stream)
 {
-  int result = EXIT_SUCCESS;
+  int result;
   assert(NULL != event && NULL != stream);
   assert(NULL != c_dbcsr_acc_opencl_config.devinfo.record_event);
+  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+    ACC_OPENCL_OMP_TID(), *ACC_OPENCL_STREAM(stream)))
+  {
+    ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+      "c_dbcsr_acc_event_record called by foreign thread!\n");
+  }
   result = c_dbcsr_acc_opencl_config.devinfo.record_event(event, stream);
   ACC_OPENCL_RETURN(result);
 }
@@ -128,12 +134,7 @@ int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred)
   if (0 <= status) {
     *has_occurred = ((CL_COMPLETE == status || CL_SUCCESS != result) ? 1 : 0);
     if (!*has_occurred) {
-#if defined(_OPENMP)
-      const int tid = omp_get_thread_num();
-#else
-      const int tid = 0; /* master */
-#endif
-      result = c_dbcsr_acc_opencl_device_synchronize(tid);
+      result = c_dbcsr_acc_opencl_device_synchronize(ACC_OPENCL_OMP_TID());
     }
   }
   else { /* error state */

@@ -24,9 +24,6 @@
 # include <unistd.h>
 #endif
 
-#if !defined(ACC_OPENCL_MEM_MAPMULTI) && 0
-# define ACC_OPENCL_MEM_MAPMULTI
-#endif
 #if !defined(ACC_OPENCL_MEM_ALIGNSCALE)
 # define ACC_OPENCL_MEM_ALIGNSCALE 8
 #endif
@@ -53,6 +50,14 @@ int c_dbcsr_acc_opencl_memalignment(size_t size)
 }
 
 
+void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory)
+{
+  void* result = NULL;
+  ACC_OPENCL_EXPECT(CL_SUCCESS, clGetMemObjectInfo(memory, CL_MEM_HOST_PTR, sizeof(void*), &result, NULL));
+  return result;
+}
+
+
 c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory)
 {
   assert(NULL == memory || sizeof(c_dbcsr_acc_opencl_info_hostptr_t) <= (uintptr_t)memory);
@@ -62,73 +67,62 @@ c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory)
 }
 
 
-#if defined(ACC_OPENCL_SVM)
-void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory)
-{
-  void* result = NULL;
-  assert(c_dbcsr_acc_opencl_config.devinfo.svm_interop);
-  if (NULL != memory && CL_SUCCESS != clGetMemObjectInfo(memory, CL_MEM_HOST_PTR, sizeof(void*), &result, NULL)) {
-    assert(NULL == result);
-  }
-  return result;
-}
-#endif
-
-
 int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
 {
-  cl_int result;
-  const int alignment = c_dbcsr_acc_opencl_memalignment(nbytes);
-  const size_t size_meminfo = sizeof(c_dbcsr_acc_opencl_info_hostptr_t);
-  const size_t size = nbytes + alignment + size_meminfo - 1;
   cl_context context = NULL;
   cl_command_queue queue;
-  cl_mem buffer = NULL;
+  cl_mem memory = NULL;
+  cl_int result;
+  const size_t size_meminfo = sizeof(c_dbcsr_acc_opencl_info_hostptr_t);
+  const int alignment = c_dbcsr_acc_opencl_memalignment(nbytes);
+  nbytes += alignment + size_meminfo - 1;
   assert(NULL != host_mem && NULL != stream);
   queue = *ACC_OPENCL_STREAM(stream);
+  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+    ACC_OPENCL_OMP_TID(), queue))
+  {
+    ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+      "c_dbcsr_acc_host_mem_allocate called by foreign thread!\n");
+  }
   result = clGetCommandQueueInfo(queue, CL_QUEUE_CONTEXT, sizeof(cl_context), &context, NULL);
   if (CL_SUCCESS == result) {
-    buffer = (
+    memory = (
 #if defined(ACC_OPENCL_SVM)
-      c_dbcsr_acc_opencl_config.devinfo.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR, size,
-        clSVMAlloc(context, CL_MEM_READ_WRITE, size, sizeof(void*)/*minimal alignment*/), &result) :
+      0 != c_dbcsr_acc_opencl_config.devinfo.svm_interop ? clCreateBuffer(context,
+          CL_MEM_USE_HOST_PTR, nbytes,
+        clSVMAlloc(context, CL_MEM_READ_WRITE, nbytes, sizeof(void*)/*minimal alignment*/), &result) :
 #elif defined(ACC_OPENCL_MALLOC_LIBXSMM)
-      clCreateBuffer(context, CL_MEM_USE_HOST_PTR, size,
-        libxsmm_aligned_malloc(size, sizeof(void*)/*minimal alignment*/), &result));
+      clCreateBuffer(context, CL_MEM_USE_HOST_PTR, nbytes,
+        libxsmm_aligned_malloc(nbytes, sizeof(void*)/*minimal alignment*/), &result));
 #else
-      clCreateBuffer(context, CL_MEM_ALLOC_HOST_PTR, size, NULL/*host_ptr*/, &result));
+      clCreateBuffer(context, CL_MEM_ALLOC_HOST_PTR, nbytes, NULL/*host_ptr*/, &result));
 #endif
   }
-  assert(CL_SUCCESS == result || NULL == buffer);
+  assert(CL_SUCCESS == result || NULL == memory);
   if (CL_SUCCESS == result) {
-    const uintptr_t address = (uintptr_t)clEnqueueMapBuffer(queue, buffer,
+    void *const mapped = clEnqueueMapBuffer(queue, memory,
       !c_dbcsr_acc_opencl_config.devinfo.async, CL_MAP_READ | CL_MAP_WRITE,
-      0/*offset*/, size, 0, NULL, NULL, &result);
-    assert(CL_SUCCESS == result || 0 == address);
+      0/*offset*/, nbytes, 0, NULL, NULL, &result);
+    assert(CL_SUCCESS == result || NULL == mapped);
     if (CL_SUCCESS == result) {
+      const uintptr_t address = (uintptr_t)mapped;
       const uintptr_t aligned = LIBXSMM_UP2(address + size_meminfo, alignment);
       c_dbcsr_acc_opencl_info_hostptr_t* meminfo;
       assert(address + size_meminfo <= aligned);
-#if defined(ACC_OPENCL_MEM_MAPMULTI)
-      assert(0 < aligned - address - size_meminfo);
-      meminfo = (c_dbcsr_acc_opencl_info_hostptr_t*)clEnqueueMapBuffer(queue, buffer,
-        CL_TRUE/*blocking*/, CL_MAP_READ | CL_MAP_WRITE,
-        aligned - address - size_meminfo, size_meminfo, 0, NULL, NULL, &result);
-#else
       meminfo = (c_dbcsr_acc_opencl_info_hostptr_t*)(aligned - size_meminfo);
-#endif
       if (NULL != meminfo) {
-        meminfo->buffer = buffer;
-        meminfo->mapped = (void*)address;
+        meminfo->memory = memory;
+        meminfo->mapped = mapped;
         *host_mem = (void*)aligned;
       }
       else {
+        result = EXIT_FAILURE;
         ACC_OPENCL_ERROR("map buffer info", result);
         *host_mem = NULL;
       }
     }
     else {
-      assert(CL_SUCCESS != result);
+      ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseMemObject(memory));
       ACC_OPENCL_ERROR("map host buffer", result);
       *host_mem = NULL;
     }
@@ -144,33 +138,32 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
 
 int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream)
 {
-  int result = EXIT_SUCCESS;
+  int result;
   assert(NULL != stream);
   if (NULL != host_mem) {
     c_dbcsr_acc_opencl_info_hostptr_t *const meminfo = c_dbcsr_acc_opencl_info_hostptr(host_mem);
-    const c_dbcsr_acc_opencl_info_hostptr_t info = *meminfo; /* copy meminfo prior to unmap */
-    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
-    if (NULL != meminfo->buffer) {
-#if defined(ACC_OPENCL_MEM_MAPMULTI)
-      ACC_OPENCL_CHECK(clEnqueueUnmapMemObject(queue, meminfo->buffer, meminfo,
-        0, NULL, NULL), "unmap memory info", result);
-#endif
-      ACC_OPENCL_CHECK(clEnqueueUnmapMemObject(queue, info.buffer, info.mapped,
-        0, NULL, NULL), "unmap host memory", result);
-      ACC_OPENCL_CHECK(clReleaseMemObject(info.buffer),
-        "release host memory buffer", result);
-#if defined(ACC_OPENCL_SVM)
-      if (c_dbcsr_acc_opencl_config.devinfo.svm_interop) {
-        cl_context context;
+    if (NULL != meminfo->memory) {
+      const c_dbcsr_acc_opencl_info_hostptr_t info = *meminfo; /* copy meminfo prior to unmap */
+      const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+      int result_release;
+      result = clEnqueueUnmapMemObject(queue, info.memory, info.mapped, 0, NULL, NULL);
+# if defined(ACC_OPENCL_SVM)
+      /* svm_interop shall be part of c_dbcsr_acc_opencl_info_hostptr_t */
+      assert(0 != c_dbcsr_acc_opencl_config.devinfo.svm_interop);
+      { cl_context context;
         result = clGetCommandQueueInfo(queue, CL_QUEUE_CONTEXT,
           sizeof(cl_context), &context, NULL);
         if (CL_SUCCESS == result) clSVMFree(context, info.mapped);
       }
-#elif defined(ACC_OPENCL_MALLOC_LIBXSMM)
+# elif defined(ACC_OPENCL_MALLOC_LIBXSMM)
       libxsmm_free(info.mapped);
-#endif
+# endif
+      result_release = clReleaseMemObject(info.memory);
+      if (EXIT_SUCCESS == result) result = result_release;
     }
+    else result = EXIT_FAILURE;
   }
+  else result = EXIT_FAILURE;
   ACC_OPENCL_RETURN(result);
 }
 
@@ -190,7 +183,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
   assert(NULL != context);
   buffer = (
 #if defined(ACC_OPENCL_SVM)
-    c_dbcsr_acc_opencl_config.devinfo.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR,
+    0 != c_dbcsr_acc_opencl_config.devinfo.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR,
       nbytes + ACC_OPENCL_OVERMALLOC, clSVMAlloc(context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag),
       nbytes + ACC_OPENCL_OVERMALLOC, 0/*default alignment*/), &result) :
 #endif
@@ -199,7 +192,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
   if (0 != try_flag && CL_SUCCESS != result) { /* retry without try_flag */
     buffer = (
 #if defined(ACC_OPENCL_SVM)
-      c_dbcsr_acc_opencl_config.devinfo.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR,
+      0 != c_dbcsr_acc_opencl_config.devinfo.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR,
         nbytes + ACC_OPENCL_OVERMALLOC, clSVMAlloc(context, CL_MEM_READ_WRITE,
         nbytes + ACC_OPENCL_OVERMALLOC, 0/*default alignment*/), &result) :
 #endif
@@ -217,14 +210,14 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
       *(cl_mem*)*dev_mem = buffer;
     }
     else {
-#if defined(ACC_OPENCL_SVM)
-      void *const ptr = (c_dbcsr_acc_opencl_config.devinfo.svm_interop
+# if defined(ACC_OPENCL_SVM)
+      void *const ptr = (0 != c_dbcsr_acc_opencl_config.devinfo.svm_interop
         ? c_dbcsr_acc_opencl_get_hostptr(buffer) : NULL);
-#endif
+# endif
       clReleaseMemObject(buffer);
-#if defined(ACC_OPENCL_SVM)
+# if defined(ACC_OPENCL_SVM)
       /*if (NULL != ptr)*/ clSVMFree(context, ptr);
-#endif
+# endif
       result = EXIT_FAILURE;
     }
 #endif
@@ -244,7 +237,8 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem)
   if (NULL != dev_mem) {
     const cl_mem buffer = *ACC_OPENCL_MEM(dev_mem);
 #if defined(ACC_OPENCL_SVM)
-    void *const ptr = (c_dbcsr_acc_opencl_config.devinfo.svm_interop
+    /* svm_interop shall be part of a device memory info */
+    void *const ptr = (0 != c_dbcsr_acc_opencl_config.devinfo.svm_interop
       ? c_dbcsr_acc_opencl_get_hostptr(buffer) : NULL);
 #endif
     ACC_OPENCL_CHECK(clReleaseMemObject(buffer),
@@ -285,9 +279,15 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
   int result = EXIT_SUCCESS;
   assert((NULL != host_mem || 0 == nbytes) && (NULL != dev_mem || 0 == nbytes) && NULL != stream);
   if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
-    ACC_OPENCL_CHECK(clEnqueueWriteBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(dev_mem),
-      CL_FALSE, 0/*offset*/, nbytes, host_mem, 0, NULL, NULL),
-      "enqueue h2d copy", result);
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+      ACC_OPENCL_OMP_TID(), queue))
+    {
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+        "c_dbcsr_acc_memcpy_h2d called by foreign thread!\n");
+    }
+    result = clEnqueueWriteBuffer(queue, *ACC_OPENCL_MEM(dev_mem),
+      CL_FALSE, 0/*offset*/, nbytes, host_mem, 0, NULL, NULL);
   }
   ACC_OPENCL_RETURN(result);
 }
@@ -298,9 +298,16 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
   int result = EXIT_SUCCESS;
   assert((NULL != dev_mem || 0 == nbytes) && (NULL != host_mem || 0 == nbytes) && NULL != stream);
   if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
-    ACC_OPENCL_CHECK(clEnqueueReadBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(dev_mem),
-      !c_dbcsr_acc_opencl_config.devinfo.async, 0/*offset*/, nbytes, host_mem, 0, NULL, NULL),
-      "enqueue d2h copy", result);
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+      ACC_OPENCL_OMP_TID(), queue))
+    {
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+        "c_dbcsr_acc_memcpy_d2h called by foreign thread!\n");
+    }
+    result = clEnqueueReadBuffer(queue, *ACC_OPENCL_MEM(dev_mem),
+      !c_dbcsr_acc_opencl_config.devinfo.async, 0/*offset*/, nbytes,
+      host_mem, 0, NULL, NULL);
   }
   ACC_OPENCL_RETURN(result);
 }
@@ -311,10 +318,16 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
   int result = EXIT_SUCCESS;
   assert((NULL != devmem_src || 0 == nbytes) && (NULL != devmem_dst || 0 == nbytes) && NULL != stream);
   if (NULL != devmem_src && NULL != devmem_dst && 0 != nbytes) {
-    ACC_OPENCL_CHECK(clEnqueueCopyBuffer(*ACC_OPENCL_STREAM(stream),
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+      ACC_OPENCL_OMP_TID(), queue))
+    {
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+        "c_dbcsr_acc_memcpy_d2d called by foreign thread!\n");
+    }
+    result = clEnqueueCopyBuffer(queue,
       *ACC_OPENCL_MEM(devmem_src), *ACC_OPENCL_MEM(devmem_dst),
-      0/*src_offset*/, 0/*dst_offset*/, nbytes, 0, NULL, NULL),
-      "enqueue d2d copy", result);
+      0/*src_offset*/, 0/*dst_offset*/, nbytes, 0, NULL, NULL);
   }
   ACC_OPENCL_RETURN(result);
 }
@@ -325,10 +338,16 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
   int result = EXIT_SUCCESS;
   assert((NULL != dev_mem || 0 == nbytes) && NULL != stream);
   if (0 != nbytes) {
-    const cl_uchar pattern = 0; /* fill with zeros */
-    ACC_OPENCL_CHECK(clEnqueueFillBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(dev_mem),
-      &pattern, sizeof(pattern), offset, nbytes, 0, NULL, NULL),
-      "enqueue zeroing kernel", result);
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+    static const cl_uchar pattern = 0; /* fill with zeros */
+    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
+      ACC_OPENCL_OMP_TID(), queue))
+    {
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
+        "c_dbcsr_acc_memset_zero called by foreign thread!\n");
+    }
+    result = clEnqueueFillBuffer(queue, *ACC_OPENCL_MEM(dev_mem),
+      &pattern, sizeof(pattern), offset, nbytes, 0, NULL, NULL);
   }
   ACC_OPENCL_RETURN(result);
 }
@@ -416,14 +435,9 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
 
 int c_dbcsr_acc_dev_mem_info(size_t* mem_free, size_t* mem_total)
 {
-#if defined(_OPENMP)
-  const int tid = omp_get_thread_num();
-#else
-  const int tid = 0; /*master*/
-#endif
   cl_device_id active_id = NULL;
   int result = 0 < c_dbcsr_acc_opencl_config.ndevices
-    ? c_dbcsr_acc_opencl_device(tid, &active_id)
+    ? c_dbcsr_acc_opencl_device(ACC_OPENCL_OMP_TID(), &active_id)
     : EXIT_FAILURE;
   if (EXIT_SUCCESS == result) {
     result = c_dbcsr_acc_opencl_info_devmem(

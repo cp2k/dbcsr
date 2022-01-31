@@ -75,6 +75,10 @@
 #   define ACC_OPENCL_OVERMALLOC 8192
 # endif
 #endif
+/* First char is CSV-separator by default */
+#if !defined(ACC_OPENCL_DELIMS)
+# define ACC_OPENCL_DELIMS ",;: \t|/"
+#endif
 
 #if !defined(ACC_OPENCL_DEBUG) && (defined(_DEBUG) || 0)
 # define ACC_OPENCL_DEBUG
@@ -96,7 +100,8 @@
 #endif
 
 /* can depend on OpenCL implementation (unlikely) */
-#if !defined(ACC_OPENCL_MEM_NOALLOC) && 1
+#if !defined(ACC_OPENCL_MEM_NOALLOC) && \
+    !defined(ACC_OPENCL_MEM_ALLOC) && 1
 # define ACC_OPENCL_MEM_NOALLOC
 # define ACC_OPENCL_MEM(A) ((cl_mem*)&(A))
 #else
@@ -104,14 +109,16 @@
 #endif
 /* can depend on OpenCL implementation (unlikely) */
 #if !defined(ACC_OPENCL_STREAM_NOALLOC) && \
-    !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
+    !defined(ACC_OPENCL_STREAM_PRIORITIES) && \
+    !defined(ACC_OPENCL_STREAM_ALLOC) && 1
 # define ACC_OPENCL_STREAM_NOALLOC
 # define ACC_OPENCL_STREAM(A) ((cl_command_queue*)&(A))
 #else
 # define ACC_OPENCL_STREAM(A) ((cl_command_queue*)(A))
 #endif
 /* incompatible with c_dbcsr_acc_event_record */
-#if !defined(ACC_OPENCL_EVENT_NOALLOC) && 0
+#if !defined(ACC_OPENCL_EVENT_NOALLOC) && \
+    !defined(ACC_OPENCL_EVENT_ALLOC) && 0
 # define ACC_OPENCL_EVENT_NOALLOC
 # define ACC_OPENCL_EVENT(A) ((cl_event*)&(A))
 #else
@@ -132,6 +139,12 @@
 # define ACC_OPENCL_DEBUG_FPRINTF(STREAM, ...)
 # define ACC_OPENCL_DEBUG_IF(CONDITION)
 # define ACC_OPENCL_DEBUG_ELSE
+#endif
+
+#if defined(_OPENMP)
+# define ACC_OPENCL_OMP_TID() omp_get_thread_num()
+#else
+# define ACC_OPENCL_OMP_TID() (/*master*/0)
 #endif
 
 #if !defined(NDEBUG) || defined(ACC_OPENCL_DEBUG)
@@ -236,7 +249,7 @@ cl_context c_dbcsr_acc_opencl_device_context(cl_device_id device, const int* thr
 
 /** Information about host-memory pointer (c_dbcsr_acc_host_mem_allocate). */
 typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
-  cl_mem buffer;
+  cl_mem memory;
   void* mapped;
 } c_dbcsr_acc_opencl_info_hostptr_t;
 c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory);
@@ -247,6 +260,7 @@ typedef struct c_dbcsr_acc_opencl_info_stream_t {
   int priority;
 } c_dbcsr_acc_opencl_info_stream_t;
 c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream);
+int c_dbcsr_acc_opencl_stream_is_thread_specific(int thread_id, cl_command_queue stream);
 const int* c_dbcsr_acc_opencl_stream_priority(void* stream);
 
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */

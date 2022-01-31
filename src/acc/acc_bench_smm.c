@@ -40,6 +40,9 @@
 #if !defined(WARMUP)
 # define WARMUP 2
 #endif
+#if !defined(DELIMS)
+# define DELIMS ",;:\t|/"
+#endif
 
 #define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
 #define ACC_BENCH_SMM_EPSILON_double 1E-3
@@ -183,7 +186,7 @@ int main(int argc, char* argv[])
     fprintf(stderr, "ACC initialization failed!\n");
   }
   while (EXIT_SUCCESS == result) {
-    const int inr = (NULL != snr ? atoi(snr) : 0), nrepeat = (0 < inr ? inr : 3);
+    const int inr = (NULL != snr ? atoi(snr) : 0);
     const int ism = (NULL != ssm ? atoi(ssm) : 0), m = (0 < ism ? ism : 23);
     const int isn = (NULL != ssn ? atoi(ssn) : 0), n = (0 < isn ? isn : m);
     const int isk = (NULL != ssk ? atoi(ssk) : 0), k = (0 < isk ? isk : m);
@@ -218,6 +221,7 @@ int main(int argc, char* argv[])
 #endif
     const char *const env_stack_size = getenv("SMM_BATCHSIZE");
     int stack_size, na, nb, nc, nr, r, i;
+    int nrepeat = (0 < inr ? inr : 3);
     if (NULL == env_stack_size) {
       stack_size = 0;
       if (NULL != sss) {
@@ -234,7 +238,14 @@ int main(int argc, char* argv[])
         else stack_size = (int)nelems;
       }
     }
-    else stack_size = atoi(env_stack_size);
+    else {
+      i = strcspn(env_stack_size, DELIMS);
+      if (i < (int)sizeof(DELIMS)) {
+        r = atoi(env_stack_size + i + 1);
+        if (0 < r) nrepeat = r;
+      }
+      stack_size = atoi(env_stack_size);
+    }
     if (0 >= stack_size) stack_size = 30000; /* default */
     nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
     na = (0 < ina ? ina : (10 * nc));
