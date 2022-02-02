@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="">
-    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +14,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,112 +38,57 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-35-g6f2c3ee859</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-36-g9d0df3d622</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li><a href='../page/index.html'>Guide</a></li>
-      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../lists/files.html">Source Files</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
             <li><a href="../lists/programs.html">Programs</a></li>
-               
-        
-        
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-
-
-
           </ul>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>dbcsr_mm_csr_multiply_low
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 0.2% of total for procedures.">118 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_csr.F"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/dbcsr_mm_csr.f.html'>dbcsr_mm_csr.F</a></li>
-    
      <li><a href='../module/dbcsr_mm_csr.html'>dbcsr_mm_csr</a></li>
-    
-  
      <li class="active">dbcsr_mm_csr_multiply_low</li>
   </ol>
 </div>
@@ -163,975 +104,568 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#src">dbcsr_mm_csr_multiply_low</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-routinen~600">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-dbg~16">dbg</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_blk~10">a_blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_col_l">a_col_l</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_row_l">a_row_l</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_blk~5">b_blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_col_l">b_col_l</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-c_blk_id">c_blk_id</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-c_col_logical">c_col_logical</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-c_nze~3">c_nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-c_row_logical">c_row_logical</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-ithread~17">ithread</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-k_size">k_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-m_size">m_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-mapped_col_size">mapped_col_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-mapped_k_size">mapped_k_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-mapped_row_size">mapped_row_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-n_a_norms">n_a_norms</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-n_b_norms">n_b_norms</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-n_size">n_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-nstacks~3">nstacks</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-s_dp">s_dp</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-ws">ws</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_row_p">a_row_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_row_p">b_row_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_blk_info">b_blk_info</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_blk_info">a_blk_info</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-offset~60">offset</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-block_exists">block_exists</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_norm">a_norm</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_row_eps">a_row_eps</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_norm">b_norm</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-left_norms~3">left_norms</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-right_norms~3">right_norms</a>
+    </div>
   </div>
 </div>
-
-
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-private subroutine dbcsr_mm_csr_multiply_low(this, left, right, mi, mf, ki, kf, ai, af, bi, bf, c_row_i, c_col_i, c_blk_p, lastblk, datasize, m_sizes, n_sizes, k_sizes, c_local_rows, c_local_cols, c_has_symmetry, keep_sparsity, use_eps, row_max_epss, flop, row_size_maps, col_size_maps, k_size_maps, row_size_maps_size, col_size_maps_size, k_size_maps_size, nm_stacks, nn_stacks, nk_stacks, stack_map, stacks_data, stacks_fillcount, c_hashes, a_index, b_index, a_norms, b_norms)
+    <h2>private subroutine dbcsr_mm_csr_multiply_low(this, left, right, mi, mf, ki, kf, ai, af, bi, bf, c_row_i, c_col_i, c_blk_p, lastblk, datasize, m_sizes, n_sizes, k_sizes, c_local_rows, c_local_cols, c_has_symmetry, keep_sparsity, use_eps, row_max_epss, flop, row_size_maps, col_size_maps, k_size_maps, row_size_maps_size, col_size_maps_size, k_size_maps_size, nm_stacks, nn_stacks, nk_stacks, stack_map, stacks_data, stacks_fillcount, c_hashes, a_index, b_index, a_norms, b_norms)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>Performs multiplication of smaller submatrices.</p>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-this~65"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-this~53"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>this</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-left~9"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-left~17"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>left</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-right~9"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-right~18"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>right</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-mi~5"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-mi~6"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>mi</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-mf~4"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-mf~3"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>mf</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-ki~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-ki~2"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>ki</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-kf~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-kf~2"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>kf</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-ai~5"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-ai~2"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>ai</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-af~5"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-af~2"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>af</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-bi~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-bi~2"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>bi</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-bf~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-bf~2"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>bf</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-c_row_i"></span>integer,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>c_row_i</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-c_col_i"></span>integer,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>c_col_i</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-c_blk_p~2"></span>integer,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>c_blk_p</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-lastblk~2"></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>lastblk</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-datasize~3"></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-datasize~2"></span>integer,</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>datasize</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-m_sizes~4"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+  <td><span class="anchor" id="variable-m_sizes~5"></span>integer,</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>m_sizes</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-n_sizes~4"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+  <td><span class="anchor" id="variable-n_sizes~5"></span>integer,</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>n_sizes</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-k_sizes~4"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+  <td><span class="anchor" id="variable-k_sizes~5"></span>integer,</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>k_sizes</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-c_local_rows~5"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>c_local_rows</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-c_local_cols~5"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>c_local_cols</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-c_has_symmetry~4"></span>logical,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>c_has_symmetry</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-keep_sparsity~10"></span>logical,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-keep_sparsity~14"></span>logical,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-use_eps~3"></span>logical,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>use_eps</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-row_max_epss~4"></span>real(kind=sp),</td>
-  <td></td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+  <td><span class="anchor" id="variable-row_max_epss~5"></span>real(kind=sp),</td>
+<td></td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_max_epss</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-flop~27"></span>integer(kind=int_8),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-flop~20"></span>integer(kind=int_8),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-row_size_maps"></span>integer(kind=int_4),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(0:row_size_maps_size - 1)</td><td>::</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(0:row_size_maps_size - 1)</td><td>::</td>
   <td><strong>row_size_maps</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-col_size_maps"></span>integer(kind=int_4),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(0:col_size_maps_size - 1)</td><td>::</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(0:col_size_maps_size - 1)</td><td>::</td>
   <td><strong>col_size_maps</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-k_size_maps~2"></span>integer(kind=int_4),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(0:k_size_maps_size - 1)</td><td>::</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(0:k_size_maps_size - 1)</td><td>::</td>
   <td><strong>k_size_maps</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-row_size_maps_size"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>row_size_maps_size</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-col_size_maps_size"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>col_size_maps_size</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-k_size_maps_size~2"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>k_size_maps_size</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-nm_stacks~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>nm_stacks</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-nn_stacks~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>nn_stacks</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-nk_stacks~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>nk_stacks</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-stack_map~2"></span>integer(kind=int_1),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(nn_stacks + 1, nk_stacks + 1, nm_stacks + 1)</td><td>::</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(nn_stacks + 1, nk_stacks + 1, nm_stacks + 1)</td><td>::</td>
   <td><strong>stack_map</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-stacks_data~2"></span>integer,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>DIMENSION(:, :, :)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>DIMENSION(:, :, :)</td><td>::</td>
   <td><strong>stacks_data</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-stacks_fillcount~2"></span>integer,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>stacks_fillcount</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-c_hashes~2"></span>type(<a href='../type/hash_table_type.html'>hash_table_type</a>),</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>c_hashes</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-a_index~3"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(1:3, 1:af)</td><td>::</td>
+  <td><span class="anchor" id="variable-a_index~2"></span>integer,</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(1:3, 1:af)</td><td>::</td>
   <td><strong>a_index</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-b_index~3"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(1:3, 1:bf)</td><td>::</td>
+  <td><span class="anchor" id="variable-b_index~2"></span>integer,</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(1:3, 1:bf)</td><td>::</td>
   <td><strong>b_index</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-a_norms~4"></span>real(kind=sp),</td>
-  <td></td>
-  <td></td>
-  
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><span class="anchor" id="variable-a_norms~3"></span>real(kind=sp),</td>
+<td></td>
+  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>a_norms</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-b_norms~4"></span>real(kind=sp),</td>
-  <td></td>
-  <td></td>
-  
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><span class="anchor" id="variable-b_norms~3"></span>real(kind=sp),</td>
+<td></td>
+  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>b_norms</strong></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
-    
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#src">dbcsr_mm_csr_multiply_low</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-routinen~600">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-dbg~16">dbg</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_blk~10">a_blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_col_l">a_col_l</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_row_l">a_row_l</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_blk~5">b_blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_col_l">b_col_l</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-c_blk_id">c_blk_id</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-c_col_logical">c_col_logical</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-c_nze~3">c_nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-c_row_logical">c_row_logical</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-ithread~17">ithread</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-k_size">k_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-m_size">m_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-mapped_col_size">mapped_col_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-mapped_k_size">mapped_k_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-mapped_row_size">mapped_row_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-n_a_norms">n_a_norms</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-n_b_norms">n_b_norms</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-n_size">n_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-nstacks~3">nstacks</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-s_dp">s_dp</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-ws">ws</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_row_p">a_row_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_row_p">b_row_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_blk_info">b_blk_info</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_blk_info">a_blk_info</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-offset~60">offset</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-block_exists">block_exists</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_norm">a_norm</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-a_row_eps">a_row_eps</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-b_norm">b_norm</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-left_norms~3">left_norms</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply_low.html#variable-right_norms~3">right_norms</a>
+    </div>
   </div>
 </div>
-
-
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_csr_multiply_low</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">kf</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">      </span><span class="c">!! Performs multiplication of smaller submatrices.</span>
-<span class="w">                                        </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">c_row_i</span><span class="p">,</span><span class="w"> </span><span class="n">c_col_i</span><span class="p">,</span><span class="w"> </span><span class="n">c_blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">lastblk</span><span class="p">,</span><span class="w"> </span><span class="n">datasize</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">m_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">k_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">c_local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">c_local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">c_has_symmetry</span><span class="p">,</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">use_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">row_max_epss</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">row_size_maps</span><span class="p">,</span><span class="w"> </span><span class="n">col_size_maps</span><span class="p">,</span><span class="w"> </span><span class="n">k_size_maps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">row_size_maps_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size_maps_size</span><span class="p">,</span><span class="w"> </span><span class="n">k_size_maps_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">nm_stacks</span><span class="p">,</span><span class="w"> </span><span class="n">nn_stacks</span><span class="p">,</span><span class="w"> </span><span class="n">nk_stacks</span><span class="p">,</span><span class="w"> </span><span class="n">stack_map</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">stacks_data</span><span class="p">,</span><span class="w"> </span><span class="n">stacks_fillcount</span><span class="p">,</span><span class="w"> </span><span class="n">c_hashes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="n">a_index</span><span class="p">,</span><span class="w"> </span><span class="n">b_index</span><span class="p">,</span><span class="w"> </span><span class="n">a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">b_norms</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_csr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">kf</span><span class="p">,</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">c_row_i</span><span class="p">,</span><span class="w"> </span><span class="n">c_col_i</span><span class="p">,</span><span class="w"> </span><span class="n">c_blk_p</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">lastblk</span><span class="p">,</span><span class="w"> </span><span class="n">datasize</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">m_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">k_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">c_local_rows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                            </span><span class="n">c_local_cols</span><span class="w"></span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">c_has_symmetry</span><span class="p">,</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">use_eps</span><span class="w"></span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_max_epss</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">row_size_maps_size</span><span class="p">,</span><span class="w"> </span><span class="n">k_size_maps_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                            </span><span class="n">col_size_maps_size</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">         </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">row_size_maps_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">row_size_maps</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">         </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">col_size_maps_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">col_size_maps</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">         </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">k_size_maps_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">k_size_maps</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">nm_stacks</span><span class="p">,</span><span class="w"> </span><span class="n">nn_stacks</span><span class="p">,</span><span class="w"> </span><span class="n">nk_stacks</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_1</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">nn_stacks</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                     </span><span class="n">nk_stacks</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nm_stacks</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">stack_map</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">stacks_data</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">stacks_fillcount</span><span class="w"></span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">hash_table_type</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c_hashes</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">af</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">a_index</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">bf</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">b_index</span><span class="w"></span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">b_norms</span><span class="w"></span>
-
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_mm_csr_multiply_low&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">dbg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
-
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a_blk</span><span class="p">,</span><span class="w"> </span><span class="n">a_col_l</span><span class="p">,</span><span class="w"> </span><span class="n">a_row_l</span><span class="p">,</span><span class="w"> </span><span class="n">b_blk</span><span class="p">,</span><span class="w"> </span><span class="n">b_col_l</span><span class="p">,</span><span class="w"> </span><span class="n">c_blk_id</span><span class="p">,</span><span class="w"> </span><span class="n">c_col_logical</span><span class="p">,</span><span class="w"> </span><span class="n">c_nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                 </span><span class="n">c_row_logical</span><span class="p">,</span><span class="w"> </span><span class="n">ithread</span><span class="p">,</span><span class="w"> </span><span class="n">k_size</span><span class="p">,</span><span class="w"> </span><span class="n">m_size</span><span class="p">,</span><span class="w"> </span><span class="n">mapped_col_size</span><span class="p">,</span><span class="w"> </span><span class="n">mapped_k_size</span><span class="p">,</span><span class="w"> </span><span class="n">mapped_row_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                 </span><span class="n">n_a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">n_b_norms</span><span class="p">,</span><span class="w"> </span><span class="n">n_size</span><span class="p">,</span><span class="w"> </span><span class="n">nstacks</span><span class="p">,</span><span class="w"> </span><span class="n">s_dp</span><span class="p">,</span><span class="w"> </span><span class="n">ws</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">mi</span><span class="p">:</span><span class="n">mf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">a_row_p</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">ki</span><span class="p">:</span><span class="n">kf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">b_row_p</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">b_blk_info</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ai</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">a_blk_info</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">offset</span><span class="w"></span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">block_exists</span><span class="w"></span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">a_norm</span><span class="p">,</span><span class="w"> </span><span class="n">a_row_eps</span><span class="p">,</span><span class="w"> </span><span class="n">b_norm</span><span class="w"></span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">af</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ai</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">left_norms</span><span class="w"></span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">bf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">right_norms</span><span class="w"></span>
-
-<span class="c">!   ---------------------------------------------------------------------------</span>
-
-<span class="w">      </span><span class="n">ithread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="c">!$    ithread = omp_get_thread_num()</span>
-
-<span class="w">      </span><span class="n">nstacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_data</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_eps</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">n_a_norms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">af</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ai</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">         </span><span class="n">n_b_norms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">      </span><span class="k">ELSE</span>
-<span class="k">         </span><span class="n">n_a_norms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">         </span><span class="n">n_b_norms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">      </span><span class="k">ENDIF</span><span class="w"></span>
-
-<span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="c">! Build the indices</span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">build_csr_index</span><span class="p">(</span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="n">a_row_p</span><span class="p">,</span><span class="w"> </span><span class="n">a_blk_info</span><span class="p">,</span><span class="w"> </span><span class="n">a_index</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                           </span><span class="n">n_a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">left_norms</span><span class="p">,</span><span class="w"> </span><span class="n">a_norms</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">build_csr_index</span><span class="p">(</span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">kf</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="n">b_row_p</span><span class="p">,</span><span class="w"> </span><span class="n">b_blk_info</span><span class="p">,</span><span class="w"> </span><span class="n">b_index</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                           </span><span class="n">n_b_norms</span><span class="p">,</span><span class="w"> </span><span class="n">right_norms</span><span class="p">,</span><span class="w"> </span><span class="n">b_norms</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">      </span><span class="n">a_row_cycle</span><span class="p">:</span><span class="w"> </span><span class="k">DO </span><span class="n">a_row_l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="w"></span>
-<span class="w">         </span><span class="n">m_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_sizes</span><span class="p">(</span><span class="n">a_row_l</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">         </span><span class="n">a_row_eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_max_epss</span><span class="p">(</span><span class="n">a_row_l</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">mapped_row_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_size_maps</span><span class="p">(</span><span class="n">m_size</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">         </span><span class="n">a_blk_cycle</span><span class="p">:</span><span class="w"> </span><span class="k">DO </span><span class="n">a_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_row_p</span><span class="p">(</span><span class="n">a_row_l</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a_row_p</span><span class="p">(</span><span class="n">a_row_l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">a_col_l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a_blk</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">ithread</span><span class="p">,</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; A col&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">a_col_l</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">a_row_l</span><span class="w"></span>
-<span class="w">            </span><span class="n">k_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k_sizes</span><span class="p">(</span><span class="n">a_col_l</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">mapped_k_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k_size_maps</span><span class="p">(</span><span class="n">k_size</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">            </span><span class="n">a_norm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left_norms</span><span class="p">(</span><span class="n">a_blk</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">b_blk_cycle</span><span class="p">:</span><span class="w"> </span><span class="k">DO </span><span class="n">b_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b_row_p</span><span class="p">(</span><span class="n">a_col_l</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">b_row_p</span><span class="p">(</span><span class="n">a_col_l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                  WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(1X,A,3(1X,I7),1X,A,1X,I16)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; trying B&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                     </span><span class="n">a_row_l</span><span class="p">,</span><span class="w"> </span><span class="n">b_blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">b_blk</span><span class="p">),</span><span class="w"> </span><span class="n">a_col_l</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;at&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">b_blk_info</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">b_blk</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="k">ENDIF</span>
-<span class="k">               </span><span class="n">b_norm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">right_norms</span><span class="p">(</span><span class="n">b_blk</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">a_norm</span><span class="o">*</span><span class="n">b_norm</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">a_row_eps</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                  CYCLE</span>
-<span class="k">               ENDIF</span>
-<span class="k">               </span><span class="n">b_col_l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b_blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">b_blk</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="c">! Don&#39;t calculate symmetric blocks.</span>
-<span class="w">               </span><span class="n">symmetric_product</span><span class="p">:</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">c_has_symmetry</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                  </span><span class="n">c_row_logical</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c_local_rows</span><span class="p">(</span><span class="n">a_row_l</span><span class="p">)</span><span class="w"></span>
-<span class="w">                  </span><span class="n">c_col_logical</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c_local_cols</span><span class="p">(</span><span class="n">b_col_l</span><span class="p">)</span><span class="w"></span>
-<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">c_row_logical</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">c_col_logical</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                      </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">my_checker_tr</span><span class="p">(</span><span class="n">c_row_logical</span><span class="p">,</span><span class="w"> </span><span class="n">c_col_logical</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                     IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                        WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;Skipping symmetric block!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">c_row_logical</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                           </span><span class="n">c_col_logical</span><span class="w"></span>
-<span class="w">                     </span><span class="k">ENDIF</span>
-<span class="k">                     CYCLE</span>
-<span class="k">                  ENDIF</span>
-<span class="k">               ENDIF </span><span class="n">symmetric_product</span><span class="w"></span>
-
-<span class="w">               </span><span class="n">c_blk_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hash_table_get</span><span class="p">(</span><span class="n">c_hashes</span><span class="p">(</span><span class="n">a_row_l</span><span class="p">),</span><span class="w"> </span><span class="n">b_col_l</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                  WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(1X,A,3(1X,I7),1X,A,1X,I16)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; coor&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                     </span><span class="n">a_row_l</span><span class="p">,</span><span class="w"> </span><span class="n">a_col_l</span><span class="p">,</span><span class="w"> </span><span class="n">b_col_l</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;c blk&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">c_blk_id</span><span class="w"></span>
-<span class="w">               </span><span class="k">ENDIF</span>
-<span class="k">               </span><span class="n">block_exists</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c_blk_id</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-
-<span class="w">               </span><span class="n">n_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_sizes</span><span class="p">(</span><span class="n">b_col_l</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="n">c_nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_size</span><span class="o">*</span><span class="n">n_size</span><span class="w"></span>
-<span class="w">               </span><span class="c">!</span>
-<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">block_exists</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                  </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c_blk_p</span><span class="p">(</span><span class="n">c_blk_id</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="k">ELSE</span>
-<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">keep_sparsity</span><span class="p">)</span><span class="w"> </span><span class="k">CYCLE</span>
-
-<span class="k">                  </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datasize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                  </span><span class="n">lastblk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lastblk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                  </span><span class="n">datasize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datasize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c_nze</span><span class="w"></span>
-<span class="w">                  </span><span class="n">c_blk_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lastblk</span><span class="w"> </span><span class="c">! assign a new c-block-id</span>
-
-<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; new block offset, nze&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">c_nze</span><span class="w"></span>
-<span class="w">                  </span><span class="k">CALL </span><span class="n">hash_table_add</span><span class="p">(</span><span class="n">c_hashes</span><span class="p">(</span><span class="n">a_row_l</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                      </span><span class="n">b_col_l</span><span class="p">,</span><span class="w"> </span><span class="n">c_blk_id</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">                  </span><span class="c">! We still keep the linear index because it&#39;s</span>
-<span class="w">                  </span><span class="c">! easier than getting the values out of the</span>
-<span class="w">                  </span><span class="c">! hashtable in the end.</span>
-<span class="w">                  </span><span class="n">c_row_i</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_row_l</span><span class="w"></span>
-<span class="w">                  </span><span class="n">c_col_i</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b_col_l</span><span class="w"></span>
-<span class="w">                  </span><span class="n">c_blk_p</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"></span>
-<span class="w">               </span><span class="k">ENDIF</span><span class="w"></span>
-
-<span class="w">               </span><span class="c">! TODO: this is only called with careful_mod</span>
-<span class="w">               </span><span class="c">! We should not call certain MM routines (netlib BLAS)</span>
-<span class="w">               </span><span class="c">! with zero LDs; however, we still need to get to here</span>
-<span class="w">               </span><span class="c">! to get new blocks.</span>
-<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">c_nze</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">k_size</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                     </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not call MM with LDx=0.&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">                     </span><span class="k">CYCLE</span>
-<span class="k">                  ENDIF</span>
-<span class="k">               ENDIF</span>
-
-<span class="k">               </span><span class="n">mapped_col_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_size_maps</span><span class="p">(</span><span class="n">n_size</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="n">ws</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stack_map</span><span class="p">(</span><span class="n">mapped_col_size</span><span class="p">,</span><span class="w"> </span><span class="n">mapped_k_size</span><span class="p">,</span><span class="w"> </span><span class="n">mapped_row_size</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="n">stacks_fillcount</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stacks_fillcount</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">               </span><span class="n">s_dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stacks_fillcount</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">               </span><span class="n">stacks_data</span><span class="p">(</span><span class="n">p_m</span><span class="p">,</span><span class="w"> </span><span class="n">s_dp</span><span class="p">,</span><span class="w"> </span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_size</span><span class="w"></span>
-<span class="w">               </span><span class="n">stacks_data</span><span class="p">(</span><span class="n">p_n</span><span class="p">,</span><span class="w"> </span><span class="n">s_dp</span><span class="p">,</span><span class="w"> </span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_size</span><span class="w"></span>
-<span class="w">               </span><span class="n">stacks_data</span><span class="p">(</span><span class="n">p_k</span><span class="p">,</span><span class="w"> </span><span class="n">s_dp</span><span class="p">,</span><span class="w"> </span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k_size</span><span class="w"></span>
-<span class="w">               </span><span class="n">stacks_data</span><span class="p">(</span><span class="n">p_a_first</span><span class="p">,</span><span class="w"> </span><span class="n">s_dp</span><span class="p">,</span><span class="w"> </span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_blk_info</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a_blk</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="n">stacks_data</span><span class="p">(</span><span class="n">p_b_first</span><span class="p">,</span><span class="w"> </span><span class="n">s_dp</span><span class="p">,</span><span class="w"> </span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b_blk_info</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">b_blk</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="n">stacks_data</span><span class="p">(</span><span class="n">p_c_first</span><span class="p">,</span><span class="w"> </span><span class="n">s_dp</span><span class="p">,</span><span class="w"> </span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"></span>
-<span class="w">               </span><span class="n">stacks_data</span><span class="p">(</span><span class="n">p_c_blk</span><span class="p">,</span><span class="w"> </span><span class="n">s_dp</span><span class="p">,</span><span class="w"> </span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c_blk_id</span><span class="w"></span>
-
-<span class="w">               </span><span class="n">flop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c_nze</span><span class="p">,</span><span class="w"> </span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="nb">INT</span><span class="p">(</span><span class="n">k_size</span><span class="p">,</span><span class="w"> </span><span class="n">int_8</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">stacks_fillcount</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">stacks_data</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                  </span><span class="k">CALL </span><span class="n">flush_stacks</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">            </span><span class="k">ENDDO </span><span class="n">b_blk_cycle</span><span class="w"> </span><span class="c">! b</span>
-<span class="w">         </span><span class="k">ENDDO </span><span class="n">a_blk_cycle</span><span class="w"> </span><span class="c">! a_col</span>
-<span class="w">      </span><span class="k">ENDDO </span><span class="n">a_row_cycle</span><span class="w"> </span><span class="c">! a_row</span>
-
-<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_csr_multiply_low</span><span class="w"></span>
-</pre></div>
+    <section>    
+      <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-routinen~600"></span>character(len=*),</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_mm_csr_multiply_low'</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-dbg~16"></span>logical,</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>dbg</strong></td><td> =</td><td>.FALSE.</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-a_blk~10"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>a_blk</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-a_col_l"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>a_col_l</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-a_row_l"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>a_row_l</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-b_blk~5"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>b_blk</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-b_col_l"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>b_col_l</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-c_blk_id"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>c_blk_id</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-c_col_logical"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>c_col_logical</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-c_nze~3"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>c_nze</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-c_row_logical"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>c_row_logical</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ithread~17"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>ithread</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-k_size"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>k_size</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-m_size"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>m_size</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-mapped_col_size"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>mapped_col_size</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-mapped_k_size"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>mapped_k_size</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-mapped_row_size"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>mapped_row_size</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-n_a_norms"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>n_a_norms</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-n_b_norms"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>n_b_norms</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-n_size"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>n_size</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nstacks~3"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>nstacks</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-s_dp"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>s_dp</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ws"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>ws</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-a_row_p"></span>integer,</td>
+<td>private,</td>  <td>DIMENSION(mi:mf + 1)</td><td>::</td>
+  <td><strong>a_row_p</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-b_row_p"></span>integer,</td>
+<td>private,</td>  <td>DIMENSION(ki:kf + 1)</td><td>::</td>
+  <td><strong>b_row_p</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-b_blk_info"></span>integer,</td>
+<td>private,</td>  <td>DIMENSION(2, bf - bi + 1)</td><td>::</td>
+  <td><strong>b_blk_info</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-a_blk_info"></span>integer,</td>
+<td>private,</td>  <td>DIMENSION(2, af - ai + 1)</td><td>::</td>
+  <td><strong>a_blk_info</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-offset~60"></span>integer(kind=int_4),</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>offset</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-block_exists"></span>logical,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>block_exists</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-a_norm"></span>real(kind=sp),</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>a_norm</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-a_row_eps"></span>real(kind=sp),</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>a_row_eps</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-b_norm"></span>real(kind=sp),</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>b_norm</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-left_norms~3"></span>real(kind=sp),</td>
+<td>private,</td>  <td>DIMENSION(1:af - ai + 1)</td><td>::</td>
+  <td><strong>left_norms</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-right_norms~3"></span>real(kind=sp),</td>
+<td>private,</td>  <td>DIMENSION(1:bf - bi + 1)</td><td>::</td>
+  <td><strong>right_norms</strong></td><td></td><td></td><td></td>
+</tr>
+</tbody>
+</table>
 
     </section>
     <br>
     
     
+
+    
+    
+
+
+    
+    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -1139,14 +673,12 @@ private subroutine dbcsr_mm_csr_multiply_low(this, left, right, mi, mf, ki, kf, 
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -1174,9 +706,7 @@ private subroutine dbcsr_mm_csr_multiply_low(this, left, right, mi, mf, ki, kf, 
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     
   </body>

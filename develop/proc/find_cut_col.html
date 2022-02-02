@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="">
-    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +14,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,112 +38,57 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-35-g6f2c3ee859</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-36-g9d0df3d622</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li><a href='../page/index.html'>Guide</a></li>
-      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../lists/files.html">Source Files</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
             <li><a href="../lists/programs.html">Programs</a></li>
-               
-        
-        
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-
-
-
           </ul>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>find_cut_col
       <small>Function</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 0.0% of total for procedures.">27 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_multrec.F"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/dbcsr_mm_multrec.f.html'>dbcsr_mm_multrec.F</a></li>
-    
      <li><a href='../module/dbcsr_mm_multrec.html'>dbcsr_mm_multrec</a></li>
-    
-  
      <li class="active">find_cut_col</li>
   </ol>
 </div>
@@ -163,254 +104,118 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/find_cut_col.html#src">find_cut_col</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/find_cut_col.html#variable-i~158">i</a>
+      <a class="list-group-item" href="../proc/find_cut_col.html#variable-ihigh~2">ihigh</a>
+      <a class="list-group-item" href="../proc/find_cut_col.html#variable-ilow~2">ilow</a>
+    </div>
   </div>
 </div>
-
-
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-private pure function find_cut_col(ai, af, a, val) result(res)
+    <h2>private pure function find_cut_col(ai, af, a, val) result(res)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-ai~2"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-ai~5"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>ai</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-af~2"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-af~5"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>af</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-a~11"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(3, 1:af)</td><td>::</td>
+  <td><span class="anchor" id="variable-a~17"></span>integer,</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(3, 1:af)</td><td>::</td>
   <td><strong>a</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-val~5"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-val~7"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>val</strong></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
+   <h3>Return Value <small><span class="anchor" id="variable-res~36"></span>integer</small></h3>
     
-    
-    
-    
-    
-    
-    
-   <h3>Return Value <small><span class="anchor" id="variable-res~38"></span>integer
-  </small></h3>
-    
-    
-    
-    
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/find_cut_col.html#src">find_cut_col</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/find_cut_col.html#variable-i~158">i</a>
+      <a class="list-group-item" href="../proc/find_cut_col.html#variable-ihigh~2">ihigh</a>
+      <a class="list-group-item" href="../proc/find_cut_col.html#variable-ilow~2">ilow</a>
+    </div>
   </div>
 </div>
-
-
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">find_cut_col</span><span class="p">(</span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">af</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">val</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="w"></span>
-
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ihigh</span><span class="p">,</span><span class="w"> </span><span class="n">ilow</span><span class="w"></span>
-
-<span class="c">! do a log(N) search along the ordered index</span>
-
-<span class="w">      </span><span class="n">ilow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ai</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">ilow</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ilow</span><span class="w"></span>
-<span class="w">         </span><span class="k">RETURN</span>
-<span class="k">      ENDIF</span>
-
-<span class="k">      </span><span class="n">ihigh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">af</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">ihigh</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ihigh</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">         </span><span class="k">RETURN</span>
-<span class="k">      ENDIF</span>
-
-<span class="k">      DO</span>
-<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">ihigh</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ilow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">EXIT</span>
-<span class="k">         </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ilow</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ihigh</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="w"></span>
-<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            </span><span class="n">ihigh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="w">         </span><span class="k">ELSE</span>
-<span class="k">            </span><span class="n">ilow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="w">         </span><span class="k">ENDIF</span>
-<span class="k">      ENDDO</span>
-<span class="k">      </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ihigh</span><span class="w"></span>
-
-<span class="w">      </span><span class="c">! the linear search version</span>
-<span class="w">      </span><span class="c">! DO i=ai,af</span>
-<span class="w">      </span><span class="c">!    IF (a(i)%c&gt;val) EXIT</span>
-<span class="w">      </span><span class="c">!ENDDO</span>
-<span class="w">      </span><span class="c">!res=i</span>
-<span class="w">   </span><span class="k">END FUNCTION </span><span class="n">find_cut_col</span><span class="w"></span>
-</pre></div>
+    <section>    
+      <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-i~158"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>i</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ihigh~2"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>ihigh</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ilow~2"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>ilow</strong></td><td></td><td></td><td></td>
+</tr>
+</tbody>
+</table>
 
     </section>
     <br>
     
     
+
+    
+    
+
+
+    
+    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -418,14 +223,12 @@ private pure function find_cut_col(ai, af, a, val) result(res)
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -453,9 +256,7 @@ private pure function find_cut_col(ai, af, a, val) result(res)
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     
   </body>

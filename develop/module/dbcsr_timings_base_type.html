@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="">
-    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +14,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,110 +38,56 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-35-g6f2c3ee859</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-36-g9d0df3d622</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li><a href='../page/index.html'>Guide</a></li>
-      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../lists/files.html">Source Files</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
             <li><a href="../lists/programs.html">Programs</a></li>
-               
-        
-        
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-
-
-
           </ul>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>dbcsr_timings_base_type 
     <small>Module</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 0.1% of total for modules and submodules.">40 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_timings_base_type.F"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/dbcsr_timings_base_type.f.html'>dbcsr_timings_base_type.F</a></li>
-    
-  
      <li class="active">dbcsr_timings_base_type</li>
   </ol>
 </div>
@@ -161,50 +103,20 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-0">Derived Types</a></h3></div>
   <div id="types-0" class="panel-collapse collapse">
     <div class="list-group">
-      
       <a class="list-group-item" href="../module/dbcsr_timings_base_type.html#type-routine_stat_type">routine_stat_type</a>
-      
       <a class="list-group-item" href="../module/dbcsr_timings_base_type.html#type-call_stat_type">call_stat_type</a>
-      
       <a class="list-group-item" href="../module/dbcsr_timings_base_type.html#type-callstack_entry_type">callstack_entry_type</a>
-      
       <a class="list-group-item" href="../module/dbcsr_timings_base_type.html#type-routine_report_type">routine_report_type</a>
-      
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 </div>
 
@@ -216,606 +128,253 @@ The types in this module are used within dict or list, which are
 in turn used in timer_env_type from timings_type.F
 Due to the fortran restriction on circular module-dependencies these
 "inner-types" had to go into a separate module.</p>
-      <br>
-    
-  
-    <div class="panel panel-default">
+<br>        <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Uses</h3>
       </div>
       <ul class="list-group">
-      
       <li class="list-group-item">
   <ul class="list-inline">
-    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
   </ul>
       </li>
-      
-      
-      
       </ul>
     </div>
-    
 
     
-    
-
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-1">Derived Types</a></h3></div>
   <div id="types-1" class="panel-collapse collapse">
     <div class="list-group">
-      
       <a class="list-group-item" href="../module/dbcsr_timings_base_type.html#type-routine_stat_type">routine_stat_type</a>
-      
       <a class="list-group-item" href="../module/dbcsr_timings_base_type.html#type-call_stat_type">call_stat_type</a>
-      
       <a class="list-group-item" href="../module/dbcsr_timings_base_type.html#type-callstack_entry_type">callstack_entry_type</a>
-      
       <a class="list-group-item" href="../module/dbcsr_timings_base_type.html#type-routine_report_type">routine_report_type</a>
-      
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
     
     
-    
-    
-    
 
-    
-    
     
     <section>
      <h2>Derived Types</h2>
-   
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="type-routine_stat_type"></span><h3>type, public :: <a href='../type/routine_stat_type.html'>routine_stat_type</a>
-    
-  </h3></div>
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-routine_stat_type"></span><h3>type, public :: <a href='../type/routine_stat_type.html'>routine_stat_type</a>  </h3></div>
   <div class="panel-body">
-    
-     
      <h4>Components</h4>
-    
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th>
-
-<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-
-
-
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-routine_id"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>routine_id</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-routinen"></span>character(len=default_string_length),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>routineN</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-excl_walltime_accu"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>excl_walltime_accu</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-incl_walltime_accu"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>incl_walltime_accu</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-excl_energy_accu"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>excl_energy_accu</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-incl_energy_accu"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>incl_energy_accu</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-active_calls"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>active_calls</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-total_calls"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>total_calls</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-stackdepth_accu"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>stackdepth_accu</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-trace"></span>logical,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>trace</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
      
-     
-          
-     
   </div>
 </div>
 
-     
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="type-call_stat_type"></span><h3>type, public :: <a href='../type/call_stat_type.html'>call_stat_type</a>
-    
-  </h3></div>
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-call_stat_type"></span><h3>type, public :: <a href='../type/call_stat_type.html'>call_stat_type</a>  </h3></div>
   <div class="panel-body">
-    
-     
      <h4>Components</h4>
-    
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th>
-
-<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-
-
-
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-total_calls~2"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>total_calls</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-incl_walltime_accu~2"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>incl_walltime_accu</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-incl_energy_accu~2"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>incl_energy_accu</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
      
-     
-          
-     
   </div>
 </div>
 
-     
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="type-callstack_entry_type"></span><h3>type, public :: <a href='../type/callstack_entry_type.html'>callstack_entry_type</a>
-    
-  </h3></div>
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-callstack_entry_type"></span><h3>type, public :: <a href='../type/callstack_entry_type.html'>callstack_entry_type</a>  </h3></div>
   <div class="panel-body">
-    
-     
      <h4>Components</h4>
-    
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th>
-
-<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-
-
-
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-routine_id~2"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>routine_id</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-walltime_start"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>walltime_start</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-energy_start"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>energy_start</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
      
-     
-          
-     
   </div>
 </div>
 
-     
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="type-routine_report_type"></span><h3>type, public :: <a href='../type/routine_report_type.html'>routine_report_type</a>
-    
-  </h3></div>
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-routine_report_type"></span><h3>type, public :: <a href='../type/routine_report_type.html'>routine_report_type</a>  </h3></div>
   <div class="panel-body">
-    
-     
      <h4>Components</h4>
-    
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th>
-
-<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-
-
-
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-routinen~2"></span>character(len=default_string_length),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>routineN</strong></td><td></td><td></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-max_icost"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>max_icost</strong></td><td> =</td><td>0.0_dp</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-sum_icost"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>sum_icost</strong></td><td> =</td><td>0.0_dp</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-max_ecost"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>max_ecost</strong></td><td> =</td><td>0.0_dp</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-sum_ecost"></span>real(kind=dp),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>sum_ecost</strong></td><td> =</td><td>0.0_dp</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-max_irank"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>max_irank</strong></td><td> =</td><td>0</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-max_erank"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>max_erank</strong></td><td> =</td><td>0</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-max_total_calls"></span>integer(kind=int_8),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>max_total_calls</strong></td><td> =</td><td>0</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-sum_total_calls"></span>integer(kind=int_8),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>sum_total_calls</strong></td><td> =</td><td>0</td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-sum_stackdepth"></span>integer(kind=int_8),</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>sum_stackdepth</strong></td><td> =</td><td>0</td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
      
-     
-          
-     
   </div>
 </div>
 
-     
     </section>
   <br>
     
-    
-    
 
-    
-    
     
     </div>
   </div>
 
-  
     <hr>    
     </div> <!-- /container -->
     <footer>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -843,9 +402,7 @@ Due to the fortran restriction on circular module-dependencies these
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     
   </body>

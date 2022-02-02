@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="">
-    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +14,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,112 +38,57 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-35-g6f2c3ee859</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-36-g9d0df3d622</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li><a href='../page/index.html'>Guide</a></li>
-      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../lists/files.html">Source Files</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
             <li><a href="../lists/programs.html">Programs</a></li>
-               
-        
-        
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-
-
-
           </ul>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>mp_bcast_c3
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 0.0% of total for procedures.">20 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mpiwrap.F"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
-    
      <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-    
-  
      <li class="active">mp_bcast_c3</li>
   </ol>
 </div>
@@ -163,220 +104,119 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/mp_bcast_c3.html#src">mp_bcast_c3</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/mp_bcast_c3.html#variable-routinen~437">routineN</a>
+      <a class="list-group-item" href="../proc/mp_bcast_c3.html#variable-handle~371">handle</a>
+      <a class="list-group-item" href="../proc/mp_bcast_c3.html#variable-ierr~382">ierr</a>
+      <a class="list-group-item" href="../proc/mp_bcast_c3.html#variable-msglen~161">msglen</a>
+    </div>
   </div>
 </div>
-
-
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-private subroutine mp_bcast_c3(msg, source, gid)
+    <h2>private subroutine mp_bcast_c3(msg, source, gid)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>Broadcasts rank-3 data to all processes
 </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>see mp_bcast_c1</p></div>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-msg~202"></span>complex(kind=real_4),</td>
-  <td></td>
-  <td></td>
-  
-  <td>CONTIGUOUS</td><td>::</td>
+  <td><span class="anchor" id="variable-msg~204"></span>complex(kind=real_4),</td>
+<td></td>
+  <td></td>  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:,:,:)</td><td><p>Data to broadcast</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-source~86"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-source~92"></span>integer</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>source</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-gid~244"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-gid~245"></span>integer</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>gid</strong></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
-    
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/mp_bcast_c3.html#src">mp_bcast_c3</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/mp_bcast_c3.html#variable-routinen~437">routineN</a>
+      <a class="list-group-item" href="../proc/mp_bcast_c3.html#variable-handle~371">handle</a>
+      <a class="list-group-item" href="../proc/mp_bcast_c3.html#variable-ierr~382">ierr</a>
+      <a class="list-group-item" href="../proc/mp_bcast_c3.html#variable-msglen~161">msglen</a>
+    </div>
   </div>
 </div>
-
-
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">mp_bcast_c3</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="c">!! Broadcasts rank-3 data to all processes</span>
-<span class="w">      </span><span class="c">!! @note see mp_bcast_c1</span>
-
-<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
-<span class="w">         </span><span class="c">!! Data to broadcast</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="w"></span>
-
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mp_bcast_c3&#39;</span><span class="w"></span>
-
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="w"></span>
-
-<span class="w">      </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">      </span><span class="n">msglen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w"></span>
-<span class="cp">#if defined(__parallel)</span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">mpi_bcast</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMPLEX</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_bcast @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">))</span><span class="w"></span>
-<span class="cp">#else</span>
-<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span><span class="w"></span>
-<span class="cp">#endif</span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">mp_bcast_c3</span><span class="w"></span>
-</pre></div>
+    <section>    
+      <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-routinen~437"></span>character(len=*),</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>routineN</strong></td><td> =</td><td>'mp_bcast_c3'</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-handle~371"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>handle</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ierr~382"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>ierr</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-msglen~161"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>msglen</strong></td><td></td><td></td><td></td>
+</tr>
+</tbody>
+</table>
 
     </section>
     <br>
     
     
+
+    
+    
+
+
+    
+    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -384,14 +224,12 @@ private subroutine mp_bcast_c3(msg, source, gid)
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -419,9 +257,7 @@ private subroutine mp_bcast_c3(msg, source, gid)
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     
   </body>

@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="">
-    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +14,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,112 +38,57 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-35-g6f2c3ee859</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-36-g9d0df3d622</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li><a href='../page/index.html'>Guide</a></li>
-      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../lists/files.html">Source Files</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
             <li><a href="../lists/programs.html">Programs</a></li>
-               
-        
-        
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-
-
-
           </ul>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>allocate_7d_c_sp
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 0.1% of total for procedures.">32 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_allocate_wrap.F"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/dbcsr_allocate_wrap.f.html'>dbcsr_allocate_wrap.F</a></li>
-    
      <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
-    
-  
      <li class="active">allocate_7d_c_sp</li>
   </ol>
 </div>
@@ -163,191 +104,105 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<em>None</em>
-
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/allocate_7d_c_sp.html#variable-shape_prv~28">shape_prv</a>
+    </div>
+  </div>
+</div>
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-private subroutine allocate_7d_c_sp(array, shape_spec, source, order)
+    <h2>private subroutine allocate_7d_c_sp(array, shape_spec, source, order)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>Allocate array according to shape_spec. Possibly assign array from source.
 </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>this does not fully replace Fortran RESHAPE intrinsic since source and target array must
 have same rank.</p></div>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-array~47"></span>complex(kind=real_4),</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+<td>intent(out),</td>
+  <td></td>  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
   <td><strong>array</strong></td><td><p>target array.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-shape_spec~28"></span>integer,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td>DIMENSION(7)</td><td>::</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td>DIMENSION(7)</td><td>::</td>
   <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-source~128"></span>complex(kind=real_4),</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
   <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
-  <td><span class="anchor" id="variable-order~32"></span>integer,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td>DIMENSION(7)</td><td>::</td>
+  <td><span class="anchor" id="variable-order~33"></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td>DIMENSION(7)</td><td>::</td>
   <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
-    
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<em>None</em>
-
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/allocate_7d_c_sp.html#variable-shape_prv~28">shape_prv</a>
+    </div>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
+
+    <section>    
+      <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-shape_prv~28"></span>integer,</td>
+<td>private,</td>  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_prv</strong></td><td></td><td></td><td></td>
+</tr>
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
     
 
     
     
-    
-    
-    
-
-    
-    
-    
-    
-    
 
 
-    
-    
     
     
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -355,14 +210,12 @@ have same rank.</p></div>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -390,9 +243,7 @@ have same rank.</p></div>
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     
   </body>
