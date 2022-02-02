@@ -263,16 +263,16 @@ class SmmTuner(MeasurementInterface):
         )
         if 0 == run_result["returncode"]:
             performance = re.search(
-                "device:\\s+([0-9]+(\\.[0-9]*)*) ms\\s+([0-9]+(\\.[0-9]*)*)",
+                "device:\\s+([0-9]+[^ ]*) ms\\s+([0-9]+[^ ]*)",
                 str(run_result["stdout"]),
             )
         else:
             failed = " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
             print("FAILED: {}".format(failed))
             performance = None
-        if performance and performance.group(1) and performance.group(3):
+        if performance and performance.group(1) and performance.group(2):
             mseconds = float(performance.group(1))
-            gflops = float(performance.group(3))
+            gflops = float(performance.group(2))
             if self.gflops < gflops:
                 # keep best configuration in case of an early exit
                 self.config = desired_result.configuration
