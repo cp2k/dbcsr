@@ -186,8 +186,8 @@ CONTAINS
       INTEGER, SAVE                                      :: nthreads = 0
 
       IF (0 == nthreads) THEN
-        nthreads = 1
-!$      nthreads = OMP_GET_MAX_THREADS()
+         nthreads = 1
+!$       nthreads = OMP_GET_MAX_THREADS()
       ENDIF
 
       IF (PRESENT(use_mpi_allocator)) dbcsr_data_allocation%use_mpi_allocator = use_mpi_allocator
