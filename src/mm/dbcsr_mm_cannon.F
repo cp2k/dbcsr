@@ -17,7 +17,7 @@ MODULE dbcsr_mm_cannon
    !! - 2013-01    reorganized code (Ole Schuett)
 
    USE dbcsr_acc_event, ONLY: acc_event_synchronize
-   USE dbcsr_acc_device, ONLY: acc_device_synchronize
+   USE dbcsr_acc_stream, ONLY: acc_stream_synchronize
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists, &
                                 array_i1d_obj, &
@@ -71,8 +71,7 @@ MODULE dbcsr_mm_cannon
                                        image_calculator
    USE dbcsr_mm_multrec, ONLY: dbcsr_mm_multrec_finalize, &
                                dbcsr_mm_multrec_init, &
-                               dbcsr_mm_multrec_multiply, &
-                               dbcsr_mm_multrec_phaseout
+                               dbcsr_mm_multrec_multiply
    USE dbcsr_mp_methods, ONLY: &
       dbcsr_mp_grid_setup, dbcsr_mp_group, dbcsr_mp_has_subgroups, dbcsr_mp_my_col_group, &
       dbcsr_mp_my_row_group, dbcsr_mp_mynode, dbcsr_mp_mypcol, dbcsr_mp_myprow, dbcsr_mp_npcols, &
@@ -1601,12 +1600,12 @@ CONTAINS
                            k_sizes)
          !
          IF (has_acc) THEN
+            CALL dbcsr_data_host2dev(left_buffer_calc%mats(1, v_ki_left)%data_area)
             CALL dbcsr_data_host2dev(right_buffer_calc%mats(v_ki_right, 1)%data_area)
             CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki_right, 1), trs_stackbuf_calc, &
                                       k_sizes, n_sizes, &
                                       row_blk_sizes2enum, enum2row_blk_sizes, &
                                       col_blk_sizes2enum, enum2col_blk_sizes)
-            CALL dbcsr_data_host2dev(left_buffer_calc%mats(1, v_ki_left)%data_area)
          END IF
 
          ! Sets the local right-matrix columns
@@ -1621,7 +1620,9 @@ CONTAINS
 
          ! Wait for left and right buffers transfer to device before proceeding
          IF (has_acc) THEN
-            CALL acc_device_synchronize()
+            CALL timeset(routineN//"_sync_h2d", handle2)
+            CALL acc_stream_synchronize(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
+            CALL timestop(handle2)
          END IF
          !
          flop_single = 0
@@ -1641,9 +1642,6 @@ CONTAINS
          ithread = 0; nthreads = 1
 !$       ithread = omp_get_thread_num(); nthreads = omp_get_num_threads()
 
-         IF (metronome == nvirt_k - 1) &
-            CALL dbcsr_mm_multrec_phaseout(multrec(ithread)%p)
-!$OMP BARRIER
          CALL timeset(routineN//"_multrec", handle2)
 
          CALL dbcsr_mm_multrec_multiply(multrec(ithread)%p, &

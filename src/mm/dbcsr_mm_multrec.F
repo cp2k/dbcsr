@@ -31,7 +31,7 @@ MODULE dbcsr_mm_multrec
    USE dbcsr_mm_csr, ONLY: &
       dbcsr_mm_csr_dev2host_init, dbcsr_mm_csr_finalize, dbcsr_mm_csr_init, &
       dbcsr_mm_csr_lib_finalize, dbcsr_mm_csr_lib_init, dbcsr_mm_csr_multiply, &
-      dbcsr_mm_csr_phaseout, dbcsr_mm_csr_purge_stacks, dbcsr_mm_csr_red3D, dbcsr_mm_csr_type
+      dbcsr_mm_csr_purge_stacks, dbcsr_mm_csr_red3D, dbcsr_mm_csr_type
    USE dbcsr_types, ONLY: dbcsr_data_obj, &
                           dbcsr_type, &
                           dbcsr_work_type, &
@@ -92,7 +92,6 @@ MODULE dbcsr_mm_multrec
    ! **************************************************************************************************
    PUBLIC :: dbcsr_mm_multrec_type
    PUBLIC :: dbcsr_mm_multrec_lib_init, dbcsr_mm_multrec_lib_finalize
-   PUBLIC :: dbcsr_mm_multrec_phaseout
    PUBLIC :: dbcsr_mm_multrec_init, dbcsr_mm_multrec_finalize
    PUBLIC :: dbcsr_mm_multrec_multiply
    PUBLIC :: dbcsr_mm_multrec_dev2host_init, dbcsr_mm_multrec_red3D
@@ -316,13 +315,6 @@ CONTAINS
       flop = flop + this%flop
       !
    END SUBROUTINE dbcsr_mm_multrec_multiply
-
-   SUBROUTINE dbcsr_mm_multrec_phaseout(this)
-      !! Signal approaching end of multiplication
-      TYPE(dbcsr_mm_multrec_type), INTENT(INOUT)         :: this
-
-      CALL dbcsr_mm_csr_phaseout(this%csr)
-   END SUBROUTINE dbcsr_mm_multrec_phaseout
 
    SUBROUTINE dbcsr_mm_multrec_dev2host_init(this)
       !! Sets up recursive multiplication

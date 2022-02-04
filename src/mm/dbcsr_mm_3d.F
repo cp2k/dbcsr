@@ -73,7 +73,6 @@ MODULE dbcsr_mm_3d
                                dbcsr_mm_multrec_get_nze, &
                                dbcsr_mm_multrec_init, &
                                dbcsr_mm_multrec_multiply, &
-                               dbcsr_mm_multrec_phaseout, &
                                dbcsr_mm_multrec_red3D
    USE dbcsr_mp_methods, ONLY: &
       dbcsr_mp_grid_setup, dbcsr_mp_group, dbcsr_mp_has_subgroups, dbcsr_mp_my_col_group, &
@@ -1903,7 +1902,6 @@ CONTAINS
 !$OMP PRIVATE (ithread)
                ithread = 0
 !$             ithread = omp_get_thread_num()
-               CALL dbcsr_mm_multrec_phaseout(multrec(ithread, irow3D, icol3D)%p)
                ! Prepare data to send for 3D layer
                IF (istep_k .GT. final_step_k + 1) THEN
                   CALL dbcsr_mm_multrec_finalize( &
