@@ -179,7 +179,7 @@ CONTAINS
       ! Setup global data which is reused in between multiplications
       !------------------------------------------------------------------------
       CALL setup_streams()
-      CALL setup_stackbuffers(this)
+      CALL setup_stackbuffers()
 
       !Each thread has its own memtype with its own mempool
       CALL dbcsr_memtype_setup(thread_privates%memtype_cbuffer, has_pool=.TRUE., acc_hostalloc=.TRUE., &
@@ -263,10 +263,8 @@ CONTAINS
       END IF
    END SUBROUTINE stream_array_force_size
 
-   SUBROUTINE setup_stackbuffers(this)
+   SUBROUTINE setup_stackbuffers()
       !! Helper routine used by dbcsr_mm_accdrv_init()
-      TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
-
       INTEGER                                            :: i, ithread, &
                                                             my_thread_buffers
       TYPE(thread_private_type), POINTER                 :: thread_privates
