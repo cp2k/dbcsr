@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-36-g9d0df3d622</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-37-gcb6a48d681</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for modules and submodules.">290 statements</a>
+    title=" 0.4% of total for modules and submodules.">276 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_accdrv.F"> Source File</a></li>
   </ul>
@@ -113,7 +113,7 @@
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-modulen~44">moduleN</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-careful_mod~13">careful_mod</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-all_thread_privates">all_thread_privates</a>
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-priority_streams">priority_streams</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-thread_streams">thread_streams</a>
     </div>
   </div>
 </div>
@@ -143,7 +143,6 @@
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-dbcsr_mm_accdrv_finalize">dbcsr_mm_accdrv_finalize</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-stack_sort">stack_sort</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-stack_binning">stack_binning</a>
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-dbcsr_mm_accdrv_phaseout">dbcsr_mm_accdrv_phaseout</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-dbcsr_mm_accdrv_barrier">dbcsr_mm_accdrv_barrier</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-dbcsr_mm_accdrv_process">dbcsr_mm_accdrv_process</a>
     </div>
@@ -171,20 +170,20 @@ dbcsr_mm_methods.
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
     <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    <li><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
+    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     <li><a href='../module/dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
     <li><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
-    <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-    <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     <li><a href='../module/dbcsr_acc_operations.html'>dbcsr_acc_operations</a></li>
-    <li><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
-    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
   </ul>
       </li>
       </ul>
@@ -203,7 +202,7 @@ dbcsr_mm_methods.
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-modulen~44">moduleN</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-careful_mod~13">careful_mod</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-all_thread_privates">all_thread_privates</a>
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-priority_streams">priority_streams</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-thread_streams">thread_streams</a>
     </div>
   </div>
 </div>
@@ -233,7 +232,6 @@ dbcsr_mm_methods.
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-dbcsr_mm_accdrv_finalize">dbcsr_mm_accdrv_finalize</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-stack_sort">stack_sort</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-stack_binning">stack_binning</a>
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-dbcsr_mm_accdrv_phaseout">dbcsr_mm_accdrv_phaseout</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-dbcsr_mm_accdrv_barrier">dbcsr_mm_accdrv_barrier</a>
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#proc-dbcsr_mm_accdrv_process">dbcsr_mm_accdrv_process</a>
     </div>
@@ -265,9 +263,9 @@ dbcsr_mm_methods.
   <td><strong>all_thread_privates</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-priority_streams"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
+  <td><span class="anchor" id="variable-thread_streams"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
 <td>private,</td>  <td>SAVE, DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>priority_streams</strong></td><td>=> </td><td>Null()</td><td></td>
+  <td><strong>thread_streams</strong></td><td>=> </td><td>Null()</td><td></td>
 </tr>
 </tbody>
 </table>
@@ -296,16 +294,6 @@ dbcsr_mm_methods.
   <td><span class="anchor" id="variable-c_buffer"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>c_buffer</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-phase_out"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>phase_out</strong></td><td> =</td><td>.FALSE.</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nbuffers_phaseout"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nbuffers_phaseout</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-c_area_copy"></span>logical,</td>
@@ -654,28 +642,6 @@ dbcsr_mm_methods.
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>stack_size</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_mm_accdrv_phaseout"></span><h3>public subroutine <a href='../proc/dbcsr_mm_accdrv_phaseout.html'>dbcsr_mm_accdrv_phaseout</a>(this)</h3></div>
-  <div class="panel-body">
-       
-<p>Signal approaching end of multiplication</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_mm_accdrv_type.html'>dbcsr_mm_accdrv_type</a>),</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>this</strong></td><td></td>
 </tr>
 </tbody>
 </table>

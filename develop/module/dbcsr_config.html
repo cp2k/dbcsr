@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-36-g9d0df3d622</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-37-gcb6a48d681</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for modules and submodules.">292 statements</a>
+    title=" 0.4% of total for modules and submodules.">276 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_config.F"> Source File</a></li>
   </ul>
@@ -178,11 +178,11 @@
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     <li><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
   </ul>
       </li>
       </ul>
@@ -451,24 +451,19 @@
   <td><strong>comm_thread_load</strong></td><td> =</td><td>100</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-multrec_limit"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>multrec_limit</strong></td><td> =</td><td>512</td><td></td>
-</tr>
-<tr>
   <td><span class="anchor" id="variable-mm_densification"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>mm_densification</strong></td><td> =</td><td>.TRUE.</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-accdrv_streams"></span>integer,</td>
+  <td><span class="anchor" id="variable-multrec_limit"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
-  <td><strong>accdrv_streams</strong></td><td> =</td><td>0</td><td></td>
+  <td><strong>multrec_limit</strong></td><td> =</td><td>512</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-accdrv_buffers"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_thread_buffers"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
-  <td><strong>accdrv_buffers</strong></td><td> =</td><td>0</td><td></td>
+  <td><strong>accdrv_thread_buffers</strong></td><td> =</td><td>8</td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-accdrv_avoid_after_busy"></span>logical,</td>
@@ -544,7 +539,7 @@
     <section>
     <h2>Subroutines</h2>
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_set_config"></span><h3>public subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_priority_streams, accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_set_config"></span><h3>public subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)</h3></div>
   <div class="panel-body">
            
 <h4>Arguments</h4>      <table class="table table-striped varlist">
@@ -626,25 +621,7 @@
   <td><span class="anchor" ></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_priority_streams</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_priority_buffers</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_posterior_streams</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_posterior_buffers</strong></td><td></td>
+  <td><strong>accdrv_thread_buffers</strong></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>logical,</td>
@@ -708,7 +685,7 @@
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_get_default_config"></span><h3>public subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_priority_streams, accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_get_default_config"></span><h3>public subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)</h3></div>
   <div class="panel-body">
            
 <h4>Arguments</h4>      <table class="table table-striped varlist">
@@ -784,25 +761,7 @@
   <td><span class="anchor" ></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_priority_streams</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_priority_buffers</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_posterior_streams</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_posterior_buffers</strong></td><td></td>
+  <td><strong>accdrv_thread_buffers</strong></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>logical,</td>

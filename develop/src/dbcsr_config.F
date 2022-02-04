@@ -98,14 +98,13 @@ MODULE dbcsr_config
       INTEGER  :: num_layers_3D = 1
       LOGICAL  :: use_comm_thread = .TRUE.
       INTEGER  :: comm_thread_load = 100
-      INTEGER  :: multrec_limit = 512
 #if defined (__DBCSR_ACC)
       LOGICAL  :: mm_densification = .FALSE.
 #else
       LOGICAL  :: mm_densification = .TRUE.
 #endif
-      INTEGER  :: accdrv_streams = 0 ! default unknown at compile-time
-      INTEGER  :: accdrv_buffers = 0 ! default unknown at compile-time
+      INTEGER  :: multrec_limit = 512
+      INTEGER  :: accdrv_thread_buffers = 8
       LOGICAL  :: accdrv_avoid_after_busy = .FALSE.
       INTEGER  :: accdrv_min_flop_process = 0
       LOGICAL  :: accdrv_stack_sort = .TRUE.
@@ -146,10 +145,7 @@ CONTAINS
       comm_thread_load, &
       mm_densification, &
       multrec_limit, &
-      accdrv_priority_streams, &
-      accdrv_priority_buffers, &
-      accdrv_posterior_streams, &
-      accdrv_posterior_buffers, &
+      accdrv_thread_buffers, &
       accdrv_avoid_after_busy, &
       accdrv_min_flop_process, &
       accdrv_stack_sort, &
@@ -176,8 +172,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_comm_thread
       INTEGER, INTENT(IN), OPTIONAL                      :: comm_thread_load
       LOGICAL, INTENT(IN), OPTIONAL                      :: mm_densification
-      INTEGER, INTENT(IN), OPTIONAL :: multrec_limit, accdrv_priority_streams, &
-                                       accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers
+      INTEGER, INTENT(IN), OPTIONAL                      :: multrec_limit, accdrv_thread_buffers
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_avoid_after_busy
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_min_flop_process
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_stack_sort
@@ -190,18 +185,10 @@ CONTAINS
 
       INTEGER, SAVE                                      :: nthreads = 0
 
-      ! ensure nthreads is initialized once (outside of a parallel region)
       IF (0 == nthreads) THEN
-         nthreads = 1
-!$       nthreads = OMP_GET_MAX_THREADS()
-#if defined(__DBCSR_ACC)
-         dbcsr_cfg%accdrv_streams = nthreads
-         dbcsr_cfg%accdrv_buffers = nthreads*4
-#endif
-      END IF
-
-      MARK_USED(accdrv_posterior_streams) ! deprecated
-      MARK_USED(accdrv_posterior_buffers) ! deprecated
+        nthreads = 1
+!$      nthreads = OMP_GET_MAX_THREADS()
+      ENDIF
 
       IF (PRESENT(use_mpi_allocator)) dbcsr_data_allocation%use_mpi_allocator = use_mpi_allocator
       IF (PRESENT(avg_elements_images)) dbcsr_cfg%avg_elements_images = avg_elements_images
@@ -211,8 +198,7 @@ CONTAINS
       IF (PRESENT(use_comm_thread)) dbcsr_cfg%use_comm_thread = use_comm_thread
       IF (PRESENT(multrec_limit)) dbcsr_cfg%multrec_limit = multrec_limit
       IF (PRESENT(mm_densification)) dbcsr_cfg%mm_densification = mm_densification
-      IF (PRESENT(accdrv_priority_streams)) dbcsr_cfg%accdrv_streams = accdrv_priority_streams
-      IF (PRESENT(accdrv_priority_buffers)) dbcsr_cfg%accdrv_buffers = accdrv_priority_buffers
+      IF (PRESENT(accdrv_thread_buffers)) dbcsr_cfg%accdrv_thread_buffers = accdrv_thread_buffers
       IF (PRESENT(accdrv_avoid_after_busy)) dbcsr_cfg%accdrv_avoid_after_busy = accdrv_avoid_after_busy
       IF (PRESENT(accdrv_min_flop_process)) dbcsr_cfg%accdrv_min_flop_process = accdrv_min_flop_process
       IF (PRESENT(accdrv_stack_sort)) dbcsr_cfg%accdrv_stack_sort = accdrv_stack_sort
@@ -278,10 +264,7 @@ CONTAINS
       comm_thread_load, &
       mm_densification, &
       multrec_limit, &
-      accdrv_priority_streams, &
-      accdrv_priority_buffers, &
-      accdrv_posterior_streams, &
-      accdrv_posterior_buffers, &
+      accdrv_thread_buffers, &
       accdrv_avoid_after_busy, &
       accdrv_min_flop_process, &
       accdrv_stack_sort, &
@@ -300,8 +283,7 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_comm_thread
       INTEGER, INTENT(OUT), OPTIONAL                     :: comm_thread_load
       LOGICAL, INTENT(OUT), OPTIONAL                     :: mm_densification
-      INTEGER, INTENT(OUT), OPTIONAL :: multrec_limit, accdrv_priority_streams, &
-                                        accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers
+      INTEGER, INTENT(OUT), OPTIONAL                     :: multrec_limit, accdrv_thread_buffers
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_avoid_after_busy
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_min_flop_process
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_stack_sort
@@ -329,10 +311,7 @@ CONTAINS
       IF (PRESENT(comm_thread_load)) comm_thread_load = default_cfg%comm_thread_load
       IF (PRESENT(mm_densification)) mm_densification = default_cfg%mm_densification
       IF (PRESENT(multrec_limit)) multrec_limit = default_cfg%multrec_limit
-      IF (PRESENT(accdrv_priority_streams)) accdrv_priority_streams = default_cfg%accdrv_streams
-      IF (PRESENT(accdrv_priority_buffers)) accdrv_priority_buffers = default_cfg%accdrv_buffers
-      IF (PRESENT(accdrv_posterior_streams)) accdrv_posterior_streams = 0
-      IF (PRESENT(accdrv_posterior_buffers)) accdrv_posterior_buffers = 0
+      IF (PRESENT(accdrv_thread_buffers)) accdrv_thread_buffers = default_cfg%accdrv_thread_buffers
       IF (PRESENT(accdrv_avoid_after_busy)) accdrv_avoid_after_busy = default_cfg%accdrv_avoid_after_busy
       IF (PRESENT(accdrv_min_flop_process)) accdrv_min_flop_process = default_cfg%accdrv_min_flop_process
       IF (PRESENT(accdrv_stack_sort)) accdrv_stack_sort = default_cfg%accdrv_stack_sort
@@ -457,9 +436,7 @@ CONTAINS
          WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
             "DBCSR| ACC: Number of devices/node", dbcsr_acc_get_ndevices()
          WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-            "DBCSR| ACC: Number of stack-buffers", dbcsr_cfg%accdrv_buffers
-         WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-            "DBCSR| ACC: Number of streams", dbcsr_cfg%accdrv_streams
+            "DBCSR| ACC: Number of stack-buffers per thread", dbcsr_cfg%accdrv_thread_buffers
          WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
             "DBCSR| ACC: Avoid driver after busy ", dbcsr_cfg%accdrv_avoid_after_busy
          WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &

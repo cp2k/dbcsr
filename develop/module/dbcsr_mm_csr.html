@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-36-g9d0df3d622</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-37-gcb6a48d681</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.9% of total for modules and submodules.">599 statements</a>
+    title=" 0.9% of total for modules and submodules.">594 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_csr.F"> Source File</a></li>
   </ul>
@@ -147,7 +147,6 @@
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_multiply_low">dbcsr_mm_csr_multiply_low</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_init">dbcsr_mm_csr_init</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-fill_hash_tables">fill_hash_tables</a>
-      <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_phaseout">dbcsr_mm_csr_phaseout</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_finalize">dbcsr_mm_csr_finalize</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_dev2host_init">dbcsr_mm_csr_dev2host_init</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_red3d">dbcsr_mm_csr_red3D</a>
@@ -183,18 +182,18 @@ dbcsr_mm_methods.
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-    <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
-    <li><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></li>
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
-    <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    <li><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></li>
     <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+    <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
   </ul>
       </li>
       </ul>
@@ -247,7 +246,6 @@ dbcsr_mm_methods.
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_multiply_low">dbcsr_mm_csr_multiply_low</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_init">dbcsr_mm_csr_init</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-fill_hash_tables">fill_hash_tables</a>
-      <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_phaseout">dbcsr_mm_csr_phaseout</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_finalize">dbcsr_mm_csr_finalize</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_dev2host_init">dbcsr_mm_csr_dev2host_init</a>
       <a class="list-group-item" href="../module/dbcsr_mm_csr.html#proc-dbcsr_mm_csr_red3d">dbcsr_mm_csr_red3D</a>
@@ -1143,28 +1141,6 @@ The absolute matrix column.</p></td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_map</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_mm_csr_phaseout"></span><h3>public subroutine <a href='../proc/dbcsr_mm_csr_phaseout.html'>dbcsr_mm_csr_phaseout</a>(this)</h3></div>
-  <div class="panel-body">
-       
-<p>Signal approaching end of multiplication</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>this</strong></td><td></td>
 </tr>
 </tbody>
 </table>

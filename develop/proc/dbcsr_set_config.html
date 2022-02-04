@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-36-g9d0df3d622</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-37-gcb6a48d681</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">91 statements</a>
+    title=" 0.1% of total for procedures.">80 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_config.F"> Source File</a></li>
   </ul>
@@ -121,7 +121,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_priority_streams, accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)</h2>
+    <h2>public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)</h2>
     
 
 
@@ -202,28 +202,10 @@
   <td><strong>multrec_limit</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-accdrv_priority_streams"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_thread_buffers~2"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_priority_streams</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-accdrv_priority_buffers"></span>integer,</td>
-<td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_priority_buffers</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-accdrv_posterior_streams"></span>integer,</td>
-<td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_posterior_streams</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-accdrv_posterior_buffers"></span>integer,</td>
-<td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>accdrv_posterior_buffers</strong></td><td></td>
+  <td><strong>accdrv_thread_buffers</strong></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-accdrv_avoid_after_busy~2"></span>logical,</td>

@@ -28,7 +28,7 @@ MODULE dbcsr_mm_sched
    USE dbcsr_mm_accdrv, ONLY: &
       dbcsr_mm_accdrv_barrier, dbcsr_mm_accdrv_dev2host_init, dbcsr_mm_accdrv_finalize, &
       dbcsr_mm_accdrv_init, dbcsr_mm_accdrv_lib_finalize, dbcsr_mm_accdrv_lib_init, &
-      dbcsr_mm_accdrv_phaseout, dbcsr_mm_accdrv_process, dbcsr_mm_accdrv_type
+      dbcsr_mm_accdrv_process, dbcsr_mm_accdrv_type
    USE dbcsr_mm_hostdrv, ONLY: dbcsr_mm_hostdrv_init, &
                                dbcsr_mm_hostdrv_lib_finalize, &
                                dbcsr_mm_hostdrv_lib_init, &
@@ -60,7 +60,6 @@ MODULE dbcsr_mm_sched
 
    PUBLIC :: dbcsr_mm_sched_type
    PUBLIC :: dbcsr_mm_sched_lib_init, dbcsr_mm_sched_lib_finalize
-   PUBLIC :: dbcsr_mm_sched_phaseout
    PUBLIC :: dbcsr_mm_sched_init, dbcsr_mm_sched_finalize
    PUBLIC :: dbcsr_mm_sched_print_statistics
    PUBLIC :: dbcsr_mm_sched_process
@@ -197,16 +196,6 @@ CONTAINS
       CALL timestop(handle)
 
    END SUBROUTINE dbcsr_mm_sched_init
-
-   SUBROUTINE dbcsr_mm_sched_phaseout(this)
-      !! Signal approaching end of multiplication
-      TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
-
-!CALL dbcsr_mm_hostdrv_phaseout(this%hostdrv) ! not needed
-
-      IF (has_acc) &
-         CALL dbcsr_mm_accdrv_phaseout(this%accdrv)
-   END SUBROUTINE dbcsr_mm_sched_phaseout
 
    SUBROUTINE dbcsr_mm_sched_finalize(this)
       !! Finalizes a multiplication cycle for a set of C-blocks.

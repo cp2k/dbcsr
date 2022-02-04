@@ -42,9 +42,6 @@ MODULE dbcsr_mm_accdrv
    USE dbcsr_block_operations, ONLY: block_add
    USE dbcsr_config, ONLY: dbcsr_cfg, &
                            default_resize_factor
-   !accdrv_binning_binsize, accdrv_binning_nbins, accdrv_min_flop_sort, &
-   !accdrv_buffers, !accdrv_streams, &
-   !default_resize_factor, mm_stack_size
    USE dbcsr_data_methods, ONLY: dbcsr_data_dev2host, &
                                  dbcsr_data_ensure_size, &
                                  dbcsr_data_get_size, &
@@ -84,8 +81,6 @@ MODULE dbcsr_mm_accdrv
       PRIVATE
       TYPE(dbcsr_work_type), POINTER           :: product_wm => Null()
       TYPE(dbcsr_data_obj)                     :: c_buffer
-      LOGICAL                                  :: phase_out = .FALSE.
-      INTEGER                                  :: nbuffers_phaseout
       LOGICAL                                  :: c_area_copy = .TRUE.
    END TYPE dbcsr_mm_accdrv_type
 
@@ -93,7 +88,7 @@ MODULE dbcsr_mm_accdrv
 
    PUBLIC :: dbcsr_mm_accdrv_type
    PUBLIC :: dbcsr_mm_accdrv_lib_init, dbcsr_mm_accdrv_lib_finalize
-   PUBLIC :: dbcsr_mm_accdrv_phaseout, dbcsr_mm_accdrv_barrier
+   PUBLIC :: dbcsr_mm_accdrv_barrier
    PUBLIC :: dbcsr_mm_accdrv_init, dbcsr_mm_accdrv_finalize
    PUBLIC :: dbcsr_mm_accdrv_process
    PUBLIC :: dbcsr_mm_accdrv_dev2host_init
@@ -118,13 +113,12 @@ MODULE dbcsr_mm_accdrv
    END TYPE thread_private_type
 
    TYPE(thread_private_type), SAVE, DIMENSION(:), ALLOCATABLE, TARGET :: all_thread_privates
-   TYPE(acc_stream_type), SAVE, DIMENSION(:), POINTER     :: priority_streams => Null()
+   TYPE(acc_stream_type), SAVE, DIMENSION(:), POINTER     :: thread_streams => Null()
 
 CONTAINS
 
    SUBROUTINE dbcsr_mm_accdrv_lib_init()
       !! Initialize the library
-
       INTEGER                                            :: nthreads
 
       nthreads = 1
@@ -173,14 +167,14 @@ CONTAINS
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_init'
 
-      INTEGER                                            :: handle, i, ithread, my_nlayers, nthreads
+      INTEGER                                            :: handle, ithread, my_nlayers
       TYPE(dbcsr_data_obj)                               :: c_area
       TYPE(thread_private_type), POINTER                 :: thread_privates
 
       CALL timeset(routineN, handle)
 
-      nthreads = 1; ithread = 0
-!$    nthreads = OMP_GET_NUM_THREADS(); ithread = OMP_GET_THREAD_NUM()
+      ithread = 0
+!$    ithread = OMP_GET_THREAD_NUM()
       thread_privates => all_thread_privates(ithread)
 
       ! Setup global data which is reused in between multiplications
@@ -189,9 +183,8 @@ CONTAINS
       CALL setup_stackbuffers(this)
 
       !Each thread has its own memtype with its own mempool
-      i = MOD(ithread, SIZE(priority_streams)) + 1
       CALL dbcsr_memtype_setup(thread_privates%memtype_cbuffer, has_pool=.TRUE., acc_hostalloc=.TRUE., &
-                               acc_devalloc=.TRUE., acc_stream=priority_streams(i))
+                               acc_devalloc=.TRUE., acc_stream=thread_streams(ithread + 1))
       my_nlayers = 1
       IF (PRESENT(nlayers)) my_nlayers = nlayers
       CALL dbcsr_mempool_limit_capacity(thread_privates%memtype_cbuffer%pool, capacity=my_nlayers)
@@ -215,10 +208,13 @@ CONTAINS
 
    SUBROUTINE setup_streams()
       !! Helper routine used by dbcsr_mm_accdrv_init()
+      INTEGER :: nthreads
+
+      nthreads = 1
+!$    nthreads = OMP_GET_MAX_THREADS()
 
 !$OMP MASTER
-      CALL stream_array_force_size(priority_streams, "Calc (priority)", &
-                                   n=dbcsr_cfg%accdrv_streams)
+      CALL stream_array_force_size(thread_streams, "Calc stream", n=nthreads)
 !$OMP END MASTER
 ! Other threads have to wait until streams are created
 !$OMP BARRIER
@@ -229,7 +225,7 @@ CONTAINS
       !! Helper routine used by setup_streams() and dbcsr_mm_accdrv_lib_finalize()
 
 !$OMP MASTER
-      CALL stream_array_force_size(priority_streams, "Calc (priority)", n=0)
+      CALL stream_array_force_size(thread_streams, "Calc stream", n=0)
 !$OMP END MASTER
 
    END SUBROUTINE deallocate_streams
@@ -273,40 +269,30 @@ CONTAINS
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
 
       INTEGER                                            :: i, ithread, &
-                                                            my_buffers, my_total_buffers, &
-                                                            nthreads
+                                                            my_thread_buffers
       TYPE(thread_private_type), POINTER                 :: thread_privates
 
-      nthreads = 1; ithread = 0
-!$    nthreads = OMP_GET_NUM_THREADS(); ithread = OMP_GET_THREAD_NUM()
+      ithread = 0
+!$    ithread = OMP_GET_THREAD_NUM()
       thread_privates => all_thread_privates(ithread)
-
-      ! distribute total number of buffers approx. evenly among threads
-      ! my_* variables hold number of buffers for current thread.
-      my_buffers = CEILING(REAL(dbcsr_cfg%accdrv_buffers)/REAL(nthreads), int_4)
-
-      this%nbuffers_phaseout = my_buffers
-      my_total_buffers = my_buffers
+      my_thread_buffers = dbcsr_cfg%accdrv_thread_buffers
 
       IF (ASSOCIATED(thread_privates%stack_buffers)) THEN
-         IF (SIZE(thread_privates%stack_buffers) /= my_total_buffers) &
+         IF (SIZE(thread_privates%stack_buffers) /= my_thread_buffers) &
             CALL deallocate_stackbuffers()
       ENDIF
 
       IF (.NOT. ASSOCIATED(thread_privates%stack_buffers)) THEN
-         ALLOCATE (thread_privates%stack_buffers(my_total_buffers))
-         !OMP CRITICAL may not be needed anymore
-!$OMP        CRITICAL(crit_setup_stackbuffers)
-         DO i = 1, my_total_buffers
+         ALLOCATE (thread_privates%stack_buffers(my_thread_buffers))
+         DO i = 1, my_thread_buffers
             CALL acc_devmem_allocate_bytes(thread_privates%stack_buffers(i)%devmem, &
                                            int_4_size*dbcsr_ps_acc_width*dbcsr_cfg%mm_stack_size)
-            thread_privates%stack_buffers(i)%stream = priority_streams(ithread + 1)
+            thread_privates%stack_buffers(i)%stream = thread_streams(ithread + 1)
             CALL acc_hostmem_allocate(thread_privates%stack_buffers(i)%hostmem, &
                                       dbcsr_ps_acc_width, dbcsr_cfg%mm_stack_size, thread_privates%stack_buffers(i)%stream)
             CALL acc_event_create(thread_privates%stack_buffers(i)%ready)
             CALL acc_event_create(thread_privates%stack_buffers(i)%calculated)
          END DO
-!$OMP       END CRITICAL(crit_setup_stackbuffers)
       END IF
    END SUBROUTINE setup_stackbuffers
 
@@ -421,19 +407,12 @@ CONTAINS
 
    END SUBROUTINE stack_binning
 
-   SUBROUTINE dbcsr_mm_accdrv_phaseout(this)
-      !! Signal approaching end of multiplication
-      TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
-
-      this%phase_out = .TRUE.
-   END SUBROUTINE dbcsr_mm_accdrv_phaseout
-
    SUBROUTINE dbcsr_mm_accdrv_barrier()
       INTEGER                                            :: ithread
 
       ithread = 0
 !$    ithread = OMP_GET_THREAD_NUM()
-      CALL acc_stream_synchronize(priority_streams(ithread + 1))
+      CALL acc_stream_synchronize(thread_streams(ithread + 1))
    END SUBROUTINE dbcsr_mm_accdrv_barrier
 
    SUBROUTINE dbcsr_mm_accdrv_process(this, left, right, params, stack_size, &
@@ -465,18 +444,12 @@ CONTAINS
 
       DO WHILE (.NOT. ASSOCIATED(stackbuf))
          DO i = 1, SIZE(stack_buffers)
-            IF (this%phase_out .AND. i > this%nbuffers_phaseout) EXIT
             IF (acc_event_query(stack_buffers(i)%calculated)) THEN
                stackbuf => stack_buffers(i)
                EXIT
             ENDIF
          ENDDO
       ENDDO
-
-      IF (.NOT. ASSOCIATED(stackbuf)) THEN
-         success = .FALSE.
-         RETURN
-      END IF
 
       CALL timeset(routineN, error_handle)
       stacked_datasize = this%product_wm%datasize

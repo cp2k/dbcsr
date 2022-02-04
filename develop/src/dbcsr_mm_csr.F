@@ -34,7 +34,7 @@ MODULE dbcsr_mm_csr
    USE dbcsr_mm_sched, ONLY: &
       dbcsr_mm_sched_barrier, dbcsr_mm_sched_begin_burst, dbcsr_mm_sched_dev2host_init, &
       dbcsr_mm_sched_end_burst, dbcsr_mm_sched_finalize, dbcsr_mm_sched_init, &
-      dbcsr_mm_sched_lib_finalize, dbcsr_mm_sched_lib_init, dbcsr_mm_sched_phaseout, &
+      dbcsr_mm_sched_lib_finalize, dbcsr_mm_sched_lib_init, &
       dbcsr_mm_sched_process, dbcsr_mm_sched_set_orig_datasize, dbcsr_mm_sched_type
    USE dbcsr_mm_types, ONLY: &
       dbcsr_ps_width, p_a_first, p_b_first, p_c_blk, p_c_first, p_k, p_m, p_n, &
@@ -84,7 +84,6 @@ MODULE dbcsr_mm_csr
 ! **************************************************************************************************
    PUBLIC :: dbcsr_mm_csr_type
    PUBLIC :: dbcsr_mm_csr_lib_init, dbcsr_mm_csr_lib_finalize
-   PUBLIC :: dbcsr_mm_csr_phaseout
    PUBLIC :: dbcsr_mm_csr_init, dbcsr_mm_csr_finalize
    PUBLIC :: dbcsr_mm_csr_multiply, dbcsr_mm_csr_purge_stacks
    PUBLIC :: dbcsr_mm_csr_dev2host_init, dbcsr_mm_csr_red3D
@@ -571,13 +570,6 @@ CONTAINS
       ENDDO
       CALL timestop(handle)
    END SUBROUTINE fill_hash_tables
-
-   SUBROUTINE dbcsr_mm_csr_phaseout(this)
-      !! Signal approaching end of multiplication
-      TYPE(dbcsr_mm_csr_type), INTENT(INOUT)             :: this
-
-      CALL dbcsr_mm_sched_phaseout(this%sched)
-   END SUBROUTINE dbcsr_mm_csr_phaseout
 
    SUBROUTINE dbcsr_mm_csr_finalize(this)
       !! Finalizes a multiplication cycle for a set of C-blocks.
