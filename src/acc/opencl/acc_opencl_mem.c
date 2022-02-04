@@ -8,6 +8,7 @@
  *------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #include "acc_opencl.h"
+#include <libxsmm_sync.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
@@ -24,6 +25,12 @@
 # include <unistd.h>
 #endif
 
+#if !defined(ACC_OPENCL_MEM_ZERO_KERNEL) && 0
+# define ACC_OPENCL_MEM_ZERO_KERNEL
+#endif
+#if !defined(ACC_OPENCL_MEM_NLOCKS)
+# define ACC_OPENCL_MEM_NLOCKS ACC_OPENCL_NLOCKS
+#endif
 #if !defined(ACC_OPENCL_MEM_ALIGNSCALE)
 # define ACC_OPENCL_MEM_ALIGNSCALE 8
 #endif
@@ -339,15 +346,46 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
   assert((NULL != dev_mem || 0 == nbytes) && NULL != stream);
   if (0 != nbytes) {
     const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
-    static const cl_uchar pattern = 0; /* fill with zeros */
     ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
       ACC_OPENCL_OMP_TID(), queue))
     {
       ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
         "c_dbcsr_acc_memset_zero called by foreign thread!\n");
     }
-    result = clEnqueueFillBuffer(queue, *ACC_OPENCL_MEM(dev_mem),
-      &pattern, sizeof(pattern), offset, nbytes, 0, NULL, NULL);
+    { const cl_mem *const buffer = ACC_OPENCL_MEM(dev_mem);
+#if defined(ACC_OPENCL_MEM_ZERO_KERNEL)
+      /* creating cl_kernel and calling clSetKernelArg must be synchronized */
+      static volatile int lock;
+      static cl_kernel kernel = NULL;
+      LIBXSMM_ATOMIC_ACQUIRE(&lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
+      if (NULL == kernel) { /* generate kernel */
+        const char source[] =
+          "kernel void memset_zero(global uchar *restrict buffer) {\n"
+          "  const size_t i = get_global_id(0);\n"
+          "  const uchar pattern = 0;\n"
+          "  buffer[i] = pattern;\n"
+          "}\n";
+        result = c_dbcsr_acc_opencl_kernel(source, "memset_zero"/*kernel_name*/,
+          NULL/*build_params*/, NULL/*build_options*/,
+          NULL/*try_build_options*/, NULL/*try_ok*/,
+          NULL/*extnames*/, 0/*num_exts*/,
+          &kernel);
+      }
+      if (EXIT_SUCCESS == result) {
+        assert(NULL != kernel);
+        ACC_OPENCL_CHECK(clSetKernelArg(kernel, 0, sizeof(cl_mem), buffer),
+          "set buffer argument of memset_zero kernel", result);
+        ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(queue, kernel, 1/*work_dim*/,
+          &offset, &nbytes, NULL/*local_work_size*/, 0, NULL, NULL),
+          "launch memset_zero kernel", result);
+      }
+      LIBXSMM_ATOMIC_RELEASE(&lock, LIBXSMM_ATOMIC_RELAXED);
+#else
+      static const cl_uchar pattern = 0; /* fill with zeros */
+      result = clEnqueueFillBuffer(queue, *buffer,
+        &pattern, sizeof(pattern), offset, nbytes, 0, NULL, NULL);
+#endif
+    }
   }
   ACC_OPENCL_RETURN(result);
 }

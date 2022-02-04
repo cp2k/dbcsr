@@ -846,8 +846,10 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id)
           }
         }
         if (EXIT_SUCCESS == result) { /* update c_dbcsr_acc_opencl_config.devinfo */
-          const char *const env_barrier = getenv("ACC_OPENCL_BARRIER"), *const env_dump = getenv("ACC_OPENCL_DUMP");
-          const char *const env_async = getenv("ACC_OPENCL_ASYNC"), *const env_flush = getenv("ACC_OPENCL_FLUSH");
+          const char *const env_dump_acc = getenv("ACC_OPENCL_DUMP"), *const env_dump_igc = getenv("IGC_ShaderDumpEnable");
+          const char *const env_barrier = getenv("ACC_OPENCL_BARRIER"), *const env_async = getenv("ACC_OPENCL_ASYNC");
+          const char *const env_dump = (NULL != env_dump_acc ? env_dump_acc : env_dump_igc);
+          const char *const env_flush = getenv("ACC_OPENCL_FLUSH");
           c_dbcsr_acc_opencl_config.devinfo.async = (NULL == env_async ? /*default*/0 : (0 != atoi(env_async)));
           c_dbcsr_acc_opencl_config.devinfo.flush = (NULL == env_flush ? /*default*/1 : atoi(env_flush));
           c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/0 : atoi(env_dump));
