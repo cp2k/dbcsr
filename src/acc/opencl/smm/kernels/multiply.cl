@@ -26,7 +26,6 @@
 # define UNROLL(N)
 #endif
 
-#define MAX(A, B) ((A)<(B)?(B):(A))
 #if !defined(AL) || (SM != SN) || (SM != BM) || (SN != SK) || (1 == BS)
 # define ADX(M, K) adata[SM*K+M+a0]
 # define BDX(K, N) bdata[SN*K+N+b0]
@@ -86,6 +85,7 @@
 # define REPEAT 1
 #endif
 
+#define MAX(A, B) ((A)<(B)?(B):(A))
 #define NBM ((SM+BM-1)/BM)
 #define NBN ((SN+BN-1)/BN)
 #define WRK (NBM*NBN)
@@ -687,6 +687,8 @@ kernel void FN(global T *restrict cdata,
         ATOMIC_ADD2_GLOBAL(&CDX(m, idx), r2);
         CNM(idx, m) = CNM(idx, m+1) = ZERO; /* reset */
       }
+#   else
+      UNROLL(SM)
 #   endif
 #   if !defined(ATOMIC_ADD2_GLOBAL) || (SM & 1)
 #     if defined(ATOMIC_INC_NZ)
@@ -697,8 +699,8 @@ kernel void FN(global T *restrict cdata,
         ATOMIC_ADD_GLOBAL(&CDX(m, idx), CNM(idx, m));
         CNM(idx, m) = ZERO; /* reset */
       }
+#     endif
 #   endif
-# endif
       /* next iteration */
       c0 = c1;
     }

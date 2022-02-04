@@ -31,6 +31,7 @@
 # define OPENCL_LIBSMM_F64
 #endif
 
+
 #if defined(__cplusplus)
 extern "C" {
 #endif

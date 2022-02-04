@@ -19,7 +19,6 @@ kernel void FN(GLOBAL const int *restrict trs_stack, int trs_offset, global T *r
   /* local memory buffer */
   local T buf[SM][SN];
 #endif
-
 #if (SWG == SM)
   const int m = idx;
 # if (SM != SN) || (0 == INPLACE)
