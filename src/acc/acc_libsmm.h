@@ -56,9 +56,6 @@ static const int         libsmm_acc_transpose_routine_name_len = (int)sizeof(lib
 static const char        libsmm_acc_process_routine_name_str[] = "jit_kernel_multiply";
 static const char *const libsmm_acc_process_routine_name_ptr = libsmm_acc_process_routine_name_str;
 static const int         libsmm_acc_process_routine_name_len = (int)sizeof(libsmm_acc_process_routine_name_str) - 1;
-
-void c_dbcsr_timeset(const char** routineN, const int* routineN_len, int* handle);
-void c_dbcsr_timestop(const int* handle);
 #endif
 
 #if defined(__cplusplus)

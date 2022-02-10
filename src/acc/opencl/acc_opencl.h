@@ -65,6 +65,7 @@
 #if !defined(ACC_OPENCL_DEVICES_MAXCOUNT)
 # define ACC_OPENCL_DEVICES_MAXCOUNT 256
 #endif
+/** Counted on a per-thread basis! */
 #if !defined(ACC_OPENCL_STREAMS_MAXCOUNT)
 # define ACC_OPENCL_STREAMS_MAXCOUNT 128
 #endif
@@ -75,11 +76,14 @@
 #   define ACC_OPENCL_OVERMALLOC 8192
 # endif
 #endif
-/* First char is CSV-separator by default */
+/* First char is CSV-separator by default (w/o spaces) */
 #if !defined(ACC_OPENCL_DELIMS)
-# define ACC_OPENCL_DELIMS ",;: \t|/"
+# define ACC_OPENCL_DELIMS ",;:|/"
 #endif
 
+#if !defined(ACC_OPENCL_PROFILE) && 0
+# define ACC_OPENCL_PROFILE
+#endif
 #if !defined(ACC_OPENCL_DEBUG) && (defined(_DEBUG) || 0)
 # define ACC_OPENCL_DEBUG
 #endif
@@ -100,8 +104,7 @@
 #endif
 
 /* can depend on OpenCL implementation (unlikely) */
-#if !defined(ACC_OPENCL_MEM_NOALLOC) && \
-    !defined(ACC_OPENCL_MEM_ALLOC) && 1
+#if !defined(ACC_OPENCL_MEM_NOALLOC) && 1
 # define ACC_OPENCL_MEM_NOALLOC
 # define ACC_OPENCL_MEM(A) ((cl_mem*)&(A))
 #else
@@ -109,16 +112,14 @@
 #endif
 /* can depend on OpenCL implementation (unlikely) */
 #if !defined(ACC_OPENCL_STREAM_NOALLOC) && \
-    !defined(ACC_OPENCL_STREAM_PRIORITIES) && \
-    !defined(ACC_OPENCL_STREAM_ALLOC) && 1
+    !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
 # define ACC_OPENCL_STREAM_NOALLOC
 # define ACC_OPENCL_STREAM(A) ((cl_command_queue*)&(A))
 #else
 # define ACC_OPENCL_STREAM(A) ((cl_command_queue*)(A))
 #endif
 /* incompatible with c_dbcsr_acc_event_record */
-#if !defined(ACC_OPENCL_EVENT_NOALLOC) && \
-    !defined(ACC_OPENCL_EVENT_ALLOC) && 0
+#if !defined(ACC_OPENCL_EVENT_NOALLOC) && 0
 # define ACC_OPENCL_EVENT_NOALLOC
 # define ACC_OPENCL_EVENT(A) ((cl_event*)&(A))
 #else
@@ -149,20 +150,25 @@
 
 #if !defined(NDEBUG) || defined(ACC_OPENCL_DEBUG)
 # define ACC_OPENCL_EXPECT(EXPECTED, EXPR) assert((EXPECTED) == (EXPR))
-# define ACC_OPENCL_ERROR(MSG, RESULT) do { \
-    assert(CL_SUCCESS == EXIT_SUCCESS); \
-    if (-1001 != (RESULT)) { \
-      fprintf(stderr, "ERROR ACC/OpenCL: " MSG); \
-      if (EXIT_FAILURE != (RESULT)) { \
-        fprintf(stderr, " (code=%i)", RESULT); \
+# define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) do { \
+    if (EXIT_SUCCESS == (RESULT)) { \
+      (RESULT) = (EXPR); assert((MSG) && *(MSG)); \
+      if (CL_SUCCESS != (RESULT)) { \
+        assert(CL_SUCCESS == EXIT_SUCCESS); \
+        if (-1001 != (RESULT)) { \
+          fprintf(stderr, "ERROR ACC/OpenCL: " MSG); \
+          if (EXIT_FAILURE != (RESULT)) { \
+            fprintf(stderr, " (code=%i)", RESULT); \
+          } \
+          fprintf(stderr, ".\n"); \
+          assert(CL_SUCCESS != (RESULT)); \
+        } \
+        else { \
+          fprintf(stderr, "ERROR ACC/OpenCL: incomplete installation (" MSG ").\n"); \
+        } \
+        assert(!MSG); \
       } \
-      fprintf(stderr, ".\n"); \
-      assert(CL_SUCCESS != (RESULT)); \
     } \
-    else { \
-      fprintf(stderr, "ERROR ACC/OpenCL: incomplete installation (" MSG ").\n"); \
-    } \
-    assert(!MSG); \
   } while (0)
 # define ACC_OPENCL_RETURN_CAUSE(RESULT, CAUSE) do { \
     const int acc_opencl_return_cause_result_ = (RESULT); \
@@ -176,19 +182,14 @@
   } while (0)
 #else
 # define ACC_OPENCL_EXPECT(EXPECTED, EXPR) (EXPR)
-# define ACC_OPENCL_ERROR(MSG, RESULT)
+# define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) do { \
+    if (EXIT_SUCCESS == (RESULT)) { \
+      (RESULT) = (EXPR); assert((MSG) && *(MSG)); \
+    } \
+  } while (0)
 # define ACC_OPENCL_RETURN_CAUSE(RESULT, CAUSE) LIBXSMM_UNUSED(CAUSE); return RESULT
 #endif
 #define ACC_OPENCL_RETURN(RESULT) ACC_OPENCL_RETURN_CAUSE(RESULT, NULL)
-
-#define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) do { \
-  if (EXIT_SUCCESS == (RESULT)) { \
-    (RESULT) = (EXPR); assert((MSG) && *(MSG)); \
-    if (CL_SUCCESS != (RESULT)) { \
-      ACC_OPENCL_ERROR(MSG, RESULT); \
-    } \
-  } \
-} while (0)
 
 
 #if defined(__cplusplus)
@@ -197,8 +198,6 @@ extern "C" {
 
 /** Settings updated during c_dbcsr_acc_set_active_device. */
 typedef struct c_dbcsr_acc_opencl_devinfo_t {
-  /** Function used to record an event. */
-  int (*record_event)(void* /*event*/, void* /*stream*/);
 #if defined(ACC_OPENCL_SVM)
   /** Runtime SVM support (needs ACC_OPENCL_SVM at compile-time). */
   cl_bool svm_interop;
@@ -207,10 +206,6 @@ typedef struct c_dbcsr_acc_opencl_devinfo_t {
   cl_int intel_id;
   /** Whether host memory is unified or not. */
   cl_bool unified;
-  /** Asynchronous memory operations (may crash for some OpenCL implementations). */
-  cl_bool async;
-  /** Flush level. */
-  cl_int flush;
 } c_dbcsr_acc_opencl_devinfo_t;
 
 /**
@@ -227,15 +222,23 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   /** Table of activated device contexts (thread-specific). */
   cl_context* contexts;
   /** All created streams partitioned by thread-ID (thread-local slots). */
-  cl_command_queue* streams;
+  void** streams;
   /** Counts number of streams created (thread-local). */
-  int* stream_stats;
+  void** stream_stats;
+  /** Determines how streams are shared across threads. */
+  cl_int share;
   /** Verbosity level (output on stderr). */
   cl_int verbosity;
   /** Non-zero if library is initialized; negative in case of no device. */
   cl_int ndevices;
   /** Maximum number of threads (omp_get_max_threads). */
   cl_int nthreads;
+  /** Asynchronous memory operations. */
+  cl_bool async;
+  /** How to apply/use stream priorities. */
+  cl_int priority;
+  /** Flush level. */
+  cl_int flush;
   /** Dump level. */
   cl_int dump;
 } c_dbcsr_acc_opencl_config_t;
@@ -261,7 +264,7 @@ typedef struct c_dbcsr_acc_opencl_info_stream_t {
   int priority;
 } c_dbcsr_acc_opencl_info_stream_t;
 c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream);
-int c_dbcsr_acc_opencl_stream_is_thread_specific(int thread_id, cl_command_queue stream);
+int c_dbcsr_acc_opencl_stream_is_thread_specific(int thread_id, const void* stream);
 const int* c_dbcsr_acc_opencl_stream_priority(void* stream);
 
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
@@ -305,13 +308,6 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
   const char try_build_options[], int* try_ok,
   const char *const extnames[], int num_exts,
   cl_kernel* kernel);
-/** Create command queue (stream). */
-int c_dbcsr_acc_opencl_stream_create(int thread_id, cl_command_queue* stream_p,
-  const char name[], const ACC_OPENCL_COMMAND_QUEUE_PROPERTIES* properties);
-/** Enqueue barrier (c_dbcsr_acc_opencl_config.devinfo.record_event). */
-int c_dbcsr_acc_opencl_enqueue_barrier(void* event, void* stream);
-/** Enqueue marker (c_dbcsr_acc_opencl_config.devinfo.record_event). */
-int c_dbcsr_acc_opencl_enqueue_marker(void* event, void* stream);
 /** Per-thread variant of c_dbcsr_acc_device_synchronize. */
 int c_dbcsr_acc_opencl_device_synchronize(int thread_id);
 

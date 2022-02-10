@@ -546,6 +546,9 @@ kernel void FN(global T *restrict cdata,
           CNM(idx, m) = MAD(AMK(m, k), b, CNM(idx, m));
 #   endif
         }
+#   if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A)
+        BARRIER(CLK_LOCAL_MEM_FENCE);
+#   endif
       }
 #   if (1 == BS)
       UNROLL(SM)

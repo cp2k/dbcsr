@@ -82,11 +82,17 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
   cl_int result;
   const size_t size_meminfo = sizeof(c_dbcsr_acc_opencl_info_hostptr_t);
   const int alignment = c_dbcsr_acc_opencl_memalignment(nbytes);
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   nbytes += alignment + size_meminfo - 1;
   assert(NULL != host_mem && NULL != stream);
   queue = *ACC_OPENCL_STREAM(stream);
   ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
-    ACC_OPENCL_OMP_TID(), queue))
+    ACC_OPENCL_OMP_TID(), stream))
   {
     ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
       "c_dbcsr_acc_host_mem_allocate called by foreign thread!\n");
@@ -108,7 +114,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
   assert(CL_SUCCESS == result || NULL == memory);
   if (CL_SUCCESS == result) {
     void *const mapped = clEnqueueMapBuffer(queue, memory,
-      !c_dbcsr_acc_opencl_config.devinfo.async, CL_MAP_READ | CL_MAP_WRITE,
+      !c_dbcsr_acc_opencl_config.async, CL_MAP_READ | CL_MAP_WRITE,
       0/*offset*/, nbytes, 0, NULL, NULL, &result);
     assert(CL_SUCCESS == result || NULL == mapped);
     if (CL_SUCCESS == result) {
@@ -122,23 +128,20 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
         meminfo->mapped = mapped;
         *host_mem = (void*)aligned;
       }
-      else {
+      else { /* error: buffer info */
         result = EXIT_FAILURE;
-        ACC_OPENCL_ERROR("map buffer info", result);
         *host_mem = NULL;
       }
     }
-    else {
+    else { /* error: mapping host buffer */
       ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseMemObject(memory));
-      ACC_OPENCL_ERROR("map host buffer", result);
       *host_mem = NULL;
     }
   }
-  else {
-    assert(CL_SUCCESS != result);
-    ACC_OPENCL_ERROR("create host buffer", result);
-    *host_mem = NULL;
-  }
+  else *host_mem = NULL; /* error: creating host buffer */
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 
@@ -146,6 +149,12 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
 int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream)
 {
   int result;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   assert(NULL != stream);
   if (NULL != host_mem) {
     c_dbcsr_acc_opencl_info_hostptr_t *const meminfo = c_dbcsr_acc_opencl_info_hostptr(host_mem);
@@ -171,6 +180,9 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream)
     else result = EXIT_FAILURE;
   }
   else result = EXIT_FAILURE;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 
@@ -186,6 +198,12 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
     ? 0 : (1u << 22));
   const cl_context context = c_dbcsr_acc_opencl_context();
   cl_mem buffer;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   assert(NULL != dev_mem && 0 <= ACC_OPENCL_OVERMALLOC);
   assert(NULL != context);
   buffer = (
@@ -229,11 +247,10 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
     }
 #endif
   }
-  else {
-    assert(CL_SUCCESS != result);
-    ACC_OPENCL_ERROR("create device buffer", result);
-    *dev_mem = NULL;
-  }
+  else *dev_mem = NULL; /* error: creating device buffer */
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 
@@ -241,6 +258,12 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
 int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem)
 {
   int result = EXIT_SUCCESS;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   if (NULL != dev_mem) {
     const cl_mem buffer = *ACC_OPENCL_MEM(dev_mem);
 #if defined(ACC_OPENCL_SVM)
@@ -264,6 +287,9 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem)
     }
 #endif
   }
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 
@@ -271,12 +297,21 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem)
 int c_dbcsr_acc_dev_mem_set_ptr(void** dev_mem, void* other, size_t lb)
 {
   int result;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   assert(NULL != dev_mem);
   if (NULL != other || 0 == lb) {
     *dev_mem = (char*)other + lb;
     result = EXIT_SUCCESS;
   }
   else result = EXIT_FAILURE;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 
@@ -284,18 +319,26 @@ int c_dbcsr_acc_dev_mem_set_ptr(void** dev_mem, void* other, size_t lb)
 int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, void* stream)
 {
   int result = EXIT_SUCCESS;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   assert((NULL != host_mem || 0 == nbytes) && (NULL != dev_mem || 0 == nbytes) && NULL != stream);
   if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
-    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
     ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
-      ACC_OPENCL_OMP_TID(), queue))
+      ACC_OPENCL_OMP_TID(), stream))
     {
       ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
         "c_dbcsr_acc_memcpy_h2d called by foreign thread!\n");
     }
-    result = clEnqueueWriteBuffer(queue, *ACC_OPENCL_MEM(dev_mem),
+    result = clEnqueueWriteBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(dev_mem),
       CL_FALSE, 0/*offset*/, nbytes, host_mem, 0, NULL, NULL);
   }
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 
@@ -303,19 +346,27 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
 int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, void* stream)
 {
   int result = EXIT_SUCCESS;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   assert((NULL != dev_mem || 0 == nbytes) && (NULL != host_mem || 0 == nbytes) && NULL != stream);
   if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
-    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
     ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
-      ACC_OPENCL_OMP_TID(), queue))
+      ACC_OPENCL_OMP_TID(), stream))
     {
       ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
         "c_dbcsr_acc_memcpy_d2h called by foreign thread!\n");
     }
-    result = clEnqueueReadBuffer(queue, *ACC_OPENCL_MEM(dev_mem),
-      !c_dbcsr_acc_opencl_config.devinfo.async, 0/*offset*/, nbytes,
+    result = clEnqueueReadBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(dev_mem),
+      !c_dbcsr_acc_opencl_config.async, 0/*offset*/, nbytes,
       host_mem, 0, NULL, NULL);
   }
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 
@@ -323,19 +374,27 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
 int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbytes, void* stream)
 {
   int result = EXIT_SUCCESS;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   assert((NULL != devmem_src || 0 == nbytes) && (NULL != devmem_dst || 0 == nbytes) && NULL != stream);
   if (NULL != devmem_src && NULL != devmem_dst && 0 != nbytes) {
-    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
     ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
-      ACC_OPENCL_OMP_TID(), queue))
+      ACC_OPENCL_OMP_TID(), stream))
     {
       ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
         "c_dbcsr_acc_memcpy_d2d called by foreign thread!\n");
     }
-    result = clEnqueueCopyBuffer(queue,
+    result = clEnqueueCopyBuffer(*ACC_OPENCL_STREAM(stream),
       *ACC_OPENCL_MEM(devmem_src), *ACC_OPENCL_MEM(devmem_dst),
       0/*src_offset*/, 0/*dst_offset*/, nbytes, 0, NULL, NULL);
   }
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 
@@ -343,16 +402,22 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
 int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* stream)
 {
   int result = EXIT_SUCCESS;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   assert((NULL != dev_mem || 0 == nbytes) && NULL != stream);
   if (0 != nbytes) {
-    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
     ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
-      ACC_OPENCL_OMP_TID(), queue))
+      ACC_OPENCL_OMP_TID(), stream))
     {
       ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
         "c_dbcsr_acc_memset_zero called by foreign thread!\n");
     }
-    { const cl_mem *const buffer = ACC_OPENCL_MEM(dev_mem);
+    { const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+      const cl_mem *const buffer = ACC_OPENCL_MEM(dev_mem);
 #if defined(ACC_OPENCL_MEM_ZERO_KERNEL)
       /* creating cl_kernel and calling clSetKernelArg must be synchronized */
       static volatile int lock;
@@ -387,6 +452,9 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
 #endif
     }
   }
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 
@@ -467,7 +535,7 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
   if (NULL != mem_local) *mem_local = size_local;
   if (NULL != mem_total) *mem_total = size_total;
   if (NULL != mem_free)  *mem_free  = size_free;
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -477,11 +545,20 @@ int c_dbcsr_acc_dev_mem_info(size_t* mem_free, size_t* mem_total)
   int result = 0 < c_dbcsr_acc_opencl_config.ndevices
     ? c_dbcsr_acc_opencl_device(ACC_OPENCL_OMP_TID(), &active_id)
     : EXIT_FAILURE;
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  int routine_handle;
+  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
+  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
+  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#endif
   if (EXIT_SUCCESS == result) {
     result = c_dbcsr_acc_opencl_info_devmem(
       active_id, mem_free, mem_total,
       NULL/*mem_local*/, NULL/*mem_unified*/);
   }
+#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+  c_dbcsr_timestop(&routine_handle);
+#endif
   ACC_OPENCL_RETURN(result);
 }
 

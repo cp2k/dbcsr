@@ -713,16 +713,17 @@ if __name__ == "__main__":
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
         os.environ["OPENCL_LIBSMM_SMM_BN"] = "{}".format(args.bn)
+    if 2 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
         os.environ["OPENCL_LIBSMM_SMM_NZ"] = "{}".format(args.nz)
         os.environ["OPENCL_LIBSMM_SMM_TB"] = "{}".format(args.tb)
         os.environ["OPENCL_LIBSMM_SMM_TC"] = "{}".format(args.tc)
         os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
-    if 2 <= args.tlevel:
+    if 3 <= args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BK"] = "{}".format(args.bk)
         os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
         os.environ["OPENCL_LIBSMM_SMM_AC"] = "{}".format(args.ac)
-    if 3 <= args.tlevel:
+    if 4 <= args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_LU"] = "{}".format(args.lu)
     if 0 == args.mb:
         args.mb = 64
