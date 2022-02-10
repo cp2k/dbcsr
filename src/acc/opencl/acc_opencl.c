@@ -23,13 +23,17 @@
 #else
 LIBXSMM_EXTERN int mkstemp(char*) LIBXSMM_NOTHROW;
 LIBXSMM_EXTERN int putenv(char*) LIBXSMM_THROW;
-# include <sys/stat.h>
 # include <unistd.h>
 # include <errno.h>
 # include <glob.h>
 #endif
 #if defined(__DBCSR_ACC)
 # include "../acc_libsmm.h"
+#endif
+
+#include <sys/stat.h>
+#if !defined(S_ISDIR) && defined(S_IFMT) && defined(S_IFDIR)
+# define S_ISDIR(A) ((S_IFMT & (A)) == S_IFDIR)
 #endif
 
 #if !defined(ACC_OPENCL_CACHEDIR) && 1
@@ -231,7 +235,8 @@ int c_dbcsr_acc_init(void)
 # else
           ? CL_FALSE : (0 != atoi(env_cache) ? CL_TRUE : CL_FALSE));
 # endif
-        if (0 != cache) {
+        struct stat cachedir;
+        if (0 != cache || (stat(ACC_OPENCL_CACHEDIR, &cachedir) == 0 && S_ISDIR(cachedir.st_mode))) {
 # if !defined(_WIN32)
           char cl_cache_dir[] = "cl_cache_dir=" ACC_OPENCL_CACHEDIR;
 #   if defined(S_IRWXU) && defined(S_IRGRP) && defined(S_IXGRP) && defined(S_IROTH) && defined(S_IXOTH)

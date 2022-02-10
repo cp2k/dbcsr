@@ -25,12 +25,6 @@
       (NULL != (PROPS) ? ((PROPS)[1]) : 0), RESULT)
 #endif
 
-#if defined(CL_VERSION_1_2)
-# define ACC_OPENCL_WAIT_EVENT(QUEUE, EVENT) clEnqueueMarkerWithWaitList(QUEUE, 1, EVENT, NULL)
-#else
-# define ACC_OPENCL_WAIT_EVENT(QUEUE, EVENT) clEnqueueWaitForEvents(QUEUE, 1, EVENT)
-#endif
-
 
 #if defined(__cplusplus)
 extern "C" {
@@ -382,32 +376,6 @@ int c_dbcsr_acc_stream_sync(void* stream)
   else
 #endif
   result = clFinish(*ACC_OPENCL_STREAM(stream));
-#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
-  c_dbcsr_timestop(&routine_handle);
-#endif
-  ACC_OPENCL_RETURN(result);
-}
-
-
-int c_dbcsr_acc_stream_wait_event(void* stream, void* event)
-{ /* wait for an event (device-side) */
-  int result;
-  cl_command_queue queue;
-#if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
-  int routine_handle;
-  static const char *const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
-#endif
-  assert(NULL != stream && NULL != event);
-  queue = *ACC_OPENCL_STREAM(stream);
-  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(
-    ACC_OPENCL_OMP_TID(), queue))
-  {
-    ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-      "c_dbcsr_acc_stream_wait_event called by foreign thread!\n");
-  }
-  result = ACC_OPENCL_WAIT_EVENT(queue, ACC_OPENCL_EVENT(event));
 #if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #endif

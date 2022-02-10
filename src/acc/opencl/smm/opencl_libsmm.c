@@ -54,10 +54,10 @@
 # define OPENCL_LIBSMM_KERNELNAME_SMM "smm"
 #endif
 #if !defined(OPENCL_LIBSMM_NLOCKS_TRANS)
-# define OPENCL_LIBSMM_NLOCKS_TRANS 16
+# define OPENCL_LIBSMM_NLOCKS_TRANS 1
 #endif
 #if !defined(OPENCL_LIBSMM_NLOCKS_SMM)
-# define OPENCL_LIBSMM_NLOCKS_SMM 16
+# define OPENCL_LIBSMM_NLOCKS_SMM 1
 #endif
 /* default: decompose C-matrix into column-vectors (Mx1) */
 #if !defined(OPENCL_LIBSMM_DEFAULT_BM)
@@ -848,11 +848,15 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
 # endif
       assert(!(OPENCL_LIBSMM_NLOCKS_TRANS & (OPENCL_LIBSMM_NLOCKS_TRANS - 1))); /* POT */
       { /* OpenCL is thread-safe except for clSetKernelArg and launching such shared kernel */
+        static volatile int locks[OPENCL_LIBSMM_NLOCKS_TRANS];
+# if (1 < OPENCL_LIBSMM_NLOCKS_TRANS)
         const unsigned int hash = libxsmm_hash(&config->kernel, sizeof(cl_kernel), 25071975/*seed*/);
         const unsigned int lidx = LIBXSMM_MOD2(hash, OPENCL_LIBSMM_NLOCKS_TRANS);
-        /* calling clSetKernelArg must be consistent across host-threads */
-        static volatile int locks[OPENCL_LIBSMM_NLOCKS_TRANS];
         volatile int *const lock = locks + lidx;
+# else
+        volatile int *const lock = locks;
+# endif
+        /* calling clSetKernelArg must be consistent across host-threads */
         LIBXSMM_ATOMIC_ACQUIRE(lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
         ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 0, sizeof(cl_mem), ACC_OPENCL_MEM(dev_trs_stack)),
           "set batch-list argument of transpose kernel", result);
@@ -1586,11 +1590,15 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
 # endif
         assert(!(OPENCL_LIBSMM_NLOCKS_SMM & (OPENCL_LIBSMM_NLOCKS_SMM - 1))); /* POT */
         { /* OpenCL is thread-safe except for clSetKernelArg and launching such shared kernel */
+          static volatile int locks[OPENCL_LIBSMM_NLOCKS_SMM];
+# if (1 < OPENCL_LIBSMM_NLOCKS_SMM)
           const unsigned int hash = libxsmm_hash(config->kernel + kernel_idx, sizeof(cl_kernel), 25071975/*seed*/);
           const unsigned int lidx = LIBXSMM_MOD2(hash, OPENCL_LIBSMM_NLOCKS_SMM);
-          /* calling clSetKernelArg must be consistent across host-threads */
-          static volatile int locks[OPENCL_LIBSMM_NLOCKS_SMM];
           volatile int *const lock = locks + lidx;
+# else
+          volatile int *const lock = locks;
+# endif
+          /* calling clSetKernelArg must be consistent across host-threads */
           LIBXSMM_ATOMIC_ACQUIRE(lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
           ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 0, sizeof(cl_mem), ACC_OPENCL_MEM(dev_c_data)),
             "set C-matrix argument of SMM-kernel", result);
