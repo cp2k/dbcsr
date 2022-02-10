@@ -114,7 +114,7 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
     exit 1
   elif [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
     if [ "${UPDATE}" ] && [ "0" != "${UPDATE}" ]; then
-      if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=0; fi
+      if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=1; fi
       if [ ! "${MAXTIME}" ]; then MAXTIME=160; fi
       MNKS=$(echo "${JSONS}" | ${SED} -n "s/.*tune_multiply-..*-\(..*x..*x.[^-]*\)-..*gflops\.json/\1/p" \
          | ${SORT} -u -n -tx -k1 -k2 -k3)
