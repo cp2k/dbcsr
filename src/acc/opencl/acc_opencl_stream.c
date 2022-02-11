@@ -51,14 +51,14 @@ c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream)
 }
 
 
-const int* c_dbcsr_acc_opencl_stream_priority(void* stream)
+const int* c_dbcsr_acc_opencl_stream_priority(const void* stream)
 {
   const int* result;
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES)
   LIBXSMM_UNUSED(stream);
 #else
   const c_dbcsr_acc_opencl_info_stream_t *const info =
-    c_dbcsr_acc_opencl_info_stream(stream);
+    c_dbcsr_acc_opencl_info_stream((void*)stream);
   if (NULL != info) result = &info->priority;
   else
 #endif
@@ -159,18 +159,17 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
       cl_device_id device = NULL;
       result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
       if (CL_SUCCESS == result) {
-        if (1 >= c_dbcsr_acc_opencl_config.share
-              || c_dbcsr_acc_opencl_config.share >= c_dbcsr_acc_opencl_config.nthreads)
-        {
+        const int s = c_dbcsr_acc_opencl_config.share;
+        if (1 >= s || s >= c_dbcsr_acc_opencl_config.nthreads || 0 == (tid % s)) {
           queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
         }
         else {
-          int n = 0;
-          for (i = 0; n < c_dbcsr_acc_opencl_config.nthreads; n += c_dbcsr_acc_opencl_config.share) {
-            const int t = n + tid, s = t < c_dbcsr_acc_opencl_config.nthreads
-              ? t : (t - c_dbcsr_acc_opencl_config.nthreads);
-            if (0 != s) { /* avoid cloning master's streams */
-              streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * s;
+          int n = 0; assert(0 < tid);
+          for (i = 0; n < c_dbcsr_acc_opencl_config.nthreads; n += s) {
+            const int j = n + tid - 1, t = j < c_dbcsr_acc_opencl_config.nthreads
+              ? j : (j - c_dbcsr_acc_opencl_config.nthreads);
+            if (0 != t) { /* avoid cloning master's streams */
+              streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * t;
               for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) if (NULL != streams[i]) {
                 n = c_dbcsr_acc_opencl_config.nthreads; break;
               }
@@ -193,13 +192,14 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
   assert(NULL != stream_p);
   if (EXIT_SUCCESS == result) {
     const int base = ACC_OPENCL_STREAMS_MAXCOUNT * tid;
-    void* *const stats = c_dbcsr_acc_opencl_config.stream_stats + base;
+    cl_command_queue *const stats = c_dbcsr_acc_opencl_config.stats + base;
     streams = c_dbcsr_acc_opencl_config.streams + base;
     for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) if (NULL == streams[i]) break;
     if (i < ACC_OPENCL_STREAMS_MAXCOUNT) { /* register stream */
 #if defined(ACC_OPENCL_STREAM_NOALLOC)
       assert(sizeof(void*) >= sizeof(cl_command_queue) && NULL != queue);
-      stats[i] = streams[i] = *stream_p = (void*)queue;
+      streams[i] = *stream_p = (void*)queue;
+      stats[i] = queue;
 #else
       const size_t size_info = sizeof(c_dbcsr_acc_opencl_info_stream_t);
       const size_t size = sizeof(cl_command_queue) + sizeof(void*) + size_info - 1;
@@ -213,8 +213,10 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
         assert(address + size_info <= aligned && NULL != info);
         info->pointer = (void*)address;
         info->priority = priority;
-        stats[i] = streams[i] = *stream_p = (void*)aligned;
-        *(cl_command_queue*)*stream_p = queue;
+        stats[i] = *(cl_command_queue*)aligned = queue;
+        streams[i] = *stream_p = (void*)aligned;
+        assert(queue == *ACC_OPENCL_STREAM(streams[i]));
+        assert(queue == *ACC_OPENCL_STREAM(*stream_p));
       }
       else {
         clReleaseCommandQueue(queue);

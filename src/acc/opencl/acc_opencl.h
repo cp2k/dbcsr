@@ -224,7 +224,7 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   /** All created streams partitioned by thread-ID (thread-local slots). */
   void** streams;
   /** Counts number of streams created (thread-local). */
-  void** stream_stats;
+  cl_command_queue* stats;
   /** Determines how streams are shared across threads. */
   cl_int share;
   /** Verbosity level (output on stderr). */
@@ -265,7 +265,7 @@ typedef struct c_dbcsr_acc_opencl_info_stream_t {
 } c_dbcsr_acc_opencl_info_stream_t;
 c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream);
 int c_dbcsr_acc_opencl_stream_is_thread_specific(int thread_id, const void* stream);
-const int* c_dbcsr_acc_opencl_stream_priority(void* stream);
+const int* c_dbcsr_acc_opencl_stream_priority(const void* stream);
 
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);

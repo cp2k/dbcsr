@@ -169,9 +169,7 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
 int c_dbcsr_acc_opencl_order_streams(const void* /*a*/, const void* /*b*/);
 int c_dbcsr_acc_opencl_order_streams(const void* a, const void* b)
 { /* NULL-pointers are sorted to the upper end */
-  const cl_command_queue p = (NULL != a ? *ACC_OPENCL_STREAM(a) : NULL);
-  const cl_command_queue q = (NULL != b ? *ACC_OPENCL_STREAM(b) : NULL);
-  return p < q ? 1 : (p > q ? -1 : 0);
+  return a < b ? -1 : (a > b ? 1 : 0);
 }
 
 
@@ -393,7 +391,7 @@ int c_dbcsr_acc_init(void)
             const int nelements = ACC_OPENCL_STREAMS_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads;
             c_dbcsr_acc_opencl_config.streams = (void**)calloc(nelements, sizeof(void*)); /* allocate streams */
             if (NULL != c_dbcsr_acc_opencl_config.streams) { /* allocate counters */
-              c_dbcsr_acc_opencl_config.stream_stats = (void**)calloc(nelements, sizeof(void*));
+              c_dbcsr_acc_opencl_config.stats = (cl_command_queue*)calloc(nelements, sizeof(cl_command_queue));
             }
             else result = EXIT_FAILURE;
           }
@@ -465,22 +463,21 @@ int c_dbcsr_acc_finalize(void)
       {
         fprintf(stderr, " device=%i", d);
       }
-      if (NULL != c_dbcsr_acc_opencl_config.stream_stats) {
+      if (NULL != c_dbcsr_acc_opencl_config.stats) {
         const int nelements = ACC_OPENCL_STREAMS_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads;
         cl_command_queue s = NULL;
         int nstreams, j;
         fprintf(stderr, " streams={");
         for (i = 0; i < nelements; i += ACC_OPENCL_STREAMS_MAXCOUNT) {
           for (j = 0, nstreams = 0; j < ACC_OPENCL_STREAMS_MAXCOUNT; ++j) {
-            if (NULL != c_dbcsr_acc_opencl_config.stream_stats[i+j]) ++nstreams;
+            if (NULL != c_dbcsr_acc_opencl_config.stats[i+j]) ++nstreams;
           }
           if (0 != nstreams || 0 == i) fprintf(stderr, 0 < i ? " %i" : "%i", nstreams);
         }
-        qsort(c_dbcsr_acc_opencl_config.stream_stats, nelements, sizeof(void*),
+        qsort(c_dbcsr_acc_opencl_config.stats, nelements, sizeof(cl_command_queue),
           c_dbcsr_acc_opencl_order_streams); /* NULL -> upper end */
         for (i = 0, nstreams = 0; i < nelements; ++i) {
-          const void *const p = c_dbcsr_acc_opencl_config.stream_stats[i];
-          const cl_command_queue q = (NULL != p ? *ACC_OPENCL_STREAM(p) : NULL);
+          const cl_command_queue q = c_dbcsr_acc_opencl_config.stats[i];
           if (NULL != q && s != q) {
             s = q; ++nstreams;
           }
@@ -567,23 +564,22 @@ int c_dbcsr_acc_get_ndevices(int* ndevices)
 int c_dbcsr_acc_opencl_device(int thread_id, cl_device_id* device)
 {
   int result = EXIT_SUCCESS;
-  cl_context context;
   assert(0 <= thread_id && thread_id < c_dbcsr_acc_opencl_config.nthreads);
-  assert(NULL != device && NULL != c_dbcsr_acc_opencl_config.contexts);
-  context = c_dbcsr_acc_opencl_config.contexts[thread_id];
+  assert(NULL != device);
+  if (NULL != c_dbcsr_acc_opencl_config.contexts) {
+    cl_context context = c_dbcsr_acc_opencl_config.contexts[thread_id];
 #if defined(_OPENMP)
-  if (NULL == context && 0 < thread_id) { /* fallback to master's context */
-    context = c_dbcsr_acc_opencl_config.contexts[/*master*/0];
-  }
+    if (NULL == context && 0 < thread_id) { /* fallback to master's context */
+      context = c_dbcsr_acc_opencl_config.contexts[/*master*/0];
+    }
 #endif
-  if (NULL != context) {
-    ACC_OPENCL_CHECK(clGetContextInfo(context,
-      CL_CONTEXT_DEVICES, sizeof(cl_device_id), device, NULL),
-      "retrieve id of active device", result);
+    if (NULL != context) {
+      result = clGetContextInfo(context, CL_CONTEXT_DEVICES,
+        sizeof(cl_device_id), device, NULL);
+    }
+    else *device = NULL;
   }
-  else {
-    *device = NULL;
-  }
+  else *device = NULL;
   ACC_OPENCL_RETURN(result);
 }
 
@@ -592,7 +588,7 @@ int c_dbcsr_acc_opencl_device_id(cl_device_id device, int* device_id, int* globa
 {
   int result = EXIT_SUCCESS, i;
   assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_DEVICES_MAXCOUNT);
-  assert(NULL != device && (NULL != device_id || NULL != global_id));
+  assert(NULL != device_id || NULL != global_id);
   for (i = 0; i < c_dbcsr_acc_opencl_config.ndevices; ++i) {
     if (device == c_dbcsr_acc_opencl_config.devices[i]) break;
   }
@@ -613,7 +609,7 @@ int c_dbcsr_acc_opencl_device_id(cl_device_id device, int* device_id, int* globa
   else {
     if (NULL != device_id) *device_id = -1;
     if (NULL != global_id) *global_id = -1;
-    result = EXIT_FAILURE;
+    if (NULL != device) result = EXIT_FAILURE;
   }
   ACC_OPENCL_RETURN(result);
 }
