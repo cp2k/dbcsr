@@ -703,7 +703,7 @@ CONTAINS
 
       IF (PRESENT(distribution)) THEN
          distribution%prv = dist
-      ENDIF
+      END IF
 
    END SUBROUTINE dbcsr_get_info
 
@@ -776,7 +776,7 @@ CONTAINS
       IF (ASSOCIATED(matrix)) THEN
          CALL dbcsr_release(matrix)
          DEALLOCATE (matrix)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_release_p
 
    SUBROUTINE dbcsr_release(matrix)
@@ -791,7 +791,7 @@ CONTAINS
       IF (ASSOCIATED(matrix)) THEN
          CALL dbcsr_release(matrix)
          DEALLOCATE (matrix)
-      ENDIF
+      END IF
 
       ALLOCATE (matrix)
    END SUBROUTINE dbcsr_init_p
@@ -865,8 +865,8 @@ CONTAINS
          IF (reuse_arrays) THEN
             DEALLOCATE (row_dist, col_dist)
             NULLIFY (row_dist, col_dist)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       IF (PRESENT(template)) THEN
          call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, cont_row_dist, cont_col_dist, &
@@ -874,7 +874,7 @@ CONTAINS
       ELSE
          call dbcsr_distribution_new_prv(dist%prv, group=group, pgrid=pgrid, row_dist=cont_row_dist, col_dist=cont_col_dist, &
                                          reuse_arrays=.TRUE.)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_distribution_new
 
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
@@ -922,8 +922,8 @@ CONTAINS
          IF (reuse_arrays) THEN
             DEALLOCATE (row_blk_size, col_blk_size)
             NULLIFY (row_blk_size, col_blk_size)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       CALL dbcsr_create_prv(matrix%prv, name, dist%prv, &
                             matrix_type, &
                             cont_row_blk_size, cont_col_blk_size, nze=nze, &
@@ -952,7 +952,7 @@ CONTAINS
 
       IF (PRESENT(row_blk_size) .NEQV. PRESENT(col_blk_size)) THEN
          DBCSR_ABORT("Both row_blk_size and col_blk_size must be provided!")
-      ENDIF
+      END IF
 
       ! Make the array contiguous, avoid to change API
       IF (PRESENT(row_blk_size)) THEN
@@ -964,9 +964,9 @@ CONTAINS
             IF (reuse_arrays) THEN
                DEALLOCATE (row_blk_size, col_blk_size)
                NULLIFY (row_blk_size, col_blk_size)
-            ENDIF
-         ENDIF
-      ENDIF
+            END IF
+         END IF
+      END IF
 
       IF (PRESENT(dist)) THEN
          IF (PRESENT(row_blk_size)) THEN
@@ -982,7 +982,7 @@ CONTAINS
                                   nze=nze, data_type=data_type, &
                                   reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
                                   replication_type=replication_type)
-         ENDIF
+         END IF
       ELSE
          IF (PRESENT(row_blk_size)) THEN
             CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
@@ -997,8 +997,8 @@ CONTAINS
                                   nze=nze, data_type=data_type, &
                                   reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
                                   replication_type=replication_type)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE dbcsr_create_template
 
    SUBROUTINE dbcsr_filter(matrix, eps, method, use_absolute, filter_diag)
@@ -1078,7 +1078,7 @@ CONTAINS
       ELSE
          CALL dbcsr_transposed_prv(transposed%prv, normal%prv, shallow_data_copy, &
                                    transpose_data, transpose_distribution)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_transposed
 
    SUBROUTINE dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
@@ -1130,7 +1130,7 @@ CONTAINS
          CALL csr_create_from_dbcsr_prv(dbcsr_mat%prv, csr_mat, dist_format, csr_sparsity%prv, numnodes)
       ELSE
          CALL csr_create_from_dbcsr_prv(dbcsr_mat%prv, csr_mat, dist_format, numnodes=numnodes)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_csr_create_from_dbcsr
 
    SUBROUTINE dbcsr_convert_csr_to_dbcsr(dbcsr_mat, csr_mat)
@@ -1183,265 +1183,265 @@ CONTAINS
       call dbcsr_add_block_node_prv(matrix%prv, block_row, block_col, block)
    END SUBROUTINE dbcsr_add_block_node
 
-#:include 'data/dbcsr.fypp'
-#:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-   SUBROUTINE dbcsr_reserve_block2d_${nametype1}$ (matrix, row, col, block, transposed, existed)
-      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
-      INTEGER, INTENT(IN)                      :: row, col
-      ${type1}$, DIMENSION(:, :), POINTER        :: block
-      LOGICAL, INTENT(IN), OPTIONAL            :: transposed
-      LOGICAL, INTENT(OUT), OPTIONAL           :: existed
+   #:include 'data/dbcsr.fypp'
+   #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
+      SUBROUTINE dbcsr_reserve_block2d_${nametype1}$ (matrix, row, col, block, transposed, existed)
+         TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+         INTEGER, INTENT(IN)                      :: row, col
+         ${type1}$, DIMENSION(:, :), POINTER        :: block
+         LOGICAL, INTENT(IN), OPTIONAL            :: transposed
+         LOGICAL, INTENT(OUT), OPTIONAL           :: existed
 
-      CALL dbcsr_reserve_block2d_prv(matrix%prv, row, col, block, &
-                                     transposed, existed)
-   END SUBROUTINE dbcsr_reserve_block2d_${nametype1}$
+         CALL dbcsr_reserve_block2d_prv(matrix%prv, row, col, block, &
+                                        transposed, existed)
+      END SUBROUTINE dbcsr_reserve_block2d_${nametype1}$
 
-   SUBROUTINE dbcsr_iterator_next_2d_block_${nametype1}$ (iterator, row, column, block, &
-                                                          transposed, block_number, &
-                                                          row_size, col_size, row_offset, col_offset)
-      TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
-      INTEGER, INTENT(OUT)                     :: row, column
-      ${type1}$, DIMENSION(:, :), POINTER        :: block
-      LOGICAL, INTENT(OUT)                     :: transposed
-      INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
-                                                  col_size, row_offset, &
-                                                  col_offset
+      SUBROUTINE dbcsr_iterator_next_2d_block_${nametype1}$ (iterator, row, column, block, &
+                                                             transposed, block_number, &
+                                                             row_size, col_size, row_offset, col_offset)
+         TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
+         INTEGER, INTENT(OUT)                     :: row, column
+         ${type1}$, DIMENSION(:, :), POINTER        :: block
+         LOGICAL, INTENT(OUT)                     :: transposed
+         INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
+                                                     col_size, row_offset, &
+                                                     col_offset
 
-      CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, transposed, &
-                                         block_number, row_size, col_size, row_offset, col_offset)
-   END SUBROUTINE dbcsr_iterator_next_2d_block_${nametype1}$
+         CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, transposed, &
+                                            block_number, row_size, col_size, row_offset, col_offset)
+      END SUBROUTINE dbcsr_iterator_next_2d_block_${nametype1}$
 
-   SUBROUTINE dbcsr_iterator_next_2d_block_notrans_${nametype1}$ (iterator, row, column, block, &
-                                                                  block_number, &
-                                                                  row_size, col_size, row_offset, col_offset)
-      TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
-      INTEGER, INTENT(OUT)                     :: row, column
-      ${type1}$, DIMENSION(:, :), POINTER        :: block
-      INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
-                                                  col_size, row_offset, &
-                                                  col_offset
+      SUBROUTINE dbcsr_iterator_next_2d_block_notrans_${nametype1}$ (iterator, row, column, block, &
+                                                                     block_number, &
+                                                                     row_size, col_size, row_offset, col_offset)
+         TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
+         INTEGER, INTENT(OUT)                     :: row, column
+         ${type1}$, DIMENSION(:, :), POINTER        :: block
+         INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
+                                                     col_size, row_offset, &
+                                                     col_offset
 
-      LOGICAL                                  :: tr
+         LOGICAL                                  :: tr
 
-      CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, tr, &
-                                         block_number, row_size, col_size, row_offset, col_offset)
-      IF (tr) DBCSR_ABORT("Block is transposed!")
-   END SUBROUTINE dbcsr_iterator_next_2d_block_notrans_${nametype1}$
-
-! **************************************************************************************************
-! *************************************************************************************************
-   SUBROUTINE dbcsr_iterator_next_1d_block_${nametype1}$ (iterator, row, column, block, &
-                                                          transposed, block_number, &
-                                                          row_size, col_size, row_offset, col_offset)
-      TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
-      INTEGER, INTENT(OUT)                      :: row, column
-      ${type1}$, DIMENSION(:), POINTER            :: block
-      LOGICAL, INTENT(OUT)                      :: transposed
-      INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
-                                                   col_size, row_offset, &
-                                                   col_offset
-
-      CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
-                                         transposed, block_number, row_size, col_size, row_offset, col_offset)
-   END SUBROUTINE dbcsr_iterator_next_1d_block_${nametype1}$
+         CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, tr, &
+                                            block_number, row_size, col_size, row_offset, col_offset)
+         IF (tr) DBCSR_ABORT("Block is transposed!")
+      END SUBROUTINE dbcsr_iterator_next_2d_block_notrans_${nametype1}$
 
 ! **************************************************************************************************
 ! *************************************************************************************************
-   SUBROUTINE dbcsr_iterator_next_1d_block_notrans_${nametype1}$ (iterator, row, column, block, &
-                                                                  block_number, &
-                                                                  row_size, col_size, row_offset, col_offset)
-      TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
-      INTEGER, INTENT(OUT)                      :: row, column
-      ${type1}$, DIMENSION(:), POINTER            :: block
-      INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
-                                                   col_size, row_offset, &
-                                                   col_offset
+      SUBROUTINE dbcsr_iterator_next_1d_block_${nametype1}$ (iterator, row, column, block, &
+                                                             transposed, block_number, &
+                                                             row_size, col_size, row_offset, col_offset)
+         TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
+         INTEGER, INTENT(OUT)                      :: row, column
+         ${type1}$, DIMENSION(:), POINTER            :: block
+         LOGICAL, INTENT(OUT)                      :: transposed
+         INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
+                                                      col_size, row_offset, &
+                                                      col_offset
 
-      LOGICAL                                   :: tr
+         CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
+                                            transposed, block_number, row_size, col_size, row_offset, col_offset)
+      END SUBROUTINE dbcsr_iterator_next_1d_block_${nametype1}$
 
-      CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
-                                         tr, block_number, row_size, col_size, row_offset, col_offset)
-      IF (tr) DBCSR_ABORT("Block is transposed!")
-   END SUBROUTINE dbcsr_iterator_next_1d_block_notrans_${nametype1}$
+! **************************************************************************************************
+! *************************************************************************************************
+      SUBROUTINE dbcsr_iterator_next_1d_block_notrans_${nametype1}$ (iterator, row, column, block, &
+                                                                     block_number, &
+                                                                     row_size, col_size, row_offset, col_offset)
+         TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
+         INTEGER, INTENT(OUT)                      :: row, column
+         ${type1}$, DIMENSION(:), POINTER            :: block
+         INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
+                                                      col_size, row_offset, &
+                                                      col_offset
 
-   SUBROUTINE dbcsr_put_block2d_${nametype1}$ (matrix, row, col, block, &
-                                               summation, scale)
-      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
-      INTEGER, INTENT(IN)                      :: row, col
-      ${type1}$, DIMENSION(:, :), INTENT(IN)     :: block
-      LOGICAL, INTENT(IN), OPTIONAL            :: summation
-      ${type1}$, INTENT(IN), OPTIONAL            :: scale
+         LOGICAL                                   :: tr
 
-      CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
-   END SUBROUTINE dbcsr_put_block2d_${nametype1}$
+         CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
+                                            tr, block_number, row_size, col_size, row_offset, col_offset)
+         IF (tr) DBCSR_ABORT("Block is transposed!")
+      END SUBROUTINE dbcsr_iterator_next_1d_block_notrans_${nametype1}$
 
-   SUBROUTINE dbcsr_put_block_${nametype1}$ (matrix, row, col, block, &
-                                             summation, scale)
-      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
-      INTEGER, INTENT(IN)                      :: row, col
-      ${type1}$, DIMENSION(:), INTENT(IN)        :: block
-      LOGICAL, INTENT(IN), OPTIONAL            :: summation
-      ${type1}$, INTENT(IN), OPTIONAL            :: scale
+      SUBROUTINE dbcsr_put_block2d_${nametype1}$ (matrix, row, col, block, &
+                                                  summation, scale)
+         TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+         INTEGER, INTENT(IN)                      :: row, col
+         ${type1}$, DIMENSION(:, :), INTENT(IN)     :: block
+         LOGICAL, INTENT(IN), OPTIONAL            :: summation
+         ${type1}$, INTENT(IN), OPTIONAL            :: scale
 
-      CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
-   END SUBROUTINE dbcsr_put_block_${nametype1}$
+         CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
+      END SUBROUTINE dbcsr_put_block2d_${nametype1}$
 
-   SUBROUTINE dbcsr_get_2d_block_p_${nametype1}$ (matrix, row, col, block, tr, found, row_size, col_size)
-      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
-      INTEGER, INTENT(IN)                      :: row, col
-      ${type1}$, DIMENSION(:, :), POINTER        :: block
-      LOGICAL, INTENT(OUT)                     :: tr
-      LOGICAL, INTENT(OUT)                     :: found
-      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
+      SUBROUTINE dbcsr_put_block_${nametype1}$ (matrix, row, col, block, &
+                                                summation, scale)
+         TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+         INTEGER, INTENT(IN)                      :: row, col
+         ${type1}$, DIMENSION(:), INTENT(IN)        :: block
+         LOGICAL, INTENT(IN), OPTIONAL            :: summation
+         ${type1}$, INTENT(IN), OPTIONAL            :: scale
 
-      CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
-   END SUBROUTINE dbcsr_get_2d_block_p_${nametype1}$
+         CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
+      END SUBROUTINE dbcsr_put_block_${nametype1}$
 
-   SUBROUTINE dbcsr_get_2d_block_notrans_p_${nametype1}$ (matrix, row, col, block, found, row_size, col_size)
-      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
-      INTEGER, INTENT(IN)                      :: row, col
-      ${type1}$, DIMENSION(:, :), POINTER        :: block
-      LOGICAL, INTENT(OUT)                     :: found
-      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
+      SUBROUTINE dbcsr_get_2d_block_p_${nametype1}$ (matrix, row, col, block, tr, found, row_size, col_size)
+         TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+         INTEGER, INTENT(IN)                      :: row, col
+         ${type1}$, DIMENSION(:, :), POINTER        :: block
+         LOGICAL, INTENT(OUT)                     :: tr
+         LOGICAL, INTENT(OUT)                     :: found
+         INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
-      LOGICAL                                  :: tr
+         CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
+      END SUBROUTINE dbcsr_get_2d_block_p_${nametype1}$
 
-      CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
-      IF (tr) DBCSR_ABORT("Block is transposed!")
-   END SUBROUTINE dbcsr_get_2d_block_notrans_p_${nametype1}$
+      SUBROUTINE dbcsr_get_2d_block_notrans_p_${nametype1}$ (matrix, row, col, block, found, row_size, col_size)
+         TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+         INTEGER, INTENT(IN)                      :: row, col
+         ${type1}$, DIMENSION(:, :), POINTER        :: block
+         LOGICAL, INTENT(OUT)                     :: found
+         INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
-   SUBROUTINE dbcsr_get_block_p_${nametype1}$ (matrix, row, col, block, tr, found, row_size, col_size)
-      TYPE(dbcsr_type), INTENT(IN)              :: matrix
-      INTEGER, INTENT(IN)                       :: row, col
-      ${type1}$, DIMENSION(:), POINTER            :: block
-      LOGICAL, INTENT(OUT)                      :: tr
-      LOGICAL, INTENT(OUT)                      :: found
-      INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
+         LOGICAL                                  :: tr
 
-      CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
-   END SUBROUTINE dbcsr_get_block_p_${nametype1}$
+         CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
+         IF (tr) DBCSR_ABORT("Block is transposed!")
+      END SUBROUTINE dbcsr_get_2d_block_notrans_p_${nametype1}$
 
-   SUBROUTINE dbcsr_get_block_notrans_p_${nametype1}$ (matrix, row, col, block, found, row_size, col_size)
-      TYPE(dbcsr_type), INTENT(IN)              :: matrix
-      INTEGER, INTENT(IN)                       :: row, col
-      ${type1}$, DIMENSION(:), POINTER            :: block
-      LOGICAL, INTENT(OUT)                      :: found
-      INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
+      SUBROUTINE dbcsr_get_block_p_${nametype1}$ (matrix, row, col, block, tr, found, row_size, col_size)
+         TYPE(dbcsr_type), INTENT(IN)              :: matrix
+         INTEGER, INTENT(IN)                       :: row, col
+         ${type1}$, DIMENSION(:), POINTER            :: block
+         LOGICAL, INTENT(OUT)                      :: tr
+         LOGICAL, INTENT(OUT)                      :: found
+         INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
-      LOGICAL                                   :: tr
+         CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
+      END SUBROUTINE dbcsr_get_block_p_${nametype1}$
 
-      CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
-      IF (tr) DBCSR_ABORT("Block is transposed!")
-   END SUBROUTINE dbcsr_get_block_notrans_p_${nametype1}$
+      SUBROUTINE dbcsr_get_block_notrans_p_${nametype1}$ (matrix, row, col, block, found, row_size, col_size)
+         TYPE(dbcsr_type), INTENT(IN)              :: matrix
+         INTEGER, INTENT(IN)                       :: row, col
+         ${type1}$, DIMENSION(:), POINTER            :: block
+         LOGICAL, INTENT(OUT)                      :: found
+         INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
-   SUBROUTINE dbcsr_trace_${nametype1}$ (matrix_a, trace)
-      TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
-      ${type1}$, INTENT(OUT)                     :: trace
+         LOGICAL                                   :: tr
 
-      CALL dbcsr_trace_prv(matrix_a%prv, trace)
-   END SUBROUTINE dbcsr_trace_${nametype1}$
+         CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
+         IF (tr) DBCSR_ABORT("Block is transposed!")
+      END SUBROUTINE dbcsr_get_block_notrans_p_${nametype1}$
 
-   SUBROUTINE dbcsr_dot_${nametype1}$ (matrix_a, matrix_b, result)
-      TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
-      ${type1}$, INTENT(INOUT)                  :: result
+      SUBROUTINE dbcsr_trace_${nametype1}$ (matrix_a, trace)
+         TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
+         ${type1}$, INTENT(OUT)                     :: trace
 
-      CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
-   END SUBROUTINE dbcsr_dot_${nametype1}$
+         CALL dbcsr_trace_prv(matrix_a%prv, trace)
+      END SUBROUTINE dbcsr_trace_${nametype1}$
 
-   SUBROUTINE dbcsr_multiply_${nametype1}$ (transa, transb, &
-                                            alpha, matrix_a, matrix_b, beta, matrix_c, &
-                                            first_row, last_row, first_column, last_column, first_k, last_k, &
-                                            retain_sparsity, filter_eps, flop)
-      CHARACTER(LEN=1), INTENT(IN)             :: transa, transb
-      ${type1}$, INTENT(IN)                      :: alpha
-      TYPE(dbcsr_type), INTENT(IN)             :: matrix_a, matrix_b
-      ${type1}$, INTENT(IN)                      :: beta
-      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_c
-      INTEGER, INTENT(IN), OPTIONAL            :: first_row, last_row, &
-                                                  first_column, last_column, &
-                                                  first_k, last_k
-      LOGICAL, INTENT(IN), OPTIONAL            :: retain_sparsity
-      REAL(kind=${kind2[n]}$), INTENT(IN), OPTIONAL :: filter_eps
-      INTEGER(int_8), INTENT(OUT), OPTIONAL    :: flop
+      SUBROUTINE dbcsr_dot_${nametype1}$ (matrix_a, matrix_b, result)
+         TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
+         ${type1}$, INTENT(INOUT)                  :: result
 
-      CALL dbcsr_multiply_prv(transa, transb, &
-                              alpha, matrix_a%prv, matrix_b%prv, beta, matrix_c%prv, &
-                              first_row, last_row, first_column, last_column, first_k, last_k, &
-                              retain_sparsity, &
-                              filter_eps=filter_eps, &
-                              flop=flop)
-   END SUBROUTINE dbcsr_multiply_${nametype1}$
+         CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
+      END SUBROUTINE dbcsr_dot_${nametype1}$
 
-   SUBROUTINE dbcsr_scale_by_vector_${nametype1}$ (matrix_a, alpha, side)
-      TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
-      ${type1}$, DIMENSION(:), INTENT(IN), TARGET :: alpha
-      CHARACTER(LEN=*), INTENT(IN)              :: side
+      SUBROUTINE dbcsr_multiply_${nametype1}$ (transa, transb, &
+                                               alpha, matrix_a, matrix_b, beta, matrix_c, &
+                                               first_row, last_row, first_column, last_column, first_k, last_k, &
+                                               retain_sparsity, filter_eps, flop)
+         CHARACTER(LEN=1), INTENT(IN)             :: transa, transb
+         ${type1}$, INTENT(IN)                      :: alpha
+         TYPE(dbcsr_type), INTENT(IN)             :: matrix_a, matrix_b
+         ${type1}$, INTENT(IN)                      :: beta
+         TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_c
+         INTEGER, INTENT(IN), OPTIONAL            :: first_row, last_row, &
+                                                     first_column, last_column, &
+                                                     first_k, last_k
+         LOGICAL, INTENT(IN), OPTIONAL            :: retain_sparsity
+         REAL(kind=${kind2[n]}$), INTENT(IN), OPTIONAL :: filter_eps
+         INTEGER(int_8), INTENT(OUT), OPTIONAL    :: flop
 
-      CALL dbcsr_scale_by_vector_prv(matrix_a%prv, alpha, side)
-   END SUBROUTINE dbcsr_scale_by_vector_${nametype1}$
+         CALL dbcsr_multiply_prv(transa, transb, &
+                                 alpha, matrix_a%prv, matrix_b%prv, beta, matrix_c%prv, &
+                                 first_row, last_row, first_column, last_column, first_k, last_k, &
+                                 retain_sparsity, &
+                                 filter_eps=filter_eps, &
+                                 flop=flop)
+      END SUBROUTINE dbcsr_multiply_${nametype1}$
 
-   SUBROUTINE dbcsr_scale_${nametype1}$ (matrix_a, alpha_scalar, last_column)
-      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
-      ${type1}$, INTENT(IN)                      :: alpha_scalar
-      INTEGER, INTENT(IN), OPTIONAL            :: last_column
+      SUBROUTINE dbcsr_scale_by_vector_${nametype1}$ (matrix_a, alpha, side)
+         TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
+         ${type1}$, DIMENSION(:), INTENT(IN), TARGET :: alpha
+         CHARACTER(LEN=*), INTENT(IN)              :: side
 
-      CALL dbcsr_scale_prv(matrix_a%prv, alpha_scalar, last_column)
-   END SUBROUTINE dbcsr_scale_${nametype1}$
+         CALL dbcsr_scale_by_vector_prv(matrix_a%prv, alpha, side)
+      END SUBROUTINE dbcsr_scale_by_vector_${nametype1}$
 
-   SUBROUTINE dbcsr_set_${nametype1}$ (matrix, alpha)
-      TYPE(dbcsr_type), INTENT(INOUT)       :: matrix
-      ${type1}$, INTENT(IN)                      :: alpha
+      SUBROUTINE dbcsr_scale_${nametype1}$ (matrix_a, alpha_scalar, last_column)
+         TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
+         ${type1}$, INTENT(IN)                      :: alpha_scalar
+         INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
-      CALL dbcsr_set_prv(matrix%prv, alpha)
-   END SUBROUTINE dbcsr_set_${nametype1}$
+         CALL dbcsr_scale_prv(matrix_a%prv, alpha_scalar, last_column)
+      END SUBROUTINE dbcsr_scale_${nametype1}$
 
-   SUBROUTINE dbcsr_add_${nametype1}$ (matrix_a, matrix_b, alpha_scalar, beta_scalar)
-      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
-      TYPE(dbcsr_type), INTENT(IN)             :: matrix_b
-      ${type1}$, INTENT(IN)                      :: alpha_scalar, beta_scalar
+      SUBROUTINE dbcsr_set_${nametype1}$ (matrix, alpha)
+         TYPE(dbcsr_type), INTENT(INOUT)       :: matrix
+         ${type1}$, INTENT(IN)                      :: alpha
 
-      CALL dbcsr_add_prv(matrix_a%prv, matrix_b%prv, alpha_scalar, beta_scalar)
-   END SUBROUTINE dbcsr_add_${nametype1}$
+         CALL dbcsr_set_prv(matrix%prv, alpha)
+      END SUBROUTINE dbcsr_set_${nametype1}$
 
-   SUBROUTINE dbcsr_add_on_diag_${nametype1}$ (matrix, alpha_scalar)
-      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
-      ${type1}$, INTENT(IN)                                :: alpha_scalar
+      SUBROUTINE dbcsr_add_${nametype1}$ (matrix_a, matrix_b, alpha_scalar, beta_scalar)
+         TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
+         TYPE(dbcsr_type), INTENT(IN)             :: matrix_b
+         ${type1}$, INTENT(IN)                      :: alpha_scalar, beta_scalar
 
-      CALL dbcsr_add_on_diag_prv(matrix%prv, alpha_scalar)
-   END SUBROUTINE dbcsr_add_on_diag_${nametype1}$
+         CALL dbcsr_add_prv(matrix_a%prv, matrix_b%prv, alpha_scalar, beta_scalar)
+      END SUBROUTINE dbcsr_add_${nametype1}$
 
-   SUBROUTINE dbcsr_set_diag_${nametype1}$ (matrix, diag)
-      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
-      ${type1}$, DIMENSION(:), INTENT(IN)                  :: diag
+      SUBROUTINE dbcsr_add_on_diag_${nametype1}$ (matrix, alpha_scalar)
+         TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         ${type1}$, INTENT(IN)                                :: alpha_scalar
 
-      CALL dbcsr_set_diag_prv(matrix%prv, diag)
-   END SUBROUTINE dbcsr_set_diag_${nametype1}$
+         CALL dbcsr_add_on_diag_prv(matrix%prv, alpha_scalar)
+      END SUBROUTINE dbcsr_add_on_diag_${nametype1}$
 
-   SUBROUTINE dbcsr_get_diag_${nametype1}$ (matrix, diag)
-      TYPE(dbcsr_type), INTENT(IN)                       :: matrix
-      ${type1}$, DIMENSION(:), INTENT(OUT)                 :: diag
+      SUBROUTINE dbcsr_set_diag_${nametype1}$ (matrix, diag)
+         TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         ${type1}$, DIMENSION(:), INTENT(IN)                  :: diag
 
-      CALL dbcsr_get_diag_prv(matrix%prv, diag)
-   END SUBROUTINE dbcsr_get_diag_${nametype1}$
+         CALL dbcsr_set_diag_prv(matrix%prv, diag)
+      END SUBROUTINE dbcsr_set_diag_${nametype1}$
 
-   FUNCTION dbcsr_get_wms_data_${nametype1}$ (matrix, index_matrix, select_data_type, lb, ub) RESULT(DATA)
-      TYPE(dbcsr_type), INTENT(IN)     :: matrix
-      INTEGER, INTENT(IN)              :: index_matrix
-      ${type1}$, INTENT(IN)              :: select_data_type
-      ${type1}$, DIMENSION(:), POINTER   :: DATA
-      INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
+      SUBROUTINE dbcsr_get_diag_${nametype1}$ (matrix, diag)
+         TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         ${type1}$, DIMENSION(:), INTENT(OUT)                 :: diag
 
-      DATA => dbcsr_get_data_p_prv(matrix%prv%wms(index_matrix)%data_area, select_data_type, lb, ub)
-   END FUNCTION dbcsr_get_wms_data_${nametype1}$
+         CALL dbcsr_get_diag_prv(matrix%prv, diag)
+      END SUBROUTINE dbcsr_get_diag_${nametype1}$
 
-   FUNCTION dbcsr_get_data_${nametype1}$ (matrix, select_data_type, lb, ub) RESULT(DATA)
-      TYPE(dbcsr_type), INTENT(IN)     :: matrix
-      ${type1}$, INTENT(IN)              :: select_data_type
-      ${type1}$, DIMENSION(:), POINTER   :: DATA
-      INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
+      FUNCTION dbcsr_get_wms_data_${nametype1}$ (matrix, index_matrix, select_data_type, lb, ub) RESULT(DATA)
+         TYPE(dbcsr_type), INTENT(IN)     :: matrix
+         INTEGER, INTENT(IN)              :: index_matrix
+         ${type1}$, INTENT(IN)              :: select_data_type
+         ${type1}$, DIMENSION(:), POINTER   :: DATA
+         INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
 
-      DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
-   END FUNCTION dbcsr_get_data_${nametype1}$
-#:endfor
+         DATA => dbcsr_get_data_p_prv(matrix%prv%wms(index_matrix)%data_area, select_data_type, lb, ub)
+      END FUNCTION dbcsr_get_wms_data_${nametype1}$
+
+      FUNCTION dbcsr_get_data_${nametype1}$ (matrix, select_data_type, lb, ub) RESULT(DATA)
+         TYPE(dbcsr_type), INTENT(IN)     :: matrix
+         ${type1}$, INTENT(IN)              :: select_data_type
+         ${type1}$, DIMENSION(:), POINTER   :: DATA
+         INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
+
+         DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
+      END FUNCTION dbcsr_get_data_${nametype1}$
+   #:endfor
 
 END MODULE dbcsr_api

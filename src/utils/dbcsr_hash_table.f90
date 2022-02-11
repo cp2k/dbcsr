@@ -30,9 +30,9 @@
            IF (MOD(res, j) == 0) THEN
               res = res + 1
               EXIT
-           ENDIF
-        ENDDO
-     ENDDO
+           END IF
+        END DO
+     END DO
   END FUNCTION
 
   SUBROUTINE hash_table_create(hash_table, table_size)
@@ -49,7 +49,7 @@
      j = 3
      DO WHILE (2**j - 1 < table_size)
         j = j + 1
-     ENDDO
+     END DO
      hash_table%nmax = 2**j - 1
      hash_table%prime = matching_prime(hash_table%nmax)
      hash_table%nele = 0
@@ -92,10 +92,10 @@
         DO i = LBOUND(tmp_hash, 1), UBOUND(tmp_hash, 1)
            IF (tmp_hash(i)%c .NE. 0) THEN
               CALL hash_table_add(hash_table, tmp_hash(i)%c, tmp_hash(i)%p)
-           ENDIF
-        ENDDO
+           END IF
+        END DO
         DEALLOCATE (tmp_hash)
-     ENDIF
+     END IF
 
      hash_table%nele = hash_table%nele + 1
      i = IAND(c*hash_table%prime, hash_table%nmax)
@@ -105,15 +105,15 @@
            hash_table%table(j)%c = c
            hash_table%table(j)%p = p
            RETURN
-        ENDIF
-     ENDDO
+        END IF
+     END DO
      DO j = 0, i - 1
         IF (hash_table%table(j)%c == 0 .OR. hash_table%table(j)%c == c) THEN
            hash_table%table(j)%c = c
            hash_table%table(j)%p = p
            RETURN
-        ENDIF
-     ENDDO
+        END IF
+     END DO
 
   END SUBROUTINE hash_table_add
 
@@ -132,20 +132,20 @@
      IF (hash_table%table(i)%c == c) THEN
         p = hash_table%table(i)%p
         RETURN
-     ENDIF
+     END IF
 
      DO j = i, hash_table%nmax
         IF (hash_table%table(j)%c == 0 .OR. hash_table%table(j)%c == c) THEN
            p = hash_table%table(j)%p
            RETURN
-        ENDIF
-     ENDDO
+        END IF
+     END DO
      DO j = 0, i - 1
         IF (hash_table%table(j)%c == 0 .OR. hash_table%table(j)%c == c) THEN
            p = hash_table%table(j)%p
            RETURN
-        ENDIF
-     ENDDO
+        END IF
+     END DO
 
      ! we should never reach this point.
      p = HUGE(p)

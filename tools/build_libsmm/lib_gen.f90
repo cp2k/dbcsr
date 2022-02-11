@@ -36,7 +36,7 @@ PROGRAM lib_gen
    DO
       READ (10, *, END=999) line
       nline = nline + 1
-   ENDDO
+   END DO
 999 CONTINUE
    ALLOCATE (small_opts(4, nline))
    ALLOCATE (small_perf(nline))
@@ -44,7 +44,7 @@ PROGRAM lib_gen
    DO iline = 1, nline
       READ (10, '(A1024)', END=999) line
       READ (line, *) small_opts(:, iline), tmp, small_perf(iline)
-   ENDDO
+   END DO
    CLOSE (10)
 
    CALL find_small_opt(opt, small_opts, m, n, k)
@@ -63,7 +63,7 @@ CONTAINS
       opt = 3
       DO i = 1, SIZE(small_opts, 2)
          IF (ALL(small_opts(1:3, i) == (/m, n, k/))) opt = small_opts(4, i)
-      ENDDO
+      END DO
    END SUBROUTINE find_small_opt
 
 END PROGRAM lib_gen

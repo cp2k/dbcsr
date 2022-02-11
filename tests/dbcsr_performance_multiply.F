@@ -101,7 +101,7 @@ CONTAINS
          WRITE (io_unit, *) "      [mblksizes] [nblksizes] [kblksizes] \\"
          WRITE (io_unit, *) "      checksum_check checksum_threshold checksum_ref checksum_ref_pos"
          DBCSR_ABORT("narg not correct")
-      ENDIF
+      END IF
 
       matrix_sizes(1) = atoi(args(args_shift + 1))
       matrix_sizes(2) = atoi(args(args_shift + 2))
@@ -142,19 +142,19 @@ CONTAINS
          bs_m(2*(iblk - 1) + 1) = atoi(args(i))
          i = i + 1
          bs_m(2*(iblk - 1) + 2) = atoi(args(i))
-      ENDDO
+      END DO
       DO iblk = 1, nblk_to_read
          i = i + 1
          bs_n(2*(iblk - 1) + 1) = atoi(args(i))
          i = i + 1
          bs_n(2*(iblk - 1) + 2) = atoi(args(i))
-      ENDDO
+      END DO
       DO iblk = 1, kblk_to_read
          i = i + 1
          bs_k(2*(iblk - 1) + 1) = atoi(args(i))
          i = i + 1
          bs_k(2*(iblk - 1) + 2) = atoi(args(i))
-      ENDDO
+      END DO
 
       chksum_check = atol(args(i + 1))
       chksum_threshold = ator(args(i + 2))
@@ -266,7 +266,7 @@ CONTAINS
          WRITE (io_unit, *) 'bs_m', bs_m
          WRITE (io_unit, *) 'bs_n', bs_n
          WRITE (io_unit, *) 'bs_k', bs_k
-      ENDIF
+      END IF
       !
       CALL dbcsr_reset_randmat_seed()
       !
@@ -317,16 +317,16 @@ CONTAINS
                     transb .EQ. dbcsr_no_transpose .AND. &
                     .NOT. do_complex)) THEN
             DBCSR_ABORT("")
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       !
       ! if C has symmetry and special limits
       IF (c_symm .NE. dbcsr_type_no_symmetry) THEN
          IF (limits(1) .NE. 1 .OR. limits(2) .NE. matrix_sizes(1) .OR. &
              limits(3) .NE. 1 .OR. limits(4) .NE. matrix_sizes(2)) THEN
             DBCSR_ABORT("")
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       !
       ! Create the row/column block sizes.
@@ -360,7 +360,7 @@ CONTAINS
          my_sizes_m => sizes_m; my_sizes_n => sizes_n; my_sizes_k => sizes_k
       ELSE
          DBCSR_ABORT("something wrong here...")
-      ENDIF
+      END IF
 
       ! Create the random matrices.
       trs(1) = transa .NE. dbcsr_no_transpose
@@ -392,7 +392,7 @@ CONTAINS
                                        REAL(sparsities(1), real_8), &
                                        mp_group, data_type=data_type, dist=dist_a)
          DEALLOCATE (col_dist_a)
-      ENDIF
+      END IF
       CALL dbcsr_distribution_release(dist_a)
       IF (trs(2)) THEN
          CALL dbcsr_dist_bin(row_dist_b, SIZE(sizes_n), npdims(1), &
@@ -412,7 +412,7 @@ CONTAINS
                                        REAL(sparsities(2), real_8), &
                                        mp_group, data_type=data_type, dist=dist_b)
          DEALLOCATE (row_dist_b)
-      ENDIF
+      END IF
       CALL dbcsr_distribution_release(dist_b)
       DEALLOCATE (row_dist_c, col_dist_c, sizes_m, sizes_n, sizes_k)
 
@@ -425,8 +425,8 @@ CONTAINS
             CALL dbcsr_scale(matrix_b, &
                              alpha_scalar=dbcsr_scalar_negative( &
                              dbcsr_scalar_one(data_type)))
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       !
       ! Prepare test parameters
@@ -565,14 +565,14 @@ CONTAINS
          WRITE (io_unit, *) 'row_block_offsets(matrix_c)', blk_offsets
          blk_offsets => dbcsr_col_block_offsets(matrix_c)
          WRITE (io_unit, *) 'col_block_offsets(matrix_c)', blk_offsets
-      ENDIF
+      END IF
 
       IF (.FALSE.) THEN
          CALL dbcsr_print(m_c, matlab_format=.FALSE., variable_name='c_in_')
          CALL dbcsr_print(m_a, matlab_format=.FALSE., variable_name='a_')
          CALL dbcsr_print(m_b, matlab_format=.FALSE., variable_name='b_')
          CALL dbcsr_print(m_c, matlab_format=.FALSE., variable_name='c_out_')
-      ENDIF
+      END IF
 
       r_a = dbcsr_nfullrows_total(m_a)
       c_a = dbcsr_nfullcols_total(m_a)
@@ -611,7 +611,7 @@ CONTAINS
          t2 = m_walltime()
          times(mynode, irep) = t2 - t1
          flops(mynode, irep) = flop
-      ENDDO
+      END DO
 
       chksum_c_out = dbcsr_checksum(m_c)
       chksum_c_out_pos = dbcsr_checksum(m_c, pos=.TRUE.)
@@ -662,7 +662,7 @@ CONTAINS
                   "  rel_diff = ", rel_diff, &
                   "  threshold = ", chksum_threshold
                chksum_err = .TRUE.
-            ENDIF
+            END IF
             rel_diff = ABS(chksum_c_out_pos/MAX(chksum_ref_pos, chksum_threshold) - 1.)
             IF (rel_diff .GT. chksum_threshold) THEN
                WRITE (io_unit, '(T4,A,E26.15,A,E26.15,A,E26.15)') "Wrong checksum(C_out) POS, ref = ", &
@@ -670,11 +670,11 @@ CONTAINS
                   "  rel_diff = ", rel_diff, &
                   "  threshold = ", chksum_threshold
                chksum_err = .TRUE.
-            ENDIF
+            END IF
             IF (chksum_err) &
                CALL dbcsr_abort(__LOCATION__, &
                                 "Wrong Checksums. Test failed!")
-         ENDIF
+         END IF
          WRITE (io_unit, *)
          WRITE (io_unit, *)
          WRITE (io_unit, '(T4,A)') "                       mean        std         minmin      maxmax"
@@ -692,7 +692,7 @@ CONTAINS
             MINVAL(load_imb/t_max), MAXVAL(load_imb/t_max), ''
 
          WRITE (io_unit, *) REPEAT("*", 80)
-      ENDIF
+      END IF
 
       CALL dbcsr_release(m_a)
       CALL dbcsr_release(m_b)
@@ -716,7 +716,7 @@ CONTAINS
       n = SIZE(v, 1)
       DO i = 1, n
          mean = mean + v(i)
-      ENDDO
+      END DO
       mean = mean/REAL(n, real_8)
    END FUNCTION mean
    FUNCTION std(v)
@@ -731,7 +731,7 @@ CONTAINS
       n = SIZE(v, 1)
       DO i = 1, n
          std = std + (v(i) - mn)**2
-      ENDDO
+      END DO
       std = SQRT(std)/REAL(n, real_8)
    END FUNCTION std
 

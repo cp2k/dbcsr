@@ -10,9 +10,9 @@
 MODULE dbcsr_tensor_block
    !! Methods to operate on n-dimensional tensor blocks.
 
-#:include "dbcsr_tensor.fypp"
-#:set maxdim = maxrank
-#:set ndims = range(2,maxdim+1)
+   #:include "dbcsr_tensor.fypp"
+   #:set maxdim = maxrank
+   #:set ndims = range(2,maxdim+1)
 
    USE dbcsr_allocate_wrap, ONLY: &
       allocate_any
@@ -70,48 +70,48 @@ MODULE dbcsr_tensor_block
       TYPE(array_list)            :: blk_sizes, blk_offsets
    END TYPE dbcsr_t_iterator_type
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-   PUBLIC :: block_nd_${dsuffix}$
-#:endfor
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      PUBLIC :: block_nd_${dsuffix}$
+   #:endfor
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-   TYPE block_nd_${dsuffix}$
-      INTEGER, DIMENSION(:), ALLOCATABLE   :: sizes
-      ${dtype}$, DIMENSION(:), ALLOCATABLE :: blk
-   END TYPE
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      TYPE block_nd_${dsuffix}$
+         INTEGER, DIMENSION(:), ALLOCATABLE   :: sizes
+         ${dtype}$, DIMENSION(:), ALLOCATABLE :: blk
+      END TYPE
 
-#:endfor
+   #:endfor
 
    TYPE block_nd
-#:for dparam, dtype, dsuffix in dtype_float_list
-      TYPE(block_nd_${dsuffix}$) :: ${dsuffix}$
-#:endfor
+      #:for dparam, dtype, dsuffix in dtype_float_list
+         TYPE(block_nd_${dsuffix}$) :: ${dsuffix}$
+      #:endfor
       INTEGER          :: data_type = -1
    END TYPE
 
    INTERFACE create_block
-#:for dparam, dtype, dsuffix in dtype_float_list
-      MODULE PROCEDURE create_block_data_${dsuffix}$
-#:endfor
+      #:for dparam, dtype, dsuffix in dtype_float_list
+         MODULE PROCEDURE create_block_data_${dsuffix}$
+      #:endfor
       MODULE PROCEDURE create_block_nodata
    END INTERFACE
 
    INTERFACE dbcsr_t_put_block
-#:for dparam, dtype, dsuffix in dtype_float_list
-#:for ndim in ndims
-      MODULE PROCEDURE dbcsr_t_put_${ndim}$d_block_${dsuffix}$
-#:endfor
-#:endfor
+      #:for dparam, dtype, dsuffix in dtype_float_list
+         #:for ndim in ndims
+            MODULE PROCEDURE dbcsr_t_put_${ndim}$d_block_${dsuffix}$
+         #:endfor
+      #:endfor
       MODULE PROCEDURE dbcsr_t_put_anyd_block
    END INTERFACE
 
    INTERFACE dbcsr_t_get_block
-#:for dparam, dtype, dsuffix in dtype_float_list
-#:for ndim in ndims
-      MODULE PROCEDURE dbcsr_t_get_${ndim}$d_block_${dsuffix}$
-      MODULE PROCEDURE dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$
-#:endfor
-#:endfor
+      #:for dparam, dtype, dsuffix in dtype_float_list
+         #:for ndim in ndims
+            MODULE PROCEDURE dbcsr_t_get_${ndim}$d_block_${dsuffix}$
+            MODULE PROCEDURE dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$
+         #:endfor
+      #:endfor
       MODULE PROCEDURE dbcsr_t_get_anyd_block
    END INTERFACE
 
@@ -133,10 +133,10 @@ CONTAINS
 
       block%data_type = data_type
       SELECT CASE (data_type)
-#:for dparam, dtype, dsuffix in dtype_float_list
-      CASE (${dparam}$)
-         CALL create_block_nodata_${dsuffix}$ (block%${dsuffix}$, sizes)
-#:endfor
+         #:for dparam, dtype, dsuffix in dtype_float_list
+            CASE (${dparam}$)
+            CALL create_block_nodata_${dsuffix}$ (block%${dsuffix}$, sizes)
+         #:endfor
       END SELECT
    END SUBROUTINE
 
@@ -145,10 +145,10 @@ CONTAINS
       TYPE(block_nd), INTENT(INOUT) :: block
 
       SELECT CASE (block%data_type)
-#:for dparam, dtype, dsuffix in dtype_float_list
-      CASE (${dparam}$)
-         CALL destroy_block_${dsuffix}$ (block%${dsuffix}$)
-#:endfor
+         #:for dparam, dtype, dsuffix in dtype_float_list
+            CASE (${dparam}$)
+            CALL destroy_block_${dsuffix}$ (block%${dsuffix}$)
+         #:endfor
       END SELECT
 
    END SUBROUTINE
@@ -160,10 +160,10 @@ CONTAINS
 
       block_size = 0 ! invalid
       SELECT CASE (block%data_type)
-#:for dparam, dtype, dsuffix in dtype_float_list
-      CASE (${dparam}$)
-         CALL allocate_any(block_size, source=block%${dsuffix}$%sizes)
-#:endfor
+         #:for dparam, dtype, dsuffix in dtype_float_list
+            CASE (${dparam}$)
+            CALL allocate_any(block_size, source=block%${dsuffix}$%sizes)
+         #:endfor
       END SELECT
    END FUNCTION
 
@@ -252,11 +252,11 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_index_array'
 
       CALL timeset(routineN, handle)
-#:for ndim in ndims
-      IF (ndims_tensor(tensor) == ${ndim}$) THEN
-         CALL dbcsr_t_reserve_blocks(tensor, ${arrlist("blk_ind", nmax=ndim, ndim_pre=1)}$)
-      ENDIF
-#:endfor
+      #:for ndim in ndims
+         IF (ndims_tensor(tensor) == ${ndim}$) THEN
+            CALL dbcsr_t_reserve_blocks(tensor, ${arrlist("blk_ind", nmax=ndim, ndim_pre=1)}$)
+         END IF
+      #:endfor
       CALL timestop(handle)
 
    END SUBROUTINE
@@ -287,7 +287,7 @@ CONTAINS
          ind_nd(:) = get_array_elements(blks, iblk_nd)
          ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind_nd)
          rows(iblk) = ind_2d(1); cols(iblk) = ind_2d(2)
-      ENDDO
+      END DO
 
       CALL dbcsr_tas_reserve_blocks(tensor%matrix_rep, rows=rows, columns=cols)
       CALL dbcsr_t_finalize(tensor)
@@ -333,7 +333,7 @@ CONTAINS
          CALL dbcsr_desymmetrize(matrix_in, matrix_in_desym)
       ELSE
          matrix_in_desym => matrix_in
-      ENDIF
+      END IF
 
       nblk = dbcsr_get_num_blocks(matrix_in_desym)
       ALLOCATE (blk_ind_1(nblk), blk_ind_2(nblk))
@@ -341,7 +341,7 @@ CONTAINS
       DO iblk = 1, nblk
          CALL dbcsr_iterator_next_block(iter, ind_2d(1), ind_2d(2), blk)
          blk_ind_1(iblk) = ind_2d(1); blk_ind_2(iblk) = ind_2d(2)
-      ENDDO
+      END DO
       CALL dbcsr_iterator_stop(iter)
 
       CALL dbcsr_t_reserve_blocks(tensor_out, blk_ind_1, blk_ind_2)
@@ -349,7 +349,7 @@ CONTAINS
       IF (dbcsr_has_symmetry(matrix_in)) THEN
          CALL dbcsr_release(matrix_in_desym)
          DEALLOCATE (matrix_in_desym)
-      ENDIF
+      END IF
 
       CALL timestop(handle)
    END SUBROUTINE
@@ -378,11 +378,11 @@ CONTAINS
          IF (dbcsr_has_symmetry(matrix_out)) THEN
             IF (checker_tr(ind_2d(1), ind_2d(2))) CYCLE
             IF (ind_2d(1) > ind_2d(2)) CALL swap(ind_2d(1), ind_2d(2))
-         ENDIF
+         END IF
 
          iblk = iblk + 1
          blk_ind_1(iblk) = ind_2d(1); blk_ind_2(iblk) = ind_2d(2)
-      ENDDO
+      END DO
       CALL dbcsr_t_iterator_stop(iter)
 
       CALL dbcsr_reserve_blocks(matrix_out, blk_ind_1(:iblk), blk_ind_2(:iblk))
@@ -407,43 +407,43 @@ CONTAINS
       DO iblk = 1, nblk
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk)
          blk_ind(iblk, :) = ind_nd(:)
-      ENDDO
+      END DO
       CALL dbcsr_t_iterator_stop(iterator)
 
    END SUBROUTINE
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-   SUBROUTINE create_block_data_${dsuffix}$ (block, sizes, array)
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      SUBROUTINE create_block_data_${dsuffix}$ (block, sizes, array)
       !! Create block from array, array can be n-dimensional.
-      TYPE(block_nd), INTENT(OUT)                       :: block
-      INTEGER, DIMENSION(:), INTENT(IN)                 :: sizes
-      ${dtype}$, DIMENSION(PRODUCT(sizes)), INTENT(IN) :: array
+         TYPE(block_nd), INTENT(OUT)                       :: block
+         INTEGER, DIMENSION(:), INTENT(IN)                 :: sizes
+         ${dtype}$, DIMENSION(PRODUCT(sizes)), INTENT(IN) :: array
 
-      ASSOCIATE (blk => block%${dsuffix}$)
-         block%data_type = ${dparam}$
-         CALL allocate_any(blk%sizes, source=sizes)
-         CALL allocate_any(blk%blk, source=array)
-      END ASSOCIATE
-   END SUBROUTINE
-#:endfor
+         ASSOCIATE (blk => block%${dsuffix}$)
+            block%data_type = ${dparam}$
+            CALL allocate_any(blk%sizes, source=sizes)
+            CALL allocate_any(blk%blk, source=array)
+         END ASSOCIATE
+      END SUBROUTINE
+   #:endfor
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-   SUBROUTINE create_block_nodata_${dsuffix}$ (block, sizes)
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      SUBROUTINE create_block_nodata_${dsuffix}$ (block, sizes)
       !! Create and allocate block, but no data.
-      INTEGER, INTENT(IN), DIMENSION(:)       :: sizes
-      TYPE(block_nd_${dsuffix}$), INTENT(OUT) :: block
-      CALL allocate_any(block%sizes, source=sizes)
-      ALLOCATE (block%blk(PRODUCT(sizes)))
-   END SUBROUTINE
-#:endfor
+         INTEGER, INTENT(IN), DIMENSION(:)       :: sizes
+         TYPE(block_nd_${dsuffix}$), INTENT(OUT) :: block
+         CALL allocate_any(block%sizes, source=sizes)
+         ALLOCATE (block%blk(PRODUCT(sizes)))
+      END SUBROUTINE
+   #:endfor
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-   SUBROUTINE destroy_block_${dsuffix}$ (block)
-      TYPE(block_nd_${dsuffix}$), INTENT(INOUT) :: block
-      DEALLOCATE (block%blk)
-      DEALLOCATE (block%sizes)
-   END SUBROUTINE
-#:endfor
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      SUBROUTINE destroy_block_${dsuffix}$ (block)
+         TYPE(block_nd_${dsuffix}$), INTENT(INOUT) :: block
+         DEALLOCATE (block%blk)
+         DEALLOCATE (block%sizes)
+      END SUBROUTINE
+   #:endfor
 
    SUBROUTINE dbcsr_t_get_anyd_block(tensor, ind, block, found)
       !! Generic implementation of dbcsr_t_get_block (arbitrary tensor rank and arbitrary datatype)
@@ -458,10 +458,10 @@ CONTAINS
          !! whether block was found
 
       SELECT CASE (dbcsr_t_get_data_type(tensor))
-#:for dparam, dtype, dsuffix in dtype_float_list
-      CASE (${dparam}$)
-         CALL dbcsr_t_get_anyd_block_${dsuffix}$ (tensor, ind, block, found)
-#:endfor
+         #:for dparam, dtype, dsuffix in dtype_float_list
+            CASE (${dparam}$)
+            CALL dbcsr_t_get_anyd_block_${dsuffix}$ (tensor, ind, block, found)
+         #:endfor
       END SELECT
    END SUBROUTINE
 
@@ -480,204 +480,204 @@ CONTAINS
          !! scaling factor
 
       SELECT CASE (block%data_type)
-#:for dparam, dtype, dsuffix in dtype_float_list
-      CASE (${dparam}$)
-         IF (.NOT. PRESENT(scale)) THEN
-            CALL dbcsr_t_put_anyd_block_${dsuffix}$ (tensor, ind, block%${dsuffix}$, summation)
-         ELSE
-            CALL dbcsr_t_put_anyd_block_${dsuffix}$ (tensor, ind, block%${dsuffix}$, summation, scale=scale%${dsuffix}$)
-         ENDIF
-#:endfor
+         #:for dparam, dtype, dsuffix in dtype_float_list
+            CASE (${dparam}$)
+            IF (.NOT. PRESENT(scale)) THEN
+               CALL dbcsr_t_put_anyd_block_${dsuffix}$ (tensor, ind, block%${dsuffix}$, summation)
+            ELSE
+               CALL dbcsr_t_put_anyd_block_${dsuffix}$ (tensor, ind, block%${dsuffix}$, summation, scale=scale%${dsuffix}$)
+            END IF
+         #:endfor
       END SELECT
 
    END SUBROUTINE
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-   SUBROUTINE dbcsr_t_put_anyd_block_${dsuffix}$ (tensor, ind, block, summation, scale)
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      SUBROUTINE dbcsr_t_put_anyd_block_${dsuffix}$ (tensor, ind, block, summation, scale)
       !! Generic implementation of dbcsr_t_put_block, template for datatype
 
-      TYPE(block_nd_${dsuffix}$), INTENT(IN)       :: block
+         TYPE(block_nd_${dsuffix}$), INTENT(IN)       :: block
          !! block to put
-      TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
-      LOGICAL, INTENT(IN), OPTIONAL                :: summation
+         TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
+         LOGICAL, INTENT(IN), OPTIONAL                :: summation
          !! whether block should be summed to existing block
-      ${dtype}$, INTENT(IN), OPTIONAL :: scale
+         ${dtype}$, INTENT(IN), OPTIONAL :: scale
          !! scaling factor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), &
-         INTENT(IN)                                :: ind
+         INTEGER, DIMENSION(ndims_tensor(tensor)), &
+            INTENT(IN)                                :: ind
          !! block index
 
-      SELECT CASE (ndims_tensor(tensor))
-#:for ndim in ndims
-      CASE (${ndim}$)
-         CALL dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-#:endfor
-      END SELECT
-   END SUBROUTINE
-#:endfor
+         SELECT CASE (ndims_tensor(tensor))
+            #:for ndim in ndims
+               CASE (${ndim}$)
+               CALL dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
+            #:endfor
+         END SELECT
+      END SUBROUTINE
+   #:endfor
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-   SUBROUTINE dbcsr_t_get_anyd_block_${dsuffix}$ (tensor, ind, block, found)
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      SUBROUTINE dbcsr_t_get_anyd_block_${dsuffix}$ (tensor, ind, block, found)
       !! Generic implementation of dbcsr_t_get_block (arbitrary tensor rank)
 
-      TYPE(block_nd), INTENT(OUT)                  :: block
+         TYPE(block_nd), INTENT(OUT)                  :: block
          !! block to get
-      LOGICAL, INTENT(OUT)                         :: found
+         LOGICAL, INTENT(OUT)                         :: found
          !! whether block was found
-      TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), &
-         INTENT(IN)                                :: ind
+         TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
+         INTEGER, DIMENSION(ndims_tensor(tensor)), &
+            INTENT(IN)                                :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor))    :: blk_size
-      ${dtype}$, DIMENSION(:), ALLOCATABLE         :: block_arr
+         INTEGER, DIMENSION(ndims_tensor(tensor))    :: blk_size
+         ${dtype}$, DIMENSION(:), ALLOCATABLE         :: block_arr
 
-      CALL dbcsr_t_blk_sizes(tensor, ind, blk_size)
-      ALLOCATE (block_arr(PRODUCT(blk_size)))
+         CALL dbcsr_t_blk_sizes(tensor, ind, blk_size)
+         ALLOCATE (block_arr(PRODUCT(blk_size)))
 
-      SELECT CASE (ndims_tensor(tensor))
-#:for ndim in ndims
-      CASE (${ndim}$)
-         CALL dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, blk_size, block_arr, found)
-#:endfor
-      END SELECT
-      CALL create_block(block, blk_size, block_arr)
-   END SUBROUTINE
-#:endfor
+         SELECT CASE (ndims_tensor(tensor))
+            #:for ndim in ndims
+               CASE (${ndim}$)
+               CALL dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, blk_size, block_arr, found)
+            #:endfor
+         END SELECT
+         CALL create_block(block, blk_size, block_arr)
+      END SUBROUTINE
+   #:endfor
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-#:for ndim in ndims
-   SUBROUTINE dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (tensor, ind, sizes, block, summation, scale)
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      #:for ndim in ndims
+         SUBROUTINE dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
-      TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(${ndim}$), INTENT(IN) :: ind
+            TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
+            INTEGER, DIMENSION(${ndim}$), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(${ndim}$), INTENT(IN) :: sizes
+            INTEGER, DIMENSION(${ndim}$), INTENT(IN) :: sizes
          !! block size
-      ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$), &
-         INTENT(IN), TARGET                                 :: block
+            ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$), &
+               INTENT(IN), TARGET                                 :: block
          !! block to put
-      LOGICAL, INTENT(IN), OPTIONAL                         :: summation
+            LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
-      ${dtype}$, INTENT(IN), OPTIONAL                       :: scale
+            ${dtype}$, INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
-      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: shape_2d
-      ${dtype}$, POINTER, DIMENSION(:, :)                   :: block_2d
-      INTEGER, DIMENSION(${ndim}$)                          :: shape_nd
-      LOGICAL :: found, new_block
-      ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$) :: block_check
+            INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+            INTEGER, DIMENSION(2)                                 :: shape_2d
+            ${dtype}$, POINTER, DIMENSION(:, :)                   :: block_2d
+            INTEGER, DIMENSION(${ndim}$)                          :: shape_nd
+            LOGICAL :: found, new_block
+            ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$) :: block_check
 
-      LOGICAL, PARAMETER :: debug = .FALSE.
-      INTEGER :: i
+            LOGICAL, PARAMETER :: debug = .FALSE.
+            INTEGER :: i
 
-      new_block = .FALSE.
+            new_block = .FALSE.
 
-      IF (debug) THEN
-         CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
-         DBCSR_ASSERT(found)
-      ENDIF
+            IF (debug) THEN
+               CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
+               DBCSR_ASSERT(found)
+            END IF
 
-      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
-                 map1_2d => tensor%nd_index_blk%map1_2d, &
-                 map2_2d => tensor%nd_index_blk%map2_2d)
+            ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                       map1_2d => tensor%nd_index_blk%map1_2d, &
+                       map2_2d => tensor%nd_index_blk%map2_2d)
 
-         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+               shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
-         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, ${ndim}$)/))) THEN
-            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
-            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(${shape_colon(ndim)}$)
-         ELSE
-            ! need reshape due to rank reordering
-            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
-            new_block = .TRUE.
-            shape_nd(map_nd) = sizes
-            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
-         ENDIF
+               IF (ALL([map1_2d, map2_2d] == (/(i, i=1, ${ndim}$)/))) THEN
+                  ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+                  block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(${shape_colon(ndim)}$)
+               ELSE
+                  ! need reshape due to rank reordering
+                  ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+                  new_block = .TRUE.
+                  shape_nd(map_nd) = sizes
+                  block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+               END IF
 
-         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+               ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      END ASSOCIATE
+            END ASSOCIATE
 
-      CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
-                               scale=scale)
+            CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
+                                     scale=scale)
 
-      IF (new_block) DEALLOCATE (block_2d)
+            IF (new_block) DEALLOCATE (block_2d)
 
-   END SUBROUTINE
-#:endfor
-#:endfor
+         END SUBROUTINE
+      #:endfor
+   #:endfor
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-#:for ndim in ndims
-   SUBROUTINE dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, block, found)
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      #:for ndim in ndims
+         SUBROUTINE dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, block, found)
       !! allocate and get block
 
-      TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(${ndim}$), INTENT(IN)  :: ind
+            TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
+            INTEGER, DIMENSION(${ndim}$), INTENT(IN)  :: ind
          !! block index
-      ${dtype}$, DIMENSION(${shape_colon(ndim)}$), &
-         ALLOCATABLE, INTENT(OUT)                           :: block
+            ${dtype}$, DIMENSION(${shape_colon(ndim)}$), &
+               ALLOCATABLE, INTENT(OUT)                           :: block
          !! block to get
-      LOGICAL, INTENT(OUT)                                  :: found
+            LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
-      INTEGER, DIMENSION(${ndim}$)                          :: blk_size
+            INTEGER, DIMENSION(${ndim}$)                          :: blk_size
 
-      CALL dbcsr_t_blk_sizes(tensor, ind, blk_size)
-      CALL allocate_any(block, shape_spec=blk_size)
-      CALL dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, blk_size, block, found)
+            CALL dbcsr_t_blk_sizes(tensor, ind, blk_size)
+            CALL allocate_any(block, shape_spec=blk_size)
+            CALL dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, blk_size, block, found)
 
-   END SUBROUTINE
-#:endfor
-#:endfor
+         END SUBROUTINE
+      #:endfor
+   #:endfor
 
-#:for dparam, dtype, dsuffix in dtype_float_list
-#:for ndim in ndims
-   SUBROUTINE dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, sizes, block, found)
+   #:for dparam, dtype, dsuffix in dtype_float_list
+      #:for ndim in ndims
+         SUBROUTINE dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
-      TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(${ndim}$), INTENT(IN) :: ind
+            TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
+            INTEGER, DIMENSION(${ndim}$), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(${ndim}$), INTENT(IN) :: sizes
+            INTEGER, DIMENSION(${ndim}$), INTENT(IN) :: sizes
          !! block size
-      ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$), &
-         INTENT(OUT)                                        :: block
+            ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$), &
+               INTENT(OUT)                                        :: block
          !! block to get
-      LOGICAL, INTENT(OUT)                                  :: found
+            LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      ${dtype}$, DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr
-      LOGICAL                                               :: tr
-      INTEGER                                               :: i
-      ${dtype}$, DIMENSION(${shape_colon(ndim)}$), POINTER  :: block_ptr
+            INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+            ${dtype}$, DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr
+            LOGICAL                                               :: tr
+            INTEGER                                               :: i
+            ${dtype}$, DIMENSION(${shape_colon(ndim)}$), POINTER  :: block_ptr
 
-      NULLIFY (block_2d_ptr)
+            NULLIFY (block_2d_ptr)
 
-      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+            ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
-                 map2_2d => tensor%nd_index_blk%map2_2d)
+            ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                       map2_2d => tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-         DBCSR_ASSERT(.NOT. tr)
+               CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+               DBCSR_ASSERT(.NOT. tr)
 
-         IF (found) THEN
-            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, ${ndim}$)/))) THEN
-               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
-               block_ptr(${shape_explicit('block', ndim)}$) => block_2d_ptr(:, :)
-               block(${shape_colon(ndim)}$) = block_ptr(${shape_colon(ndim)}$)
-            ELSE
-               ! need reshape due to rank reordering
-               block(${shape_colon(ndim)}$) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
-            ENDIF
-         ENDIF
+               IF (found) THEN
+                  IF (ALL([map1_2d, map2_2d] == (/(i, i=1, ${ndim}$)/))) THEN
+                     ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+                     block_ptr(${shape_explicit('block', ndim)}$) => block_2d_ptr(:, :)
+                     block(${shape_colon(ndim)}$) = block_ptr(${shape_colon(ndim)}$)
+                  ELSE
+                     ! need reshape due to rank reordering
+                     block(${shape_colon(ndim)}$) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+                  END IF
+               END IF
 
-      END ASSOCIATE
+            END ASSOCIATE
 
-   END SUBROUTINE
-#:endfor
-#:endfor
+         END SUBROUTINE
+      #:endfor
+   #:endfor
 
 END MODULE

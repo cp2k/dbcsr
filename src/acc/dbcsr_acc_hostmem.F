@@ -127,95 +127,95 @@ CONTAINS
    END SUBROUTINE acc_hostmem_dealloc_raw
 #endif
 
-#:set instances = [ ('i4', 'int_4_size',    'INTEGER(kind=int_4)'), &
-                    ('i8', 'int_8_size',    'INTEGER(kind=int_8)'), &
-                    ('r4', 'real_4_size',   'REAL(kind=real_4)'), &
-                    ('r8', 'real_8_size',   'REAL(kind=real_8)'), &
-                    ('c4', '2*real_4_size', 'COMPLEX(kind=real_4)'), &
-                    ('c8', '2*real_8_size', 'COMPLEX(kind=real_8)') ]
+   #:set instances = [ ('i4', 'int_4_size',    'INTEGER(kind=int_4)'), &
+      ('i8', 'int_8_size',    'INTEGER(kind=int_8)'), &
+      ('r4', 'real_4_size',   'REAL(kind=real_4)'), &
+      ('r8', 'real_8_size',   'REAL(kind=real_8)'), &
+      ('c4', '2*real_4_size', 'COMPLEX(kind=real_4)'), &
+      ('c8', '2*real_8_size', 'COMPLEX(kind=real_8)') ]
 
-#:for nametype, size, type in instances
+   #:for nametype, size, type in instances
 
-   SUBROUTINE acc_hostmem_alloc_${nametype}$ (host_mem, n, stream)
+      SUBROUTINE acc_hostmem_alloc_${nametype}$ (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
 
-      ${type}$, DIMENSION(:), POINTER          :: host_mem
+         ${type}$, DIMENSION(:), POINTER          :: host_mem
          !! pointer to array
-      INTEGER, INTENT(IN)                      :: n
+         INTEGER, INTENT(IN)                      :: n
          !! size given in terms of item-count (not bytes!)
-      TYPE(acc_stream_type), INTENT(IN)        :: stream
+         TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
-      TYPE(C_PTR)                              :: host_mem_c_ptr
+         TYPE(C_PTR)                              :: host_mem_c_ptr
 
-      CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*${size}$, stream)
-      CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
+         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*${size}$, stream)
+         CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
 #else
-      MARK_USED(host_mem)
-      MARK_USED(n)
-      MARK_USED(stream)
-      DBCSR_ABORT("acc_hostmem_alloc_${nametype}$: ACC not compiled in.")
+         MARK_USED(host_mem)
+         MARK_USED(n)
+         MARK_USED(stream)
+         DBCSR_ABORT("acc_hostmem_alloc_${nametype}$: ACC not compiled in.")
 #endif
-   END SUBROUTINE acc_hostmem_alloc_${nametype}$
+      END SUBROUTINE acc_hostmem_alloc_${nametype}$
 
-   SUBROUTINE acc_hostmem_alloc_${nametype}$_2D(host_mem, n1, n2, stream)
+      SUBROUTINE acc_hostmem_alloc_${nametype}$_2D(host_mem, n1, n2, stream)
       !! Allocates 2D fortan-array as GPU host-pinned memory.
 
-      ${type}$, DIMENSION(:, :), POINTER        :: host_mem
+         ${type}$, DIMENSION(:, :), POINTER        :: host_mem
          !! pointer to array
-      INTEGER, INTENT(IN)                      :: n1, n2
+         INTEGER, INTENT(IN)                      :: n1, n2
          !! sizes given in terms of item-count (not bytes!)
          !! sizes given in terms of item-count (not bytes!)
-      TYPE(acc_stream_type), INTENT(IN)        :: stream
+         TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
-      TYPE(C_PTR)                              :: host_mem_c_ptr
-      INTEGER                                  :: n_bytes
+         TYPE(C_PTR)                              :: host_mem_c_ptr
+         INTEGER                                  :: n_bytes
 
-      n_bytes = MAX(1, n1)*MAX(1, n2)*${size}$
-      CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
-      CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
+         n_bytes = MAX(1, n1)*MAX(1, n2)*${size}$
+         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
+         CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
 #else
-      MARK_USED(host_mem)
-      MARK_USED(n1)
-      MARK_USED(n2)
-      MARK_USED(stream)
-      DBCSR_ABORT("acc_hostmem_alloc_${nametype}$_2D: ACC not compiled in.")
+         MARK_USED(host_mem)
+         MARK_USED(n1)
+         MARK_USED(n2)
+         MARK_USED(stream)
+         DBCSR_ABORT("acc_hostmem_alloc_${nametype}$_2D: ACC not compiled in.")
 #endif
-   END SUBROUTINE acc_hostmem_alloc_${nametype}$_2D
+      END SUBROUTINE acc_hostmem_alloc_${nametype}$_2D
 
-   SUBROUTINE acc_hostmem_dealloc_${nametype}$ (host_mem, stream)
+      SUBROUTINE acc_hostmem_dealloc_${nametype}$ (host_mem, stream)
       !! Deallocates a 1D fortan-array, which is GPU host-pinned memory.
 
-      ${type}$, DIMENSION(:), POINTER          :: host_mem
+         ${type}$, DIMENSION(:), POINTER          :: host_mem
          !! pointer to array
-      TYPE(acc_stream_type), INTENT(IN)        :: stream
+         TYPE(acc_stream_type), INTENT(IN)        :: stream
 
-      IF (SIZE(host_mem) == 0) RETURN
+         IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
-      CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1)), stream)
+         CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1)), stream)
 #else
-      MARK_USED(host_mem)
-      MARK_USED(stream)
-      DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
+         MARK_USED(host_mem)
+         MARK_USED(stream)
+         DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
 #endif
-   END SUBROUTINE acc_hostmem_dealloc_${nametype}$
+      END SUBROUTINE acc_hostmem_dealloc_${nametype}$
 
-   SUBROUTINE acc_hostmem_dealloc_${nametype}$_2D(host_mem, stream)
+      SUBROUTINE acc_hostmem_dealloc_${nametype}$_2D(host_mem, stream)
       !! Deallocates a 2D fortan-array, which is GPU host-pinned memory.
 
-      ${type}$, DIMENSION(:, :), POINTER        :: host_mem
+         ${type}$, DIMENSION(:, :), POINTER        :: host_mem
          !! pointer to array
-      TYPE(acc_stream_type), INTENT(IN)        :: stream
+         TYPE(acc_stream_type), INTENT(IN)        :: stream
 
-      IF (SIZE(host_mem) == 0) RETURN
+         IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
-      CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1, 1)), stream)
+         CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1, 1)), stream)
 #else
-      MARK_USED(host_mem)
-      MARK_USED(stream)
-      DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
+         MARK_USED(host_mem)
+         MARK_USED(stream)
+         DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
 #endif
-   END SUBROUTINE acc_hostmem_dealloc_${nametype}$_2D
+      END SUBROUTINE acc_hostmem_dealloc_${nametype}$_2D
 
-#:endfor
+   #:endfor
 
 END MODULE dbcsr_acc_hostmem

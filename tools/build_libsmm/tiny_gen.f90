@@ -94,10 +94,10 @@ CONTAINS
                            " ; mnk(3,", Nk, ")=", ku
                      END IF
                   END SELECT
-               ENDDO
-            ENDDO
-         ENDDO
-      ENDDO
+               END DO
+            END DO
+         END DO
+      END DO
 
    END SUBROUTINE loop_variants
 

@@ -180,7 +180,7 @@ CONTAINS
 
          IF (PRESENT(data_size) .NEQV. PRESENT(data_size2)) &
             DBCSR_ABORT("Must specify 2 sizes for 2-D data")
-      ENDIF
+      END IF
 
       sizes_oversized = INT(sizes_requested*my_memory_type%oversize_factor)
       total_size_requested = PRODUCT(sizes_requested(1:d))
@@ -191,7 +191,7 @@ CONTAINS
 
       IF (total_size_requested > 1 .AND. ASSOCIATED(my_memory_type%pool)) THEN
          area = dbcsr_mempool_get(my_memory_type, data_type, total_size_requested)
-      ENDIF
+      END IF
 
       IF (.NOT. ASSOCIATED(area%d)) THEN
          ALLOCATE (area%d)
@@ -205,7 +205,7 @@ CONTAINS
          IF (PRESENT(data_size)) THEN
             CALL internal_data_allocate(area%d, sizes_oversized(1:d))
          END IF
-      ENDIF
+      END IF
 
       area%d%ref_size = total_size_requested
 
@@ -251,14 +251,14 @@ CONTAINS
             DBCSR_ABORT("Cannot use dev memory with previous data area.")
          IF (ASSOCIATED(area%d%memory_type%pool)) &
             DBCSR_ABORT("Cannot use memory pool with previous data area.")
-      ENDIF
+      END IF
 
       wanted_size = data_size
 #if defined(__HAS_smm_dnn) && defined(__HAS_smm_vec)
       ! allocate some more as padding for libsmm kernels which read over the end.
       IF (data_size .GT. 0) THEN
          wanted_size = data_size + 10
-      ENDIF
+      END IF
 #endif
 
       !IF(area%d%memory_type%acc_devalloc) THEN
@@ -272,7 +272,7 @@ CONTAINS
       IF (current_size .GT. 1 .AND. current_size .GE. wanted_size) THEN
          IF (careful_mod) CALL timestop(handle)
          RETURN
-      ENDIF
+      END IF
       !
       nocp = .FALSE.
       IF (PRESENT(nocopy)) nocp = nocopy
@@ -287,8 +287,8 @@ CONTAINS
                CALL dbcsr_data_clear_pointer(area)
             ELSE
                CALL internal_data_deallocate(area%d)
-            ENDIF
-         ENDIF
+            END IF
+         END IF
       END IF
 
       IF (.NOT. dbcsr_data_exists(area)) THEN
@@ -321,7 +321,7 @@ CONTAINS
                                       memory_type=area%d%memory_type, &
                                       nocopy=nocp, zero_pad=zero_pad, &
                                       factor=factor)
-            ENDIF
+            END IF
          CASE (dbcsr_type_int_4)
             IF (PRESENT(area_resize)) THEN
                CALL ensure_array_size(area%d%i4, &
@@ -335,7 +335,7 @@ CONTAINS
                                       memory_type=area%d%memory_type, &
                                       nocopy=nocp, zero_pad=zero_pad, &
                                       factor=factor)
-            ENDIF
+            END IF
          CASE (dbcsr_type_real_8)
             IF (PRESENT(area_resize)) THEN
                CALL ensure_array_size(area%d%r_dp, &
@@ -349,7 +349,7 @@ CONTAINS
                                       memory_type=area%d%memory_type, &
                                       nocopy=nocp, zero_pad=zero_pad, &
                                       factor=factor)
-            ENDIF
+            END IF
          CASE (dbcsr_type_real_4)
             IF (PRESENT(area_resize)) THEN
                CALL ensure_array_size(area%d%r_sp, &
@@ -363,7 +363,7 @@ CONTAINS
                                       memory_type=area%d%memory_type, &
                                       nocopy=nocp, zero_pad=zero_pad, &
                                       factor=factor)
-            ENDIF
+            END IF
          CASE (dbcsr_type_complex_8)
             IF (PRESENT(area_resize)) THEN
                CALL ensure_array_size(area%d%c_dp, &
@@ -377,7 +377,7 @@ CONTAINS
                                       memory_type=area%d%memory_type, &
                                       nocopy=nocp, zero_pad=zero_pad, &
                                       factor=factor)
-            ENDIF
+            END IF
          CASE (dbcsr_type_complex_4)
             IF (PRESENT(area_resize)) THEN
                CALL ensure_array_size(area%d%c_sp, &
@@ -391,7 +391,7 @@ CONTAINS
                                       memory_type=area%d%memory_type, &
                                       nocopy=nocp, zero_pad=zero_pad, &
                                       factor=factor)
-            ENDIF
+            END IF
          CASE default
             DBCSR_ABORT("Invalid data type are supported")
          END SELECT
@@ -411,9 +411,9 @@ CONTAINS
             IF (dbcsr_datatype_sizeof(area%d%data_type)*dbcsr_data_get_size(area) &
                 /= acc_devmem_size_in_bytes(area%d%acc_devmem)) &
                DBCSR_ABORT("Host and device buffer differ in size.")
-         ENDIF
+         END IF
 
-      ENDIF
+      END IF
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_data_ensure_size
 
@@ -438,7 +438,7 @@ CONTAINS
          IF (careful_mod) THEN
             IF (area%d%refcount .LE. 0) &
                DBCSR_WARN("Data seems to be unreferenced.")
-         ENDIF
+         END IF
          !
          area%d%refcount = area%d%refcount - 1
          ! If we're releasing the last reference, then free the memory.
@@ -451,10 +451,10 @@ CONTAINS
             ELSE
                CALL internal_data_deallocate(area%d)
                DEALLOCATE (area%d)
-            ENDIF
+            END IF
             NULLIFY (area%d)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       CALL timestop(handle)
 

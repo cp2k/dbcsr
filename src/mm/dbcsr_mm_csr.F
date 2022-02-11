@@ -244,7 +244,7 @@ CONTAINS
       ELSE
          n_a_norms = 0
          n_b_norms = 0
-      ENDIF
+      END IF
 
       !
       ! Build the indices
@@ -270,11 +270,11 @@ CONTAINS
                IF (dbg) THEN
                   WRITE (*, '(1X,A,3(1X,I7),1X,A,1X,I16)') routineN//" trying B", &
                      a_row_l, b_blk_info(1, b_blk), a_col_l, "at", b_blk_info(2, b_blk)
-               ENDIF
+               END IF
                b_norm = right_norms(b_blk)
                IF (a_norm*b_norm .LT. a_row_eps) THEN
                   CYCLE
-               ENDIF
+               END IF
                b_col_l = b_blk_info(1, b_blk)
                ! Don't calculate symmetric blocks.
                symmetric_product: IF (c_has_symmetry) THEN
@@ -285,16 +285,16 @@ CONTAINS
                      IF (dbg) THEN
                         WRITE (*, *) "Skipping symmetric block!", c_row_logical, &
                            c_col_logical
-                     ENDIF
+                     END IF
                      CYCLE
-                  ENDIF
-               ENDIF symmetric_product
+                  END IF
+               END IF symmetric_product
 
                c_blk_id = hash_table_get(c_hashes(a_row_l), b_col_l)
                IF (.FALSE.) THEN
                   WRITE (*, '(1X,A,3(1X,I7),1X,A,1X,I16)') routineN//" coor", &
                      a_row_l, a_col_l, b_col_l, "c blk", c_blk_id
-               ENDIF
+               END IF
                block_exists = c_blk_id .GT. 0
 
                n_size = n_sizes(b_col_l)
@@ -320,7 +320,7 @@ CONTAINS
                   c_row_i(lastblk) = a_row_l
                   c_col_i(lastblk) = b_col_l
                   c_blk_p(lastblk) = offset
-               ENDIF
+               END IF
 
                ! TODO: this is only called with careful_mod
                ! We should not call certain MM routines (netlib BLAS)
@@ -330,8 +330,8 @@ CONTAINS
                   IF (c_nze .EQ. 0 .OR. k_size .EQ. 0) THEN
                      DBCSR_ABORT("Can not call MM with LDx=0.")
                      CYCLE
-                  ENDIF
-               ENDIF
+                  END IF
+               END IF
 
                mapped_col_size = col_size_maps(n_size)
                ws = stack_map(mapped_col_size, mapped_k_size, mapped_row_size)
@@ -351,9 +351,9 @@ CONTAINS
                IF (stacks_fillcount(ws) >= SIZE(stacks_data, 2)) &
                   CALL flush_stacks(this, left=left, right=right)
 
-            ENDDO b_blk_cycle ! b
-         ENDDO a_blk_cycle ! a_col
-      ENDDO a_row_cycle ! a_row
+            END DO b_blk_cycle ! b
+         END DO a_blk_cycle ! a_col
+      END DO a_row_cycle ! a_row
 
    END SUBROUTINE dbcsr_mm_csr_multiply_low
 
@@ -393,7 +393,7 @@ CONTAINS
             DBCSR_ABORT("Matrices must have local indexing.")
          IF (.NOT. left%local_indexing) &
             DBCSR_ABORT("Matrices must have local indexing.")
-      ENDIF
+      END IF
       ! Setup the hash tables if needed
       ALLOCATE (this%c_hashes(product%nblkrows_local))
       CALL fill_hash_tables(this%c_hashes, product, block_estimate, &
@@ -442,19 +442,19 @@ CONTAINS
             m_size = most_common_m(m_map)
          ELSE
             m_size = 777
-         ENDIF
+         END IF
          DO k_map = 1, dbcsr_cfg%nk_stacks + 1
             IF (k_map .LE. dbcsr_cfg%nk_stacks) THEN
                k_size = most_common_k(k_map)
             ELSE
                k_size = 888
-            ENDIF
+            END IF
             DO n_map = 1, dbcsr_cfg%nn_stacks + 1
                IF (n_map .LE. dbcsr_cfg%nn_stacks) THEN
                   n_size = most_common_n(n_map)
                ELSE
                   n_size = 999
-               ENDIF
+               END IF
                IF (m_map .LE. dbcsr_cfg%nm_stacks &
                    .AND. k_map .LE. dbcsr_cfg%nk_stacks &
                    .AND. n_map .LE. dbcsr_cfg%nn_stacks) THEN
@@ -485,9 +485,9 @@ CONTAINS
                   this%stacks_descr(ps_g)%max_k = this%max_k
                   this%stacks_descr(ps_g)%defined_mnk = .FALSE.
                END IF
-            ENDDO
-         ENDDO
-      ENDDO
+            END DO
+         END DO
+      END DO
       DEALLOCATE (most_common_m)
       DEALLOCATE (most_common_n)
       DEALLOCATE (most_common_k)
@@ -501,13 +501,13 @@ CONTAINS
          flop_list(istack) = -2*this%stacks_descr(istack)%m &
                              *this%stacks_descr(istack)%n &
                              *this%stacks_descr(istack)%k
-      ENDDO
+      END DO
 
       CALL sort(flop_list, nstacks - 1, flop_index)
       tmp_descr(:) = this%stacks_descr
       DO istack = 1, nstacks - 1
          this%stacks_descr(istack) = tmp_descr(flop_index(istack))
-      ENDDO
+      END DO
 
       DO m_map = 1, SIZE(this%stack_map, 1)
          DO k_map = 1, SIZE(this%stack_map, 2)
@@ -517,10 +517,10 @@ CONTAINS
                      this%stack_map(m_map, k_map, n_map) = INT(istack, kind=int_1)
                      CYCLE map_loop
                   END IF
-               ENDDO
-            ENDDO map_loop
-         ENDDO
-      ENDDO
+               END DO
+            END DO map_loop
+         END DO
+      END DO
       DEALLOCATE (flop_list, flop_index, tmp_descr)
 
       this%product_wm => product%wms(ithread + 1)
@@ -557,7 +557,7 @@ CONTAINS
          ! create the hash table row with a reasonable initial size
          CALL hash_table_create(hashes(row), &
                                 MAX(8, (3*block_estimate)/MAX(1, n_rows)))
-      ENDDO
+      END DO
       ! We avoid using the iterator because we will use the existing
       ! work matrix instead of the BCSR index.
       DO i = 1, matrix%wms(imat)%lastblk
@@ -566,7 +566,7 @@ CONTAINS
          row = row_map(row)
          col = col_map(col)
          CALL hash_table_add(hashes(row), col, i)
-      ENDDO
+      END DO
       CALL timestop(handle)
    END SUBROUTINE fill_hash_tables
 
@@ -581,7 +581,7 @@ CONTAINS
       ! Clear hash tables
       DO i = 1, SIZE(this%c_hashes)
          CALL hash_table_release(this%c_hashes(i))
-      ENDDO
+      END DO
       DEALLOCATE (this%c_hashes)
       DEALLOCATE (this%stacks_descr)
       DEALLOCATE (this%stack_map)
@@ -632,8 +632,8 @@ CONTAINS
          DO iblock = 1, original_lastblk
             row_i(iblock) = g2l_map_rows(row_i(iblock))
             col_i(iblock) = g2l_map_cols(col_i(iblock))
-         ENDDO
-      ENDIF
+         END DO
+      END IF
       lb_meta = ub_meta
       ub_meta = lb_meta + nblocks
       blk_p => meta_buffer(lb_meta + 1:ub_meta)
@@ -649,7 +649,7 @@ CONTAINS
          IF (block_exists) CYCLE
          nblks_max = nblks_max + 1
          nze_max = nze_max + nze
-      ENDDO
+      END DO
       ! Resize buffers
       CALL dbcsr_data_ensure_size(this%product_wm%data_area, &
                                   nze_max, factor=default_resize_factor, nocopy=.FALSE., &
@@ -683,8 +683,8 @@ CONTAINS
             !
             CALL dbcsr_block_copy_aa(this%product_wm%data_area, data_buffer, &
                                      m_sizes(row_i(iblock)), n_sizes(col_i(iblock)), lb, lb_data)
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       CALL dbcsr_mm_sched_set_orig_datasize(this%sched, this%product_wm%datasize)
    END SUBROUTINE dbcsr_mm_csr_red3D
 
@@ -710,7 +710,7 @@ CONTAINS
       min_fill = SIZE(this%stacks_data, 2)*3/4 !TODO: play with this
       IF (PRESENT(purge)) THEN
          IF (purge) min_fill = 0
-      ENDIF
+      END IF
 
       CALL dbcsr_mm_sched_begin_burst(this%sched)
 
@@ -727,7 +727,7 @@ CONTAINS
                                         stack_descr=stack_descr)
 
             stack_fillcount = 0
-         ENDIF
+         END IF
       END DO
 
       CALL dbcsr_mm_sched_end_burst()
@@ -755,20 +755,20 @@ CONTAINS
       IF (dbg) THEN
          WRITE (*, '(I7,1X,5(A,2(1X,I7)))') 0, "bci", mi, mf, ";", ai, af
          !write(*,'(3(I7))')list_index(:,ai:af)
-      ENDIF
+      END IF
 
       counts(:) = 0
       DO i = ai, af
          IF (careful) THEN
             IF (list_index(1, i) < mi) DBCSR_ABORT("Out of range")
             IF (list_index(1, i) > mf) DBCSR_ABORT("Out of range")
-         ENDIF
+         END IF
          counts(list_index(1, i)) = counts(list_index(1, i)) + 1
-      ENDDO
+      END DO
       row_p(mi) = 0
       DO i = mi + 1, mf + 1
          row_p(i) = row_p(i - 1) + counts(i - 1)
-      ENDDO
+      END DO
       ! Adds every block to its corresponding row.
       counts(:) = 0
       DO i = ai, af
@@ -777,16 +777,16 @@ CONTAINS
          IF (careful) THEN
             IF (row_p(row) + counts(row) > af - ai + 1) DBCSR_ABORT("Out of range")
             IF (row_p(row) + counts(row) < 1) DBCSR_ABORT("Out of range")
-         ENDIF
+         END IF
          blk_info(1, row_p(row) + counts(row)) = list_index(2, i)
          blk_info(2, row_p(row) + counts(row)) = list_index(3, i)
          IF (nnorms .GT. 0) THEN
             csr_norms(row_p(row) + counts(row)) = list_norms(i)
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       IF (nnorms .EQ. 0) THEN
          csr_norms(:) = 0.0_sp
-      ENDIF
+      END IF
    END SUBROUTINE build_csr_index
 
    ELEMENTAL FUNCTION my_checker_tr(row, column) RESULT(transpose)

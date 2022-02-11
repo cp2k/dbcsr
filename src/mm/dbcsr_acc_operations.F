@@ -177,7 +177,7 @@ CONTAINS
                                          INT(n, KIND=C_INT), &
                                          INT(max_kernel_dim, KIND=C_INT), &
                                          acc_stream_cptr(stream))
-      ENDIF
+      END IF
 
       IF (istat /= 0) DBCSR_ABORT("something went wrong.")
       IF (careful_mod) CALL timestop(error_handle)

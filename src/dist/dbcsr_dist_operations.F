@@ -100,7 +100,7 @@ CONTAINS
          process = pgrid(row_dist(row), col_dist(col))
       ELSE
          process = pgrid(row_dist(col), col_dist(row))
-      ENDIF
+      END IF
    END FUNCTION checker_square_proc
 
    PURE SUBROUTINE dbcsr_get_stored_coordinates(matrix, row, column, processor)
@@ -126,8 +126,8 @@ CONTAINS
          ELSE
             ! The default way.
             processor = dbcsr_distribution_processor(matrix%dist, row, column)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE dbcsr_get_stored_coordinates
 
    PURE SUBROUTINE get_stored_canonical(matrix, row, column, &
@@ -154,7 +154,7 @@ CONTAINS
          tmp = row
          row = column
          column = tmp
-      ENDIF
+      END IF
       IF (PRESENT(processor)) THEN
          processor = dbcsr_distribution_processor(matrix%dist, row, column)
       END IF
@@ -221,40 +221,40 @@ CONTAINS
             IF (PRESENT(lb_row_col)) THEN
                IF (lb_row_col(1) .EQ. row) THEN
                   blk_offset = lb_row_col(2)
-               ENDIF
-            ENDIF
+               END IF
+            END IF
             CALL dbcsr_find_column(column, matrix%row_p(row) + blk_offset + 1, blk_last, &
                                    matrix%col_i, matrix%blk_p, &
                                    block_number, found)
             blk_offset = block_number - matrix%row_p(row)
          ELSE
             found = .FALSE.
-         ENDIF
+         END IF
          IF (PRESENT(lb_row_col)) THEN
             lb_row_col(1) = row
             lb_row_col(2) = blk_offset
-         ENDIF
+         END IF
       ELSE
          found = .FALSE.
-      ENDIF
+      END IF
       IF (found) THEN
          IF (PRESENT(data_offset) .OR. PRESENT(transposed)) THEN
             offset = matrix%blk_p(block_number)
-         ENDIF
+         END IF
          IF (PRESENT(data_offset)) THEN
             data_offset = ABS(offset)
-         ENDIF
+         END IF
          IF (PRESENT(transposed)) THEN
             transposed = offset .LT. 0
-         ENDIF
+         END IF
       ELSE
          IF (PRESENT(data_offset)) THEN
             data_offset = 0
-         ENDIF
+         END IF
          IF (PRESENT(transposed)) THEN
             transposed = .FALSE.
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE dbcsr_get_stored_block_info
 
    SUBROUTINE dbcsr_transpose_distribution(dist_tr, dist_normal)
@@ -390,15 +390,15 @@ CONTAINS
          ELSE
             ! Fill remainder with a cyclic distribution
             bin = MOD(i, old_nbins)
-         ENDIF
+         END IF
          virtual_bin = bin*multiplicity + bin_multiplier(bin)
          new_bins(i) = virtual_bin/nimages
          images(i) = 1 + MOD(virtual_bin, nimages)
          bin_multiplier(bin) = bin_multiplier(bin) + 1
          IF (bin_multiplier(bin) .GE. multiplicity) THEN
             bin_multiplier(bin) = 0
-         ENDIF
-      ENDDO
+         END IF
+      END DO
    END SUBROUTINE rebin_distribution
 
    SUBROUTINE dbcsr_reblocking_targets(ints, numints, n_src_dsts, &
@@ -456,7 +456,7 @@ CONTAINS
          IF (current_src .LE. n_src) THEN
             s_src = src_sizes(current_src)
             n_src_dsts(:, current_src) = (/current_int + 1, 0/)
-         ENDIF
+         END IF
       END DO
       current_dst = 0
       s_dst = 0 ! HUGE(0)
@@ -490,7 +490,7 @@ CONTAINS
             IF (current_src .LE. n_src) THEN
                s_src = src_sizes(current_src)
                n_src_dsts(:, current_src) = (/current_int + 1, 0/)
-            ENDIF
+            END IF
          END DO
          DO WHILE (s_dst .EQ. 0 .AND. current_dst .LE. n_dst)
             current_dst = current_dst + 1
@@ -498,7 +498,7 @@ CONTAINS
             IF (current_dst .LE. n_dst) s_dst = dst_sizes(current_dst)
          END DO
          current_int = current_int + 1
-      ENDDO
+      END DO
       IF (current_src .LT. n_src) &
          n_src_dsts(:, current_src + 1:n_src) = -7
       numints = current_int - 1
@@ -530,7 +530,7 @@ CONTAINS
       CALL ordered_search(col_i, find_col, blk, found, frst_blk, last_blk)
       IF (found) THEN
          found = blk_p(blk) .NE. 0
-      ENDIF
+      END IF
 
    END SUBROUTINE dbcsr_find_column
 
@@ -558,7 +558,7 @@ CONTAINS
          bin = bin_distribution(el)
          nlve(bin) = nlve(bin) + 1
          local_elements(bin)%low%data(nlve(bin)) = el
-      ENDDO
+      END DO
    END SUBROUTINE find_all_local_elements
 
    SUBROUTINE dbcsr_get_local_rows(dist, local_rows, local_prow)
@@ -590,20 +590,20 @@ CONTAINS
          DO el = 1, SIZE(row_dist)
             prow = row_dist(el)
             nle(prow) = nle(prow) + 1
-         ENDDO
+         END DO
          DO prow = 0, nprows - 1
             ALLOCATE (itmp(nle(prow)))
             itmp = 0
             CALL array_new(dist%d%other_l_rows(prow), &
                            itmp, lb=1)
             DEALLOCATE (itmp)
-         ENDDO
+         END DO
          DEALLOCATE (nle)
          CALL find_all_local_elements(dist%d%other_l_rows, row_dist, nprows)
       ELSE
          IF (careful_mod .AND. .NOT. ASSOCIATED(dist%d%other_l_rows)) &
             DBCSR_ABORT("Local rows mapping does not exist.")
-      ENDIF
+      END IF
       local_rows = dist%d%other_l_rows(local_prow)
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_local_rows
@@ -637,20 +637,20 @@ CONTAINS
          DO el = 1, SIZE(col_dist)
             pcol = col_dist(el)
             nle(pcol) = nle(pcol) + 1
-         ENDDO
+         END DO
          DO pcol = 0, npcols - 1
             ALLOCATE (itmp(nle(pcol)))
             itmp = 0
             CALL array_new(dist%d%other_l_cols(pcol), &
                            itmp, lb=1)
             DEALLOCATE (itmp)
-         ENDDO
+         END DO
          DEALLOCATE (nle)
          CALL find_all_local_elements(dist%d%other_l_cols, col_dist, npcols)
       ELSE
          IF (careful_mod .AND. .NOT. ASSOCIATED(dist%d%other_l_cols)) &
             DBCSR_ABORT("Local columns mapping does not exist.")
-      ENDIF
+      END IF
       local_cols = dist%d%other_l_cols(local_pcol)
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_local_cols
@@ -670,7 +670,7 @@ CONTAINS
       IF (n .EQ. 0) THEN
          mostly_non_transposed = .TRUE.
          RETURN
-      ENDIF
+      END IF
       str = 0
       sntr = 0
       CALL check_range(blk_p, 1, allcheck_cutoff, sntr, str)
@@ -678,14 +678,14 @@ CONTAINS
          CALL check_range(blk_p, (n - allcheck_cutoff)/2, (n + allcheck_cutoff)/2, &
                           sntr, str)
          CALL check_range(blk_p, n - allcheck_cutoff, n, sntr, str)
-      ENDIF
+      END IF
       IF (str .EQ. 0) THEN
          mostly_non_transposed = .TRUE.
          RETURN
       ELSE
          ! Bias towards .TRUE.
          mostly_non_transposed = ((2*str)/(1 + str + sntr)) .EQ. 0
-      ENDIF
+      END IF
       RETURN
    CONTAINS
       PURE SUBROUTINE check_range(blk_p, lb, ub, sntr, str)
@@ -733,14 +733,14 @@ CONTAINS
             bin_dist(i) = bin - 1
             bin_cnt = bin_cnt + element_sizes(i)
             CALL dbcsr_heap_reset_first(bin_heap, bin_cnt)
-         ENDDO
+         END DO
          CALL dbcsr_heap_release(bin_heap)
       ELSE
          DO i = 1, nelements
             CALL RANDOM_NUMBER(rn)
             bin_dist(i) = MOD(INT(rn*REAL(nbins, kind=sp)), nbins)
-         ENDDO
-      ENDIF
+         END DO
+      END IF
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_dist_bin
 

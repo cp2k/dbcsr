@@ -175,7 +175,7 @@ PROGRAM dbcsr_tensor_unittest
       DEALLOCATE (size_1, size_2, size_3, size_4)
       DEALLOCATE (blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)
 
-   ENDIF
+   END IF
    IF (test_contraction) THEN
 
 !--------------------------------------------------------------------------------------------------!
@@ -800,7 +800,7 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_pgrid_destroy(pgrid_2d)
       CALL dbcsr_t_pgrid_destroy(pgrid_4d)
 
-   ENDIF
+   END IF
 
 !--------------------------------------------------------------------------------------------------!
 ! End tests                                                                                        !

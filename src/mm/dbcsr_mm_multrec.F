@@ -166,7 +166,7 @@ CONTAINS
             DBCSR_ABORT("Matrices must have local indexing.")
          IF (.NOT. left%local_indexing) &
             DBCSR_ABORT("Matrices must have local indexing.")
-      ENDIF
+      END IF
       !
       ! Fill result data structure.
       this%keep_sparsity = keep_sparsity
@@ -180,7 +180,7 @@ CONTAINS
          this%eps = eps
       ELSE
          this%eps = 0.0_real_8
-      ENDIF
+      END IF
       !
       !
 !$    NULLIFY (product_thread_dist)
@@ -204,35 +204,35 @@ CONTAINS
             WRITE (*, *) "dist local rows", dbcsr_distribution_local_rows(product%dist)
             WRITE (*, *) " mat local rows", array_data(product%local_rows)
             DBCSR_ABORT("Array mismatch.")
-         ENDIF
+         END IF
          IF (.NOT. array_equality(dbcsr_distribution_local_cols_obj(product%dist), &
                                   product%local_cols)) THEN
             WRITE (*, *) "col dist", dbcsr_distribution_col_dist(product%dist)
             WRITE (*, *) "dist local cols", dbcsr_distribution_local_cols(product%dist)
             WRITE (*, *) " mat local cols", array_data(product%local_cols)
             DBCSR_ABORT("Array mismatch.")
-         ENDIF
+         END IF
          IF (SIZE(c_local_rows) /= c_nblkrows_local) &
             DBCSR_ABORT("Row count mismatch.")
          IF (SIZE(c_local_cols) /= c_nblkcols_local) &
             DBCSR_ABORT("Column count mismatch.")
-      ENDIF
+      END IF
       !
       ! And the k epsilons
       IF ((PRESENT(left) .AND. PRESENT(right)) .OR. .NOT. this%use_eps) THEN
          ALLOCATE (this%row_max_epss(c_nblkrows_local))
          this%new_row_max_epss = .TRUE.
-      ENDIF
+      END IF
       IF (this%use_eps) THEN
          IF (PRESENT(left) .AND. PRESENT(right)) THEN
             CALL local_filter_sp(row_max_epss, c_nblkrows_local, c_local_rows, &
                                  this%row_max_epss)
          ELSE
             this%row_max_epss => row_max_epss
-         ENDIF
+         END IF
       ELSE
          this%row_max_epss(:) = -HUGE(0.0_sp)
-      ENDIF
+      END IF
       !
       this%m_sizes => m_sizes
       this%n_sizes => n_sizes
@@ -301,7 +301,7 @@ CONTAINS
 !$       ithread = OMP_GET_THREAD_NUM()
 !$       t_a_f = left%thr_c(ithread + 1) + 1
 !$       t_a_l = left%thr_c(ithread + 2)
-!$    ENDIF
+!$    END IF
       CALL sparse_multrec(this, left, right, &
                           1, left%nblkrows_local, &
                           1, right%nblkcols_local, &
@@ -373,8 +373,8 @@ CONTAINS
             CALL multrec_filtering(this)
          ELSE
             this%product_wm%datasize_after_filtering = this%product_wm%datasize
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       this%initialized = .FALSE.
       CALL timestop(handle)
@@ -497,13 +497,13 @@ CONTAINS
 
       IF (dbg) THEN
          WRITE (*, '(I7,1X,5(A,2(1X,I7)))') d, " rm", mi, mf, ",", ni, nf, ",", ki, kf, "/", ai, af, ",", bi, bf
-      ENDIF
+      END IF
       IF (.TRUE.) THEN
          IF (af .LT. ai .OR. bf .LT. bi .OR. mf .LT. mi .OR. nf .LT. ni .OR. kf .LT. ki) THEN
             IF (dbg) WRITE (*, *) "Empty"
             RETURN
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       IF (af - ai + 1 <= dbcsr_cfg%multrec_limit .AND. bf - bi + 1 <= dbcsr_cfg%multrec_limit) THEN
          IF (af - ai + 1 .GT. 0 .AND. bf - bi + 1 .GT. 0) &
@@ -519,14 +519,14 @@ CONTAINS
                                        a_index=a_index, b_index=b_index, &
                                        a_norms=this%a_norms, b_norms=this%b_norms)
          RETURN
-      ENDIF
+      END IF
 
       M = mf - mi + 1
       N = nf - ni + 1
       K = kf - ki + 1
       IF (dbg) THEN
          WRITE (*, *) 'm,k,n', M, K, N
-      ENDIF
+      END IF
       IF (M >= MAX(N, K)) cut = 1
       IF (K >= MAX(N, M)) cut = 2
       IF (N >= MAX(M, K)) cut = 3
@@ -544,12 +544,12 @@ CONTAINS
          IF (dbg) THEN
             WRITE (*, *) N, s1, ni + s1 - 1, "/", ai, af, acut
             WRITE (*, '(3(I7))') a_index
-         ENDIF
+         END IF
          bcut = find_cut_row(bi, bf, b_index, ki + s1 - 1)
          IF (dbg) THEN
             WRITE (*, *) N, s1, ni + s1 - 1, "/", bi, bf, bcut
             WRITE (*, '(3(I7))') b_index
-         ENDIF
+         END IF
          CALL sparse_multrec(this, left, right, mi, mf, ni, nf, ki, ki + s1 - 1, &
                              ai, acut - 1, a_index, bi, bcut - 1, b_index, d + 1)
          CALL sparse_multrec(this, left, right, mi, mf, ni, nf, ki + s1, kf, &
@@ -560,7 +560,7 @@ CONTAINS
          IF (dbg) THEN
             WRITE (*, *) N, s1, ni + s1 - 1, "/", bi, bf, bcut
             WRITE (*, '(3(I7))') b_index
-         ENDIF
+         END IF
          CALL sparse_multrec(this, left, right, mi, mf, ni, ni + s1 - 1, ki, kf, &
                              ai, af, a_index, bi, bcut - 1, b_index, d + 1)
          CALL sparse_multrec(this, left, right, mi, mf, ni + s1, nf, ki, kf, &
@@ -583,13 +583,13 @@ CONTAINS
       IF (a(1, ilow) > val) THEN
          res = ilow
          RETURN
-      ENDIF
+      END IF
 
       ihigh = af
       IF (a(1, ihigh) <= val) THEN
          res = ihigh + 1
          RETURN
-      ENDIF
+      END IF
 
       DO
          IF (ihigh - ilow == 1) EXIT
@@ -598,8 +598,8 @@ CONTAINS
             ihigh = i
          ELSE
             ilow = i
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       res = ihigh
 
       ! the linear search version
@@ -624,13 +624,13 @@ CONTAINS
       IF (a(2, ilow) > val) THEN
          res = ilow
          RETURN
-      ENDIF
+      END IF
 
       ihigh = af
       IF (a(2, ihigh) <= val) THEN
          res = ihigh + 1
          RETURN
-      ENDIF
+      END IF
 
       DO
          IF (ihigh - ilow == 1) EXIT
@@ -639,8 +639,8 @@ CONTAINS
             ihigh = i
          ELSE
             ilow = i
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       res = ihigh
 
       ! the linear search version
@@ -681,64 +681,64 @@ CONTAINS
       END DO
    END SUBROUTINE local_filter_sp
 
-#:include '../data/dbcsr.fypp'
-#:for n, nametype1, base1, prec1, kind1, type1, dkind1, normname1 in inst_params_float
+   #:include '../data/dbcsr.fypp'
+   #:for n, nametype1, base1, prec1, kind1, type1, dkind1, normname1 in inst_params_float
 
-   SUBROUTINE multrec_filtering_${nametype1}$ (filter_eps, nblks, rowi, coli, blkp, &
-                                               rbs, cbs, nze, DATA)
+      SUBROUTINE multrec_filtering_${nametype1}$ (filter_eps, nblks, rowi, coli, blkp, &
+                                                  rbs, cbs, nze, DATA)
      !! Applying in-place filtering on the workspace.
      !! \brief Use Frobenius norm
 
-      REAL(kind=real_8), INTENT(IN)              :: filter_eps
-      INTEGER, INTENT(INOUT)                     :: nblks, nze
-      INTEGER, DIMENSION(1:nblks), INTENT(INOUT) :: rowi, coli, blkp
-      INTEGER, DIMENSION(:), INTENT(IN)          :: rbs, cbs
-      ${type1}$, DIMENSION(:), &
-         INTENT(INOUT)                            :: DATA
+         REAL(kind=real_8), INTENT(IN)              :: filter_eps
+         INTEGER, INTENT(INOUT)                     :: nblks, nze
+         INTEGER, DIMENSION(1:nblks), INTENT(INOUT) :: rowi, coli, blkp
+         INTEGER, DIMENSION(:), INTENT(IN)          :: rbs, cbs
+         ${type1}$, DIMENSION(:), &
+            INTENT(INOUT)                            :: DATA
 
-      INTEGER                                    :: blk, lastblk, blk_nze, blk_p
-      REAL(kind=real_8)                          :: nrm
+         INTEGER                                    :: blk, lastblk, blk_nze, blk_p
+         REAL(kind=real_8)                          :: nrm
 
-      REAL(KIND=real_8), EXTERNAL                :: DZNRM2, DDOT
+         REAL(KIND=real_8), EXTERNAL                :: DZNRM2, DDOT
 #if defined (__ACCELERATE)
-      REAL(KIND=real_8), EXTERNAL                :: SCNRM2, SDOT
+         REAL(KIND=real_8), EXTERNAL                :: SCNRM2, SDOT
 #else
-      REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
+         REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
 #endif
 
-      REAL(kind=real_8)                          :: filter_eps_opt
+         REAL(kind=real_8)                          :: filter_eps_opt
 
-#:if nametype1 in ['d', 's']
-      ! Avoid square root
-      filter_eps_opt = filter_eps**2
-#:else
-      filter_eps_opt = filter_eps
-#:endif
+         #:if nametype1 in ['d', 's']
+            ! Avoid square root
+            filter_eps_opt = filter_eps**2
+         #:else
+            filter_eps_opt = filter_eps
+         #:endif
 
-      lastblk = 0
-      nze = 0
-      !
-      DO blk = 1, nblks
-         blk_p = blkp(blk)
-         IF (blk_p .EQ. 0) CYCLE
-         blk_nze = rbs(rowi(blk))*cbs(coli(blk))
-         IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
-         nrm = REAL(${normname1}$ (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
-         IF (nrm .GE. filter_eps_opt) THEN
-            ! Keep block
-            lastblk = lastblk + 1
-            IF (lastblk .LT. blk) THEN
-               rowi(lastblk) = rowi(blk)
-               coli(lastblk) = coli(blk)
-               blkp(lastblk) = blkp(blk)
-            ENDIF
-            nze = nze + blk_nze
-         ENDIF
-      ENDDO
-      !
-      nblks = lastblk
+         lastblk = 0
+         nze = 0
+         !
+         DO blk = 1, nblks
+            blk_p = blkp(blk)
+            IF (blk_p .EQ. 0) CYCLE
+            blk_nze = rbs(rowi(blk))*cbs(coli(blk))
+            IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
+            nrm = REAL(${normname1}$ (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+            IF (nrm .GE. filter_eps_opt) THEN
+               ! Keep block
+               lastblk = lastblk + 1
+               IF (lastblk .LT. blk) THEN
+                  rowi(lastblk) = rowi(blk)
+                  coli(lastblk) = coli(blk)
+                  blkp(lastblk) = blkp(blk)
+               END IF
+               nze = nze + blk_nze
+            END IF
+         END DO
+         !
+         nblks = lastblk
 
-   END SUBROUTINE multrec_filtering_${nametype1}$
-#:endfor
+      END SUBROUTINE multrec_filtering_${nametype1}$
+   #:endfor
 
 END MODULE dbcsr_mm_multrec

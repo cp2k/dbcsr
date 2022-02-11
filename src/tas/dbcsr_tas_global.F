@@ -273,8 +273,8 @@ CONTAINS
          IF (cond) THEN
             count = count + 1
             rowcols_tmp(count) = rowcol
-         ENDIF
-      ENDDO
+         END IF
+      END DO
 
       ALLOCATE (repl_rowcols(count))
       repl_rowcols(:) = rowcols_tmp(1:count) + igroup*t%nmrowcol_local
@@ -296,8 +296,8 @@ CONTAINS
          IF (t%dist_vec(rowcol) == dist) THEN
             count = count + 1
             rowcols_tmp(count) = rowcol
-         ENDIF
-      ENDDO
+         END IF
+      END DO
 
       ALLOCATE (arb_rowcols(count))
       arb_rowcols(:) = rowcols_tmp(1:count)
@@ -340,7 +340,7 @@ CONTAINS
 
       DO ind = 1, nmrowcol
          bsize_vec(ind) = block_sizes%data(ind)
-      ENDDO
+      END DO
 
       CALL dbcsr_tas_default_distvec(INT(nmrowcol), nprowcol, bsize_vec, dist_vec)
       dbcsr_tas_dist_arb_default = dbcsr_tas_dist_arb(dist_vec, nprowcol, nmrowcol)
@@ -389,7 +389,7 @@ CONTAINS
 
       DO i = 1, n_idle
          CALL dlarnv(1, iseed, 1, rand)
-      ENDDO
+      END DO
 
       occup(:) = 0
       weights_s = weights
@@ -412,7 +412,7 @@ CONTAINS
 
          dist(sort_index(iel)) = ibin - 1
          occup(ibin) = occup(ibin) + weights_s(iel)
-      ENDDO
+      END DO
 
    END SUBROUTINE
 
@@ -461,9 +461,9 @@ CONTAINS
             ELSE
                count = count + 1
                rowcols_tmp(count) = rowcol
-            ENDIF
-         ENDDO
-      ENDDO loop
+            END IF
+         END DO
+      END DO loop
 
       ALLOCATE (cyclic_rowcols(count))
       cyclic_rowcols(:) = rowcols_tmp(1:count)

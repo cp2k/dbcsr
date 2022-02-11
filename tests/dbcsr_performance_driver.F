@@ -64,16 +64,16 @@ PROGRAM dbcsr_performance_driver
       IF (MOD(numnodes, npdims(2)) .NE. 0) THEN
          CALL dbcsr_abort(__LOCATION__, &
                           "numnodes is not multiple of npcols")
-      ENDIF
+      END IF
       npdims(1) = numnodes/npdims(2)
-   ENDIF
+   END IF
    CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
    ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
    DO prow = 0, npdims(1) - 1
       DO pcol = 0, npdims(2) - 1
          CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
-      ENDDO
-   ENDDO
+      END DO
+   END DO
    CALL dbcsr_mp_new(mp_env, group, pgrid, mynode, numnodes, &
                      myprow=myploc(1), mypcol=myploc(2))
    DEALLOCATE (pgrid)
@@ -136,7 +136,7 @@ CONTAINS
       IF (m_iargc() .GT. 0) THEN
          CALL m_getarg(1, line)
          CALL open_file(TRIM(line), unit_number=unit)
-      ENDIF
+      END IF
 
       narg = 0
       DO
@@ -145,7 +145,7 @@ CONTAINS
          IF (line(1:1) .EQ. '#') CYCLE
          narg = narg + 1
          args(narg) = line
-      ENDDO
+      END DO
 
    END SUBROUTINE dbcsr_test_read_args
 

@@ -95,7 +95,7 @@ CONTAINS
          CALL dbcsr_mp_new(mp_env, group, pgrid)
       ELSE
          DBCSR_ABORT("dbcsr_distribution_new: neither template nor group supplied")
-      ENDIF
+      END IF
 
       CALL dbcsr_distribution_new_low(dist, mp_env, &
                                       row_dist_block=row_dist, &
@@ -132,7 +132,7 @@ CONTAINS
                                      cont_local_rows, cont_local_cols)
       ELSE
          CALL dbcsr_distribution_new(dist, mp_env, cont_row_dist, cont_col_dist)
-      ENDIF
+      END IF
 
    END SUBROUTINE dbcsr_distribution_new_obj
 
@@ -192,10 +192,10 @@ CONTAINS
             IF (row_dist_block(i) .EQ. mypcoor) THEN
                row_dist_tmp(seq) = i
                seq = seq + 1
-            ENDIF
-         ENDDO
+            END IF
+         END DO
          CALL array_new(dist%d%local_rows, row_dist_tmp, gift=.TRUE.)
-      ENDIF
+      END IF
       IF (PRESENT(local_cols)) THEN
          CALL array_new(dist%d%local_cols, local_cols, gift=reuse_arrays)
       ELSE
@@ -207,10 +207,10 @@ CONTAINS
             IF (col_dist_block(i) .EQ. mypcoor) THEN
                col_dist_tmp(seq) = i
                seq = seq + 1
-            ENDIF
-         ENDDO
+            END IF
+         END DO
          CALL array_new(dist%d%local_cols, col_dist_tmp, gift=.TRUE.)
-      ENDIF
+      END IF
 
       dist%d%num_threads = 1
 !$    dist%d%num_threads = OMP_GET_MAX_THREADS()
@@ -381,12 +381,12 @@ CONTAINS
          r = dist%d%row_map%low%data(row)
       ELSE
          r = row
-      ENDIF
+      END IF
       IF (ASSOCIATED(dist%d%col_map%low)) THEN ! instead of array_exists
          c = dist%d%col_map%low%data(col)
       ELSE
          c = col
-      ENDIF
+      END IF
       processor = dist%d%mp_env%mp%pgrid(dist%d%row_dist_block%low%data(r), &
                                          dist%d%col_dist_block%low%data(c))
    END FUNCTION dbcsr_distribution_processor
@@ -437,18 +437,18 @@ CONTAINS
       IF (dbcsr_cfg%num_mult_images .GT. 1) THEN
          num_images_1d = num_images_1d*dbcsr_cfg%num_mult_images
          RETURN
-      ENDIF
+      END IF
       IF (matrix_dense_size_1d .EQ. 0) RETURN
       !
       IF (dbcsr_cfg%avg_elements_images .GT. 0) THEN
          num_images_1d = num_images_1d* &
                          CEILING((REAL(matrix_dense_size_1d, KIND=dp)/num_images_1d)/ &
                                  SQRT(REAL(dbcsr_cfg%avg_elements_images, KIND=dp)))
-      ENDIF
+      END IF
       ! limiting # clusters to be close to # atoms
       IF (num_images_1d .GT. nblocks .AND. nblocks .GT. 0) THEN
          num_images_1d = CEILING(REAL(nblocks, KIND=dp)/lcmv)*lcmv
-      ENDIF
+      END IF
    END FUNCTION dbcsr_distribution_get_num_images_1d
 
    SUBROUTINE dbcsr_distribution_make_threads(dist, row_sizes)
@@ -473,7 +473,7 @@ CONTAINS
 !$    ELSE
          CALL make_threads(dist_p, row_sizes=row_sizes)
 !$OMP        BARRIER
-!$    ENDIF
+!$    END IF
    END SUBROUTINE dbcsr_distribution_make_threads
 
    SUBROUTINE make_threads(dist, row_sizes)
@@ -598,10 +598,10 @@ CONTAINS
                   CALL RANDOM_NUMBER(rn)
                   ! Makes sure the numbers are in the proper integer range.
                   td(t) = MOD(INT(rn*REAL(nthreads)), nthreads)
-               ENDIF
+               END IF
             END DO
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 !$OMP     END MASTER
    END SUBROUTINE make_threads
 

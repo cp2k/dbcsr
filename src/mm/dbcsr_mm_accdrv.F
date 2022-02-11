@@ -277,7 +277,7 @@ CONTAINS
       IF (ASSOCIATED(thread_privates%stack_buffers)) THEN
          IF (SIZE(thread_privates%stack_buffers) /= my_thread_buffers) &
             CALL deallocate_stackbuffers()
-      ENDIF
+      END IF
 
       IF (.NOT. ASSOCIATED(thread_privates%stack_buffers)) THEN
          ALLOCATE (thread_privates%stack_buffers(my_thread_buffers))
@@ -321,7 +321,7 @@ CONTAINS
       IF (this%c_area_copy) THEN
          CALL dbcsr_data_dev2host(this%c_buffer)
          this%c_area_copy = .FALSE.
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_mm_accdrv_dev2host_init
 
    SUBROUTINE dbcsr_mm_accdrv_finalize(this)
@@ -334,7 +334,7 @@ CONTAINS
 
       IF (this%c_area_copy) THEN
          CALL dbcsr_data_dev2host(this%c_buffer)
-      ENDIF
+      END IF
       CALL acc_stream_synchronize(this%c_buffer%d%memory_type%acc_stream)
 
       c_area = this%product_wm%data_area
@@ -391,7 +391,7 @@ CONTAINS
             params_out(1:3, top:top + bin_top(bin_id) - 2) = bin_arr(1:3, 1:bin_top(bin_id) - 1, bin_id)
             top = top + bin_top(bin_id) - 1
             bin_top(bin_id) = 1
-         ENDIF
+         END IF
          bin_arr(1:3, bin_top(bin_id), bin_id) = val(1:3)
          bin_top(bin_id) = bin_top(bin_id) + 1
       END DO
@@ -399,7 +399,7 @@ CONTAINS
          IF (bin_top(i) > 1) THEN
             params_out(1:3, top:top + bin_top(i) - 2) = bin_arr(1:3, 1:bin_top(i) - 1, i)
             top = top + bin_top(i) - 1
-         ENDIF
+         END IF
       END DO
 
    END SUBROUTINE stack_binning
@@ -444,9 +444,9 @@ CONTAINS
             IF (acc_event_query(stack_buffers(i)%calculated)) THEN
                stackbuf => stack_buffers(i)
                EXIT
-            ENDIF
-         ENDDO
-      ENDDO
+            END IF
+         END DO
+      END DO
 
       CALL timeset(routineN, error_handle)
       stacked_datasize = this%product_wm%datasize
@@ -510,7 +510,7 @@ CONTAINS
 
       IF (success) THEN
          CALL acc_event_record(stackbuf%calculated, stream=stackbuf%stream)
-      ENDIF
+      END IF
 
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_mm_accdrv_process

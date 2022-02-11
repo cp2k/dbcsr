@@ -423,7 +423,7 @@ CONTAINS
          unit = output_unit
       ELSE
          unit = default_output_unit
-      ENDIF
+      END IF
 
       nc = SIZE(preconnected)
 

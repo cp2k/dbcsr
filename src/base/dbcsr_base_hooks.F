@@ -68,7 +68,7 @@ CONTAINS
          WRITE (default_output_unit, *) "ABORT in "//TRIM(location)//" "//TRIM(message)
          CALL m_flush(default_output_unit)
          CALL m_abort()
-      ENDIF
+      END IF
       ! compiler hint
       STOP "Never return from here"
    END SUBROUTINE dbcsr_abort
@@ -82,7 +82,7 @@ CONTAINS
       ELSE
          WRITE (default_output_unit, *) "WARNING in "//TRIM(location)//" "//TRIM(message)
          CALL m_flush(default_output_unit)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_warn
 
    SUBROUTINE timeset(routineN, handle)
@@ -94,7 +94,7 @@ CONTAINS
          CALL timeset_hook(routineN, handle)
       ELSE
          handle = -1
-      ENDIF
+      END IF
    END SUBROUTINE timeset
 
    SUBROUTINE timestop(handle)
@@ -106,7 +106,7 @@ CONTAINS
       ELSE
          IF (handle /= -1) &
             CALL dbcsr_abort(dbcsr__l("base_hooks.F", __LINE__), "Got wrong handle")
-      ENDIF
+      END IF
    END SUBROUTINE timestop
 
    SUBROUTINE dbcsr__a(filename, lineNr)

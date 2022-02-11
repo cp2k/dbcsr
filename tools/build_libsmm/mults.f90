@@ -14,11 +14,11 @@ CONTAINS
       IF (PRESENT(in_intent_label)) THEN
          IF (in_intent_label /= "") THEN
             options = ", INTENT("//TRIM(in_intent_label)//")"
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (write_target) THEN
          options = TRIM(options)//", TARGET"
-      ENDIF
+      END IF
       SELECT CASE (data_type)
       CASE (1)
          trdat = "REAL(KIND=KIND(0.0D0))"//TRIM(options)
@@ -79,7 +79,7 @@ CONTAINS
          trparam = "A,B,C,"//TRIM(stack_size_label)//",dbcsr_ps_width,params,p_a_first,p_b_first,p_c_first"
       ELSE
          trparam = "A,B,C"
-      ENDIF
+      END IF
    END FUNCTION trparam
 
    SUBROUTINE write_stack_params(data_type, stack_size_label)
@@ -90,7 +90,7 @@ CONTAINS
          write (6, '(A)') "        INTEGER, INTENT(IN) :: "//TRIM(stack_size_label)//", dbcsr_ps_width"
          write (6, '(A)') "        INTEGER, INTENT(IN) :: params(dbcsr_ps_width, "//TRIM(stack_size_label)//")"
          write (6, '(A)') "        INTEGER, INTENT(IN) :: p_a_first, p_b_first, p_c_first"
-      ENDIF
+      END IF
    END SUBROUTINE write_stack_params
 
    SUBROUTINE write_matrix_defs(M, N, K, transpose_flavor, data_type, write_intent, &
@@ -120,16 +120,16 @@ CONTAINS
                do_padding = .FALSE.
                IF (PRESENT(padding)) THEN
                   IF (padding) do_padding = .TRUE.
-               ENDIF
+               END IF
                IF (do_padding) THEN
                   write (6, '(A)') &
                      "      "//trdat(data_type, write_target)//" :: C(M*N+8)"
                ELSE
                   write (6, '(A,I0,A,I0,A)') &
                      "      "//trdat(data_type, write_target)//" :: C(", M, ",", N, ")"
-               ENDIF
+               END IF
                intent_label = ""
-            ENDIF
+            END IF
             SELECT CASE (transpose_flavor)
             CASE (1)
                write (6, '(A,I0,A,I0,A,I0,A,I0,A)') &
@@ -144,7 +144,7 @@ CONTAINS
                write (6, '(A,I0,A,I0,A,I0,A,I0,A)') &
                   "      "//trdat(data_type, write_target, intent_label)//" :: B(", N, ",", K, "), A(", K, ",", M, ")"
             END SELECT
-         ENDIF
+         END IF
       ELSE
          IF (write_intent) THEN
             write (6, '(A)') "      "//trdat(data_type, write_target, "INOUT")//" :: C(*)"
@@ -152,8 +152,8 @@ CONTAINS
          ELSE
             write (6, '(A)') "      "//trdat(data_type, write_target)//" :: C(*)"
             write (6, '(A)') "      "//trdat(data_type, write_target)//" :: B(*), A(*)"
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE write_matrix_defs
 
    SUBROUTINE smm_inner(mi, mf, ni, nf, ki, kf, iloop, mu, nu, ku, transpose_flavor, data_type)
@@ -189,12 +189,12 @@ CONTAINS
             write (6, '(A,I0,A,I0,A,I0,A,I0,A,I0,A,I0,A,I0,A,I0,A,I0,A)') &
                "        C(i+", im, ",j+", in, ")=C(i+", im, ",j+", in, ")+A(l+", ik, ",i+", im, ")*B(j+", in, ",l+", ik, ")"
          END SELECT
-      ENDDO
-      ENDDO
-      ENDDO
+      END DO
+      END DO
+      END DO
       DO ido = 1, have_loops
          write (6, '(A)') "     ENDDO "
-      ENDDO
+      END DO
    END SUBROUTINE smm_inner
 
    SUBROUTINE out_loop(mi, mf, ni, nf, ki, kf, mu, nu, ku, ichoice, have_loops)
@@ -205,24 +205,24 @@ CONTAINS
             have_loops = have_loops + 1
          ELSE
             write (6, '(A,I0)') "     j=", ni
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (ichoice == 2) THEN
          IF (mf - mi + 1 > mu) THEN
             write (6, '(A,I0,A,I0,A,I0)') "     DO i=", mi, ",", mf, ",", mu
             have_loops = have_loops + 1
          ELSE
             write (6, '(A,I0)') "     i=", mi
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (ichoice == 3) THEN
          IF (kf - ki + 1 > ku) THEN
             write (6, '(A,I0,A,I0,A,I0)') "     DO l=", ki, ",", kf, ",", ku
             have_loops = have_loops + 1
          ELSE
             write (6, '(A,I0)') "     l=", ki
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE
 
 END MODULE mults
