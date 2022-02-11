@@ -115,7 +115,7 @@ CONTAINS
          ! Update ext_io_unit
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
-      ENDIF
+      END IF
       CALL dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       !
       ! Declare loggers
@@ -151,7 +151,7 @@ CONTAINS
          ! Update ext_io_unit
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
-      ENDIF
+      END IF
       CALL dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       ! abort/warn hooks
       dbcsr_abort_hook => in_abort_hook
@@ -190,13 +190,13 @@ CONTAINS
       ELSE
          ext_io_unit = 0
          IF (mynode .EQ. 0) ext_io_unit = default_output_unit
-      ENDIF
+      END IF
 
       ! if MPI was not initialized in DBCSR, then need to check for the number of communicators
       ! when we finalize DBCSR
       IF (mp_get_comm_count() .EQ. 0) THEN
          check_comm_count = .TRUE.
-      ENDIF
+      END IF
       CALL dbcsr_mp_make_env(mp_env, default_group, mp_comm)
 
 #if defined(__LIBXSMM)
@@ -212,9 +212,9 @@ CONTAINS
             ELSE
                ! Use round-robin assignment per rank
                CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
-            ENDIF
-         ENDIF
-      ENDIF
+            END IF
+         END IF
+      END IF
 
 #if defined(__DBCSR_ACC)
       CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
@@ -231,8 +231,8 @@ CONTAINS
          ELSE
             CALL dbcsr_abort(__LOCATION__, &
                              "DBCSR compiled w/o threading support while libsmm_acc is compiled w/ threading support.")
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 #endif
    END SUBROUTINE dbcsr_init_lib_pre
 
@@ -257,7 +257,7 @@ CONTAINS
 
       IF (.NOT. has_mp_perf_env()) THEN
          CALL add_mp_perf_env()
-      ENDIF
+      END IF
 
 !$OMP     PARALLEL DEFAULT(NONE)
       CALL dbcsr_multiply_lib_init()
@@ -294,7 +294,7 @@ CONTAINS
          CALL rm_mp_perf_env()
          CALL rm_timer_env()
          NULLIFY (logger)
-      ENDIF
+      END IF
       NULLIFY (timeset_hook)
       NULLIFY (timestop_hook)
       NULLIFY (dbcsr_abort_hook)
@@ -311,7 +311,7 @@ CONTAINS
       ! Check the number of communicators
       IF (check_comm_count .AND. mp_get_comm_count() .NE. 0) THEN
          DBCSR_ABORT("Number of DBCSR sub-communicators is not zero!")
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_finalize_lib
 
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
@@ -344,14 +344,14 @@ CONTAINS
       ! Dump callgraph
       IF (PRESENT(callgraph_filename) .AND. ASSOCIATED(logger)) THEN
          CALL timings_report_callgraph(callgraph_filename)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_print_statistics
 
    SUBROUTINE dbcsr_print_timers()
       !! Print timers
       IF (ASSOCIATED(logger)) THEN
          CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_print_timers
 
    SUBROUTINE dbcsr_clear_mempools()

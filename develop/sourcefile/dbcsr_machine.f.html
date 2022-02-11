@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@
 <a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">            </span><span class="k">CALL </span><span class="nb">SYSTEM_CLOCK</span><span class="p">(</span><span class="n">count_rate</span><span class="o">=</span><span class="n">count_rate</span><span class="p">,</span><span class="w"> </span><span class="n">count_max</span><span class="o">=</span><span class="n">count_max</span><span class="p">)</span><span class="w"></span>
 <a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">            </span><span class="n">cycles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <a id="ln-80" name="ln-80" href="#ln-80"></a><span class="w">            </span><span class="n">last_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">         </span><span class="k">ENDIF</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">         </span><span class="k">END IF</span>
 <a id="ln-82" name="ln-82" href="#ln-82"></a>
 <a id="ln-83" name="ln-83" href="#ln-83"></a><span class="k">         CALL </span><span class="nb">SYSTEM_CLOCK</span><span class="p">(</span><span class="nb">count</span><span class="o">=</span><span class="nb">count</span><span class="p">)</span><span class="w"></span>
 <a id="ln-84" name="ln-84" href="#ln-84"></a>
@@ -243,8 +243,8 @@
 <a id="ln-92" name="ln-92" href="#ln-92"></a><span class="k">               </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_count</span><span class="w"></span>
 <a id="ln-93" name="ln-93" href="#ln-93"></a><span class="w">            </span><span class="k">ELSE</span>
 <a id="ln-94" name="ln-94" href="#ln-94"></a><span class="k">               </span><span class="n">cycles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cycles</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<a id="ln-95" name="ln-95" href="#ln-95"></a><span class="w">            </span><span class="k">ENDIF</span>
-<a id="ln-96" name="ln-96" href="#ln-96"></a><span class="k">         ENDIF</span><span class="w"></span>
+<a id="ln-95" name="ln-95" href="#ln-95"></a><span class="w">            </span><span class="k">END IF</span>
+<a id="ln-96" name="ln-96" href="#ln-96"></a><span class="k">         END IF</span><span class="w"></span>
 <a id="ln-97" name="ln-97" href="#ln-97"></a>
 <a id="ln-98" name="ln-98" href="#ln-98"></a><span class="w">         </span><span class="c">! keep track of our history</span>
 <a id="ln-99" name="ln-99" href="#ln-99"></a><span class="w">         </span><span class="n">last_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span>
@@ -253,7 +253,7 @@
 <a id="ln-102" name="ln-102" href="#ln-102"></a><span class="w">              </span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">count_rate</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"></span>
 <a id="ln-103" name="ln-103" href="#ln-103"></a><span class="c">!$    ELSE</span>
 <a id="ln-104" name="ln-104" href="#ln-104"></a><span class="c">!$       wt = OMP_GET_WTIME()</span>
-<a id="ln-105" name="ln-105" href="#ln-105"></a><span class="c">!$    ENDIF</span>
+<a id="ln-105" name="ln-105" href="#ln-105"></a><span class="c">!$    END IF</span>
 <a id="ln-106" name="ln-106" href="#ln-106"></a><span class="cp">#endif</span>
 <a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">   </span><span class="k">END FUNCTION </span><span class="n">m_walltime</span><span class="w"></span>
 <a id="ln-108" name="ln-108" href="#ln-108"></a>
@@ -274,7 +274,7 @@
 <a id="ln-123" name="ln-123" href="#ln-123"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-124" name="ln-124" href="#ln-124"></a><span class="k">         DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">bufferlen</span><span class="w"></span>
 <a id="ln-125" name="ln-125" href="#ln-125"></a><span class="w">            </span><span class="k">READ</span><span class="w"> </span><span class="p">(</span><span class="mi">121245</span><span class="p">,</span><span class="w"> </span><span class="k">END</span><span class="o">=</span><span class="mi">999</span><span class="p">)</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">I</span><span class="p">:</span><span class="n">I</span><span class="p">)</span><span class="w"></span>
-<a id="ln-126" name="ln-126" href="#ln-126"></a><span class="w">         </span><span class="k">ENDDO</span>
+<a id="ln-126" name="ln-126" href="#ln-126"></a><span class="w">         </span><span class="k">END DO</span>
 <a id="ln-127" name="ln-127" href="#ln-127"></a><span class="mi">999</span><span class="w">      </span><span class="k">CLOSE</span><span class="w"> </span><span class="p">(</span><span class="mi">121245</span><span class="p">)</span><span class="w"></span>
 <a id="ln-128" name="ln-128" href="#ln-128"></a><span class="w">         </span><span class="n">imod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;model name&quot;</span><span class="p">)</span><span class="w"></span>
 <a id="ln-129" name="ln-129" href="#ln-129"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">imod</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
@@ -282,8 +282,8 @@
 <a id="ln-131" name="ln-131" href="#ln-131"></a><span class="w">            </span><span class="n">iline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">icol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">(</span><span class="n">icol</span><span class="p">:),</span><span class="w"> </span><span class="nb">NEW_LINE</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">))</span><span class="w"></span>
 <a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iline</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">icol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">iline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bufferlen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <a id="ln-133" name="ln-133" href="#ln-133"></a><span class="w">            </span><span class="n">model_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">icol</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">iline</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<a id="ln-134" name="ln-134" href="#ln-134"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-135" name="ln-135" href="#ln-135"></a><span class="k">      ENDIF</span>
+<a id="ln-134" name="ln-134" href="#ln-134"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-135" name="ln-135" href="#ln-135"></a><span class="k">      END IF</span>
 <a id="ln-136" name="ln-136" href="#ln-136"></a><span class="k">   END SUBROUTINE </span><span class="n">m_cpuinfo</span><span class="w"></span>
 <a id="ln-137" name="ln-137" href="#ln-137"></a>
 <a id="ln-138" name="ln-138" href="#ln-138"></a><span class="w">   </span><span class="k">FUNCTION </span><span class="n">m_energy</span><span class="p">()</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">wt</span><span class="p">)</span><span class="w"></span>
@@ -316,7 +316,7 @@
 <a id="ln-165" name="ln-165" href="#ln-165"></a><span class="w">      </span><span class="k">OPEN</span><span class="w"> </span><span class="p">(</span><span class="mi">121245</span><span class="p">,</span><span class="w"> </span><span class="k">FILE</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">ACTION</span><span class="o">=</span><span class="s2">&quot;READ&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">STATUS</span><span class="o">=</span><span class="s2">&quot;OLD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">ACCESS</span><span class="o">=</span><span class="s2">&quot;STREAM&quot;</span><span class="p">)</span><span class="w"></span>
 <a id="ln-166" name="ln-166" href="#ln-166"></a><span class="w">      </span><span class="k">DO </span><span class="n">I</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="w"></span>
 <a id="ln-167" name="ln-167" href="#ln-167"></a><span class="w">         </span><span class="k">READ</span><span class="w"> </span><span class="p">(</span><span class="mi">121245</span><span class="p">,</span><span class="w"> </span><span class="k">END</span><span class="o">=</span><span class="mi">999</span><span class="p">)</span><span class="w"> </span><span class="k">DATA</span><span class="p">(</span><span class="n">I</span><span class="p">:</span><span class="n">I</span><span class="p">)</span><span class="w"></span>
-<a id="ln-168" name="ln-168" href="#ln-168"></a><span class="w">      </span><span class="k">ENDDO</span>
+<a id="ln-168" name="ln-168" href="#ln-168"></a><span class="w">      </span><span class="k">END DO</span>
 <a id="ln-169" name="ln-169" href="#ln-169"></a><span class="mi">999</span><span class="w">   </span><span class="k">CLOSE</span><span class="w"> </span><span class="p">(</span><span class="mi">121245</span><span class="p">)</span><span class="w"></span>
 <a id="ln-170" name="ln-170" href="#ln-170"></a><span class="w">      </span><span class="k">DATA</span><span class="p">(</span><span class="n">I</span><span class="p">:</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"></span>
 <a id="ln-171" name="ln-171" href="#ln-171"></a><span class="w">      </span><span class="k">READ</span><span class="w"> </span><span class="p">(</span><span class="k">DATA</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="n">raw</span><span class="w"></span>
@@ -325,7 +325,7 @@
 <a id="ln-174" name="ln-174" href="#ln-174"></a><span class="w">      </span><span class="k">ELSE</span><span class="w"></span>
 <a id="ln-175" name="ln-175" href="#ln-175"></a><span class="w">         </span><span class="c">! convert from J to kJ</span>
 <a id="ln-176" name="ln-176" href="#ln-176"></a><span class="w">         </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raw</span><span class="o">/</span><span class="mi">100</span><span class="mf">0.0_dp</span><span class="w"></span>
-<a id="ln-177" name="ln-177" href="#ln-177"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-177" name="ln-177" href="#ln-177"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-178" name="ln-178" href="#ln-178"></a><span class="k">   END FUNCTION </span><span class="n">read_energy</span><span class="w"></span>
 <a id="ln-179" name="ln-179" href="#ln-179"></a><span class="cp">#endif</span>
 <a id="ln-180" name="ln-180" href="#ln-180"></a>

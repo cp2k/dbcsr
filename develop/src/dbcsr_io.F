@@ -149,7 +149,7 @@ CONTAINS
          ELSE
             ebr = matrix%nblkrows_total
             sblk = 1
-         ENDIF
+         END IF
          DO ibr = 1, ebr
             IF (matrix%list_indexing) THEN
                fblk = 1
@@ -159,7 +159,7 @@ CONTAINS
                fblk = matrix%row_p(br) + 1
                lblk = matrix%row_p(br + 1)
                m = row_blk_size(br)
-            ENDIF
+            END IF
             DO blk = fblk, lblk, sblk
                IF (matrix%list_indexing) THEN
                   br = matrix%coo_l(blk)
@@ -169,13 +169,13 @@ CONTAINS
                      local_cols => array_data(matrix%local_cols)
                      br = local_rows(br)
                      bc = local_cols(bc)
-                  ENDIF
+                  END IF
                   m = row_blk_size(br)
                   ablk_p = matrix%coo_l(blk + 2)
                ELSE
                   bc = matrix%col_i(blk)
                   ablk_p = matrix%blk_p(blk)
-               ENDIF
+               END IF
                n = col_blk_size(bc)
                mn = m*n
                blk_p = ABS(ablk_p)
@@ -206,7 +206,7 @@ CONTAINS
                      END SELECT
                   ELSE
                      blk_cs = 0.0_dp
-                  ENDIF
+                  END IF
                   !WRITE(iunit,*)routineP//' chksum for (',br,',',bc,') at',&
                   !     blk_p,'l',mn,'= ', blk_cs,'size',m,n
                   IF (.NOT. my_matlab_format) WRITE (iunit, '(A,I6,",",I6,A,I7,A,I6,I6,"=",I7,A,E12.3)') &
@@ -224,7 +224,7 @@ CONTAINS
                                                            variable_name=variable_name)
                            ELSE
                               CALL dbcsr_printmat(r_dp(blk_p:blk_p + mn - 1), m, n, iunit=iunit, tr=tr)
-                           ENDIF
+                           END IF
                         CASE (dbcsr_type_real_4)
                            IF (my_matlab_format) THEN
                               CALL dbcsr_printmat_matlab_s(r_sp(blk_p:blk_p + mn - 1), m, n, &
@@ -232,7 +232,7 @@ CONTAINS
                                                            variable_name=variable_name)
                            ELSE
                               CALL dbcsr_printmat(r_sp(blk_p:blk_p + mn - 1), m, n, iunit=iunit, tr=tr)
-                           ENDIF
+                           END IF
                         CASE (dbcsr_type_complex_8)
                            IF (my_matlab_format) THEN
                               CALL dbcsr_printmat_matlab_z(c_dp(blk_p:blk_p + mn - 1), m, n, &
@@ -240,7 +240,7 @@ CONTAINS
                                                            variable_name=variable_name)
                            ELSE
                               CALL dbcsr_printmat(c_dp(blk_p:blk_p + mn - 1), m, n, iunit=iunit, tr=tr)
-                           ENDIF
+                           END IF
                         CASE (dbcsr_type_complex_4)
                            IF (my_matlab_format) THEN
                               CALL dbcsr_printmat_matlab_c(c_sp(blk_p:blk_p + mn - 1), m, n, &
@@ -248,14 +248,14 @@ CONTAINS
                                                            variable_name=variable_name)
                            ELSE
                               CALL dbcsr_printmat(c_sp(blk_p:blk_p + mn - 1), m, n, iunit=iunit, tr=tr)
-                           ENDIF
+                           END IF
                         END SELECT
-                     ENDIF
-                  ENDIF
-               ENDIF block_exists
-            ENDDO
-         ENDDO
-      ENDIF
+                     END IF
+                  END IF
+               END IF block_exists
+            END DO
+         END DO
+      END IF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_print
 
@@ -287,8 +287,8 @@ CONTAINS
             n = rows
             r_off = c_offset
             c_off = r_offset
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       DO c = 1, cols
       DO r = 1, rows
@@ -299,7 +299,7 @@ CONTAINS
             ELSE
                WRITE (iunit, '(A,I4,A,I4,A,E23.16,A)') 'a(', r + r_offset - 1, ',', &
                   c + c_offset - 1, ')=', matrix(r + (c - 1)*rows), ';'
-            ENDIF
+            END IF
          ELSE
             IF (PRESENT(variable_name)) THEN
                WRITE (iunit, '(A,I4,A,I4,A,E23.16,A)') &
@@ -307,10 +307,10 @@ CONTAINS
             ELSE
                WRITE (iunit, '(A,I4,A,I4,A,E23.16,A)') 'a(', r + r_offset - 1, ',', &
                   c + c_offset - 1, ')=', matrix((r - 1)*cols + c), ';'
-            ENDIF
-         ENDIF
-      ENDDO
-      ENDDO
+            END IF
+         END IF
+      END DO
+      END DO
    END SUBROUTINE dbcsr_printmat_matlab_d
 
    SUBROUTINE dbcsr_printmat_matlab_s(matrix, rows, cols, r_offset, c_offset, iunit, tr, variable_name)
@@ -336,8 +336,8 @@ CONTAINS
             n = rows
             r_off = c_offset
             c_off = r_offset
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       DO c = 1, cols
       DO r = 1, rows
@@ -348,7 +348,7 @@ CONTAINS
             ELSE
                WRITE (iunit, '(A,I4,A,I4,A,E15.7,A)') 'a(', r + r_offset - 1, ',', &
                   c + c_offset - 1, ')=', matrix(r + (c - 1)*rows), ';'
-            ENDIF
+            END IF
          ELSE
             IF (PRESENT(variable_name)) THEN
                WRITE (iunit, '(A,I4,A,I4,A,E15.7,A)') &
@@ -356,10 +356,10 @@ CONTAINS
             ELSE
                WRITE (iunit, '(A,I4,A,I4,A,E15.7,A)') 'a(', r + r_offset - 1, ',', &
                   c + c_offset - 1, ')=', matrix((r - 1)*cols + c), ';'
-            ENDIF
-         ENDIF
-      ENDDO
-      ENDDO
+            END IF
+         END IF
+      END DO
+      END DO
    END SUBROUTINE dbcsr_printmat_matlab_s
 
    SUBROUTINE dbcsr_printmat_matlab_z(matrix, rows, cols, r_offset, c_offset, iunit, tr, variable_name)
@@ -385,8 +385,8 @@ CONTAINS
             n = rows
             r_off = c_offset
             c_off = r_offset
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       DO c = 1, cols
          DO r = 1, rows
@@ -398,7 +398,7 @@ CONTAINS
                ELSE
                   WRITE (iunit, '(A,I3,A,I3,A,E23.16,A,E23.16,A)') 'a(', r + r_offset - 1, ',', c + c_offset - 1, ')=', &
                      REAL(matrix(r + (c - 1)*rows)), '+', AIMAG(matrix(r + (c - 1)*rows)), 'i;'
-               ENDIF
+               END IF
             ELSE
                IF (PRESENT(variable_name)) THEN
                   WRITE (iunit, '(A,I3,A,I3,A,E23.16,A,E23.16,A)') variable_name//'(', r + r_offset - 1, ',', &
@@ -407,10 +407,10 @@ CONTAINS
                ELSE
                   WRITE (iunit, '(A,I3,A,I3,A,E23.16,A,E23.16,A)') 'a(', r + r_offset - 1, ',', c + c_offset - 1, ')=', &
                      REAL(matrix((r - 1)*cols + c)), '+', AIMAG(matrix((r - 1)*cols + c)), 'i;'
-               ENDIF
-            ENDIF
-         ENDDO
-      ENDDO
+               END IF
+            END IF
+         END DO
+      END DO
    END SUBROUTINE dbcsr_printmat_matlab_z
 
    SUBROUTINE dbcsr_printmat_matlab_c(matrix, rows, cols, r_offset, c_offset, iunit, tr, variable_name)
@@ -436,8 +436,8 @@ CONTAINS
             n = rows
             r_off = c_offset
             c_off = r_offset
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       DO c = 1, cols
          DO r = 1, rows
@@ -449,7 +449,7 @@ CONTAINS
                ELSE
                   WRITE (iunit, '(A,I3,A,I3,A,E15.7,A,E15.7,A)') 'a(', r + r_offset - 1, ',', c + c_offset - 1, ')=', &
                      REAL(matrix(r + (c - 1)*rows)), '+', AIMAG(matrix(r + (c - 1)*rows)), 'i;'
-               ENDIF
+               END IF
             ELSE
                IF (PRESENT(variable_name)) THEN
                   WRITE (iunit, '(A,I3,A,I3,A,E15.7,A,E15.7,A)') variable_name//'(', r + r_offset - 1, ',', &
@@ -458,10 +458,10 @@ CONTAINS
                ELSE
                   WRITE (iunit, '(A,I3,A,I3,A,E15.7,A,E15.7,A)') 'a(', r + r_offset - 1, ',', c + c_offset - 1, ')=', &
                      REAL(matrix((r - 1)*cols + c)), '+', AIMAG(matrix((r - 1)*cols + c)), 'i;'
-               ENDIF
-            ENDIF
-         ENDDO
-      ENDDO
+               END IF
+            END IF
+         END DO
+      END DO
    END SUBROUTINE dbcsr_printmat_matlab_c
 
    SUBROUTINE printmat_s(matrix, rows, cols, iunit, title, tr)
@@ -491,15 +491,15 @@ CONTAINS
             t = .TRUE.
             m = cols
             n = rows
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
          bit_bucket = matrix(r)
-      ENDDO
+      END DO
       bit_bucket = 0.0_dp
       DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
          bit_bucket = bit_bucket + matrix(r)
-      ENDDO
+      END DO
       IF (m .GT. 10000) m = 0
       IF (n .GT. 10000) n = 0
       IF (m*n .LT. 1 .OR. m*n .GT. SIZE(matrix)) RETURN
@@ -509,8 +509,8 @@ CONTAINS
             WRITE (iunit, FMT=f) matrix(r:r + (cols - 1)*rows:rows)
          ELSE
             WRITE (iunit, FMT=f) matrix((r - 1)*cols + 1:r*cols)
-         ENDIF
-      ENDDO
+         END IF
+      END DO
    END SUBROUTINE printmat_s
 
    SUBROUTINE printmat_d(matrix, rows, cols, iunit, title, tr)
@@ -524,14 +524,14 @@ CONTAINS
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
          ELSE
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
-         ENDIF
+         END IF
       ELSE
          IF (PRESENT(tr)) THEN
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
          ELSE
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE printmat_d
 
    SUBROUTINE printmat_c(matrix, rows, cols, iunit, title, tr)
@@ -545,14 +545,14 @@ CONTAINS
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
          ELSE
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
-         ENDIF
+         END IF
       ELSE
          IF (PRESENT(tr)) THEN
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
          ELSE
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE printmat_c
 
    SUBROUTINE printmat_z(matrix, rows, cols, iunit, title, tr)
@@ -566,14 +566,14 @@ CONTAINS
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
          ELSE
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
-         ENDIF
+         END IF
       ELSE
          IF (PRESENT(tr)) THEN
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
          ELSE
             CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE printmat_z
 
    SUBROUTINE dbcsr_binary_write(matrix, filepath)
@@ -1161,13 +1161,13 @@ CONTAINS
                         blk_sum_r_dp = 0.0_dp
                         WRITE (iunit, '(I6,I6,ES18.9)') &
                            br, bc, blk_sum_r_dp
-                     ENDIF
-                  ENDIF block_exists
-               ENDDO
-            ENDDO
-         ENDIF
+                     END IF
+                  END IF block_exists
+               END DO
+            END DO
+         END IF
 
-      ENDIF ! unit > 0
+      END IF ! unit > 0
 
       CALL timestop(handle)
 

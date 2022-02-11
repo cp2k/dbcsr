@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -220,7 +220,7 @@
 <a id="ln-69" name="ln-69" href="#ln-69"></a><span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;ABORT in &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"></span>
 <a id="ln-70" name="ln-70" href="#ln-70"></a><span class="w">         </span><span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span><span class="w"></span>
 <a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">         </span><span class="k">CALL </span><span class="n">m_abort</span><span class="p">()</span><span class="w"></span>
-<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">      </span><span class="k">ENDIF</span><span class="w"></span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">      </span><span class="k">END IF</span><span class="w"></span>
 <a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">      </span><span class="c">! compiler hint</span>
 <a id="ln-74" name="ln-74" href="#ln-74"></a><span class="w">      </span><span class="k">STOP</span><span class="w"> </span><span class="s2">&quot;Never return from here&quot;</span><span class="w"></span>
 <a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_abort</span><span class="w"></span>
@@ -234,7 +234,7 @@
 <a id="ln-83" name="ln-83" href="#ln-83"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-84" name="ln-84" href="#ln-84"></a><span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;WARNING in &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"></span>
 <a id="ln-85" name="ln-85" href="#ln-85"></a><span class="w">         </span><span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span><span class="w"></span>
-<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-87" name="ln-87" href="#ln-87"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_warn</span><span class="w"></span>
 <a id="ln-88" name="ln-88" href="#ln-88"></a>
 <a id="ln-89" name="ln-89" href="#ln-89"></a><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
@@ -246,7 +246,7 @@
 <a id="ln-95" name="ln-95" href="#ln-95"></a><span class="k">         CALL </span><span class="n">timeset_hook</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
 <a id="ln-96" name="ln-96" href="#ln-96"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-97" name="ln-97" href="#ln-97"></a><span class="k">         </span><span class="n">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
-<a id="ln-98" name="ln-98" href="#ln-98"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-98" name="ln-98" href="#ln-98"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-99" name="ln-99" href="#ln-99"></a><span class="k">   END SUBROUTINE </span><span class="n">timeset</span><span class="w"></span>
 <a id="ln-100" name="ln-100" href="#ln-100"></a>
 <a id="ln-101" name="ln-101" href="#ln-101"></a><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
@@ -258,7 +258,7 @@
 <a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-108" name="ln-108" href="#ln-108"></a><span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">handle</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-109" name="ln-109" href="#ln-109"></a><span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="n">dbcsr__l</span><span class="p">(</span><span class="s2">&quot;base_hooks.F&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">__</span><span class="n">LINE__</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;Got wrong handle&quot;</span><span class="p">)</span><span class="w"></span>
-<a id="ln-110" name="ln-110" href="#ln-110"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-110" name="ln-110" href="#ln-110"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-111" name="ln-111" href="#ln-111"></a><span class="k">   END SUBROUTINE </span><span class="n">timestop</span><span class="w"></span>
 <a id="ln-112" name="ln-112" href="#ln-112"></a>
 <a id="ln-113" name="ln-113" href="#ln-113"></a><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr__a</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">lineNr</span><span class="p">)</span><span class="w"></span>

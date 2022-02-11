@@ -125,61 +125,61 @@ MODULE dbcsr_tas_base
 
    INTERFACE dbcsr_tas_iterator_next_block
 # 124 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_iterator_next_block_r_dp
+         MODULE PROCEDURE dbcsr_tas_iterator_next_block_r_dp
 # 124 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_iterator_next_block_r_sp
+         MODULE PROCEDURE dbcsr_tas_iterator_next_block_r_sp
 # 124 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_iterator_next_block_c_dp
+         MODULE PROCEDURE dbcsr_tas_iterator_next_block_c_dp
 # 124 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_iterator_next_block_c_sp
+         MODULE PROCEDURE dbcsr_tas_iterator_next_block_c_sp
 # 126 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    END INTERFACE
 
    INTERFACE dbcsr_tas_put_block
 # 130 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_put_block_r_dp
+         MODULE PROCEDURE dbcsr_tas_put_block_r_dp
 # 130 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_put_block_r_sp
+         MODULE PROCEDURE dbcsr_tas_put_block_r_sp
 # 130 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_put_block_c_dp
+         MODULE PROCEDURE dbcsr_tas_put_block_c_dp
 # 130 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_put_block_c_sp
+         MODULE PROCEDURE dbcsr_tas_put_block_c_sp
 # 132 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    END INTERFACE
 
    INTERFACE dbcsr_tas_get_block_p
 # 136 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_get_block_p_r_dp
+         MODULE PROCEDURE dbcsr_tas_get_block_p_r_dp
 # 136 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_get_block_p_r_sp
+         MODULE PROCEDURE dbcsr_tas_get_block_p_r_sp
 # 136 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_get_block_p_c_dp
+         MODULE PROCEDURE dbcsr_tas_get_block_p_c_dp
 # 136 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_get_block_p_c_sp
+         MODULE PROCEDURE dbcsr_tas_get_block_p_c_sp
 # 138 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    END INTERFACE
 
    INTERFACE dbcsr_tas_set
 # 142 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_set_r_dp
+         MODULE PROCEDURE dbcsr_tas_set_r_dp
 # 142 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_set_r_sp
+         MODULE PROCEDURE dbcsr_tas_set_r_sp
 # 142 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_set_c_dp
+         MODULE PROCEDURE dbcsr_tas_set_c_dp
 # 142 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_set_c_sp
+         MODULE PROCEDURE dbcsr_tas_set_c_sp
 # 144 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    END INTERFACE
 
    INTERFACE dbcsr_tas_filter
 # 148 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_filter_r_dp
+         MODULE PROCEDURE dbcsr_tas_filter_r_dp
 # 148 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_filter_r_sp
+         MODULE PROCEDURE dbcsr_tas_filter_r_sp
 # 148 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_filter_c_dp
+         MODULE PROCEDURE dbcsr_tas_filter_c_dp
 # 148 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-      MODULE PROCEDURE dbcsr_tas_filter_c_sp
+         MODULE PROCEDURE dbcsr_tas_filter_c_sp
 # 150 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    END INTERFACE
 
@@ -234,10 +234,10 @@ CONTAINS
             ALLOCATE (col_blk_size_vec(ncols))
             DO irow = 1, nrows
                row_blk_size_vec(irow) = row_blk_size%data(rows(irow))
-            ENDDO
+            END DO
             DO col = 1, ncols
                col_blk_size_vec(col) = col_blk_size%data(INT(col, KIND=int_8))
-            ENDDO
+            END DO
          END ASSOCIATE
       CASE (colsplit)
          matrix%nblkrowscols_split = matrix%nblkcols
@@ -249,10 +249,10 @@ CONTAINS
             ALLOCATE (col_blk_size_vec(ncols))
             DO icol = 1, ncols
                col_blk_size_vec(icol) = col_blk_size%data(cols(icol))
-            ENDDO
+            END DO
             DO row = 1, nrows
                row_blk_size_vec(row) = row_blk_size%data(INT(row, KIND=int_8))
-            ENDDO
+            END DO
          END ASSOCIATE
       END SELECT
 
@@ -295,7 +295,7 @@ CONTAINS
          matrix%matrix%name = name
       ELSE
          matrix%matrix%name = matrix_in%matrix%name
-      ENDIF
+      END IF
 
    END SUBROUTINE
 
@@ -334,7 +334,7 @@ CONTAINS
          IF (.NOT. summation) CALL dbcsr_tas_clear(matrix_b)
       ELSE
          CALL dbcsr_tas_clear(matrix_b)
-      ENDIF
+      END IF
 
       CALL dbcsr_tas_reserve_blocks(matrix_a, matrix_b)
 
@@ -344,7 +344,7 @@ CONTAINS
       DO WHILE (dbcsr_tas_iterator_blocks_left(iter))
          CALL dbcsr_tas_iterator_next_block(iter, row, column, block, transposed)
          CALL dbcsr_tas_put_block(matrix_b, row, column, block, transposed, summation=summation)
-      ENDDO
+      END DO
       CALL dbcsr_tas_iterator_stop(iter)
       CALL dbcsr_data_clear_pointer(block)
       CALL dbcsr_data_release(block)
@@ -370,7 +370,7 @@ CONTAINS
          CALL dbcsr_tas_iterator_next_block(iter, row, column, blk)
          row_res(iblk) = row
          col_res(iblk) = column
-      ENDDO
+      END DO
       DBCSR_ASSERT(.NOT. dbcsr_tas_iterator_blocks_left(iter))
       CALL dbcsr_tas_iterator_stop(iter)
 
@@ -420,16 +420,16 @@ CONTAINS
          ELSE
             split_rowcol = colsplit
             nsplit = INT((col_dist%nmrowcol - 1)/row_dist%nmrowcol + 1)
-         ENDIF
+         END IF
          opt_nsplit = .TRUE.
          IF (PRESENT(nosplit)) THEN
             IF (nosplit) THEN
                nsplit = 1
                opt_nsplit = .FALSE.
-            ENDIF
-         ENDIF
+            END IF
+         END IF
          CALL dbcsr_tas_create_split(split_info_prv, mp_comm, split_rowcol, nsplit=nsplit, opt_nsplit=opt_nsplit)
-      ENDIF
+      END IF
 
       SELECT CASE (split_info_prv%split_rowcol)
       CASE (rowsplit)
@@ -440,10 +440,10 @@ CONTAINS
          ALLOCATE (col_dist_vec(ncols))
          DO irow = 1, nrows
             row_dist_vec(irow) = row_dist%dist(dist%local_rowcols(irow)) - split_info_prv%pgrid_split_size*split_info_prv%igroup
-         ENDDO
+         END DO
          DO col = 1, ncols
             col_dist_vec(col) = col_dist%dist(INT(col, KIND=int_8))
-         ENDDO
+         END DO
       CASE (colsplit)
          CALL group_to_mrowcol(split_info_prv, col_dist, split_info_prv%igroup, dist%local_rowcols)
          ncols = SIZE(dist%local_rowcols)
@@ -452,10 +452,10 @@ CONTAINS
          ALLOCATE (row_dist_vec(nrows))
          DO icol = 1, ncols
             col_dist_vec(icol) = col_dist%dist(dist%local_rowcols(icol)) - split_info_prv%pgrid_split_size*split_info_prv%igroup
-         ENDDO
+         END DO
          DO row = 1, nrows
             row_dist_vec(row) = row_dist%dist(INT(row, KIND=int_8))
-         ENDDO
+         END DO
       END SELECT
 
       mp_environ_tmp = dbcsr_mp_environ(split_info_prv%mp_comm_group)
@@ -488,7 +488,7 @@ CONTAINS
 
       IF (ALLOCATED(dist%local_rowcols)) THEN
          DEALLOCATE (dist%local_rowcols)
-      ENDIF
+      END IF
       CALL dbcsr_tas_release_info(dist%info)
       CALL dbcsr_distribution_release(dist%dbcsr_dist)
    END SUBROUTINE
@@ -547,7 +547,7 @@ CONTAINS
             col_s = col_s + dbcsr_tas_nblkcols_local(matrix)
             pcoord(2) = matrix%dist%col_dist%dist(col_s)
          END SELECT
-      ENDDO
+      END DO
    END SUBROUTINE
 
    SUBROUTINE dbcsr_tas_convert_to_dbcsr(matrix_rect, matrix_dbcsr)
@@ -584,12 +584,12 @@ CONTAINS
       DO row = 1, matrix_rect%nblkrows
          row_dist_vec(row) = matrix_rect%dist%row_dist%dist(row)
          row_size_vec(row) = matrix_rect%row_blk_size%data(row)
-      ENDDO
+      END DO
 
       DO col = 1, matrix_rect%nblkcols
          col_dist_vec(col) = matrix_rect%dist%col_dist%dist(col)
          col_size_vec(col) = matrix_rect%col_blk_size%data(col)
-      ENDDO
+      END DO
 
       mp_environ_tmp = dbcsr_mp_environ(info%mp_comm)
       CALL dbcsr_distribution_new(dist, mp_environ_tmp, row_dist_vec, col_dist_vec, reuse_arrays=.TRUE.)
@@ -618,7 +618,7 @@ CONTAINS
          rb_count = rb_count + 1
          nz_rows(rb_count) = INT(row)
          nz_cols(rb_count) = INT(col)
-      ENDDO
+      END DO
 
       CALL dbcsr_reserve_blocks(matrix_dbcsr, nz_rows, nz_cols)
 
@@ -627,7 +627,7 @@ CONTAINS
       DO WHILE (dbcsr_tas_iterator_blocks_left(iter))
          CALL dbcsr_tas_iterator_next_block(iter, row, col, block, tr)
          CALL dbcsr_put_block(matrix_dbcsr, INT(row), INT(col), block)
-      ENDDO
+      END DO
 
       CALL dbcsr_tas_iterator_stop(iter)
       CALL dbcsr_data_clear_pointer(block)
@@ -688,7 +688,7 @@ CONTAINS
       DO WHILE (dbcsr_iterator_blocks_left(iter))
          CALL dbcsr_iterator_next_block(iter, row, col, block, tr)
          CALL dbcsr_tas_put_block(matrix_rect, INT(row, KIND=int_8), INT(col, KIND=int_8), block)
-      ENDDO
+      END DO
       CALL dbcsr_iterator_stop(iter)
       CALL dbcsr_data_clear_pointer(block)
       CALL dbcsr_data_release(block)
@@ -780,12 +780,12 @@ CONTAINS
       DO irow = 1, SIZE(rows)
          CALL block_index_global_to_local(dbcsr_tas_info(matrix), matrix%dist, row=rows(irow), &
                                           row_group=rowcols_group(irow, 1))
-      ENDDO
+      END DO
 
       DO icol = 1, SIZE(columns)
          CALL block_index_global_to_local(dbcsr_tas_info(matrix), matrix%dist, column=columns(icol), &
                                           column_group=rowcols_group(icol, 2))
-      ENDDO
+      END DO
 
       CALL index_unique(rowcols_group, rowcols_group_u) ! make sure that index is unique, not sure
       ! if this is really needed or whether DBCSR
@@ -844,12 +844,12 @@ CONTAINS
          own_dist_prv = own_dist
       ELSE
          own_dist_prv = .FALSE.
-      ENDIF
+      END IF
 
       IF (.NOT. own_dist_prv) THEN
          CALL dbcsr_distribution_hold(dist_in%dbcsr_dist)
          CALL dbcsr_tas_info_hold(dist_in%info)
-      ENDIF
+      END IF
 
       dist_out = dist_in
    END SUBROUTINE
@@ -1036,15 +1036,15 @@ CONTAINS
          ALLOCATE (local_rows(SIZE(local_rows_local)))
          DO irow = 1, SIZE(local_rows_local)
             CALL block_index_local_to_global(info, matrix%dist, row_group=local_rows_local(irow), row=local_rows(irow))
-         ENDDO
-      ENDIF
+         END DO
+      END IF
 
       IF (PRESENT(local_cols)) THEN
          ALLOCATE (local_cols(SIZE(local_cols_local)))
          DO icol = 1, SIZE(local_cols_local)
             CALL block_index_local_to_global(info, matrix%dist, column_group=local_cols_local(icol), column=local_cols(icol))
-         ENDDO
-      ENDIF
+         END DO
+      END IF
 
       IF (PRESENT(proc_row_dist)) ALLOCATE (proc_row_dist, SOURCE=matrix%dist%row_dist)
       IF (PRESENT(proc_col_dist)) ALLOCATE (proc_col_dist, SOURCE=matrix%dist%col_dist)
@@ -1056,309 +1056,309 @@ CONTAINS
    END SUBROUTINE
 
 # 1025 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_iterator_next_block_r_dp (iterator, row, column, block, transposed, block_number, &
+      SUBROUTINE dbcsr_tas_iterator_next_block_r_dp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
-                                                         row_size, col_size)
-      TYPE(dbcsr_tas_iterator), INTENT(INOUT) :: iterator
-      INTEGER(KIND=int_8), INTENT(OUT)      :: row, column
-      REAL(kind=real_8), DIMENSION(:, :), POINTER   :: block
-      LOGICAL, INTENT(OUT)                  :: transposed
-      INTEGER, INTENT(OUT), OPTIONAL        :: block_number
-      INTEGER, INTENT(OUT), OPTIONAL        :: row_size, col_size
+                                                            row_size, col_size)
+         TYPE(dbcsr_tas_iterator), INTENT(INOUT) :: iterator
+         INTEGER(KIND=int_8), INTENT(OUT)      :: row, column
+         REAL(kind=real_8), DIMENSION(:, :), POINTER   :: block
+         LOGICAL, INTENT(OUT)                  :: transposed
+         INTEGER, INTENT(OUT), OPTIONAL        :: block_number
+         INTEGER, INTENT(OUT), OPTIONAL        :: row_size, col_size
 
-      INTEGER                               :: row_group, column_group
+         INTEGER                               :: row_group, column_group
 
-      CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
-                                     row_size, col_size)
+         CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
+                                        row_size, col_size)
 
-      CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
-                                       row=row, column=column)
+         CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
+                                          row=row, column=column)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1025 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_iterator_next_block_r_sp (iterator, row, column, block, transposed, block_number, &
+      SUBROUTINE dbcsr_tas_iterator_next_block_r_sp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
-                                                         row_size, col_size)
-      TYPE(dbcsr_tas_iterator), INTENT(INOUT) :: iterator
-      INTEGER(KIND=int_8), INTENT(OUT)      :: row, column
-      REAL(kind=real_4), DIMENSION(:, :), POINTER   :: block
-      LOGICAL, INTENT(OUT)                  :: transposed
-      INTEGER, INTENT(OUT), OPTIONAL        :: block_number
-      INTEGER, INTENT(OUT), OPTIONAL        :: row_size, col_size
+                                                            row_size, col_size)
+         TYPE(dbcsr_tas_iterator), INTENT(INOUT) :: iterator
+         INTEGER(KIND=int_8), INTENT(OUT)      :: row, column
+         REAL(kind=real_4), DIMENSION(:, :), POINTER   :: block
+         LOGICAL, INTENT(OUT)                  :: transposed
+         INTEGER, INTENT(OUT), OPTIONAL        :: block_number
+         INTEGER, INTENT(OUT), OPTIONAL        :: row_size, col_size
 
-      INTEGER                               :: row_group, column_group
+         INTEGER                               :: row_group, column_group
 
-      CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
-                                     row_size, col_size)
+         CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
+                                        row_size, col_size)
 
-      CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
-                                       row=row, column=column)
+         CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
+                                          row=row, column=column)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1025 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_iterator_next_block_c_dp (iterator, row, column, block, transposed, block_number, &
+      SUBROUTINE dbcsr_tas_iterator_next_block_c_dp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
-                                                         row_size, col_size)
-      TYPE(dbcsr_tas_iterator), INTENT(INOUT) :: iterator
-      INTEGER(KIND=int_8), INTENT(OUT)      :: row, column
-      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER   :: block
-      LOGICAL, INTENT(OUT)                  :: transposed
-      INTEGER, INTENT(OUT), OPTIONAL        :: block_number
-      INTEGER, INTENT(OUT), OPTIONAL        :: row_size, col_size
+                                                            row_size, col_size)
+         TYPE(dbcsr_tas_iterator), INTENT(INOUT) :: iterator
+         INTEGER(KIND=int_8), INTENT(OUT)      :: row, column
+         COMPLEX(kind=real_8), DIMENSION(:, :), POINTER   :: block
+         LOGICAL, INTENT(OUT)                  :: transposed
+         INTEGER, INTENT(OUT), OPTIONAL        :: block_number
+         INTEGER, INTENT(OUT), OPTIONAL        :: row_size, col_size
 
-      INTEGER                               :: row_group, column_group
+         INTEGER                               :: row_group, column_group
 
-      CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
-                                     row_size, col_size)
+         CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
+                                        row_size, col_size)
 
-      CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
-                                       row=row, column=column)
+         CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
+                                          row=row, column=column)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1025 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_iterator_next_block_c_sp (iterator, row, column, block, transposed, block_number, &
+      SUBROUTINE dbcsr_tas_iterator_next_block_c_sp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
-                                                         row_size, col_size)
-      TYPE(dbcsr_tas_iterator), INTENT(INOUT) :: iterator
-      INTEGER(KIND=int_8), INTENT(OUT)      :: row, column
-      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER   :: block
-      LOGICAL, INTENT(OUT)                  :: transposed
-      INTEGER, INTENT(OUT), OPTIONAL        :: block_number
-      INTEGER, INTENT(OUT), OPTIONAL        :: row_size, col_size
+                                                            row_size, col_size)
+         TYPE(dbcsr_tas_iterator), INTENT(INOUT) :: iterator
+         INTEGER(KIND=int_8), INTENT(OUT)      :: row, column
+         COMPLEX(kind=real_4), DIMENSION(:, :), POINTER   :: block
+         LOGICAL, INTENT(OUT)                  :: transposed
+         INTEGER, INTENT(OUT), OPTIONAL        :: block_number
+         INTEGER, INTENT(OUT), OPTIONAL        :: row_size, col_size
 
-      INTEGER                               :: row_group, column_group
+         INTEGER                               :: row_group, column_group
 
-      CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
-                                     row_size, col_size)
+         CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
+                                        row_size, col_size)
 
-      CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
-                                       row=row, column=column)
+         CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
+                                          row=row, column=column)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1045 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
 # 1047 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
-   SUBROUTINE dbcsr_tas_put_block_r_dp (matrix, row, col, block, transposed, summation, &
-                                               scale)
-      TYPE(dbcsr_tas_type), INTENT(INOUT)     :: matrix
-      REAL(kind=real_8), DIMENSION(:, :), INTENT(IN) :: block
-      LOGICAL, INTENT(IN), OPTIONAL         :: transposed, summation
-      INTEGER(KIND=int_8), INTENT(IN)       :: row, col
-      REAL(kind=real_8), INTENT(IN), OPTIONAL       :: scale
+      SUBROUTINE dbcsr_tas_put_block_r_dp (matrix, row, col, block, transposed, summation, &
+                                                  scale)
+         TYPE(dbcsr_tas_type), INTENT(INOUT)     :: matrix
+         REAL(kind=real_8), DIMENSION(:, :), INTENT(IN) :: block
+         LOGICAL, INTENT(IN), OPTIONAL         :: transposed, summation
+         INTEGER(KIND=int_8), INTENT(IN)       :: row, col
+         REAL(kind=real_8), INTENT(IN), OPTIONAL       :: scale
 
-      INTEGER                     :: col_group, row_group
+         INTEGER                     :: col_group, row_group
 
-      CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
-                                       row_group=row_group, column_group=col_group)
+         CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
+                                          row_group=row_group, column_group=col_group)
 
-      CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
+         CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1047 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
-   SUBROUTINE dbcsr_tas_put_block_r_sp (matrix, row, col, block, transposed, summation, &
-                                               scale)
-      TYPE(dbcsr_tas_type), INTENT(INOUT)     :: matrix
-      REAL(kind=real_4), DIMENSION(:, :), INTENT(IN) :: block
-      LOGICAL, INTENT(IN), OPTIONAL         :: transposed, summation
-      INTEGER(KIND=int_8), INTENT(IN)       :: row, col
-      REAL(kind=real_4), INTENT(IN), OPTIONAL       :: scale
+      SUBROUTINE dbcsr_tas_put_block_r_sp (matrix, row, col, block, transposed, summation, &
+                                                  scale)
+         TYPE(dbcsr_tas_type), INTENT(INOUT)     :: matrix
+         REAL(kind=real_4), DIMENSION(:, :), INTENT(IN) :: block
+         LOGICAL, INTENT(IN), OPTIONAL         :: transposed, summation
+         INTEGER(KIND=int_8), INTENT(IN)       :: row, col
+         REAL(kind=real_4), INTENT(IN), OPTIONAL       :: scale
 
-      INTEGER                     :: col_group, row_group
+         INTEGER                     :: col_group, row_group
 
-      CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
-                                       row_group=row_group, column_group=col_group)
+         CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
+                                          row_group=row_group, column_group=col_group)
 
-      CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
+         CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1047 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
-   SUBROUTINE dbcsr_tas_put_block_c_dp (matrix, row, col, block, transposed, summation, &
-                                               scale)
-      TYPE(dbcsr_tas_type), INTENT(INOUT)     :: matrix
-      COMPLEX(kind=real_8), DIMENSION(:, :), INTENT(IN) :: block
-      LOGICAL, INTENT(IN), OPTIONAL         :: transposed, summation
-      INTEGER(KIND=int_8), INTENT(IN)       :: row, col
-      COMPLEX(kind=real_8), INTENT(IN), OPTIONAL       :: scale
+      SUBROUTINE dbcsr_tas_put_block_c_dp (matrix, row, col, block, transposed, summation, &
+                                                  scale)
+         TYPE(dbcsr_tas_type), INTENT(INOUT)     :: matrix
+         COMPLEX(kind=real_8), DIMENSION(:, :), INTENT(IN) :: block
+         LOGICAL, INTENT(IN), OPTIONAL         :: transposed, summation
+         INTEGER(KIND=int_8), INTENT(IN)       :: row, col
+         COMPLEX(kind=real_8), INTENT(IN), OPTIONAL       :: scale
 
-      INTEGER                     :: col_group, row_group
+         INTEGER                     :: col_group, row_group
 
-      CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
-                                       row_group=row_group, column_group=col_group)
+         CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
+                                          row_group=row_group, column_group=col_group)
 
-      CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
+         CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1047 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
-   SUBROUTINE dbcsr_tas_put_block_c_sp (matrix, row, col, block, transposed, summation, &
-                                               scale)
-      TYPE(dbcsr_tas_type), INTENT(INOUT)     :: matrix
-      COMPLEX(kind=real_4), DIMENSION(:, :), INTENT(IN) :: block
-      LOGICAL, INTENT(IN), OPTIONAL         :: transposed, summation
-      INTEGER(KIND=int_8), INTENT(IN)       :: row, col
-      COMPLEX(kind=real_4), INTENT(IN), OPTIONAL       :: scale
+      SUBROUTINE dbcsr_tas_put_block_c_sp (matrix, row, col, block, transposed, summation, &
+                                                  scale)
+         TYPE(dbcsr_tas_type), INTENT(INOUT)     :: matrix
+         COMPLEX(kind=real_4), DIMENSION(:, :), INTENT(IN) :: block
+         LOGICAL, INTENT(IN), OPTIONAL         :: transposed, summation
+         INTEGER(KIND=int_8), INTENT(IN)       :: row, col
+         COMPLEX(kind=real_4), INTENT(IN), OPTIONAL       :: scale
 
-      INTEGER                     :: col_group, row_group
+         INTEGER                     :: col_group, row_group
 
-      CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
-                                       row_group=row_group, column_group=col_group)
+         CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
+                                          row_group=row_group, column_group=col_group)
 
-      CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
+         CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1065 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
 # 1067 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_get_block_p_r_dp (matrix, row, col, block, transposed, found, row_size, col_size)
+      SUBROUTINE dbcsr_tas_get_block_p_r_dp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
-      TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
-      INTEGER(KIND=int_8), INTENT(IN)    :: row, col
-      REAL(kind=real_8), DIMENSION(:, :), POINTER :: block
-      LOGICAL, INTENT(OUT)               :: transposed
-      LOGICAL, INTENT(OUT)               :: found
-      INTEGER, INTENT(OUT), OPTIONAL     :: row_size, col_size
+         TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
+         INTEGER(KIND=int_8), INTENT(IN)    :: row, col
+         REAL(kind=real_8), DIMENSION(:, :), POINTER :: block
+         LOGICAL, INTENT(OUT)               :: transposed
+         LOGICAL, INTENT(OUT)               :: found
+         INTEGER, INTENT(OUT), OPTIONAL     :: row_size, col_size
 
-      INTEGER                     :: col_group, row_group
+         INTEGER                     :: col_group, row_group
 
-      CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
-                                       row_group=row_group, column_group=col_group)
+         CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
+                                          row_group=row_group, column_group=col_group)
 
-      CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
+         CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1067 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_get_block_p_r_sp (matrix, row, col, block, transposed, found, row_size, col_size)
+      SUBROUTINE dbcsr_tas_get_block_p_r_sp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
-      TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
-      INTEGER(KIND=int_8), INTENT(IN)    :: row, col
-      REAL(kind=real_4), DIMENSION(:, :), POINTER :: block
-      LOGICAL, INTENT(OUT)               :: transposed
-      LOGICAL, INTENT(OUT)               :: found
-      INTEGER, INTENT(OUT), OPTIONAL     :: row_size, col_size
+         TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
+         INTEGER(KIND=int_8), INTENT(IN)    :: row, col
+         REAL(kind=real_4), DIMENSION(:, :), POINTER :: block
+         LOGICAL, INTENT(OUT)               :: transposed
+         LOGICAL, INTENT(OUT)               :: found
+         INTEGER, INTENT(OUT), OPTIONAL     :: row_size, col_size
 
-      INTEGER                     :: col_group, row_group
+         INTEGER                     :: col_group, row_group
 
-      CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
-                                       row_group=row_group, column_group=col_group)
+         CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
+                                          row_group=row_group, column_group=col_group)
 
-      CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
+         CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1067 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_get_block_p_c_dp (matrix, row, col, block, transposed, found, row_size, col_size)
+      SUBROUTINE dbcsr_tas_get_block_p_c_dp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
-      TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
-      INTEGER(KIND=int_8), INTENT(IN)    :: row, col
-      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER :: block
-      LOGICAL, INTENT(OUT)               :: transposed
-      LOGICAL, INTENT(OUT)               :: found
-      INTEGER, INTENT(OUT), OPTIONAL     :: row_size, col_size
+         TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
+         INTEGER(KIND=int_8), INTENT(IN)    :: row, col
+         COMPLEX(kind=real_8), DIMENSION(:, :), POINTER :: block
+         LOGICAL, INTENT(OUT)               :: transposed
+         LOGICAL, INTENT(OUT)               :: found
+         INTEGER, INTENT(OUT), OPTIONAL     :: row_size, col_size
 
-      INTEGER                     :: col_group, row_group
+         INTEGER                     :: col_group, row_group
 
-      CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
-                                       row_group=row_group, column_group=col_group)
+         CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
+                                          row_group=row_group, column_group=col_group)
 
-      CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
+         CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1067 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_get_block_p_c_sp (matrix, row, col, block, transposed, found, row_size, col_size)
+      SUBROUTINE dbcsr_tas_get_block_p_c_sp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
-      TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
-      INTEGER(KIND=int_8), INTENT(IN)    :: row, col
-      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER :: block
-      LOGICAL, INTENT(OUT)               :: transposed
-      LOGICAL, INTENT(OUT)               :: found
-      INTEGER, INTENT(OUT), OPTIONAL     :: row_size, col_size
+         TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
+         INTEGER(KIND=int_8), INTENT(IN)    :: row, col
+         COMPLEX(kind=real_4), DIMENSION(:, :), POINTER :: block
+         LOGICAL, INTENT(OUT)               :: transposed
+         LOGICAL, INTENT(OUT)               :: found
+         INTEGER, INTENT(OUT), OPTIONAL     :: row_size, col_size
 
-      INTEGER                     :: col_group, row_group
+         INTEGER                     :: col_group, row_group
 
-      CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
-                                       row_group=row_group, column_group=col_group)
+         CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
+                                          row_group=row_group, column_group=col_group)
 
-      CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
+         CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1085 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
 # 1087 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_set_r_dp (matrix, alpha)
+      SUBROUTINE dbcsr_tas_set_r_dp (matrix, alpha)
       !! As dbcsr_set
-      TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
-      REAL(kind=real_8), INTENT(IN)                :: alpha
-      CALL dbcsr_set(matrix%matrix, alpha)
-   END SUBROUTINE
+         TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
+         REAL(kind=real_8), INTENT(IN)                :: alpha
+         CALL dbcsr_set(matrix%matrix, alpha)
+      END SUBROUTINE
 # 1087 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_set_r_sp (matrix, alpha)
+      SUBROUTINE dbcsr_tas_set_r_sp (matrix, alpha)
       !! As dbcsr_set
-      TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
-      REAL(kind=real_4), INTENT(IN)                :: alpha
-      CALL dbcsr_set(matrix%matrix, alpha)
-   END SUBROUTINE
+         TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
+         REAL(kind=real_4), INTENT(IN)                :: alpha
+         CALL dbcsr_set(matrix%matrix, alpha)
+      END SUBROUTINE
 # 1087 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_set_c_dp (matrix, alpha)
+      SUBROUTINE dbcsr_tas_set_c_dp (matrix, alpha)
       !! As dbcsr_set
-      TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
-      COMPLEX(kind=real_8), INTENT(IN)                :: alpha
-      CALL dbcsr_set(matrix%matrix, alpha)
-   END SUBROUTINE
+         TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
+         COMPLEX(kind=real_8), INTENT(IN)                :: alpha
+         CALL dbcsr_set(matrix%matrix, alpha)
+      END SUBROUTINE
 # 1087 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_set_c_sp (matrix, alpha)
+      SUBROUTINE dbcsr_tas_set_c_sp (matrix, alpha)
       !! As dbcsr_set
-      TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
-      COMPLEX(kind=real_4), INTENT(IN)                :: alpha
-      CALL dbcsr_set(matrix%matrix, alpha)
-   END SUBROUTINE
+         TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
+         COMPLEX(kind=real_4), INTENT(IN)                :: alpha
+         CALL dbcsr_set(matrix%matrix, alpha)
+      END SUBROUTINE
 # 1094 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
 # 1096 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_filter_r_dp (matrix, eps, method, use_absolute)
+      SUBROUTINE dbcsr_tas_filter_r_dp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
-      TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
-      REAL(kind=real_8), INTENT(IN)                :: eps
-      INTEGER, INTENT(IN), OPTIONAL        :: method
-      LOGICAL, INTENT(IN), OPTIONAL        :: use_absolute
+         TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
+         REAL(kind=real_8), INTENT(IN)                :: eps
+         INTEGER, INTENT(IN), OPTIONAL        :: method
+         LOGICAL, INTENT(IN), OPTIONAL        :: use_absolute
 
-      CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
+         CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1096 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_filter_r_sp (matrix, eps, method, use_absolute)
+      SUBROUTINE dbcsr_tas_filter_r_sp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
-      TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
-      REAL(kind=real_4), INTENT(IN)                :: eps
-      INTEGER, INTENT(IN), OPTIONAL        :: method
-      LOGICAL, INTENT(IN), OPTIONAL        :: use_absolute
+         TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
+         REAL(kind=real_4), INTENT(IN)                :: eps
+         INTEGER, INTENT(IN), OPTIONAL        :: method
+         LOGICAL, INTENT(IN), OPTIONAL        :: use_absolute
 
-      CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
+         CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1096 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_filter_c_dp (matrix, eps, method, use_absolute)
+      SUBROUTINE dbcsr_tas_filter_c_dp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
-      TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
-      COMPLEX(kind=real_8), INTENT(IN)                :: eps
-      INTEGER, INTENT(IN), OPTIONAL        :: method
-      LOGICAL, INTENT(IN), OPTIONAL        :: use_absolute
+         TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
+         COMPLEX(kind=real_8), INTENT(IN)                :: eps
+         INTEGER, INTENT(IN), OPTIONAL        :: method
+         LOGICAL, INTENT(IN), OPTIONAL        :: use_absolute
 
-      CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
+         CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1096 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
-   SUBROUTINE dbcsr_tas_filter_c_sp (matrix, eps, method, use_absolute)
+      SUBROUTINE dbcsr_tas_filter_c_sp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
-      TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
-      COMPLEX(kind=real_4), INTENT(IN)                :: eps
-      INTEGER, INTENT(IN), OPTIONAL        :: method
-      LOGICAL, INTENT(IN), OPTIONAL        :: use_absolute
+         TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
+         COMPLEX(kind=real_4), INTENT(IN)                :: eps
+         INTEGER, INTENT(IN), OPTIONAL        :: method
+         LOGICAL, INTENT(IN), OPTIONAL        :: use_absolute
 
-      CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
+         CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
-   END SUBROUTINE
+      END SUBROUTINE
 # 1107 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
 END MODULE

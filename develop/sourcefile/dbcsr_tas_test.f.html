@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -259,13 +259,13 @@
 <a id="ln-108" name="ln-108" href="#ln-108"></a><span class="k">         </span><span class="n">reuse_comm_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reuse_comm</span><span class="w"></span>
 <a id="ln-109" name="ln-109" href="#ln-109"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-110" name="ln-110" href="#ln-110"></a><span class="k">         </span><span class="n">reuse_comm_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
-<a id="ln-111" name="ln-111" href="#ln-111"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-111" name="ln-111" href="#ln-111"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-112" name="ln-112" href="#ln-112"></a>
 <a id="ln-113" name="ln-113" href="#ln-113"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">reuse_comm_prv</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-114" name="ln-114" href="#ln-114"></a><span class="k">         </span><span class="n">mp_comm_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_comm</span><span class="w"></span>
 <a id="ln-115" name="ln-115" href="#ln-115"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-116" name="ln-116" href="#ln-116"></a><span class="k">         </span><span class="n">mp_comm_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_tas_mp_comm</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span><span class="w"> </span><span class="n">nrows</span><span class="p">,</span><span class="w"> </span><span class="n">ncols</span><span class="p">)</span><span class="w"></span>
-<a id="ln-117" name="ln-117" href="#ln-117"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-117" name="ln-117" href="#ln-117"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-118" name="ln-118" href="#ln-118"></a>
 <a id="ln-119" name="ln-119" href="#ln-119"></a><span class="k">      CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="n">mp_comm_out</span><span class="p">)</span><span class="w"></span>
 <a id="ln-120" name="ln-120" href="#ln-120"></a><span class="w">      </span><span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">pdims</span><span class="p">,</span><span class="w"> </span><span class="n">pcoord</span><span class="p">,</span><span class="w"> </span><span class="n">mp_comm_out</span><span class="p">)</span><span class="w"></span>
@@ -306,10 +306,10 @@
 <a id="ln-155" name="ln-155" href="#ln-155"></a><span class="w">                  </span><span class="k">CALL </span><span class="n">set_larnv_seed</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">row_s</span><span class="p">),</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">nrow</span><span class="p">),</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">col_s</span><span class="p">),</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">ncol</span><span class="p">),</span><span class="w"> </span><span class="n">randmat_counter</span><span class="p">,</span><span class="w"> </span><span class="n">iseed</span><span class="p">)</span><span class="w"></span>
 <a id="ln-156" name="ln-156" href="#ln-156"></a><span class="w">                  </span><span class="k">CALL </span><span class="n">dlarnv</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">iseed</span><span class="p">,</span><span class="w"> </span><span class="n">max_nze</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">)</span><span class="w"></span>
 <a id="ln-157" name="ln-157" href="#ln-157"></a><span class="w">                  </span><span class="k">CALL </span><span class="n">dbcsr_tas_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row_s</span><span class="p">,</span><span class="w"> </span><span class="n">col_s</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">col_size</span><span class="p">))</span><span class="w"></span>
-<a id="ln-158" name="ln-158" href="#ln-158"></a><span class="w">               </span><span class="k">ENDIF</span>
-<a id="ln-159" name="ln-159" href="#ln-159"></a><span class="k">            ENDIF</span>
-<a id="ln-160" name="ln-160" href="#ln-160"></a><span class="k">         ENDDO</span>
-<a id="ln-161" name="ln-161" href="#ln-161"></a><span class="k">      ENDDO</span>
+<a id="ln-158" name="ln-158" href="#ln-158"></a><span class="w">               </span><span class="k">END IF</span>
+<a id="ln-159" name="ln-159" href="#ln-159"></a><span class="k">            END IF</span>
+<a id="ln-160" name="ln-160" href="#ln-160"></a><span class="k">         END DO</span>
+<a id="ln-161" name="ln-161" href="#ln-161"></a><span class="k">      END DO</span>
 <a id="ln-162" name="ln-162" href="#ln-162"></a>
 <a id="ln-163" name="ln-163" href="#ln-163"></a><span class="k">      CALL </span><span class="n">dbcsr_tas_finalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
 <a id="ln-164" name="ln-164" href="#ln-164"></a>
@@ -343,8 +343,8 @@
 <a id="ln-192" name="ln-192" href="#ln-192"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">io_unit</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-193" name="ln-193" href="#ln-193"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-194" name="ln-194" href="#ln-194"></a><span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;(A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;starting tall-and-skinny benchmark&quot;</span><span class="w"></span>
-<a id="ln-195" name="ln-195" href="#ln-195"></a><span class="w">      </span><span class="k">ENDIF</span>
-<a id="ln-196" name="ln-196" href="#ln-196"></a><span class="k">      ENDIF</span>
+<a id="ln-195" name="ln-195" href="#ln-195"></a><span class="w">      </span><span class="k">END IF</span>
+<a id="ln-196" name="ln-196" href="#ln-196"></a><span class="k">      END IF</span>
 <a id="ln-197" name="ln-197" href="#ln-197"></a><span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="s2">&quot;benchmark_tas_mm&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">handle1</span><span class="p">)</span><span class="w"></span>
 <a id="ln-198" name="ln-198" href="#ln-198"></a><span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_tas_multiply</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span><span class="w"> </span><span class="n">transb</span><span class="p">,</span><span class="w"> </span><span class="n">transc</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_scalar</span><span class="p">(</span><span class="mf">1.0_real_8</span><span class="p">),</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-199" name="ln-199" href="#ln-199"></a><span class="w">                              </span><span class="n">dbcsr_scalar</span><span class="p">(</span><span class="mf">0.0_real_8</span><span class="p">),</span><span class="w"> </span><span class="n">matrix_c</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
@@ -353,8 +353,8 @@
 <a id="ln-202" name="ln-202" href="#ln-202"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">io_unit</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-203" name="ln-203" href="#ln-203"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-204" name="ln-204" href="#ln-204"></a><span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;(A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;tall-and-skinny benchmark completed&quot;</span><span class="w"></span>
-<a id="ln-205" name="ln-205" href="#ln-205"></a><span class="w">      </span><span class="k">ENDIF</span>
-<a id="ln-206" name="ln-206" href="#ln-206"></a><span class="k">      ENDIF</span>
+<a id="ln-205" name="ln-205" href="#ln-205"></a><span class="w">      </span><span class="k">END IF</span>
+<a id="ln-206" name="ln-206" href="#ln-206"></a><span class="k">      END IF</span>
 <a id="ln-207" name="ln-207" href="#ln-207"></a>
 <a id="ln-208" name="ln-208" href="#ln-208"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">compare_dbcsr</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-209" name="ln-209" href="#ln-209"></a><span class="k">         CALL </span><span class="n">dbcsr_tas_convert_to_dbcsr</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_a</span><span class="p">)</span><span class="w"></span>
@@ -406,8 +406,8 @@
 <a id="ln-255" name="ln-255" href="#ln-255"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">io_unit</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-256" name="ln-256" href="#ln-256"></a><span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-257" name="ln-257" href="#ln-257"></a><span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;(A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;starting dbcsr benchmark&quot;</span><span class="w"></span>
-<a id="ln-258" name="ln-258" href="#ln-258"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-259" name="ln-259" href="#ln-259"></a><span class="k">         ENDIF</span>
+<a id="ln-258" name="ln-258" href="#ln-258"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-259" name="ln-259" href="#ln-259"></a><span class="k">         END IF</span>
 <a id="ln-260" name="ln-260" href="#ln-260"></a><span class="k">         CALL </span><span class="n">timeset</span><span class="p">(</span><span class="s2">&quot;benchmark_dbcsr_mm&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">handle2</span><span class="p">)</span><span class="w"></span>
 <a id="ln-261" name="ln-261" href="#ln-261"></a><span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_multiply</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span><span class="w"> </span><span class="n">transb</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_scalar</span><span class="p">(</span><span class="mf">1.0_real_8</span><span class="p">),</span><span class="w"> </span><span class="n">dbcsr_a_mm</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_b_mm</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-262" name="ln-262" href="#ln-262"></a><span class="w">                             </span><span class="n">dbcsr_scalar</span><span class="p">(</span><span class="mf">0.0_real_8</span><span class="p">),</span><span class="w"> </span><span class="n">dbcsr_c_mm</span><span class="p">,</span><span class="w"> </span><span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">)</span><span class="w"></span>
@@ -415,8 +415,8 @@
 <a id="ln-264" name="ln-264" href="#ln-264"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">io_unit</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-265" name="ln-265" href="#ln-265"></a><span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-266" name="ln-266" href="#ln-266"></a><span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;(A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;dbcsr benchmark completed&quot;</span><span class="w"></span>
-<a id="ln-267" name="ln-267" href="#ln-267"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="k">         ENDIF</span>
+<a id="ln-267" name="ln-267" href="#ln-267"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="k">         END IF</span>
 <a id="ln-269" name="ln-269" href="#ln-269"></a>
 <a id="ln-270" name="ln-270" href="#ln-270"></a><span class="k">         CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">dbcsr_a</span><span class="p">)</span><span class="w"></span>
 <a id="ln-271" name="ln-271" href="#ln-271"></a><span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">dbcsr_b</span><span class="p">)</span><span class="w"></span>
@@ -429,7 +429,7 @@
 <a id="ln-278" name="ln-278" href="#ln-278"></a><span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">dist_c</span><span class="p">)</span><span class="w"></span>
 <a id="ln-279" name="ln-279" href="#ln-279"></a>
 <a id="ln-280" name="ln-280" href="#ln-280"></a><span class="w">         </span><span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">comm_dbcsr</span><span class="p">)</span><span class="w"></span>
-<a id="ln-281" name="ln-281" href="#ln-281"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-281" name="ln-281" href="#ln-281"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-282" name="ln-282" href="#ln-282"></a>
 <a id="ln-283" name="ln-283" href="#ln-283"></a><span class="k">   END SUBROUTINE</span>
 <a id="ln-284" name="ln-284" href="#ln-284"></a>
@@ -522,7 +522,7 @@
 <a id="ln-371" name="ln-371" href="#ln-371"></a><span class="w">         </span><span class="k">CALL </span><span class="n">invert_transpose_flag</span><span class="p">(</span><span class="n">transb_prv</span><span class="p">)</span><span class="w"></span>
 <a id="ln-372" name="ln-372" href="#ln-372"></a><span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_multiply</span><span class="p">(</span><span class="n">transb_prv</span><span class="p">,</span><span class="w"> </span><span class="n">transa_prv</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_scalar</span><span class="p">(</span><span class="mf">1.0_real_8</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-373" name="ln-373" href="#ln-373"></a><span class="w">                             </span><span class="n">dbcsr_b_mm</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_a_mm</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_scalar</span><span class="p">(</span><span class="mf">0.0_real_8</span><span class="p">),</span><span class="w"> </span><span class="n">dbcsr_c_mm</span><span class="p">,</span><span class="w"> </span><span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">)</span><span class="w"></span>
-<a id="ln-374" name="ln-374" href="#ln-374"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-374" name="ln-374" href="#ln-374"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-375" name="ln-375" href="#ln-375"></a>
 <a id="ln-376" name="ln-376" href="#ln-376"></a><span class="k">      </span><span class="n">sq_cs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">dbcsr_c_mm</span><span class="p">)</span><span class="w"></span>
 <a id="ln-377" name="ln-377" href="#ln-377"></a><span class="w">      </span><span class="n">rc_cs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">dbcsr_c_mm_check</span><span class="p">)</span><span class="w"></span>
@@ -541,8 +541,8 @@
 <a id="ln-390" name="ln-390" href="#ln-390"></a><span class="w">            </span><span class="n">transb</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;passed!&#39;</span><span class="w"></span>
 <a id="ln-391" name="ln-391" href="#ln-391"></a><span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;(A,1X,E9.2,1X,E9.2)&quot;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;checksums&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sq_cs</span><span class="p">,</span><span class="w"> </span><span class="n">rc_cs</span><span class="w"></span>
 <a id="ln-392" name="ln-392" href="#ln-392"></a><span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;(A,1X,E9.2)&quot;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;difference norm&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">norm</span><span class="w"></span>
-<a id="ln-393" name="ln-393" href="#ln-393"></a><span class="w">      </span><span class="k">ENDIF</span>
-<a id="ln-394" name="ln-394" href="#ln-394"></a><span class="k">      ENDIF</span>
+<a id="ln-393" name="ln-393" href="#ln-393"></a><span class="w">      </span><span class="k">END IF</span>
+<a id="ln-394" name="ln-394" href="#ln-394"></a><span class="k">      END IF</span>
 <a id="ln-395" name="ln-395" href="#ln-395"></a>
 <a id="ln-396" name="ln-396" href="#ln-396"></a><span class="k">      CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">dbcsr_a</span><span class="p">)</span><span class="w"></span>
 <a id="ln-397" name="ln-397" href="#ln-397"></a><span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">dbcsr_a_mm</span><span class="p">)</span><span class="w"></span>
@@ -583,7 +583,7 @@
 <a id="ln-432" name="ln-432" href="#ln-432"></a><span class="w">      </span><span class="k">DO </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">block_sizes</span><span class="p">)</span><span class="w"></span>
 <a id="ln-433" name="ln-433" href="#ln-433"></a><span class="w">         </span><span class="n">size_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MOD</span><span class="p">((</span><span class="n">d</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">repeat</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">sizes</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <a id="ln-434" name="ln-434" href="#ln-434"></a><span class="w">         </span><span class="n">block_sizes</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sizes</span><span class="p">(</span><span class="n">size_i</span><span class="p">)</span><span class="w"></span>
-<a id="ln-435" name="ln-435" href="#ln-435"></a><span class="w">      </span><span class="k">ENDDO</span>
+<a id="ln-435" name="ln-435" href="#ln-435"></a><span class="w">      </span><span class="k">END DO</span>
 <a id="ln-436" name="ln-436" href="#ln-436"></a><span class="k">   END SUBROUTINE</span>
 <a id="ln-437" name="ln-437" href="#ln-437"></a>
 <a id="ln-438" name="ln-438" href="#ln-438"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_tas_reset_randmat_seed</span><span class="p">()</span><span class="w"></span>

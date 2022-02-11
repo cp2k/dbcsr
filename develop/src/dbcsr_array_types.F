@@ -94,7 +94,7 @@ CONTAINS
          ub = UBOUND(DATA, 1)
          ALLOCATE (array%low%data(lb:ub))
          array%low%data(:) = DATA(:)
-      ENDIF
+      END IF
    END SUBROUTINE array_new_i1d
 
    SUBROUTINE array_new_i1d_lb(array, DATA, lb)
@@ -125,8 +125,8 @@ CONTAINS
          IF (array%low%refcount .EQ. 0) THEN
             DEALLOCATE (array%low%data)
             DEALLOCATE (array%low)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE array_release_i1d
 
    PURE SUBROUTINE array_nullify_i1d(array)
@@ -151,7 +151,7 @@ CONTAINS
          DATA => array%low%data
       ELSE
          NULLIFY (DATA)
-      ENDIF
+      END IF
    END FUNCTION array_data_i1d
 
    PURE FUNCTION array_size_i1d(array) RESULT(the_size)
@@ -162,7 +162,7 @@ CONTAINS
          the_size = SIZE(array%low%data)
       ELSE
          the_size = 0
-      ENDIF
+      END IF
    END FUNCTION array_size_i1d
 
    PURE_ARRAY_EQUALITY FUNCTION array_equality_i1(array1, array2) RESULT(are_equal)
@@ -177,7 +177,7 @@ CONTAINS
          IF (SIZE(array1) .NE. SIZE(array2)) RETURN
          are_equal = ALL(array1 .EQ. array2)
 #endif
-      ENDIF
+      END IF
    END FUNCTION array_equality_i1
 
    PURE_ARRAY_EQUALITY FUNCTION array_equality_i1d(array1, array2) RESULT(are_equal)
@@ -192,7 +192,7 @@ CONTAINS
          IF (SIZE(array1%low%data) .NE. SIZE(array2%low%data)) RETURN
          are_equal = ALL(array1%low%data .EQ. array2%low%data)
 #endif
-      ENDIF
+      END IF
    END FUNCTION array_equality_i1d
 
    PURE FUNCTION array_get_i1d(array, index1) RESULT(value)

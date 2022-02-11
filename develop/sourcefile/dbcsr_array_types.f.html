@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -245,7 +245,7 @@
 <a id="ln-94" name="ln-94" href="#ln-94"></a><span class="w">         </span><span class="n">ub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="k">DATA</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 <a id="ln-95" name="ln-95" href="#ln-95"></a><span class="w">         </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">))</span><span class="w"></span>
 <a id="ln-96" name="ln-96" href="#ln-96"></a><span class="w">         </span><span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">DATA</span><span class="p">(:)</span><span class="w"></span>
-<a id="ln-97" name="ln-97" href="#ln-97"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-97" name="ln-97" href="#ln-97"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-98" name="ln-98" href="#ln-98"></a><span class="k">   END SUBROUTINE </span><span class="n">array_new_i1d</span><span class="w"></span>
 <a id="ln-99" name="ln-99" href="#ln-99"></a>
 <a id="ln-100" name="ln-100" href="#ln-100"></a><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">array_new_i1d_lb</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="k">DATA</span><span class="p">,</span><span class="w"> </span><span class="n">lb</span><span class="p">)</span><span class="w"></span>
@@ -276,8 +276,8 @@
 <a id="ln-125" name="ln-125" href="#ln-125"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="n">refcount</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-126" name="ln-126" href="#ln-126"></a><span class="k">            DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">)</span><span class="w"></span>
 <a id="ln-127" name="ln-127" href="#ln-127"></a><span class="w">            </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">)</span><span class="w"></span>
-<a id="ln-128" name="ln-128" href="#ln-128"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-129" name="ln-129" href="#ln-129"></a><span class="k">      ENDIF</span>
+<a id="ln-128" name="ln-128" href="#ln-128"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-129" name="ln-129" href="#ln-129"></a><span class="k">      END IF</span>
 <a id="ln-130" name="ln-130" href="#ln-130"></a><span class="k">   END SUBROUTINE </span><span class="n">array_release_i1d</span><span class="w"></span>
 <a id="ln-131" name="ln-131" href="#ln-131"></a>
 <a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">   </span><span class="k">PURE SUBROUTINE </span><span class="n">array_nullify_i1d</span><span class="p">(</span><span class="k">array</span><span class="p">)</span><span class="w"></span>
@@ -302,7 +302,7 @@
 <a id="ln-151" name="ln-151" href="#ln-151"></a><span class="k">         DATA</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span>
 <a id="ln-152" name="ln-152" href="#ln-152"></a><span class="k">      ELSE</span>
 <a id="ln-153" name="ln-153" href="#ln-153"></a><span class="k">         NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span><span class="w"></span>
-<a id="ln-154" name="ln-154" href="#ln-154"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-154" name="ln-154" href="#ln-154"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-155" name="ln-155" href="#ln-155"></a><span class="k">   END FUNCTION </span><span class="n">array_data_i1d</span><span class="w"></span>
 <a id="ln-156" name="ln-156" href="#ln-156"></a>
 <a id="ln-157" name="ln-157" href="#ln-157"></a><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">array_size_i1d</span><span class="p">(</span><span class="k">array</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">the_size</span><span class="p">)</span><span class="w"></span>
@@ -313,7 +313,7 @@
 <a id="ln-162" name="ln-162" href="#ln-162"></a><span class="k">         </span><span class="n">the_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">)</span><span class="w"></span>
 <a id="ln-163" name="ln-163" href="#ln-163"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-164" name="ln-164" href="#ln-164"></a><span class="k">         </span><span class="n">the_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<a id="ln-165" name="ln-165" href="#ln-165"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-165" name="ln-165" href="#ln-165"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-166" name="ln-166" href="#ln-166"></a><span class="k">   END FUNCTION </span><span class="n">array_size_i1d</span><span class="w"></span>
 <a id="ln-167" name="ln-167" href="#ln-167"></a>
 <a id="ln-168" name="ln-168" href="#ln-168"></a><span class="w">   </span><span class="n">PURE_ARRAY_EQUALITY</span><span class="w"> </span><span class="k">FUNCTION </span><span class="n">array_equality_i1</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span><span class="w"> </span><span class="n">array2</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">are_equal</span><span class="p">)</span><span class="w"></span>
@@ -328,7 +328,7 @@
 <a id="ln-177" name="ln-177" href="#ln-177"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">array2</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-178" name="ln-178" href="#ln-178"></a><span class="k">         </span><span class="n">are_equal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">ALL</span><span class="p">(</span><span class="n">array1</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">array2</span><span class="p">)</span><span class="w"></span>
 <a id="ln-179" name="ln-179" href="#ln-179"></a><span class="cp">#endif</span>
-<a id="ln-180" name="ln-180" href="#ln-180"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-180" name="ln-180" href="#ln-180"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-181" name="ln-181" href="#ln-181"></a><span class="k">   END FUNCTION </span><span class="n">array_equality_i1</span><span class="w"></span>
 <a id="ln-182" name="ln-182" href="#ln-182"></a>
 <a id="ln-183" name="ln-183" href="#ln-183"></a><span class="w">   </span><span class="n">PURE_ARRAY_EQUALITY</span><span class="w"> </span><span class="k">FUNCTION </span><span class="n">array_equality_i1d</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span><span class="w"> </span><span class="n">array2</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">are_equal</span><span class="p">)</span><span class="w"></span>
@@ -343,7 +343,7 @@
 <a id="ln-192" name="ln-192" href="#ln-192"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">array1</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">array2</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-193" name="ln-193" href="#ln-193"></a><span class="k">         </span><span class="n">are_equal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">ALL</span><span class="p">(</span><span class="n">array1</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">array2</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">)</span><span class="w"></span>
 <a id="ln-194" name="ln-194" href="#ln-194"></a><span class="cp">#endif</span>
-<a id="ln-195" name="ln-195" href="#ln-195"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-195" name="ln-195" href="#ln-195"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-196" name="ln-196" href="#ln-196"></a><span class="k">   END FUNCTION </span><span class="n">array_equality_i1d</span><span class="w"></span>
 <a id="ln-197" name="ln-197" href="#ln-197"></a>
 <a id="ln-198" name="ln-198" href="#ln-198"></a><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">array_get_i1d</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">index1</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="k">value</span><span class="p">)</span><span class="w"></span>

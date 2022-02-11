@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -280,7 +280,7 @@
 <a id="ln-129" name="ln-129" href="#ln-129"></a><span class="k">            </span><span class="n">local_routine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MINLOC</span><span class="p">(</span><span class="n">collected</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 <a id="ln-130" name="ln-130" href="#ln-130"></a><span class="w">            </span><span class="n">r_stat</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span><span class="w"> </span><span class="n">local_routine_id</span><span class="p">)</span><span class="w"></span>
 <a id="ln-131" name="ln-131" href="#ln-131"></a><span class="w">            </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="w"></span>
-<a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">         </span><span class="k">ENDIF</span>
+<a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">         </span><span class="k">END IF</span>
 <a id="ln-133" name="ln-133" href="#ln-133"></a><span class="k">         CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">sending_rank</span><span class="p">,</span><span class="w"> </span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span><span class="w"></span>
 <a id="ln-134" name="ln-134" href="#ln-134"></a>
 <a id="ln-135" name="ln-135" href="#ln-135"></a><span class="w">         </span><span class="c">! Create new report for routineN</span>
@@ -332,7 +332,7 @@
 <a id="ln-181" name="ln-181" href="#ln-181"></a><span class="w">         </span><span class="n">r_report</span><span class="p">%</span><span class="n">max_erank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">dbuf</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"></span>
 <a id="ln-182" name="ln-182" href="#ln-182"></a>
 <a id="ln-183" name="ln-183" href="#ln-183"></a><span class="w">         </span><span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">r_report</span><span class="p">%</span><span class="n">sum_ecost</span><span class="p">,</span><span class="w"> </span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span><span class="w"></span>
-<a id="ln-184" name="ln-184" href="#ln-184"></a><span class="w">      </span><span class="k">ENDDO</span>
+<a id="ln-184" name="ln-184" href="#ln-184"></a><span class="w">      </span><span class="k">END DO</span>
 <a id="ln-185" name="ln-185" href="#ln-185"></a>
 <a id="ln-186" name="ln-186" href="#ln-186"></a><span class="k">   END SUBROUTINE </span><span class="n">collect_reports_from_ranks</span><span class="w"></span>
 <a id="ln-187" name="ln-187" href="#ln-187"></a>
@@ -382,7 +382,7 @@
 <a id="ln-231" name="ln-231" href="#ln-231"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-232" name="ln-232" href="#ln-232"></a><span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,T35,A,T41,A,T45,2A18)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-233" name="ln-233" href="#ln-233"></a><span class="w">            </span><span class="s2">&quot;SUBROUTINE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;CALLS&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; ASD&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;SELF &quot;</span><span class="o">//</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;TOTAL &quot;</span><span class="o">//</span><span class="n">label</span><span class="w"></span>
-<a id="ln-234" name="ln-234" href="#ln-234"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-234" name="ln-234" href="#ln-234"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-235" name="ln-235" href="#ln-235"></a>
 <a id="ln-236" name="ln-236" href="#ln-236"></a><span class="k">      WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T33,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-237" name="ln-237" href="#ln-237"></a><span class="w">         </span><span class="s2">&quot;MAXIMUM       AVERAGE  MAXIMUM  AVERAGE  MAXIMUM&quot;</span><span class="w"></span>
@@ -397,7 +397,7 @@
 <a id="ln-246" name="ln-246" href="#ln-246"></a><span class="w">         </span><span class="k">ELSE</span>
 <a id="ln-247" name="ln-247" href="#ln-247"></a><span class="k">            </span><span class="n">max_costs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_report_i</span><span class="p">%</span><span class="n">max_icost</span><span class="w"></span>
 <a id="ln-248" name="ln-248" href="#ln-248"></a><span class="w">         </span><span class="k">END IF</span>
-<a id="ln-249" name="ln-249" href="#ln-249"></a><span class="k">      ENDDO</span>
+<a id="ln-249" name="ln-249" href="#ln-249"></a><span class="k">      END DO</span>
 <a id="ln-250" name="ln-250" href="#ln-250"></a><span class="k">      ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">indices</span><span class="p">(</span><span class="n">num_routines</span><span class="p">))</span><span class="w"></span>
 <a id="ln-251" name="ln-251" href="#ln-251"></a><span class="w">      </span><span class="k">CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">max_costs</span><span class="p">,</span><span class="w"> </span><span class="n">num_routines</span><span class="p">,</span><span class="w"> </span><span class="n">indices</span><span class="p">)</span><span class="w"></span>
 <a id="ln-252" name="ln-252" href="#ln-252"></a>
@@ -416,7 +416,7 @@
 <a id="ln-265" name="ln-265" href="#ln-265"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-266" name="ln-266" href="#ln-266"></a><span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A,I0,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-267" name="ln-267" href="#ln-267"></a><span class="w">            </span><span class="s2">&quot;(T2,A30,1X,I7,1X,F4.1,4(1X,F8.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;))&quot;</span><span class="w"></span>
-<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="w">      </span><span class="k">ENDIF</span><span class="w"></span>
+<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="w">      </span><span class="k">END IF</span><span class="w"></span>
 <a id="ln-269" name="ln-269" href="#ln-269"></a>
 <a id="ln-270" name="ln-270" href="#ln-270"></a><span class="w">      </span><span class="c">!write output</span>
 <a id="ln-271" name="ln-271" href="#ln-271"></a><span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num_routines</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
@@ -445,7 +445,7 @@
 <a id="ln-294" name="ln-294" href="#ln-294"></a><span class="w">                  </span><span class="n">r_report_j</span><span class="p">%</span><span class="n">max_ecost</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-295" name="ln-295" href="#ln-295"></a><span class="w">                  </span><span class="n">r_report_j</span><span class="p">%</span><span class="n">sum_icost</span><span class="o">/</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-296" name="ln-296" href="#ln-296"></a><span class="w">                  </span><span class="n">r_report_j</span><span class="p">%</span><span class="n">max_icost</span><span class="w"></span>
-<a id="ln-297" name="ln-297" href="#ln-297"></a><span class="w">            </span><span class="k">ENDIF</span>
+<a id="ln-297" name="ln-297" href="#ln-297"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-298" name="ln-298" href="#ln-298"></a><span class="k">         END IF</span>
 <a id="ln-299" name="ln-299" href="#ln-299"></a><span class="k">      END DO</span>
 <a id="ln-300" name="ln-300" href="#ln-300"></a><span class="k">      WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,/)&quot;</span><span class="p">)</span><span class="w"> </span><span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">79</span><span class="p">)</span><span class="w"></span>

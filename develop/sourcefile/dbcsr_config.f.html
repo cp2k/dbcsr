@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -339,7 +339,7 @@
 <a id="ln-188" name="ln-188" href="#ln-188"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nthreads</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-189" name="ln-189" href="#ln-189"></a><span class="k">         </span><span class="n">nthreads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <a id="ln-190" name="ln-190" href="#ln-190"></a><span class="c">!$       nthreads = OMP_GET_MAX_THREADS()</span>
-<a id="ln-191" name="ln-191" href="#ln-191"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-191" name="ln-191" href="#ln-191"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-192" name="ln-192" href="#ln-192"></a>
 <a id="ln-193" name="ln-193" href="#ln-193"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">use_mpi_allocator</span><span class="w"></span>
 <a id="ln-194" name="ln-194" href="#ln-194"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">avg_elements_images</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">avg_elements_images</span><span class="w"></span>
@@ -367,21 +367,21 @@
 <a id="ln-216" name="ln-216" href="#ln-216"></a><span class="k">               </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
 <a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">            </span><span class="k">ELSE</span>
 <a id="ln-218" name="ln-218" href="#ln-218"></a><span class="k">               </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
-<a id="ln-219" name="ln-219" href="#ln-219"></a><span class="w">            </span><span class="k">ENDIF</span>
-<a id="ln-220" name="ln-220" href="#ln-220"></a><span class="k">         ENDIF</span>
-<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="k">      ENDIF</span>
+<a id="ln-219" name="ln-219" href="#ln-219"></a><span class="w">            </span><span class="k">END IF</span>
+<a id="ln-220" name="ln-220" href="#ln-220"></a><span class="k">         END IF</span>
+<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="k">      END IF</span>
 <a id="ln-222" name="ln-222" href="#ln-222"></a>
 <a id="ln-223" name="ln-223" href="#ln-223"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-224" name="ln-224" href="#ln-224"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nstacks</span><span class="w"></span>
 <a id="ln-225" name="ln-225" href="#ln-225"></a><span class="w">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nstacks</span><span class="w"></span>
 <a id="ln-226" name="ln-226" href="#ln-226"></a><span class="w">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nstacks</span><span class="w"></span>
-<a id="ln-227" name="ln-227" href="#ln-227"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-227" name="ln-227" href="#ln-227"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-228" name="ln-228" href="#ln-228"></a>
 <a id="ln-229" name="ln-229" href="#ln-229"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-230" name="ln-230" href="#ln-230"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm_stack_size</span><span class="w"></span>
 <a id="ln-231" name="ln-231" href="#ln-231"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">mm_stack_size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-232" name="ln-232" href="#ln-232"></a><span class="w">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm_stack_default_size</span><span class="w"></span>
-<a id="ln-233" name="ln-233" href="#ln-233"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-233" name="ln-233" href="#ln-233"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-234" name="ln-234" href="#ln-234"></a>
 <a id="ln-235" name="ln-235" href="#ln-235"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-236" name="ln-236" href="#ln-236"></a><span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">mm_name_auto</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
@@ -398,8 +398,8 @@
 <a id="ln-247" name="ln-247" href="#ln-247"></a><span class="w">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm_driver_xsmm</span><span class="w"></span>
 <a id="ln-248" name="ln-248" href="#ln-248"></a><span class="w">         </span><span class="k">ELSE</span>
 <a id="ln-249" name="ln-249" href="#ln-249"></a><span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unknown MM driver: &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span><span class="w"></span>
-<a id="ln-250" name="ln-250" href="#ln-250"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-251" name="ln-251" href="#ln-251"></a><span class="k">      ENDIF</span>
+<a id="ln-250" name="ln-250" href="#ln-250"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-251" name="ln-251" href="#ln-251"></a><span class="k">      END IF</span>
 <a id="ln-252" name="ln-252" href="#ln-252"></a>
 <a id="ln-253" name="ln-253" href="#ln-253"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_set_config</span><span class="w"></span>
 <a id="ln-254" name="ln-254" href="#ln-254"></a>
@@ -511,7 +511,7 @@
 <a id="ln-360" name="ln-360" href="#ln-360"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-361" name="ln-361" href="#ln-361"></a><span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T72,A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-362" name="ln-362" href="#ln-362"></a><span class="w">            </span><span class="s2">&quot;DBCSR| Maximum elements for images&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;UNLIMITED&quot;</span><span class="w"></span>
-<a id="ln-363" name="ln-363" href="#ln-363"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-363" name="ln-363" href="#ln-363"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-364" name="ln-364" href="#ln-364"></a><span class="k">      WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-365" name="ln-365" href="#ln-365"></a><span class="w">         </span><span class="s2">&quot;DBCSR| Multiplicative factor virtual images&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span><span class="w"></span>
 <a id="ln-366" name="ln-366" href="#ln-366"></a>
@@ -528,7 +528,7 @@
 <a id="ln-377" name="ln-377" href="#ln-377"></a><span class="w">            </span><span class="s2">&quot;DBCSR| Multiplication size n stacks&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span><span class="w"></span>
 <a id="ln-378" name="ln-378" href="#ln-378"></a><span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-379" name="ln-379" href="#ln-379"></a><span class="w">            </span><span class="s2">&quot;DBCSR| Multiplication size k stacks&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span><span class="w"></span>
-<a id="ln-380" name="ln-380" href="#ln-380"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-380" name="ln-380" href="#ln-380"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-381" name="ln-381" href="#ln-381"></a>
 <a id="ln-382" name="ln-382" href="#ln-382"></a><span class="k">      WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-383" name="ln-383" href="#ln-383"></a><span class="w">         </span><span class="s2">&quot;DBCSR| Use memory pool for CPU allocation&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span><span class="w"></span>
@@ -540,7 +540,7 @@
 <a id="ln-389" name="ln-389" href="#ln-389"></a><span class="w">         </span><span class="k">ELSE</span>
 <a id="ln-390" name="ln-390" href="#ln-390"></a><span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-391" name="ln-391" href="#ln-391"></a><span class="w">               </span><span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="w"></span>
-<a id="ln-392" name="ln-392" href="#ln-392"></a><span class="w">         </span><span class="k">ENDIF</span>
+<a id="ln-392" name="ln-392" href="#ln-392"></a><span class="w">         </span><span class="k">END IF</span>
 <a id="ln-393" name="ln-393" href="#ln-393"></a><span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-394" name="ln-394" href="#ln-394"></a><span class="w">            </span><span class="s2">&quot;DBCSR| Use MPI memory allocation&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span><span class="w"></span>
 <a id="ln-395" name="ln-395" href="#ln-395"></a><span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
@@ -558,7 +558,7 @@
 <a id="ln-407" name="ln-407" href="#ln-407"></a><span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-408" name="ln-408" href="#ln-408"></a><span class="w">               </span><span class="s2">&quot;DBCSR| MPI: Number of nodes&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">numnodes</span><span class="w"></span>
 <a id="ln-409" name="ln-409" href="#ln-409"></a><span class="w">         </span><span class="k">END BLOCK</span>
-<a id="ln-410" name="ln-410" href="#ln-410"></a><span class="k">      ENDIF</span>
+<a id="ln-410" name="ln-410" href="#ln-410"></a><span class="k">      END IF</span>
 <a id="ln-411" name="ln-411" href="#ln-411"></a>
 <a id="ln-412" name="ln-412" href="#ln-412"></a><span class="k">      BLOCK</span>
 <a id="ln-413" name="ln-413" href="#ln-413"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">numthreads</span><span class="p">,</span><span class="w"> </span><span class="n">numthreads_max</span><span class="w"></span>
@@ -626,7 +626,7 @@
 <a id="ln-475" name="ln-475" href="#ln-475"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">in_accdrv_active_device_id</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">in_accdrv_active_device_id</span><span class="w"> </span><span class="p">.</span><span class="n">GE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_acc_get_ndevices</span><span class="p">())</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-476" name="ln-476" href="#ln-476"></a><span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid accelerator device ID&quot;</span><span class="p">)</span><span class="w"></span>
 <a id="ln-477" name="ln-477" href="#ln-477"></a><span class="w">         </span><span class="n">accdrv_active_device_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in_accdrv_active_device_id</span><span class="w"></span>
-<a id="ln-478" name="ln-478" href="#ln-478"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-478" name="ln-478" href="#ln-478"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-479" name="ln-479" href="#ln-479"></a>
 <a id="ln-480" name="ln-480" href="#ln-480"></a><span class="k">   END SUBROUTINE </span><span class="n">set_accdrv_active_device_id</span><span class="w"></span>
 <a id="ln-481" name="ln-481" href="#ln-481"></a>

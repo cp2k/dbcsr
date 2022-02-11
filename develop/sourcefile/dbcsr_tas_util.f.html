@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -219,8 +219,8 @@
 <a id="ln-68" name="ln-68" href="#ln-68"></a><span class="w">         </span><span class="k">DO </span><span class="n">pcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <a id="ln-69" name="ln-69" href="#ln-69"></a><span class="w">            </span><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">prow</span><span class="p">,</span><span class="w"> </span><span class="n">pcol</span><span class="o">/</span><span class="p">)</span><span class="w"></span>
 <a id="ln-70" name="ln-70" href="#ln-70"></a><span class="w">            </span><span class="k">CALL </span><span class="n">mp_cart_rank</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span><span class="w"> </span><span class="n">coord</span><span class="p">,</span><span class="w"> </span><span class="n">pgrid</span><span class="p">(</span><span class="n">prow</span><span class="p">,</span><span class="w"> </span><span class="n">pcol</span><span class="p">))</span><span class="w"></span>
-<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">         </span><span class="k">ENDDO</span>
-<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="k">      ENDDO</span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">         </span><span class="k">END DO</span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="k">      END DO</span>
 <a id="ln-73" name="ln-73" href="#ln-73"></a>
 <a id="ln-74" name="ln-74" href="#ln-74"></a><span class="k">      </span><span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">mynode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pgrid</span><span class="p">(</span><span class="n">mycoord</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">mycoord</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span><span class="w"></span>
 <a id="ln-75" name="ln-75" href="#ln-75"></a>
@@ -270,8 +270,8 @@
 <a id="ln-119" name="ln-119" href="#ln-119"></a><span class="k">            </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <a id="ln-120" name="ln-120" href="#ln-120"></a><span class="w">            </span><span class="n">index_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
 <a id="ln-121" name="ln-121" href="#ln-121"></a><span class="w">            </span><span class="n">prev_index</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
-<a id="ln-122" name="ln-122" href="#ln-122"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-123" name="ln-123" href="#ln-123"></a><span class="k">      ENDDO</span>
+<a id="ln-122" name="ln-122" href="#ln-122"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-123" name="ln-123" href="#ln-123"></a><span class="k">      END DO</span>
 <a id="ln-124" name="ln-124" href="#ln-124"></a>
 <a id="ln-125" name="ln-125" href="#ln-125"></a><span class="k">      ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">index_out</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w"></span>
 <a id="ln-126" name="ln-126" href="#ln-126"></a><span class="w">      </span><span class="n">index_out</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">index_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
@@ -284,7 +284,7 @@
 <a id="ln-133" name="ln-133" href="#ln-133"></a><span class="k">         </span><span class="n">trans_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_no_transpose</span><span class="w"></span>
 <a id="ln-134" name="ln-134" href="#ln-134"></a><span class="w">      </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">trans_flag</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">dbcsr_no_transpose</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-135" name="ln-135" href="#ln-135"></a><span class="k">         </span><span class="n">trans_flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_transpose</span><span class="w"></span>
-<a id="ln-136" name="ln-136" href="#ln-136"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-136" name="ln-136" href="#ln-136"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-137" name="ln-137" href="#ln-137"></a><span class="k">   END SUBROUTINE</span>
 <a id="ln-138" name="ln-138" href="#ln-138"></a>
 <a id="ln-139" name="ln-139" href="#ln-139"></a><span class="k">   </span><span class="n">PURE_ARRAY_EQ</span><span class="w"> </span><span class="k">FUNCTION </span><span class="n">array_eq_i</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span><span class="w"> </span><span class="n">arr2</span><span class="p">)</span><span class="w"></span>

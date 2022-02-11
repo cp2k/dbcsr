@@ -131,13 +131,13 @@ CONTAINS
                                        match_row_pdist, &
                                        nprows, &
                                        imgdist%i%row_multiplicity, imgdist%i%row_decimation)
-            ENDIF
+            END IF
          ELSE
             row_dist_data => dbcsr_distribution_row_dist(dist)
             CALL reimage_distribution(row_img_data, &
                                       row_dist_data, nprows, imgdist%i%row_decimation)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       CALL make_vdistribution(nrows, row_vdist, row_dist_data, &
                               imgdist%i%row_decimation, row_img_data)
       CALL array_new(imgdist%i%vrow_dist, row_vdist, gift=.TRUE.)
@@ -171,14 +171,14 @@ CONTAINS
                                        match_col_pdist, &
                                        npcols, &
                                        imgdist%i%col_multiplicity, imgdist%i%col_decimation)
-            ENDIF
+            END IF
          ELSE
             col_dist_data => dbcsr_distribution_col_dist(dist)
             CALL reimage_distribution(col_img_data, &
                                       col_dist_data, &
                                       npcols, imgdist%i%col_decimation)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       CALL make_vdistribution(ncols, col_vdist, col_dist_data, &
                               imgdist%i%col_decimation, col_img_data)
       CALL array_new(imgdist%i%vcol_dist, col_vdist, gift=.TRUE.)
@@ -195,7 +195,7 @@ CONTAINS
                                      row_dist_data, col_dist_data)
          IF (new_row_dist) DEALLOCATE (row_dist_data)
          IF (new_col_dist) DEALLOCATE (col_dist_data)
-      ENDIF
+      END IF
       ! Now finish the distribution image.
       imgdist%i%main = new_dist
       CALL array_new(imgdist%i%col_image, col_img_data, gift=.TRUE.)
@@ -211,7 +211,7 @@ CONTAINS
 !$       imgdist%i%main%d%has_thread_dist = .TRUE.
 !$       imgdist%i%main%d%thread_dist = dist%d%thread_dist
 !$       CALL array_hold(imgdist%i%main%d%thread_dist)
-!$    ENDIF
+!$    END IF
    END SUBROUTINE dbcsr_create_image_dist
 
    SUBROUTINE dbcsr_new_image_dist(imgdist, dist, &
@@ -309,8 +309,8 @@ CONTAINS
          ! Resets the thread distribution to be in-order.
          DO i = 1, m_nbins
             tdist((i - 1)*nthreads + 1:(i)*nthreads) = (/(j, j=0, nthreads - 1)/)
-         ENDDO
-      ENDIF
+         END DO
+      END IF
       !
       CALL dbcsr_make_1dist_dense(k_nbins, old_k_vdist, new_k_vdist, k_vmap, 0)
       CALL v_to_p_i_dist_o(new_k_vdist, &
@@ -424,7 +424,7 @@ CONTAINS
                                     matrix%index(dbcsr_slot_home_vprow))
       ELSE
          matrix%local_rows = imgdist%i%main%d%local_rows
-      ENDIF
+      END IF
       CALL array_hold(matrix%local_rows)
       matrix%has_local_rows = .TRUE.
       matrix%nblkrows_local = array_size(matrix%local_rows)
@@ -438,7 +438,7 @@ CONTAINS
                                     matrix%index(dbcsr_slot_home_vpcol))
       ELSE
          matrix%local_cols = imgdist%i%main%d%local_cols
-      ENDIF
+      END IF
       CALL array_hold(matrix%local_cols)
       matrix%has_local_cols = .TRUE.
       matrix%nblkcols_local = array_size(matrix%local_cols)
@@ -478,20 +478,20 @@ CONTAINS
          DO el = 1, SIZE(vrow_dist)
             vprow = vrow_dist(el)
             nle(vprow) = nle(vprow) + 1
-         ENDDO
+         END DO
          DO vprow = 0, nvprows - 1
             ALLOCATE (itmp(nle(vprow)))
             itmp = 0
             CALL array_new(imgdist%i%other_vl_rows(vprow), &
                            itmp, lb=1)
             DEALLOCATE (itmp)
-         ENDDO
+         END DO
          DEALLOCATE (nle)
          CALL find_all_local_elements(imgdist%i%other_vl_rows, vrow_dist, nvprows)
       ELSE
          IF (careful_mod .AND. .NOT. ASSOCIATED(imgdist%i%other_vl_rows)) &
             DBCSR_ABORT("Local rows mapping does not exist.")
-      ENDIF
+      END IF
       local_vrows = imgdist%i%other_vl_rows(local_vprow)
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_local_vrows
@@ -526,20 +526,20 @@ CONTAINS
          DO el = 1, SIZE(vcol_dist)
             vpcol = vcol_dist(el)
             nle(vpcol) = nle(vpcol) + 1
-         ENDDO
+         END DO
          DO vpcol = 0, nvpcols - 1
             ALLOCATE (itmp(nle(vpcol)))
             itmp = 0
             CALL array_new(imgdist%i%other_vl_cols(vpcol), &
                            itmp, lb=1)
             DEALLOCATE (itmp)
-         ENDDO
+         END DO
          DEALLOCATE (nle)
          CALL find_all_local_elements(imgdist%i%other_vl_cols, vcol_dist, nvpcols)
       ELSE
          IF (careful_mod .AND. .NOT. ASSOCIATED(imgdist%i%other_vl_cols)) &
             DBCSR_ABORT("Local cols mapping does not exist.")
-      ENDIF
+      END IF
       local_vcols = imgdist%i%other_vl_cols(local_vpcol)
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_local_vcols
@@ -573,11 +573,11 @@ CONTAINS
       IF (careful_mod .AND. .NOT. PRESENT(myvprow) .AND. .NOT. PRESENT(mycoli)) THEN
          CALL dbcsr_abort(__LOCATION__, &
                           "Must specify either (process row and row image) or (virtual process row)")
-      ENDIF
+      END IF
       IF (careful_mod .AND. .NOT. PRESENT(myvpcol) .AND. .NOT. PRESENT(mycoli)) THEN
          CALL dbcsr_abort(__LOCATION__, &
                           "Must specify either (process col and col image) or (virtual process col)")
-      ENDIF
+      END IF
       !
       mp = image_dist%i%main%d%mp_env
       nprows = SIZE(mp%mp%pgrid, 1)
@@ -593,23 +593,23 @@ CONTAINS
          my_prow = myprow
       ELSE
          my_prow = mp%mp%myprow
-      ENDIF
+      END IF
       IF (PRESENT(mypcol)) THEN
          my_pcol = mypcol
       ELSE
          my_pcol = mp%mp%mypcol
-      ENDIF
+      END IF
       !
       IF (.NOT. PRESENT(myvprow)) THEN
          vrow = my_prow*nrow_images + myrowi - 1
       ELSE
          vrow = myvprow
-      ENDIF
+      END IF
       IF (.NOT. PRESENT(myvpcol)) THEN
          vcol = my_pcol*ncol_images + mycoli - 1
       ELSE
          vcol = myvpcol
-      ENDIF
+      END IF
       !
       IF (PRESENT(vprow_shift)) vrow = vrow + vprow_shift
       IF (PRESENT(vpcol_shift)) vcol = vcol + vpcol_shift
@@ -624,7 +624,7 @@ CONTAINS
          CASE ('l')
             vcol = vcol - my_prow*col_mult
          END SELECT
-      ENDIF
+      END IF
       vrow = MODULO(vrow, nvprows)
       vcol = MODULO(vcol, nvpcols)
       IF (PRESENT(prow)) prow = vrow/nrow_images
@@ -655,7 +655,7 @@ CONTAINS
       new_s(:) = 0
       DO el = 1, nel_old
          new_s(map(el)) = new_s(map(el)) + old_s(el)
-      ENDDO
+      END DO
       CALL array_new(new_sizes, new_s, gift=.TRUE.)
    END SUBROUTINE make_sizes_dense
 
@@ -683,7 +683,7 @@ CONTAINS
          n_new_bins = nbins
       ELSE
          n_new_bins = nbins*nsubdist
-      ENDIF
+      END IF
       old_d => array_data(old_dist)
       ALLOCATE (dense(n_new_bins))
       ALLOCATE (map(array_size(old_dist)))
@@ -694,9 +694,9 @@ CONTAINS
       ELSE
          DO i = 1, nbins
             dense((i - 1)*nsubdist + 1:(i)*nsubdist) = i - 1
-         ENDDO
+         END DO
          map(:) = old_d(:)*nsubdist + subdist(:) + 1
-      ENDIF
+      END IF
       !
       CALL array_new(dense_dist, dense, gift=.TRUE.)
       CALL array_new(dist_map, map, gift=.TRUE.)
@@ -758,7 +758,7 @@ CONTAINS
       ELSE
          IF (careful_mod .AND. .NOT. array_exists(dist%d%global_row_map)) &
             DBCSR_ABORT("Row map does not exist.")
-      ENDIF
+      END IF
       row_map = dist%d%global_row_map
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_global_row_map
@@ -788,7 +788,7 @@ CONTAINS
       ELSE
          IF (careful_mod .AND. .NOT. array_exists(dist%d%global_col_map)) &
             DBCSR_ABORT("Column map does not exist.")
-      ENDIF
+      END IF
       col_map = dist%d%global_col_map
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_global_col_map
@@ -819,7 +819,7 @@ CONTAINS
       ELSE
          IF (careful_mod .AND. .NOT. array_exists(imgdist%i%global_vrow_map)) &
             DBCSR_ABORT("Row map does not exist.")
-      ENDIF
+      END IF
       vrow_map = imgdist%i%global_vrow_map
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_global_vrow_map
@@ -850,7 +850,7 @@ CONTAINS
       ELSE
          IF (careful_mod .AND. .NOT. array_exists(imgdist%i%global_vcol_map)) &
             DBCSR_ABORT("Col map does not exist.")
-      ENDIF
+      END IF
       vcol_map = imgdist%i%global_vcol_map
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_global_vcol_map
@@ -878,7 +878,7 @@ CONTAINS
          bin = bin_distribution(el)
          nlve(bin) = nlve(bin) + 1
          global_elements(el) = nlve(bin)
-      ENDDO
+      END DO
    END SUBROUTINE map_all_local_elements
 
    SUBROUTINE reimage_distribution(images, my_bins, &
@@ -933,8 +933,8 @@ CONTAINS
          bin_multiplier(bin) = bin_multiplier(bin) + 1
          IF (bin_multiplier(bin) .GE. nimages) THEN
             bin_multiplier(bin) = 0
-         ENDIF
-      ENDDO
+         END IF
+      END DO
    END SUBROUTINE reimage_distribution
 
    PURE SUBROUTINE make_vdistribution(nelements, vbins, bins, decimation, images)
@@ -1009,14 +1009,14 @@ CONTAINS
          ELSE
             ! Fill remainder with a cyclic distribution
             virtual_bin = MOD(i, nbins*nimages)
-         ENDIF
+         END IF
          new_bins(i) = virtual_bin/nimages
          images(i) = 1 + MOD(virtual_bin, nimages)
          IF (new_bins(i) .GE. nbins) &
             DBCSR_ABORT("Wrong bin calculation")
          IF (images(i) .GT. nimages) &
             DBCSR_ABORT("Wrong image calculation")
-      ENDDO
+      END DO
    END SUBROUTINE rebin_imaged_distribution
 
 END MODULE dbcsr_mm_dist_operations

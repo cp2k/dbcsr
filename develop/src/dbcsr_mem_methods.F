@@ -96,8 +96,8 @@ CONTAINS
             best_cur => cur
             best_prev => prev
             best_size = s
-         ENDIF
-      ENDDO
+         END IF
+      END DO
 
       IF (ASSOCIATED(best_cur)) THEN
          IF (best_cur%area%d%refcount /= 0) DBCSR_ABORT("refcount /= 0")
@@ -158,8 +158,8 @@ CONTAINS
          ELSE
             prev => cur
             cur => cur%next
-         ENDIF
-      ENDDO
+         END IF
+      END DO
 !$    CALL OMP_UNSET_LOCK(pool%lock)
    END SUBROUTINE mempool_collect_garbage
 
@@ -198,7 +198,7 @@ CONTAINS
          prev => cur
          cur => cur%next
          DEALLOCATE (prev)
-      ENDDO
+      END DO
       NULLIFY (pool%root%next)
 !$    CALL OMP_UNSET_LOCK(pool%lock)
 
@@ -249,7 +249,7 @@ CONTAINS
          memtype%oversize_factor = aim%oversize_factor
          IF (my_has_pool) &
             CALL dbcsr_mempool_create(memtype%pool)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_memtype_setup
 
    FUNCTION dbcsr_memtype_equal(mt1, mt2) RESULT(res)

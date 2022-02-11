@@ -276,7 +276,7 @@ CONTAINS
       ELSE
          average = 0
          min_recv_data = 0
-      ENDIF
+      END IF
 
       total_recv_breakdown(:, :, :) = dbcsr_mpi_statistics%data_size_breakdown(:, :, :)
       CALL mp_sum(total_recv_breakdown, group)
@@ -308,12 +308,12 @@ CONTAINS
                   WRITE (output_unit, '(A,I8,A,I8,T40,I10,T55,I20)') "  ", dbcsr_mpi_size_limits(ilimit - 1), &
                      " < size <= ", dbcsr_mpi_size_limits(ilimit), &
                      SUM(total_recv_breakdown(ilimit, 1, :)), SUM(total_recv_breakdown(ilimit, 2, :))
-               ENDDO
+               END DO
                ilimit = SIZE(dbcsr_mpi_size_limits)
                WRITE (output_unit, '(A,I8,A,T40,I10,T55,I20)') "  ", dbcsr_mpi_size_limits(ilimit), &
                   " < size    ", SUM(total_recv_breakdown(ilimit + 1, 1, :)), SUM(total_recv_breakdown(ilimit + 1, 2, :))
-            ENDIF
-         ENDIF
+            END IF
+         END IF
 
          isqrt = NINT(SQRT(REAL(dbcsr_mpi_statistics%last_mpi_ranks_used, KIND=real_8)))
          isqrt2 = NINT(SQRT(REAL(dbcsr_mpi_statistics%last_mpi_ranks_used*2, KIND=real_8)))
@@ -324,8 +324,8 @@ CONTAINS
                " Used ranks: ", dbcsr_mpi_statistics%last_mpi_ranks_used, &
                " Suggested: ", isqrt**2, isqrt2**2
             DBCSR_WARN(msg)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE dbcsr_multiply_print_statistics
 
    SUBROUTINE dbcsr_multiply_clear_mempools()
@@ -458,7 +458,7 @@ CONTAINS
       ! Reset GPU errors
       IF (has_acc) THEN
          CALL dbcsr_acc_clear_errors()
-      ENDIF
+      END IF
 
       ! Check if RMA is used with buggy OpenMPI (version<1.10.4 or 2.0.1)
       CALL check_openmpi_rma()
@@ -472,7 +472,7 @@ CONTAINS
          IF (.NOT. acc_stream_associated(stream_1)) THEN
             CALL acc_stream_create(stream_1, "MemCpy (odd ticks)")
             CALL acc_stream_create(stream_2, "MemCpy (even ticks)")
-         ENDIF
+         END IF
 
          CALL dbcsr_memtype_setup(memtype_abpanel_1, has_pool=.TRUE., &
                                   acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_1, &
@@ -489,7 +489,7 @@ CONTAINS
                                   acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_2)
          CALL dbcsr_mempool_limit_capacity(memtype_trsbuffer_1%pool, capacity=1)
          CALL dbcsr_mempool_limit_capacity(memtype_trsbuffer_2%pool, capacity=1)
-      ENDIF
+      END IF
 
       CALL dbcsr_memtype_setup(memtype_mpi_buffer, mpi=.TRUE.)
       CALL dbcsr_memtype_setup(memtype_mpi_product, mpi=.TRUE., has_pool=use_mempools)
@@ -522,8 +522,8 @@ CONTAINS
             CALL dbcsr_print(matrix_a, nodata=.TRUE.)
             CALL dbcsr_print(matrix_b, nodata=.TRUE.)
             CALL dbcsr_print(matrix_c, nodata=.TRUE.)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       ! transpose/conjg left and/or right matrices if needed
       transpose_left = .FALSE.
@@ -544,7 +544,7 @@ CONTAINS
             CALL dbcsr_new_transposed(matrix_left, matrix_a, &
                                       shallow_data_copy=.TRUE., redistribute=.FALSE., &
                                       transpose_distribution=.FALSE.)
-         ENDIF
+         END IF
          transpose_left = .TRUE.
       CASE (dbcsr_conjugate_transpose)
          matrix_left = dbcsr_type()
@@ -575,7 +575,7 @@ CONTAINS
             CALL dbcsr_new_transposed(matrix_right, matrix_b, &
                                       shallow_data_copy=.TRUE., redistribute=.FALSE., &
                                       transpose_distribution=.FALSE.)
-         ENDIF
+         END IF
          transpose_right = .TRUE.
       CASE (dbcsr_conjugate_transpose)
          matrix_right = dbcsr_type()
@@ -610,7 +610,7 @@ CONTAINS
       ! No dense multiplication when RMA is used.
       IF (dbcsr_cfg%use_mpi_rma) THEN
          use_dense_mult = .FALSE.
-      ENDIF
+      END IF
       ! we skip dense multiply for (anti)symmetric matrices (slowdown for S/H * C)
       IF (use_dense_mult) THEN
          IF (dbcsr_has_symmetry(matrix_left) .OR. &
@@ -619,14 +619,14 @@ CONTAINS
          ELSE
             use_dense_mult = dbcsr_may_be_dense(matrix_left, make_dense_occ_thresh) &
                              .AND. dbcsr_may_be_dense(matrix_right, make_dense_occ_thresh)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       ab_dense = use_dense_mult
       ! Use memory pools when no dense
       IF (.NOT. has_acc) THEN
          CALL dbcsr_memtype_setup(memtype_abpanel_1, has_pool=.NOT. ab_dense .AND. use_mempools, mpi=.TRUE.)
          CALL dbcsr_memtype_setup(memtype_abpanel_2, has_pool=.NOT. ab_dense .AND. use_mempools, mpi=.TRUE.)
-      ENDIF
+      END IF
       !
       ! Submatrix selection
       f_row = 1
@@ -639,34 +639,34 @@ CONTAINS
          IF (first_row .LT. 1 .OR. first_row .GT. dbcsr_nfullrows_total(matrix_c)) &
             DBCSR_ABORT("Invalid first row specified")
          f_row = first_row
-      ENDIF
+      END IF
       IF (PRESENT(last_row)) THEN
          IF (last_row .GT. dbcsr_nfullrows_total(matrix_c)) &
             DBCSR_ABORT("Invalid last row specified")
          l_row = last_row
-      ENDIF
+      END IF
       IF (PRESENT(first_column)) THEN
          IF (first_column .LT. 1 .OR. first_column .GT. dbcsr_nfullcols_total(matrix_c)) &
             DBCSR_ABORT("Invalid first col specified")
          f_col = first_column
-      ENDIF
+      END IF
       IF (PRESENT(last_column)) THEN
          IF (last_column .GT. dbcsr_nfullcols_total(matrix_c)) &
             DBCSR_ABORT("Invalid last column specified (C)")
          IF (last_column .GT. dbcsr_nfullcols_total(matrix_right)) &
             DBCSR_ABORT("Invalid last column specified (B)")
          l_col = last_column
-      ENDIF
+      END IF
       IF (PRESENT(first_k)) THEN
          IF (first_k .LT. 1 .OR. first_k .GT. dbcsr_nfullcols_total(matrix_left)) &
             DBCSR_ABORT("Invalid first k specified (A)")
          f_k = first_k
-      ENDIF
+      END IF
       IF (PRESENT(last_k)) THEN
          IF (last_k .GT. dbcsr_nfullcols_total(matrix_left)) &
             DBCSR_ABORT("Invalid last k specified (A)")
          l_k = last_k
-      ENDIF
+      END IF
       !
       ! update statistics (we count marketing flops per MPI rank)
       dbcsr_mpi_statistics%last_mpi_ranks_used = numnodes
@@ -692,7 +692,7 @@ CONTAINS
                                matrix_c%col_blk_size)) THEN
          l_col = MIN(dbcsr_nfullcols_total(matrix_right), &
                      dbcsr_nfullcols_total(matrix_c))
-      ENDIF
+      END IF
       IF (f_row .GT. l_row .AND. l_row .GT. 0) &
          DBCSR_ABORT("Last row smaller than first row")
       IF (f_col .GT. l_col .AND. l_col .GT. 0) &
@@ -713,7 +713,7 @@ CONTAINS
       IF (.NOT. dbcsr_scalar_are_equal(beta, dbcsr_scalar_one(beta%data_type)) .AND. keep_product_data) THEN
          CALL dbcsr_scale(matrix_c, alpha_scalar=beta, &
                           limits=(/f_row, l_row, f_col, l_col/))
-      ENDIF
+      END IF
       !
       ! The index of the product matrix is twiddled into canonical form
       ! if it is (anti)symmetric (i.e., rows and columns are where the
@@ -723,12 +723,12 @@ CONTAINS
          product_reindex = .TRUE.
       ELSE
          product_reindex = .FALSE.
-      ENDIF
+      END IF
       ! Product can not be made dense; however, A & B may still be made
       ! dense unless previously determined otherwise.
       IF (product_reindex .OR. keep_sparsity) THEN
          use_dense_mult = .FALSE.
-      ENDIF
+      END IF
       !
       ! The thread distribution must reflect the current (possibly
       ! dense) distribution
@@ -745,8 +745,8 @@ CONTAINS
             matrix_c%dist%d%thread_dist = matrix_left%dist%d%thread_dist
             CALL array_hold(matrix_left%dist%d%thread_dist)
             thread_dist_force = .TRUE.
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       !
       ! Compute number of images (rows and columns)
       nimages_left_rows = dbcsr_mp_nprows(dbcsr_distribution_mp(matrix_left%dist))
@@ -788,7 +788,7 @@ CONTAINS
          CALL make_sizes_dense(matrix_right%row_blk_size, k_vmap, &
                                dbcsr_distribution_nrows(dense_rdist_right%i%main), &
                                dense_k_sizes)
-      ENDIF
+      END IF
       !
       IF (use_dense_mult .AND. .NOT. ab_dense) &
          DBCSR_ABORT("Wrong logic when making dense matrices.")
@@ -811,10 +811,10 @@ CONTAINS
       ELSE
          product_matrix = dbcsr_type()
          CALL dbcsr_copy(product_matrix, matrix_c, shallow_data=.TRUE.)
-      ENDIF
+      END IF
       IF (ab_dense) THEN
          CALL dbcsr_distribution_release(dense_product_distribution)
-      ENDIF
+      END IF
       !
       ! This is needed to build the hash tables because they are
       ! locally indexed.
@@ -824,12 +824,12 @@ CONTAINS
          WRITE (*, *) routineN//" Matrices ", dbcsr_get_matrix_type(matrix_a), &
             dbcsr_get_matrix_type(matrix_b), dbcsr_get_matrix_type(matrix_c)
          WRITE (*, *) routineN//" Matrices ", transa_l, transb_l, "keep", keep_product_data
-      ENDIF
+      END IF
       IF (keep_product_data) THEN
          IF (product_reindex) THEN
             IF (debug_mod) WRITE (*, *) routineN//" Making canonical index"
             CALL dbcsr_make_index_canonical(product_matrix)
-         ENDIF
+         END IF
          IF (ASSOCIATED(product_matrix%wms)) &
             DBCSR_ABORT("Product matrix should be finalized!")
          CALL dbcsr_make_untransposed_blocks(product_matrix)
@@ -848,7 +848,7 @@ CONTAINS
          CALL dbcsr_work_create(product_matrix, work_mutable=.FALSE., &
                                 memory_type=memtype_product_wm(ithread)%p)
 !$OMP END PARALLEL
-      ENDIF
+      END IF
       !
       IF (dbcsr_cfg%use_mpi_rma) THEN
          ! Check for previous multiplication completeness
@@ -857,7 +857,7 @@ CONTAINS
             CALL mp_wait(request_sync_mult)
             CALL timestop(handle2)
             request_sync_mult = mp_request_null
-         ENDIF
+         END IF
          !
          ! Left buffer images
          CALL dbcsr_make_buffers(matrix_left, rdist_left, .TRUE., &
@@ -890,14 +890,14 @@ CONTAINS
                        f_k, l_k, f_row, l_row, f_col, l_col, &
                        dense_row_sizes, dense_k_sizes, &
                        k_vmap, m_map, n_map)
-      ENDIF
+      END IF
       !
       IF (ab_dense) THEN
          CALL array_release(k_vmap)
          CALL array_release(dense_row_sizes)
          CALL array_release(dense_col_sizes)
          CALL array_release(dense_k_sizes)
-      ENDIF
+      END IF
       !
       ! The limits were already used.  Reset them.
       f_row = 0; l_row = 0
@@ -917,7 +917,7 @@ CONTAINS
                               filter_eps=filter_eps, &
                               flop=my_flop)
          CALL dbcsr_finalize(product_matrix, reshuffle=PRESENT(filter_eps) .AND. .NOT. keep_sparsity)
-      ENDIF
+      END IF
       !
       ! RMA implementation algorithm has to synchronize at the end of each multiplication
       comm = dbcsr_mp_group(dbcsr_distribution_mp(dbcsr_distribution(matrix_c)))
@@ -929,11 +929,11 @@ CONTAINS
          CALL mp_sum(my_flop, comm)
          IF (PRESENT(flop)) THEN
             flop = (my_flop + numnodes - 1)/numnodes
-         ENDIF
+         END IF
          CALL timestop(handle2)
       ELSEIF (dbcsr_cfg%use_mpi_rma) THEN
          CALL mp_isync(comm, request_sync_mult)
-      ENDIF
+      END IF
       !
       IF (release_tdist) THEN
          CALL dbcsr_distribution_no_threads(product_matrix%dist)
@@ -941,7 +941,7 @@ CONTAINS
          ! Restore matrix_c thread-dist
          matrix_c%dist%d%thread_dist = matrix_c_thread_dist
          CALL array_release(matrix_left%dist%d%thread_dist)
-      ENDIF
+      END IF
       IF (transpose_left) CALL dbcsr_release(matrix_left)
       IF (transpose_right) CALL dbcsr_release(matrix_right)
       !
@@ -951,7 +951,7 @@ CONTAINS
       IF (product_reindex) THEN
          IF (debug_mod) WRITE (*, *) routineN//" Making CP2K index"
          CALL dbcsr_make_index_canonical(product_matrix, cp2k=.TRUE.)
-      ENDIF
+      END IF
       IF (use_dense_mult) THEN
          CALL dbcsr_release(matrix_c)
          matrix_c = dbcsr_type()
@@ -971,21 +971,21 @@ CONTAINS
          matrix_c = dbcsr_type()
          CALL dbcsr_copy(matrix_c, product_matrix, shallow_data=.TRUE.)
          CALL dbcsr_release(product_matrix)
-      ENDIF
+      END IF
       !
       IF (.NOT. dbcsr_cfg%use_mpi_rma) THEN
          CALL dbcsr_destroy_array(m2s_left)
          DEALLOCATE (m2s_left)
          CALL dbcsr_destroy_array(m2s_right)
          DEALLOCATE (m2s_right)
-      ENDIF
+      END IF
       !
       CALL dbcsr_image_dist_release(rdist_left)
       CALL dbcsr_image_dist_release(rdist_right)
       IF (ab_dense) THEN
          CALL array_release(m_map)
          CALL array_release(n_map)
-      ENDIF
+      END IF
       !
       ! To support the canonical multiply (all non-transposed blocks),
       ! blocks may have to be transposed according to the CP2K
@@ -1001,8 +1001,8 @@ CONTAINS
             cs = dbcsr_checksum(matrix_c)
             WRITE (*, *) routineN//" Multiplication", &
                num_multiplications, " Product checksum", cs
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       ! This tends to trigger only when all of these conditions are fulfilled:
       !  - transa=="T"
@@ -1078,7 +1078,7 @@ CONTAINS
                          " --- We disable RMA to prevent errors. "// &
                          "Please install a new OpenMPI version (>=4.0.1). ")
          CALL dbcsr_set_config(use_mpi_rma=.FALSE.)
-      ENDIF
+      END IF
 
    END SUBROUTINE check_openmpi_rma
 

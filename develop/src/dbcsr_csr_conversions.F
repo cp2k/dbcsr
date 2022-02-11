@@ -97,7 +97,7 @@ MODULE dbcsr_csr_conversions
                                                   dbcsr_row_blk_size, dbcsr_col_blk_size
          !! data from original DBCSR matrix (not block-row distributed),
          !! representing the original block structure.
-   ENDTYPE
+   END TYPE
 
    TYPE csr_data_area_type
       !! Data type of CSR matrices
@@ -111,7 +111,7 @@ MODULE dbcsr_csr_conversions
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER   :: c_dp => Null()
       INTEGER                                       :: data_type = -1
          !! data type of CSR matrix
-   ENDTYPE
+   END TYPE
 
    TYPE csr_type
       !! Type for CSR matrices
@@ -140,7 +140,7 @@ MODULE dbcsr_csr_conversions
          !! whether essential data (excluding dbcsr_mapping) is completely allocated
       LOGICAL                                  :: has_indices = .FALSE.
          !! whether rowptr_local and colind_local are defined
-   ENDTYPE csr_type
+   END TYPE csr_type
 
    TYPE csr_p_type
       TYPE(csr_type), POINTER                  :: csr_mat
@@ -207,7 +207,7 @@ CONTAINS
          csr_mat%nzval_local%data_type = data_type
       ELSE
          csr_mat%nzval_local%data_type = dbcsr_type_real_default
-      ENDIF
+      END IF
 
       SELECT CASE (csr_mat%nzval_local%data_type)
       CASE (dbcsr_type_real_4)
@@ -263,7 +263,7 @@ CONTAINS
          matrix_b%rowptr_local = matrix_a%rowptr_local
          matrix_b%nzerow_local = matrix_a%nzerow_local
          matrix_b%colind_local = matrix_a%colind_local
-      ENDIF
+      END IF
 
       IF (matrix_a%has_mapping) THEN
          map = matrix_a%dbcsr_mapping
@@ -284,13 +284,13 @@ CONTAINS
             matrix_b%dbcsr_mapping%dbcsr_col_i = map%dbcsr_col_i
             matrix_b%dbcsr_mapping%dbcsr_row_blk_size = map%dbcsr_row_blk_size
             matrix_b%dbcsr_mapping%dbcsr_col_blk_size = map%dbcsr_col_blk_size
-         ENDIF
+         END IF
 
          CALL dbcsr_copy(matrix_b%dbcsr_mapping%brd_mat, map%brd_mat)
 
          matrix_b%valid = .TRUE.
 
-      ENDIF
+      END IF
 
       CALL timestop(handle)
    END SUBROUTINE csr_create_template
@@ -315,7 +315,7 @@ CONTAINS
 
       DO k = 1, csr_mat%nrows_local
          nzerow(k) = csr_mat%rowptr_local(k + 1) - csr_mat%rowptr_local(k)
-      ENDDO
+      END DO
 
       CALL timestop(handle)
    END SUBROUTINE csr_create_nzerow
@@ -353,7 +353,7 @@ CONTAINS
             DEALLOCATE (map%dbcsr_col_i)
 
          CALL dbcsr_release(map%brd_mat)
-      ENDIF
+      END IF
 
       IF (ASSOCIATED(csr_mat%nzval_local%r_dp)) &
          DEALLOCATE (csr_mat%nzval_local%r_dp)
@@ -486,7 +486,7 @@ CONTAINS
          nfullcol_blkrow(blkrow) = nfullcol_blkrow(blkrow) + col_blk_size
          IF (tr) &
             DBCSR_ABORT("DBCSR block data must not be transposed")
-      ENDDO
+      END DO
       CALL dbcsr_iterator_stop(iter)
 
       el_sum = 0 ! number of elements above current block row
@@ -504,25 +504,25 @@ CONTAINS
          IF (blkrow .GT. prev_blkrow) THEN ! new block row
             IF (prev_blkrow .GT. 0) THEN
                el_sum = el_sum + nfullcol_blkrow(prev_blkrow)*prev_row_blk_size
-            ENDIF
+            END IF
 
             ! number of non-zero full columns on the left of current block:
             fullcol_sum_blkrow = 0
 
             dbcsr_ind = el_sum
-         ENDIF
+         END IF
          DO n = 1, col_blk_size !nr of columns
             DO m = 1, row_blk_size !nr of rows
                dbcsr_ind = dbcsr_ind + 1
                csr_ind = (m - 1)*nfullcol_blkrow(blkrow) + fullcol_sum_blkrow + n + el_sum
                dbcsr_index(csr_ind) = dbcsr_ind
                csr_index(dbcsr_ind) = csr_ind
-            ENDDO
-         ENDDO
+            END DO
+         END DO
          fullcol_sum_blkrow = fullcol_sum_blkrow + col_blk_size
          prev_blkrow = blkrow
          prev_row_blk_size = row_blk_size
-      ENDDO
+      END DO
       CALL dbcsr_iterator_stop(iter)
 
       ! remove BRD zero elements from CSR format
@@ -548,17 +548,17 @@ CONTAINS
                m = m + 1
                dbcsr_index_nozeroes(m) = dbcsr_index(l)
                csr_index(dbcsr_index(l)) = m
-            ENDIF
-         ENDDO
+            END IF
+         END DO
          DEALLOCATE (dbcsr_index)
          dbcsr_index => dbcsr_index_nozeroes
-      ENDIF
+      END IF
 
       IF (ANY(csr_nze .EQ. 0)) THEN
          csr_nze_local = m
       ELSE
          csr_nze_local = nze
-      ENDIF
+      END IF
 
       CALL timestop(handle)
    END SUBROUTINE csr_get_dbcsr_mapping
@@ -606,7 +606,7 @@ CONTAINS
          CASE (dbcsr_type_complex_8)
             brd_mat%data_area%d%c_dp(ind) = csr_mat%nzval_local%c_dp(k)
          END SELECT
-      ENDDO
+      END DO
 
       CALL timestop(handle)
    END SUBROUTINE convert_csr_to_brd
@@ -668,8 +668,8 @@ CONTAINS
          nfullcol_blkrow(blkrow) = nfullcol_blkrow(blkrow) + col_blk_size
          IF (blk .EQ. 1) THEN
             node_row_offset = row_blk_offset
-         ENDIF
-      ENDDO
+         END IF
+      END DO
 
       CALL dbcsr_iterator_stop(iter)
 
@@ -698,9 +698,9 @@ CONTAINS
             local_row_ind = row_blk_offset - node_row_offset ! actually: local row index - 1
             IF (prev_blkrow .GT. 0) THEN
                el_sum = el_sum + nfullcol_blkrow(prev_blkrow)*prev_row_blk_size
-            ENDIF
+            END IF
             dbcsr_ind = el_sum
-         ENDIF
+         END IF
          DO n = 1, col_blk_size !nr of columns
             DO m = 1, row_blk_size !nr of rows
                dbcsr_ind = dbcsr_ind + 1
@@ -713,7 +713,7 @@ CONTAINS
                      ! (not accounting for zero elements inside non-zero blocks)
                      IF (rowptr(local_row_ind + m) .LE. 0) rowptr(local_row_ind + m) = &
                         rowptr(local_row_ind + m) + el_sum + 1 + nfullcol_blkrow(blkrow)*(m - 1)
-                  ENDIF
+                  END IF
                   ind_blk_data = (m + row_blk_size*(n - 1)) ! index of data inside DBCSR blocks
                   SELECT CASE (csr_mat%nzval_local%data_type)
                   CASE (dbcsr_type_real_4)
@@ -729,22 +729,22 @@ CONTAINS
                   ! CSR row pointer has to be corrected if element is zero
                   ! (subtract 1 from all subsequent row pointers)
                   IF (new_ind) rowptr(local_row_ind + m + 1:) = rowptr(local_row_ind + m + 1:) - 1
-               ENDIF
-            ENDDO
-         ENDDO
+               END IF
+            END DO
+         END DO
          prev_blkrow = blkrow
          prev_row_blk_size = row_blk_size
-      ENDDO
+      END DO
 
       IF (new_ind) THEN
          ! Repeat previous row pointer for row pointers to zero rows
          IF (csr_mat%nrows_local .GT. 0) rowptr(1) = 1
          DO k = 1, csr_mat%nrows_local
             IF (rowptr(k) .LE. 0) rowptr(k) = rowptr(k - 1)
-         ENDDO
+         END DO
 
          rowptr(csr_mat%nrows_local + 1) = csr_mat%nze_local + 1
-      ENDIF
+      END IF
 
       CALL csr_create_nzerow(csr_mat, nzerow)
 
@@ -803,7 +803,7 @@ CONTAINS
          CALL dbcsr_desymmetrize_deep(dbcsr_mat, dbcsr_mat_nosym, untransposed_data=.TRUE.)
       ELSE
          CALL dbcsr_copy(dbcsr_mat_nosym, dbcsr_mat)
-      ENDIF
+      END IF
 
       IF (PRESENT(csr_sparsity)) THEN
          IF (dbcsr_has_symmetry(csr_sparsity)) THEN
@@ -811,7 +811,7 @@ CONTAINS
                                          untransposed_data=.TRUE.)
          ELSE
             CALL dbcsr_copy(csr_sparsity_nosym, csr_sparsity)
-         ENDIF
+         END IF
       ELSE
          CALL dbcsr_create(csr_sparsity_nosym, &
                            template=dbcsr_mat_nosym, &
@@ -819,7 +819,7 @@ CONTAINS
                            data_type=dbcsr_type_real_8)
          CALL dbcsr_copy(csr_sparsity_nosym, dbcsr_mat_nosym)
          CALL dbcsr_set(csr_sparsity_nosym, 1.0_dp)
-      ENDIF
+      END IF
 
       IF (.NOT. dbcsr_has_same_block_structure(dbcsr_mat_nosym, csr_sparsity_nosym)) &
          DBCSR_ABORT("csr_sparsity and dbcsr_mat have different sparsity pattern")
@@ -833,7 +833,7 @@ CONTAINS
          num_p = numnodes
       ELSE
          num_p = dbcsr_numnodes
-      ENDIF
+      END IF
 
       CALL dbcsr_create_brd(dbcsr_mat_nosym, brd_mat, equal_dist, floor_dist, &
                             num_p)
@@ -933,7 +933,7 @@ CONTAINS
       ELSE
          CALL dbcsr_warn(__LOCATION__, "Can not assert consistency of the matrices "// &
                          "as no block data stored in CSR matrix.")
-      ENDIF
+      END IF
       CALL timestop(handle)
    END SUBROUTINE csr_assert_consistency_with_dbcsr
 
@@ -964,7 +964,7 @@ CONTAINS
          CALL dbcsr_desymmetrize_deep(dbcsr_mat, dbcsr_mat_nosym, untransposed_data=.TRUE.)
       ELSE
          dbcsr_mat_nosym = dbcsr_mat
-      ENDIF
+      END IF
 
       CALL csr_assert_consistency_with_dbcsr(csr_mat, dbcsr_mat_nosym)
 
@@ -1007,7 +1007,7 @@ CONTAINS
          CALL dbcsr_desymmetrize_deep(dbcsr_mat, dbcsr_mat_nosym, untransposed_data=.TRUE.)
       ELSE
          dbcsr_mat_nosym = dbcsr_mat
-      ENDIF
+      END IF
 
       CALL csr_assert_consistency_with_dbcsr(csr_mat, dbcsr_mat_nosym)
 
@@ -1072,11 +1072,11 @@ CONTAINS
             WHERE (block_abs .LT. eps) csr_sparsity_blk = 0.0_dp
             CALL dbcsr_put_block(csr_sparsity, blkrow, blkcol, csr_sparsity_blk, transposed=tr)
             DEALLOCATE (csr_sparsity_blk, block_abs)
-         ENDDO
+         END DO
          CALL dbcsr_iterator_stop(iter)
          CALL dbcsr_data_clear_pointer(block)
          CALL dbcsr_data_release(block)
-      ENDIF
+      END IF
 
    END SUBROUTINE dbcsr_to_csr_filter
 
@@ -1111,19 +1111,19 @@ CONTAINS
          ut = upper_triangle
       ELSE
          ut = .FALSE.
-      ENDIF
+      END IF
 
       IF (PRESENT(threshold)) THEN
          thld = threshold
       ELSE
          thld = 0.0_dp
-      ENDIF
+      END IF
 
       IF (PRESENT(binary)) THEN
          bin = binary
       ELSE
          bin = .FALSE.
-      ENDIF
+      END IF
 
       IF (.NOT. csr_mat%valid) &
          DBCSR_ABORT("can not write invalid CSR matrix")
@@ -1162,7 +1162,7 @@ CONTAINS
                data_format = "(2(I8),2(E23.14E3))"
                ALLOCATE (nzval_to_master_c_dp(sizes_nzelocal(ii + 1)))
             END SELECT
-         ENDIF
+         END IF
 
          IF (mynode .EQ. 0) THEN ! receive at node 0
             IF (ii .EQ. 0) THEN ! data from node 0, no need for mpi routines
@@ -1191,8 +1191,8 @@ CONTAINS
                CASE (dbcsr_type_complex_8)
                   CALL mp_recv(nzval_to_master_c_dp, ii, tag3, csr_mat%mp_group)
                END SELECT
-            ENDIF
-         ENDIF
+            END IF
+         END IF
 
          IF ((mynode .EQ. ii) .AND. (ii .NE. 0)) THEN ! send from nodes with rank > 0
             CALL mp_send(csr_mat%colind_local, 0, tag1, csr_mat%mp_group)
@@ -1207,7 +1207,7 @@ CONTAINS
             CASE (dbcsr_type_complex_8)
                CALL mp_send(csr_mat%nzval_local%c_dp, 0, tag3, csr_mat%mp_group)
             END SELECT
-         ENDIF
+         END IF
 
          IF (mynode .EQ. 0) THEN ! write data received at node 0
             !WRITE(unit_nr,"(A27)") "#row ind, col ind, value"
@@ -1255,9 +1255,9 @@ CONTAINS
                            END IF
                         END IF
                      END SELECT
-                  ENDIF
-               ENDDO
-            ENDDO
+                  END IF
+               END DO
+            END DO
 
             DEALLOCATE (colind_to_master)
             DEALLOCATE (nzerow_to_master)
@@ -1272,8 +1272,8 @@ CONTAINS
             CASE (dbcsr_type_complex_8)
                DEALLOCATE (nzval_to_master_c_dp)
             END SELECT
-         ENDIF
-      ENDDO
+         END IF
+      END DO
 
       CALL timestop(handle)
 
@@ -1305,7 +1305,7 @@ CONTAINS
          dbcsr_nze_percentage = 100.0_dp*(REAL(dbcsr_nze_total, KIND=real_8) &
                                           /REAL(csr_mat%nrows_total, KIND=real_8)) &
                                 /REAL(csr_mat%ncols_total, KIND=real_8)
-      ENDIF
+      END IF
 
       CALL mp_environ(numnodes, mynode, csr_mat%mp_group)
 
@@ -1315,7 +1315,7 @@ CONTAINS
          !IF(csr_mat%has_mapping) THEN
          !  WRITE(unit_nr,"(T15,A,T75,F6.2/)") "Percentage DBCSR non-zero elements:", dbcsr_nze_percentage
          !ENDIF
-      ENDIF
+      END IF
 
       CALL timestop(handle)
    END SUBROUTINE csr_print_sparsity
@@ -1380,7 +1380,7 @@ CONTAINS
             nfullrows_local = FLOOR(REAL(nfullrows_total, KIND=dp)/numnodes)
          ELSE
             nfullrows_local = CEILING(REAL(nfullrows_total, KIND=dp)/numnodes)
-         ENDIF
+         END IF
 
          ! allocate maximum amount of memory possibly needed
          ALLOCATE (rdist_tmp(nblkrows_total + numnodes - 1)) ! row distribution
@@ -1401,20 +1401,20 @@ CONTAINS
                   node_size = nfullrows_local ! space available on next node
                   IF (floor_dist .AND. (m .EQ. numnodes - 1)) THEN ! send all remaining rows to last node
                      node_size = nfullrows_total - (numnodes - 1)*node_size
-                  ENDIF
-               ENDDO
+                  END IF
+               END DO
                IF (split_row .GT. 0) THEN ! enough space left on next node for remaining rows
                   k = k + 1
                   row_blk_size_new_tmp(k) = split_row ! size of remaining part of block row
                   rdist_tmp(k) = m ! send to next node
                   node_size = node_size - split_row ! remaining space on next node
-               ENDIF
-            ENDDO
+               END IF
+            END DO
          ELSE ! send everything to last node if node_size = 0
             rdist_tmp(1:nblkrows_total) = numnodes - 1
             row_blk_size_new_tmp(1:nblkrows_total) = row_blk_size ! row blocks unchanged
             k = nblkrows_total
-         ENDIF
+         END IF
 
          ! Copy data to correctly allocated variables
          ALLOCATE (row_blk_size_new(k))
@@ -1440,7 +1440,7 @@ CONTAINS
             END DO
          END IF
          row_blk_size_new => row_blk_size
-      ENDIF
+      END IF
 
       pgrid(:, :) = RESHAPE((/(i, i=0, numnodes_total - 1)/), (/numnodes_total, 1/))
       CALL dbcsr_mp_new(mp_obj_new, mp_group, pgrid, mynode, numnodes=numnodes_total)

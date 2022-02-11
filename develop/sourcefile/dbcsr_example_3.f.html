@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -197,8 +197,8 @@
 <a id="ln-46" name="ln-46" href="#ln-46"></a><span class="c">!$    IF (ierr /= 0) STOP &quot;Error in MPI_Init_thread&quot;</span>
 <a id="ln-47" name="ln-47" href="#ln-47"></a><span class="c">!$    IF (provided_tsl .LT. MPI_THREAD_FUNNELED) THEN</span>
 <a id="ln-48" name="ln-48" href="#ln-48"></a><span class="c">!$       STOP &quot;MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED).&quot;</span>
-<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="c">!$    ENDIF</span>
-<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="c">!$ ENDIF</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="c">!$    END IF</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="c">!$ END IF</span>
 <a id="ln-51" name="ln-51" href="#ln-51"></a>
 <a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">   </span><span class="c">!</span>
 <a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">   </span><span class="c">! setup the mpi environment</span>
@@ -285,9 +285,9 @@
 <a id="ln-134" name="ln-134" href="#ln-134"></a><span class="k">            </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">row_s</span><span class="p">)</span><span class="o">*</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">col_s</span><span class="p">)</span><span class="w"></span>
 <a id="ln-135" name="ln-135" href="#ln-135"></a><span class="w">            </span><span class="k">CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">))</span><span class="w"></span>
 <a id="ln-136" name="ln-136" href="#ln-136"></a><span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">row_s</span><span class="p">,</span><span class="w"> </span><span class="n">col_s</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">))</span><span class="w"></span>
-<a id="ln-137" name="ln-137" href="#ln-137"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-138" name="ln-138" href="#ln-138"></a><span class="k">      ENDDO</span>
-<a id="ln-139" name="ln-139" href="#ln-139"></a><span class="k">   ENDDO</span>
+<a id="ln-137" name="ln-137" href="#ln-137"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-138" name="ln-138" href="#ln-138"></a><span class="k">      END DO</span>
+<a id="ln-139" name="ln-139" href="#ln-139"></a><span class="k">   END DO</span>
 <a id="ln-140" name="ln-140" href="#ln-140"></a><span class="k">   DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="w"></span>
 <a id="ln-141" name="ln-141" href="#ln-141"></a>
 <a id="ln-142" name="ln-142" href="#ln-142"></a><span class="w">   </span><span class="c">!</span>
@@ -302,9 +302,9 @@
 <a id="ln-151" name="ln-151" href="#ln-151"></a><span class="k">            </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">row_s</span><span class="p">)</span><span class="o">*</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">col_s</span><span class="p">)</span><span class="w"></span>
 <a id="ln-152" name="ln-152" href="#ln-152"></a><span class="w">            </span><span class="k">CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">))</span><span class="w"></span>
 <a id="ln-153" name="ln-153" href="#ln-153"></a><span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">row_s</span><span class="p">,</span><span class="w"> </span><span class="n">col_s</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">))</span><span class="w"></span>
-<a id="ln-154" name="ln-154" href="#ln-154"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-155" name="ln-155" href="#ln-155"></a><span class="k">      ENDDO</span>
-<a id="ln-156" name="ln-156" href="#ln-156"></a><span class="k">   ENDDO</span>
+<a id="ln-154" name="ln-154" href="#ln-154"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-155" name="ln-155" href="#ln-155"></a><span class="k">      END DO</span>
+<a id="ln-156" name="ln-156" href="#ln-156"></a><span class="k">   END DO</span>
 <a id="ln-157" name="ln-157" href="#ln-157"></a><span class="k">   DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="w"></span>
 <a id="ln-158" name="ln-158" href="#ln-158"></a>
 <a id="ln-159" name="ln-159" href="#ln-159"></a><span class="w">   </span><span class="c">!</span>

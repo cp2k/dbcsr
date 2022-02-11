@@ -99,7 +99,7 @@ CONTAINS
                                      flop=flop)
       ELSE
          DBCSR_ABORT("This combination of data types NYI")
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_multiply_d
 
    SUBROUTINE dbcsr_multiply_c(transa, transb, &

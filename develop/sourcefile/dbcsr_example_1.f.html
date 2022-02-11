@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -193,8 +193,8 @@
 <a id="ln-42" name="ln-42" href="#ln-42"></a><span class="c">!$    IF (ierr /= 0) STOP &quot;Error in MPI_Init_thread&quot;</span>
 <a id="ln-43" name="ln-43" href="#ln-43"></a><span class="c">!$    IF (provided_tsl .LT. MPI_THREAD_FUNNELED) THEN</span>
 <a id="ln-44" name="ln-44" href="#ln-44"></a><span class="c">!$       STOP &quot;MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED).&quot;</span>
-<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="c">!$    ENDIF</span>
-<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="c">!$ ENDIF</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="c">!$    END IF</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="c">!$ END IF</span>
 <a id="ln-47" name="ln-47" href="#ln-47"></a>
 <a id="ln-48" name="ln-48" href="#ln-48"></a><span class="w">   </span><span class="c">!</span>
 <a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">   </span><span class="c">! setup the mpi environment</span>

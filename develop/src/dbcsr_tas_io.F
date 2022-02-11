@@ -79,25 +79,25 @@ CONTAINS
                WRITE (unit_nr_prv, '(/T8,A)', advance='no') 'Row:'
                DO iblk = 1, row_blk_size%nmrowcol
                   WRITE (unit_nr_prv, '(I4,1X)', advance='no') row_blk_size%data(iblk)
-               ENDDO
+               END DO
                WRITE (unit_nr_prv, '(/T8,A)', advance='no') 'Column:'
                DO iblk = 1, col_blk_size%nmrowcol
                   WRITE (unit_nr_prv, '(I4,1X)', advance='no') col_blk_size%data(iblk)
-               ENDDO
+               END DO
                WRITE (unit_nr_prv, '(/T4,A)', advance='no') "Block distribution:"
                WRITE (unit_nr_prv, '(/T8,A)', advance='no') 'Row:'
                DO iblk = 1, proc_row_dist%nmrowcol
                   WRITE (unit_nr_prv, '(I4,1X)', advance='no') proc_row_dist%dist(iblk)
-               ENDDO
+               END DO
                WRITE (unit_nr_prv, '(/T8,A)', advance='no') 'Column:'
                DO iblk = 1, proc_col_dist%nmrowcol
                   WRITE (unit_nr_prv, '(I4,1X)', advance='no') proc_col_dist%dist(iblk)
-               ENDDO
+               END DO
 
-            ENDIF
-         ENDIF
+            END IF
+         END IF
          WRITE (unit_nr_prv, *)
-      ENDIF
+      END IF
 
    END SUBROUTINE
 
@@ -174,16 +174,16 @@ CONTAINS
                WRITE (unit_nr_prv, '(T15)', advance='no')
                DO irow = 1, SIZE(rowdist)
                   WRITE (unit_nr_prv, '(I3, 1X)', advance='no') rowdist(irow)
-               ENDDO
+               END DO
                WRITE (unit_nr_prv, "(/T15,A)") "Column distribution on subgroup:"
                WRITE (unit_nr_prv, '(T15)', advance='no')
                DO icol = 1, SIZE(coldist)
                   WRITE (unit_nr_prv, '(I3, 1X)', advance='no') coldist(icol)
-               ENDDO
+               END DO
                WRITE (unit_nr_prv, *)
-            ENDIF
-         ENDIF
-      ENDIF
+            END IF
+         END IF
+      END IF
    END SUBROUTINE
 
    SUBROUTINE dbcsr_tas_write_split_info(info, unit_nr, name)
@@ -205,7 +205,7 @@ CONTAINS
          ALLOCATE (name_prv, SOURCE=TRIM(name))
       ELSE
          ALLOCATE (name_prv, SOURCE="")
-      ENDIF
+      END IF
 
       CALL dbcsr_tas_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)
 
@@ -221,13 +221,13 @@ CONTAINS
             WRITE (unit_nr_prv, "(T4,A,I4,1X,A,I4)") name_prv//"splitting columns by factor", nsplit
          END SELECT
          WRITE (unit_nr_prv, "(T4,A,I4,A1,I4)") name_prv//"global grid sizes:", dims(1), "x", dims(2)
-      ENDIF
+      END IF
 
       IF (unit_nr_prv > 0) THEN
          WRITE (unit_nr_prv, "(T4,A,I4,A1,I4)") &
             name_prv//"grid sizes on subgroups:", &
             groupdims(1), "x", groupdims(2)
-      ENDIF
+      END IF
 
    END SUBROUTINE
 
@@ -239,7 +239,7 @@ CONTAINS
          unit_nr_out = unit_nr
       ELSE
          unit_nr_out = 0
-      ENDIF
+      END IF
 
    END FUNCTION
 

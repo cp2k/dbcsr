@@ -103,7 +103,7 @@ CONTAINS
       first = get_parent(n)
       DO i = first, 1, -1
          CALL bubble_down(heap, i)
-      ENDDO
+      END DO
 
    END SUBROUTINE dbcsr_heap_fill
 
@@ -120,7 +120,7 @@ CONTAINS
          found = .TRUE.
          key = heap%nodes(1)%node%key
          value = heap%nodes(1)%node%value
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_heap_get_first
 
    SUBROUTINE dbcsr_heap_pop(heap, key, value, found)
@@ -142,8 +142,8 @@ CONTAINS
             CALL bubble_down(heap, 1)
          ELSE
             heap%n = heap%n - 1
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE dbcsr_heap_pop
 
    SUBROUTINE dbcsr_heap_reset_node(heap, key, value)
@@ -237,24 +237,24 @@ CONTAINS
             IF (left_child_value .LT. min_value) THEN
                min_value = left_child_value
                smallest = left_child
-            ENDIF
-         ENDIF
+            END IF
+         END IF
          right_child = left_child + 1
          IF (right_child .LE. heap%n) THEN
             right_child_value = get_value(heap, right_child)
             IF (right_child_value .LT. min_value) THEN
                min_value = right_child_value
                smallest = right_child
-            ENDIF
-         ENDIF
+            END IF
+         END IF
          !
          CALL dbcsr_heap_swap(heap, e, smallest)
          IF (smallest .EQ. e) THEN
             all_done = .TRUE.
          ELSE
             e = smallest
-         ENDIF
-      ENDDO
+         END IF
+      END DO
    END SUBROUTINE bubble_down
 
    SUBROUTINE bubble_up(heap, first, new_pos)
@@ -273,7 +273,7 @@ CONTAINS
       all_done = .FALSE.
       IF (e .GT. 1) THEN
          my_value = get_value(heap, e)
-      ENDIF
+      END IF
       ! Check whether we are finished, i.e,. whether the element to
       ! bubble up is an orphan.
       new_pos = e
@@ -287,8 +287,8 @@ CONTAINS
             e = parent
          ELSE
             all_done = .TRUE.
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       new_pos = e
    END SUBROUTINE bubble_up
 

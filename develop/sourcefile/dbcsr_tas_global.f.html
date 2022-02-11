@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -425,8 +425,8 @@
 <a id="ln-274" name="ln-274" href="#ln-274"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-275" name="ln-275" href="#ln-275"></a><span class="k">            </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <a id="ln-276" name="ln-276" href="#ln-276"></a><span class="w">            </span><span class="n">rowcols_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowcol</span><span class="w"></span>
-<a id="ln-277" name="ln-277" href="#ln-277"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-278" name="ln-278" href="#ln-278"></a><span class="k">      ENDDO</span>
+<a id="ln-277" name="ln-277" href="#ln-277"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-278" name="ln-278" href="#ln-278"></a><span class="k">      END DO</span>
 <a id="ln-279" name="ln-279" href="#ln-279"></a>
 <a id="ln-280" name="ln-280" href="#ln-280"></a><span class="k">      ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">repl_rowcols</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span><span class="w"></span>
 <a id="ln-281" name="ln-281" href="#ln-281"></a><span class="w">      </span><span class="n">repl_rowcols</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowcols_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">igroup</span><span class="o">*</span><span class="n">t</span><span class="p">%</span><span class="n">nmrowcol_local</span><span class="w"></span>
@@ -448,8 +448,8 @@
 <a id="ln-297" name="ln-297" href="#ln-297"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="p">%</span><span class="n">dist_vec</span><span class="p">(</span><span class="n">rowcol</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">dist</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-298" name="ln-298" href="#ln-298"></a><span class="k">            </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <a id="ln-299" name="ln-299" href="#ln-299"></a><span class="w">            </span><span class="n">rowcols_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowcol</span><span class="w"></span>
-<a id="ln-300" name="ln-300" href="#ln-300"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-301" name="ln-301" href="#ln-301"></a><span class="k">      ENDDO</span>
+<a id="ln-300" name="ln-300" href="#ln-300"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-301" name="ln-301" href="#ln-301"></a><span class="k">      END DO</span>
 <a id="ln-302" name="ln-302" href="#ln-302"></a>
 <a id="ln-303" name="ln-303" href="#ln-303"></a><span class="k">      ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">arb_rowcols</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span><span class="w"></span>
 <a id="ln-304" name="ln-304" href="#ln-304"></a><span class="w">      </span><span class="n">arb_rowcols</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowcols_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">)</span><span class="w"></span>
@@ -492,7 +492,7 @@
 <a id="ln-341" name="ln-341" href="#ln-341"></a>
 <a id="ln-342" name="ln-342" href="#ln-342"></a><span class="w">      </span><span class="k">DO </span><span class="n">ind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nmrowcol</span><span class="w"></span>
 <a id="ln-343" name="ln-343" href="#ln-343"></a><span class="w">         </span><span class="n">bsize_vec</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block_sizes</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span><span class="w"></span>
-<a id="ln-344" name="ln-344" href="#ln-344"></a><span class="w">      </span><span class="k">ENDDO</span>
+<a id="ln-344" name="ln-344" href="#ln-344"></a><span class="w">      </span><span class="k">END DO</span>
 <a id="ln-345" name="ln-345" href="#ln-345"></a>
 <a id="ln-346" name="ln-346" href="#ln-346"></a><span class="k">      CALL </span><span class="n">dbcsr_tas_default_distvec</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">nmrowcol</span><span class="p">),</span><span class="w"> </span><span class="n">nprowcol</span><span class="p">,</span><span class="w"> </span><span class="n">bsize_vec</span><span class="p">,</span><span class="w"> </span><span class="n">dist_vec</span><span class="p">)</span><span class="w"></span>
 <a id="ln-347" name="ln-347" href="#ln-347"></a><span class="w">      </span><span class="n">dbcsr_tas_dist_arb_default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_tas_dist_arb</span><span class="p">(</span><span class="n">dist_vec</span><span class="p">,</span><span class="w"> </span><span class="n">nprowcol</span><span class="p">,</span><span class="w"> </span><span class="n">nmrowcol</span><span class="p">)</span><span class="w"></span>
@@ -541,7 +541,7 @@
 <a id="ln-390" name="ln-390" href="#ln-390"></a>
 <a id="ln-391" name="ln-391" href="#ln-391"></a><span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n_idle</span><span class="w"></span>
 <a id="ln-392" name="ln-392" href="#ln-392"></a><span class="w">         </span><span class="k">CALL </span><span class="n">dlarnv</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">iseed</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">rand</span><span class="p">)</span><span class="w"></span>
-<a id="ln-393" name="ln-393" href="#ln-393"></a><span class="w">      </span><span class="k">ENDDO</span>
+<a id="ln-393" name="ln-393" href="#ln-393"></a><span class="w">      </span><span class="k">END DO</span>
 <a id="ln-394" name="ln-394" href="#ln-394"></a>
 <a id="ln-395" name="ln-395" href="#ln-395"></a><span class="k">      </span><span class="n">occup</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <a id="ln-396" name="ln-396" href="#ln-396"></a><span class="w">      </span><span class="n">weights_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weights</span><span class="w"></span>
@@ -564,7 +564,7 @@
 <a id="ln-413" name="ln-413" href="#ln-413"></a>
 <a id="ln-414" name="ln-414" href="#ln-414"></a><span class="w">         </span><span class="n">dist</span><span class="p">(</span><span class="n">sort_index</span><span class="p">(</span><span class="n">iel</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ibin</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <a id="ln-415" name="ln-415" href="#ln-415"></a><span class="w">         </span><span class="n">occup</span><span class="p">(</span><span class="n">ibin</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">occup</span><span class="p">(</span><span class="n">ibin</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">weights_s</span><span class="p">(</span><span class="n">iel</span><span class="p">)</span><span class="w"></span>
-<a id="ln-416" name="ln-416" href="#ln-416"></a><span class="w">      </span><span class="k">ENDDO</span>
+<a id="ln-416" name="ln-416" href="#ln-416"></a><span class="w">      </span><span class="k">END DO</span>
 <a id="ln-417" name="ln-417" href="#ln-417"></a>
 <a id="ln-418" name="ln-418" href="#ln-418"></a><span class="k">   END SUBROUTINE</span>
 <a id="ln-419" name="ln-419" href="#ln-419"></a>
@@ -613,9 +613,9 @@
 <a id="ln-462" name="ln-462" href="#ln-462"></a><span class="w">            </span><span class="k">ELSE</span>
 <a id="ln-463" name="ln-463" href="#ln-463"></a><span class="k">               </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <a id="ln-464" name="ln-464" href="#ln-464"></a><span class="w">               </span><span class="n">rowcols_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowcol</span><span class="w"></span>
-<a id="ln-465" name="ln-465" href="#ln-465"></a><span class="w">            </span><span class="k">ENDIF</span>
-<a id="ln-466" name="ln-466" href="#ln-466"></a><span class="k">         ENDDO</span>
-<a id="ln-467" name="ln-467" href="#ln-467"></a><span class="k">      ENDDO </span><span class="n">loop</span><span class="w"></span>
+<a id="ln-465" name="ln-465" href="#ln-465"></a><span class="w">            </span><span class="k">END IF</span>
+<a id="ln-466" name="ln-466" href="#ln-466"></a><span class="k">         END DO</span>
+<a id="ln-467" name="ln-467" href="#ln-467"></a><span class="k">      END DO </span><span class="n">loop</span><span class="w"></span>
 <a id="ln-468" name="ln-468" href="#ln-468"></a>
 <a id="ln-469" name="ln-469" href="#ln-469"></a><span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">cyclic_rowcols</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span><span class="w"></span>
 <a id="ln-470" name="ln-470" href="#ln-470"></a><span class="w">      </span><span class="n">cyclic_rowcols</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowcols_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">)</span><span class="w"></span>

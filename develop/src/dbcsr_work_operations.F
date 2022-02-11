@@ -180,7 +180,7 @@ CONTAINS
       IF (.NOT. hijack) THEN
          matrix = dbcsr_type()
          matrix%refcount = 1
-      ENDIF
+      END IF
 !$OMP     CRITICAL (crit_counter)
       matrix%serial_number = dbcsr_matrix_counter
       dbcsr_matrix_counter = dbcsr_matrix_counter + 1
@@ -193,7 +193,7 @@ CONTAINS
          matrix%work_mutable = mutable_work
       ELSE
          matrix%work_mutable = .FALSE.
-      ENDIF
+      END IF
       ! Sets the correct data type.
       IF (PRESENT(data_type)) THEN
          SELECT CASE (data_type)
@@ -210,7 +210,7 @@ CONTAINS
          END SELECT
       ELSE
          matrix%data_type = dbcsr_type_real_default
-      ENDIF
+      END IF
 
       matrix%data_memory_type = dbcsr_memtype_default
       IF (PRESENT(data_memory_type)) &
@@ -239,7 +239,7 @@ CONTAINS
          CALL dbcsr_distribution_release(matrix%dist)
          IF (ASSOCIATED(matrix%wms)) THEN
             CALL dbcsr_work_destroy_all(matrix)
-         ENDIF
+         END IF
          CALL array_nullify(matrix%local_rows)
          CALL array_nullify(matrix%global_rows)
          CALL array_nullify(matrix%local_cols)
@@ -262,8 +262,8 @@ CONTAINS
             CALL dbcsr_data_hold(matrix%data_area)
          ELSE
             CALL dbcsr_data_init(matrix%data_area)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       ! These are always invalidated.
       NULLIFY (matrix%row_p, matrix%col_i, matrix%blk_p, matrix%thr_c, &
                matrix%coo_l)
@@ -274,14 +274,14 @@ CONTAINS
          CALL array_new(matrix%row_blk_size, row_blk_size, gift=reuse_arrays)
       ELSE
          DBCSR_ABORT("Missing row_blk_size")
-      ENDIF
+      END IF
       IF (PRESENT(max_rbs)) THEN
          matrix%max_rbs = max_rbs
       ELSE IF (array_size(matrix%row_blk_size) .GT. 0) THEN
          matrix%max_rbs = MAXVAL(array_data(matrix%row_blk_size))
       ELSE
          matrix%max_rbs = 0
-      ENDIF
+      END IF
       IF (PRESENT(col_blk_size_obj)) THEN
          matrix%col_blk_size = col_blk_size_obj
          CALL array_hold(matrix%col_blk_size)
@@ -289,14 +289,14 @@ CONTAINS
          CALL array_new(matrix%col_blk_size, col_blk_size, gift=reuse_arrays)
       ELSE
          DBCSR_ABORT("Missing col_blk_size")
-      ENDIF
+      END IF
       IF (PRESENT(max_cbs)) THEN
          matrix%max_cbs = max_cbs
       ELSE IF (array_size(matrix%col_blk_size) .GT. 0) THEN
          matrix%max_cbs = MAXVAL(array_data(matrix%col_blk_size))
       ELSE
          matrix%max_cbs = 0
-      ENDIF
+      END IF
       !
       IF (array_size(matrix%row_blk_size) /= dbcsr_distribution_nrows(dist)) &
          DBCSR_ABORT("Number of blocked rows does match blocked row distribution.")
@@ -313,7 +313,7 @@ CONTAINS
          ALLOCATE (vec_row_blk_offset(array_size(matrix%row_blk_size) + 1))
          CALL convert_sizes_to_offsets(array_data(matrix%row_blk_size), vec_row_blk_offset)
          CALL array_new(matrix%row_blk_offset, vec_row_blk_offset, gift=.TRUE.)
-      ENDIF
+      END IF
 
       IF (PRESENT(col_blk_offset)) THEN
          IF (dbcsr_distribution_ncols(dist) + 1 /= array_size(col_blk_offset)) &
@@ -325,7 +325,7 @@ CONTAINS
          ALLOCATE (vec_col_blk_offset(array_size(matrix%col_blk_size) + 1))
          CALL convert_sizes_to_offsets(array_data(matrix%col_blk_size), vec_col_blk_offset)
          CALL array_new(matrix%col_blk_offset, vec_col_blk_offset, gift=.TRUE.)
-      ENDIF
+      END IF
 
       matrix%dist = dist
       CALL dbcsr_distribution_hold(matrix%dist)
@@ -335,12 +335,12 @@ CONTAINS
 !$          matrix%dist%d%has_thread_dist = .TRUE.
 !$          matrix%dist%d%thread_dist = thread_dist%d%thread_dist
 !$          CALL array_hold(matrix%dist%d%thread_dist)
-!$       ENDIF
-!$    ENDIF
+!$       END IF
+!$    END IF
 !$    IF (.NOT. dbcsr_distribution_has_threads(matrix%dist)) THEN
 !$       CALL dbcsr_distribution_make_threads(matrix%dist, &
 !$                                            array_data(matrix%row_blk_size))
-!$    ENDIF
+!$    END IF
       ! Set up some data.
       IF (my_make_index) THEN
          CALL meta_from_dist(new_meta, dist, array_data(matrix%row_blk_size), &
@@ -353,7 +353,7 @@ CONTAINS
          matrix%nblkcols_local = new_meta(dbcsr_slot_nblkcols_local)
          matrix%nfullrows_local = new_meta(dbcsr_slot_nfullrows_local)
          matrix%nfullcols_local = new_meta(dbcsr_slot_nfullcols_local)
-      ENDIF
+      END IF
       my_nze = 0; IF (PRESENT(nze)) my_nze = nze
       matrix%nblks = 0
       matrix%nze = 0
@@ -369,7 +369,7 @@ CONTAINS
          matrix%replication_type = replication_type
       ELSE
          matrix%replication_type = dbcsr_repl_none
-      ENDIF
+      END IF
       !
       ! Setup a matrix from scratch
       IF (.NOT. hijack) THEN
@@ -377,14 +377,14 @@ CONTAINS
             CALL dbcsr_data_new(matrix%data_area, matrix%data_type, my_nze, &
                                 memory_type=matrix%data_memory_type)
             CALL dbcsr_data_set_size_referenced(matrix%data_area, 0)
-         ENDIF
+         END IF
          !
          IF (my_make_index) THEN
             NULLIFY (matrix%index)
             CALL ensure_array_size(matrix%index, lb=1, ub=dbcsr_num_slots, &
                                    zero_pad=.TRUE., memory_type=matrix%index_memory_type)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (my_make_index) THEN
          IF (LBOUND(matrix%index, 1) .GT. 1 &
              .OR. UBOUND(matrix%index, 1) .LT. dbcsr_num_slots) &
@@ -392,7 +392,7 @@ CONTAINS
          matrix%index(1:dbcsr_num_slots) = 0
          matrix%index(1:dbcsr_meta_size) = new_meta(1:dbcsr_meta_size)
          matrix%index(dbcsr_slot_size) = dbcsr_num_slots
-      ENDIF
+      END IF
       !
       matrix%symmetry = .FALSE.
       matrix%negate_real = .FALSE.
@@ -430,7 +430,7 @@ CONTAINS
       matrix%has_global_cols = .FALSE.
       IF (my_make_index) THEN
          CALL dbcsr_make_index_exist(matrix)
-      ENDIF
+      END IF
       matrix%valid = .TRUE.
       CALL timestop(handle)
    END SUBROUTINE dbcsr_create_new
@@ -475,22 +475,22 @@ CONTAINS
          new_name = TRIM(name)
       ELSE
          new_name = TRIM(dbcsr_name(template))
-      ENDIF
+      END IF
       IF (PRESENT(dist)) THEN
          new_dist = dist
       ELSE
          new_dist = dbcsr_distribution(template)
-      ENDIF
+      END IF
       IF (PRESENT(matrix_type)) THEN
          new_matrix_type = matrix_type
       ELSE
          new_matrix_type = dbcsr_get_matrix_type(template)
-      ENDIF
+      END IF
       !
       IF ((PRESENT(row_blk_size) .NEQV. PRESENT(col_blk_size)) .OR. &
           (PRESENT(row_blk_size_obj) .NEQV. PRESENT(col_blk_size_obj))) THEN
          DBCSR_ABORT("Both row_blk_size and col_blk_size must be provided")
-      ENDIF
+      END IF
       !
       IF (PRESENT(max_rbs)) new_max_rbs = max_rbs
       IF (PRESENT(row_blk_offset)) new_row_blk_offset = row_blk_offset
@@ -499,7 +499,7 @@ CONTAINS
          blk_size => array_data(row_blk_size_obj)
       ELSEIF (PRESENT(row_blk_size)) THEN
          blk_size => row_blk_size
-      ENDIF
+      END IF
       IF (ASSOCIATED(blk_size)) THEN
          IF (.NOT. PRESENT(max_rbs)) &
             new_max_rbs = MAXVAL(blk_size)
@@ -508,7 +508,7 @@ CONTAINS
             new_max_rbs = dbcsr_max_row_size(template)
          IF (.NOT. PRESENT(row_blk_offset)) &
             new_row_blk_offset = template%row_blk_offset
-      ENDIF
+      END IF
       !
       IF (PRESENT(max_cbs)) new_max_cbs = max_cbs
       IF (PRESENT(col_blk_offset)) new_col_blk_offset = col_blk_offset
@@ -517,7 +517,7 @@ CONTAINS
          blk_size => array_data(col_blk_size_obj)
       ELSEIF (PRESENT(col_blk_size)) THEN
          blk_size => col_blk_size
-      ENDIF
+      END IF
       IF (ASSOCIATED(blk_size)) THEN
          IF (.NOT. PRESENT(max_cbs)) &
             new_max_cbs = MAXVAL(blk_size)
@@ -526,32 +526,32 @@ CONTAINS
             new_max_cbs = dbcsr_max_col_size(template)
          IF (.NOT. PRESENT(col_blk_offset)) &
             new_col_blk_offset = template%col_blk_offset
-      ENDIF
+      END IF
       IF (PRESENT(data_type)) THEN
          new_data_type = data_type
       ELSE
          new_data_type = dbcsr_get_data_type(template)
-      ENDIF
+      END IF
       IF (PRESENT(data_memory_type)) THEN
          new_data_memory_type = data_memory_type
       ELSE
          new_data_memory_type = dbcsr_get_data_memory_type(template)
-      ENDIF
+      END IF
       IF (PRESENT(index_memory_type)) THEN
          new_index_memory_type = index_memory_type
       ELSE
          new_index_memory_type = dbcsr_get_index_memory_type(template)
-      ENDIF
+      END IF
       IF (PRESENT(replication_type)) THEN
          new_replication_type = replication_type
       ELSE
          new_replication_type = dbcsr_get_replication_type(template)
-      ENDIF
+      END IF
       IF (PRESENT(mutable_work)) THEN
          new_mutable_work = mutable_work
       ELSE
          new_mutable_work = dbcsr_use_mutable(template)
-      ENDIF
+      END IF
       IF (PRESENT(row_blk_size_obj)) THEN
          CALL dbcsr_create(matrix, name=new_name, dist=new_dist, &
                            matrix_type=new_matrix_type, &
@@ -601,7 +601,7 @@ CONTAINS
                            mutable_work=new_mutable_work, &
                            make_index=make_index, &
                            replication_type=new_replication_type)
-      ENDIF
+      END IF
       ! Copy stuff from the meta-array.  These are not normally needed,
       ! but have to be here for creating matrices from "image" matrices.
       my_make_index = .TRUE.
@@ -613,13 +613,13 @@ CONTAINS
          matrix%index(dbcsr_slot_home_coli) = template%index(dbcsr_slot_home_coli)
          matrix%index(dbcsr_slot_home_vprow) = template%index(dbcsr_slot_home_vprow)
          matrix%index(dbcsr_slot_home_vpcol) = template%index(dbcsr_slot_home_vpcol)
-      ENDIF
+      END IF
       IF (PRESENT(row_blk_size) .AND. .NOT. PRESENT(row_blk_offset)) THEN
          CALL array_release(new_row_blk_offset)
-      ENDIF
+      END IF
       IF (PRESENT(col_blk_size) .AND. .NOT. PRESENT(col_blk_offset)) THEN
          CALL array_release(new_col_blk_offset)
-      ENDIF
+      END IF
 
    END SUBROUTINE dbcsr_create_template
 
@@ -657,7 +657,7 @@ CONTAINS
          NULLIFY (wm%row_i, wm%col_i, wm%blk_p)
          !nblks = CEILING (REAL (matrix%nblkrows_local * matrix%nblkcols_local)&
          !     / REAL (dbcsr_mp_numnodes (dbcsr_distribution_mp (matrix%dist))))
-      ENDIF
+      END IF
       ! Data
       CALL dbcsr_data_init(wm%data_area)
       IF (PRESENT(sizedata_guess)) THEN
@@ -667,7 +667,7 @@ CONTAINS
                              data_size=sizedata_guess, memory_type=memory_type)
       ELSE
          CALL dbcsr_data_new(wm%data_area, data_type, memory_type=memory_type)
-      ENDIF
+      END IF
       CALL dbcsr_mutable_init(wm%mutable)
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_init_wm
@@ -703,8 +703,8 @@ CONTAINS
 !$          nw = omp_get_num_threads()
 !$       ELSE
 !$          nw = omp_get_max_threads()
-!$       ENDIF
-      ENDIF
+!$       END IF
+      END IF
 !$OMP     MASTER
       wms_new = .NOT. ASSOCIATED(matrix%wms)
       wms_realloc = .FALSE.
@@ -713,10 +713,10 @@ CONTAINS
          IF (ow .LT. nw) &
             DBCSR_WARN("Number of work matrices less than threads.")
          IF (ow .LT. nw) wms_realloc = .TRUE.
-      ENDIF
+      END IF
       IF (PRESENT(work_mutable)) THEN
          matrix%work_mutable = work_mutable
-      ENDIF
+      END IF
       IF (wms_realloc) THEN
          ALLOCATE (wms(nw))
          wms(1:ow) = matrix%wms(1:ow)
@@ -730,7 +730,7 @@ CONTAINS
                CALL dbcsr_mutable_new(matrix%wms(iw)%mutable, &
                                       dbcsr_get_data_type(matrix))
          END DO
-      ENDIF
+      END IF
       IF (wms_new) THEN
          ALLOCATE (matrix%wms(nw))
          DO iw = 1, nw
@@ -741,7 +741,7 @@ CONTAINS
                CALL dbcsr_mutable_new(matrix%wms(iw)%mutable, &
                                       dbcsr_get_data_type(matrix))
          END DO
-      ENDIF
+      END IF
       matrix%valid = .FALSE.
 !$OMP     END MASTER
       CALL timestop(handle)
@@ -789,14 +789,14 @@ CONTAINS
 !$OMP        BARRIER
          CALL timestop(handle)
          RETURN
-      ENDIF
+      END IF
       !
       ! If possible, data copying is avoided.
       IF (PRESENT(reshuffle)) THEN
          sort_data = reshuffle
       ELSE
          sort_data = .FALSE.
-      ENDIF
+      END IF
       !
       ! Now make sure that a valid row_p exists. Also clear the row_p if
       ! the matrix is declared to have 0 blocks.
@@ -804,7 +804,7 @@ CONTAINS
       fake_row_p = .NOT. ASSOCIATED(matrix%row_p)
       IF (ASSOCIATED(matrix%row_p)) THEN
          fake_row_p = SIZE(matrix%row_p) .LE. 1
-      ENDIF
+      END IF
       fake_row_p = fake_row_p .OR. matrix%nblks .EQ. 0
 !$OMP     END MASTER
       !
@@ -825,22 +825,22 @@ CONTAINS
          WRITE (*, *) routineN//" sizes", matrix%nze, i, &
             dbcsr_data_get_size_referenced(matrix%data_area), &
             dbcsr_data_get_size(matrix%data_area)
-      ENDIF
+      END IF
       IF (.FALSE. .AND. dbcsr_data_get_size_referenced(matrix%data_area) .NE. &
           matrix%nze) THEN
          IF (matrix%nze .NE. dbcsr_data_get_size_referenced(matrix%data_area)) &
             DBCSR_WARN("Should reshuffle.")
          IF (ASSOCIATED(matrix%wms)) THEN
             sort_data = .NOT. dbcsr_wm_use_mutable(matrix%wms(1))
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (sort_data .AND. matrix%nze .GT. 0) THEN
          CALL dbcsr_add_wm_from_matrix(matrix)
          matrix%nze = 0
 !$OMP        MASTER
          fake_row_p = .TRUE.
 !$OMP        END MASTER
-      ENDIF
+      END IF
       start_offset = dbcsr_data_get_size_referenced(matrix%data_area) + 1
       IF (matrix%nze .EQ. 0) start_offset = 1
 !$OMP     MASTER
@@ -855,7 +855,7 @@ CONTAINS
          CALL dbcsr_addto_index_array(matrix, dbcsr_slot_blk_p, &
                                       reservation=0)
          CALL dbcsr_repoint_index(matrix)
-      ENDIF
+      END IF
 !$OMP     END MASTER
       !
 !$OMP     BARRIER
@@ -874,7 +874,7 @@ CONTAINS
             nwms = 1
 !$          nwms = omp_get_num_threads()
             CALL dbcsr_work_create(matrix, n=nwms)
-         ENDIF
+         END IF
 !$OMP        END MASTER
 !$OMP        BARRIER
          !
@@ -883,14 +883,14 @@ CONTAINS
          DO i = 1, SIZE(matrix%wms)
             IF (.NOT. ASSOCIATED(matrix%wms(i)%row_i)) THEN
                CALL ensure_array_size(matrix%wms(i)%row_i, ub=0)
-            ENDIF
+            END IF
             IF (.NOT. ASSOCIATED(matrix%wms(i)%col_i)) THEN
                CALL ensure_array_size(matrix%wms(i)%col_i, ub=0)
-            ENDIF
+            END IF
             IF (.NOT. ASSOCIATED(matrix%wms(i)%blk_p)) THEN
                CALL ensure_array_size(matrix%wms(i)%blk_p, ub=0)
-            ENDIF
-         ENDDO
+            END IF
+         END DO
 !$OMP        ENDDO
          !
          ! Check for deleted blocks
@@ -898,7 +898,7 @@ CONTAINS
          nblks = matrix%row_p(matrix%nblkrows_total + 1)
          IF (ANY(matrix%blk_p(1:nblks) .EQ. 0)) THEN
             CALL dbcsr_index_prune_deleted(matrix)
-         ENDIF
+         END IF
          old_row_p => matrix%row_p
          old_col_i => matrix%col_i
          old_blk_p => matrix%blk_p
@@ -917,7 +917,7 @@ CONTAINS
          spawn = .FALSE.
 !$       IF (.NOT. OMP_IN_PARALLEL()) THEN
 !$          IF (nwms .GT. 1) spawn = .TRUE.
-!$       ENDIF
+!$       END IF
          IF (spawn) THEN
 !$OMP           PARALLEL IF (spawn) &
 !$OMP                    DEFAULT (NONE) &
@@ -931,14 +931,14 @@ CONTAINS
             CALL dbcsr_merge_all(matrix, &
                                  old_row_p, old_col_i, old_blk_p, &
                                  sort_data=sort_data)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 !$OMP BARRIER
 !$OMP MASTER
       ! Clean up.
       IF (ASSOCIATED(matrix%wms)) THEN
          CALL dbcsr_work_destroy_all(matrix)
-      ENDIF
+      END IF
       matrix%valid = .TRUE.
 !$OMP END MASTER
 !$OMP BARRIER
@@ -946,11 +946,11 @@ CONTAINS
 !$OMP        SINGLE
          CALL dbcsr_verify_matrix(matrix)
 !$OMP        END SINGLE
-      ENDIF
+      END IF
 !$OMP MASTER
       IF (fake_row_p) THEN
          DEALLOCATE (empty_row_p)
-      ENDIF
+      END IF
 !$OMP END MASTER
 !$OMP BARRIER
       CALL timestop(handle)
@@ -985,7 +985,7 @@ CONTAINS
          sort_data = reshuffle
       ELSE
          sort_data = .FALSE.
-      ENDIF
+      END IF
 !$OMP     BARRIER
       can_quick = can_quickly_finalize(matrix)
 !$OMP     BARRIER
@@ -1003,13 +1003,13 @@ CONTAINS
          !
          IF (.NOT. ASSOCIATED(matrix%wms(1)%row_i)) THEN
             CALL ensure_array_size(matrix%wms(1)%row_i, ub=0)
-         ENDIF
+         END IF
          IF (.NOT. ASSOCIATED(matrix%wms(1)%col_i)) THEN
             CALL ensure_array_size(matrix%wms(1)%col_i, ub=0)
-         ENDIF
+         END IF
          IF (.NOT. ASSOCIATED(matrix%wms(1)%blk_p)) THEN
             CALL ensure_array_size(matrix%wms(1)%blk_p, ub=0)
-         ENDIF
+         END IF
          !
 !$OMP        END MASTER
 !$OMP        BARRIER
@@ -1018,13 +1018,13 @@ CONTAINS
          CALL dbcsr_merge_single_wm(matrix)
 !$OMP        END PARALLEL
 
-      ENDIF
+      END IF
 
 !$OMP     MASTER
       ! Clean up.
       IF (ASSOCIATED(matrix%wms)) THEN
          CALL dbcsr_work_destroy_all(matrix)
-      ENDIF
+      END IF
       matrix%valid = .TRUE.
 !$OMP     END MASTER
 !$OMP     BARRIER
@@ -1032,7 +1032,7 @@ CONTAINS
 !$OMP        SINGLE
          CALL dbcsr_verify_matrix(matrix)
 !$OMP        END SINGLE
-      ENDIF
+      END IF
 !$OMP     BARRIER
       CALL timestop(handle)
    END SUBROUTINE dbcsr_special_finalize
@@ -1061,10 +1061,10 @@ CONTAINS
             quick = quick .AND. &
                     (matrix%wms(1)%datasize_after_filtering .LT. 0 .OR. &
                      matrix%wms(1)%datasize .EQ. matrix%wms(1)%datasize_after_filtering)
-         ENDIF
+         END IF
       ELSE
          quick = .FALSE.
-      ENDIF
+      END IF
    END FUNCTION can_quickly_finalize
 
    SUBROUTINE quick_finalize(matrix)
@@ -1136,13 +1136,13 @@ CONTAINS
             DBCSR_WARN("Nonexisting work matrices?!")
       ELSE
          old_nwms = 0
-      ENDIF
+      END IF
       nthreads = 1; ithread = 0
 !$    nthreads = OMP_GET_NUM_THREADS(); ithread = OMP_GET_THREAD_NUM()
       IF (nthreads .GT. 1) THEN
          IF (old_nwms /= nthreads .AND. old_nwms /= 0) &
             DBCSR_ABORT("Number of work matrices and threads do not match")
-      ENDIF
+      END IF
       nwms = MAX(1, old_nwms)
 !$    nwms = MAX(nwms, nthreads)
 !$OMP     BARRIER
@@ -1152,7 +1152,7 @@ CONTAINS
                                 INT(matrix%nblks*default_resize_factor/nwms), &
                                 INT(matrix%nze*default_resize_factor/nwms), &
                                 n=nwms, work_mutable=.FALSE.)
-      ENDIF
+      END IF
 !$OMP     END MASTER
 !$OMP     BARRIER
       size_used = matrix%nze
@@ -1208,13 +1208,13 @@ CONTAINS
       ELSE
          wm_first = 1
          wm_last = nwms
-      ENDIF
+      END IF
       ! Prepares the work matrices to accept the main data.
 !$OMP     MASTER
       mutable = .FALSE.
       DO which_wm = 1, nwms
          mutable = mutable .OR. dbcsr_wm_use_mutable(wm(which_wm))
-      ENDDO
+      END DO
 !$OMP     END MASTER
 !$OMP     BARRIER
       DO which_wm = wm_first, wm_last
@@ -1223,14 +1223,14 @@ CONTAINS
          IF (mutable) THEN
             IF (.NOT. dbcsr_mutable_instantiated(wm(which_wm)%mutable)) THEN
                CALL dbcsr_mutable_new(wm(which_wm)%mutable, matrix%data_type)
-            ENDIF
+            END IF
          ELSE
             ! We don't know how much data we'll get so we have to be generous.
             CALL dbcsr_data_ensure_size(wm(which_wm)%data_area, &
                                         size_used/nwms)
             CALL dbcsr_data_set_size_referenced(wm(which_wm)%data_area, 0)
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       ! Now copy the data
       CALL dbcsr_iterator_start(iter, matrix, shared=mt, &
                                 contiguous_pointers=.FALSE., read_only=.TRUE.)
@@ -1239,7 +1239,7 @@ CONTAINS
                                         transposed=tr, block_number=blk)
          IF (limit) THEN
             IF (.NOT. within_limits(row, col, limits)) CYCLE
-         ENDIF
+         END IF
          blk_p = matrix%blk_p(blk)
          which_wm = ithread + 1
          wblk_p = SIGN(wm(which_wm)%datasize + 1, blk_p)
@@ -1257,15 +1257,15 @@ CONTAINS
                                    lb=ABS(wblk_p), &
                                    data_size=nze, &
                                    src=data_block, source_lb=1)
-            ENDIF
+            END IF
          ELSE
             ! The data gets copied all at once so the block pointers
             ! should remain the same as they were.
             CALL add_work_coordinate(wm(which_wm), row, col, blk_p)
-         ENDIF
+         END IF
          IF (.NOT. mutable) &
             wm(which_wm)%datasize = wm(which_wm)%datasize + nze
-      ENDDO
+      END DO
       CALL dbcsr_iterator_stop(iter)
       CALL dbcsr_data_clear_pointer(data_block)
       CALL dbcsr_data_release(data_block)
@@ -1276,8 +1276,8 @@ CONTAINS
                                         dbcsr_data_get_size_referenced(matrix%data_area))
             CALL dbcsr_data_copyall(wm(which_wm)%data_area, matrix%data_area)
             wm(which_wm)%datasize = size_used
-         ENDDO
-      ENDIF
+         END DO
+      END IF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_fill_wm_from_matrix
 
@@ -1312,13 +1312,13 @@ CONTAINS
 
       IF (ASSOCIATED(wm%row_i)) THEN
          DEALLOCATE (wm%row_i)
-      ENDIF
+      END IF
       IF (ASSOCIATED(wm%col_i)) THEN
          DEALLOCATE (wm%col_i)
-      ENDIF
+      END IF
       IF (ASSOCIATED(wm%blk_p)) THEN
          DEALLOCATE (wm%blk_p)
-      ENDIF
+      END IF
       CALL dbcsr_data_release(wm%data_area)
       CALL dbcsr_mutable_destroy(wm%mutable)
 
@@ -1343,9 +1343,9 @@ CONTAINS
       IF (ASSOCIATED(m%wms)) THEN
          DO i = 1, SIZE(m%wms)
             CALL dbcsr_work_destroy(m%wms(i))
-         ENDDO
+         END DO
          DEALLOCATE (m%wms)
-      ENDIF
+      END IF
 
       CALL timestop(handle)
 
@@ -1384,7 +1384,7 @@ CONTAINS
          CALL ensure_array_size(matrix%blk_p, ub=matrix%lastblk, &
                                 factor=default_resize_factor)
          matrix%blk_p(matrix%lastblk) = blk
-      ENDIF
+      END IF
       IF (PRESENT(index)) index = matrix%lastblk
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE add_work_coordinate
@@ -1453,7 +1453,7 @@ CONTAINS
          CASE default
             DBCSR_ABORT("Invalid data type")
          END SELECT
-      ENDIF
+      END IF
       !
       ! Initializations and some counts from the threads are summed.
       !
@@ -1472,7 +1472,7 @@ CONTAINS
 !$OMP        CRITICAL (crit_data)
          CALL dbcsr_data_hold(all_data_areas(0))
 !$OMP        END CRITICAL (crit_data)
-      ENDIF
+      END IF
       ! The following is valid because the data actually referenced
       ! by blocks is explicitly calculated in dbcsr_finalize.
       all_data_sizes(0) = matrix%nze
@@ -1485,7 +1485,7 @@ CONTAINS
          wm_datasize = wm%datasize_after_filtering
       ELSE
          wm_datasize = wm%datasize
-      ENDIF
+      END IF
       nblks = wm%lastblk
 !$OMP     ATOMIC
       new_nblks = new_nblks + nblks
@@ -1501,7 +1501,7 @@ CONTAINS
          ALLOCATE (blk_d(new_nblks))
       ELSE
          ALLOCATE (blk_d(1))
-      ENDIF
+      END IF
 !$OMP     END MASTER
       !
       ! Each thread creates a row_p index for its new blocks.  This gives the
@@ -1517,7 +1517,7 @@ CONTAINS
       IF (.NOT. sort_data) THEN
          IF (wm_datasize > dbcsr_data_get_size_referenced(wm%data_area)) &
             DBCSR_ABORT("Data size mismatch.")
-      ENDIF
+      END IF
       all_col_i(which_wm)%p => wm%col_i
       all_blk_p(which_wm)%p => wm%blk_p
 !$OMP     BARRIER
@@ -1535,9 +1535,9 @@ CONTAINS
          all_data_offsets(1) = all_data_sizes(0)
          DO t = 2, nwms
             all_data_offsets(t) = all_data_offsets(t - 1) + all_data_sizes(t - 1)
-         ENDDO
+         END DO
 !$OMP        END MASTER
-      ENDIF
+      END IF
       !
       ! The new row counts are created, then the new row_p index is created.
       !
@@ -1547,9 +1547,9 @@ CONTAINS
          DO t = 1, nwms
             my_row_count = my_row_count &
                  &       + all_row_p(t)%p(row + 1) - all_row_p(t)%p(row)
-         ENDDO
+         END DO
          new_row_p(row) = my_row_count
-      ENDDO
+      END DO
 !$OMP     END DO
 !$OMP     MASTER
       max_row_count = MAXVAL(new_row_p(1:nrows))
@@ -1585,7 +1585,7 @@ CONTAINS
          ! Data stored in the work matrices will be just appended to the
          ! current data area.
          CALL dbcsr_data_ensure_size(matrix%data_area, new_nze)
-      ENDIF
+      END IF
 !$OMP     END MASTER
 !$OMP     BARRIER
       IF (sort_data) THEN
@@ -1603,8 +1603,8 @@ CONTAINS
                                  src=wm%data_area, &
                                  src_lb=(/1/), &
                                  src_sizes=(/all_data_sizes(which_wm)/))
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       !
       ! Creates a new index array.
       !
@@ -1623,7 +1623,7 @@ CONTAINS
       ELSE
          CALL dbcsr_addto_index_array(matrix, dbcsr_slot_blk_p, &
                                       DATA=new_blk_p)
-      ENDIF
+      END IF
       matrix%nblks = new_nblks
       matrix%nze = new_nze
       matrix%index(dbcsr_slot_nblks) = matrix%nblks
@@ -1643,9 +1643,9 @@ CONTAINS
 !$OMP           CRITICAL (crit_data)
             CALL dbcsr_data_release(all_data_areas(which_wm))
 !$OMP           END CRITICAL (crit_data)
-         ENDDO
+         END DO
 !$OMP        END MASTER
-      ENDIF
+      END IF
 !$OMP     BARRIER
 !$OMP     MASTER
       DEALLOCATE (all_row_p)
@@ -1660,7 +1660,7 @@ CONTAINS
          DEALLOCATE (all_data_areas)
          DEALLOCATE (new_blk_sizes)
          DEALLOCATE (new_blk_p_sorted)
-      ENDIF
+      END IF
       DEALLOCATE (blk_d)
 !$OMP     END MASTER
 !$OMP     BARRIER
@@ -1806,7 +1806,7 @@ CONTAINS
                col_span(blk1:blk2) = all_col_i(t)%p(src_blk_1:src_blk_2)
                blk_span(blk1:blk2) = all_blk_p(t)%p(src_blk_1:src_blk_2)
                d_span(blk1:blk2) = t + 1
-            ENDDO
+            END DO
          ELSE
             DO t = 1, nwms
                src_blk_1 = all_row_p(t)%p(row) + 1
@@ -1816,12 +1816,12 @@ CONTAINS
                col_span(blk1:blk2) = all_col_i(t)%p(src_blk_1:src_blk_2)
                blk_span(blk1:blk2) = all_blk_p(t)%p(src_blk_1:src_blk_2) &
                     &              + all_data_offsets(t)
-            ENDDO
-         ENDIF
+            END DO
+         END IF
          CALL sort(col_span, SIZE(col_span), tmp_arr)
          blk_p_buff(1:SIZE(blk_span)) = blk_span(:)
          blk_span(1:SIZE(blk_span)) = blk_p_buff(tmp_arr(1:SIZE(blk_span)))
-      ENDDO
+      END DO
 !$OMP     END DO
       !
       DEALLOCATE (tmp_arr)
@@ -1838,268 +1838,268 @@ CONTAINS
 # 169 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
 # 1833 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
 # 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
-   SUBROUTINE tree_to_linear_d (wm)
+      SUBROUTINE tree_to_linear_d (wm)
      !! Converts mutable data to linear (array) type.
 
-      USE dbcsr_btree, &
-         ONLY: btree_2d_data_d => btree_data_dp2d, &
-               btree_destroy_d => btree_delete, &
-               btree_size_d => btree_get_entries
-      TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
+         USE dbcsr_btree, &
+            ONLY: btree_2d_data_d => btree_data_dp2d, &
+                  btree_destroy_d => btree_delete, &
+                  btree_size_d => btree_get_entries
+         TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_d'
+         CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_d'
 
-      INTEGER                                  :: blk, blk_p, treesize, &
-                                                  error_handler, needed_size
-      INTEGER(KIND=int_8), ALLOCATABLE, &
-         DIMENSION(:)                           :: keys
-      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
-      REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_2d
-      TYPE(btree_2d_data_d), ALLOCATABLE, &
-         DIMENSION(:)                           :: values
+         INTEGER                                  :: blk, blk_p, treesize, &
+                                                     error_handler, needed_size
+         INTEGER(KIND=int_8), ALLOCATABLE, &
+            DIMENSION(:)                           :: keys
+         REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
+         REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_2d
+         TYPE(btree_2d_data_d), ALLOCATABLE, &
+            DIMENSION(:)                           :: values
 
 !   ---------------------------------------------------------------------------
 
-      CALL timeset(routineN, error_handler)
-      ! srt = .TRUE. ! Not needed because of the copy
-      treesize = btree_size_d (wm%mutable%m%btree_d)
-      IF (wm%lastblk .NE. treesize) &
-         DBCSR_ABORT("Mismatch in number of blocks")
-      ALLOCATE (keys(treesize), values(treesize))
-      CALL btree_destroy_d (wm%mutable%m%btree_d, keys, values)
-      CALL ensure_array_size(wm%row_i, ub=treesize)
-      CALL ensure_array_size(wm%col_i, ub=treesize)
-      CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
-                               wm%col_i)
-      ! For now we also fill the data, sloooowly, but this should
-      ! be avoided and the data should be copied directly from the
-      ! source in the subroutine's main loop.
-      CALL ensure_array_size(wm%blk_p, ub=treesize)
-      needed_size = 0
-      DO blk = 1, treesize
-         block_2d => values(blk)%p
-         needed_size = needed_size + SIZE(block_2d)
-      ENDDO
-      wm%datasize = needed_size
-      CALL dbcsr_data_ensure_size(wm%data_area, &
-                                  wm%datasize)
-      target_data => dbcsr_get_data_p_d (wm%data_area)
-      blk_p = 1
-      DO blk = 1, treesize
-         block_2d => values(blk)%p
-         IF (.NOT. values(blk)%tr) THEN
-            wm%blk_p(blk) = blk_p
-         ELSE
-            wm%blk_p(blk) = -blk_p
-         ENDIF
-         CALL block_copy_d (target_data, block_2d, &
-                                        SIZE(block_2d), blk_p, 1)
-         blk_p = blk_p + SIZE(block_2d)
-         DEALLOCATE (block_2d)
-      ENDDO
-      DEALLOCATE (keys, values)
-      CALL dbcsr_mutable_release(wm%mutable)
-      CALL timestop(error_handler)
-   END SUBROUTINE tree_to_linear_d
+         CALL timeset(routineN, error_handler)
+         ! srt = .TRUE. ! Not needed because of the copy
+         treesize = btree_size_d (wm%mutable%m%btree_d)
+         IF (wm%lastblk .NE. treesize) &
+            DBCSR_ABORT("Mismatch in number of blocks")
+         ALLOCATE (keys(treesize), values(treesize))
+         CALL btree_destroy_d (wm%mutable%m%btree_d, keys, values)
+         CALL ensure_array_size(wm%row_i, ub=treesize)
+         CALL ensure_array_size(wm%col_i, ub=treesize)
+         CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
+                                  wm%col_i)
+         ! For now we also fill the data, sloooowly, but this should
+         ! be avoided and the data should be copied directly from the
+         ! source in the subroutine's main loop.
+         CALL ensure_array_size(wm%blk_p, ub=treesize)
+         needed_size = 0
+         DO blk = 1, treesize
+            block_2d => values(blk)%p
+            needed_size = needed_size + SIZE(block_2d)
+         END DO
+         wm%datasize = needed_size
+         CALL dbcsr_data_ensure_size(wm%data_area, &
+                                     wm%datasize)
+         target_data => dbcsr_get_data_p_d (wm%data_area)
+         blk_p = 1
+         DO blk = 1, treesize
+            block_2d => values(blk)%p
+            IF (.NOT. values(blk)%tr) THEN
+               wm%blk_p(blk) = blk_p
+            ELSE
+               wm%blk_p(blk) = -blk_p
+            END IF
+            CALL block_copy_d (target_data, block_2d, &
+                                           SIZE(block_2d), blk_p, 1)
+            blk_p = blk_p + SIZE(block_2d)
+            DEALLOCATE (block_2d)
+         END DO
+         DEALLOCATE (keys, values)
+         CALL dbcsr_mutable_release(wm%mutable)
+         CALL timestop(error_handler)
+      END SUBROUTINE tree_to_linear_d
 
 # 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
-   SUBROUTINE tree_to_linear_s (wm)
+      SUBROUTINE tree_to_linear_s (wm)
      !! Converts mutable data to linear (array) type.
 
-      USE dbcsr_btree, &
-         ONLY: btree_2d_data_s => btree_data_sp2d, &
-               btree_destroy_s => btree_delete, &
-               btree_size_s => btree_get_entries
-      TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
+         USE dbcsr_btree, &
+            ONLY: btree_2d_data_s => btree_data_sp2d, &
+                  btree_destroy_s => btree_delete, &
+                  btree_size_s => btree_get_entries
+         TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_s'
+         CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_s'
 
-      INTEGER                                  :: blk, blk_p, treesize, &
-                                                  error_handler, needed_size
-      INTEGER(KIND=int_8), ALLOCATABLE, &
-         DIMENSION(:)                           :: keys
-      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
-      REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_2d
-      TYPE(btree_2d_data_s), ALLOCATABLE, &
-         DIMENSION(:)                           :: values
+         INTEGER                                  :: blk, blk_p, treesize, &
+                                                     error_handler, needed_size
+         INTEGER(KIND=int_8), ALLOCATABLE, &
+            DIMENSION(:)                           :: keys
+         REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
+         REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_2d
+         TYPE(btree_2d_data_s), ALLOCATABLE, &
+            DIMENSION(:)                           :: values
 
 !   ---------------------------------------------------------------------------
 
-      CALL timeset(routineN, error_handler)
-      ! srt = .TRUE. ! Not needed because of the copy
-      treesize = btree_size_s (wm%mutable%m%btree_s)
-      IF (wm%lastblk .NE. treesize) &
-         DBCSR_ABORT("Mismatch in number of blocks")
-      ALLOCATE (keys(treesize), values(treesize))
-      CALL btree_destroy_s (wm%mutable%m%btree_s, keys, values)
-      CALL ensure_array_size(wm%row_i, ub=treesize)
-      CALL ensure_array_size(wm%col_i, ub=treesize)
-      CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
-                               wm%col_i)
-      ! For now we also fill the data, sloooowly, but this should
-      ! be avoided and the data should be copied directly from the
-      ! source in the subroutine's main loop.
-      CALL ensure_array_size(wm%blk_p, ub=treesize)
-      needed_size = 0
-      DO blk = 1, treesize
-         block_2d => values(blk)%p
-         needed_size = needed_size + SIZE(block_2d)
-      ENDDO
-      wm%datasize = needed_size
-      CALL dbcsr_data_ensure_size(wm%data_area, &
-                                  wm%datasize)
-      target_data => dbcsr_get_data_p_s (wm%data_area)
-      blk_p = 1
-      DO blk = 1, treesize
-         block_2d => values(blk)%p
-         IF (.NOT. values(blk)%tr) THEN
-            wm%blk_p(blk) = blk_p
-         ELSE
-            wm%blk_p(blk) = -blk_p
-         ENDIF
-         CALL block_copy_s (target_data, block_2d, &
-                                        SIZE(block_2d), blk_p, 1)
-         blk_p = blk_p + SIZE(block_2d)
-         DEALLOCATE (block_2d)
-      ENDDO
-      DEALLOCATE (keys, values)
-      CALL dbcsr_mutable_release(wm%mutable)
-      CALL timestop(error_handler)
-   END SUBROUTINE tree_to_linear_s
+         CALL timeset(routineN, error_handler)
+         ! srt = .TRUE. ! Not needed because of the copy
+         treesize = btree_size_s (wm%mutable%m%btree_s)
+         IF (wm%lastblk .NE. treesize) &
+            DBCSR_ABORT("Mismatch in number of blocks")
+         ALLOCATE (keys(treesize), values(treesize))
+         CALL btree_destroy_s (wm%mutable%m%btree_s, keys, values)
+         CALL ensure_array_size(wm%row_i, ub=treesize)
+         CALL ensure_array_size(wm%col_i, ub=treesize)
+         CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
+                                  wm%col_i)
+         ! For now we also fill the data, sloooowly, but this should
+         ! be avoided and the data should be copied directly from the
+         ! source in the subroutine's main loop.
+         CALL ensure_array_size(wm%blk_p, ub=treesize)
+         needed_size = 0
+         DO blk = 1, treesize
+            block_2d => values(blk)%p
+            needed_size = needed_size + SIZE(block_2d)
+         END DO
+         wm%datasize = needed_size
+         CALL dbcsr_data_ensure_size(wm%data_area, &
+                                     wm%datasize)
+         target_data => dbcsr_get_data_p_s (wm%data_area)
+         blk_p = 1
+         DO blk = 1, treesize
+            block_2d => values(blk)%p
+            IF (.NOT. values(blk)%tr) THEN
+               wm%blk_p(blk) = blk_p
+            ELSE
+               wm%blk_p(blk) = -blk_p
+            END IF
+            CALL block_copy_s (target_data, block_2d, &
+                                           SIZE(block_2d), blk_p, 1)
+            blk_p = blk_p + SIZE(block_2d)
+            DEALLOCATE (block_2d)
+         END DO
+         DEALLOCATE (keys, values)
+         CALL dbcsr_mutable_release(wm%mutable)
+         CALL timestop(error_handler)
+      END SUBROUTINE tree_to_linear_s
 
 # 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
-   SUBROUTINE tree_to_linear_z (wm)
+      SUBROUTINE tree_to_linear_z (wm)
      !! Converts mutable data to linear (array) type.
 
-      USE dbcsr_btree, &
-         ONLY: btree_2d_data_z => btree_data_zp2d, &
-               btree_destroy_z => btree_delete, &
-               btree_size_z => btree_get_entries
-      TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
+         USE dbcsr_btree, &
+            ONLY: btree_2d_data_z => btree_data_zp2d, &
+                  btree_destroy_z => btree_delete, &
+                  btree_size_z => btree_get_entries
+         TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_z'
+         CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_z'
 
-      INTEGER                                  :: blk, blk_p, treesize, &
-                                                  error_handler, needed_size
-      INTEGER(KIND=int_8), ALLOCATABLE, &
-         DIMENSION(:)                           :: keys
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
-      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_2d
-      TYPE(btree_2d_data_z), ALLOCATABLE, &
-         DIMENSION(:)                           :: values
+         INTEGER                                  :: blk, blk_p, treesize, &
+                                                     error_handler, needed_size
+         INTEGER(KIND=int_8), ALLOCATABLE, &
+            DIMENSION(:)                           :: keys
+         COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
+         COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_2d
+         TYPE(btree_2d_data_z), ALLOCATABLE, &
+            DIMENSION(:)                           :: values
 
 !   ---------------------------------------------------------------------------
 
-      CALL timeset(routineN, error_handler)
-      ! srt = .TRUE. ! Not needed because of the copy
-      treesize = btree_size_z (wm%mutable%m%btree_z)
-      IF (wm%lastblk .NE. treesize) &
-         DBCSR_ABORT("Mismatch in number of blocks")
-      ALLOCATE (keys(treesize), values(treesize))
-      CALL btree_destroy_z (wm%mutable%m%btree_z, keys, values)
-      CALL ensure_array_size(wm%row_i, ub=treesize)
-      CALL ensure_array_size(wm%col_i, ub=treesize)
-      CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
-                               wm%col_i)
-      ! For now we also fill the data, sloooowly, but this should
-      ! be avoided and the data should be copied directly from the
-      ! source in the subroutine's main loop.
-      CALL ensure_array_size(wm%blk_p, ub=treesize)
-      needed_size = 0
-      DO blk = 1, treesize
-         block_2d => values(blk)%p
-         needed_size = needed_size + SIZE(block_2d)
-      ENDDO
-      wm%datasize = needed_size
-      CALL dbcsr_data_ensure_size(wm%data_area, &
-                                  wm%datasize)
-      target_data => dbcsr_get_data_p_z (wm%data_area)
-      blk_p = 1
-      DO blk = 1, treesize
-         block_2d => values(blk)%p
-         IF (.NOT. values(blk)%tr) THEN
-            wm%blk_p(blk) = blk_p
-         ELSE
-            wm%blk_p(blk) = -blk_p
-         ENDIF
-         CALL block_copy_z (target_data, block_2d, &
-                                        SIZE(block_2d), blk_p, 1)
-         blk_p = blk_p + SIZE(block_2d)
-         DEALLOCATE (block_2d)
-      ENDDO
-      DEALLOCATE (keys, values)
-      CALL dbcsr_mutable_release(wm%mutable)
-      CALL timestop(error_handler)
-   END SUBROUTINE tree_to_linear_z
+         CALL timeset(routineN, error_handler)
+         ! srt = .TRUE. ! Not needed because of the copy
+         treesize = btree_size_z (wm%mutable%m%btree_z)
+         IF (wm%lastblk .NE. treesize) &
+            DBCSR_ABORT("Mismatch in number of blocks")
+         ALLOCATE (keys(treesize), values(treesize))
+         CALL btree_destroy_z (wm%mutable%m%btree_z, keys, values)
+         CALL ensure_array_size(wm%row_i, ub=treesize)
+         CALL ensure_array_size(wm%col_i, ub=treesize)
+         CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
+                                  wm%col_i)
+         ! For now we also fill the data, sloooowly, but this should
+         ! be avoided and the data should be copied directly from the
+         ! source in the subroutine's main loop.
+         CALL ensure_array_size(wm%blk_p, ub=treesize)
+         needed_size = 0
+         DO blk = 1, treesize
+            block_2d => values(blk)%p
+            needed_size = needed_size + SIZE(block_2d)
+         END DO
+         wm%datasize = needed_size
+         CALL dbcsr_data_ensure_size(wm%data_area, &
+                                     wm%datasize)
+         target_data => dbcsr_get_data_p_z (wm%data_area)
+         blk_p = 1
+         DO blk = 1, treesize
+            block_2d => values(blk)%p
+            IF (.NOT. values(blk)%tr) THEN
+               wm%blk_p(blk) = blk_p
+            ELSE
+               wm%blk_p(blk) = -blk_p
+            END IF
+            CALL block_copy_z (target_data, block_2d, &
+                                           SIZE(block_2d), blk_p, 1)
+            blk_p = blk_p + SIZE(block_2d)
+            DEALLOCATE (block_2d)
+         END DO
+         DEALLOCATE (keys, values)
+         CALL dbcsr_mutable_release(wm%mutable)
+         CALL timestop(error_handler)
+      END SUBROUTINE tree_to_linear_z
 
 # 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
-   SUBROUTINE tree_to_linear_c (wm)
+      SUBROUTINE tree_to_linear_c (wm)
      !! Converts mutable data to linear (array) type.
 
-      USE dbcsr_btree, &
-         ONLY: btree_2d_data_c => btree_data_cp2d, &
-               btree_destroy_c => btree_delete, &
-               btree_size_c => btree_get_entries
-      TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
+         USE dbcsr_btree, &
+            ONLY: btree_2d_data_c => btree_data_cp2d, &
+                  btree_destroy_c => btree_delete, &
+                  btree_size_c => btree_get_entries
+         TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_c'
+         CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_c'
 
-      INTEGER                                  :: blk, blk_p, treesize, &
-                                                  error_handler, needed_size
-      INTEGER(KIND=int_8), ALLOCATABLE, &
-         DIMENSION(:)                           :: keys
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
-      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_2d
-      TYPE(btree_2d_data_c), ALLOCATABLE, &
-         DIMENSION(:)                           :: values
+         INTEGER                                  :: blk, blk_p, treesize, &
+                                                     error_handler, needed_size
+         INTEGER(KIND=int_8), ALLOCATABLE, &
+            DIMENSION(:)                           :: keys
+         COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
+         COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_2d
+         TYPE(btree_2d_data_c), ALLOCATABLE, &
+            DIMENSION(:)                           :: values
 
 !   ---------------------------------------------------------------------------
 
-      CALL timeset(routineN, error_handler)
-      ! srt = .TRUE. ! Not needed because of the copy
-      treesize = btree_size_c (wm%mutable%m%btree_c)
-      IF (wm%lastblk .NE. treesize) &
-         DBCSR_ABORT("Mismatch in number of blocks")
-      ALLOCATE (keys(treesize), values(treesize))
-      CALL btree_destroy_c (wm%mutable%m%btree_c, keys, values)
-      CALL ensure_array_size(wm%row_i, ub=treesize)
-      CALL ensure_array_size(wm%col_i, ub=treesize)
-      CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
-                               wm%col_i)
-      ! For now we also fill the data, sloooowly, but this should
-      ! be avoided and the data should be copied directly from the
-      ! source in the subroutine's main loop.
-      CALL ensure_array_size(wm%blk_p, ub=treesize)
-      needed_size = 0
-      DO blk = 1, treesize
-         block_2d => values(blk)%p
-         needed_size = needed_size + SIZE(block_2d)
-      ENDDO
-      wm%datasize = needed_size
-      CALL dbcsr_data_ensure_size(wm%data_area, &
-                                  wm%datasize)
-      target_data => dbcsr_get_data_p_c (wm%data_area)
-      blk_p = 1
-      DO blk = 1, treesize
-         block_2d => values(blk)%p
-         IF (.NOT. values(blk)%tr) THEN
-            wm%blk_p(blk) = blk_p
-         ELSE
-            wm%blk_p(blk) = -blk_p
-         ENDIF
-         CALL block_copy_c (target_data, block_2d, &
-                                        SIZE(block_2d), blk_p, 1)
-         blk_p = blk_p + SIZE(block_2d)
-         DEALLOCATE (block_2d)
-      ENDDO
-      DEALLOCATE (keys, values)
-      CALL dbcsr_mutable_release(wm%mutable)
-      CALL timestop(error_handler)
-   END SUBROUTINE tree_to_linear_c
+         CALL timeset(routineN, error_handler)
+         ! srt = .TRUE. ! Not needed because of the copy
+         treesize = btree_size_c (wm%mutable%m%btree_c)
+         IF (wm%lastblk .NE. treesize) &
+            DBCSR_ABORT("Mismatch in number of blocks")
+         ALLOCATE (keys(treesize), values(treesize))
+         CALL btree_destroy_c (wm%mutable%m%btree_c, keys, values)
+         CALL ensure_array_size(wm%row_i, ub=treesize)
+         CALL ensure_array_size(wm%col_i, ub=treesize)
+         CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
+                                  wm%col_i)
+         ! For now we also fill the data, sloooowly, but this should
+         ! be avoided and the data should be copied directly from the
+         ! source in the subroutine's main loop.
+         CALL ensure_array_size(wm%blk_p, ub=treesize)
+         needed_size = 0
+         DO blk = 1, treesize
+            block_2d => values(blk)%p
+            needed_size = needed_size + SIZE(block_2d)
+         END DO
+         wm%datasize = needed_size
+         CALL dbcsr_data_ensure_size(wm%data_area, &
+                                     wm%datasize)
+         target_data => dbcsr_get_data_p_c (wm%data_area)
+         blk_p = 1
+         DO blk = 1, treesize
+            block_2d => values(blk)%p
+            IF (.NOT. values(blk)%tr) THEN
+               wm%blk_p(blk) = blk_p
+            ELSE
+               wm%blk_p(blk) = -blk_p
+            END IF
+            CALL block_copy_c (target_data, block_2d, &
+                                           SIZE(block_2d), blk_p, 1)
+            blk_p = blk_p + SIZE(block_2d)
+            DEALLOCATE (block_2d)
+         END DO
+         DEALLOCATE (keys, values)
+         CALL dbcsr_mutable_release(wm%mutable)
+         CALL timestop(error_handler)
+      END SUBROUTINE tree_to_linear_c
 
 # 1900 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 

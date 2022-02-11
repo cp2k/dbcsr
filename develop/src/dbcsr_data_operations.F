@@ -67,7 +67,7 @@ CONTAINS
          previous_data_area = matrix%data_area
       ELSE
          CALL dbcsr_data_release(matrix%data_area)
-      ENDIF
+      END IF
       matrix%data_area = data_area
       CALL dbcsr_data_hold(matrix%data_area)
       CALL timestop(handle)
@@ -108,26 +108,26 @@ CONTAINS
 !$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(I) SHARED(target_area,source_area,n)
             DO i = 1, n
                target_area%d%r_sp(i) = source_area%d%r_sp(i)
-            ENDDO
+            END DO
          CASE (dbcsr_type_real_8)
 !$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(I) SHARED(target_area,source_area,n)
             DO i = 1, n
                target_area%d%r_dp(i) = source_area%d%r_dp(i)
-            ENDDO
+            END DO
          CASE (dbcsr_type_complex_4)
 !$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(I) SHARED(target_area,source_area,n)
             DO i = 1, n
                target_area%d%c_sp(i) = source_area%d%c_sp(i)
-            ENDDO
+            END DO
          CASE (dbcsr_type_complex_8)
 !$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(I) SHARED(target_area,source_area,n)
             DO i = 1, n
                target_area%d%c_dp(i) = source_area%d%c_dp(i)
-            ENDDO
+            END DO
          CASE default
             DBCSR_ABORT("Invalid data type")
          END SELECT
-      ENDIF
+      END IF
 !      CALL timestop(error_handle)
    END SUBROUTINE dbcsr_data_copyall
 
@@ -158,7 +158,7 @@ CONTAINS
          DBCSR_WARN("Attempt to copy unheld data")
       IF (.NOT. ASSOCIATED(source_area%d)) THEN
          RETURN
-      ENDIF
+      END IF
       keep_real = .TRUE.
       IF (PRESENT(drop_real)) keep_real = .NOT. drop_real
       noimult = .TRUE.
@@ -183,14 +183,14 @@ CONTAINS
                   t_data_z(1:n) = CMPLX(s_data_d(1:n), KIND=real_8)
                ELSE
                   t_data_z(1:n) = CMPLX(0.0, s_data_d(1:n), KIND=real_8)
-               ENDIF
+               END IF
             CASE (dbcsr_type_complex_4)
                CALL dbcsr_get_data(target_area, t_data_c)
                IF (noimult) THEN
                   t_data_c(1:n) = CMPLX(s_data_d(1:n), KIND=real_4)
                ELSE
                   t_data_c(1:n) = CMPLX(0.0, s_data_d(1:n), KIND=real_4)
-               ENDIF
+               END IF
             CASE default
                DBCSR_ABORT("Invalid data type")
             END SELECT
@@ -209,14 +209,14 @@ CONTAINS
                   t_data_z(1:n) = CMPLX(s_data_r(1:n), KIND=real_8)
                ELSE
                   t_data_z(1:n) = CMPLX(0.0, s_data_r(1:n), KIND=real_8)
-               ENDIF
+               END IF
             CASE (dbcsr_type_complex_4)
                CALL dbcsr_get_data(target_area, t_data_c)
                IF (noimult) THEN
                   t_data_c(1:n) = CMPLX(s_data_r(1:n), KIND=real_4)
                ELSE
                   t_data_c(1:n) = CMPLX(0.0, s_data_r(1:n), KIND=real_4)
-               ENDIF
+               END IF
             CASE default
                DBCSR_ABORT("Invalid data type")
             END SELECT
@@ -229,14 +229,14 @@ CONTAINS
                   t_data_d(1:n) = REAL(s_data_z(1:n), KIND=real_8)
                ELSE
                   t_data_d(1:n) = AIMAG(s_data_z(1:n))
-               ENDIF
+               END IF
             CASE (dbcsr_type_real_4)
                CALL dbcsr_get_data(target_area, t_data_r)
                IF (keep_real) THEN
                   t_data_r(1:n) = REAL(s_data_z(1:n), KIND=real_4)
                ELSE
                   t_data_r(1:n) = REAL(AIMAG(s_data_z(1:n)), KIND=real_4)
-               ENDIF
+               END IF
             CASE (dbcsr_type_complex_8)
                CALL dbcsr_get_data(target_area, t_data_z)
                t_data_z(1:n) = s_data_z(1:n)
@@ -255,14 +255,14 @@ CONTAINS
                   t_data_d(1:n) = REAL(s_data_c(1:n), KIND=real_8)
                ELSE
                   t_data_d(1:n) = REAL(AIMAG(s_data_c(1:n)), KIND=real_8)
-               ENDIF
+               END IF
             CASE (dbcsr_type_real_4)
                CALL dbcsr_get_data(target_area, t_data_r)
                IF (keep_real) THEN
                   t_data_r(1:n) = REAL(s_data_c(1:n), KIND=real_4)
                ELSE
                   t_data_r(1:n) = AIMAG(s_data_c(1:n))
-               ENDIF
+               END IF
             CASE (dbcsr_type_complex_8)
                CALL dbcsr_get_data(target_area, t_data_z)
                t_data_z(1:n) = CMPLX(s_data_c(1:n), KIND=real_8)
@@ -275,7 +275,7 @@ CONTAINS
          CASE default
             DBCSR_ABORT("Invalid data type")
          END SELECT
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_data_convert
 
    SUBROUTINE dbcsr_copy_sort_data(blk_p, old_blk_p, row_p, col_i, rbs, cbs, &
@@ -328,7 +328,7 @@ CONTAINS
                IF (blk .GT. 1) THEN
                   blk_p(blk) = SGN(ABS(blk_p(blk - 1)) + nze_prev, old_blk_p(blk), &
                                    mark)
-               ENDIF
+               END IF
                IF (ABS(blk_p(blk)) + nze - 1 > dbcsr_data_get_size(dst)) &
                   DBCSR_ABORT('Destination data space is too small.')
                IF (.NOT. trb) THEN
@@ -342,11 +342,11 @@ CONTAINS
                   CALL dbcsr_block_transpose(dst, src, &
                                              col_size, row_size, &
                                              lb=ABS(blk_p(blk)), source_lb=ABS(old_blk_p(blk)))
-               ENDIF
+               END IF
                nze_prev = nze
-            ENDIF ! blk exists
-         ENDDO ! blk
-      ENDDO ! row
+            END IF ! blk exists
+         END DO ! blk
+      END DO ! row
    END SUBROUTINE dbcsr_copy_sort_data
 
    SUBROUTINE dbcsr_sort_data(blk_p, old_blk_p, sizes, dsts, src, &
@@ -384,7 +384,7 @@ CONTAINS
          blk_p(1) = SIGN(1, old_blk_p(1))
          DO i = 2, nblks
             blk_p(i) = SIGN(ABS(blk_p(i - 1)) + sizes(i - 1), old_blk_p(i))
-         ENDDO
+         END DO
          CALL dbcsr_data_set_size_referenced(dsts, &
                                              ABS(blk_p(nblks)) + sizes(nblks) - 1)
 !$OMP        END MASTER
@@ -405,11 +405,11 @@ CONTAINS
                   !dst(ABS(blk_p(i)):ABS(blk_p(i))+sizes(i)-1) =&
                   !     srcs(old_blk_d(i))%d&
                   !     %r_dp(ABS(old_blk_p(i)):ABS(old_blk_p(i))+sizes(i)-1)
-               ENDIF
-            ENDIF
-         ENDDO
+               END IF
+            END IF
+         END DO
 !$OMP        END DO NOWAIT
-      ENDIF
+      END IF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_sort_data
 

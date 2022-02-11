@@ -78,7 +78,7 @@ CONTAINS
             CALL SYSTEM_CLOCK(count_rate=count_rate, count_max=count_max)
             cycles = 0
             last_count = 0
-         ENDIF
+         END IF
 
          CALL SYSTEM_CLOCK(count=count)
 
@@ -92,8 +92,8 @@ CONTAINS
                count = last_count
             ELSE
                cycles = cycles + 1
-            ENDIF
-         ENDIF
+            END IF
+         END IF
 
          ! keep track of our history
          last_count = count
@@ -102,7 +102,7 @@ CONTAINS
               /REAL(count_rate, KIND=dp)
 !$    ELSE
 !$       wt = OMP_GET_WTIME()
-!$    ENDIF
+!$    END IF
 #endif
    END FUNCTION m_walltime
 
@@ -123,7 +123,7 @@ CONTAINS
       IF (stat == 0) THEN
          DO i = 1, bufferlen
             READ (121245, END=999) buffer(I:I)
-         ENDDO
+         END DO
 999      CLOSE (121245)
          imod = INDEX(buffer, "model name")
          IF (imod > 0) THEN
@@ -131,8 +131,8 @@ CONTAINS
             iline = icol - 1 + INDEX(buffer(icol:), NEW_LINE('A'))
             IF (iline == icol - 1) iline = bufferlen + 1
             model_name = buffer(icol + 1:iline - 1)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE m_cpuinfo
 
    FUNCTION m_energy() RESULT(wt)
@@ -165,7 +165,7 @@ CONTAINS
       OPEN (121245, FILE=filename, ACTION="READ", STATUS="OLD", ACCESS="STREAM")
       DO I = 1, 80
          READ (121245, END=999) DATA(I:I)
-      ENDDO
+      END DO
 999   CLOSE (121245)
       DATA(I:80) = ""
       READ (DATA, *, IOSTAT=iostat) raw
@@ -174,7 +174,7 @@ CONTAINS
       ELSE
          ! convert from J to kJ
          wt = raw/1000.0_dp
-      ENDIF
+      END IF
    END FUNCTION read_energy
 #endif
 

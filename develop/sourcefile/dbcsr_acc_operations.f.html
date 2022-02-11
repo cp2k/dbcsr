@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -329,7 +329,7 @@
 <a id="ln-178" name="ln-178" href="#ln-178"></a><span class="w">                                         </span><span class="nb">INT</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-179" name="ln-179" href="#ln-179"></a><span class="w">                                         </span><span class="nb">INT</span><span class="p">(</span><span class="n">max_kernel_dim</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-180" name="ln-180" href="#ln-180"></a><span class="w">                                         </span><span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span><span class="w"></span>
-<a id="ln-181" name="ln-181" href="#ln-181"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-181" name="ln-181" href="#ln-181"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-182" name="ln-182" href="#ln-182"></a>
 <a id="ln-183" name="ln-183" href="#ln-183"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;something went wrong.&quot;</span><span class="p">)</span><span class="w"></span>
 <a id="ln-184" name="ln-184" href="#ln-184"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>

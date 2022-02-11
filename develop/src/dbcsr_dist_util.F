@@ -99,14 +99,14 @@ CONTAINS
          block = hint
       ELSE
          block = MAX(1, (nblocks + 1)/2)
-      ENDIF
+      END IF
       count = 0
       DO WHILE (block_offsets(block) .GT. full .OR. block_offsets(block + 1) - 1 .LT. full)
          IF (block_offsets(block) .GT. full) THEN
             block = block - 1
          ELSEIF (block_offsets(block + 1) - 1 .LT. full) THEN
             block = block + 1
-         ENDIF
+         END IF
          count = count + 1
          IF (dbg) THEN
             IF (count .GT. nblocks .OR. block .LT. 1 .OR. block .GT. nblocks) THEN
@@ -114,9 +114,9 @@ CONTAINS
                   block, " of", nblocks, " blocks"
                IF (count .GT. nblocks) &
                   DBCSR_ABORT("Too many searches")
-            ENDIF
-         ENDIF
-      ENDDO
+            END IF
+         END IF
+      END DO
    END SUBROUTINE find_block_of_element
 
    PURE FUNCTION nfull_elements(all_offsets, local_elements)
@@ -135,7 +135,7 @@ CONTAINS
       DO lel = 1, SIZE(local_elements)
          el = local_elements(lel)
          nfull_elements = nfull_elements + all_offsets(el + 1) - all_offsets(el)
-      ENDDO
+      END DO
    END FUNCTION nfull_elements
 
    PURE SUBROUTINE convert_sizes_to_offsets(sizes, &
@@ -160,22 +160,22 @@ CONTAINS
          IF (.NOT. PRESENT(offsets_stop)) THEN
             DO i = 2, n
                offsets_start(i) = offsets_start(i - 1) + sizes(i - 1)
-            ENDDO
+            END DO
             IF (SIZE(offsets_start) .GT. n) &
                offsets_start(n + 1) = offsets_start(n) + sizes(n)
          ELSE
             DO i = 2, n
                offsets_start(i) = offsets_start(i - 1) + sizes(i - 1)
                offsets_stop(i) = offsets_stop(i - 1) + sizes(i)
-            ENDDO
+            END DO
             IF (SIZE(offsets_start) .GT. n) &
                offsets_start(n + 1) = offsets_start(n) + sizes(n)
-         ENDIF
+         END IF
       ELSE
          IF (.NOT. PRESENT(offsets_stop)) THEN
             offsets_start(1) = 0
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE convert_sizes_to_offsets
 
    PURE SUBROUTINE convert_offsets_to_sizes(offsets_start, sizes, offsets_stop)
@@ -201,9 +201,9 @@ CONTAINS
          IF (n .GT. 1) THEN
             DO i = 1, n - 1
                sizes(i) = sizes(i + 1) - sizes(i)
-            ENDDO
-         ENDIF
-      ENDIF
+            END DO
+         END IF
+      END IF
    END SUBROUTINE convert_offsets_to_sizes
 
    SUBROUTINE global_offsets_to_local(global_offsets, &
@@ -234,7 +234,7 @@ CONTAINS
       IF (local) THEN
          IF (nlocal /= nlo) &
             DBCSR_ABORT("Invalid size for local offsets")
-      ENDIF
+      END IF
       IF (local) THEN
          acc = 1
          DO lel = 1, nlocal
@@ -242,7 +242,7 @@ CONTAINS
             el = local_elements(lel)
             sz = global_offsets(el + 1) - global_offsets(el)
             acc = acc + sz
-         ENDDO
+         END DO
          local_offsets(nlocal + 1) = acc
       ELSE
          acc = 1
@@ -253,9 +253,9 @@ CONTAINS
             sz = global_offsets(el + 1) - global_offsets(el)
             acc = acc + sz
             prev_el = el
-         ENDDO
+         END DO
          local_offsets(prev_el + 1:nglobal + 1) = acc
-      ENDIF
+      END IF
    END SUBROUTINE global_offsets_to_local
 
    SUBROUTINE get_internal_offsets(blk_local_els, el_map, blk_el_offsets, &
@@ -283,7 +283,7 @@ CONTAINS
          d_el = el_map(blk_el)
          internal_offsets(blk_el) = off_acc(d_el)
          off_acc(d_el) = off_acc(d_el) + blk_el_offsets(blk_el + 1) - blk_el_offsets(blk_el)
-      ENDDO
+      END DO
       DEALLOCATE (off_acc)
    END SUBROUTINE get_internal_offsets
 
@@ -308,7 +308,7 @@ CONTAINS
          DO blk = row_p(row) + 1, row_p(row + 1)
             sizes(blk) = row_size*cbs(col_i(blk))
          END DO
-      ENDDO
+      END DO
 !$OMP     END DO
    END SUBROUTINE dbcsr_calc_block_sizes
 
@@ -321,7 +321,7 @@ CONTAINS
          val = SIGN(n, oldsign)
       ELSE
          val = -SIGN(n, oldsign)
-      ENDIF
+      END IF
    END FUNCTION sgn
 
    SUBROUTINE meta_from_dist(meta, dist, row_blk_size, col_blk_size)
@@ -349,10 +349,10 @@ CONTAINS
       nfullcols_local = 0
       DO i = 1, dbcsr_distribution_nlocal_rows(dist)
          nfullrows_local = nfullrows_local + row_blk_size(blkrows_local(i))
-      ENDDO
+      END DO
       DO i = 1, dbcsr_distribution_nlocal_cols(dist)
          nfullcols_local = nfullcols_local + col_blk_size(blkcols_local(i))
-      ENDDO
+      END DO
       meta(:) = 0
       meta(5) = dbcsr_distribution_nrows(dist)
       meta(6) = dbcsr_distribution_ncols(dist)
@@ -462,7 +462,7 @@ CONTAINS
          pd = pos
       ELSE
          pd = .FALSE.
-      ENDIF
+      END IF
       row_blk_size => array_data(matrix%row_blk_size)
       col_blk_size => array_data(matrix%col_blk_size)
       local_cs = 0.0_dp
@@ -504,7 +504,7 @@ CONTAINS
                      ELSE
                         blk_cs = REAL(DOT_PRODUCT(r_dp(blk_p:blk_p + mn - 1), &
                                                   r_dp(blk_p:blk_p + mn - 1)), KIND=dp)
-                     ENDIF
+                     END IF
                   CASE (dbcsr_type_real_4)
                      IF (pd) THEN
                         blk_cs = pd_blk_cs(m, n, REAL(r_sp(blk_p:blk_p + mn - 1), KIND=dp), &
@@ -512,7 +512,7 @@ CONTAINS
                      ELSE
                         blk_cs = REAL(DOT_PRODUCT(r_sp(blk_p:blk_p + mn - 1), &
                                                   r_sp(blk_p:blk_p + mn - 1)), KIND=dp)
-                     ENDIF
+                     END IF
                   CASE (dbcsr_type_complex_8)
                      IF (pd) THEN
                         blk_cs = pd_blk_cs(m, n, REAL(c_dp(blk_p:blk_p + mn - 1), KIND=dp), &
@@ -520,7 +520,7 @@ CONTAINS
                      ELSE
                         blk_cs = REAL(DOT_PRODUCT(c_dp(blk_p:blk_p + mn - 1), &
                                                   c_dp(blk_p:blk_p + mn - 1)), KIND=dp)
-                     ENDIF
+                     END IF
                   CASE (dbcsr_type_complex_4)
                      IF (pd) THEN
                         blk_cs = pd_blk_cs(m, n, REAL(c_sp(blk_p:blk_p + mn - 1), KIND=dp), &
@@ -528,24 +528,24 @@ CONTAINS
                      ELSE
                         blk_cs = REAL(DOT_PRODUCT(c_sp(blk_p:blk_p + mn - 1), &
                                                   c_sp(blk_p:blk_p + mn - 1)), KIND=dp)
-                     ENDIF
+                     END IF
                   CASE default
                      blk_cs = 0.0_dp
                   END SELECT
                ELSE
                   blk_cs = 0.0_dp
-               ENDIF
+               END IF
                local_cs_row = local_cs_row + blk_cs
-            ENDIF
-         ENDDO
+            END IF
+         END DO
          local_cs = local_cs + local_cs_row
-      ENDDO
+      END DO
       checksum = local_cs
       IF (.NOT. nocomm) THEN
          CALL mp_sum(local_cs, dbcsr_mp_group(dbcsr_distribution_mp( &
                                               matrix%dist)))
          checksum = local_cs
-      ENDIF
+      END IF
       CALL timestop(handle)
    END FUNCTION dbcsr_checksum
 
@@ -565,15 +565,15 @@ CONTAINS
          DO r = 1, rs
             DO c = 1, cs
                pd_cs = pd_cs + DATA(c, r)*LOG(ABS(REAL((ro + r - 1), KIND=dp)*REAL((co + c - 1), KIND=dp)))
-            ENDDO
-         ENDDO
+            END DO
+         END DO
       ELSE
          DO c = 1, cs
             DO r = 1, rs
                pd_cs = pd_cs + DATA(r, c)*LOG(ABS(REAL((ro + r - 1), KIND=dp)*REAL((co + c - 1), KIND=dp)))
-            ENDDO
-         ENDDO
-      ENDIF
+            END DO
+         END DO
+      END IF
    END FUNCTION pd_blk_cs
 
    SUBROUTINE dbcsr_verify_matrix(m, verbosity, local)
@@ -612,7 +612,7 @@ CONTAINS
          WRITE (*, '(1X,A,I5,"x",I5,A,I5,"x",I5)') r//' Size blocked', &
             m%nblkrows_total, m%nblkcols_total, ", full ", &
             m%nfullrows_total, m%nfullcols_total
-      ENDIF
+      END IF
       row_blk_size => array_data(m%row_blk_size)
       col_blk_size => array_data(m%col_blk_size)
       !
@@ -622,14 +622,14 @@ CONTAINS
          IF (m%nblkrows_total /= m%nblkcols_total) &
             DBCSR_ABORT('Symmetric matrix is not square')
          n_full_blocks_total = INT(m%nblkrows_total, KIND=int_8)*(m%nblkrows_total + 1)/2
-      ENDIF
+      END IF
       n_have_blocks_local = m%nblks
 2045  FORMAT(I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5)
 2047  FORMAT(I7, 1X, I7, 1X, I7, 1X, I7, 1X, I7, 1X, I7, 1X, I7, 1X, I7, 1X, I7, 1X, I7)
       IF (dbg .GE. 4) THEN
          WRITE (*, '(1X,A)') r//' index='
          WRITE (*, 2045) m%index(:dbcsr_num_slots)
-      ENDIF
+      END IF
       IF (m%index(1) .LE. 0) &
          DBCSR_ABORT('Index size 0')
       DO i = dbcsr_slot_row_p, dbcsr_num_slots
@@ -638,8 +638,8 @@ CONTAINS
          IF (.NOT. (i .EQ. dbcsr_slot_col_i .OR. i .EQ. dbcsr_slot_blk_p)) THEN
             IF (m%index(i) > m%index(1)) &
                DBCSR_ABORT('Index member is greater than size')
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       !
       IF (dbg .GE. 4) WRITE (*, *) r//' row_p extents', m%index(dbcsr_slot_row_p + 1), &
          m%index(dbcsr_slot_row_p), SIZE(m%row_p)
@@ -670,7 +670,7 @@ CONTAINS
       IF (dbg .GE. 4) THEN
          WRITE (*, '(1X,A,I7,A,I7)') r//' nze=', m%nze, 'data size', &
             dbcsr_data_get_size(m%data_area)
-      ENDIF
+      END IF
       data_size_referenced = dbcsr_data_get_size_referenced(m%data_area)
       !This tends to be too verbose and usually untrue for symmetric
       !matrices.
@@ -683,13 +683,13 @@ CONTAINS
          WRITE (*, 2047) m%col_i(1:m%nblks)
          WRITE (*, '(1X,A)') r//' blk_p='
          WRITE (*, 2047) m%blk_p(1:m%nblks)
-      ENDIF
+      END IF
       prev_br = 0
       DO br = 1, m%nblkrows_total
          IF (m%row_p(br) < 0) DBCSR_ABORT('row_p less than zero')
          IF (br .GT. 1) THEN
             IF (m%row_p(br) < m%row_p(prev_br)) DBCSR_ABORT('row_p decreases')
-         ENDIF
+         END IF
          mb = row_blk_size(br)
          IF (mb < 0) &
             DBCSR_ABORT('Row blocked size is negative')
@@ -699,7 +699,7 @@ CONTAINS
             bc = m%col_i(blk)
             IF (dbg .GE. 5) THEN
                WRITE (*, '(1X,A,I7,"(",I5,",",I5,")")') r//' block', blk, br, bc
-            ENDIF
+            END IF
             IF (bc .LE. 0) DBCSR_ABORT('col_i is zero')
             IF (bc > m%nblkcols_total) DBCSR_ABORT('col_i too high')
             n = col_blk_size(bc)
@@ -715,9 +715,9 @@ CONTAINS
                DBCSR_ABORT("Block pointer pointso outside of declared referenced area")
             IF (ABS(blk_p) + mn - 1 > data_size_referenced) &
                DBCSR_ABORT("Block extends outside of declared referenced area")
-         ENDDO
+         END DO
          prev_br = br
-      ENDDO
+      END DO
       IF (dbg .GE. 3 .AND. .NOT. nocomm) THEN
          CALL mp_sum(n_have_blocks_local, dbcsr_mp_group(dbcsr_distribution_mp( &
                                                          m%dist)))
@@ -727,7 +727,7 @@ CONTAINS
          !WRITE(*,FMT='(30A,F5.1,A)')r//' Sparsity: ', sparsity_total,'%'
          WRITE (*, FMT='(1X,A,F5.1,A)') r//' Non-sparsity: ', &
             sparsity_total, '%'
-      ENDIF
+      END IF
 
       CALL timestop(handle)
    END SUBROUTINE dbcsr_verify_matrix
@@ -747,7 +747,7 @@ CONTAINS
       DO i = i0, i1
          bin = bins(i)
          bin_counts(bin) = bin_counts(bin) + 1
-      ENDDO
+      END DO
    END SUBROUTINE count_bins
 
    SUBROUTINE map_most_common(array, most_common_map, nmost_common, &
@@ -781,7 +781,7 @@ CONTAINS
       ELSE
          max_val = 0
          max_val_l = 0
-      ENDIF
+      END IF
       ! Count the frequency of all block sizes up to max_val_l.
       ALLOCATE (size_counts(0:max_val_l))
       ALLOCATE (permutation(0:max_val_l))
@@ -794,7 +794,7 @@ CONTAINS
       END DO
       IF (SIZE(array) .GT. 0) THEN
          CALL sort(size_counts, max_val_l + 1, permutation)
-      ENDIF
+      END IF
       ! Limiting nmc to max_val_l prevents out-of-bounds.
       nmc = MIN(nmost_common, max_val_l)
       ! Determine the biggest block size and allocate the map.

@@ -188,7 +188,7 @@ CONTAINS
       IF (0 == nthreads) THEN
          nthreads = 1
 !$       nthreads = OMP_GET_MAX_THREADS()
-      ENDIF
+      END IF
 
       IF (PRESENT(use_mpi_allocator)) dbcsr_data_allocation%use_mpi_allocator = use_mpi_allocator
       IF (PRESENT(avg_elements_images)) dbcsr_cfg%avg_elements_images = avg_elements_images
@@ -216,21 +216,21 @@ CONTAINS
                dbcsr_cfg%comm_thread_load = 100
             ELSE
                dbcsr_cfg%comm_thread_load = MAX(0, 90 - (30*nthreads)/8)
-            ENDIF
-         ENDIF
-      ENDIF
+            END IF
+         END IF
+      END IF
 
       IF (PRESENT(nstacks)) THEN
          dbcsr_cfg%nm_stacks = nstacks
          dbcsr_cfg%nn_stacks = nstacks
          dbcsr_cfg%nk_stacks = nstacks
-      ENDIF
+      END IF
 
       IF (PRESENT(mm_stack_size)) THEN
          dbcsr_cfg%mm_stack_size = mm_stack_size
          IF (mm_stack_size < 0) &
             dbcsr_cfg%mm_stack_size = mm_stack_default_size
-      ENDIF
+      END IF
 
       IF (PRESENT(mm_driver)) THEN
          IF (TRIM(mm_driver) .EQ. mm_name_auto) THEN
@@ -247,8 +247,8 @@ CONTAINS
             dbcsr_cfg%mm_driver = mm_driver_xsmm
          ELSE
             DBCSR_ABORT("Unknown MM driver: "//TRIM(mm_driver))
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
    END SUBROUTINE dbcsr_set_config
 
@@ -360,7 +360,7 @@ CONTAINS
       ELSE
          WRITE (UNIT=unit_nr, FMT='(1X,A,T72,A)') &
             "DBCSR| Maximum elements for images", "UNLIMITED"
-      ENDIF
+      END IF
       WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
          "DBCSR| Multiplicative factor virtual images", dbcsr_cfg%num_mult_images
 
@@ -377,7 +377,7 @@ CONTAINS
             "DBCSR| Multiplication size n stacks", dbcsr_cfg%nn_stacks
          WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
             "DBCSR| Multiplication size k stacks", dbcsr_cfg%nk_stacks
-      ENDIF
+      END IF
 
       WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
          "DBCSR| Use memory pool for CPU allocation", dbcsr_cfg%use_mempools_cpu
@@ -389,7 +389,7 @@ CONTAINS
          ELSE
             WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
                "DBCSR| Number of 3D layers", dbcsr_cfg%num_layers_3D
-         ENDIF
+         END IF
          WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
             "DBCSR| Use MPI memory allocation", dbcsr_data_allocation%use_mpi_allocator
          WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
@@ -407,7 +407,7 @@ CONTAINS
             WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
                "DBCSR| MPI: Number of nodes", numnodes
          END BLOCK
-      ENDIF
+      END IF
 
       BLOCK
          INTEGER :: numthreads, numthreads_max
@@ -475,7 +475,7 @@ CONTAINS
          IF (in_accdrv_active_device_id .LT. 0 .OR. in_accdrv_active_device_id .GE. dbcsr_acc_get_ndevices()) &
             DBCSR_ABORT("Invalid accelerator device ID")
          accdrv_active_device_id = in_accdrv_active_device_id
-      ENDIF
+      END IF
 
    END SUBROUTINE set_accdrv_active_device_id
 

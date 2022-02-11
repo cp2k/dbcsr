@@ -156,7 +156,7 @@ CONTAINS
       ELSE
          IF (SIZE(sizes) /= 1) &
             DBCSR_ABORT("Sizes must have 1 elements for 1-D data")
-      ENDIF
+      END IF
 
       SELECT CASE (area%data_type)
       CASE (dbcsr_type_int_4)
@@ -189,7 +189,7 @@ CONTAINS
          IF (sizes(1) >= 0) &
             CALL acc_devmem_allocate_bytes(area%acc_devmem, dbcsr_datatype_sizeof(area%data_type)*sizes(1))
          CALL acc_event_create(area%acc_ready)
-      ENDIF
+      END IF
 
       IF (careful_mod) &
          CALL timestop(error_handle)
@@ -252,7 +252,7 @@ CONTAINS
          IF (acc_devmem_allocated(area%acc_devmem)) &
             CALL acc_devmem_deallocate(area%acc_devmem)
          CALL acc_event_destroy(area%acc_ready)
-      ENDIF
+      END IF
 
       IF (careful_mod) &
          CALL timestop(handle)
@@ -266,7 +266,7 @@ CONTAINS
 
       IF (.NOT. ASSOCIATED(area%d)) THEN
          RETURN
-      ENDIF
+      END IF
 
       IF (area%d%refcount .LE. 0) &
          DBCSR_WARN("Data seems to be unreferenced.")
@@ -323,7 +323,7 @@ CONTAINS
 
       IF (careful_mod) THEN
          CALL timeset(routineN, error_handle)
-      ENDIF
+      END IF
       !
       valid = dbcsr_data_valid(area)
       IF (.NOT. valid) &
@@ -356,7 +356,7 @@ CONTAINS
 
       IF (careful_mod) THEN
          CALL timestop(error_handle)
-      ENDIF
+      END IF
    END FUNCTION dbcsr_data_exists
 
    SUBROUTINE dbcsr_data_hold(area)
@@ -370,10 +370,10 @@ CONTAINS
             DBCSR_ABORT("Can't hold an empty data area.")
          IF (area%d%refcount <= 0) &
             DBCSR_ABORT("Should not hold an area with zero references.")
-      ENDIF
+      END IF
       IF (.NOT. ASSOCIATED(area%d)) THEN
          RETURN
-      ENDIF
+      END IF
 !$OMP ATOMIC
       area%d%refcount = area%d%refcount + 1
    END SUBROUTINE dbcsr_data_hold
@@ -411,7 +411,7 @@ CONTAINS
          IF (.NOT. compatible) &
             DBCSR_ABORT("Can not point 1-d pointer to 2-d data")
 
-      ENDIF
+      END IF
       pointee_is_2d = dbcsr_type_is_2d(dt2)
       IF (careful_mod) THEN
          IF (PRESENT(source_lb) .AND. pointee_is_2d) &
@@ -421,7 +421,7 @@ CONTAINS
             DBCSR_ABORT("Attempt to point out of bounds")
          IF (bp + nze - 1 > dbcsr_data_get_size(pointee)) &
             DBCSR_ABORT("Attempt to point out of bounds")
-      ENDIF
+      END IF
       ! There's a remap if the ranks are compatible but not equal.
       rmp = dt1 .NE. dt2
       SELECT CASE (dt2)
@@ -436,7 +436,7 @@ CONTAINS
                                      r_sp)
          ELSE
             area%d%r_sp => dbcsr_get_data_p_s(pointee, bp, bp + nze - 1)
-         ENDIF
+         END IF
       CASE (dbcsr_type_real_8_2d)
          area%d%r2_dp => pointee%d%r2_dp(1:rsize, 1:csize)
       CASE (dbcsr_type_real_8)
@@ -446,7 +446,7 @@ CONTAINS
                                      r_dp)
          ELSE
             area%d%r_dp => dbcsr_get_data_p_d(pointee, bp, bp + nze - 1)
-         ENDIF
+         END IF
       CASE (dbcsr_type_complex_4_2d)
          area%d%c2_sp => pointee%d%c2_sp(1:rsize, 1:csize)
       CASE (dbcsr_type_complex_4)
@@ -456,7 +456,7 @@ CONTAINS
                                      c_sp)
          ELSE
             area%d%c_sp => dbcsr_get_data_p_c(pointee, bp, bp + nze - 1)
-         ENDIF
+         END IF
       CASE (dbcsr_type_complex_8_2d)
          area%d%c2_dp => pointee%d%c2_dp(1:rsize, 1:csize)
       CASE (dbcsr_type_complex_8)
@@ -466,7 +466,7 @@ CONTAINS
                                      c_dp)
          ELSE
             area%d%c_dp => dbcsr_get_data_p_z(pointee, bp, bp + nze - 1)
-         ENDIF
+         END IF
       CASE default
          DBCSR_ABORT("Invalid data type")
       END SELECT
@@ -474,7 +474,7 @@ CONTAINS
       IF (debug_mod) THEN
          IF (dbcsr_data_get_size_referenced(area) /= dbcsr_data_get_size(area)) &
             DBCSR_ABORT("Size mismatch")
-      ENDIF
+      END IF
       !
       IF (area%d%memory_type%acc_devalloc .AND. pointee%d%memory_type%acc_devalloc) THEN
          IF (pointee_is_2d) &
@@ -483,7 +483,7 @@ CONTAINS
                                   pointee%d%acc_devmem, &
                                   dbcsr_datatype_sizeof(area%d%data_type)*nze, &
                                   dbcsr_datatype_sizeof(area%d%data_type)*(bp - 1))
-      ENDIF
+      END IF
    END SUBROUTINE set_data_area_area
 
    FUNCTION dbcsr_data_get_size(area) RESULT(data_size)
@@ -533,7 +533,7 @@ CONTAINS
       ELSE
          DBCSR_WARN("Uninitialized data area")
          data_size = 0
-      ENDIF
+      END IF
    END FUNCTION dbcsr_data_get_size
 
    SUBROUTINE dbcsr_data_verify_bounds(area, lb, ub)
@@ -563,7 +563,7 @@ CONTAINS
             DBCSR_ABORT("size must be 1 for 1-d lb")
          IF (SIZE(ub) /= 1) &
             DBCSR_ABORT("size must be 1 for 1-d ub")
-      ENDIF
+      END IF
       SELECT CASE (data_type)
       CASE (dbcsr_type_real_4)
          IF (lb(1) < LBOUND(area%d%r_sp, 1)) DBCSR_ABORT("lb r_sp")
@@ -624,7 +624,7 @@ CONTAINS
 
       IF (careful_mod) THEN
          CALL timeset(routineN, error_handle)
-      ENDIF
+      END IF
 
       SELECT CASE (area%d%data_type)
       CASE (dbcsr_type_real_4)
@@ -656,7 +656,7 @@ CONTAINS
 
       IF (careful_mod) THEN
          CALL timestop(error_handle)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_data_zero
 
    SUBROUTINE dbcsr_data_get_sizes_any(area, sizes, valid)
@@ -688,8 +688,8 @@ CONTAINS
             ELSE
                IF (SIZE(sizes) /= 1) &
                   DBCSR_ABORT("Sizes must have 1 elements for 1-D data")
-            ENDIF
-         ENDIF
+            END IF
+         END IF
          valid = dbcsr_data_exists(area)
          IF (valid) THEN
             SELECT CASE (area%d%data_type)
@@ -716,8 +716,8 @@ CONTAINS
             CASE default
                DBCSR_ABORT("Incorrect data type")
             END SELECT
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (careful_mod) &
          CALL timestop(handle)
    END SUBROUTINE dbcsr_data_get_sizes_any
@@ -752,7 +752,7 @@ CONTAINS
          valid = .FALSE.
          row_size = 0
          col_size = 0
-      ENDIF
+      END IF
       IF (careful_mod) &
          CALL timestop(handle)
    END SUBROUTINE dbcsr_data_get_sizes_2
@@ -784,7 +784,7 @@ CONTAINS
       ELSE
          valid = .FALSE.
          total_size = 0
-      ENDIF
+      END IF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_data_get_sizes_1
 
@@ -848,7 +848,7 @@ CONTAINS
          CASE default
             are_equal = .FALSE.
          END SELECT
-      ENDIF
+      END IF
    END FUNCTION dbcsr_scalar_are_equal
 
    ELEMENTAL FUNCTION dbcsr_scalar_negative(s) RESULT(negated)
@@ -1027,7 +1027,7 @@ CONTAINS
          data_size_referenced = area%d%ref_size
       ELSE
          data_size_referenced = 0
-      ENDIF
+      END IF
    END FUNCTION dbcsr_data_get_size_referenced
 
    PURE SUBROUTINE dbcsr_data_set_size_referenced(data_area, referenced_size)
@@ -1051,43 +1051,43 @@ CONTAINS
 # 169 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 # 1046 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F" 2
 # 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
-   SUBROUTINE set_data_p_d (area, p)
+      SUBROUTINE set_data_p_d (area, p)
      !! Sets a data pointer.
      !!
      !! Assumptions
      !! Assumes that no memory will be lost when repointing the
      !! pointer in the data area and that the area is initialized.
 
-      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+         TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: p
+         REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
-      IF (area%d%data_type /= dbcsr_type_real_8) &
-         DBCSR_ABORT("set_data_p_d: data-area has wrong type")
+         IF (area%d%data_type /= dbcsr_type_real_8) &
+            DBCSR_ABORT("set_data_p_d: data-area has wrong type")
 
-      area%d%r_dp => p
-   END SUBROUTINE set_data_p_d
+         area%d%r_dp => p
+      END SUBROUTINE set_data_p_d
 
-   SUBROUTINE set_data_p_2d_d (area, p)
+      SUBROUTINE set_data_p_2d_d (area, p)
      !! Sets a data pointer.
      !!
      !! Assumptions
      !! Assumes that no memory will be lost when repointing the
      !! pointer in the data area and that the area is initialized.
 
-      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+         TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      REAL(kind=real_8), DIMENSION(:, :), POINTER         :: p
+         REAL(kind=real_8), DIMENSION(:, :), POINTER         :: p
         !! source data pointer
 
-      IF (area%d%data_type /= dbcsr_type_real_8_2d) &
-         DBCSR_ABORT("set_data_p_2d_d: data-area has wrong type")
+         IF (area%d%data_type /= dbcsr_type_real_8_2d) &
+            DBCSR_ABORT("set_data_p_2d_d: data-area has wrong type")
 
-      area%d%r2_dp => p
-   END SUBROUTINE set_data_p_2d_d
+         area%d%r2_dp => p
+      END SUBROUTINE set_data_p_2d_d
 
-   FUNCTION dbcsr_get_data_c_d (area, select_data_type, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_c_d (area, select_data_type, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !!
      !! Calling
@@ -1095,272 +1095,272 @@ CONTAINS
      !! need for the select_data_type argument.
      !! see dbcsr_get_data_p_d
 
-      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      REAL(kind=real_8), INTENT(IN)            :: select_data_type
+         REAL(kind=real_8), INTENT(IN)            :: select_data_type
         !! force datatype
-      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
-      REAL(kind=real_8), DIMENSION(:), POINTER :: DATA
+         REAL(kind=real_8), DIMENSION(:), POINTER :: DATA
         !! pointer to data
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 
 !   ---------------------------------------------------------------------------
 
-      ! The select_data_type argument is needed to make this function unique
-      ! enough to use in the interface.
-      IF (KIND(select_data_type) .NE. KIND(DATA)) &
-         DBCSR_ABORT("compiler borken")
+         ! The select_data_type argument is needed to make this function unique
+         ! enough to use in the interface.
+         IF (KIND(select_data_type) .NE. KIND(DATA)) &
+            DBCSR_ABORT("compiler borken")
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_8) &
-            DBCSR_ABORT("dbcsr_get_data_c_d: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r_dp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r_dp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l .LT. LBOUND(area%d%r_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u .GT. UBOUND(area%d%r_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r_dp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_8) &
+               DBCSR_ABORT("dbcsr_get_data_c_d: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r_dp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r_dp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l .LT. LBOUND(area%d%r_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u .GT. UBOUND(area%d%r_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r_dp (l:u)
+            ELSE
+               DATA => area%d%r_dp
+            END IF
          ELSE
-            DATA => area%d%r_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_c_d
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_c_d
 
-   FUNCTION dbcsr_get_data_p_d (area, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_p_d (area, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !! \brief dbcsr_get_data_c_d
      !!
      !! Calling
      !! This routine can be called explicitly.
 
-      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+         REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
         !! pointer to data
-      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_8) &
-            DBCSR_ABORT("dbcsr_get_data_p_d: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r_dp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r_dp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l .LT. LBOUND(area%d%r_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u .GT. UBOUND(area%d%r_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r_dp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_8) &
+               DBCSR_ABORT("dbcsr_get_data_p_d: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r_dp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r_dp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l .LT. LBOUND(area%d%r_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u .GT. UBOUND(area%d%r_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r_dp (l:u)
+            ELSE
+               DATA => area%d%r_dp
+            END IF
          ELSE
-            DATA => area%d%r_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_p_d
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_p_d
 
-   FUNCTION dbcsr_get_data_p_2d_d (area, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_p_2d_d (area, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !! \brief dbcsr_get_data_c_d
      !!
      !! Calling
      !! This routine can be called explicitly.
 
-      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)            :: area
         !! data area
-      REAL(kind=real_8), DIMENSION(:, :), POINTER            :: DATA
+         REAL(kind=real_8), DIMENSION(:, :), POINTER            :: DATA
         !! pointer to data
-      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+         INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER, DIMENSION(2)          :: l, u
+         INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_8_2d) &
-            DBCSR_ABORT("dbcsr_get_data_p_2d_d: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r2_dp)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r2_dp)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l(1) .LT. LBOUND(area%d%r2_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (l(2) .LT. LBOUND(area%d%r2_dp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(1) .GT. UBOUND(area%d%r2_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(2) .GT. UBOUND(area%d%r2_dp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r2_dp (l(1):u(1), l(2):u(2))
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_8_2d) &
+               DBCSR_ABORT("dbcsr_get_data_p_2d_d: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r2_dp)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r2_dp)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l(1) .LT. LBOUND(area%d%r2_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (l(2) .LT. LBOUND(area%d%r2_dp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(1) .GT. UBOUND(area%d%r2_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(2) .GT. UBOUND(area%d%r2_dp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r2_dp (l(1):u(1), l(2):u(2))
+            ELSE
+               DATA => area%d%r2_dp
+            END IF
          ELSE
-            DATA => area%d%r2_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_p_2d_d
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_p_2d_d
 
-   SUBROUTINE get_data_d (area, DATA, lb, ub)
+      SUBROUTINE get_data_d (area, DATA, lb, ub)
      !! Returns the single/double precision real/complex data
 
-      TYPE(dbcsr_data_obj), INTENT(IN)  :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)  :: area
         !! data area
-      REAL(kind=real_8), DIMENSION(:), POINTER    :: DATA
+         REAL(kind=real_8), DIMENSION(:), POINTER    :: DATA
         !! pointer to data
-      INTEGER, INTENT(IN), OPTIONAL     :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL     :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_8) &
-            DBCSR_ABORT("get_data_d: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r_dp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r_dp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l < LBOUND(area%d%r_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u > UBOUND(area%d%r_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r_dp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_8) &
+               DBCSR_ABORT("get_data_d: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r_dp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r_dp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l < LBOUND(area%d%r_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u > UBOUND(area%d%r_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r_dp (l:u)
+            ELSE
+               DATA => area%d%r_dp
+            END IF
          ELSE
-            DATA => area%d%r_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END SUBROUTINE get_data_d
+            NULLIFY (DATA)
+         END IF
+      END SUBROUTINE get_data_d
 
-   SUBROUTINE get_data_2d_d (area, DATA, lb, ub)
+      SUBROUTINE get_data_2d_d (area, DATA, lb, ub)
      !! Returns the single/double precision real/complex data
 
-      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)            :: area
         !! data area
-      REAL(kind=real_8), DIMENSION(:, :), POINTER            :: DATA
+         REAL(kind=real_8), DIMENSION(:, :), POINTER            :: DATA
         !! pointer to data
-      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+         INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER, DIMENSION(2)          :: l, u
+         INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_8_2d) &
-            DBCSR_ABORT("get_data_2d_d: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r2_dp)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r2_dp)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l(1) < LBOUND(area%d%r2_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (l(2) < LBOUND(area%d%r2_dp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(1) > UBOUND(area%d%r2_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(2) > UBOUND(area%d%r2_dp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r2_dp (l(1):u(1), l(2):u(2))
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_8_2d) &
+               DBCSR_ABORT("get_data_2d_d: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r2_dp)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r2_dp)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l(1) < LBOUND(area%d%r2_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (l(2) < LBOUND(area%d%r2_dp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(1) > UBOUND(area%d%r2_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(2) > UBOUND(area%d%r2_dp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r2_dp (l(1):u(1), l(2):u(2))
+            ELSE
+               DATA => area%d%r2_dp
+            END IF
          ELSE
-            DATA => area%d%r2_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END SUBROUTINE get_data_2d_d
+            NULLIFY (DATA)
+         END IF
+      END SUBROUTINE get_data_2d_d
 
-   ELEMENTAL FUNCTION dbcsr_scalar_d (scalar) RESULT(encapsulated_scalar)
+      ELEMENTAL FUNCTION dbcsr_scalar_d (scalar) RESULT(encapsulated_scalar)
      !! Sets a scalar in an encapsulated data structure
 
-      REAL(kind=real_8), INTENT(IN)       :: scalar
+         REAL(kind=real_8), INTENT(IN)       :: scalar
         !! scalar to encapsulate
-      TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
+         TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
         !! encapsulated scalar
 
-      encapsulated_scalar = dbcsr_scalar_zero(dbcsr_type_real_8)
-      encapsulated_scalar%r_dp = scalar
-   END FUNCTION dbcsr_scalar_d
+         encapsulated_scalar = dbcsr_scalar_zero(dbcsr_type_real_8)
+         encapsulated_scalar%r_dp = scalar
+      END FUNCTION dbcsr_scalar_d
 
-   ELEMENTAL SUBROUTINE dbcsr_scalar_get_value_d (encapsulated_scalar, value)
+      ELEMENTAL SUBROUTINE dbcsr_scalar_get_value_d (encapsulated_scalar, value)
      !! Sets a scalar in an encapsulated data structure
 
-      TYPE(dbcsr_scalar_type), INTENT(IN) :: encapsulated_scalar
+         TYPE(dbcsr_scalar_type), INTENT(IN) :: encapsulated_scalar
         !! encapsulated scalar
-      REAL(kind=real_8), INTENT(OUT)                :: value
+         REAL(kind=real_8), INTENT(OUT)                :: value
         !! value of the scalar
 
-      value = encapsulated_scalar%r_dp
-   END SUBROUTINE dbcsr_scalar_get_value_d
+         value = encapsulated_scalar%r_dp
+      END SUBROUTINE dbcsr_scalar_get_value_d
 # 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
-   SUBROUTINE set_data_p_s (area, p)
+      SUBROUTINE set_data_p_s (area, p)
      !! Sets a data pointer.
      !!
      !! Assumptions
      !! Assumes that no memory will be lost when repointing the
      !! pointer in the data area and that the area is initialized.
 
-      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+         TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: p
+         REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
-      IF (area%d%data_type /= dbcsr_type_real_4) &
-         DBCSR_ABORT("set_data_p_s: data-area has wrong type")
+         IF (area%d%data_type /= dbcsr_type_real_4) &
+            DBCSR_ABORT("set_data_p_s: data-area has wrong type")
 
-      area%d%r_sp => p
-   END SUBROUTINE set_data_p_s
+         area%d%r_sp => p
+      END SUBROUTINE set_data_p_s
 
-   SUBROUTINE set_data_p_2d_s (area, p)
+      SUBROUTINE set_data_p_2d_s (area, p)
      !! Sets a data pointer.
      !!
      !! Assumptions
      !! Assumes that no memory will be lost when repointing the
      !! pointer in the data area and that the area is initialized.
 
-      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+         TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      REAL(kind=real_4), DIMENSION(:, :), POINTER         :: p
+         REAL(kind=real_4), DIMENSION(:, :), POINTER         :: p
         !! source data pointer
 
-      IF (area%d%data_type /= dbcsr_type_real_4_2d) &
-         DBCSR_ABORT("set_data_p_2d_s: data-area has wrong type")
+         IF (area%d%data_type /= dbcsr_type_real_4_2d) &
+            DBCSR_ABORT("set_data_p_2d_s: data-area has wrong type")
 
-      area%d%r2_sp => p
-   END SUBROUTINE set_data_p_2d_s
+         area%d%r2_sp => p
+      END SUBROUTINE set_data_p_2d_s
 
-   FUNCTION dbcsr_get_data_c_s (area, select_data_type, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_c_s (area, select_data_type, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !!
      !! Calling
@@ -1368,272 +1368,272 @@ CONTAINS
      !! need for the select_data_type argument.
      !! see dbcsr_get_data_p_s
 
-      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      REAL(kind=real_4), INTENT(IN)            :: select_data_type
+         REAL(kind=real_4), INTENT(IN)            :: select_data_type
         !! force datatype
-      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
-      REAL(kind=real_4), DIMENSION(:), POINTER :: DATA
+         REAL(kind=real_4), DIMENSION(:), POINTER :: DATA
         !! pointer to data
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 
 !   ---------------------------------------------------------------------------
 
-      ! The select_data_type argument is needed to make this function unique
-      ! enough to use in the interface.
-      IF (KIND(select_data_type) .NE. KIND(DATA)) &
-         DBCSR_ABORT("compiler borken")
+         ! The select_data_type argument is needed to make this function unique
+         ! enough to use in the interface.
+         IF (KIND(select_data_type) .NE. KIND(DATA)) &
+            DBCSR_ABORT("compiler borken")
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_4) &
-            DBCSR_ABORT("dbcsr_get_data_c_s: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r_sp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r_sp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l .LT. LBOUND(area%d%r_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u .GT. UBOUND(area%d%r_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r_sp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_4) &
+               DBCSR_ABORT("dbcsr_get_data_c_s: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r_sp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r_sp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l .LT. LBOUND(area%d%r_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u .GT. UBOUND(area%d%r_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r_sp (l:u)
+            ELSE
+               DATA => area%d%r_sp
+            END IF
          ELSE
-            DATA => area%d%r_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_c_s
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_c_s
 
-   FUNCTION dbcsr_get_data_p_s (area, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_p_s (area, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !! \brief dbcsr_get_data_c_s
      !!
      !! Calling
      !! This routine can be called explicitly.
 
-      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+         REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
         !! pointer to data
-      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_4) &
-            DBCSR_ABORT("dbcsr_get_data_p_s: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r_sp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r_sp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l .LT. LBOUND(area%d%r_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u .GT. UBOUND(area%d%r_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r_sp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_4) &
+               DBCSR_ABORT("dbcsr_get_data_p_s: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r_sp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r_sp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l .LT. LBOUND(area%d%r_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u .GT. UBOUND(area%d%r_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r_sp (l:u)
+            ELSE
+               DATA => area%d%r_sp
+            END IF
          ELSE
-            DATA => area%d%r_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_p_s
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_p_s
 
-   FUNCTION dbcsr_get_data_p_2d_s (area, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_p_2d_s (area, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !! \brief dbcsr_get_data_c_s
      !!
      !! Calling
      !! This routine can be called explicitly.
 
-      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)            :: area
         !! data area
-      REAL(kind=real_4), DIMENSION(:, :), POINTER            :: DATA
+         REAL(kind=real_4), DIMENSION(:, :), POINTER            :: DATA
         !! pointer to data
-      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+         INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER, DIMENSION(2)          :: l, u
+         INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_4_2d) &
-            DBCSR_ABORT("dbcsr_get_data_p_2d_s: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r2_sp)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r2_sp)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l(1) .LT. LBOUND(area%d%r2_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (l(2) .LT. LBOUND(area%d%r2_sp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(1) .GT. UBOUND(area%d%r2_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(2) .GT. UBOUND(area%d%r2_sp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r2_sp (l(1):u(1), l(2):u(2))
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_4_2d) &
+               DBCSR_ABORT("dbcsr_get_data_p_2d_s: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r2_sp)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r2_sp)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l(1) .LT. LBOUND(area%d%r2_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (l(2) .LT. LBOUND(area%d%r2_sp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(1) .GT. UBOUND(area%d%r2_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(2) .GT. UBOUND(area%d%r2_sp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r2_sp (l(1):u(1), l(2):u(2))
+            ELSE
+               DATA => area%d%r2_sp
+            END IF
          ELSE
-            DATA => area%d%r2_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_p_2d_s
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_p_2d_s
 
-   SUBROUTINE get_data_s (area, DATA, lb, ub)
+      SUBROUTINE get_data_s (area, DATA, lb, ub)
      !! Returns the single/double precision real/complex data
 
-      TYPE(dbcsr_data_obj), INTENT(IN)  :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)  :: area
         !! data area
-      REAL(kind=real_4), DIMENSION(:), POINTER    :: DATA
+         REAL(kind=real_4), DIMENSION(:), POINTER    :: DATA
         !! pointer to data
-      INTEGER, INTENT(IN), OPTIONAL     :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL     :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_4) &
-            DBCSR_ABORT("get_data_s: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r_sp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r_sp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l < LBOUND(area%d%r_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u > UBOUND(area%d%r_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r_sp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_4) &
+               DBCSR_ABORT("get_data_s: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r_sp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r_sp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l < LBOUND(area%d%r_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u > UBOUND(area%d%r_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r_sp (l:u)
+            ELSE
+               DATA => area%d%r_sp
+            END IF
          ELSE
-            DATA => area%d%r_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END SUBROUTINE get_data_s
+            NULLIFY (DATA)
+         END IF
+      END SUBROUTINE get_data_s
 
-   SUBROUTINE get_data_2d_s (area, DATA, lb, ub)
+      SUBROUTINE get_data_2d_s (area, DATA, lb, ub)
      !! Returns the single/double precision real/complex data
 
-      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)            :: area
         !! data area
-      REAL(kind=real_4), DIMENSION(:, :), POINTER            :: DATA
+         REAL(kind=real_4), DIMENSION(:, :), POINTER            :: DATA
         !! pointer to data
-      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+         INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER, DIMENSION(2)          :: l, u
+         INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_real_4_2d) &
-            DBCSR_ABORT("get_data_2d_s: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%r2_sp)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%r2_sp)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l(1) < LBOUND(area%d%r2_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (l(2) < LBOUND(area%d%r2_sp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(1) > UBOUND(area%d%r2_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(2) > UBOUND(area%d%r2_sp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%r2_sp (l(1):u(1), l(2):u(2))
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_real_4_2d) &
+               DBCSR_ABORT("get_data_2d_s: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%r2_sp)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%r2_sp)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l(1) < LBOUND(area%d%r2_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (l(2) < LBOUND(area%d%r2_sp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(1) > UBOUND(area%d%r2_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(2) > UBOUND(area%d%r2_sp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%r2_sp (l(1):u(1), l(2):u(2))
+            ELSE
+               DATA => area%d%r2_sp
+            END IF
          ELSE
-            DATA => area%d%r2_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END SUBROUTINE get_data_2d_s
+            NULLIFY (DATA)
+         END IF
+      END SUBROUTINE get_data_2d_s
 
-   ELEMENTAL FUNCTION dbcsr_scalar_s (scalar) RESULT(encapsulated_scalar)
+      ELEMENTAL FUNCTION dbcsr_scalar_s (scalar) RESULT(encapsulated_scalar)
      !! Sets a scalar in an encapsulated data structure
 
-      REAL(kind=real_4), INTENT(IN)       :: scalar
+         REAL(kind=real_4), INTENT(IN)       :: scalar
         !! scalar to encapsulate
-      TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
+         TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
         !! encapsulated scalar
 
-      encapsulated_scalar = dbcsr_scalar_zero(dbcsr_type_real_4)
-      encapsulated_scalar%r_sp = scalar
-   END FUNCTION dbcsr_scalar_s
+         encapsulated_scalar = dbcsr_scalar_zero(dbcsr_type_real_4)
+         encapsulated_scalar%r_sp = scalar
+      END FUNCTION dbcsr_scalar_s
 
-   ELEMENTAL SUBROUTINE dbcsr_scalar_get_value_s (encapsulated_scalar, value)
+      ELEMENTAL SUBROUTINE dbcsr_scalar_get_value_s (encapsulated_scalar, value)
      !! Sets a scalar in an encapsulated data structure
 
-      TYPE(dbcsr_scalar_type), INTENT(IN) :: encapsulated_scalar
+         TYPE(dbcsr_scalar_type), INTENT(IN) :: encapsulated_scalar
         !! encapsulated scalar
-      REAL(kind=real_4), INTENT(OUT)                :: value
+         REAL(kind=real_4), INTENT(OUT)                :: value
         !! value of the scalar
 
-      value = encapsulated_scalar%r_sp
-   END SUBROUTINE dbcsr_scalar_get_value_s
+         value = encapsulated_scalar%r_sp
+      END SUBROUTINE dbcsr_scalar_get_value_s
 # 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
-   SUBROUTINE set_data_p_z (area, p)
+      SUBROUTINE set_data_p_z (area, p)
      !! Sets a data pointer.
      !!
      !! Assumptions
      !! Assumes that no memory will be lost when repointing the
      !! pointer in the data area and that the area is initialized.
 
-      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+         TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: p
+         COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
-      IF (area%d%data_type /= dbcsr_type_complex_8) &
-         DBCSR_ABORT("set_data_p_z: data-area has wrong type")
+         IF (area%d%data_type /= dbcsr_type_complex_8) &
+            DBCSR_ABORT("set_data_p_z: data-area has wrong type")
 
-      area%d%c_dp => p
-   END SUBROUTINE set_data_p_z
+         area%d%c_dp => p
+      END SUBROUTINE set_data_p_z
 
-   SUBROUTINE set_data_p_2d_z (area, p)
+      SUBROUTINE set_data_p_2d_z (area, p)
      !! Sets a data pointer.
      !!
      !! Assumptions
      !! Assumes that no memory will be lost when repointing the
      !! pointer in the data area and that the area is initialized.
 
-      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+         TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER         :: p
+         COMPLEX(kind=real_8), DIMENSION(:, :), POINTER         :: p
         !! source data pointer
 
-      IF (area%d%data_type /= dbcsr_type_complex_8_2d) &
-         DBCSR_ABORT("set_data_p_2d_z: data-area has wrong type")
+         IF (area%d%data_type /= dbcsr_type_complex_8_2d) &
+            DBCSR_ABORT("set_data_p_2d_z: data-area has wrong type")
 
-      area%d%c2_dp => p
-   END SUBROUTINE set_data_p_2d_z
+         area%d%c2_dp => p
+      END SUBROUTINE set_data_p_2d_z
 
-   FUNCTION dbcsr_get_data_c_z (area, select_data_type, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_c_z (area, select_data_type, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !!
      !! Calling
@@ -1641,272 +1641,272 @@ CONTAINS
      !! need for the select_data_type argument.
      !! see dbcsr_get_data_p_z
 
-      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      COMPLEX(kind=real_8), INTENT(IN)            :: select_data_type
+         COMPLEX(kind=real_8), INTENT(IN)            :: select_data_type
         !! force datatype
-      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER :: DATA
+         COMPLEX(kind=real_8), DIMENSION(:), POINTER :: DATA
         !! pointer to data
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 
 !   ---------------------------------------------------------------------------
 
-      ! The select_data_type argument is needed to make this function unique
-      ! enough to use in the interface.
-      IF (KIND(select_data_type) .NE. KIND(DATA)) &
-         DBCSR_ABORT("compiler borken")
+         ! The select_data_type argument is needed to make this function unique
+         ! enough to use in the interface.
+         IF (KIND(select_data_type) .NE. KIND(DATA)) &
+            DBCSR_ABORT("compiler borken")
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_8) &
-            DBCSR_ABORT("dbcsr_get_data_c_z: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c_dp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c_dp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l .LT. LBOUND(area%d%c_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u .GT. UBOUND(area%d%c_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c_dp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_8) &
+               DBCSR_ABORT("dbcsr_get_data_c_z: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c_dp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c_dp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l .LT. LBOUND(area%d%c_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u .GT. UBOUND(area%d%c_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c_dp (l:u)
+            ELSE
+               DATA => area%d%c_dp
+            END IF
          ELSE
-            DATA => area%d%c_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_c_z
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_c_z
 
-   FUNCTION dbcsr_get_data_p_z (area, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_p_z (area, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !! \brief dbcsr_get_data_c_z
      !!
      !! Calling
      !! This routine can be called explicitly.
 
-      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+         COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
         !! pointer to data
-      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_8) &
-            DBCSR_ABORT("dbcsr_get_data_p_z: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c_dp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c_dp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l .LT. LBOUND(area%d%c_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u .GT. UBOUND(area%d%c_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c_dp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_8) &
+               DBCSR_ABORT("dbcsr_get_data_p_z: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c_dp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c_dp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l .LT. LBOUND(area%d%c_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u .GT. UBOUND(area%d%c_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c_dp (l:u)
+            ELSE
+               DATA => area%d%c_dp
+            END IF
          ELSE
-            DATA => area%d%c_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_p_z
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_p_z
 
-   FUNCTION dbcsr_get_data_p_2d_z (area, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_p_2d_z (area, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !! \brief dbcsr_get_data_c_z
      !!
      !! Calling
      !! This routine can be called explicitly.
 
-      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)            :: area
         !! data area
-      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER            :: DATA
+         COMPLEX(kind=real_8), DIMENSION(:, :), POINTER            :: DATA
         !! pointer to data
-      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+         INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER, DIMENSION(2)          :: l, u
+         INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_8_2d) &
-            DBCSR_ABORT("dbcsr_get_data_p_2d_z: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c2_dp)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c2_dp)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l(1) .LT. LBOUND(area%d%c2_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (l(2) .LT. LBOUND(area%d%c2_dp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(1) .GT. UBOUND(area%d%c2_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(2) .GT. UBOUND(area%d%c2_dp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c2_dp (l(1):u(1), l(2):u(2))
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_8_2d) &
+               DBCSR_ABORT("dbcsr_get_data_p_2d_z: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c2_dp)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c2_dp)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l(1) .LT. LBOUND(area%d%c2_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (l(2) .LT. LBOUND(area%d%c2_dp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(1) .GT. UBOUND(area%d%c2_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(2) .GT. UBOUND(area%d%c2_dp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c2_dp (l(1):u(1), l(2):u(2))
+            ELSE
+               DATA => area%d%c2_dp
+            END IF
          ELSE
-            DATA => area%d%c2_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_p_2d_z
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_p_2d_z
 
-   SUBROUTINE get_data_z (area, DATA, lb, ub)
+      SUBROUTINE get_data_z (area, DATA, lb, ub)
      !! Returns the single/double precision real/complex data
 
-      TYPE(dbcsr_data_obj), INTENT(IN)  :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)  :: area
         !! data area
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER    :: DATA
+         COMPLEX(kind=real_8), DIMENSION(:), POINTER    :: DATA
         !! pointer to data
-      INTEGER, INTENT(IN), OPTIONAL     :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL     :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_8) &
-            DBCSR_ABORT("get_data_z: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c_dp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c_dp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l < LBOUND(area%d%c_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u > UBOUND(area%d%c_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c_dp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_8) &
+               DBCSR_ABORT("get_data_z: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c_dp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c_dp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l < LBOUND(area%d%c_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u > UBOUND(area%d%c_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c_dp (l:u)
+            ELSE
+               DATA => area%d%c_dp
+            END IF
          ELSE
-            DATA => area%d%c_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END SUBROUTINE get_data_z
+            NULLIFY (DATA)
+         END IF
+      END SUBROUTINE get_data_z
 
-   SUBROUTINE get_data_2d_z (area, DATA, lb, ub)
+      SUBROUTINE get_data_2d_z (area, DATA, lb, ub)
      !! Returns the single/double precision real/complex data
 
-      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)            :: area
         !! data area
-      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER            :: DATA
+         COMPLEX(kind=real_8), DIMENSION(:, :), POINTER            :: DATA
         !! pointer to data
-      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+         INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER, DIMENSION(2)          :: l, u
+         INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_8_2d) &
-            DBCSR_ABORT("get_data_2d_z: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c2_dp)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c2_dp)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l(1) < LBOUND(area%d%c2_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (l(2) < LBOUND(area%d%c2_dp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(1) > UBOUND(area%d%c2_dp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(2) > UBOUND(area%d%c2_dp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c2_dp (l(1):u(1), l(2):u(2))
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_8_2d) &
+               DBCSR_ABORT("get_data_2d_z: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c2_dp)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c2_dp)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l(1) < LBOUND(area%d%c2_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (l(2) < LBOUND(area%d%c2_dp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(1) > UBOUND(area%d%c2_dp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(2) > UBOUND(area%d%c2_dp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c2_dp (l(1):u(1), l(2):u(2))
+            ELSE
+               DATA => area%d%c2_dp
+            END IF
          ELSE
-            DATA => area%d%c2_dp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END SUBROUTINE get_data_2d_z
+            NULLIFY (DATA)
+         END IF
+      END SUBROUTINE get_data_2d_z
 
-   ELEMENTAL FUNCTION dbcsr_scalar_z (scalar) RESULT(encapsulated_scalar)
+      ELEMENTAL FUNCTION dbcsr_scalar_z (scalar) RESULT(encapsulated_scalar)
      !! Sets a scalar in an encapsulated data structure
 
-      COMPLEX(kind=real_8), INTENT(IN)       :: scalar
+         COMPLEX(kind=real_8), INTENT(IN)       :: scalar
         !! scalar to encapsulate
-      TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
+         TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
         !! encapsulated scalar
 
-      encapsulated_scalar = dbcsr_scalar_zero(dbcsr_type_complex_8)
-      encapsulated_scalar%c_dp = scalar
-   END FUNCTION dbcsr_scalar_z
+         encapsulated_scalar = dbcsr_scalar_zero(dbcsr_type_complex_8)
+         encapsulated_scalar%c_dp = scalar
+      END FUNCTION dbcsr_scalar_z
 
-   ELEMENTAL SUBROUTINE dbcsr_scalar_get_value_z (encapsulated_scalar, value)
+      ELEMENTAL SUBROUTINE dbcsr_scalar_get_value_z (encapsulated_scalar, value)
      !! Sets a scalar in an encapsulated data structure
 
-      TYPE(dbcsr_scalar_type), INTENT(IN) :: encapsulated_scalar
+         TYPE(dbcsr_scalar_type), INTENT(IN) :: encapsulated_scalar
         !! encapsulated scalar
-      COMPLEX(kind=real_8), INTENT(OUT)                :: value
+         COMPLEX(kind=real_8), INTENT(OUT)                :: value
         !! value of the scalar
 
-      value = encapsulated_scalar%c_dp
-   END SUBROUTINE dbcsr_scalar_get_value_z
+         value = encapsulated_scalar%c_dp
+      END SUBROUTINE dbcsr_scalar_get_value_z
 # 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
-   SUBROUTINE set_data_p_c (area, p)
+      SUBROUTINE set_data_p_c (area, p)
      !! Sets a data pointer.
      !!
      !! Assumptions
      !! Assumes that no memory will be lost when repointing the
      !! pointer in the data area and that the area is initialized.
 
-      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+         TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: p
+         COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
-      IF (area%d%data_type /= dbcsr_type_complex_4) &
-         DBCSR_ABORT("set_data_p_c: data-area has wrong type")
+         IF (area%d%data_type /= dbcsr_type_complex_4) &
+            DBCSR_ABORT("set_data_p_c: data-area has wrong type")
 
-      area%d%c_sp => p
-   END SUBROUTINE set_data_p_c
+         area%d%c_sp => p
+      END SUBROUTINE set_data_p_c
 
-   SUBROUTINE set_data_p_2d_c (area, p)
+      SUBROUTINE set_data_p_2d_c (area, p)
      !! Sets a data pointer.
      !!
      !! Assumptions
      !! Assumes that no memory will be lost when repointing the
      !! pointer in the data area and that the area is initialized.
 
-      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+         TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER         :: p
+         COMPLEX(kind=real_4), DIMENSION(:, :), POINTER         :: p
         !! source data pointer
 
-      IF (area%d%data_type /= dbcsr_type_complex_4_2d) &
-         DBCSR_ABORT("set_data_p_2d_c: data-area has wrong type")
+         IF (area%d%data_type /= dbcsr_type_complex_4_2d) &
+            DBCSR_ABORT("set_data_p_2d_c: data-area has wrong type")
 
-      area%d%c2_sp => p
-   END SUBROUTINE set_data_p_2d_c
+         area%d%c2_sp => p
+      END SUBROUTINE set_data_p_2d_c
 
-   FUNCTION dbcsr_get_data_c_c (area, select_data_type, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_c_c (area, select_data_type, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !!
      !! Calling
@@ -1914,234 +1914,234 @@ CONTAINS
      !! need for the select_data_type argument.
      !! see dbcsr_get_data_p_c
 
-      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      COMPLEX(kind=real_4), INTENT(IN)            :: select_data_type
+         COMPLEX(kind=real_4), INTENT(IN)            :: select_data_type
         !! force datatype
-      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER :: DATA
+         COMPLEX(kind=real_4), DIMENSION(:), POINTER :: DATA
         !! pointer to data
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 
 !   ---------------------------------------------------------------------------
 
-      ! The select_data_type argument is needed to make this function unique
-      ! enough to use in the interface.
-      IF (KIND(select_data_type) .NE. KIND(DATA)) &
-         DBCSR_ABORT("compiler borken")
+         ! The select_data_type argument is needed to make this function unique
+         ! enough to use in the interface.
+         IF (KIND(select_data_type) .NE. KIND(DATA)) &
+            DBCSR_ABORT("compiler borken")
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_4) &
-            DBCSR_ABORT("dbcsr_get_data_c_c: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c_sp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c_sp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l .LT. LBOUND(area%d%c_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u .GT. UBOUND(area%d%c_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c_sp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_4) &
+               DBCSR_ABORT("dbcsr_get_data_c_c: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c_sp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c_sp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l .LT. LBOUND(area%d%c_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u .GT. UBOUND(area%d%c_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c_sp (l:u)
+            ELSE
+               DATA => area%d%c_sp
+            END IF
          ELSE
-            DATA => area%d%c_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_c_c
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_c_c
 
-   FUNCTION dbcsr_get_data_p_c (area, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_p_c (area, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !! \brief dbcsr_get_data_c_c
      !!
      !! Calling
      !! This routine can be called explicitly.
 
-      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+         COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
         !! pointer to data
-      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_4) &
-            DBCSR_ABORT("dbcsr_get_data_p_c: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c_sp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c_sp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l .LT. LBOUND(area%d%c_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u .GT. UBOUND(area%d%c_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c_sp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_4) &
+               DBCSR_ABORT("dbcsr_get_data_p_c: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c_sp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c_sp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l .LT. LBOUND(area%d%c_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u .GT. UBOUND(area%d%c_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c_sp (l:u)
+            ELSE
+               DATA => area%d%c_sp
+            END IF
          ELSE
-            DATA => area%d%c_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_p_c
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_p_c
 
-   FUNCTION dbcsr_get_data_p_2d_c (area, lb, ub) RESULT(DATA)
+      FUNCTION dbcsr_get_data_p_2d_c (area, lb, ub) RESULT(DATA)
      !! Returns the single/double precision real/complex data
      !! \brief dbcsr_get_data_c_c
      !!
      !! Calling
      !! This routine can be called explicitly.
 
-      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)            :: area
         !! data area
-      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER            :: DATA
+         COMPLEX(kind=real_4), DIMENSION(:, :), POINTER            :: DATA
         !! pointer to data
-      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+         INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER, DIMENSION(2)          :: l, u
+         INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_4_2d) &
-            DBCSR_ABORT("dbcsr_get_data_p_2d_c: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c2_sp)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c2_sp)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l(1) .LT. LBOUND(area%d%c2_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (l(2) .LT. LBOUND(area%d%c2_sp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(1) .GT. UBOUND(area%d%c2_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(2) .GT. UBOUND(area%d%c2_sp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c2_sp (l(1):u(1), l(2):u(2))
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_4_2d) &
+               DBCSR_ABORT("dbcsr_get_data_p_2d_c: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c2_sp)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c2_sp)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l(1) .LT. LBOUND(area%d%c2_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (l(2) .LT. LBOUND(area%d%c2_sp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(1) .GT. UBOUND(area%d%c2_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(2) .GT. UBOUND(area%d%c2_sp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c2_sp (l(1):u(1), l(2):u(2))
+            ELSE
+               DATA => area%d%c2_sp
+            END IF
          ELSE
-            DATA => area%d%c2_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END FUNCTION dbcsr_get_data_p_2d_c
+            NULLIFY (DATA)
+         END IF
+      END FUNCTION dbcsr_get_data_p_2d_c
 
-   SUBROUTINE get_data_c (area, DATA, lb, ub)
+      SUBROUTINE get_data_c (area, DATA, lb, ub)
      !! Returns the single/double precision real/complex data
 
-      TYPE(dbcsr_data_obj), INTENT(IN)  :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)  :: area
         !! data area
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER    :: DATA
+         COMPLEX(kind=real_4), DIMENSION(:), POINTER    :: DATA
         !! pointer to data
-      INTEGER, INTENT(IN), OPTIONAL     :: lb, ub
+         INTEGER, INTENT(IN), OPTIONAL     :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER                        :: l, u
+         INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_4) &
-            DBCSR_ABORT("get_data_c: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c_sp, 1)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c_sp, 1)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l < LBOUND(area%d%c_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u > UBOUND(area%d%c_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c_sp (l:u)
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_4) &
+               DBCSR_ABORT("get_data_c: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c_sp, 1)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c_sp, 1)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l < LBOUND(area%d%c_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u > UBOUND(area%d%c_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c_sp (l:u)
+            ELSE
+               DATA => area%d%c_sp
+            END IF
          ELSE
-            DATA => area%d%c_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END SUBROUTINE get_data_c
+            NULLIFY (DATA)
+         END IF
+      END SUBROUTINE get_data_c
 
-   SUBROUTINE get_data_2d_c (area, DATA, lb, ub)
+      SUBROUTINE get_data_2d_c (area, DATA, lb, ub)
      !! Returns the single/double precision real/complex data
 
-      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+         TYPE(dbcsr_data_obj), INTENT(IN)            :: area
         !! data area
-      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER            :: DATA
+         COMPLEX(kind=real_4), DIMENSION(:, :), POINTER            :: DATA
         !! pointer to data
-      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+         INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
 
-      INTEGER, DIMENSION(2)          :: l, u
+         INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
 
-      IF (ASSOCIATED(area%d)) THEN
-         IF (area%d%data_type /= dbcsr_type_complex_4_2d) &
-            DBCSR_ABORT("get_data_2d_c: data-area has wrong type")
-         IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
-            l = LBOUND(area%d%c2_sp)
-            IF (PRESENT(lb)) l = lb
-            u = UBOUND(area%d%c2_sp)
-            IF (PRESENT(ub)) u = ub
-            IF (debug_mod) THEN
-               IF (l(1) < LBOUND(area%d%c2_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (l(2) < LBOUND(area%d%c2_sp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(1) > UBOUND(area%d%c2_sp, 1)) &
-                  DBCSR_ABORT("Out of bounds")
-               IF (u(2) > UBOUND(area%d%c2_sp, 2)) &
-                  DBCSR_ABORT("Out of bounds")
-            ENDIF
-            DATA => area%d%c2_sp (l(1):u(1), l(2):u(2))
+         IF (ASSOCIATED(area%d)) THEN
+            IF (area%d%data_type /= dbcsr_type_complex_4_2d) &
+               DBCSR_ABORT("get_data_2d_c: data-area has wrong type")
+            IF (PRESENT(lb) .OR. PRESENT(ub)) THEN
+               l = LBOUND(area%d%c2_sp)
+               IF (PRESENT(lb)) l = lb
+               u = UBOUND(area%d%c2_sp)
+               IF (PRESENT(ub)) u = ub
+               IF (debug_mod) THEN
+                  IF (l(1) < LBOUND(area%d%c2_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (l(2) < LBOUND(area%d%c2_sp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(1) > UBOUND(area%d%c2_sp, 1)) &
+                     DBCSR_ABORT("Out of bounds")
+                  IF (u(2) > UBOUND(area%d%c2_sp, 2)) &
+                     DBCSR_ABORT("Out of bounds")
+               END IF
+               DATA => area%d%c2_sp (l(1):u(1), l(2):u(2))
+            ELSE
+               DATA => area%d%c2_sp
+            END IF
          ELSE
-            DATA => area%d%c2_sp
-         ENDIF
-      ELSE
-         NULLIFY (DATA)
-      ENDIF
-   END SUBROUTINE get_data_2d_c
+            NULLIFY (DATA)
+         END IF
+      END SUBROUTINE get_data_2d_c
 
-   ELEMENTAL FUNCTION dbcsr_scalar_c (scalar) RESULT(encapsulated_scalar)
+      ELEMENTAL FUNCTION dbcsr_scalar_c (scalar) RESULT(encapsulated_scalar)
      !! Sets a scalar in an encapsulated data structure
 
-      COMPLEX(kind=real_4), INTENT(IN)       :: scalar
+         COMPLEX(kind=real_4), INTENT(IN)       :: scalar
         !! scalar to encapsulate
-      TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
+         TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
         !! encapsulated scalar
 
-      encapsulated_scalar = dbcsr_scalar_zero(dbcsr_type_complex_4)
-      encapsulated_scalar%c_sp = scalar
-   END FUNCTION dbcsr_scalar_c
+         encapsulated_scalar = dbcsr_scalar_zero(dbcsr_type_complex_4)
+         encapsulated_scalar%c_sp = scalar
+      END FUNCTION dbcsr_scalar_c
 
-   ELEMENTAL SUBROUTINE dbcsr_scalar_get_value_c (encapsulated_scalar, value)
+      ELEMENTAL SUBROUTINE dbcsr_scalar_get_value_c (encapsulated_scalar, value)
      !! Sets a scalar in an encapsulated data structure
 
-      TYPE(dbcsr_scalar_type), INTENT(IN) :: encapsulated_scalar
+         TYPE(dbcsr_scalar_type), INTENT(IN) :: encapsulated_scalar
         !! encapsulated scalar
-      COMPLEX(kind=real_4), INTENT(OUT)                :: value
+         COMPLEX(kind=real_4), INTENT(OUT)                :: value
         !! value of the scalar
 
-      value = encapsulated_scalar%c_sp
-   END SUBROUTINE dbcsr_scalar_get_value_c
+         value = encapsulated_scalar%c_sp
+      END SUBROUTINE dbcsr_scalar_get_value_c
 # 1320 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
 
 END MODULE dbcsr_data_methods_low

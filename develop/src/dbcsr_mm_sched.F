@@ -300,7 +300,7 @@ CONTAINS
                DBCSR_ABORT("product data out of range")
             END IF
          END DO
-      ENDIF
+      END IF
 
       IF (.FALSE.) THEN
          ! Check if homogeneous stacks are indeed homogeneous
@@ -313,8 +313,8 @@ CONTAINS
                IF (stack_data(p_k, sp) /= stack_descr%k) &
                   DBCSR_ABORT("homogeneous stacks check failed")
             END DO
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       ! Submitting the stack for processing -------------------------------------
       flop_per_entry = INT(2, KIND=int_8)*stack_descr%max_m*stack_descr%max_n*stack_descr%max_k
@@ -342,8 +342,8 @@ CONTAINS
             RETURN
          ELSE
             this%avoid_accdrv = dbcsr_cfg%accdrv_avoid_after_busy
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       !WRITE (*,*) "dbcsr_mm_sched_process: running hostdrv_process, stack_fillcount:", stack_fillcount
 
@@ -371,7 +371,7 @@ CONTAINS
          CALL stats_add(mystats, &
                         m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
                         stacksize_cpu=INT(stack_fillcount, kind=int_8))
-      ENDIF
+      END IF
 
    END SUBROUTINE dbcsr_mm_sched_process
 
@@ -424,7 +424,7 @@ CONTAINS
             stats%num_mnk_stacks(i, 8) = stats%num_mnk_stacks(i, 8) + my_nstacks_smm
             stats%num_mnk_stacks(i, 9) = stats%num_mnk_stacks(i, 9) + my_nstacks_acc
             RETURN
-         ENDIF
+         END IF
       END DO
 
       !not found, ok lets grow the list
@@ -527,7 +527,7 @@ CONTAINS
          IF (sending_rank == myrank) THEN
             i = MINLOC(mnk_collected, dim=1)
             mnk = INT(report%num_mnk_stacks(i, 1:3), kind=int_4)
-         ENDIF
+         END IF
          CALL mp_bcast(msg=mnk, source=sending_rank, gid=group)
 
          CALL stats_add(report, m=mnk(1), n=mnk(2), k=mnk(3), stacksize_cpu=0_int_8, stacksize_acc=0_int_8)

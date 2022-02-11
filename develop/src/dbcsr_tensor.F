@@ -32,7 +32,7 @@ MODULE dbcsr_tensor
       dbcsr_type, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
       dbcsr_transpose, dbcsr_no_transpose, dbcsr_scalar, dbcsr_put_block, &
-      dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_clear, &
+      dbcsr_type_complex_4, dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_clear, &
       dbcsr_release, dbcsr_desymmetrize, dbcsr_has_symmetry
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_split_info
@@ -174,7 +174,7 @@ CONTAINS
          move_prv = move_data
       ELSE
          move_prv = .FALSE.
-      ENDIF
+      END IF
 
       dist_compatible_tas = .FALSE.
       dist_compatible_tensor = .FALSE.
@@ -188,7 +188,7 @@ CONTAINS
          summation_prv = summation
       ELSE
          summation_prv = .FALSE.
-      ENDIF
+      END IF
 
       IF (PRESENT(bounds)) THEN
          ALLOCATE (in_tmp_1)
@@ -197,14 +197,14 @@ CONTAINS
          move_prv = .TRUE.
       ELSE
          in_tmp_1 => tensor_in
-      ENDIF
+      END IF
 
       IF (PRESENT(order)) THEN
          CALL reorder_arrays(in_tmp_1%blk_sizes, blk_sizes_in, order=order)
          block_compatible = check_equal(blk_sizes_in, tensor_out%blk_sizes)
       ELSE
          block_compatible = check_equal(in_tmp_1%blk_sizes, tensor_out%blk_sizes)
-      ENDIF
+      END IF
 
       IF (.NOT. block_compatible) THEN
          ALLOCATE (in_tmp_2, out_tmp_1)
@@ -215,7 +215,7 @@ CONTAINS
       ELSE
          in_tmp_2 => in_tmp_1
          out_tmp_1 => tensor_out
-      ENDIF
+      END IF
 
       IF (PRESENT(order)) THEN
          ALLOCATE (in_tmp_3)
@@ -223,7 +223,7 @@ CONTAINS
          new_in_3 = .TRUE.
       ELSE
          in_tmp_3 => in_tmp_2
-      ENDIF
+      END IF
 
       ALLOCATE (map1_in_1(ndims_matrix_row(in_tmp_3)))
       ALLOCATE (map1_in_2(ndims_matrix_column(in_tmp_3)))
@@ -238,8 +238,8 @@ CONTAINS
             dist_compatible_tas = check_equal(in_tmp_3%nd_dist, out_tmp_1%nd_dist)
          ELSEIF (array_eq_i([map1_in_1, map1_in_2], [map2_in_1, map2_in_2])) THEN
             dist_compatible_tensor = check_equal(in_tmp_3%nd_dist, out_tmp_1%nd_dist)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       IF (dist_compatible_tas) THEN
          CALL dbcsr_tas_copy(out_tmp_1%matrix_rep, in_tmp_3%matrix_rep, summation)
@@ -249,31 +249,31 @@ CONTAINS
          IF (move_prv) CALL dbcsr_t_clear(in_tmp_3)
       ELSE
          CALL dbcsr_t_reshape(in_tmp_3, out_tmp_1, summation, move_data=move_prv)
-      ENDIF
+      END IF
 
       IF (new_in_1) THEN
          CALL dbcsr_t_destroy(in_tmp_1)
          DEALLOCATE (in_tmp_1)
-      ENDIF
+      END IF
 
       IF (new_in_2) THEN
          CALL dbcsr_t_destroy(in_tmp_2)
          DEALLOCATE (in_tmp_2)
-      ENDIF
+      END IF
 
       IF (new_in_3) THEN
          CALL dbcsr_t_destroy(in_tmp_3)
          DEALLOCATE (in_tmp_3)
-      ENDIF
+      END IF
 
       IF (new_out_1) THEN
          IF (unit_nr_prv /= 0) THEN
             CALL dbcsr_t_write_tensor_dist(out_tmp_1, unit_nr)
-         ENDIF
+         END IF
          CALL dbcsr_t_split_copyback(out_tmp_1, tensor_out, summation)
          CALL dbcsr_t_destroy(out_tmp_1)
          DEALLOCATE (out_tmp_1)
-      ENDIF
+      END IF
 
       CALL timestop(handle)
 
@@ -302,7 +302,7 @@ CONTAINS
          IF (.NOT. summation) CALL dbcsr_t_clear(tensor_out)
       ELSE
          CALL dbcsr_t_clear(tensor_out)
-      ENDIF
+      END IF
 
       CALL dbcsr_t_reserve_blocks(tensor_in, tensor_out)
 
@@ -313,7 +313,7 @@ CONTAINS
          DBCSR_ASSERT(found)
          CALL dbcsr_t_put_block(tensor_out, ind_nd, blk_data, summation=summation)
          CALL destroy_block(blk_data)
-      ENDDO
+      END DO
       CALL dbcsr_t_iterator_stop(iter)
 
       CALL timestop(handle)
@@ -347,13 +347,13 @@ CONTAINS
          CALL dbcsr_desymmetrize(matrix_in, matrix_in_desym)
       ELSE
          matrix_in_desym => matrix_in
-      ENDIF
+      END IF
 
       IF (PRESENT(summation)) THEN
          IF (.NOT. summation) CALL dbcsr_t_clear(tensor_out)
       ELSE
          CALL dbcsr_t_clear(tensor_out)
-      ENDIF
+      END IF
 
       CALL dbcsr_t_reserve_blocks(matrix_in_desym, tensor_out)
 
@@ -363,13 +363,13 @@ CONTAINS
          CALL allocate_any(block_arr, source=block)
          CALL dbcsr_t_put_block(tensor_out, ind_2d, SHAPE(block_arr), block_arr, summation=summation)
          DEALLOCATE (block_arr)
-      ENDDO
+      END DO
       CALL dbcsr_iterator_stop(iter)
 
       IF (dbcsr_has_symmetry(matrix_in)) THEN
          CALL dbcsr_release(matrix_in_desym)
          DEALLOCATE (matrix_in_desym)
-      ENDIF
+      END IF
 
       CALL timestop(handle)
 
@@ -395,7 +395,7 @@ CONTAINS
          IF (.NOT. summation) CALL dbcsr_clear(matrix_out)
       ELSE
          CALL dbcsr_clear(matrix_out)
-      ENDIF
+      END IF
 
       CALL dbcsr_t_reserve_blocks(tensor_in, matrix_out)
 
@@ -411,9 +411,9 @@ CONTAINS
             CALL dbcsr_put_block(matrix_out, ind_2d(2), ind_2d(1), TRANSPOSE(block), summation=summation)
          ELSE
             CALL dbcsr_put_block(matrix_out, ind_2d(1), ind_2d(2), block, summation=summation)
-         ENDIF
+         END IF
          DEALLOCATE (block)
-      ENDDO
+      END DO
       CALL dbcsr_t_iterator_stop(iter)
 
       CALL timestop(handle)
@@ -666,12 +666,12 @@ CONTAINS
       ELSE
          move_data_1 = .FALSE.
          move_data_2 = .FALSE.
-      ENDIF
+      END IF
 
       nodata_3 = .TRUE.
       IF (PRESENT(retain_sparsity)) THEN
          IF (retain_sparsity) nodata_3 = .FALSE.
-      ENDIF
+      END IF
 
       CALL dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, &
                                          contract_1, notcontract_1, &
@@ -686,7 +686,7 @@ CONTAINS
          move_data_1 = .TRUE.
       ELSE
          tensor_crop_1 => tensor_1
-      ENDIF
+      END IF
 
       IF (do_crop_2) THEN
          ALLOCATE (tensor_crop_2)
@@ -694,7 +694,7 @@ CONTAINS
          move_data_2 = .TRUE.
       ELSE
          tensor_crop_2 => tensor_2
-      ENDIF
+      END IF
 
       ! shortcut for empty tensors
       ! this is needed to avoid unnecessary work in case user contracts different portions of a
@@ -710,15 +710,15 @@ CONTAINS
          IF (do_crop_1) THEN
             CALL dbcsr_t_destroy(tensor_crop_1)
             DEALLOCATE (tensor_crop_1)
-         ENDIF
+         END IF
          IF (do_crop_2) THEN
             CALL dbcsr_t_destroy(tensor_crop_2)
             DEALLOCATE (tensor_crop_2)
-         ENDIF
+         END IF
 
          CALL timestop(handle)
          RETURN
-      ENDIF
+      END IF
 
       IF (unit_nr_prv /= 0) THEN
          IF (unit_nr_prv > 0) THEN
@@ -726,12 +726,12 @@ CONTAINS
             WRITE (unit_nr_prv, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "DBCSR TENSOR CONTRACTION:", &
                TRIM(tensor_crop_1%name), 'x', TRIM(tensor_crop_2%name), '=', TRIM(tensor_3%name)
             WRITE (unit_nr_prv, '(A)') repeat("-", 80)
-         ENDIF
+         END IF
          CALL dbcsr_t_write_tensor_info(tensor_crop_1, unit_nr_prv, full_info=log_verbose)
          CALL dbcsr_t_write_tensor_dist(tensor_crop_1, unit_nr_prv)
          CALL dbcsr_t_write_tensor_info(tensor_crop_2, unit_nr_prv, full_info=log_verbose)
          CALL dbcsr_t_write_tensor_dist(tensor_crop_2, unit_nr_prv)
-      ENDIF
+      END IF
 
       data_type = dbcsr_t_get_data_type(tensor_crop_1)
 
@@ -756,7 +756,7 @@ CONTAINS
                                                                  tensor_3, indchar3, unit_nr_prv)
       IF (unit_nr_prv > 0) THEN
          WRITE (unit_nr_prv, '(T2,A)') "aligning tensor index with data"
-      ENDIF
+      END IF
 
       CALL align_tensor(tensor_crop_1, contract_1, notcontract_1, &
                         tensor_algn_1, contract_1_mod, notcontract_1_mod, indchar1, indchar1_mod)
@@ -790,7 +790,7 @@ CONTAINS
          IF (unit_nr_prv > 0) THEN
             WRITE (unit_nr_prv, '(T2,A)') "large tensors: 1, 3; small tensor: 2"
             WRITE (unit_nr_prv, '(T2,A)') "sorting contraction indices"
-         ENDIF
+         END IF
          CALL index_linked_sort(contract_1_mod, contract_2_mod)
          CALL index_linked_sort(map_2_mod, notcontract_2_mod)
          SELECT CASE (max_tensor)
@@ -822,7 +822,7 @@ CONTAINS
          IF (unit_nr_prv > 0) THEN
             WRITE (unit_nr_prv, '(T2,A)') "large tensors: 1, 2; small tensor: 3"
             WRITE (unit_nr_prv, '(T2,A)') "sorting contraction indices"
-         ENDIF
+         END IF
 
          CALL index_linked_sort(notcontract_1_mod, map_1_mod)
          CALL index_linked_sort(notcontract_2_mod, map_2_mod)
@@ -856,7 +856,7 @@ CONTAINS
          IF (unit_nr_prv > 0) THEN
             WRITE (unit_nr_prv, '(T2,A)') "large tensors: 2, 3; small tensor: 1"
             WRITE (unit_nr_prv, '(T2,A)') "sorting contraction indices"
-         ENDIF
+         END IF
          CALL index_linked_sort(map_1_mod, notcontract_1_mod)
          CALL index_linked_sort(contract_2_mod, contract_1_mod)
          SELECT CASE (max_tensor)
@@ -897,7 +897,7 @@ CONTAINS
          IF (new_1) CALL dbcsr_t_write_tensor_dist(tensor_contr_1, unit_nr_prv)
          IF (new_2) CALL dbcsr_t_write_tensor_info(tensor_contr_2, unit_nr_prv, full_info=log_verbose)
          IF (new_2) CALL dbcsr_t_write_tensor_dist(tensor_contr_2, unit_nr_prv)
-      ENDIF
+      END IF
 
       IF (.NOT. PRESENT(result_index)) THEN
          CALL dbcsr_tas_multiply(trans_1, trans_2, trans_3, alpha, &
@@ -917,32 +917,32 @@ CONTAINS
          IF (SIZE(result_index, 1) < nblk) THEN
             CALL dbcsr_abort(__LOCATION__, &
         "allocated size of `result_index` is too small. This error occurs due to a high load imbalance of distributed tensor data.")
-         ENDIF
+         END IF
 
          DO iblk = 1, nblk
             result_index(iblk, :) = get_nd_indices_tensor(tensor_contr_3%nd_index_blk, result_index_2d(iblk, :))
-         ENDDO
+         END DO
 
          IF (new_1) THEN
             CALL dbcsr_t_destroy(tensor_contr_1)
             DEALLOCATE (tensor_contr_1)
-         ENDIF
+         END IF
          IF (new_2) THEN
             CALL dbcsr_t_destroy(tensor_contr_2)
             DEALLOCATE (tensor_contr_2)
-         ENDIF
+         END IF
          IF (new_3) THEN
             CALL dbcsr_t_destroy(tensor_contr_3)
             DEALLOCATE (tensor_contr_3)
-         ENDIF
+         END IF
          IF (do_crop_1) THEN
             CALL dbcsr_t_destroy(tensor_crop_1)
             DEALLOCATE (tensor_crop_1)
-         ENDIF
+         END IF
          IF (do_crop_2) THEN
             CALL dbcsr_t_destroy(tensor_crop_2)
             DEALLOCATE (tensor_crop_2)
-         ENDIF
+         END IF
 
          CALL dbcsr_t_destroy(tensor_algn_1)
          CALL dbcsr_t_destroy(tensor_algn_2)
@@ -950,28 +950,28 @@ CONTAINS
 
          CALL timestop(handle)
          RETURN
-      ENDIF
+      END IF
 
       IF (PRESENT(pgrid_opt_1)) THEN
          IF (.NOT. new_1) THEN
             ALLOCATE (pgrid_opt_1)
             pgrid_opt_1 = opt_pgrid(tensor_1, split_opt)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       IF (PRESENT(pgrid_opt_2)) THEN
          IF (.NOT. new_2) THEN
             ALLOCATE (pgrid_opt_2)
             pgrid_opt_2 = opt_pgrid(tensor_2, split_opt)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       IF (PRESENT(pgrid_opt_3)) THEN
          IF (.NOT. new_3) THEN
             ALLOCATE (pgrid_opt_3)
             pgrid_opt_3 = opt_pgrid(tensor_3, split_opt)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       do_batched = tensor_small%matrix_rep%do_batched > 0
 
@@ -981,7 +981,7 @@ CONTAINS
       IF (tensors_remapped .AND. do_batched) THEN
          CALL dbcsr_warn(__LOCATION__, &
                          "Internal process grid optimization disabled because tensors are not in contraction-compatible format")
-      ENDIF
+      END IF
 
       CALL mp_environ(tensor_large%pgrid%mp_comm_2d, 2, pdims_2d, pcoord_2d, periods_2d)
 
@@ -999,7 +999,7 @@ CONTAINS
                CALL dbcsr_tas_create_split(split_opt_avg, mp_comm_opt, split_opt%split_rowcol, &
                                            NINT(storage%nsplit_avg), own_comm=.TRUE.)
                CALL mp_environ(split_opt_avg%mp_comm, 2, pdims_2d_opt, pcoord_2d, periods_2d)
-            ENDIF
+            END IF
 
          END ASSOCIATE
 
@@ -1013,20 +1013,20 @@ CONTAINS
             IF (pdim_ratio/pdim_ratio_opt <= default_pdims_accept_ratio**2) THEN
                do_change_pgrid(1) = .FALSE.
                CALL dbcsr_tas_release_info(split_opt_avg)
-            ENDIF
-         ENDIF
-      ENDIF
+            END IF
+         END IF
+      END IF
 
       IF (unit_nr_prv /= 0) THEN
          do_write_3 = .TRUE.
          IF (tensor_contr_3%matrix_rep%do_batched > 0) THEN
             IF (tensor_contr_3%matrix_rep%mm_storage%batched_out) do_write_3 = .FALSE.
-         ENDIF
+         END IF
          IF (do_write_3) THEN
             CALL dbcsr_t_write_tensor_info(tensor_contr_3, unit_nr_prv, full_info=log_verbose)
             CALL dbcsr_t_write_tensor_dist(tensor_contr_3, unit_nr_prv)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       IF (new_3) THEN
          ! need redistribute if we created new tensor for tensor 3
@@ -1035,7 +1035,7 @@ CONTAINS
          IF (PRESENT(filter_eps)) CALL dbcsr_t_filter(tensor_algn_3, filter_eps)
          ! tensor_3 automatically has correct data because tensor_algn_3 contains a matrix
          ! pointer to data of tensor_3
-      ENDIF
+      END IF
 
       ! transfer contraction storage
       CALL dbcsr_t_copy_contraction_storage(tensor_contr_1, tensor_1)
@@ -1045,7 +1045,7 @@ CONTAINS
       IF (unit_nr_prv /= 0) THEN
          IF (new_3 .AND. do_write_3) CALL dbcsr_t_write_tensor_info(tensor_3, unit_nr_prv, full_info=log_verbose)
          IF (new_3 .AND. do_write_3) CALL dbcsr_t_write_tensor_dist(tensor_3, unit_nr_prv)
-      ENDIF
+      END IF
 
       CALL dbcsr_t_destroy(tensor_algn_1)
       CALL dbcsr_t_destroy(tensor_algn_2)
@@ -1054,38 +1054,38 @@ CONTAINS
       IF (do_crop_1) THEN
          CALL dbcsr_t_destroy(tensor_crop_1)
          DEALLOCATE (tensor_crop_1)
-      ENDIF
+      END IF
 
       IF (do_crop_2) THEN
          CALL dbcsr_t_destroy(tensor_crop_2)
          DEALLOCATE (tensor_crop_2)
-      ENDIF
+      END IF
 
       IF (new_1) THEN
          CALL dbcsr_t_destroy(tensor_contr_1)
          DEALLOCATE (tensor_contr_1)
-      ENDIF
+      END IF
       IF (new_2) THEN
          CALL dbcsr_t_destroy(tensor_contr_2)
          DEALLOCATE (tensor_contr_2)
-      ENDIF
+      END IF
       IF (new_3) THEN
          CALL dbcsr_t_destroy(tensor_contr_3)
          DEALLOCATE (tensor_contr_3)
-      ENDIF
+      END IF
 
       IF (PRESENT(move_data)) THEN
          IF (move_data) THEN
             CALL dbcsr_t_clear(tensor_1)
             CALL dbcsr_t_clear(tensor_2)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       IF (unit_nr_prv > 0) THEN
          WRITE (unit_nr_prv, '(A)') repeat("-", 80)
          WRITE (unit_nr_prv, '(A)') "TENSOR CONTRACTION DONE"
          WRITE (unit_nr_prv, '(A)') repeat("-", 80)
-      ENDIF
+      END IF
 
       IF (ANY(do_change_pgrid)) THEN
          pgrid_changed_any = .FALSE.
@@ -1102,14 +1102,14 @@ CONTAINS
                                             pgrid_changed=pgrid_changed, &
                                             unit_nr=unit_nr_prv)
                IF (pgrid_changed) pgrid_changed_any = .TRUE.
-            ENDIF
+            END IF
             IF (pgrid_changed_any) THEN
                IF (tensor_2%matrix_rep%do_batched == 3) THEN
                   ! set flag that process grid has been optimized to make sure that no grid optimizations are done
                   ! in TAS multiply algorithm
                   CALL dbcsr_tas_batched_mm_complete(tensor_2%matrix_rep)
-               ENDIF
-            ENDIF
+               END IF
+            END IF
          CASE (2)
             IF (ALLOCATED(tensor_1%contraction_storage) .AND. ALLOCATED(tensor_2%contraction_storage)) THEN
                CALL dbcsr_t_change_pgrid_2d(tensor_1, tensor_1%pgrid%mp_comm_2d, pdims=pdims_2d_opt, &
@@ -1122,12 +1122,12 @@ CONTAINS
                                             pgrid_changed=pgrid_changed, &
                                             unit_nr=unit_nr_prv)
                IF (pgrid_changed) pgrid_changed_any = .TRUE.
-            ENDIF
+            END IF
             IF (pgrid_changed_any) THEN
                IF (tensor_3%matrix_rep%do_batched == 3) THEN
                   CALL dbcsr_tas_batched_mm_complete(tensor_3%matrix_rep)
-               ENDIF
-            ENDIF
+               END IF
+            END IF
          CASE (3)
             IF (ALLOCATED(tensor_2%contraction_storage) .AND. ALLOCATED(tensor_3%contraction_storage)) THEN
                CALL dbcsr_t_change_pgrid_2d(tensor_2, tensor_2%pgrid%mp_comm_2d, pdims=pdims_2d_opt, &
@@ -1140,22 +1140,22 @@ CONTAINS
                                             pgrid_changed=pgrid_changed, &
                                             unit_nr=unit_nr_prv)
                IF (pgrid_changed) pgrid_changed_any = .TRUE.
-            ENDIF
+            END IF
             IF (pgrid_changed_any) THEN
                IF (tensor_1%matrix_rep%do_batched == 3) THEN
                   CALL dbcsr_tas_batched_mm_complete(tensor_1%matrix_rep)
-               ENDIF
-            ENDIF
+               END IF
+            END IF
          END SELECT
          CALL dbcsr_tas_release_info(split_opt_avg)
-      ENDIF
+      END IF
 
       IF ((.NOT. tensors_remapped) .AND. do_batched) THEN
          ! freeze TAS process grids if tensor grids were optimized
          CALL dbcsr_tas_set_batched_state(tensor_1%matrix_rep, opt_grid=.TRUE.)
          CALL dbcsr_tas_set_batched_state(tensor_2%matrix_rep, opt_grid=.TRUE.)
          CALL dbcsr_tas_set_batched_state(tensor_3%matrix_rep, opt_grid=.TRUE.)
-      ENDIF
+      END IF
 
       CALL dbcsr_tas_release_info(split_opt)
 
@@ -1242,13 +1242,13 @@ CONTAINS
          ref_tensor = 1
       ELSE
          ref_tensor = 2
-      ENDIF
+      END IF
 
       IF (PRESENT(optimize_dist)) THEN
          optimize_dist_prv = optimize_dist
       ELSE
          optimize_dist_prv = .FALSE.
-      ENDIF
+      END IF
 
       compat1 = compat_map(tensor1%nd_index, ind1_linked)
       compat2 = compat_map(tensor2%nd_index, ind2_linked)
@@ -1274,18 +1274,18 @@ CONTAINS
          CASE (2)
             WRITE (unit_nr_prv, '(A)') "Transposed"
          END SELECT
-      ENDIF
+      END IF
 
       new1 = .FALSE.
       new2 = .FALSE.
 
       IF (compat1 == 0 .OR. optimize_dist_prv) THEN
          new1 = .TRUE.
-      ENDIF
+      END IF
 
       IF (compat2 == 0 .OR. optimize_dist_prv) THEN
          new2 = .TRUE.
-      ENDIF
+      END IF
 
       IF (ref_tensor == 1) THEN ! tensor 1 is reference and tensor 2 is reshaped compatible with tensor 1
          IF (compat1 == 0 .OR. optimize_dist_prv) THEN ! tensor 1 is not contraction compatible --> reshape
@@ -1301,7 +1301,7 @@ CONTAINS
          ELSE
             IF (unit_nr_prv > 0) WRITE (unit_nr_prv, '(T2,A,1X,A)') "No redistribution of", TRIM(tensor1%name)
             tensor1_out => tensor1
-         ENDIF
+         END IF
          IF (compat2 == 0 .OR. optimize_dist_prv) THEN ! tensor 2 is not contraction compatible --> reshape
             IF (unit_nr_prv > 0) WRITE (unit_nr_prv, '(T2,A,1X,A,1X,A,1X,A)') "Redistribution of", &
                TRIM(tensor2%name), "compatible with", TRIM(tensor1%name)
@@ -1325,12 +1325,12 @@ CONTAINS
                                   dist2=dist_list, mp_dims_2=mp_dims, nodata=nodata2, move_data=move_data_2)
             ELSE
                DBCSR_ABORT("should not happen")
-            ENDIF
+            END IF
             compat2 = compat1
          ELSE
             IF (unit_nr_prv > 0) WRITE (unit_nr_prv, '(T2,A,1X,A)') "No redistribution of", TRIM(tensor2%name)
             tensor2_out => tensor2
-         ENDIF
+         END IF
       ELSE ! tensor 2 is reference and tensor 1 is reshaped compatible with tensor 2
          IF (compat2 == 0 .OR. optimize_dist_prv) THEN ! tensor 2 is not contraction compatible --> reshape
             IF (unit_nr_prv > 0) WRITE (unit_nr_prv, '(T2,A,1X,A)') "Redistribution of", TRIM(tensor2%name)
@@ -1344,7 +1344,7 @@ CONTAINS
          ELSE
             IF (unit_nr_prv > 0) WRITE (unit_nr_prv, '(T2,A,1X,A)') "No redistribution of", TRIM(tensor2%name)
             tensor2_out => tensor2
-         ENDIF
+         END IF
          IF (compat1 == 0 .OR. optimize_dist_prv) THEN ! tensor 1 is not contraction compatible --> reshape
             IF (unit_nr_prv > 0) WRITE (unit_nr_prv, '(T2,A,1X,A,1X,A,1X,A)') "Redistribution of", TRIM(tensor1%name), &
                "compatible with", TRIM(tensor2%name)
@@ -1364,13 +1364,13 @@ CONTAINS
                                   dist2=dist_list, mp_dims_2=mp_dims, nodata=nodata1, move_data=move_data_1)
             ELSE
                DBCSR_ABORT("should not happen")
-            ENDIF
+            END IF
             compat1 = compat2
          ELSE
             IF (unit_nr_prv > 0) WRITE (unit_nr_prv, '(T2,A,1X,A)') "No redistribution of", TRIM(tensor1%name)
             tensor1_out => tensor1
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       SELECT CASE (compat1)
       CASE (1)
@@ -1401,7 +1401,7 @@ CONTAINS
             CASE (2)
                WRITE (unit_nr_prv, '(A)') "Transposed"
             END SELECT
-         ENDIF
+         END IF
          IF (compat2 .NE. compat2_old) THEN
             WRITE (unit_nr_prv, '(T2,A,1X,A,A,1X)', advance='no') "compatibility of", TRIM(tensor2_out%name), ":"
             SELECT CASE (compat2)
@@ -1412,8 +1412,8 @@ CONTAINS
             CASE (2)
                WRITE (unit_nr_prv, '(A)') "Transposed"
             END SELECT
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       IF (new1 .AND. PRESENT(move_data_1)) move_data_1 = .TRUE.
       IF (new2 .AND. PRESENT(move_data_2)) move_data_2 = .TRUE.
@@ -1448,7 +1448,7 @@ CONTAINS
          nodata_prv = nodata
       ELSE
          nodata_prv = .FALSE.
-      ENDIF
+      END IF
 
       unit_nr_prv = prep_output_unit(unit_nr)
 
@@ -1464,8 +1464,8 @@ CONTAINS
             WRITE (unit_nr_prv, '(A)') "Transposed"
          ELSE
             WRITE (unit_nr_prv, '(A)') "Not compatible"
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (compat1 == 0 .or. compat2 == 0) THEN ! index mapping not compatible with contract index
 
          IF (unit_nr_prv > 0) WRITE (unit_nr_prv, '(T2,A,1X,A)') "Redistribution of", TRIM(tensor_in%name)
@@ -1479,7 +1479,7 @@ CONTAINS
       ELSE
          IF (unit_nr_prv > 0) WRITE (unit_nr_prv, '(T2,A,1X,A)') "No redistribution of", TRIM(tensor_in%name)
          tensor_out => tensor_in
-      ENDIF
+      END IF
 
       IF (compat1 == 1 .AND. compat2 == 2) THEN
          trans = dbcsr_no_transpose
@@ -1487,7 +1487,7 @@ CONTAINS
          trans = dbcsr_transpose
       ELSE
          DBCSR_ABORT("this should not happen")
-      ENDIF
+      END IF
 
       IF (unit_nr_prv > 0) THEN
          IF (compat1_old .NE. compat1 .OR. compat2_old .NE. compat2) THEN
@@ -1498,9 +1498,9 @@ CONTAINS
                WRITE (unit_nr_prv, '(A)') "Transposed"
             ELSE
                WRITE (unit_nr_prv, '(A)') "Not compatible"
-            ENDIF
-         ENDIF
-      ENDIF
+            END IF
+         END IF
+      END IF
 
    END SUBROUTINE
 
@@ -1565,7 +1565,7 @@ CONTAINS
          compat_map = 1
       ELSEIF (array_eq_i(map2, compat_ind)) THEN
          compat_map = 2
-      ENDIF
+      END IF
 
    END FUNCTION
 
@@ -1576,7 +1576,7 @@ CONTAINS
          trans_flag = dbcsr_no_transpose
       ELSEIF (trans_flag == dbcsr_no_transpose) THEN
          trans_flag = dbcsr_transpose
-      ENDIF
+      END IF
    END SUBROUTINE
 
    SUBROUTINE index_linked_sort(ind_ref, ind_dep)
@@ -1635,254 +1635,254 @@ CONTAINS
          name_tmp = name
       ELSE
          name_tmp = tensor_in%name
-      ENDIF
+      END IF
       IF (PRESENT(dist1)) THEN
          DBCSR_ASSERT(PRESENT(mp_dims_1))
-      ENDIF
+      END IF
 
       IF (PRESENT(dist2)) THEN
          DBCSR_ASSERT(PRESENT(mp_dims_2))
-      ENDIF
+      END IF
 
       IF (PRESENT(comm_2d)) THEN
          comm_2d_prv = comm_2d
       ELSE
          comm_2d_prv = tensor_in%pgrid%mp_comm_2d
-      ENDIF
+      END IF
 
       comm_nd = dbcsr_t_nd_mp_comm(comm_2d_prv, map1_2d, map2_2d, dims1_nd=mp_dims_1, dims2_nd=mp_dims_2)
       CALL mp_environ_pgrid(comm_nd, pdims, myploc)
 
 # 1652 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor_in) == 2) THEN
-         CALL get_arrays(tensor_in%blk_sizes, blk_sizes_1, blk_sizes_2)
-      ENDIF
+         IF (ndims_tensor(tensor_in) == 2) THEN
+            CALL get_arrays(tensor_in%blk_sizes, blk_sizes_1, blk_sizes_2)
+         END IF
 # 1652 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor_in) == 3) THEN
-         CALL get_arrays(tensor_in%blk_sizes, blk_sizes_1, blk_sizes_2, blk_sizes_3)
-      ENDIF
+         IF (ndims_tensor(tensor_in) == 3) THEN
+            CALL get_arrays(tensor_in%blk_sizes, blk_sizes_1, blk_sizes_2, blk_sizes_3)
+         END IF
 # 1652 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor_in) == 4) THEN
-         CALL get_arrays(tensor_in%blk_sizes, blk_sizes_1, blk_sizes_2, blk_sizes_3, blk_sizes_4)
-      ENDIF
+         IF (ndims_tensor(tensor_in) == 4) THEN
+            CALL get_arrays(tensor_in%blk_sizes, blk_sizes_1, blk_sizes_2, blk_sizes_3, blk_sizes_4)
+         END IF
 # 1656 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
 # 1658 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor_in) == 2) THEN
+         IF (ndims_tensor(tensor_in) == 2) THEN
 # 1660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (PRESENT(dist1)) THEN
-            IF (ANY(map1_2d == 1)) THEN
-               i = MINLOC(map1_2d, dim=1, mask=map1_2d == 1) ! i is location of idim in map1_2d
-               CALL get_ith_array(dist1, i, nd_dist_1)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist1)) THEN
+                  IF (ANY(map1_2d == 1)) THEN
+                     i = MINLOC(map1_2d, dim=1, mask=map1_2d == 1) ! i is location of idim in map1_2d
+                     CALL get_ith_array(dist1, i, nd_dist_1)
+                  END IF
+               END IF
 
-         IF (PRESENT(dist2)) THEN
-            IF (ANY(map2_2d == 1)) THEN
-               i = MINLOC(map2_2d, dim=1, mask=map2_2d == 1) ! i is location of idim in map2_2d
-               CALL get_ith_array(dist2, i, nd_dist_1)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist2)) THEN
+                  IF (ANY(map2_2d == 1)) THEN
+                     i = MINLOC(map2_2d, dim=1, mask=map2_2d == 1) ! i is location of idim in map2_2d
+                     CALL get_ith_array(dist2, i, nd_dist_1)
+                  END IF
+               END IF
 
-         IF (.NOT. ALLOCATED(nd_dist_1)) THEN
-            ALLOCATE (nd_dist_1 (SIZE(blk_sizes_1)))
-            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_1), pdims(1), blk_sizes_1, nd_dist_1)
-         ENDIF
+               IF (.NOT. ALLOCATED(nd_dist_1)) THEN
+                  ALLOCATE (nd_dist_1 (SIZE(blk_sizes_1)))
+                  CALL dbcsr_t_default_distvec(SIZE(blk_sizes_1), pdims(1), blk_sizes_1, nd_dist_1)
+               END IF
 # 1660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (PRESENT(dist1)) THEN
-            IF (ANY(map1_2d == 2)) THEN
-               i = MINLOC(map1_2d, dim=1, mask=map1_2d == 2) ! i is location of idim in map1_2d
-               CALL get_ith_array(dist1, i, nd_dist_2)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist1)) THEN
+                  IF (ANY(map1_2d == 2)) THEN
+                     i = MINLOC(map1_2d, dim=1, mask=map1_2d == 2) ! i is location of idim in map1_2d
+                     CALL get_ith_array(dist1, i, nd_dist_2)
+                  END IF
+               END IF
 
-         IF (PRESENT(dist2)) THEN
-            IF (ANY(map2_2d == 2)) THEN
-               i = MINLOC(map2_2d, dim=1, mask=map2_2d == 2) ! i is location of idim in map2_2d
-               CALL get_ith_array(dist2, i, nd_dist_2)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist2)) THEN
+                  IF (ANY(map2_2d == 2)) THEN
+                     i = MINLOC(map2_2d, dim=1, mask=map2_2d == 2) ! i is location of idim in map2_2d
+                     CALL get_ith_array(dist2, i, nd_dist_2)
+                  END IF
+               END IF
 
-         IF (.NOT. ALLOCATED(nd_dist_2)) THEN
-            ALLOCATE (nd_dist_2 (SIZE(blk_sizes_2)))
-            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_2), pdims(2), blk_sizes_2, nd_dist_2)
-         ENDIF
+               IF (.NOT. ALLOCATED(nd_dist_2)) THEN
+                  ALLOCATE (nd_dist_2 (SIZE(blk_sizes_2)))
+                  CALL dbcsr_t_default_distvec(SIZE(blk_sizes_2), pdims(2), blk_sizes_2, nd_dist_2)
+               END IF
 # 1679 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
-                                              nd_dist_1, nd_dist_2, own_comm=.TRUE.)
-      ENDIF
+            CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
+                                                 nd_dist_1, nd_dist_2, own_comm=.TRUE.)
+         END IF
 # 1658 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor_in) == 3) THEN
+         IF (ndims_tensor(tensor_in) == 3) THEN
 # 1660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (PRESENT(dist1)) THEN
-            IF (ANY(map1_2d == 1)) THEN
-               i = MINLOC(map1_2d, dim=1, mask=map1_2d == 1) ! i is location of idim in map1_2d
-               CALL get_ith_array(dist1, i, nd_dist_1)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist1)) THEN
+                  IF (ANY(map1_2d == 1)) THEN
+                     i = MINLOC(map1_2d, dim=1, mask=map1_2d == 1) ! i is location of idim in map1_2d
+                     CALL get_ith_array(dist1, i, nd_dist_1)
+                  END IF
+               END IF
 
-         IF (PRESENT(dist2)) THEN
-            IF (ANY(map2_2d == 1)) THEN
-               i = MINLOC(map2_2d, dim=1, mask=map2_2d == 1) ! i is location of idim in map2_2d
-               CALL get_ith_array(dist2, i, nd_dist_1)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist2)) THEN
+                  IF (ANY(map2_2d == 1)) THEN
+                     i = MINLOC(map2_2d, dim=1, mask=map2_2d == 1) ! i is location of idim in map2_2d
+                     CALL get_ith_array(dist2, i, nd_dist_1)
+                  END IF
+               END IF
 
-         IF (.NOT. ALLOCATED(nd_dist_1)) THEN
-            ALLOCATE (nd_dist_1 (SIZE(blk_sizes_1)))
-            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_1), pdims(1), blk_sizes_1, nd_dist_1)
-         ENDIF
+               IF (.NOT. ALLOCATED(nd_dist_1)) THEN
+                  ALLOCATE (nd_dist_1 (SIZE(blk_sizes_1)))
+                  CALL dbcsr_t_default_distvec(SIZE(blk_sizes_1), pdims(1), blk_sizes_1, nd_dist_1)
+               END IF
 # 1660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (PRESENT(dist1)) THEN
-            IF (ANY(map1_2d == 2)) THEN
-               i = MINLOC(map1_2d, dim=1, mask=map1_2d == 2) ! i is location of idim in map1_2d
-               CALL get_ith_array(dist1, i, nd_dist_2)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist1)) THEN
+                  IF (ANY(map1_2d == 2)) THEN
+                     i = MINLOC(map1_2d, dim=1, mask=map1_2d == 2) ! i is location of idim in map1_2d
+                     CALL get_ith_array(dist1, i, nd_dist_2)
+                  END IF
+               END IF
 
-         IF (PRESENT(dist2)) THEN
-            IF (ANY(map2_2d == 2)) THEN
-               i = MINLOC(map2_2d, dim=1, mask=map2_2d == 2) ! i is location of idim in map2_2d
-               CALL get_ith_array(dist2, i, nd_dist_2)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist2)) THEN
+                  IF (ANY(map2_2d == 2)) THEN
+                     i = MINLOC(map2_2d, dim=1, mask=map2_2d == 2) ! i is location of idim in map2_2d
+                     CALL get_ith_array(dist2, i, nd_dist_2)
+                  END IF
+               END IF
 
-         IF (.NOT. ALLOCATED(nd_dist_2)) THEN
-            ALLOCATE (nd_dist_2 (SIZE(blk_sizes_2)))
-            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_2), pdims(2), blk_sizes_2, nd_dist_2)
-         ENDIF
+               IF (.NOT. ALLOCATED(nd_dist_2)) THEN
+                  ALLOCATE (nd_dist_2 (SIZE(blk_sizes_2)))
+                  CALL dbcsr_t_default_distvec(SIZE(blk_sizes_2), pdims(2), blk_sizes_2, nd_dist_2)
+               END IF
 # 1660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (PRESENT(dist1)) THEN
-            IF (ANY(map1_2d == 3)) THEN
-               i = MINLOC(map1_2d, dim=1, mask=map1_2d == 3) ! i is location of idim in map1_2d
-               CALL get_ith_array(dist1, i, nd_dist_3)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist1)) THEN
+                  IF (ANY(map1_2d == 3)) THEN
+                     i = MINLOC(map1_2d, dim=1, mask=map1_2d == 3) ! i is location of idim in map1_2d
+                     CALL get_ith_array(dist1, i, nd_dist_3)
+                  END IF
+               END IF
 
-         IF (PRESENT(dist2)) THEN
-            IF (ANY(map2_2d == 3)) THEN
-               i = MINLOC(map2_2d, dim=1, mask=map2_2d == 3) ! i is location of idim in map2_2d
-               CALL get_ith_array(dist2, i, nd_dist_3)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist2)) THEN
+                  IF (ANY(map2_2d == 3)) THEN
+                     i = MINLOC(map2_2d, dim=1, mask=map2_2d == 3) ! i is location of idim in map2_2d
+                     CALL get_ith_array(dist2, i, nd_dist_3)
+                  END IF
+               END IF
 
-         IF (.NOT. ALLOCATED(nd_dist_3)) THEN
-            ALLOCATE (nd_dist_3 (SIZE(blk_sizes_3)))
-            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_3), pdims(3), blk_sizes_3, nd_dist_3)
-         ENDIF
+               IF (.NOT. ALLOCATED(nd_dist_3)) THEN
+                  ALLOCATE (nd_dist_3 (SIZE(blk_sizes_3)))
+                  CALL dbcsr_t_default_distvec(SIZE(blk_sizes_3), pdims(3), blk_sizes_3, nd_dist_3)
+               END IF
 # 1679 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
-                                              nd_dist_1, nd_dist_2, nd_dist_3, own_comm=.TRUE.)
-      ENDIF
+            CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
+                                                 nd_dist_1, nd_dist_2, nd_dist_3, own_comm=.TRUE.)
+         END IF
 # 1658 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor_in) == 4) THEN
+         IF (ndims_tensor(tensor_in) == 4) THEN
 # 1660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (PRESENT(dist1)) THEN
-            IF (ANY(map1_2d == 1)) THEN
-               i = MINLOC(map1_2d, dim=1, mask=map1_2d == 1) ! i is location of idim in map1_2d
-               CALL get_ith_array(dist1, i, nd_dist_1)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist1)) THEN
+                  IF (ANY(map1_2d == 1)) THEN
+                     i = MINLOC(map1_2d, dim=1, mask=map1_2d == 1) ! i is location of idim in map1_2d
+                     CALL get_ith_array(dist1, i, nd_dist_1)
+                  END IF
+               END IF
 
-         IF (PRESENT(dist2)) THEN
-            IF (ANY(map2_2d == 1)) THEN
-               i = MINLOC(map2_2d, dim=1, mask=map2_2d == 1) ! i is location of idim in map2_2d
-               CALL get_ith_array(dist2, i, nd_dist_1)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist2)) THEN
+                  IF (ANY(map2_2d == 1)) THEN
+                     i = MINLOC(map2_2d, dim=1, mask=map2_2d == 1) ! i is location of idim in map2_2d
+                     CALL get_ith_array(dist2, i, nd_dist_1)
+                  END IF
+               END IF
 
-         IF (.NOT. ALLOCATED(nd_dist_1)) THEN
-            ALLOCATE (nd_dist_1 (SIZE(blk_sizes_1)))
-            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_1), pdims(1), blk_sizes_1, nd_dist_1)
-         ENDIF
+               IF (.NOT. ALLOCATED(nd_dist_1)) THEN
+                  ALLOCATE (nd_dist_1 (SIZE(blk_sizes_1)))
+                  CALL dbcsr_t_default_distvec(SIZE(blk_sizes_1), pdims(1), blk_sizes_1, nd_dist_1)
+               END IF
 # 1660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (PRESENT(dist1)) THEN
-            IF (ANY(map1_2d == 2)) THEN
-               i = MINLOC(map1_2d, dim=1, mask=map1_2d == 2) ! i is location of idim in map1_2d
-               CALL get_ith_array(dist1, i, nd_dist_2)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist1)) THEN
+                  IF (ANY(map1_2d == 2)) THEN
+                     i = MINLOC(map1_2d, dim=1, mask=map1_2d == 2) ! i is location of idim in map1_2d
+                     CALL get_ith_array(dist1, i, nd_dist_2)
+                  END IF
+               END IF
 
-         IF (PRESENT(dist2)) THEN
-            IF (ANY(map2_2d == 2)) THEN
-               i = MINLOC(map2_2d, dim=1, mask=map2_2d == 2) ! i is location of idim in map2_2d
-               CALL get_ith_array(dist2, i, nd_dist_2)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist2)) THEN
+                  IF (ANY(map2_2d == 2)) THEN
+                     i = MINLOC(map2_2d, dim=1, mask=map2_2d == 2) ! i is location of idim in map2_2d
+                     CALL get_ith_array(dist2, i, nd_dist_2)
+                  END IF
+               END IF
 
-         IF (.NOT. ALLOCATED(nd_dist_2)) THEN
-            ALLOCATE (nd_dist_2 (SIZE(blk_sizes_2)))
-            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_2), pdims(2), blk_sizes_2, nd_dist_2)
-         ENDIF
+               IF (.NOT. ALLOCATED(nd_dist_2)) THEN
+                  ALLOCATE (nd_dist_2 (SIZE(blk_sizes_2)))
+                  CALL dbcsr_t_default_distvec(SIZE(blk_sizes_2), pdims(2), blk_sizes_2, nd_dist_2)
+               END IF
 # 1660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (PRESENT(dist1)) THEN
-            IF (ANY(map1_2d == 3)) THEN
-               i = MINLOC(map1_2d, dim=1, mask=map1_2d == 3) ! i is location of idim in map1_2d
-               CALL get_ith_array(dist1, i, nd_dist_3)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist1)) THEN
+                  IF (ANY(map1_2d == 3)) THEN
+                     i = MINLOC(map1_2d, dim=1, mask=map1_2d == 3) ! i is location of idim in map1_2d
+                     CALL get_ith_array(dist1, i, nd_dist_3)
+                  END IF
+               END IF
 
-         IF (PRESENT(dist2)) THEN
-            IF (ANY(map2_2d == 3)) THEN
-               i = MINLOC(map2_2d, dim=1, mask=map2_2d == 3) ! i is location of idim in map2_2d
-               CALL get_ith_array(dist2, i, nd_dist_3)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist2)) THEN
+                  IF (ANY(map2_2d == 3)) THEN
+                     i = MINLOC(map2_2d, dim=1, mask=map2_2d == 3) ! i is location of idim in map2_2d
+                     CALL get_ith_array(dist2, i, nd_dist_3)
+                  END IF
+               END IF
 
-         IF (.NOT. ALLOCATED(nd_dist_3)) THEN
-            ALLOCATE (nd_dist_3 (SIZE(blk_sizes_3)))
-            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_3), pdims(3), blk_sizes_3, nd_dist_3)
-         ENDIF
+               IF (.NOT. ALLOCATED(nd_dist_3)) THEN
+                  ALLOCATE (nd_dist_3 (SIZE(blk_sizes_3)))
+                  CALL dbcsr_t_default_distvec(SIZE(blk_sizes_3), pdims(3), blk_sizes_3, nd_dist_3)
+               END IF
 # 1660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (PRESENT(dist1)) THEN
-            IF (ANY(map1_2d == 4)) THEN
-               i = MINLOC(map1_2d, dim=1, mask=map1_2d == 4) ! i is location of idim in map1_2d
-               CALL get_ith_array(dist1, i, nd_dist_4)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist1)) THEN
+                  IF (ANY(map1_2d == 4)) THEN
+                     i = MINLOC(map1_2d, dim=1, mask=map1_2d == 4) ! i is location of idim in map1_2d
+                     CALL get_ith_array(dist1, i, nd_dist_4)
+                  END IF
+               END IF
 
-         IF (PRESENT(dist2)) THEN
-            IF (ANY(map2_2d == 4)) THEN
-               i = MINLOC(map2_2d, dim=1, mask=map2_2d == 4) ! i is location of idim in map2_2d
-               CALL get_ith_array(dist2, i, nd_dist_4)
-            ENDIF
-         ENDIF
+               IF (PRESENT(dist2)) THEN
+                  IF (ANY(map2_2d == 4)) THEN
+                     i = MINLOC(map2_2d, dim=1, mask=map2_2d == 4) ! i is location of idim in map2_2d
+                     CALL get_ith_array(dist2, i, nd_dist_4)
+                  END IF
+               END IF
 
-         IF (.NOT. ALLOCATED(nd_dist_4)) THEN
-            ALLOCATE (nd_dist_4 (SIZE(blk_sizes_4)))
-            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_4), pdims(4), blk_sizes_4, nd_dist_4)
-         ENDIF
+               IF (.NOT. ALLOCATED(nd_dist_4)) THEN
+                  ALLOCATE (nd_dist_4 (SIZE(blk_sizes_4)))
+                  CALL dbcsr_t_default_distvec(SIZE(blk_sizes_4), pdims(4), blk_sizes_4, nd_dist_4)
+               END IF
 # 1679 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
-                                              nd_dist_1, nd_dist_2, nd_dist_3, nd_dist_4, own_comm=.TRUE.)
-      ENDIF
+            CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
+                                                 nd_dist_1, nd_dist_2, nd_dist_3, nd_dist_4, own_comm=.TRUE.)
+         END IF
 # 1683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
 # 1685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor_in) == 2) THEN
-         CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
-                             map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
-                             blk_sizes_1, blk_sizes_2)
-      ENDIF
+         IF (ndims_tensor(tensor_in) == 2) THEN
+            CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
+                                map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
+                                blk_sizes_1, blk_sizes_2)
+         END IF
 # 1685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor_in) == 3) THEN
-         CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
-                             map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
-                             blk_sizes_1, blk_sizes_2, blk_sizes_3)
-      ENDIF
+         IF (ndims_tensor(tensor_in) == 3) THEN
+            CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
+                                map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
+                                blk_sizes_1, blk_sizes_2, blk_sizes_3)
+         END IF
 # 1685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor_in) == 4) THEN
-         CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
-                             map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
-                             blk_sizes_1, blk_sizes_2, blk_sizes_3, blk_sizes_4)
-      ENDIF
+         IF (ndims_tensor(tensor_in) == 4) THEN
+            CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
+                                map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
+                                blk_sizes_1, blk_sizes_2, blk_sizes_3, blk_sizes_4)
+         END IF
 # 1691 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
       IF (PRESENT(nodata)) THEN
          nodata_prv = nodata
       ELSE
          nodata_prv = .FALSE.
-      ENDIF
+      END IF
 
       IF (.NOT. nodata_prv) CALL dbcsr_t_copy_expert(tensor_in, tensor_out, move_data=move_data)
       CALL dbcsr_t_distribution_destroy(dist)
@@ -1943,7 +1943,7 @@ CONTAINS
       tensor_out%pgrid%mp_comm_2d = tensor_in%pgrid%mp_comm_2d
       IF (ALLOCATED(tensor_in%pgrid%tas_split_info)) THEN
          ALLOCATE (tensor_out%pgrid%tas_split_info, SOURCE=tensor_in%pgrid%tas_split_info)
-      ENDIF
+      END IF
       tensor_out%refcount => tensor_in%refcount
       CALL dbcsr_t_hold(tensor_out)
 
@@ -1962,7 +1962,7 @@ CONTAINS
          ALLOCATE (tensor_out%contraction_storage, SOURCE=tensor_in%contraction_storage)
          CALL destroy_array_list(tensor_out%contraction_storage%batch_ranges)
          CALL reorder_arrays(tensor_in%contraction_storage%batch_ranges, tensor_out%contraction_storage%batch_ranges, order)
-      ENDIF
+      END IF
 
       CALL timestop(handle)
    END SUBROUTINE
@@ -2057,17 +2057,17 @@ CONTAINS
          do_crop(1) = .TRUE.
          bounds_t2(:, contract_2) = bounds_1
          do_crop(2) = .TRUE.
-      ENDIF
+      END IF
 
       IF (PRESENT(bounds_2)) THEN
          bounds_t1(:, notcontract_1) = bounds_2
          do_crop(1) = .TRUE.
-      ENDIF
+      END IF
 
       IF (PRESENT(bounds_3)) THEN
          bounds_t2(:, notcontract_2) = bounds_3
          do_crop(2) = .TRUE.
-      ENDIF
+      END IF
 
       IF (PRESENT(do_crop_1)) do_crop_1 = do_crop(1)
       IF (PRESENT(do_crop_2)) do_crop_2 = do_crop(2)
@@ -2100,50 +2100,50 @@ CONTAINS
          CALL dbcsr_t_get_mapping_info(tensor_1%nd_index_blk, map1_2d=map11, map2_2d=map12)
          CALL dbcsr_t_get_mapping_info(tensor_2%nd_index_blk, map1_2d=map21, map2_2d=map22)
          CALL dbcsr_t_get_mapping_info(tensor_3%nd_index_blk, map1_2d=map31, map2_2d=map32)
-      ENDIF
+      END IF
 
       IF (unit_nr_prv > 0) THEN
          WRITE (unit_nr_prv, '(T2,A)') "INDEX INFO"
          WRITE (unit_nr_prv, '(T15,A)', advance='no') "tensor index: ("
          DO ichar1 = 1, SIZE(indchar1)
             WRITE (unit_nr_prv, '(A1)', advance='no') indchar1(ichar1)
-         ENDDO
+         END DO
          WRITE (unit_nr_prv, '(A)', advance='no') ") x ("
          DO ichar2 = 1, SIZE(indchar2)
             WRITE (unit_nr_prv, '(A1)', advance='no') indchar2(ichar2)
-         ENDDO
+         END DO
          WRITE (unit_nr_prv, '(A)', advance='no') ") = ("
          DO ichar3 = 1, SIZE(indchar3)
             WRITE (unit_nr_prv, '(A1)', advance='no') indchar3(ichar3)
-         ENDDO
+         END DO
          WRITE (unit_nr_prv, '(A)') ")"
 
          WRITE (unit_nr_prv, '(T15,A)', advance='no') "matrix index: ("
          DO ichar1 = 1, SIZE(map11)
             WRITE (unit_nr_prv, '(A1)', advance='no') indchar1(map11(ichar1))
-         ENDDO
+         END DO
          WRITE (unit_nr_prv, '(A1)', advance='no') "|"
          DO ichar1 = 1, SIZE(map12)
             WRITE (unit_nr_prv, '(A1)', advance='no') indchar1(map12(ichar1))
-         ENDDO
+         END DO
          WRITE (unit_nr_prv, '(A)', advance='no') ") x ("
          DO ichar2 = 1, SIZE(map21)
             WRITE (unit_nr_prv, '(A1)', advance='no') indchar2(map21(ichar2))
-         ENDDO
+         END DO
          WRITE (unit_nr_prv, '(A1)', advance='no') "|"
          DO ichar2 = 1, SIZE(map22)
             WRITE (unit_nr_prv, '(A1)', advance='no') indchar2(map22(ichar2))
-         ENDDO
+         END DO
          WRITE (unit_nr_prv, '(A)', advance='no') ") = ("
          DO ichar3 = 1, SIZE(map31)
             WRITE (unit_nr_prv, '(A1)', advance='no') indchar3(map31(ichar3))
-         ENDDO
+         END DO
          WRITE (unit_nr_prv, '(A1)', advance='no') "|"
          DO ichar3 = 1, SIZE(map32)
             WRITE (unit_nr_prv, '(A1)', advance='no') indchar3(map32(ichar3))
-         ENDDO
+         END DO
          WRITE (unit_nr_prv, '(A)') ")"
-      ENDIF
+      END IF
 
    END SUBROUTINE
 
@@ -2198,79 +2198,79 @@ CONTAINS
 
       static_range = .TRUE.
 # 2010 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 1) THEN
-         IF (PRESENT(batch_range_1)) THEN
-            CALL allocate_any(batch_range_prv_1, source=batch_range_1)
-            static_range = .FALSE.
-         ELSE
-            ALLOCATE (batch_range_prv_1 (2))
-            batch_range_prv_1 (1) = 1
-            batch_range_prv_1 (2) = tdims(1) + 1
-         ENDIF
-      ENDIF
+         IF (ndims_tensor(tensor) >= 1) THEN
+            IF (PRESENT(batch_range_1)) THEN
+               CALL allocate_any(batch_range_prv_1, source=batch_range_1)
+               static_range = .FALSE.
+            ELSE
+               ALLOCATE (batch_range_prv_1 (2))
+               batch_range_prv_1 (1) = 1
+               batch_range_prv_1 (2) = tdims(1) + 1
+            END IF
+         END IF
 # 2010 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 2) THEN
-         IF (PRESENT(batch_range_2)) THEN
-            CALL allocate_any(batch_range_prv_2, source=batch_range_2)
-            static_range = .FALSE.
-         ELSE
-            ALLOCATE (batch_range_prv_2 (2))
-            batch_range_prv_2 (1) = 1
-            batch_range_prv_2 (2) = tdims(2) + 1
-         ENDIF
-      ENDIF
+         IF (ndims_tensor(tensor) >= 2) THEN
+            IF (PRESENT(batch_range_2)) THEN
+               CALL allocate_any(batch_range_prv_2, source=batch_range_2)
+               static_range = .FALSE.
+            ELSE
+               ALLOCATE (batch_range_prv_2 (2))
+               batch_range_prv_2 (1) = 1
+               batch_range_prv_2 (2) = tdims(2) + 1
+            END IF
+         END IF
 # 2010 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 3) THEN
-         IF (PRESENT(batch_range_3)) THEN
-            CALL allocate_any(batch_range_prv_3, source=batch_range_3)
-            static_range = .FALSE.
-         ELSE
-            ALLOCATE (batch_range_prv_3 (2))
-            batch_range_prv_3 (1) = 1
-            batch_range_prv_3 (2) = tdims(3) + 1
-         ENDIF
-      ENDIF
+         IF (ndims_tensor(tensor) >= 3) THEN
+            IF (PRESENT(batch_range_3)) THEN
+               CALL allocate_any(batch_range_prv_3, source=batch_range_3)
+               static_range = .FALSE.
+            ELSE
+               ALLOCATE (batch_range_prv_3 (2))
+               batch_range_prv_3 (1) = 1
+               batch_range_prv_3 (2) = tdims(3) + 1
+            END IF
+         END IF
 # 2010 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 4) THEN
-         IF (PRESENT(batch_range_4)) THEN
-            CALL allocate_any(batch_range_prv_4, source=batch_range_4)
-            static_range = .FALSE.
-         ELSE
-            ALLOCATE (batch_range_prv_4 (2))
-            batch_range_prv_4 (1) = 1
-            batch_range_prv_4 (2) = tdims(4) + 1
-         ENDIF
-      ENDIF
+         IF (ndims_tensor(tensor) >= 4) THEN
+            IF (PRESENT(batch_range_4)) THEN
+               CALL allocate_any(batch_range_prv_4, source=batch_range_4)
+               static_range = .FALSE.
+            ELSE
+               ALLOCATE (batch_range_prv_4 (2))
+               batch_range_prv_4 (1) = 1
+               batch_range_prv_4 (2) = tdims(4) + 1
+            END IF
+         END IF
 # 2021 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
       ALLOCATE (tensor%contraction_storage)
       tensor%contraction_storage%static = static_range
       IF (static_range) THEN
          CALL dbcsr_tas_batched_mm_init(tensor%matrix_rep)
-      ENDIF
+      END IF
       tensor%contraction_storage%nsplit_avg = 0.0_real_8
       tensor%contraction_storage%ibatch = 0
 
 # 2031 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) == 1) THEN
-         CALL create_array_list(tensor%contraction_storage%batch_ranges, 1, &
-                                batch_range_prv_1)
-      ENDIF
+         IF (ndims_tensor(tensor) == 1) THEN
+            CALL create_array_list(tensor%contraction_storage%batch_ranges, 1, &
+                                   batch_range_prv_1)
+         END IF
 # 2031 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) == 2) THEN
-         CALL create_array_list(tensor%contraction_storage%batch_ranges, 2, &
-                                batch_range_prv_1, batch_range_prv_2)
-      ENDIF
+         IF (ndims_tensor(tensor) == 2) THEN
+            CALL create_array_list(tensor%contraction_storage%batch_ranges, 2, &
+                                   batch_range_prv_1, batch_range_prv_2)
+         END IF
 # 2031 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) == 3) THEN
-         CALL create_array_list(tensor%contraction_storage%batch_ranges, 3, &
-                                batch_range_prv_1, batch_range_prv_2, batch_range_prv_3)
-      ENDIF
+         IF (ndims_tensor(tensor) == 3) THEN
+            CALL create_array_list(tensor%contraction_storage%batch_ranges, 3, &
+                                   batch_range_prv_1, batch_range_prv_2, batch_range_prv_3)
+         END IF
 # 2031 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) == 4) THEN
-         CALL create_array_list(tensor%contraction_storage%batch_ranges, 4, &
-                                batch_range_prv_1, batch_range_prv_2, batch_range_prv_3, batch_range_prv_4)
-      ENDIF
+         IF (ndims_tensor(tensor) == 4) THEN
+            CALL create_array_list(tensor%contraction_storage%batch_ranges, 4, &
+                                   batch_range_prv_1, batch_range_prv_2, batch_range_prv_3, batch_range_prv_4)
+         END IF
 # 2036 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
    END SUBROUTINE
@@ -2292,18 +2292,18 @@ CONTAINS
       IF (tensor%contraction_storage%static) THEN
          IF (tensor%matrix_rep%do_batched > 0) THEN
             IF (tensor%matrix_rep%mm_storage%batched_out) do_write = .TRUE.
-         ENDIF
+         END IF
          CALL dbcsr_tas_batched_mm_finalize(tensor%matrix_rep)
-      ENDIF
+      END IF
 
       IF (do_write .AND. unit_nr_prv /= 0) THEN
          IF (unit_nr_prv > 0) THEN
             WRITE (unit_nr_prv, "(T2,A)") &
                "FINALIZING BATCHED PROCESSING OF MATMUL"
-         ENDIF
+         END IF
          CALL dbcsr_t_write_tensor_info(tensor, unit_nr_prv)
          CALL dbcsr_t_write_tensor_dist(tensor, unit_nr_prv)
-      ENDIF
+      END IF
 
       CALL destroy_array_list(tensor%contraction_storage%batch_ranges)
       DEALLOCATE (tensor%contraction_storage)
@@ -2351,126 +2351,126 @@ CONTAINS
          IF (ALLOCATED(pgrid%tas_split_info) .AND. ALLOCATED(tensor%pgrid%tas_split_info)) THEN
             IF (pgrid%tas_split_info%ngroup == tensor%pgrid%tas_split_info%ngroup) THEN
                RETURN
-            ENDIF
-         ENDIF
-      ENDIF
+            END IF
+         END IF
+      END IF
 
       CALL timeset(routineN, handle)
 
 # 2122 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 1) THEN
-         mem_aware(1) = PRESENT(batch_range_1)
-         IF (mem_aware(1)) nbatch(1) = SIZE(batch_range_1) - 1
-      ENDIF
+         IF (ndims_tensor(tensor) >= 1) THEN
+            mem_aware(1) = PRESENT(batch_range_1)
+            IF (mem_aware(1)) nbatch(1) = SIZE(batch_range_1) - 1
+         END IF
 # 2122 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 2) THEN
-         mem_aware(2) = PRESENT(batch_range_2)
-         IF (mem_aware(2)) nbatch(2) = SIZE(batch_range_2) - 1
-      ENDIF
+         IF (ndims_tensor(tensor) >= 2) THEN
+            mem_aware(2) = PRESENT(batch_range_2)
+            IF (mem_aware(2)) nbatch(2) = SIZE(batch_range_2) - 1
+         END IF
 # 2122 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 3) THEN
-         mem_aware(3) = PRESENT(batch_range_3)
-         IF (mem_aware(3)) nbatch(3) = SIZE(batch_range_3) - 1
-      ENDIF
+         IF (ndims_tensor(tensor) >= 3) THEN
+            mem_aware(3) = PRESENT(batch_range_3)
+            IF (mem_aware(3)) nbatch(3) = SIZE(batch_range_3) - 1
+         END IF
 # 2122 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 4) THEN
-         mem_aware(4) = PRESENT(batch_range_4)
-         IF (mem_aware(4)) nbatch(4) = SIZE(batch_range_4) - 1
-      ENDIF
+         IF (ndims_tensor(tensor) >= 4) THEN
+            mem_aware(4) = PRESENT(batch_range_4)
+            IF (mem_aware(4)) nbatch(4) = SIZE(batch_range_4) - 1
+         END IF
 # 2127 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
       CALL dbcsr_t_get_info(tensor, nblks_total=tdims, name=name)
 
 # 2131 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 1) THEN
-         ALLOCATE (bs_1 (dbcsr_t_nblks_total(tensor, 1)))
-         CALL get_ith_array(tensor%blk_sizes, 1, bs_1)
-         ALLOCATE (dist_1 (tdims(1)))
-         dist_1 = 0
-         IF (mem_aware(1)) THEN
-            DO ibatch = 1, nbatch(1)
-               ind1 = batch_range_1 (ibatch)
-               ind2 = batch_range_1 (ibatch + 1) - 1
-               batch_size = ind2 - ind1 + 1
-               CALL dbcsr_t_default_distvec(batch_size, pdims(1), &
-                                            bs_1 (ind1:ind2), dist_1 (ind1:ind2))
-            ENDDO
-         ELSE
-            CALL dbcsr_t_default_distvec(tdims(1), pdims(1), bs_1, dist_1)
-         ENDIF
-      ENDIF
+         IF (ndims_tensor(tensor) >= 1) THEN
+            ALLOCATE (bs_1 (dbcsr_t_nblks_total(tensor, 1)))
+            CALL get_ith_array(tensor%blk_sizes, 1, bs_1)
+            ALLOCATE (dist_1 (tdims(1)))
+            dist_1 = 0
+            IF (mem_aware(1)) THEN
+               DO ibatch = 1, nbatch(1)
+                  ind1 = batch_range_1 (ibatch)
+                  ind2 = batch_range_1 (ibatch + 1) - 1
+                  batch_size = ind2 - ind1 + 1
+                  CALL dbcsr_t_default_distvec(batch_size, pdims(1), &
+                                               bs_1 (ind1:ind2), dist_1 (ind1:ind2))
+               END DO
+            ELSE
+               CALL dbcsr_t_default_distvec(tdims(1), pdims(1), bs_1, dist_1)
+            END IF
+         END IF
 # 2131 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 2) THEN
-         ALLOCATE (bs_2 (dbcsr_t_nblks_total(tensor, 2)))
-         CALL get_ith_array(tensor%blk_sizes, 2, bs_2)
-         ALLOCATE (dist_2 (tdims(2)))
-         dist_2 = 0
-         IF (mem_aware(2)) THEN
-            DO ibatch = 1, nbatch(2)
-               ind1 = batch_range_2 (ibatch)
-               ind2 = batch_range_2 (ibatch + 1) - 1
-               batch_size = ind2 - ind1 + 1
-               CALL dbcsr_t_default_distvec(batch_size, pdims(2), &
-                                            bs_2 (ind1:ind2), dist_2 (ind1:ind2))
-            ENDDO
-         ELSE
-            CALL dbcsr_t_default_distvec(tdims(2), pdims(2), bs_2, dist_2)
-         ENDIF
-      ENDIF
+         IF (ndims_tensor(tensor) >= 2) THEN
+            ALLOCATE (bs_2 (dbcsr_t_nblks_total(tensor, 2)))
+            CALL get_ith_array(tensor%blk_sizes, 2, bs_2)
+            ALLOCATE (dist_2 (tdims(2)))
+            dist_2 = 0
+            IF (mem_aware(2)) THEN
+               DO ibatch = 1, nbatch(2)
+                  ind1 = batch_range_2 (ibatch)
+                  ind2 = batch_range_2 (ibatch + 1) - 1
+                  batch_size = ind2 - ind1 + 1
+                  CALL dbcsr_t_default_distvec(batch_size, pdims(2), &
+                                               bs_2 (ind1:ind2), dist_2 (ind1:ind2))
+               END DO
+            ELSE
+               CALL dbcsr_t_default_distvec(tdims(2), pdims(2), bs_2, dist_2)
+            END IF
+         END IF
 # 2131 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 3) THEN
-         ALLOCATE (bs_3 (dbcsr_t_nblks_total(tensor, 3)))
-         CALL get_ith_array(tensor%blk_sizes, 3, bs_3)
-         ALLOCATE (dist_3 (tdims(3)))
-         dist_3 = 0
-         IF (mem_aware(3)) THEN
-            DO ibatch = 1, nbatch(3)
-               ind1 = batch_range_3 (ibatch)
-               ind2 = batch_range_3 (ibatch + 1) - 1
-               batch_size = ind2 - ind1 + 1
-               CALL dbcsr_t_default_distvec(batch_size, pdims(3), &
-                                            bs_3 (ind1:ind2), dist_3 (ind1:ind2))
-            ENDDO
-         ELSE
-            CALL dbcsr_t_default_distvec(tdims(3), pdims(3), bs_3, dist_3)
-         ENDIF
-      ENDIF
+         IF (ndims_tensor(tensor) >= 3) THEN
+            ALLOCATE (bs_3 (dbcsr_t_nblks_total(tensor, 3)))
+            CALL get_ith_array(tensor%blk_sizes, 3, bs_3)
+            ALLOCATE (dist_3 (tdims(3)))
+            dist_3 = 0
+            IF (mem_aware(3)) THEN
+               DO ibatch = 1, nbatch(3)
+                  ind1 = batch_range_3 (ibatch)
+                  ind2 = batch_range_3 (ibatch + 1) - 1
+                  batch_size = ind2 - ind1 + 1
+                  CALL dbcsr_t_default_distvec(batch_size, pdims(3), &
+                                               bs_3 (ind1:ind2), dist_3 (ind1:ind2))
+               END DO
+            ELSE
+               CALL dbcsr_t_default_distvec(tdims(3), pdims(3), bs_3, dist_3)
+            END IF
+         END IF
 # 2131 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) >= 4) THEN
-         ALLOCATE (bs_4 (dbcsr_t_nblks_total(tensor, 4)))
-         CALL get_ith_array(tensor%blk_sizes, 4, bs_4)
-         ALLOCATE (dist_4 (tdims(4)))
-         dist_4 = 0
-         IF (mem_aware(4)) THEN
-            DO ibatch = 1, nbatch(4)
-               ind1 = batch_range_4 (ibatch)
-               ind2 = batch_range_4 (ibatch + 1) - 1
-               batch_size = ind2 - ind1 + 1
-               CALL dbcsr_t_default_distvec(batch_size, pdims(4), &
-                                            bs_4 (ind1:ind2), dist_4 (ind1:ind2))
-            ENDDO
-         ELSE
-            CALL dbcsr_t_default_distvec(tdims(4), pdims(4), bs_4, dist_4)
-         ENDIF
-      ENDIF
+         IF (ndims_tensor(tensor) >= 4) THEN
+            ALLOCATE (bs_4 (dbcsr_t_nblks_total(tensor, 4)))
+            CALL get_ith_array(tensor%blk_sizes, 4, bs_4)
+            ALLOCATE (dist_4 (tdims(4)))
+            dist_4 = 0
+            IF (mem_aware(4)) THEN
+               DO ibatch = 1, nbatch(4)
+                  ind1 = batch_range_4 (ibatch)
+                  ind2 = batch_range_4 (ibatch + 1) - 1
+                  batch_size = ind2 - ind1 + 1
+                  CALL dbcsr_t_default_distvec(batch_size, pdims(4), &
+                                               bs_4 (ind1:ind2), dist_4 (ind1:ind2))
+               END DO
+            ELSE
+               CALL dbcsr_t_default_distvec(tdims(4), pdims(4), bs_4, dist_4)
+            END IF
+         END IF
 # 2149 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
       CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1, map2_2d=map2)
 # 2152 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) == 2) THEN
-         CALL dbcsr_t_distribution_new(dist, pgrid, dist_1, dist_2)
-         CALL dbcsr_t_create(t_tmp, name, dist, map1, map2, dbcsr_type_real_8, bs_1, bs_2)
-      ENDIF
+         IF (ndims_tensor(tensor) == 2) THEN
+            CALL dbcsr_t_distribution_new(dist, pgrid, dist_1, dist_2)
+            CALL dbcsr_t_create(t_tmp, name, dist, map1, map2, dbcsr_type_real_8, bs_1, bs_2)
+         END IF
 # 2152 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) == 3) THEN
-         CALL dbcsr_t_distribution_new(dist, pgrid, dist_1, dist_2, dist_3)
-         CALL dbcsr_t_create(t_tmp, name, dist, map1, map2, dbcsr_type_real_8, bs_1, bs_2, bs_3)
-      ENDIF
+         IF (ndims_tensor(tensor) == 3) THEN
+            CALL dbcsr_t_distribution_new(dist, pgrid, dist_1, dist_2, dist_3)
+            CALL dbcsr_t_create(t_tmp, name, dist, map1, map2, dbcsr_type_real_8, bs_1, bs_2, bs_3)
+         END IF
 # 2152 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-      IF (ndims_tensor(tensor) == 4) THEN
-         CALL dbcsr_t_distribution_new(dist, pgrid, dist_1, dist_2, dist_3, dist_4)
-         CALL dbcsr_t_create(t_tmp, name, dist, map1, map2, dbcsr_type_real_8, bs_1, bs_2, bs_3, bs_4)
-      ENDIF
+         IF (ndims_tensor(tensor) == 4) THEN
+            CALL dbcsr_t_distribution_new(dist, pgrid, dist_1, dist_2, dist_3, dist_4)
+            CALL dbcsr_t_create(t_tmp, name, dist, map1, map2, dbcsr_type_real_8, bs_1, bs_2, bs_3, bs_4)
+         END IF
 # 2157 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       CALL dbcsr_t_distribution_destroy(dist)
 
@@ -2478,7 +2478,7 @@ CONTAINS
          IF (.NOT. nodata) CALL dbcsr_t_copy_expert(tensor, t_tmp, move_data=.TRUE.)
       ELSE
          CALL dbcsr_t_copy_expert(tensor, t_tmp, move_data=.TRUE.)
-      ENDIF
+      END IF
 
       CALL dbcsr_t_copy_contraction_storage(tensor, t_tmp)
 
@@ -2490,8 +2490,8 @@ CONTAINS
             WRITE (unit_nr, "(T2,A,1X,A)") "OPTIMIZED PGRID INFO FOR", TRIM(tensor%name)
             WRITE (unit_nr, "(T4,A,1X,3I6)") "process grid dimensions:", pdims
             CALL dbcsr_t_write_split_info(pgrid, unit_nr)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       IF (PRESENT(pgrid_changed)) pgrid_changed = .TRUE.
 
@@ -2530,40 +2530,40 @@ CONTAINS
                DEALLOCATE (array)
                dims(idim) = dims(idim)/nbatches(idim)
                IF (dims(idim) <= 0) dims(idim) = 1
-            ENDDO
+            END DO
          END ASSOCIATE
-      ENDIF
+      END IF
 
       pgrid = dbcsr_t_nd_mp_comm(mp_comm, map1, map2, pdims_2d=pdims, tdims=dims, nsplit=nsplit, dimsplit=dimsplit)
       IF (ALLOCATED(tensor%contraction_storage)) THEN
 # 2222 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (ndims_tensor(tensor) == 1) THEN
-            CALL get_arrays(tensor%contraction_storage%batch_ranges, batch_range_1)
-            CALL dbcsr_t_change_pgrid(tensor, pgrid, batch_range_1, &
-                                      nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
-         ENDIF
+            IF (ndims_tensor(tensor) == 1) THEN
+               CALL get_arrays(tensor%contraction_storage%batch_ranges, batch_range_1)
+               CALL dbcsr_t_change_pgrid(tensor, pgrid, batch_range_1, &
+                                         nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
+            END IF
 # 2222 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (ndims_tensor(tensor) == 2) THEN
-            CALL get_arrays(tensor%contraction_storage%batch_ranges, batch_range_1, batch_range_2)
-            CALL dbcsr_t_change_pgrid(tensor, pgrid, batch_range_1, batch_range_2, &
-                                      nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
-         ENDIF
+            IF (ndims_tensor(tensor) == 2) THEN
+               CALL get_arrays(tensor%contraction_storage%batch_ranges, batch_range_1, batch_range_2)
+               CALL dbcsr_t_change_pgrid(tensor, pgrid, batch_range_1, batch_range_2, &
+                                         nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
+            END IF
 # 2222 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (ndims_tensor(tensor) == 3) THEN
-            CALL get_arrays(tensor%contraction_storage%batch_ranges, batch_range_1, batch_range_2, batch_range_3)
-            CALL dbcsr_t_change_pgrid(tensor, pgrid, batch_range_1, batch_range_2, batch_range_3, &
-                                      nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
-         ENDIF
+            IF (ndims_tensor(tensor) == 3) THEN
+               CALL get_arrays(tensor%contraction_storage%batch_ranges, batch_range_1, batch_range_2, batch_range_3)
+               CALL dbcsr_t_change_pgrid(tensor, pgrid, batch_range_1, batch_range_2, batch_range_3, &
+                                         nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
+            END IF
 # 2222 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
-         IF (ndims_tensor(tensor) == 4) THEN
-            CALL get_arrays(tensor%contraction_storage%batch_ranges, batch_range_1, batch_range_2, batch_range_3, batch_range_4)
-            CALL dbcsr_t_change_pgrid(tensor, pgrid, batch_range_1, batch_range_2, batch_range_3, batch_range_4, &
-                                      nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
-         ENDIF
+            IF (ndims_tensor(tensor) == 4) THEN
+               CALL get_arrays(tensor%contraction_storage%batch_ranges, batch_range_1, batch_range_2, batch_range_3, batch_range_4)
+               CALL dbcsr_t_change_pgrid(tensor, pgrid, batch_range_1, batch_range_2, batch_range_3, batch_range_4, &
+                                         nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
+            END IF
 # 2228 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       ELSE
          CALL dbcsr_t_change_pgrid(tensor, pgrid, nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
-      ENDIF
+      END IF
       CALL dbcsr_t_pgrid_destroy(pgrid)
 
    END SUBROUTINE

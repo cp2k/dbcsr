@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -275,12 +275,12 @@
 <a id="ln-124" name="ln-124" href="#ln-124"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Error in csr conversion&quot;</span><span class="p">)</span><span class="w"></span>
 <a id="ln-125" name="ln-125" href="#ln-125"></a><span class="w">      </span><span class="k">ELSE</span>
 <a id="ln-126" name="ln-126" href="#ln-126"></a><span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">io_unit</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;Conversion OK!&quot;</span><span class="w"></span>
-<a id="ln-127" name="ln-127" href="#ln-127"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-127" name="ln-127" href="#ln-127"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-128" name="ln-128" href="#ln-128"></a>
 <a id="ln-129" name="ln-129" href="#ln-129"></a><span class="k">      CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"></span>
 <a id="ln-130" name="ln-130" href="#ln-130"></a><span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">rn_array</span><span class="p">)</span><span class="w"></span>
 <a id="ln-131" name="ln-131" href="#ln-131"></a>
-<a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">   </span><span class="k">ENDDO</span>
+<a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">   </span><span class="k">END DO</span>
 <a id="ln-133" name="ln-133" href="#ln-133"></a>
 <a id="ln-134" name="ln-134" href="#ln-134"></a><span class="k">   DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
 <a id="ln-135" name="ln-135" href="#ln-135"></a>
@@ -367,10 +367,10 @@
 <a id="ln-216" name="ln-216" href="#ln-216"></a><span class="k">                  </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">row_s</span><span class="p">)</span><span class="o">*</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">col_s</span><span class="p">)</span><span class="w"></span>
 <a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">                  </span><span class="k">CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">))</span><span class="w"></span>
 <a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">                  </span><span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">row_s</span><span class="p">,</span><span class="w"> </span><span class="n">col_s</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">))</span><span class="w"></span>
-<a id="ln-219" name="ln-219" href="#ln-219"></a><span class="w">               </span><span class="k">ENDIF</span>
-<a id="ln-220" name="ln-220" href="#ln-220"></a><span class="k">            ENDIF</span>
-<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="k">         ENDDO</span>
-<a id="ln-222" name="ln-222" href="#ln-222"></a><span class="k">      ENDDO</span>
+<a id="ln-219" name="ln-219" href="#ln-219"></a><span class="w">               </span><span class="k">END IF</span>
+<a id="ln-220" name="ln-220" href="#ln-220"></a><span class="k">            END IF</span>
+<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="k">         END DO</span>
+<a id="ln-222" name="ln-222" href="#ln-222"></a><span class="k">      END DO</span>
 <a id="ln-223" name="ln-223" href="#ln-223"></a><span class="k">      DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="w"></span>
 <a id="ln-224" name="ln-224" href="#ln-224"></a>
 <a id="ln-225" name="ln-225" href="#ln-225"></a><span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"></span>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-41-gd29b4f5b22</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-44-g9da56ebcf4</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -247,8 +247,8 @@
 <a id="ln-96" name="ln-96" href="#ln-96"></a><span class="k">            </span><span class="n">best_cur</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cur</span><span class="w"></span>
 <a id="ln-97" name="ln-97" href="#ln-97"></a><span class="w">            </span><span class="n">best_prev</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">prev</span><span class="w"></span>
 <a id="ln-98" name="ln-98" href="#ln-98"></a><span class="w">            </span><span class="n">best_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="w"></span>
-<a id="ln-99" name="ln-99" href="#ln-99"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-100" name="ln-100" href="#ln-100"></a><span class="k">      ENDDO</span>
+<a id="ln-99" name="ln-99" href="#ln-99"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-100" name="ln-100" href="#ln-100"></a><span class="k">      END DO</span>
 <a id="ln-101" name="ln-101" href="#ln-101"></a>
 <a id="ln-102" name="ln-102" href="#ln-102"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">best_cur</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-103" name="ln-103" href="#ln-103"></a><span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">best_cur</span><span class="p">%</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;refcount /= 0&quot;</span><span class="p">)</span><span class="w"></span>
@@ -309,8 +309,8 @@
 <a id="ln-158" name="ln-158" href="#ln-158"></a><span class="w">         </span><span class="k">ELSE</span>
 <a id="ln-159" name="ln-159" href="#ln-159"></a><span class="k">            </span><span class="n">prev</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cur</span><span class="w"></span>
 <a id="ln-160" name="ln-160" href="#ln-160"></a><span class="w">            </span><span class="n">cur</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cur</span><span class="p">%</span><span class="n">next</span><span class="w"></span>
-<a id="ln-161" name="ln-161" href="#ln-161"></a><span class="w">         </span><span class="k">ENDIF</span>
-<a id="ln-162" name="ln-162" href="#ln-162"></a><span class="k">      ENDDO</span><span class="w"></span>
+<a id="ln-161" name="ln-161" href="#ln-161"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-162" name="ln-162" href="#ln-162"></a><span class="k">      END DO</span><span class="w"></span>
 <a id="ln-163" name="ln-163" href="#ln-163"></a><span class="c">!$    CALL OMP_UNSET_LOCK(pool%lock)</span>
 <a id="ln-164" name="ln-164" href="#ln-164"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">mempool_collect_garbage</span><span class="w"></span>
 <a id="ln-165" name="ln-165" href="#ln-165"></a>
@@ -349,7 +349,7 @@
 <a id="ln-198" name="ln-198" href="#ln-198"></a><span class="w">         </span><span class="n">prev</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cur</span><span class="w"></span>
 <a id="ln-199" name="ln-199" href="#ln-199"></a><span class="w">         </span><span class="n">cur</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cur</span><span class="p">%</span><span class="n">next</span><span class="w"></span>
 <a id="ln-200" name="ln-200" href="#ln-200"></a><span class="w">         </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">prev</span><span class="p">)</span><span class="w"></span>
-<a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">      </span><span class="k">ENDDO</span>
+<a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">      </span><span class="k">END DO</span>
 <a id="ln-202" name="ln-202" href="#ln-202"></a><span class="k">      NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">pool</span><span class="p">%</span><span class="n">root</span><span class="p">%</span><span class="n">next</span><span class="p">)</span><span class="w"></span>
 <a id="ln-203" name="ln-203" href="#ln-203"></a><span class="c">!$    CALL OMP_UNSET_LOCK(pool%lock)</span>
 <a id="ln-204" name="ln-204" href="#ln-204"></a>
@@ -400,7 +400,7 @@
 <a id="ln-249" name="ln-249" href="#ln-249"></a><span class="w">         </span><span class="n">memtype</span><span class="p">%</span><span class="n">oversize_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aim</span><span class="p">%</span><span class="n">oversize_factor</span><span class="w"></span>
 <a id="ln-250" name="ln-250" href="#ln-250"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">my_has_pool</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-251" name="ln-251" href="#ln-251"></a><span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_mempool_create</span><span class="p">(</span><span class="n">memtype</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span><span class="w"></span>
-<a id="ln-252" name="ln-252" href="#ln-252"></a><span class="w">      </span><span class="k">ENDIF</span>
+<a id="ln-252" name="ln-252" href="#ln-252"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-253" name="ln-253" href="#ln-253"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_memtype_setup</span><span class="w"></span>
 <a id="ln-254" name="ln-254" href="#ln-254"></a>
 <a id="ln-255" name="ln-255" href="#ln-255"></a><span class="w">   </span><span class="k">FUNCTION </span><span class="n">dbcsr_memtype_equal</span><span class="p">(</span><span class="n">mt1</span><span class="p">,</span><span class="w"> </span><span class="n">mt2</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"></span>
