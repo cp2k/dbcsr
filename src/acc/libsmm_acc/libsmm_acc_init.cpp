@@ -1,11 +1,11 @@
-/*------------------------------------------------------------------------------------------------*
- * Copyright (C) by the DBCSR developers group - All rights reserved                              *
- * This file is part of the DBCSR library.                                                        *
- *                                                                                                *
- * For information on the license, see the LICENSE file.                                          *
- * For further information please visit https://dbcsr.cp2k.org                                    *
- * SPDX-License-Identifier: GPL-2.0+                                                              *
- *------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/* Copyright (C) by the DBCSR developers group - All rights reserved                              */
+/* This file is part of the DBCSR library.                                                        */
+/*                                                                                                */
+/* For information on the license, see the LICENSE file.                                          */
+/* For further information please visit https://dbcsr.cp2k.org                                    */
+/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/*------------------------------------------------------------------------------------------------*/
 
 #include "libsmm_acc_init.h"
 #include "../acc_libsmm.h"
@@ -123,4 +123,3 @@ extern "C" int libsmm_acc_is_thread_safe() {
     return 0;  // i.e. false, libsmm_acc is not threaded
 #endif
 }
-

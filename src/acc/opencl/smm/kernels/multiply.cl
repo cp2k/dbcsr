@@ -1,11 +1,11 @@
-/*------------------------------------------------------------------------------------------------*
- * Copyright (C) by the DBCSR developers group - All rights reserved                              *
- * This file is part of the DBCSR library.                                                        *
- *                                                                                                *
- * For information on the license, see the LICENSE file.                                          *
- * For further information please visit https://dbcsr.cp2k.org                                    *
- * SPDX-License-Identifier: GPL-2.0+                                                              *
- *------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/* Copyright (C) by the DBCSR developers group - All rights reserved                              */
+/* This file is part of the DBCSR library.                                                        */
+/*                                                                                                */
+/* For information on the license, see the LICENSE file.                                          */
+/* For further information please visit https://dbcsr.cp2k.org                                    */
+/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/*------------------------------------------------------------------------------------------------*/
 #if (200/*CL_VERSION_2_0*/ <= __OPENCL_VERSION__) || defined(__NV_CL_C_VERSION)
 # define UNROLL_FORCE(N) __attribute__((opencl_unroll_hint(N)))
 #else

@@ -17,8 +17,9 @@ from os import path
 from contextlib import contextmanager
 
 TYPES = {
-    "c_cpp": [".c", ".h", ".cc", ".hh", ".cxx", ".hxx", ".cpp", ".hpp", ".cu"],
+    "c_cpp": [".c", ".h", ".cc", ".hh", ".cxx", ".hxx", ".cpp", ".hpp", ".cu", ".cl"],
     "python": [".py"],
+    "fypp": [".fypp"],
     "fortran": [".F", ".f", ".f90", ".f03"],
 }
 
