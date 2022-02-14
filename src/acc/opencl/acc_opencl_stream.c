@@ -111,7 +111,8 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
       && least != greatest)
     {
       properties[3] = (0 != (2 & c_dbcsr_acc_opencl_config.priority)
-                         && (NULL != strstr(name, "priority")))
+          && (NULL != libxsmm_stristr(name, "calc")
+          || (NULL != strstr(name, "priority"))))
         ? CL_QUEUE_PRIORITY_HIGH_KHR : CL_QUEUE_PRIORITY_MED_KHR;
     }
     else properties[3] = least;
@@ -159,7 +160,8 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
       cl_device_id device = NULL;
       result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
       if (CL_SUCCESS == result) {
-        const int s = c_dbcsr_acc_opencl_config.share;
+        const int s = (0 >= c_dbcsr_acc_opencl_config.share ? 0
+          : (1 < c_dbcsr_acc_opencl_config.share ? c_dbcsr_acc_opencl_config.share : 2));
         if (1 >= s || s >= c_dbcsr_acc_opencl_config.nthreads || 0 == (tid % s)) {
           queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
         }
