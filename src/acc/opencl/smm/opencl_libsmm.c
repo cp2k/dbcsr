@@ -363,7 +363,8 @@ int libsmm_acc_init(void)
       opencl_libsmm_perfest_t perfest;
       memset(&perfest, 0, sizeof(perfest));
       if (NULL != env_timer && (opencl_libsmm_timer_host == atoi(env_timer)
-        || (env_timer == libxsmm_stristr(env_timer, "host") && 4 == strlen(env_timer))))
+        || (env_timer == libxsmm_stristr(env_timer, "host") && 4 == strlen(env_timer))
+        || (env_timer == libxsmm_stristr(env_timer, "cpu") && 3 == strlen(env_timer))))
       {
         opencl_libsmm_timer = opencl_libsmm_timer_host;
       }
