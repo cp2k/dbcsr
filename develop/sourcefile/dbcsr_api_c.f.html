@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-47-g8a25a60cae</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-48-gcc9e157ca3</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -3234,7 +3234,7 @@
 <a id="ln-3083" name="ln-3083" href="#ln-3083"></a>
 <a id="ln-3084" name="ln-3084" href="#ln-3084"></a><span class="cp"># 1408 &quot;/__w/dbcsr/dbcsr/src/dbcsr_api_c.F&quot;</span>
 <a id="ln-3085" name="ln-3085" href="#ln-3085"></a><span class="w">            </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">c_size</span><span class="w"></span>
-<a id="ln-3086" name="ln-3086" href="#ln-3086"></a><span class="w">               </span><span class="n">c_proc_row_dist</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proc_row_dist</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"> </span>
+<a id="ln-3086" name="ln-3086" href="#ln-3086"></a><span class="w">               </span><span class="n">c_proc_row_dist</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proc_row_dist</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
 <a id="ln-3087" name="ln-3087" href="#ln-3087"></a><span class="w">            </span><span class="k">END DO</span><span class="w"></span>
 <a id="ln-3088" name="ln-3088" href="#ln-3088"></a><span class="cp"># 1412 &quot;/__w/dbcsr/dbcsr/src/dbcsr_api_c.F&quot;</span>
 <a id="ln-3089" name="ln-3089" href="#ln-3089"></a><span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">proc_row_dist</span><span class="p">)</span><span class="w"></span>
@@ -3257,7 +3257,7 @@
 <a id="ln-3106" name="ln-3106" href="#ln-3106"></a>
 <a id="ln-3107" name="ln-3107" href="#ln-3107"></a><span class="cp"># 1408 &quot;/__w/dbcsr/dbcsr/src/dbcsr_api_c.F&quot;</span>
 <a id="ln-3108" name="ln-3108" href="#ln-3108"></a><span class="w">            </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">c_size</span><span class="w"></span>
-<a id="ln-3109" name="ln-3109" href="#ln-3109"></a><span class="w">               </span><span class="n">c_proc_col_dist</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proc_col_dist</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"> </span>
+<a id="ln-3109" name="ln-3109" href="#ln-3109"></a><span class="w">               </span><span class="n">c_proc_col_dist</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proc_col_dist</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
 <a id="ln-3110" name="ln-3110" href="#ln-3110"></a><span class="w">            </span><span class="k">END DO</span><span class="w"></span>
 <a id="ln-3111" name="ln-3111" href="#ln-3111"></a><span class="cp"># 1412 &quot;/__w/dbcsr/dbcsr/src/dbcsr_api_c.F&quot;</span>
 <a id="ln-3112" name="ln-3112" href="#ln-3112"></a><span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">proc_col_dist</span><span class="p">)</span><span class="w"></span>
@@ -3280,7 +3280,7 @@
 <a id="ln-3129" name="ln-3129" href="#ln-3129"></a>
 <a id="ln-3130" name="ln-3130" href="#ln-3130"></a><span class="cp"># 1408 &quot;/__w/dbcsr/dbcsr/src/dbcsr_api_c.F&quot;</span>
 <a id="ln-3131" name="ln-3131" href="#ln-3131"></a><span class="w">            </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">c_size</span><span class="w"></span>
-<a id="ln-3132" name="ln-3132" href="#ln-3132"></a><span class="w">               </span><span class="n">c_row_blk_size</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_blk_size</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"> </span>
+<a id="ln-3132" name="ln-3132" href="#ln-3132"></a><span class="w">               </span><span class="n">c_row_blk_size</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_blk_size</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
 <a id="ln-3133" name="ln-3133" href="#ln-3133"></a><span class="w">            </span><span class="k">END DO</span><span class="w"></span>
 <a id="ln-3134" name="ln-3134" href="#ln-3134"></a><span class="cp"># 1412 &quot;/__w/dbcsr/dbcsr/src/dbcsr_api_c.F&quot;</span>
 <a id="ln-3135" name="ln-3135" href="#ln-3135"></a><span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">)</span><span class="w"></span>
@@ -3303,7 +3303,7 @@
 <a id="ln-3152" name="ln-3152" href="#ln-3152"></a>
 <a id="ln-3153" name="ln-3153" href="#ln-3153"></a><span class="cp"># 1408 &quot;/__w/dbcsr/dbcsr/src/dbcsr_api_c.F&quot;</span>
 <a id="ln-3154" name="ln-3154" href="#ln-3154"></a><span class="w">            </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">c_size</span><span class="w"></span>
-<a id="ln-3155" name="ln-3155" href="#ln-3155"></a><span class="w">               </span><span class="n">c_col_blk_size</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_blk_size</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"> </span>
+<a id="ln-3155" name="ln-3155" href="#ln-3155"></a><span class="w">               </span><span class="n">c_col_blk_size</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_blk_size</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
 <a id="ln-3156" name="ln-3156" href="#ln-3156"></a><span class="w">            </span><span class="k">END DO</span><span class="w"></span>
 <a id="ln-3157" name="ln-3157" href="#ln-3157"></a><span class="cp"># 1412 &quot;/__w/dbcsr/dbcsr/src/dbcsr_api_c.F&quot;</span>
 <a id="ln-3158" name="ln-3158" href="#ln-3158"></a><span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">)</span><span class="w"></span>

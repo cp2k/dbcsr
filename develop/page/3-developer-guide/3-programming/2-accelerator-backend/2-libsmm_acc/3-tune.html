@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../../index.html">DBCSR <small>2.2.0-47-g8a25a60cae</small></a>
+          <a class="navbar-brand" href="../../../../../index.html">DBCSR <small>2.2.0-48-gcc9e157ca3</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -216,7 +216,7 @@ tune_8x8x8.job
 <h4>5. Submit Jobs</h4>
 <p>Each tune-directory contains a job file. Since there might be many tune-directories, the convenience script <code>tune_submit.py</code> can be used to submit jobs. It will go through all the <code>tune_*</code>-directories and check if its job has already been submitted or run. For this, the script calls <code>squeue</code> in the background and it searches for <code>slurm-*.out</code>files. In order to limit the number of jobs submitted at a time, a maximum number of jobs to submit can be specified with <code>-j</code>.</p>
 <p>When <code>tune_submit.py</code> is called without arguments, it will just list the jobs that could be submitted:</p>
-<div class="codehilite"><pre><span></span><code>$ ./tune_submit.py 
+<div class="codehilite"><pre><span></span><code>$ ./tune_submit.py
           tune_5x5x5: Would submit, run with <span class="s2">&quot;doit!&quot;</span>
           tune_5x5x8: Would submit, run with <span class="s2">&quot;doit!&quot;</span>
           tune_5x8x5: Would submit, run with <span class="s2">&quot;doit!&quot;</span>

@@ -3083,7 +3083,7 @@ ENDIF
 
 # 1408 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
-               c_proc_row_dist (i) = proc_row_dist (i); 
+               c_proc_row_dist (i) = proc_row_dist (i)
             END DO
 # 1412 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (proc_row_dist)
@@ -3106,7 +3106,7 @@ ENDIF
 
 # 1408 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
-               c_proc_col_dist (i) = proc_col_dist (i); 
+               c_proc_col_dist (i) = proc_col_dist (i)
             END DO
 # 1412 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (proc_col_dist)
@@ -3129,7 +3129,7 @@ ENDIF
 
 # 1408 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
-               c_row_blk_size (i) = row_blk_size (i); 
+               c_row_blk_size (i) = row_blk_size (i)
             END DO
 # 1412 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (row_blk_size)
@@ -3152,7 +3152,7 @@ ENDIF
 
 # 1408 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
-               c_col_blk_size (i) = col_blk_size (i); 
+               c_col_blk_size (i) = col_blk_size (i)
             END DO
 # 1412 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (col_blk_size)
