@@ -96,7 +96,7 @@ Explore the data interactively using the [provided Jupyter notebook](notebooks/i
 
 #### 4. Train
 
-For each algorithm, build a predictive model using decision trees and feature selection based on the features' permutation importance. 
+For each algorithm, build a predictive model using decision trees and feature selection based on the features' permutation importance.
 
 ```bash
 ./predict_train.py  # --algo medium --folder /scratch/autotuning_dataset, e.g.

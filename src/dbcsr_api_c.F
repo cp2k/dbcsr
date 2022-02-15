@@ -1406,7 +1406,7 @@ CONTAINS
             END DO
          #:else
             DO i = 1, c_size
-               c_${var}$ (i) = ${var}$ (i); 
+               c_${var}$ (i) = ${var}$ (i)
             END DO
          #:endif
          NULLIFY (${var}$)

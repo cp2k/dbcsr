@@ -127,7 +127,7 @@ $:    ", ".join(["int** " + name + "_" + str(i) + ", " + "int* " + name + "_" + 
 #:set carry = 1
 #:for i in range(0,len(num))
 #:set outi = 0
-#:if carry == 1 
+#:if carry == 1
  #:if num[i] == 0
   #:set outi = 1
   #:set carry = 0
@@ -135,7 +135,7 @@ $:    ", ".join(["int** " + name + "_" + str(i) + ", " + "int* " + name + "_" + 
   #:set outi = 0
   #:set carry = 1
  #:endif
-#:else 
+#:else
  #:set outi = num[i]
 #:endif
 #:mute
@@ -158,11 +158,11 @@ $: numout.append(outi)
  #! generates a list of permutations from n entries
  #! example n = 2 -> [[0,0],[0,1],[1,0],[1,1]] where 0/1 means present/not present
  #:set idx = []
- #:set newidx = [] 
+ #:set newidx = []
  ${init(idx,n)}$
 
  #:set imax = pow(2,n)
- #:for i in range(0,imax) 
+ #:for i in range(0,imax)
         $: permlist.append(idx)
         ${add_num(idx,newidx)}$
         #:set idx = newidx
@@ -176,8 +176,8 @@ $: numout.append(outi)
  #! generates permuted groups of variables from a variable list
  #! optional variables that appear together may be grouped
  #! example: varlist = [[var1], [var2,var3]]
- #! this gives: vargroups = [ [[var1],[var2,var3]], [[var1]], [[var2,var3]], []] 
- #:set permlist = [] 
+ #! this gives: vargroups = [ [[var1],[var2,var3]], [[var1]], [[var2,var3]], []]
+ #:set permlist = []
  ${gen_permlist(permlist,len(varlist))}$
  #:for p in permlist
     #:set group = []
@@ -213,7 +213,7 @@ $: prefix * (bool(len(group))) + ", ".join([str(i) + ' = ' + str(i) for i in fla
 #:def print_groupif(vargroups,varlist,i,check='PRESENT',prefix='')
 #! for a group [[var1]] and a varlist [[var1]],[var2,var3]]
 #! prints "(ELSE) IF (PRESENT(var1) .AND. .NOT. PRESENT(var2) .AND. .NOT. PRESENT(var3)) THEN"
-#! to be used in a loop 
+#! to be used in a loop
 #:set group = vargroups[i]
 #:set diff = [item for item in varlist if item not in group]
 #:set stat = "ELSE IF"
@@ -229,9 +229,9 @@ $: prefix * (bool(len(group))) + ", ".join([str(i) + ' = ' + str(i) for i in fla
 ${flatten(group,flatgroup)}$
 ${flatten(diff,flatdiff)}$
 #:endmute
-$: stat + "(" +  " .AND. ".join([check + "(" +  prefix + str(i) + ")" for i in flatgroup]) & 
+$: stat + "(" +  " .AND. ".join([check + "(" +  prefix + str(i) + ")" for i in flatgroup]) &
          + " .AND. " * (bool(len(diff)) * bool(len(diff) - len(varlist))) &
-         + " .AND. ".join([".NOT. " + check + "(" +  prefix + str(i) + ")" for i in flatdiff]) + ") THEN " 
+         + " .AND. ".join([".NOT. " + check + "(" +  prefix + str(i) + ")" for i in flatdiff]) + ") THEN "
 #:else
 ELSE
 #:endif

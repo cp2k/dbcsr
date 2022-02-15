@@ -49,7 +49,7 @@ show_help() {
     echo "                           all: generate, compile and run the kernels."
     echo "                        source: only generate the source file kernels."
     echo "                       compile: generate and compile the kernels."
-    echo "                      Default value is \"${def_target}\"." 
+    echo "                      Default value is \"${def_target}\"."
     echo
     echo "COMMAND is one of the followings:"
     echo "   tiny1  : it runs the tiny phase. Batch execution if requested."
@@ -96,7 +96,7 @@ while getopts "c:hj:s:t:w:m:a:" OPTION; do
     case $OPTION in
 	c)
 	    config_file=$OPTARG
-	    ;;  
+	    ;;
 	h)
 	    show_help
 	    ;;
@@ -106,7 +106,7 @@ while getopts "c:hj:s:t:w:m:a:" OPTION; do
 	    ;;
 	s)
 	    SIMD=$OPTARG
-	    ;;	    
+	    ;;
 	t)
 	    ntasks=$OPTARG
 	    check_number $ntasks $OPTION $ntasks
@@ -125,10 +125,10 @@ while getopts "c:hj:s:t:w:m:a:" OPTION; do
 		*)
 		    echo "Warning: target \"$OPTARG\" unknown. Run ./generate -h for help."
 		    exit
-		    ;; 
+		    ;;
 	    esac
 	    ;;
-        ?) 
+        ?)
             exit
             ;;
     esac
@@ -366,7 +366,7 @@ case "${transpose_flavor}" in
 	tb="N"
 	decl="A(K,M), B(K,N)"
 	lds="LDA=K ; LDB=K"
-	;; 
+	;;
     3 )
 	type_label+="nt"
 	ta="N"
@@ -400,7 +400,7 @@ case $cmd in
 	;;
     check1|check2)
 	run_dir+="_check"
-	
+
 	;;
 esac
 run_dir+="${type_label}"

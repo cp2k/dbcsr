@@ -102,7 +102,7 @@ The columns describe:
     - `AVERAGE`: averaged over all MPI ranks
     - `MAXIMUM`: maximum over all MPI ranks
     - `AVERAGE` and `MAXIMUM` can be used to locate load-imbalance or synchronization points.
-- `MAXRANKS`: 
+- `MAXRANKS`:
 
 #### Time spent in Just-In-Time (JIT) Compilation
 
