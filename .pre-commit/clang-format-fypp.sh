@@ -18,7 +18,7 @@ function main()
     clang-format "$@"
     # Fix FYPP directives
     for i in "${files}"; do
-	sed -i "" "s/# : /#:/g" $i
+	sed -i "" 's/# : /#:/g' $i
     done
 }
 
