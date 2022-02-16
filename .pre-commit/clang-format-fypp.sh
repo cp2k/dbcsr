@@ -4,7 +4,6 @@
 
 function sed_darwin()
 {
-    echo $@
     sed -i "" "$@"
 }
 
@@ -39,7 +38,7 @@ function main()
     esac
 
     for i in ${files}; do
-        ${sed_fcn} -e 's/# : /#:/g' -e 's/} \$/}\$/g' "$i"
+        ${sed_fcn} -e 's/# : /#:/g' -e 's/} \$/}\$/g' -e '/\${$/ { N; s/\${\n[[:space:]]*/\${/; }' "$i"
     done
 }
 

@@ -76,8 +76,7 @@ void c_dbcsr_t_get_${ndim}$d_block_p_${dsuffix}$(const dbcsr_t_tensor c_tensor, 
 void c_dbcsr_t_get_data_${dsuffix}$(const dbcsr_t_tensor c_tensor, ${ctype}$ **c_data, long long int *c_data_size,
                                      ${ctype}$ c_select_data_type, int *c_lb, int *c_ub);
 
-void c_dbcsr_t_contract_${
-    dsuffix}$(const ${ctype}$ c_alpha, dbcsr_t_tensor c_tensor_1, dbcsr_t_tensor c_tensor_2, const ${ctype}$ c_beta,
+void c_dbcsr_t_contract_${dsuffix} $(const ${ctype} $ c_alpha, dbcsr_t_tensor c_tensor_1, dbcsr_t_tensor c_tensor_2, const ${ctype} $ c_beta,
                dbcsr_t_tensor c_tensor_3, const int *c_contract_1, const int c_contract_1_size,
                const int *c_notcontract_1, const int c_notcontract_1_size, const int *c_contract_2,
                const int c_contract_2_size, const int *c_notcontract_2, const int c_notcontract_2_size,
@@ -87,8 +86,7 @@ void c_dbcsr_t_contract_${
                const double *filter_eps, long long int *flop, const bool *move_data, const bool *retain_sparsity,
                const int *unit_nr, const bool *log_verbose);
 
-void c_dbcsr_t_contract_index_${
-    dsuffix}$(const ${ctype}$ c_alpha, dbcsr_t_tensor c_tensor_1, dbcsr_t_tensor c_tensor_2, const ${ctype}$ c_beta,
+void c_dbcsr_t_contract_index_${dsuffix} $(const ${ctype} $ c_alpha, dbcsr_t_tensor c_tensor_1, dbcsr_t_tensor c_tensor_2, const ${ctype} $ c_beta,
                dbcsr_t_tensor c_tensor_3, const int *c_contract_1, const int contract_1_size,
                const int *c_notcontract_1, const int notcontract_1_size, const int *c_contract_2,
                const int contract_2_size, const int *c_notcontract_2, const int notcontract_2_size, const int *c_map_1,
