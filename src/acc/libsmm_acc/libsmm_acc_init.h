@@ -12,25 +12,25 @@
 
 #include "../cuda_hip/acc_blas.h"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #if defined(__DBCSR_ACC)
-void timeset(const std::string& routine_name, int& handle);
+void timeset(const std::string &routine_name, int &handle);
 void timestop(int handle);
 #endif
 
-extern "C" int libsmm_acc_init (void);
-extern "C" int libsmm_acc_finalize (void);
+extern "C" int libsmm_acc_init(void);
+extern "C" int libsmm_acc_finalize(void);
 
 int libsmm_acc_gpu_blas_init();
 
-int libsmm_acc_check_gpu_warp_size_consistency (void);
+int libsmm_acc_check_gpu_warp_size_consistency(void);
 
-int acc_get_gpu_warp_size (void);
+int acc_get_gpu_warp_size(void);
 
-extern "C" int libsmm_acc_is_thread_safe (void);
+extern "C" int libsmm_acc_is_thread_safe(void);
 
-extern std::vector<ACC_BLAS(Handle_t)*> acc_blashandles;
+extern std::vector<ACC_BLAS(Handle_t) *> acc_blashandles;
 
 #endif /*LIBSMM_ACC_INIT_H*/

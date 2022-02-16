@@ -9,39 +9,36 @@
 #ifndef DBCSR_ACC_BENCH_H
 #define DBCSR_ACC_BENCH_H
 
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 
 #if !defined(MIN)
-# define MIN(A, B) ((A) < (B) ? (A) : (B))
+#define MIN(A, B) ((A) < (B) ? (A) : (B))
 #endif
 #if !defined(MAX)
-# define MAX(A, B) ((B) < (A) ? (A) : (B))
+#define MAX(A, B) ((B) < (A) ? (A) : (B))
 #endif
 
-#if !defined(INLINE) && (defined(__cplusplus) || \
-    (defined(__STDC_VERSION__) && (199901L <= __STDC_VERSION__) /*C99*/))
-# define INLINE inline
+#if !defined(INLINE) && (defined(__cplusplus) || (defined(__STDC_VERSION__) && (199901L <= __STDC_VERSION__) /*C99*/))
+#define INLINE inline
 #else
-# define INLINE
+#define INLINE
 #endif
 
-#define INIT_MAT(ELEM_TYPE, SEED, MAT, M, N, SCALE) do { \
-  const double init_mat_seed1_ = (SCALE) * (SEED) + (SCALE); \
-  int init_mat_i_, init_mat_j_; \
-  for (init_mat_i_ = 0; init_mat_i_ < (N); ++init_mat_i_) { \
-    for (init_mat_j_ = 0; init_mat_j_ < (M); ++init_mat_j_) { \
-      const int init_mat_k_ = init_mat_i_ * (M) + init_mat_j_; \
-      ((ELEM_TYPE*)(MAT))[init_mat_k_] = (ELEM_TYPE)(init_mat_seed1_ * (init_mat_k_ + 1)); \
-    } \
-  } \
-} while(0)
-
+#define INIT_MAT(ELEM_TYPE, SEED, MAT, M, N, SCALE)                                                                    \
+  do {                                                                                                                 \
+    const double init_mat_seed1_ = (SCALE) * (SEED) + (SCALE);                                                         \
+    int init_mat_i_, init_mat_j_;                                                                                      \
+    for (init_mat_i_ = 0; init_mat_i_ < (N); ++init_mat_i_) {                                                          \
+      for (init_mat_j_ = 0; init_mat_j_ < (M); ++init_mat_j_) {                                                        \
+        const int init_mat_k_ = init_mat_i_ * (M) + init_mat_j_;                                                       \
+        ((ELEM_TYPE *)(MAT))[init_mat_k_] = (ELEM_TYPE)(init_mat_seed1_ * (init_mat_k_ + 1));                          \
+      }                                                                                                                \
+    }                                                                                                                  \
+  } while (0)
 
 /* artificial stack-setup for DBCSR/ACC benchmarks */
-static INLINE void init_stack(int* stack, int stack_size,
-  int mn, int mk, int kn, int nc, int na, int nb)
-{
+static INLINE void init_stack(int *stack, int stack_size, int mn, int mk, int kn, int nc, int na, int nb) {
   /* navg matrix products are accumulated into a C-matrix */
   const int navg = stack_size / nc;
   const int nimb = MAX(1, navg - 4); /* imbalance */
@@ -50,14 +47,16 @@ static INLINE void init_stack(int* stack, int stack_size,
   while (i < stack_size) {
     const int next = c + 1;
     ntop += navg + (rand() % (2 * nimb) - nimb);
-    if (stack_size < ntop) ntop = stack_size;
+    if (stack_size < ntop)
+      ntop = stack_size;
     for (; i < ntop; ++i) { /* setup one-based indexes */
       const int a = rand() % na, b = rand() % nb;
       *stack++ = a * mk + 1; /* A-index */
       *stack++ = b * kn + 1; /* B-index */
       *stack++ = c * mn + 1; /* C-index */
     }
-    if (next < nc) c = next;
+    if (next < nc)
+      c = next;
   }
 }
 

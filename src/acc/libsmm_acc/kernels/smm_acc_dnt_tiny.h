@@ -52,10 +52,9 @@
  * - no overlap between computation and memory loads
  */
 template <int m, int n, int k, int threads, int grouping, int minblocks>
-__global__ void
-__launch_bounds__(threads, minblocks)
-smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
-     const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data) {
+__global__ void __launch_bounds__(threads, minblocks)
+    smm_acc_dnt_tiny(const int *__restrict__ param_stack, int stack_size, const double *__restrict__ a_data,
+                     const double *__restrict__ b_data, double *c_data) {
 
   /* Total number of elements in block matrices */
   const int mn = m * n; /* c_block */
@@ -72,7 +71,7 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
   const int r = tidx - c * m;
 
   /* Number of parameters per stack entry in parameter stack */
-  const int  npar      = 3;
+  const int npar = 3;
 
   /* If multiple warps (in HIP linguo, "wavefronts") are running a single block multiplication,
    * synchronization is needed */
@@ -81,7 +80,7 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
   /* psp: parameter stack position:
    *      index in the parameter stack of the first parameter stack entry to be processed by this thread
    * nrun: number of runs: number of stack entries to process in this thread */
-  int    psp, nrun;
+  int psp, nrun;
 
   /* Partial sum of the element of block_c that this thread will compute */
   double myc;
@@ -91,7 +90,7 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
    * param_stack_s: shared memory buffer containing the stack entries this thread should process
    *                number of stack entries in param_stack_s = grouping,
    *                number of integers per stack entry: 3 */
-  __shared__ int    param_stack_s[npar * grouping];
+  __shared__ int param_stack_s[npar * grouping];
   /* buff_a, buff_b: shared memory buffer containing a_block (block submatrix of A),
    * resp. b_block to multiply */
   __shared__ double buff_a[mk];
@@ -101,7 +100,8 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
    * If the current block is the last block, set the number of stack entries to process in
    * this thread to the remainder of stack_size / grouping */
   nrun = grouping;
-  if (((bidx + 1) * grouping) > stack_size) nrun = stack_size % grouping;
+  if (((bidx + 1) * grouping) > stack_size)
+    nrun = stack_size % grouping;
 
   /* Set the partial sum to zero */
   myc = 0.0;
@@ -113,24 +113,24 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
 #pragma unroll
   for (int i = tidx; i < nrun; i += threads) {
     // param_stack is 1-based, convert to 0-based here
-    param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1; /* value = index in a_data */
+    param_stack_s[i * npar] = __ldg(&param_stack[psp + i * npar]) - 1;         /* value = index in a_data */
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1; /* value = index in b_data */
     param_stack_s[i * npar + 2] = __ldg(&param_stack[psp + i * npar + 2]) - 1; /* value = index in c_data */
   }
 
   /* Wait until all the data has been loaded */
-  if (need_sync) syncthreads ();
+  if (need_sync)
+    syncthreads();
 
   /* In each run, we process one stack entry from param_stack_s */
-  for (int run = 0; run < nrun; run++)
-  {
+  for (int run = 0; run < nrun; run++) {
     /* Parameter stack position: index in shared memory buffers to read from */
     psp = npar * run;
 
     /* Index in a_data, b_data and c_data arrays
      * indicating where to fetch resp. write back matrix elements for this run
      * srcA, B, C corresponding to the starting indices of block submatrices to multiply */
-    int srcA = param_stack_s[psp    ];
+    int srcA = param_stack_s[psp];
     int srcB = param_stack_s[psp + 1];
     int srcC = param_stack_s[psp + 2];
 
@@ -155,7 +155,8 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
     }
 
     /* Wait until all the data has been loaded */
-    if (need_sync) syncthreads ();
+    if (need_sync)
+      syncthreads();
 
     if (tidx < mn) {
       /* Compute c_ij = sum_k (a_ik * b_kj) in shared memory */
@@ -164,11 +165,11 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
         myc += buff_a[l * m + r] * buff_b[l * n + c];
       }
       /* Store result in global memory without conflicting with other concurrent writes */
-      atomicAdd (&c_data[srcC + tidx], myc);
+      atomicAdd(&c_data[srcC + tidx], myc);
       myc = 0.0;
     }
 
-    if (need_sync) syncthreads ();
+    if (need_sync)
+      syncthreads();
   }
-
 }

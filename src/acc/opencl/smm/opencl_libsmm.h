@@ -13,24 +13,23 @@
 #include "../acc_opencl.h"
 
 #if !defined(OPENCL_LIBSMM_TRANS_INPLACE) && 0
-# define OPENCL_LIBSMM_TRANS_INPLACE
+#define OPENCL_LIBSMM_TRANS_INPLACE
 #endif
 #if !defined(OPENCL_LIBSMM_SUITABLE) && 0
-# define OPENCL_LIBSMM_SUITABLE
+#define OPENCL_LIBSMM_SUITABLE
 #endif
 #if !defined(OPENCL_LIBSMM_DEBUG) && 0
-# define OPENCL_LIBSMM_DEBUG 1
+#define OPENCL_LIBSMM_DEBUG 1
 #endif
 #if !defined(OPENCL_LIBSMM_CMEM) && 1
-# define OPENCL_LIBSMM_CMEM
+#define OPENCL_LIBSMM_CMEM
 #endif
 #if !defined(OPENCL_LIBSMM_F32) && !defined(__DBCSR_ACC)
-# define OPENCL_LIBSMM_F32
+#define OPENCL_LIBSMM_F32
 #endif
 #if !defined(OPENCL_LIBSMM_F64) && 1
-# define OPENCL_LIBSMM_F64
+#define OPENCL_LIBSMM_F64
 #endif
-
 
 #if defined(__cplusplus)
 extern "C" {
@@ -72,10 +71,7 @@ typedef struct opencl_libsmm_smm_t {
   int size[7];
 } opencl_libsmm_smm_t;
 
-typedef enum opencl_libsmm_timer_t {
-  opencl_libsmm_timer_device,
-  opencl_libsmm_timer_host
-} opencl_libsmm_timer_t;
+typedef enum opencl_libsmm_timer_t { opencl_libsmm_timer_device, opencl_libsmm_timer_host } opencl_libsmm_timer_t;
 
 /** Type to collect statistics about tuned SMM-kernels */
 typedef struct opencl_libsmm_perfest_t {
@@ -95,9 +91,9 @@ int opencl_libsmm_use_cmem(cl_device_id device);
  * if values or names are written.
  * Returns the number of characters written (negative if error).
  */
-int opencl_libsmm_write_trans_params(FILE* stream, int only_key,
-  const opencl_libsmm_transkey_t* key, const opencl_libsmm_trans_t* config,
-  const char* delim, const char* begin, const char* close);
+int opencl_libsmm_write_trans_params(FILE *stream, int only_key, const opencl_libsmm_transkey_t *key,
+                                     const opencl_libsmm_trans_t *config, const char *delim, const char *begin,
+                                     const char *close);
 
 /**
  * SMM-kernel: write key and tunables into a (file-)stream.
@@ -109,24 +105,21 @@ int opencl_libsmm_write_trans_params(FILE* stream, int only_key,
  * if values or names are written.
  * Returns the number of characters written (negative if error).
  */
-int opencl_libsmm_write_smm_params(FILE* stream, int only_key,
-  const opencl_libsmm_smmkey_t* key, const opencl_libsmm_smm_t* config,
-  const char* delim, const char* begin, const char* close);
+int opencl_libsmm_write_smm_params(FILE *stream, int only_key, const opencl_libsmm_smmkey_t *key,
+                                   const opencl_libsmm_smm_t *config, const char *delim, const char *begin,
+                                   const char *close);
 
 /** Tokenize parambuf and initialize key/value pair. */
-int opencl_libsmm_read_smm_params(char* parambuf,
-  opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value,
-  opencl_libsmm_perfest_t* perfest, char* device);
+int opencl_libsmm_read_smm_params(char *parambuf, opencl_libsmm_smmkey_t *key, opencl_libsmm_smm_t *value,
+                                  opencl_libsmm_perfest_t *perfest, char *device);
 
 #if defined(OPENCL_LIBSMM_DEBUG) && defined(_DEBUG)
-void opencl_libsmm_print_matrix(FILE* ostream, const char* label,
-  libsmm_acc_data_t type, const void* mat, int m, int n);
+void opencl_libsmm_print_matrix(FILE *ostream, const char *label, libsmm_acc_data_t type, const void *mat, int m,
+                                int n);
 #endif
 
-c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
-  c_dbcsr_acc_bool_t def_mnk, libsmm_acc_data_t datatype,
-  int stack_size, int m_max, int n_max, int k_max,
-  int max_kernel_dim);
+c_dbcsr_acc_bool_t libsmm_acc_process_suitable(c_dbcsr_acc_bool_t def_mnk, libsmm_acc_data_t datatype, int stack_size,
+                                               int m_max, int n_max, int k_max, int max_kernel_dim);
 
 #if defined(__cplusplus)
 }

@@ -56,3 +56,11 @@ repos:
     entry: '^\s*!>'
     language: pygrep
     types: [text]
+  - id: clang-format-fypp
+    name: clang-format-fypp
+    description: Format files with ClangFormat, ignore FYPP directives.
+    entry: ./.pre-commit/clang-format-fypp.sh
+    language: python
+    files: \.(c|cc|cxx|cpp|frag|glsl|h|hpp|hxx|ih|ispc|ipp|java|js|m|mm|proto|textproto|vert)$
+    args: ['-i', '-fallback-style=none', '--style=file']
+    additional_dependencies: ['clang-format']

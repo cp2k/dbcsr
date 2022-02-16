@@ -8,9 +8,9 @@
 /*------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-# include "../cuda/acc_cuda.h"
+#include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
-# include "../hip/acc_hip.h"
+#include "../hip/acc_hip.h"
 #endif
 
 #include "../acc.h"
@@ -19,7 +19,7 @@
 #include <stdio.h>
 
 #if defined(__CUDA_PROFILING)
-# include <nvToolsExtCudaRt.h>
+#include <nvToolsExtCudaRt.h>
 #endif
 
 /****************************************************************************/

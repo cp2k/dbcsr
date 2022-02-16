@@ -8,16 +8,16 @@
 /*------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-# include "../cuda/acc_cuda.h"
+#include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
-# include "../hip/acc_hip.h"
+#include "../hip/acc_hip.h"
 #endif
 
-#include "acc_error.h"
 #include "../acc.h"
+#include "acc_error.h"
 
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
 // for debug purpose
 static const int verbose_print = 1;
@@ -29,7 +29,7 @@ extern "C" int c_dbcsr_acc_get_ndevices(int *n_devices) {
 }
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_device_synchronize(){
+extern "C" int c_dbcsr_acc_device_synchronize() {
   ACC_API_CALL(DeviceSynchronize, ());
   return 0;
 }
@@ -50,7 +50,7 @@ extern "C" int c_dbcsr_acc_set_active_device(int device_id) {
 
 #if defined(__HIP_PLATFORM_NVCC__)
   if (verbose_print) {
-    ACC_API_CALL(DeviceSetLimit, (ACC(LimitPrintfFifoSize), (size_t) 1000000000));
+    ACC_API_CALL(DeviceSetLimit, (ACC(LimitPrintfFifoSize), (size_t)1000000000));
   }
 #endif
 

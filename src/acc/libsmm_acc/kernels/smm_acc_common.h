@@ -14,7 +14,7 @@
 #endif
 #endif
 #if defined(__HIP) && !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIPCC_RTC__)
-# include <hip/hip_runtime.h>
+#include <hip/hip_runtime.h>
 #endif
 
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
@@ -28,18 +28,15 @@
  * the following implementation is provided in the CUDA C Programing guide.   *
  ******************************************************************************/
 #if defined(__CUDA)
-#if (__CUDACC_VER_MAJOR__<8) || ( defined(__CUDA_ARCH__) && (__CUDA_ARCH__<600) )
+#if (__CUDACC_VER_MAJOR__ < 8) || (defined(__CUDA_ARCH__) && (__CUDA_ARCH__ < 600))
 static __device__ double atomicAdd(double *address, double val) {
-    unsigned long long int *address_as_ull =
-        (unsigned long long int *) address;
-    unsigned long long int old = *address_as_ull, assumed;
-    do {
-        assumed = old;
-        old = atomicCAS(address_as_ull, assumed,
-                        __double_as_longlong(val +
-                        __longlong_as_double(assumed)));
-    } while (assumed != old);
-    return __longlong_as_double(old);
+  unsigned long long int *address_as_ull = (unsigned long long int *)address;
+  unsigned long long int old = *address_as_ull, assumed;
+  do {
+    assumed = old;
+    old = atomicCAS(address_as_ull, assumed, __double_as_longlong(val + __longlong_as_double(assumed)));
+  } while (assumed != old);
+  return __longlong_as_double(old);
 }
 #endif
 #endif
@@ -49,7 +46,7 @@ static __device__ double atomicAdd(double *address, double val) {
  ******************************************************************************/
 #if defined(__CUDA)
 #if defined(__CUDA_ARCH__) && (__CUDA_ARCH__ < 350)
-#define __ldg(x)  (*(x))
+#define __ldg(x) (*(x))
 #endif
 #endif
 
@@ -57,6 +54,7 @@ static __device__ double atomicAdd(double *address, double val) {
  * syncthreads macro                                                          *
  ******************************************************************************/
 
-#if (defined(__HIP) && not defined(__HIP_PLATFORM_NVCC__)) || (defined(__CUDA) && ((__CUDACC_VER_MAJOR__ >= 8) || ( defined(__CUDA_ARCH__) && (__CUDA_ARCH__ >= 600) ) ) )
+#if (defined(__HIP) && not defined(__HIP_PLATFORM_NVCC__)) ||                                                          \
+    (defined(__CUDA) && ((__CUDACC_VER_MAJOR__ >= 8) || (defined(__CUDA_ARCH__) && (__CUDA_ARCH__ >= 600))))
 #define syncthreads(x) __syncthreads(x)
 #endif
