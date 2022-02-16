@@ -121,39 +121,39 @@ void c_dbcsr_release(dbcsr_matrix *matrix);
 
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
 
-void c_dbcsr_set_${nametype} $(dbcsr_matrix c_matrix, const ${extype} $ c_alpha);
+void c_dbcsr_set_${nametype}$(dbcsr_matrix c_matrix, const ${extype}$ c_alpha);
 
-void c_dbcsr_add_${nametype} $(dbcsr_matrix c_matrix_a, const dbcsr_matrix c_matrix_b, const ${extype} $ c_alpha_scalar,
-                               const ${extype} $ c_beta_scalar);
+void c_dbcsr_add_${nametype}$(dbcsr_matrix c_matrix_a, const dbcsr_matrix c_matrix_b, const ${extype}$ c_alpha_scalar,
+                               const ${extype}$ c_beta_scalar);
 
-void c_dbcsr_scale_${nametype} $(dbcsr_matrix c_matrix_a, const ${extype} $ c_alpha_scalar, const int *c_last_column);
+void c_dbcsr_scale_${nametype}$(dbcsr_matrix c_matrix_a, const ${extype}$ c_alpha_scalar, const int *c_last_column);
 
-void c_dbcsr_scale_by_vector_${nametype} $(const dbcsr_matrix c_matrix_a, const ${extype} $ *c_alpha,
+void c_dbcsr_scale_by_vector_${nametype}$(const dbcsr_matrix c_matrix_a, const ${extype}$ *c_alpha,
                                            const int c_alpha_size, const char *c_side);
 
-void c_dbcsr_multiply_${nametype} $(char c_transa, char c_transb, const ${extype} $ c_alpha,
+void c_dbcsr_multiply_${nametype}$(char c_transa, char c_transb, const ${extype}$ c_alpha,
                                     const dbcsr_matrix c_matrix_a, const dbcsr_matrix c_matrix_b,
-                                    const ${extype} $ c_beta, dbcsr_matrix c_matrix_c, const int *c_first_row,
+                                    const ${extype}$ c_beta, dbcsr_matrix c_matrix_c, const int *c_first_row,
                                     const int *c_last_row, const int *c_first_column, const int *c_last_column,
                                     const int *c_first_k, const int *c_last_k, const bool *c_retain_sparsity,
                                     const double *c_filter_eps, long long int *c_flop);
 
-void c_dbcsr_add_on_diag_${nametype} $(dbcsr_matrix c_matrix, const ${extype} $ c_alpha_scalar);
+void c_dbcsr_add_on_diag_${nametype}$(dbcsr_matrix c_matrix, const ${extype}$ c_alpha_scalar);
 
-void c_dbcsr_set_diag_${nametype} $(dbcsr_matrix c_matrix, const ${extype} $ *c_diag, const int c_diag_size);
+void c_dbcsr_set_diag_${nametype}$(dbcsr_matrix c_matrix, const ${extype}$ *c_diag, const int c_diag_size);
 
-void c_dbcsr_get_diag_${nametype} $(const dbcsr_matrix c_matrix, ${extype} $ *c_diag, const int c_diag_size);
+void c_dbcsr_get_diag_${nametype}$(const dbcsr_matrix c_matrix, ${extype}$ *c_diag, const int c_diag_size);
 
-void c_dbcsr_trace_${nametype} $(const dbcsr_matrix c_matrix_a, ${extype} $ *c_trace);
+void c_dbcsr_trace_${nametype}$(const dbcsr_matrix c_matrix_a, ${extype}$ *c_trace);
 
-void c_dbcsr_dot_${nametype} $(const dbcsr_matrix c_matrix_a, const dbcsr_matrix c_matrix_b, ${extype} $ *c_result);
+void c_dbcsr_dot_${nametype}$(const dbcsr_matrix c_matrix_a, const dbcsr_matrix c_matrix_b, ${extype}$ *c_result);
 
-void c_dbcsr_get_block_p_${nametype} $(const dbcsr_matrix c_matrix, const int c_row, const int c_col,
-                                       ${extype} $ **c_block, bool *c_tr, bool *c_found, int *c_row_size,
+void c_dbcsr_get_block_p_${nametype}$(const dbcsr_matrix c_matrix, const int c_row, const int c_col,
+                                       ${extype}$ **c_block, bool *c_tr, bool *c_found, int *c_row_size,
                                        int *c_col_size);
 
-void c_dbcsr_get_block_notrans_p_${nametype} $(const dbcsr_matrix c_matrix, const int c_row, const int c_col,
-                                               ${extype} $ **c_block, bool *c_found, int *c_row_size, int *c_col_size);
+void c_dbcsr_get_block_notrans_p_${nametype}$(const dbcsr_matrix c_matrix, const int c_row, const int c_col,
+                                               ${extype}$ **c_block, bool *c_found, int *c_row_size, int *c_col_size);
 
 #:endfor
 
@@ -191,8 +191,8 @@ void c_dbcsr_reserve_all_blocks(dbcsr_matrix c_matrix);
 
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
 
-void c_dbcsr_reserve_block2d_${nametype} $(dbcsr_matrix c_matrix, const int c_row, const int c_col,
-                                           const ${extype} $ *c_block, const int c_row_size, const int c_col_size,
+void c_dbcsr_reserve_block2d_${nametype}$(dbcsr_matrix c_matrix, const int c_row, const int c_col,
+                                           const ${extype}$ *c_block, const int c_row_size, const int c_col_size,
                                            const bool *c_transposed, bool *c_existed);
 
 #:endfor
@@ -215,7 +215,7 @@ void c_dbcsr_iterator_next_block_index(const dbcsr_iterator c_iterator, int *c_r
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
 
 void c_dbcsr_iterator_next_2d_block_${
-    nametype} $(const dbcsr_iterator c_iterator, int *c_row, int *c_column, ${extype} $ **c_block, bool *c_transposed,
+    nametype}$(const dbcsr_iterator c_iterator, int *c_row, int *c_column, ${extype}$ **c_block, bool *c_transposed,
                 int *c_block_number, int *c_row_size, int *c_col_size, int *c_row_offset, int *c_col_offset);
 
 #:endfor
@@ -225,12 +225,12 @@ void c_dbcsr_iterator_next_2d_block_${
 //--------------------------------------------------------!
 
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
-void c_dbcsr_put_block2d_${nametype} $(dbcsr_matrix c_matrix, const int c_row, const int c_col,
-                                       const ${extype} $ *c_block, const int c_row_size, const int c_col_size,
-                                       const bool *c_summation, const ${extype} $ *c_scale);
+void c_dbcsr_put_block2d_${nametype}$(dbcsr_matrix c_matrix, const int c_row, const int c_col,
+                                       const ${extype}$ *c_block, const int c_row_size, const int c_col_size,
+                                       const bool *c_summation, const ${extype}$ *c_scale);
 
-void c_dbcsr_get_data_${nametype} $(const dbcsr_matrix c_matrix, ${extype} $ **c_data, long long int *c_data_size,
-                                    ${extype} $ *c_select_data_type, int *c_lb, int *c_ub);
+void c_dbcsr_get_data_${nametype}$(const dbcsr_matrix c_matrix, ${extype}$ **c_data, long long int *c_data_size,
+                                    ${extype}$ *c_select_data_type, int *c_lb, int *c_ub);
 
 #:endfor
 
@@ -381,97 +381,97 @@ void c_dbcsr_get_info(const dbcsr_matrix c_matrix, int *c_nblkrows_total, int *c
 
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
 
-              inline void c_dbcsr_set(dbcsr_matrix c_matrix, const ${extype} $ c_alpha) {
-                c_dbcsr_set_${nametype} $(c_matrix, c_alpha);
+              inline void c_dbcsr_set(dbcsr_matrix c_matrix, const ${extype}$ c_alpha) {
+                c_dbcsr_set_${nametype}$(c_matrix, c_alpha);
               }
 
               inline void c_dbcsr_add(dbcsr_matrix c_matrix_a, const dbcsr_matrix c_matrix_b,
-                                      const ${extype} $ c_alpha_scalar, const ${extype} $ c_beta_scalar) {
-                c_dbcsr_add_${nametype} $(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar);
+                                      const ${extype}$ c_alpha_scalar, const ${extype}$ c_beta_scalar) {
+                c_dbcsr_add_${nametype}$(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar);
               }
 
-              inline void c_dbcsr_scale(dbcsr_matrix c_matrix_a, const ${extype} $ c_alpha_scalar,
+              inline void c_dbcsr_scale(dbcsr_matrix c_matrix_a, const ${extype}$ c_alpha_scalar,
                                         const int *c_last_column) {
-                c_dbcsr_scale_${nametype} $(c_matrix_a, c_alpha_scalar, c_last_column);
+                c_dbcsr_scale_${nametype}$(c_matrix_a, c_alpha_scalar, c_last_column);
               }
 
-              inline void c_dbcsr_scale_by_vector(const dbcsr_matrix c_matrix_a, const ${extype} $ *c_alpha,
+              inline void c_dbcsr_scale_by_vector(const dbcsr_matrix c_matrix_a, const ${extype}$ *c_alpha,
                                                   const int c_alpha_size, const char *c_side) {
-                c_dbcsr_scale_by_vector_${nametype} $(c_matrix_a, c_alpha, c_alpha_size, c_side);
+                c_dbcsr_scale_by_vector_${nametype}$(c_matrix_a, c_alpha, c_alpha_size, c_side);
               }
 
-              inline void c_dbcsr_multiply(char c_transa, char c_transb, const ${extype} $ c_alpha,
+              inline void c_dbcsr_multiply(char c_transa, char c_transb, const ${extype}$ c_alpha,
                                            const dbcsr_matrix c_matrix_a, const dbcsr_matrix c_matrix_b,
-                                           const ${extype} $ c_beta, dbcsr_matrix c_matrix_c, const int *c_first_row,
+                                           const ${extype}$ c_beta, dbcsr_matrix c_matrix_c, const int *c_first_row,
                                            const int *c_last_row, const int *c_first_column, const int *c_last_column,
                                            const int *c_first_k, const int *c_last_k, const bool *c_retain_sparsity,
                                            const double *c_filter_eps, long long int *c_flop) {
-                c_dbcsr_multiply_${nametype} $(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c,
+                c_dbcsr_multiply_${nametype}$(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c,
                                                c_first_row, c_last_row, c_first_column, c_last_column, c_first_k,
                                                c_last_k, c_retain_sparsity, c_filter_eps, c_flop);
               }
 
-              inline void c_dbcsr_add_on_diag(dbcsr_matrix c_matrix, const ${extype} $ c_alpha_scalar) {
-                c_dbcsr_add_on_diag_${nametype} $(c_matrix, c_alpha_scalar);
+              inline void c_dbcsr_add_on_diag(dbcsr_matrix c_matrix, const ${extype}$ c_alpha_scalar) {
+                c_dbcsr_add_on_diag_${nametype}$(c_matrix, c_alpha_scalar);
               }
 
-              inline void c_dbcsr_set_diag(dbcsr_matrix c_matrix, const ${extype} $ *c_diag, const int c_diag_size) {
-                c_dbcsr_set_diag_${nametype} $(c_matrix, c_diag, c_diag_size);
+              inline void c_dbcsr_set_diag(dbcsr_matrix c_matrix, const ${extype}$ *c_diag, const int c_diag_size) {
+                c_dbcsr_set_diag_${nametype}$(c_matrix, c_diag, c_diag_size);
               }
 
-              inline void c_dbcsr_get_diag(const dbcsr_matrix c_matrix, ${extype} $ *c_diag, const int c_diag_size) {
-                c_dbcsr_get_diag_${nametype} $(c_matrix, c_diag, c_diag_size);
+              inline void c_dbcsr_get_diag(const dbcsr_matrix c_matrix, ${extype}$ *c_diag, const int c_diag_size) {
+                c_dbcsr_get_diag_${nametype}$(c_matrix, c_diag, c_diag_size);
               }
 
-              inline void c_dbcsr_trace(const dbcsr_matrix c_matrix_a, ${extype} $ *c_trace) {
-                c_dbcsr_trace_${nametype} $(c_matrix_a, c_trace);
+              inline void c_dbcsr_trace(const dbcsr_matrix c_matrix_a, ${extype}$ *c_trace) {
+                c_dbcsr_trace_${nametype}$(c_matrix_a, c_trace);
               }
 
               inline void c_dbcsr_dot(const dbcsr_matrix c_matrix_a, const dbcsr_matrix c_matrix_b,
-                                      ${extype} $ *c_result) {
-                c_dbcsr_dot_${nametype} $(c_matrix_a, c_matrix_b, c_result);
+                                      ${extype}$ *c_result) {
+                c_dbcsr_dot_${nametype}$(c_matrix_a, c_matrix_b, c_result);
               }
 
               inline void c_dbcsr_get_block_p(const dbcsr_matrix c_matrix, const int c_row, const int c_col,
-                                              ${extype} $ **c_block, bool *c_tr, bool *c_found, int *c_row_size,
+                                              ${extype}$ **c_block, bool *c_tr, bool *c_found, int *c_row_size,
                                               int *c_col_size) {
-                c_dbcsr_get_block_p_${nametype} $(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size,
+                c_dbcsr_get_block_p_${nametype}$(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size,
                                                   c_col_size);
               }
 
               inline void c_dbcsr_get_block_p(const dbcsr_matrix c_matrix, const int c_row, const int c_col,
-                                              ${extype} $ **c_block, bool *c_found, int *c_row_size, int *c_col_size) {
-                c_dbcsr_get_block_notrans_p_${nametype} $(c_matrix, c_row, c_col, c_block, c_found, c_row_size,
+                                              ${extype}$ **c_block, bool *c_found, int *c_row_size, int *c_col_size) {
+                c_dbcsr_get_block_notrans_p_${nametype}$(c_matrix, c_row, c_col, c_block, c_found, c_row_size,
                                                           c_col_size);
               }
 
               inline void c_dbcsr_reserve_block2d(dbcsr_matrix c_matrix, const int c_row, const int c_col,
-                                                  const ${extype} $ *c_block, const int c_row_size,
+                                                  const ${extype}$ *c_block, const int c_row_size,
                                                   const int c_col_size, const bool *c_transposed, bool *c_existed) {
-                c_dbcsr_reserve_block2d_${nametype} $(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size,
+                c_dbcsr_reserve_block2d_${nametype}$(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size,
                                                       c_transposed, c_existed);
               }
 
               inline void c_dbcsr_iterator_next_2d_block(const dbcsr_iterator c_iterator, int *c_row, int *c_column,
-                                                         ${extype} $ **c_block, bool *c_transposed, int *c_block_number,
+                                                         ${extype}$ **c_block, bool *c_transposed, int *c_block_number,
                                                          int *c_row_size, int *c_col_size, int *c_row_offset,
                                                          int *c_col_offset) {
-                c_dbcsr_iterator_next_2d_block_${nametype} $(c_iterator, c_row, c_column, c_block, c_transposed,
+                c_dbcsr_iterator_next_2d_block_${nametype}$(c_iterator, c_row, c_column, c_block, c_transposed,
                                                              c_block_number, c_row_size, c_col_size, c_row_offset,
                                                              c_col_offset);
               }
 
               inline void c_dbcsr_put_block2d(dbcsr_matrix c_matrix, const int c_row, const int c_col,
-                                              const ${extype} $ *c_block, const int c_row_size, const int c_col_size,
-                                              const bool *c_summation, const ${extype} $ *c_scale) {
-                c_dbcsr_put_block2d_${nametype} $(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation,
+                                              const ${extype}$ *c_block, const int c_row_size, const int c_col_size,
+                                              const bool *c_summation, const ${extype}$ *c_scale) {
+                c_dbcsr_put_block2d_${nametype}$(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation,
                                                   c_scale);
               }
 
-              inline void c_dbcsr_get_data(const dbcsr_matrix c_matrix, ${extype} $ **c_data,
-                                           long long int *c_data_size, ${extype} $ *c_select_data_type, int *c_lb,
+              inline void c_dbcsr_get_data(const dbcsr_matrix c_matrix, ${extype}$ **c_data,
+                                           long long int *c_data_size, ${extype}$ *c_select_data_type, int *c_lb,
                                            int *c_ub) {
-                c_dbcsr_get_data_${nametype} $(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub);
+                c_dbcsr_get_data_${nametype}$(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub);
               }
 #:endfor
 #endif

@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 
-# clang-format change FYPP directives from "#: <directive>". Need to revert the change.
+# clang-format change FYPP directives, need to revert the changes.
+
+function sed_darwin()
+{
+    echo $@
+    sed -i "" "$@"
+}
+
+function sed_linux()
+{
+    sed -i "$@"
+}
 
 function main()
 {
@@ -17,8 +28,18 @@ function main()
 
     clang-format "$@"
     # Fix FYPP directives
-    for i in "${files}"; do
-	sed -i "" 's/# : /#:/g' $i
+    uname="$(uname -s)"
+    case "${uname}" in
+        Darwin*)
+            sed_fcn=sed_darwin
+        ;;
+        *)
+            sed_fcn=sed_linux
+        ;;
+    esac
+
+    for i in ${files}; do
+        ${sed_fcn} -e 's/# : /#:/g' -e 's/} \$/}\$/g' "$i"
     done
 }
 
