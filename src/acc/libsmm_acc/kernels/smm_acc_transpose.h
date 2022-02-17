@@ -38,7 +38,7 @@
  * - the temporary buffer (of size m * n * 8 bytes) in which matrix elements are stored has to fit entirely into shared memory. Therefore, this kernel cannot be run for matrix sizes such that m * n * 8 bytes > available shared memory per block.
  */
 
-template <int m, int n> __global__ void transpose_d(int *trs_stack, double *mat) {
+template<int m, int n> __global__ void transpose_d(int* trs_stack, double* mat) {
   __shared__ double buf[m * n];
 
   /* Get the offset in the transpose-stack that this block ID should handle */

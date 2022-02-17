@@ -11,15 +11,17 @@
 #include "../acc_libsmm.h"
 
 #if defined(_OPENMP)
-#include <omp.h>
+#  include <omp.h>
 #endif
 
-std::vector<ACC_BLAS(Handle_t) *> acc_blashandles;
+
+std::vector<ACC_BLAS(Handle_t)*> acc_blashandles;
+
 
 #if defined(__DBCSR_ACC)
 //===========================================================================
-void timeset(const std::string &routine_name, int &handle) {
-  const char *routine_name_ = routine_name.c_str();
+void timeset(const std::string& routine_name, int& handle) {
+  const char* routine_name_ = routine_name.c_str();
   int routine_name_length = routine_name.length();
   c_dbcsr_timeset(&routine_name_, &routine_name_length, &handle);
 }
@@ -97,10 +99,10 @@ int libsmm_acc_check_gpu_warp_size_consistency() {
   int acc_warp_size = acc_get_gpu_warp_size();
   extern const int warp_size;
   if (warp_size != acc_warp_size) {
-    printf("Inconsistency in warp sizes: Cuda/Hip indicates warp size = %d, while the gpu_properties files indicates "
-           "warp_size = %d.\nPlease check whether src/acc/libsmm_acc/kernels/gpu_properties.json contains the correct "
-           "data about the GPU you are using.",
-           warp_size, acc_warp_size);
+    printf("Inconsistency in warp sizes: Cuda/Hip indicates warp size = %d, while the gpu_properties files indicates warp_size = "
+           "%d.\nPlease check whether src/acc/libsmm_acc/kernels/gpu_properties.json contains the correct data about the GPU you "
+           "are using.",
+      warp_size, acc_warp_size);
   }
   return 0;
 }

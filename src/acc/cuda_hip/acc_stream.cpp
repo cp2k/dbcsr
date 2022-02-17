@@ -8,25 +8,26 @@
 /*------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-#include "../cuda/acc_cuda.h"
+#  include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
-#include "../hip/acc_hip.h"
+#  include "../hip/acc_hip.h"
 #endif
 
-#include "../acc.h"
 #include "acc_error.h"
+#include "../acc.h"
 
-#include <math.h>
 #include <stdio.h>
+#include <math.h>
 
 #if defined(__CUDA_PROFILING)
-#include <nvToolsExtCudaRt.h>
+#  include <nvToolsExtCudaRt.h>
 #endif
 
 static const int verbose_print = 0;
 
+
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_stream_priority_range(int *least, int *greatest) {
+extern "C" int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
   *least = -1;
   *greatest = -1;
   ACC_API_CALL(DeviceGetStreamPriorityRange, (least, greatest));
@@ -34,26 +35,25 @@ extern "C" int c_dbcsr_acc_stream_priority_range(int *least, int *greatest) {
   return 0;
 }
 
+
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_stream_create(void **stream_p, const char *name, int priority) {
+extern "C" int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   ACC(Error_t) cErr;
   *stream_p = malloc(sizeof(ACC(Stream_t)));
 
-  ACC(Stream_t) *acc_stream = (ACC(Stream_t) *)*stream_p;
+  ACC(Stream_t)* acc_stream = (ACC(Stream_t)*)*stream_p;
 
   if (priority > 0) {
     unsigned int flags = ACC(StreamNonBlocking);
     cErr = ACC(StreamCreateWithPriority)(acc_stream, flags, priority);
-  } else {
+  }
+  else {
     cErr = ACC(StreamCreate)(acc_stream);
   }
 
-  if (verbose_print)
-    printf("StreamCreate : %p -> %p \n", *stream_p, *acc_stream);
-  if (acc_error_check(cErr))
-    return -1;
-  if (acc_error_check(ACC(GetLastError)()))
-    return -1;
+  if (verbose_print) printf("StreamCreate : %p -> %p \n", *stream_p, *acc_stream);
+  if (acc_error_check(cErr)) return -1;
+  if (acc_error_check(ACC(GetLastError)())) return -1;
 
 #if defined(__CUDA_PROFILING)
   nvtxNameCudaStreamA(*acc_stream, name);
@@ -62,26 +62,23 @@ extern "C" int c_dbcsr_acc_stream_create(void **stream_p, const char *name, int 
   return 0;
 }
 
-/****************************************************************************/
-extern "C" int c_dbcsr_acc_stream_destroy(void *stream) {
-  ACC(Stream_t) *acc_stream = (ACC(Stream_t) *)stream;
 
-  if (verbose_print)
-    printf("StreamDestroy called\n");
-  if (stream == NULL)
-    return 0; /* not an error */
+/****************************************************************************/
+extern "C" int c_dbcsr_acc_stream_destroy(void* stream) {
+  ACC(Stream_t)* acc_stream = (ACC(Stream_t)*)stream;
+
+  if (verbose_print) printf("StreamDestroy called\n");
+  if (stream == NULL) return 0; /* not an error */
   ACC(Error_t) cErr = ACC(StreamDestroy)(*acc_stream);
   free(acc_stream);
-  if (acc_error_check(cErr))
-    return -1;
-  if (acc_error_check(ACC(GetLastError)()))
-    return -1;
+  if (acc_error_check(cErr)) return -1;
+  if (acc_error_check(ACC(GetLastError)())) return -1;
   return 0;
 }
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_stream_sync(void *stream) {
-  ACC(Stream_t) *acc_stream = (ACC(Stream_t) *)stream;
+extern "C" int c_dbcsr_acc_stream_sync(void* stream) {
+  ACC(Stream_t)* acc_stream = (ACC(Stream_t)*)stream;
   ACC_API_CALL(StreamSynchronize, (*acc_stream));
   return 0;
 }

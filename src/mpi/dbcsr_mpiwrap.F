@@ -178,7 +178,8 @@ MODULE dbcsr_mpiwrap
              mp_type_indexed_make_i, mp_type_indexed_make_l
 
    ! misc
-   PUBLIC :: mp_get_library_version, mp_get_processor_name
+   PUBLIC :: mp_get_library_version, mp_get_processor_name, &
+             mp_get_numnodes
 
    ! assumed to be private
 
@@ -2152,6 +2153,73 @@ CONTAINS
       END IF
 #endif
    END SUBROUTINE mp_get_processor_name
+
+   FUNCTION mp_get_numnodes(groupid)
+      !! Get the number of physical system (nodes) as opposed to the number of ranks
+
+      INTEGER, OPTIONAL, INTENT(IN) :: groupid
+         !! mpi communicator
+      INTEGER :: mp_get_numnodes
+#if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_numnodes'
+      INTEGER :: mp_comm, ierr
+#if (__MPI_VERSION > 2)
+      INTEGER :: comm, rank, is_node
+#else
+      CHARACTER(LEN=mp_max_processor_name), ALLOCATABLE :: procnames(:)
+      INTEGER :: i, j, group_size
+#endif
+      IF (.NOT. PRESENT(groupid)) THEN
+         mp_comm = mp_comm_world
+      ELSE
+         mp_comm = groupid
+      END IF
+#if (__MPI_VERSION > 2)
+      CALL mpi_comm_split_type(mp_comm, MPI_COMM_TYPE_SHARED, 0, &
+                               MPI_INFO_NULL, comm, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_split_type @ "//routineN)
+
+      CALL mpi_comm_rank(comm, rank, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
+      is_node = MERGE(0, 1, rank .NE. 0)
+
+      CALL mpi_allreduce(is_node, mp_get_numnodes, 1, MPI_INTEGER, MPI_SUM, &
+                         mp_comm, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
+
+      CALL mpi_comm_free(comm, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_free @ "//routineN)
+#else
+      CALL mpi_comm_rank(mp_comm, i, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
+
+      CALL mpi_comm_size(mp_comm, group_size, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
+      DBCSR_ASSERT(0 .LT. group_size)
+      ALLOCATE (procnames(group_size))
+
+      CALL mp_get_processor_name(procnames(i + 1))
+      CALL mpi_allgather(MPI_IN_PLACE, 0, 0, &
+                         procnames, mp_max_processor_name, &
+                         MPI_CHAR, mp_comm, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
+
+      mp_get_numnodes = 1
+      DO i = 2, group_size
+         DO j = 1, i - 1
+            IF (procnames(i) .EQ. procnames(j)) EXIT
+            IF (i .EQ. j) mp_get_numnodes = mp_get_numnodes + 1
+         END DO
+      END DO
+
+      DEALLOCATE (procnames)
+#endif
+#else
+      MARK_USED(groupid)
+      mp_get_numnodes = 1
+#endif
+      DBCSR_ASSERT(0 .LT. mp_get_numnodes)
+   END FUNCTION mp_get_numnodes
 
    SUBROUTINE mp_file_open(groupid, fh, filepath, amode_status, info)
       !! Opens a file
