@@ -1928,7 +1928,7 @@ CONTAINS
       PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_d (extent, rows, columns)
      !! In-place block transpose.
 
-#if defined(__LIBXSMM_TRANS) && 0
+#if defined(__LIBXSMM_TRANS)
          USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
 #endif
          INTEGER, INTENT(IN) :: rows, columns
@@ -1938,7 +1938,7 @@ CONTAINS
         !! Matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
-#if defined(__LIBXSMM_TRANS) && 0
+#if defined(__LIBXSMM_TRANS)
          CALL libxsmm_itrans(libxsmm_ptr1(extent), 8, rows, columns, rows)
 #elif defined(__MKL)
          CALL mkl_dimatcopy('C', 'T', rows, columns, 1.0_real_8, extent, rows, columns)
@@ -2477,7 +2477,7 @@ CONTAINS
       PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_s (extent, rows, columns)
      !! In-place block transpose.
 
-#if defined(__LIBXSMM_TRANS) && 0
+#if defined(__LIBXSMM_TRANS)
          USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
 #endif
          INTEGER, INTENT(IN) :: rows, columns
@@ -2487,7 +2487,7 @@ CONTAINS
         !! Matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
-#if defined(__LIBXSMM_TRANS) && 0
+#if defined(__LIBXSMM_TRANS)
          CALL libxsmm_itrans(libxsmm_ptr1(extent), 4, rows, columns, rows)
 #elif defined(__MKL)
          CALL mkl_simatcopy('C', 'T', rows, columns, 1.0_real_4, extent, rows, columns)
@@ -3026,7 +3026,7 @@ CONTAINS
       PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_z (extent, rows, columns)
      !! In-place block transpose.
 
-#if defined(__LIBXSMM_TRANS) && 0
+#if defined(__LIBXSMM_TRANS)
          USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
 #endif
          INTEGER, INTENT(IN) :: rows, columns
@@ -3036,7 +3036,7 @@ CONTAINS
         !! Matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
-#if defined(__LIBXSMM_TRANS) && 0
+#if defined(__LIBXSMM_TRANS)
          CALL libxsmm_itrans(libxsmm_ptr1(extent), 16, rows, columns, rows)
 #elif defined(__MKL)
          CALL mkl_zimatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_8), extent, rows, columns)
@@ -3575,7 +3575,7 @@ CONTAINS
       PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_c (extent, rows, columns)
      !! In-place block transpose.
 
-#if defined(__LIBXSMM_TRANS) && 0
+#if defined(__LIBXSMM_TRANS)
          USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
 #endif
          INTEGER, INTENT(IN) :: rows, columns
@@ -3585,7 +3585,7 @@ CONTAINS
         !! Matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
-#if defined(__LIBXSMM_TRANS) && 0
+#if defined(__LIBXSMM_TRANS)
          CALL libxsmm_itrans(libxsmm_ptr1(extent), 8, rows, columns, rows)
 #elif defined(__MKL)
          CALL mkl_cimatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_4), extent, rows, columns)

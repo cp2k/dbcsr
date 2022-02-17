@@ -183,7 +183,8 @@ MODULE dbcsr_mpiwrap
              mp_type_indexed_make_i, mp_type_indexed_make_l
 
    ! misc
-   PUBLIC :: mp_get_library_version, mp_get_processor_name
+   PUBLIC :: mp_get_library_version, mp_get_processor_name, &
+             mp_get_numnodes
 
    ! assumed to be private
 
@@ -222,22 +223,22 @@ MODULE dbcsr_mpiwrap
    END INTERFACE
 
    INTERFACE mp_bcast
-# 219 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 220 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_bcast_i, mp_bcast_iv, mp_bcast_im, mp_bcast_i3, mp_bcast_l, mp_bcast_lv, mp_bcast_lm, mp_bcast_l3,&
-# 219 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 220 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_bcast_d, mp_bcast_dv, mp_bcast_dm, mp_bcast_d3, mp_bcast_r, mp_bcast_rv, mp_bcast_rm, mp_bcast_r3, mp_bcast_z,&
-# 219 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 220 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_bcast_zv, mp_bcast_zm, mp_bcast_z3, mp_bcast_c, mp_bcast_cv, mp_bcast_cm, mp_bcast_c3, mp_bcast_b, mp_bcast_bv,&
-# 219 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 220 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_bcast_av, mp_bcast_am
-# 219 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 220 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_ibcast
-# 220 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_ibcast_i, mp_ibcast_iv, mp_ibcast_l, mp_ibcast_lv, mp_ibcast_d, mp_ibcast_dv, mp_ibcast_r, mp_ibcast_rv,&
-# 220 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_ibcast_z, mp_ibcast_zv, mp_ibcast_c, mp_ibcast_cv
-# 220 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_sum
@@ -257,49 +258,49 @@ MODULE dbcsr_mpiwrap
    END INTERFACE
 
    INTERFACE mp_isum
-# 238 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 239 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_isum_iv, mp_isum_lv, mp_isum_dv, mp_isum_rv, mp_isum_zv, mp_isum_cv, mp_isum_bv
-# 238 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 239 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_sum_partial
-# 239 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_sum_partial_im, mp_sum_partial_lm, mp_sum_partial_dm, mp_sum_partial_rm, mp_sum_partial_zm,&
-# 239 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_sum_partial_cm
-# 239 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_max
-# 240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 241 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_max_i, mp_max_iv, mp_max_l, mp_max_lv, mp_max_d, mp_max_dv, mp_max_r, mp_max_rv, mp_max_z, mp_max_zv,&
-# 240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 241 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_max_c, mp_max_cv
-# 240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 241 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_min
-# 241 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_min_i, mp_min_iv, mp_min_l, mp_min_lv, mp_min_d, mp_min_dv, mp_min_r, mp_min_rv, mp_min_z, mp_min_zv,&
-# 241 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_min_c, mp_min_cv
-# 241 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_prod
-# 242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_prod_i, mp_prod_l, mp_prod_d, mp_prod_r, mp_prod_z, mp_prod_c
-# 242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_gather
-# 243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 244 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_gather_i, mp_gather_im, mp_gather_iv, mp_gather_l, mp_gather_lm, mp_gather_lv, mp_gather_d,&
-# 243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 244 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_gather_dm, mp_gather_dv, mp_gather_r, mp_gather_rm, mp_gather_rv, mp_gather_z, mp_gather_zm, mp_gather_zv,&
-# 243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 244 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_gather_c, mp_gather_cm, mp_gather_cv
-# 243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 244 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_gatherv
-# 244 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 245 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_gatherv_iv, mp_gatherv_lv, mp_gatherv_dv, mp_gatherv_rv, mp_gatherv_zv, mp_gatherv_cv
-# 244 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 245 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_allgather
@@ -381,128 +382,128 @@ MODULE dbcsr_mpiwrap
    END INTERFACE
 
    INTERFACE mp_alltoall
-# 324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 325 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_alltoall_i, mp_alltoall_i22, mp_alltoall_i44, mp_alltoall_i11v, mp_alltoall_l, mp_alltoall_l22,&
-# 324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 325 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_alltoall_l44, mp_alltoall_l11v, mp_alltoall_d, mp_alltoall_d22, mp_alltoall_d44, mp_alltoall_d11v, mp_alltoall_r,&
-# 324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 325 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_alltoall_r22, mp_alltoall_r44, mp_alltoall_r11v, mp_alltoall_z, mp_alltoall_z22, mp_alltoall_z44, mp_alltoall_z11v,&
-# 324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 325 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_alltoall_c, mp_alltoall_c22, mp_alltoall_c44, mp_alltoall_c11v
-# 324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 325 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_send
-# 326 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 327 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_send_i, mp_send_iv, mp_send_l, mp_send_lv, mp_send_d, mp_send_dv, mp_send_r, mp_send_rv, mp_send_z,&
-# 326 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 327 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_send_zv, mp_send_c, mp_send_cv
-# 326 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 327 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_recv
-# 327 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 328 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_recv_i, mp_recv_iv, mp_recv_l, mp_recv_lv, mp_recv_d, mp_recv_dv, mp_recv_r, mp_recv_rv, mp_recv_z,&
-# 327 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 328 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_recv_zv, mp_recv_c, mp_recv_cv
-# 327 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 328 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_sendrecv
-# 328 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 329 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_sendrecv_iv, mp_sendrecv_lv, mp_sendrecv_dv, mp_sendrecv_rv, mp_sendrecv_zv, mp_sendrecv_cv
-# 328 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 329 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_isendrecv
-# 329 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 330 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_isendrecv_i, mp_isendrecv_iv, mp_isendrecv_l, mp_isendrecv_lv, mp_isendrecv_d, mp_isendrecv_dv,&
-# 329 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 330 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_isendrecv_r, mp_isendrecv_rv, mp_isendrecv_z, mp_isendrecv_zv, mp_isendrecv_c, mp_isendrecv_cv
-# 329 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 330 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_isend
-# 331 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_isend_iv, mp_isend_im2, mp_isend_lv, mp_isend_lm2, mp_isend_dv, mp_isend_dm2, mp_isend_rv, mp_isend_rm2,&
-# 331 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_isend_zv, mp_isend_zm2, mp_isend_cv, mp_isend_cm2, mp_isend_bv, mp_isend_custom
-# 331 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_irecv
-# 332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 333 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_irecv_iv, mp_irecv_im2, mp_irecv_lv, mp_irecv_lm2, mp_irecv_dv, mp_irecv_dm2, mp_irecv_rv, mp_irecv_rm2,&
-# 332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 333 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_irecv_zv, mp_irecv_zm2, mp_irecv_cv, mp_irecv_cm2, mp_irecv_bv, mp_irecv_custom
-# 332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 333 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_win_create
-# 334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 335 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_win_create_iv, mp_win_create_lv, mp_win_create_dv, mp_win_create_rv, mp_win_create_zv, mp_win_create_cv
-# 334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 335 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_rget
-# 335 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 336 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_rget_iv, mp_rget_lv, mp_rget_dv, mp_rget_rv, mp_rget_zv, mp_rget_cv
-# 335 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 336 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_allocate
-# 336 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_allocate_i, mp_allocate_l, mp_allocate_d, mp_allocate_r, mp_allocate_z, mp_allocate_c
-# 336 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_deallocate
-# 337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 338 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_deallocate_i, mp_deallocate_l, mp_deallocate_d, mp_deallocate_r, mp_deallocate_z, mp_deallocate_c
-# 337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 338 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_type_make
-# 339 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_type_make_i, mp_type_make_l, mp_type_make_d, mp_type_make_r, mp_type_make_z, mp_type_make_c,&
-# 339 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_type_make_struct
-# 339 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_file_write_at
-# 341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 342 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_file_write_at_i, mp_file_write_at_iv, mp_file_write_at_l, mp_file_write_at_lv, mp_file_write_at_d,&
-# 341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 342 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_dv, mp_file_write_at_r, mp_file_write_at_rv, mp_file_write_at_z, mp_file_write_at_zv,&
-# 341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 342 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_c, mp_file_write_at_cv, mp_file_write_at_ch
-# 341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 342 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_file_write_at_all
-# 342 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_file_write_at_all_i, mp_file_write_at_all_iv, mp_file_write_at_all_l, mp_file_write_at_all_lv,&
-# 342 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_all_d, mp_file_write_at_all_dv, mp_file_write_at_all_r, mp_file_write_at_all_rv,&
-# 342 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_all_z, mp_file_write_at_all_zv, mp_file_write_at_all_c, mp_file_write_at_all_cv,&
-# 342 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_all_ch
-# 342 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_file_read_at_all
-# 343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 344 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_file_read_at_all_i, mp_file_read_at_all_iv, mp_file_read_at_all_l, mp_file_read_at_all_lv,&
-# 343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 344 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_read_at_all_d, mp_file_read_at_all_dv, mp_file_read_at_all_r, mp_file_read_at_all_rv, mp_file_read_at_all_z,&
-# 343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 344 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_read_at_all_zv, mp_file_read_at_all_c, mp_file_read_at_all_cv, mp_file_read_at_all_ch
-# 343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 344 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
 #if defined(__parallel)
    INTERFACE mp_alloc_mem
-# 346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 347 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_alloc_mem_i, mp_alloc_mem_l, mp_alloc_mem_d, mp_alloc_mem_r, mp_alloc_mem_z, mp_alloc_mem_c
-# 346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 347 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_free_mem
-# 347 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 348 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_free_mem_i, mp_free_mem_l, mp_free_mem_d, mp_free_mem_r, mp_free_mem_z, mp_free_mem_c
-# 347 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 348 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 #endif
 
@@ -2312,6 +2313,73 @@ CONTAINS
 #endif
    END SUBROUTINE mp_get_processor_name
 
+   FUNCTION mp_get_numnodes(groupid)
+      !! Get the number of physical system (nodes) as opposed to the number of ranks
+
+      INTEGER, OPTIONAL, INTENT(IN) :: groupid
+         !! mpi communicator
+      INTEGER :: mp_get_numnodes
+#if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_numnodes'
+      INTEGER :: mp_comm, ierr
+#if (__MPI_VERSION > 2)
+      INTEGER :: comm, rank, is_node
+#else
+      CHARACTER(LEN=mp_max_processor_name), ALLOCATABLE :: procnames(:)
+      INTEGER :: i, j, group_size
+#endif
+      IF (.NOT. PRESENT(groupid)) THEN
+         mp_comm = mp_comm_world
+      ELSE
+         mp_comm = groupid
+      END IF
+#if (__MPI_VERSION > 2)
+      CALL mpi_comm_split_type(mp_comm, MPI_COMM_TYPE_SHARED, 0, &
+                               MPI_INFO_NULL, comm, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_split_type @ "//routineN)
+
+      CALL mpi_comm_rank(comm, rank, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
+      is_node = MERGE(0, 1, rank .NE. 0)
+
+      CALL mpi_allreduce(is_node, mp_get_numnodes, 1, MPI_INTEGER, MPI_SUM, &
+                         mp_comm, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
+
+      CALL mpi_comm_free(comm, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_free @ "//routineN)
+#else
+      CALL mpi_comm_rank(mp_comm, i, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
+
+      CALL mpi_comm_size(mp_comm, group_size, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
+      DBCSR_ASSERT(0 .LT. group_size)
+      ALLOCATE (procnames(group_size))
+
+      CALL mp_get_processor_name(procnames(i + 1))
+      CALL mpi_allgather(MPI_IN_PLACE, 0, 0, &
+                         procnames, mp_max_processor_name, &
+                         MPI_CHAR, mp_comm, ierr)
+      IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
+
+      mp_get_numnodes = 1
+      DO i = 2, group_size
+         DO j = 1, i - 1
+            IF (procnames(i) .EQ. procnames(j)) EXIT
+            IF (i .EQ. j) mp_get_numnodes = mp_get_numnodes + 1
+         END DO
+      END DO
+
+      DEALLOCATE (procnames)
+#endif
+#else
+      MARK_USED(groupid)
+      mp_get_numnodes = 1
+#endif
+      DBCSR_ASSERT(0 .LT. mp_get_numnodes)
+   END FUNCTION mp_get_numnodes
+
    SUBROUTINE mp_file_open(groupid, fh, filepath, amode_status, info)
       !! Opens a file
       !!
@@ -2807,7 +2875,7 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_unlock_all
 
-# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_i11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -5662,7 +5730,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_i
 #endif
 
-# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_l11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -8517,7 +8585,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_l
 #endif
 
-# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_d11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -11372,7 +11440,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_d
 #endif
 
-# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -14227,7 +14295,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_r
 #endif
 
-# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_z11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -17082,7 +17150,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_z
 #endif
 
-# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_c11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -19937,6 +20005,6 @@ CONTAINS
       END SUBROUTINE mp_free_mem_c
 #endif
 
-# 5507 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 5575 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 END MODULE dbcsr_mpiwrap

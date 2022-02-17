@@ -15,6 +15,7 @@ MODULE dbcsr_config
                           dp
    USE dbcsr_ptr_util, ONLY: dbcsr_data_allocation, &
                              dbcsr_data_allocation_type
+   USE dbcsr_mpiwrap, ONLY: mp_get_numnodes
    USE dbcsr_kinds, ONLY: real_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, mp_comm_world
 #include "base/dbcsr_base_uses.f90"
@@ -383,6 +384,8 @@ CONTAINS
          "DBCSR| Use memory pool for CPU allocation", dbcsr_cfg%use_mempools_cpu
 
       IF (has_mpi) THEN
+         !WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
+         !"DBCSR| Number of physical nodes", mp_get_numnodes()
          IF (dbcsr_cfg%num_layers_3D < 2) THEN
             WRITE (UNIT=unit_nr, FMT='(1X,A,T75,A)') &
                "DBCSR| Number of 3D layers", "SINGLE"
