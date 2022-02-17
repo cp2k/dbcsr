@@ -8,15 +8,15 @@
 /*------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-#include "../cuda/acc_cuda.h"
+#  include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
-#include "../hip/acc_hip.h"
+#  include "../hip/acc_hip.h"
 #endif
 
 #include "acc_error.h"
 
-#include <math.h>
 #include <stdio.h>
+#include <math.h>
 
 /****************************************************************************/
 int acc_error_check(ACC(Error_t) error) {

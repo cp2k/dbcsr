@@ -7,25 +7,25 @@
 /* SPDX-License-Identifier: GPL-2.0+                                                              */
 /*------------------------------------------------------------------------------------------------*/
 
-#include "libsmm_acc.h"
-#include "libsmm_acc_benchmark.h"
 #include <algorithm>
-#include <array>
 #include <stdio.h>
 #include <stdlib.h>
-#include <utility>
 #include <vector>
+#include <array>
+#include <utility>
+#include "libsmm_acc_benchmark.h"
+#include "libsmm_acc.h"
+
 
 /****************************************************************************\
  \brief Checks correctness of all libsmm transpose kernels
 \****************************************************************************/
 
-int main(int argc, char **argv) {
-
+int main(int argc, char** argv) {
   TransposeLauncher launcher_tr = libsmm_acc_transpose_d;
 
   char buffer[1000];
-  char *kernel_descr[1] = {buffer};
+  char* kernel_descr[1] = {buffer};
 
   // Get all blocksizes available in libsmm
   std::vector<Triplet> libsmm_acc_triplets;
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     max_k = std::max(max_k, libsmm_acc_triplets[i][2]);
   }
 
-  libsmm_acc_benchmark_t *handle;
+  libsmm_acc_benchmark_t* handle;
   libsmm_acc_benchmark_init(&handle, test, max_m, max_n, max_k);
 
   // Get (m,n) pairs to test transposition
@@ -52,24 +52,24 @@ int main(int argc, char **argv) {
     libsmm_acc_transpose_pairs.push_back(std::make_pair(m, k));
     libsmm_acc_transpose_pairs.push_back(std::make_pair(k, n));
   }
-  std::sort(libsmm_acc_transpose_pairs.begin(), libsmm_acc_transpose_pairs.end(),
-            [](std::pair<int, int> a, std::pair<int, int> b) {
-              return (a.first > b.first) || (a.first == b.first && a.second > b.second);
-            });
+  std::sort(libsmm_acc_transpose_pairs.begin(), libsmm_acc_transpose_pairs.end(), [](std::pair<int, int> a, std::pair<int, int> b) {
+    return (a.first > b.first) || (a.first == b.first && a.second > b.second);
+  });
   auto last = std::unique(libsmm_acc_transpose_pairs.begin(), libsmm_acc_transpose_pairs.end());
   libsmm_acc_transpose_pairs.erase(last, libsmm_acc_transpose_pairs.end());
   int n_pairs = libsmm_acc_transpose_pairs.size();
   printf("# libsmm_acc has %d blocksizes for transposition\n", n_pairs);
 
   // Sort (m,n) pairs in growing order
-  std::sort(libsmm_acc_transpose_pairs.begin(), libsmm_acc_transpose_pairs.end(),
-            [](std::pair<int, int> mn1, std::pair<int, int> mn2) {
-              if (mn1.first != mn2.first) {
-                return mn1.first < mn2.first;
-              } else {
-                return mn1.second < mn2.second;
-              }
-            });
+  std::sort(
+    libsmm_acc_transpose_pairs.begin(), libsmm_acc_transpose_pairs.end(), [](std::pair<int, int> mn1, std::pair<int, int> mn2) {
+      if (mn1.first != mn2.first) {
+        return mn1.first < mn2.first;
+      }
+      else {
+        return mn1.second < mn2.second;
+      }
+    });
 
   int errors = 0;
   for (int i = 0; i < n_pairs; i++) {
