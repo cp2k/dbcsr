@@ -66,6 +66,10 @@
 #define ACC_OPENCL_DEVICES_MAXCOUNT 256
 #endif
 /** Counted on a per-thread basis! */
+#if !defined(ACC_OPENCL_HANDLES_MAXCOUNT)
+#define ACC_OPENCL_HANDLES_MAXCOUNT 1024
+#endif
+/** Counted on a per-thread basis! */
 #if !defined(ACC_OPENCL_STREAMS_MAXCOUNT)
 #define ACC_OPENCL_STREAMS_MAXCOUNT 128
 #endif
@@ -224,6 +228,10 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_bool devmatch;
   /** Table of activated device contexts (thread-specific). */
   cl_context *contexts;
+  /** Handle-counter. */
+  size_t handle;
+  /** All handles and related storage. */
+  void **handles, *storage;
   /** All created streams partitioned by thread-ID (thread-local slots). */
   void **streams;
   /** Counts number of streams created (thread-local). */

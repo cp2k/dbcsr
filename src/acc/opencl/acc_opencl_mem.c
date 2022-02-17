@@ -122,8 +122,9 @@ int c_dbcsr_acc_host_mem_allocate(void **host_mem, size_t nbytes, void *stream) 
       ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseMemObject(memory));
       *host_mem = NULL;
     }
-  } else
+  } else {
     *host_mem = NULL; /* error: creating host buffer */
+  }
 #if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #endif
@@ -152,19 +153,23 @@ int c_dbcsr_acc_host_mem_deallocate(void *host_mem, void *stream) {
       {
         cl_context context;
         result = clGetCommandQueueInfo(queue, CL_QUEUE_CONTEXT, sizeof(cl_context), &context, NULL);
-        if (CL_SUCCESS == result)
+        if (CL_SUCCESS == result) {
           clSVMFree(context, info.mapped);
+        }
       }
 #elif defined(ACC_OPENCL_MALLOC_LIBXSMM)
       libxsmm_free(info.mapped);
 #endif
       result_release = clReleaseMemObject(info.memory);
-      if (EXIT_SUCCESS == result)
+      if (EXIT_SUCCESS == result) {
         result = result_release;
-    } else
+      }
+    } else {
       result = EXIT_FAILURE;
-  } else
+    }
+  } else {
     result = EXIT_FAILURE;
+  }
 #if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #endif
@@ -218,7 +223,10 @@ int c_dbcsr_acc_dev_mem_allocate(void **dev_mem, size_t nbytes) {
     assert(sizeof(void *) >= sizeof(cl_mem));
     *dev_mem = (void *)buffer;
 #else
-    *dev_mem = malloc(sizeof(cl_mem));
+    assert(NULL == c_dbcsr_acc_opencl_config.handles || sizeof(void *) >= sizeof(cl_mem));
+    *dev_mem = (NULL != c_dbcsr_acc_opencl_config.handles
+                    ? libxsmm_pmalloc(c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle)
+                    : malloc(sizeof(cl_mem)));
     if (NULL != *dev_mem) {
       *(cl_mem *)*dev_mem = buffer;
     } else {
@@ -233,8 +241,9 @@ int c_dbcsr_acc_dev_mem_allocate(void **dev_mem, size_t nbytes) {
       result = EXIT_FAILURE;
     }
 #endif
-  } else
+  } else {
     *dev_mem = NULL; /* error: creating device buffer */
+  }
 #if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #endif
@@ -260,7 +269,12 @@ int c_dbcsr_acc_dev_mem_deallocate(void *dev_mem) {
 #if defined(ACC_OPENCL_MEM_NOALLOC)
     assert(sizeof(void *) >= sizeof(cl_mem));
 #else
-    free(dev_mem);
+    if (NULL != c_dbcsr_acc_opencl_config.handles) {
+      /**(cl_mem*)dev_mem = NULL; assert(NULL == *ACC_OPENCL_MEM(dev_mem));*/
+      libxsmm_pfree(dev_mem, c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle);
+    } else {
+      free(dev_mem);
+    }
 #endif
 #if defined(ACC_OPENCL_SVM)
     /*if (NULL != ptr)*/
@@ -289,8 +303,9 @@ int c_dbcsr_acc_dev_mem_set_ptr(void **dev_mem, void *other, size_t lb) {
   if (NULL != other || 0 == lb) {
     *dev_mem = (char *)other + lb;
     result = EXIT_SUCCESS;
-  } else
+  } else {
     result = EXIT_FAILURE;
+  }
 #if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #endif
@@ -451,8 +466,9 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t *mem_free, size_t
 #elif defined(__APPLE__) && defined(__MACH__)
   /*const*/ size_t size_pages_free = sizeof(const long), size_pages_total = sizeof(const long);
   ACC_OPENCL_EXPECT(0, sysctlbyname("hw.memsize", &pages_total, &size_pages_total, NULL, 0));
-  if (0 < page_size)
+  if (0 < page_size) {
     pages_total /= page_size;
+  }
   if (0 != sysctlbyname("vm.page_free_count", &pages_free, &size_pages_free, NULL, 0)) {
     pages_free = pages_total;
   }
@@ -479,24 +495,30 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t *mem_free, size_t
     ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool), &cl_unified, NULL),
                      "retrieve if host memory is unified", result);
     if (EXIT_SUCCESS == result) {
-      if (cl_size_total < size_total)
+      if (cl_size_total < size_total) {
         size_total = cl_size_total;
-      if (size_total < size_free)
+      }
+      if (size_total < size_free) {
         size_free = size_total;
+      }
       size_local = cl_size_local;
       unified = cl_unified;
     }
   }
   result = (size_free <= size_total ? EXIT_SUCCESS : EXIT_FAILURE);
   assert(NULL != mem_local || NULL != mem_total || NULL != mem_free || NULL != mem_unified);
-  if (NULL != mem_unified)
+  if (NULL != mem_unified) {
     *mem_unified = unified;
-  if (NULL != mem_local)
+  }
+  if (NULL != mem_local) {
     *mem_local = size_local;
-  if (NULL != mem_total)
+  }
+  if (NULL != mem_total) {
     *mem_total = size_total;
-  if (NULL != mem_free)
+  }
+  if (NULL != mem_free) {
     *mem_free = size_free;
+  }
   return result;
 }
 
