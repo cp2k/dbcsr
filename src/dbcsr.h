@@ -214,7 +214,7 @@ void c_dbcsr_iterator_next_block_index(const dbcsr_iterator c_iterator, int *c_r
 
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
 
-void c_dbcsr_iterator_next_2d_block_${nametype} $(const dbcsr_iterator c_iterator, int *c_row, int *c_column, ${extype} $ **c_block, bool *c_transposed,
+void c_dbcsr_iterator_next_2d_block_${nametype}$(const dbcsr_iterator c_iterator, int *c_row, int *c_column, ${extype}$ **c_block, bool *c_transposed,
                 int *c_block_number, int *c_row_size, int *c_col_size, int *c_row_offset, int *c_col_offset);
 
 #:endfor
