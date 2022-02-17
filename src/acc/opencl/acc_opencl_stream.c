@@ -40,7 +40,7 @@ c_dbcsr_acc_opencl_info_stream_t *c_dbcsr_acc_opencl_info_stream(void *stream) {
     result = (c_dbcsr_acc_opencl_info_stream_t *)((uintptr_t)stream - sizeof(c_dbcsr_acc_opencl_info_stream_t));
   } else
 #endif
-  result = NULL;
+  { result = NULL; }
   return result;
 }
 
@@ -50,11 +50,11 @@ const int *c_dbcsr_acc_opencl_stream_priority(const void *stream) {
   LIBXSMM_UNUSED(stream);
 #else
   const c_dbcsr_acc_opencl_info_stream_t *const info = c_dbcsr_acc_opencl_info_stream((void *)stream);
-  if (NULL != info)
+  if (NULL != info) {
     result = &info->priority;
-  else
+  } else
 #endif
-  result = NULL;
+  { result = NULL; }
   return result;
 }
 
@@ -65,8 +65,9 @@ int c_dbcsr_acc_opencl_stream_is_thread_specific(int thread_id, const void *stre
   if (NULL != stream) {
     int i = 0;
     for (; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
-      if (stream == streams[i])
+      if (stream == streams[i]) {
         return EXIT_SUCCESS;
+      }
     }
     return EXIT_FAILURE;
   }
@@ -99,8 +100,9 @@ int c_dbcsr_acc_stream_create(void **stream_p, const char *name, int priority) {
                        (NULL != libxsmm_stristr(name, "calc") || (NULL != strstr(name, "priority"))))
                           ? CL_QUEUE_PRIORITY_HIGH_KHR
                           : CL_QUEUE_PRIORITY_MED_KHR;
-    } else
+    } else {
       properties[3] = least;
+    }
   }
   if (CL_QUEUE_PRIORITY_HIGH_KHR <= properties[3] && CL_QUEUE_PRIORITY_LOW_KHR >= properties[3]) {
     priority = properties[3]; /* sanitize */
@@ -133,7 +135,9 @@ int c_dbcsr_acc_stream_create(void **stream_p, const char *name, int priority) {
                           c_dbcsr_acc_opencl_config.contexts[/*master*/ 0], LIBXSMM_ATOMIC_RELAXED);
   } else
 #endif
+  {
     tid = 0; /*master*/
+  }
   {
     const cl_context context = c_dbcsr_acc_opencl_config.contexts[tid];
     if (NULL != context) {
@@ -153,11 +157,12 @@ int c_dbcsr_acc_stream_create(void **stream_p, const char *name, int priority) {
                       t = j < c_dbcsr_acc_opencl_config.nthreads ? j : (j - c_dbcsr_acc_opencl_config.nthreads);
             if (0 != t) { /* avoid cloning master's streams */
               streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * t;
-              for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i)
+              for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
                 if (NULL != streams[i]) {
                   n = c_dbcsr_acc_opencl_config.nthreads;
                   break;
                 }
+              }
             }
           }
           assert(i == ACC_OPENCL_STREAMS_MAXCOUNT || c_dbcsr_acc_opencl_config.streams <= streams);
@@ -166,23 +171,28 @@ int c_dbcsr_acc_stream_create(void **stream_p, const char *name, int priority) {
             assert(NULL != streams);
             stream = *ACC_OPENCL_STREAM(streams[i]);
             result = clRetainCommandQueue(stream);
-            if (CL_SUCCESS == result)
+            if (CL_SUCCESS == result) {
               queue = stream;
-          } else
+            }
+          } else {
             queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
+          }
         }
       }
-    } else
+    } else {
       result = EXIT_FAILURE;
+    }
   }
   assert(NULL != stream_p);
   if (EXIT_SUCCESS == result) {
     const int base = ACC_OPENCL_STREAMS_MAXCOUNT * tid;
     cl_command_queue *const stats = c_dbcsr_acc_opencl_config.stats + base;
     streams = c_dbcsr_acc_opencl_config.streams + base;
-    for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i)
-      if (NULL == streams[i])
+    for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
+      if (NULL == streams[i]) {
         break;
+      }
+    }
     if (i < ACC_OPENCL_STREAMS_MAXCOUNT) { /* register stream */
 #if defined(ACC_OPENCL_STREAM_NOALLOC)
       assert(sizeof(void *) >= sizeof(cl_command_queue) && NULL != queue);
@@ -224,8 +234,9 @@ int c_dbcsr_acc_stream_create(void **stream_p, const char *name, int priority) {
 #endif
       ACC_OPENCL_DEBUG_FPRINTF(stderr, ").\n");
     }
-  } else
+  } else {
     *stream_p = NULL;
+  }
 #if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #endif
@@ -247,11 +258,12 @@ int c_dbcsr_acc_stream_destroy(void *stream) {
       void **streams = NULL;
       for (; tid < c_dbcsr_acc_opencl_config.nthreads; ++tid) { /* unregister */
         streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * tid;
-        for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i)
+        for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
           if (stream == streams[i]) {
             tid = c_dbcsr_acc_opencl_config.nthreads; /* break outer loop */
             break;
           }
+        }
       }
       if (i < ACC_OPENCL_STREAMS_MAXCOUNT) {
         const int j = i + 1;
@@ -261,8 +273,9 @@ int c_dbcsr_acc_stream_destroy(void *stream) {
         if (j < ACC_OPENCL_STREAMS_MAXCOUNT && NULL != streams[j]) {
           memmove(streams + i, streams + j, sizeof(cl_command_queue) * (ACC_OPENCL_STREAMS_MAXCOUNT - j));
         }
-      } else
+      } else {
         result = EXIT_FAILURE;
+      }
     }
 #if defined(_OPENMP)
 #if (201107 /*v3.1*/ <= _OPENMP)
@@ -315,10 +328,12 @@ int c_dbcsr_acc_stream_priority_range(int *least, int *greatest) {
     }
   }
 #endif
-  if (NULL != greatest)
+  if (NULL != greatest) {
     *greatest = priohi;
-  if (NULL != least)
+  }
+  if (NULL != least) {
     *least = priolo;
+  }
 #if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #endif
@@ -349,7 +364,9 @@ int c_dbcsr_acc_stream_sync(void *stream) {
     }
   } else
 #endif
+  {
     result = clFinish(*ACC_OPENCL_STREAM(stream));
+  }
 #if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #endif
