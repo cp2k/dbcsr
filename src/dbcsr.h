@@ -360,7 +360,7 @@ void c_dbcsr_get_info(const dbcsr_matrix c_matrix, int* c_nblkrows_total, int* c
               //         overloaded functions (cpp only)             //
               // --------------------------------------------------- //
 
-#   : for n_inst, nametype, base, prec, ctype, extype in c_exparams
+#:for n_inst, nametype, base, prec, ctype, extype in c_exparams
 
               inline void c_dbcsr_set(dbcsr_matrix c_matrix, const ${extype}$ c_alpha) {
                 c_dbcsr_set_${nametype}$(c_matrix, c_alpha);
@@ -440,7 +440,7 @@ void c_dbcsr_get_info(const dbcsr_matrix c_matrix, int* c_nblkrows_total, int* c
                 ${extype}$* c_select_data_type, int* c_lb, int* c_ub) {
                 c_dbcsr_get_data_${nametype}$(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub);
               }
-#   : endfor
+#:endfor
 #endif
 
 #endif

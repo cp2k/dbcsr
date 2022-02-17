@@ -39,7 +39,7 @@ function main()
 
     for i in ${files}; do
         ${sed_fcn} -e '/\${$/ { N; s/\${\n[[:space:]]*/\${/; }' "$i"
-        ${sed_fcn} -e 's/# : /#:/g' -e 's/} \$/}\$/g' "$i"
+        ${sed_fcn} -e 's/#[[:space:]]*: /#:/g' -e 's/} \$/}\$/g' "$i"
     done
 }
 

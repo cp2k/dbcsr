@@ -178,15 +178,15 @@ void c_dbcsr_t_batched_contract_finalize(dbcsr_t_tensor c_tensor, int* c_unit_nr
 // --------------------------------------------------- //
 //         overloaded functions (cpp only)             //
 // --------------------------------------------------- //
-#   : for dsuffix, ctype in c_dtype_float_list
+#:for dsuffix, ctype in c_dtype_float_list
 inline void c_dbcsr_t_get_block(
   const dbcsr_t_tensor c_tensor, const int* c_ind, const int* c_sizes, ${ctype}$* c_block, bool* c_found) {
   int tensor_dim = c_dbcsr_t_ndims(c_tensor);
 
   switch (tensor_dim) {
-#   : for ndim in ndims
+#:for ndim in ndims
     case ${ndim}$: c_dbcsr_t_get_${ndim}$d_block_${dsuffix}$(c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found); break;
-#   : endfor
+#:endfor
   }
 }
 
@@ -194,28 +194,28 @@ inline void c_dbcsr_t_get_block_p(const dbcsr_t_tensor c_tensor, const int* c_in
   int tensor_dim = c_dbcsr_t_ndims(c_tensor);
 
   switch (tensor_dim) {
-#   : for ndim in ndims
+#:for ndim in ndims
     case ${ndim}$: c_dbcsr_t_get_${ndim}$d_block_p_${dsuffix}$(c_tensor, c_ind, c_block, c_found); break;
-#   : endfor
+#:endfor
   }
 }
 
-#   : endfor
+#:endfor
 
-#   : for dsuffix, ctype in c_dtype_float_list
+#:for dsuffix, ctype in c_dtype_float_list
 inline void c_dbcsr_t_put_block(const dbcsr_t_tensor c_tensor, const int* c_ind, const int* c_sizes, const ${ctype}$* c_block,
   const bool* c_summation, const ${ctype}$* c_scale) {
   int tensor_dim = c_dbcsr_t_ndims(c_tensor);
 
   switch (tensor_dim) {
-#   : for ndim in ndims
+#:for ndim in ndims
     case ${ndim}$:
       c_dbcsr_t_put_${ndim}$d_block_${dsuffix}$(c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_summation, c_scale);
       break;
-#   : endfor
+#:endfor
   }
 }
-#   : endfor
+#:endfor
 
 inline void c_dbcsr_t_get_stored_coordinates(const dbcsr_t_tensor c_tensor, const int* c_ind_nd, int* c_processor) {
   int tensor_dim = c_dbcsr_t_ndims(c_tensor);
@@ -229,7 +229,7 @@ inline void c_dbcsr_t_iterator_next_block(
   c_dbcsr_t_iterator_next_block(c_iterator, iterator_size, c_ind_nd, c_blk, c_blk_p, c_blk_size, c_blk_offset);
 }
 
-#   : for dsuffix, ctype in c_dtype_float_list
+#:for dsuffix, ctype in c_dtype_float_list
 inline void c_dbcsr_t_filter(
   const dbcsr_t_tensor c_tensor, const ${ctype}$ c_eps, const int* c_method, const bool* c_use_absolute) {
   c_dbcsr_t_filter_${dsuffix}$(c_tensor, c_eps, c_method, c_use_absolute);
@@ -247,7 +247,7 @@ inline void c_dbcsr_t_get_data_p(const dbcsr_t_tensor c_tensor, ${ctype}$** c_da
   ${ctype}$ c_select_data_type, int* c_lb, int* c_ub) {
   c_dbcsr_t_get_data_${dsuffix}$(c_tensor, c_data, c_data_size, c_select_data_type, c_lb, c_ub);
 }
-#   : endfor
+#:endfor
 #endif
 
 #endif /*DBCSR_H*/
