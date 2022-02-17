@@ -8,22 +8,22 @@
 /*------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-#include "../cuda/acc_cuda.h"
+#  include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
-#include "../hip/acc_hip.h"
+#  include "../hip/acc_hip.h"
 #endif
 
-#include "../acc.h"
 #include "acc_error.h"
+#include "../acc.h"
 
-#include <math.h>
 #include <stdio.h>
+#include <math.h>
 
 // for debug purpose
 static const int verbose_print = 1;
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_get_ndevices(int *n_devices) {
+extern "C" int c_dbcsr_acc_get_ndevices(int* n_devices) {
   ACC_API_CALL(GetDeviceCount, (n_devices));
   return 0;
 }
@@ -42,8 +42,7 @@ extern "C" int c_dbcsr_acc_set_active_device(int device_id) {
   ACC_API_CALL(SetDevice, (device_id));
   ACC_API_CALL(GetDevice, (&myDevice));
 
-  if (myDevice != device_id)
-    return -1;
+  if (myDevice != device_id) return -1;
 
   // establish context
   ACC_API_CALL(Free, (0));

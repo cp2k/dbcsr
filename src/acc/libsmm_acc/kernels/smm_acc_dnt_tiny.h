@@ -51,11 +51,9 @@
  * - each element of c_block is computed by one thread
  * - no overlap between computation and memory loads
  */
-template <int m, int n, int k, int threads, int grouping, int minblocks>
-__global__ void __launch_bounds__(threads, minblocks)
-    smm_acc_dnt_tiny(const int *__restrict__ param_stack, int stack_size, const double *__restrict__ a_data,
-                     const double *__restrict__ b_data, double *c_data) {
-
+template<int m, int n, int k, int threads, int grouping, int minblocks>
+__global__ void __launch_bounds__(threads, minblocks) smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
+  const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data) {
   /* Total number of elements in block matrices */
   const int mn = m * n; /* c_block */
   const int mk = m * k; /* a_block */
@@ -100,8 +98,7 @@ __global__ void __launch_bounds__(threads, minblocks)
    * If the current block is the last block, set the number of stack entries to process in
    * this thread to the remainder of stack_size / grouping */
   nrun = grouping;
-  if (((bidx + 1) * grouping) > stack_size)
-    nrun = stack_size % grouping;
+  if (((bidx + 1) * grouping) > stack_size) nrun = stack_size % grouping;
 
   /* Set the partial sum to zero */
   myc = 0.0;
@@ -113,14 +110,13 @@ __global__ void __launch_bounds__(threads, minblocks)
 #pragma unroll
   for (int i = tidx; i < nrun; i += threads) {
     // param_stack is 1-based, convert to 0-based here
-    param_stack_s[i * npar] = __ldg(&param_stack[psp + i * npar]) - 1;         /* value = index in a_data */
+    param_stack_s[i * npar] = __ldg(&param_stack[psp + i * npar]) - 1; /* value = index in a_data */
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1; /* value = index in b_data */
     param_stack_s[i * npar + 2] = __ldg(&param_stack[psp + i * npar + 2]) - 1; /* value = index in c_data */
   }
 
   /* Wait until all the data has been loaded */
-  if (need_sync)
-    syncthreads();
+  if (need_sync) syncthreads();
 
   /* In each run, we process one stack entry from param_stack_s */
   for (int run = 0; run < nrun; run++) {
@@ -143,7 +139,8 @@ __global__ void __launch_bounds__(threads, minblocks)
         buff_a[i] = __ldg(&a_data[srcA + i]);
         buff_b[i] = __ldg(&b_data[srcB + i]);
       }
-    } else {
+    }
+    else {
 #pragma unroll
       for (int i = tidx; i < mk; i += threads) {
         buff_a[i] = __ldg(&a_data[srcA + i]);
@@ -155,8 +152,7 @@ __global__ void __launch_bounds__(threads, minblocks)
     }
 
     /* Wait until all the data has been loaded */
-    if (need_sync)
-      syncthreads();
+    if (need_sync) syncthreads();
 
     if (tidx < mn) {
       /* Compute c_ij = sum_k (a_ik * b_kj) in shared memory */
@@ -169,7 +165,6 @@ __global__ void __launch_bounds__(threads, minblocks)
       myc = 0.0;
     }
 
-    if (need_sync)
-      syncthreads();
+    if (need_sync) syncthreads();
   }
 }

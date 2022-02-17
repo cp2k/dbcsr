@@ -9,17 +9,15 @@
 
 #include "acc_cuda.h"
 
-nvrtcResult nvrtcGetLowLevelCode(nvrtcProgram prog, char *code) { return nvrtcGetPTX(prog, code); }
+nvrtcResult nvrtcGetLowLevelCode(nvrtcProgram prog, char* code) { return nvrtcGetPTX(prog, code); }
 
-nvrtcResult nvrtcGetLowLevelCodeSize(nvrtcProgram prog, size_t *codeSizeRet) {
-  return nvrtcGetPTXSize(prog, codeSizeRet);
-}
+nvrtcResult nvrtcGetLowLevelCodeSize(nvrtcProgram prog, size_t* codeSizeRet) { return nvrtcGetPTXSize(prog, codeSizeRet); }
 
 CUresult cuLaunchJITKernel(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ,
-                           unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ,
-                           unsigned int sharedMemBytes, CUstream stream, void **kernelParams, void **extra) {
-  return cuLaunchKernel(f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ, sharedMemBytes, stream,
-                        kernelParams, extra);
+  unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream stream,
+  void** kernelParams, void** extra) {
+  return cuLaunchKernel(
+    f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ, sharedMemBytes, stream, kernelParams, extra);
 }
 
 // CUDA Runtime API: flag values

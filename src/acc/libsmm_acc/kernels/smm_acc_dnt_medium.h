@@ -51,11 +51,9 @@
  * - a_block and b_block are not copied directly from global memory to shared memory,
  *   but rather via registers
  */
-template <int m, int n, int k, int M, int N, int threads, int grouping, int minblocks>
-__global__ void __launch_bounds__(threads, minblocks)
-    smm_acc_dnt_medium(const int *__restrict__ param_stack, int stack_size, const double *__restrict__ a_data,
-                       const double *__restrict__ b_data, double *c_data) {
-
+template<int m, int n, int k, int M, int N, int threads, int grouping, int minblocks>
+__global__ void __launch_bounds__(threads, minblocks) smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
+  const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data) {
   /* Total number of elements in block matrices */
   const int mn = m * n; /* c_block */
   const int mk = m * k; /* a_block */
@@ -117,8 +115,8 @@ __global__ void __launch_bounds__(threads, minblocks)
   double lbb_r[load_unroll_factor_2 + knloads_remained + knloads_tail];
 
   /* ... */
-  const double *__restrict__ buff_l;
-  const double *__restrict__ buff_r;
+  const double* __restrict__ buff_l;
+  const double* __restrict__ buff_r;
 
   /* psp: parameter stack position:
    *      index in the parameter stack of the first parameter stack entry to be processed by this thread
@@ -135,20 +133,18 @@ __global__ void __launch_bounds__(threads, minblocks)
 
   /* buff: shared memory buffer containing a_block (block submatrix of A) and b_block to multiply */
   __shared__ double buff[buf_sz];
-  buff_l = buff;        /* pointer to the beginning of a_block in buffer */
+  buff_l = buff; /* pointer to the beginning of a_block in buffer */
   buff_r = &(buff[mk]); /* pointer to the beginning of b_block in buffer */
 
   /* Set the number of runs (i.e. how many stack entries to process in this thread)
    * If the current block is the last block set the number of stack entries to process in
    * this thread to the remainder of stack_size / grouping */
   nrun = grouping;
-  if (((bidx + 1) * grouping) > stack_size)
-    nrun = stack_size % grouping;
+  if (((bidx + 1) * grouping) > stack_size) nrun = stack_size % grouping;
 
   /* Set the partial sum (tile T) to zero */
   /* WHY NO PRAGMA UNROLL ???? */
-  for (int i = 0; i < M * N; i++)
-    myc[i] = 0.0;
+  for (int i = 0; i < M * N; i++) myc[i] = 0.0;
 
   /* Load and pack stack data for current block from global memory into smem
    * Get parameter stack entries from index "psp" to "psp + (nrun-1)*npar + 2"
@@ -157,18 +153,16 @@ __global__ void __launch_bounds__(threads, minblocks)
 #pragma unroll 3
   for (int i = tidx; i < nrun; i += threads) {
     // param_stack is 1-based, convert to 0-based here
-    param_stack_s[i * npar] = __ldg(&param_stack[psp + i * npar]) - 1;         /* value = index in a_data */
+    param_stack_s[i * npar] = __ldg(&param_stack[psp + i * npar]) - 1; /* value = index in a_data */
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1; /* value = index in b_data */
     param_stack_s[i * npar + 2] = __ldg(&param_stack[psp + i * npar + 2]) - 1; /* value = index in c_data */
   }
 
   /* Wait until all the data has been loaded */
-  if (need_sync)
-    syncthreads();
+  if (need_sync) syncthreads();
 
   /* In each run, we process one stack entry from param_stack_s */
   for (int run = 0; run < nrun; run++) {
-
     /* Index in shared memory buffers to read from */
     psp = run * npar;
 
@@ -194,8 +188,7 @@ __global__ void __launch_bounds__(threads, minblocks)
         }
 
 #pragma unroll 3
-        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish;
-             i += mkloads_remained * threads) {
+        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
           for (int l = 0; l < mkloads_remained; l++) {
             lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
@@ -207,7 +200,8 @@ __global__ void __launch_bounds__(threads, minblocks)
           lba_r[load_unroll_factor_1 + mkloads_remained] = __ldg(&a_data[srcA + left_to_finish_1]);
           lbb_r[load_unroll_factor_2 + knloads_remained] = __ldg(&b_data[srcB + left_to_finish_2]);
         }
-      } else {
+      }
+      else {
 #pragma unroll 3
         for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads) {
 #pragma unroll
@@ -225,8 +219,7 @@ __global__ void __launch_bounds__(threads, minblocks)
         }
 
 #pragma unroll 3
-        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish;
-             i += mkloads_remained * threads) {
+        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
           for (int l = 0; l < mkloads_remained; l++) {
             lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
@@ -234,31 +227,28 @@ __global__ void __launch_bounds__(threads, minblocks)
         }
 
 #pragma unroll 3
-        for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish;
-             i += knloads_remained * threads) {
+        for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish; i += knloads_remained * threads) {
 #pragma unroll
           for (int l = 0; l < knloads_remained; l++) {
             lbb_r[l] = __ldg(&b_data[srcB + i + l * threads]);
           }
         }
 
-        if (left_to_finish_1 < mk)
-          lba_r[load_unroll_factor_1 + mkloads_remained] = __ldg(&a_data[srcA + left_to_finish_1]);
-        if (left_to_finish_2 < kn)
-          lbb_r[load_unroll_factor_2 + knloads_remained] = __ldg(&b_data[srcB + left_to_finish_2]);
+        if (left_to_finish_1 < mk) lba_r[load_unroll_factor_1 + mkloads_remained] = __ldg(&a_data[srcA + left_to_finish_1]);
+        if (left_to_finish_2 < kn) lbb_r[load_unroll_factor_2 + knloads_remained] = __ldg(&b_data[srcB + left_to_finish_2]);
       }
 
       /* Wait until all the data has been loaded to registers */
       syncthreads();
-    } else {
+    }
+    else {
       is_loaded = false;
     }
 
     /* Copy a_block, b_block from registers to shared memory */
     if (m == n) {
 #pragma unroll 3
-      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish;
-           i += mkloads_remained * threads) {
+      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
         for (int l = 0; l < mkloads_remained; l++) {
           buff[i + l * threads] = lba_r[l];
@@ -279,10 +269,10 @@ __global__ void __launch_bounds__(threads, minblocks)
         buff[left_to_finish_1] = lba_r[load_unroll_factor_1 + mkloads_remained];
         buff[mk + left_to_finish_2] = lbb_r[load_unroll_factor_2 + knloads_remained];
       }
-    } else {
+    }
+    else {
 #pragma unroll 3
-      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish;
-           i += mkloads_remained * threads) {
+      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
         for (int l = 0; l < mkloads_remained; l++) {
           buff[i + l * threads] = lba_r[l];
@@ -290,8 +280,7 @@ __global__ void __launch_bounds__(threads, minblocks)
       }
 
 #pragma unroll 3
-      for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish;
-           i += knloads_remained * threads) {
+      for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish; i += knloads_remained * threads) {
 #pragma unroll
         for (int l = 0; l < knloads_remained; l++) {
           buff[i + mk + l * threads] = lbb_r[l];
@@ -314,19 +303,16 @@ __global__ void __launch_bounds__(threads, minblocks)
         }
       }
 
-      if (left_to_finish_1 < mk)
-        buff[left_to_finish_1] = lba_r[load_unroll_factor_1 + mkloads_remained];
-      if (left_to_finish_2 < kn)
-        buff[mk + left_to_finish_2] = lbb_r[load_unroll_factor_2 + knloads_remained];
+      if (left_to_finish_1 < mk) buff[left_to_finish_1] = lba_r[load_unroll_factor_1 + mkloads_remained];
+      if (left_to_finish_2 < kn) buff[mk + left_to_finish_2] = lbb_r[load_unroll_factor_2 + knloads_remained];
     }
 
     /* Wait until all the data has been loaded to shared memory */
-    if (need_sync)
-      syncthreads();
+    if (need_sync) syncthreads();
+
 
     int next_run = run + 1;
-    if (next_run >= nrun)
-      is_loaded = true;
+    if (next_run >= nrun) is_loaded = true;
 
     if (!is_loaded || (run == 0 && nrun > 1)) {
       /* Next parameter stack position */
@@ -350,8 +336,7 @@ __global__ void __launch_bounds__(threads, minblocks)
         }
 
 #pragma unroll 3
-        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish;
-             i += mkloads_remained * threads) {
+        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
           for (int l = 0; l < mkloads_remained; l++) {
             lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
@@ -363,7 +348,8 @@ __global__ void __launch_bounds__(threads, minblocks)
           lba_r[load_unroll_factor_1 + mkloads_remained] = __ldg(&a_data[srcA + left_to_finish_1]);
           lbb_r[load_unroll_factor_2 + knloads_remained] = __ldg(&b_data[srcB + left_to_finish_2]);
         }
-      } else {
+      }
+      else {
 #pragma unroll 3
         for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads) {
 #pragma unroll
@@ -381,8 +367,7 @@ __global__ void __launch_bounds__(threads, minblocks)
         }
 
 #pragma unroll 3
-        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish;
-             i += mkloads_remained * threads) {
+        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
           for (int l = 0; l < mkloads_remained; l++) {
             lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
@@ -390,18 +375,15 @@ __global__ void __launch_bounds__(threads, minblocks)
         }
 
 #pragma unroll 3
-        for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish;
-             i += knloads_remained * threads) {
+        for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish; i += knloads_remained * threads) {
 #pragma unroll
           for (int l = 0; l < knloads_remained; l++) {
             lbb_r[l] = __ldg(&b_data[srcB + i + l * threads]);
           }
         }
 
-        if (left_to_finish_1 < mk)
-          lba_r[load_unroll_factor_1 + mkloads_remained] = __ldg(&a_data[srcA + left_to_finish_1]);
-        if (left_to_finish_2 < kn)
-          lbb_r[load_unroll_factor_2 + knloads_remained] = __ldg(&b_data[srcB + left_to_finish_2]);
+        if (left_to_finish_1 < mk) lba_r[load_unroll_factor_1 + mkloads_remained] = __ldg(&a_data[srcA + left_to_finish_1]);
+        if (left_to_finish_2 < kn) lbb_r[load_unroll_factor_2 + knloads_remained] = __ldg(&b_data[srcB + left_to_finish_2]);
       }
 
       is_loaded = true;
@@ -420,14 +402,13 @@ __global__ void __launch_bounds__(threads, minblocks)
       }
     }
 
-    if (run == nrun - 1 || param_stack_s[psp + 2] != param_stack_s[psp + 2 + npar]) {
 
+    if (run == nrun - 1 || param_stack_s[psp + 2] != param_stack_s[psp + 2 + npar]) {
       /* Index in c_data indicating where to write back matrix elements for this run */
       int srcC = param_stack_s[psp + 2];
 
       if (M > 1 || N > 1) {
-        if (need_sync)
-          syncthreads();
+        if (need_sync) syncthreads();
         /* Decompress results to buffer and set tile elements back to 0 */
         if (c < cmax && r < rmax) {
           for (int i = 0; i < M; i++) {
@@ -439,15 +420,15 @@ __global__ void __launch_bounds__(threads, minblocks)
             }
           }
         }
-        if (need_sync)
-          syncthreads();
+        if (need_sync) syncthreads();
 
           /* Add results from shared memory buffer to global C block. */
 #pragma unroll
         for (int i = tidx; i < mn; i += threads) {
           atomicAdd(&c_data[srcC + i], buff[i]);
         }
-      } else {
+      }
+      else {
         /* Add results from registers to global C block. */
 #pragma unroll
         for (int i = tidx; i < mn; i += threads) {
@@ -456,7 +437,6 @@ __global__ void __launch_bounds__(threads, minblocks)
         myc[0] = 0.0;
       }
     }
-    if (need_sync)
-      syncthreads();
+    if (need_sync) syncthreads();
   }
 }

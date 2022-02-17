@@ -12,8 +12,8 @@
 
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
-#include <hip/hiprtc.h>
 #include <hipblas.h>
+#include <hip/hiprtc.h>
 
 #define ACC(x) hip##x
 #define ACC_DRV(x) ACC(x)
@@ -24,13 +24,13 @@
 /* Macro for HIP error handling
  * Wrap calls to HIP API
  */
-#define HIP_API_CALL(func, args)                                                                                       \
-  do {                                                                                                                 \
-    hipError_t result = ACC(func) args;                                                                                \
-    if (result != hipSuccess) {                                                                                        \
-      printf("\nHIP error: %s failed with error %s\n", #func, hipGetErrorName(result));                                \
-      exit(1);                                                                                                         \
-    }                                                                                                                  \
+#define HIP_API_CALL(func, args) \
+  do { \
+    hipError_t result = ACC(func) args; \
+    if (result != hipSuccess) { \
+      printf("\nHIP error: %s failed with error %s\n", #func, hipGetErrorName(result)); \
+      exit(1); \
+    } \
   } while (0)
 
 /* HIP does not differentiate between "runtime" API and "driver" API */
@@ -38,57 +38,64 @@
 #define ACC_DRV_CALL(func, args) HIP_API_CALL(func, args)
 
 /* Wrap calls to HIPRTC API */
-#define ACC_RTC_CALL(func, args)                                                                                       \
-  do {                                                                                                                 \
-    hiprtcResult result = ACC_RTC(func) args;                                                                          \
-    if (result != HIPRTC_SUCCESS) {                                                                                    \
-      printf("\nHIPRTC ERROR: %s failed with error %s\n", #func, hiprtcGetErrorString(result));                        \
-      exit(1);                                                                                                         \
-    }                                                                                                                  \
+#define ACC_RTC_CALL(func, args) \
+  do { \
+    hiprtcResult result = ACC_RTC(func) args; \
+    if (result != HIPRTC_SUCCESS) { \
+      printf("\nHIPRTC ERROR: %s failed with error %s\n", #func, hiprtcGetErrorString(result)); \
+      exit(1); \
+    } \
   } while (0)
 
 /* Wrap calls to HIPBLAS API */
-#define ACC_BLAS_CALL(func, args)                                                                                      \
-  do {                                                                                                                 \
-    hipblasStatus_t result = ACC_BLAS(func) args;                                                                      \
-    if (result != HIPBLAS_STATUS_SUCCESS) {                                                                            \
-      const char *error_name = "HIPBLAS_ERRROR";                                                                       \
-      if (result == HIPBLAS_STATUS_NOT_INITIALIZED) {                                                                  \
-        error_name = "HIPBLAS_STATUS_NOT_INITIALIZED ";                                                                \
-      } else if (result == HIPBLAS_STATUS_ALLOC_FAILED) {                                                              \
-        error_name = "HIPBLAS_STATUS_ALLOC_FAILED ";                                                                   \
-      } else if (result == HIPBLAS_STATUS_INVALID_VALUE) {                                                             \
-        error_name = "HIPBLAS_STATUS_INVALID_VALUE ";                                                                  \
-      } else if (result == HIPBLAS_STATUS_MAPPING_ERROR) {                                                             \
-        error_name = "HIPBLAS_STATUS_MAPPING_ERROR ";                                                                  \
-      } else if (result == HIPBLAS_STATUS_EXECUTION_FAILED) {                                                          \
-        error_name = "HIPBLAS_STATUS_EXECUTION_FAILED ";                                                               \
-      } else if (result == HIPBLAS_STATUS_INTERNAL_ERROR) {                                                            \
-        error_name = "HIPBLAS_STATUS_INTERNAL_ERROR ";                                                                 \
-      } else if (result == HIPBLAS_STATUS_NOT_SUPPORTED) {                                                             \
-        error_name = "HIPBLAS_STATUS_NOT_SUPPORTED ";                                                                  \
-      } else if (result == HIPBLAS_STATUS_ARCH_MISMATCH) {                                                             \
-        error_name = "HIPBLAS_STATUS_ARCH_MISMATCH ";                                                                  \
-      } else if (result == HIPBLAS_STATUS_HANDLE_IS_NULLPTR) {                                                         \
-        error_name = "HIPBLAS_STATUS_HANDLE_IS_NULLPTR ";                                                              \
-      }                                                                                                                \
-      printf("\nHIPBLAS ERROR: %s failed with error %s\n", #func, error_name);                                         \
-      exit(1);                                                                                                         \
-    }                                                                                                                  \
+#define ACC_BLAS_CALL(func, args) \
+  do { \
+    hipblasStatus_t result = ACC_BLAS(func) args; \
+    if (result != HIPBLAS_STATUS_SUCCESS) { \
+      const char* error_name = "HIPBLAS_ERRROR"; \
+      if (result == HIPBLAS_STATUS_NOT_INITIALIZED) { \
+        error_name = "HIPBLAS_STATUS_NOT_INITIALIZED "; \
+      } \
+      else if (result == HIPBLAS_STATUS_ALLOC_FAILED) { \
+        error_name = "HIPBLAS_STATUS_ALLOC_FAILED "; \
+      } \
+      else if (result == HIPBLAS_STATUS_INVALID_VALUE) { \
+        error_name = "HIPBLAS_STATUS_INVALID_VALUE "; \
+      } \
+      else if (result == HIPBLAS_STATUS_MAPPING_ERROR) { \
+        error_name = "HIPBLAS_STATUS_MAPPING_ERROR "; \
+      } \
+      else if (result == HIPBLAS_STATUS_EXECUTION_FAILED) { \
+        error_name = "HIPBLAS_STATUS_EXECUTION_FAILED "; \
+      } \
+      else if (result == HIPBLAS_STATUS_INTERNAL_ERROR) { \
+        error_name = "HIPBLAS_STATUS_INTERNAL_ERROR "; \
+      } \
+      else if (result == HIPBLAS_STATUS_NOT_SUPPORTED) { \
+        error_name = "HIPBLAS_STATUS_NOT_SUPPORTED "; \
+      } \
+      else if (result == HIPBLAS_STATUS_ARCH_MISMATCH) { \
+        error_name = "HIPBLAS_STATUS_ARCH_MISMATCH "; \
+      } \
+      else if (result == HIPBLAS_STATUS_HANDLE_IS_NULLPTR) { \
+        error_name = "HIPBLAS_STATUS_HANDLE_IS_NULLPTR "; \
+      } \
+      printf("\nHIPBLAS ERROR: %s failed with error %s\n", #func, error_name); \
+      exit(1); \
+    } \
   } while (0)
 
-extern hipError_t hipHostAlloc(void **ptr, size_t size, unsigned int flags);
-extern hipError_t hipHostAlloc(void **ptr, size_t size, unsigned int flags);
+extern hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags);
+extern hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags);
 extern unsigned int hipHostAllocDefault;
-extern hipError_t hipFreeHost(void *ptr);
-extern hiprtcResult hiprtcGetLowLevelCode(hiprtcProgram prog, char *code);
-extern hiprtcResult hiprtcGetLowLevelCodeSize(hiprtcProgram prog, size_t *codeSizeRet);
-extern hipError_t hipEventCreate(hipEvent_t *event, unsigned flags);
-extern hipError_t hipStreamCreate(hipStream_t *stream, unsigned int flags);
-extern hipError_t hipLaunchJITKernel(hipFunction_t f, unsigned int gridDimX, unsigned int gridDimY,
-                                     unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY,
-                                     unsigned int blockDimZ, unsigned int sharedMemBytes, hipStream_t stream,
-                                     void **kernelParams, void **extra);
+extern hipError_t hipFreeHost(void* ptr);
+extern hiprtcResult hiprtcGetLowLevelCode(hiprtcProgram prog, char* code);
+extern hiprtcResult hiprtcGetLowLevelCodeSize(hiprtcProgram prog, size_t* codeSizeRet);
+extern hipError_t hipEventCreate(hipEvent_t* event, unsigned flags);
+extern hipError_t hipStreamCreate(hipStream_t* stream, unsigned int flags);
+extern hipError_t hipLaunchJITKernel(hipFunction_t f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ,
+  unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, hipStream_t stream,
+  void** kernelParams, void** extra);
 
 /* HIP API: types
  * In the HIP API, there is no difference between runtime API and driver API
@@ -109,5 +116,6 @@ extern hipblasOperation_t ACC_BLAS_OP_T;
 
 /* HIPRTC error status */
 extern hiprtcResult ACC_RTC_SUCCESS;
+
 
 #endif /*ACC_HIP_H*/

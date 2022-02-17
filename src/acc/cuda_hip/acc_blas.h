@@ -11,13 +11,13 @@
 #define ACC_BLAS_H
 
 #if defined(__CUDA)
-#include "../cuda/acc_cuda.h"
+#  include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
-#include "../hip/acc_hip.h"
+#  include "../hip/acc_hip.h"
 #endif
 
-#include "acc_error.h"
 #include <stdio.h>
+#include "acc_error.h"
 
 /****************************************************************************/
 int acc_blas_create(ACC_BLAS(Handle_t) * *handle);
@@ -26,8 +26,7 @@ int acc_blas_create(ACC_BLAS(Handle_t) * *handle);
 int acc_blas_destroy(ACC_BLAS(Handle_t) * handle);
 
 /****************************************************************************/
-int acc_blas_dgemm(ACC_BLAS(Handle_t) * handle, char transa, char transb, int m, int n, int k, int a_offset,
-                   int b_offset, int c_offset, const double *a_data, const double *b_data, double *c_data, double alpha,
-                   double beta, ACC(Stream_t) * stream);
+int acc_blas_dgemm(ACC_BLAS(Handle_t) * handle, char transa, char transb, int m, int n, int k, int a_offset, int b_offset,
+  int c_offset, const double* a_data, const double* b_data, double* c_data, double alpha, double beta, ACC(Stream_t) * stream);
 
 #endif /* ACC_BLAS_H */
