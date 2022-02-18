@@ -2,19 +2,20 @@ FROM rocm/dev-ubuntu-20.04:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN set -ex && \
-    apt-get update \
-    && apt-get install -y \
+RUN set -ex ; \
+    apt-get update ; \
+    apt-get install -y \
         apt-transport-https \
         ca-certificates \
         gnupg \
         software-properties-common \
         curl \
-    && curl -LsS https://apt.kitware.com/keys/kitware-archive-latest.asc \
+        ; \
+    curl -LsS https://apt.kitware.com/keys/kitware-archive-latest.asc \
         | gpg --dearmor - \
-        | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null \
-    && apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' \
-    && apt-get install -y \
+        | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null ; \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' ; \
+    apt-get install -y \
         locales \
         gfortran \
         g++ \
@@ -29,14 +30,17 @@ RUN set -ex && \
         pkg-config \
         git \
         python3-pip \
+        unzip \
         rsync \
         valgrind \
-    && apt-get install -y \
+        ; \
+    apt-get install -y \
         rocblas \
         rocsolver \
         hipblas \
-    && rm -rf /var/lib/apt/lists/* \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+        ; \
+    rm -rf /var/lib/apt/lists/* ; \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
 # Make sure we have a proper unicode locale and language
 ENV LANG en_US.utf8
