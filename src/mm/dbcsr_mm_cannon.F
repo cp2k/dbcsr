@@ -17,7 +17,7 @@ MODULE dbcsr_mm_cannon
    !! - 2013-01    reorganized code (Ole Schuett)
 
    USE dbcsr_acc_event, ONLY: acc_event_synchronize
-   USE dbcsr_acc_stream, ONLY: acc_stream_synchronize
+   USE dbcsr_acc_device, ONLY: acc_device_synchronize
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists, &
                                 array_i1d_obj, &
@@ -1621,6 +1621,7 @@ CONTAINS
          ! Wait for left and right buffers transfer to device before proceeding
          IF (has_acc) THEN
             CALL timeset(routineN//"_sync_h2d", handle2)
+            CALL acc_device_synchronize()
             CALL acc_stream_synchronize(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
             CALL timestop(handle2)
          END IF
