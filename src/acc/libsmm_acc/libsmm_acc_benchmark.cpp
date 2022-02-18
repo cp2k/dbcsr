@@ -21,7 +21,7 @@
 void libsmm_acc_benchmark_init(libsmm_acc_benchmark_t** handle, benchmark_mode mode, int max_m, int max_n, int max_k) {
   libsmm_acc_benchmark_t* h = (libsmm_acc_benchmark_t*)malloc(sizeof(libsmm_acc_benchmark_t));
   *handle = h;
-  h->mode = 0;
+  h->mode = mode;
   h->n_a = 0;
   h->n_b = 0;
   h->n_c = 0;
@@ -29,7 +29,7 @@ void libsmm_acc_benchmark_init(libsmm_acc_benchmark_t** handle, benchmark_mode m
   h->n_stack_trs_a = 0;
   h->n_stack_trs_b = 0;
 
-  switch (mode) {
+  switch (h->mode) {
     case tune:
     case timing:
       h->n_a = 10000;
