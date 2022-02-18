@@ -30,6 +30,10 @@ jobs:
             context: tools/docker
             file: Dockerfile.build-env-rocm
             registry: ghcr.io
+          - docker_image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04-cuda
+            context: tools/docker
+            file: Dockerfile.build-env-ubuntu-cuda
+            registry: ghcr.io
 
     steps:
       - name: Checkout Repository
