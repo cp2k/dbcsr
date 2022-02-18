@@ -1,16 +1,19 @@
 FROM gcc:latest
-# based on Debian testing (as of May 2021), providing:
-# * CMake 3.18
+# based on Debian stable (as of Feb 2022), providing:
+# * CMake 3.22 (via backports)
 # * Ninja 1.10.1
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN set -ex && \
-    apt-get update \
-    && apt-get install -y --no-install-recommends \
+# Ensure that we're using Bullseye as base, needs to be updated as soon as this changes
+RUN set -ex ; \
+    grep -q bullseye /etc/os-release ; \
+    echo "deb http://deb.debian.org/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list ; \
+    apt-get update ; \
+    apt-get install -y --no-install-recommends \
         locales \
         libopenblas-openmp-dev \
-        cmake \
+        cmake/bullseye-backports \
         ninja-build \
         lcov \
         pkg-config \
@@ -19,8 +22,9 @@ RUN set -ex && \
         unzip \
         rsync \
         valgrind \
-    && rm -rf /var/lib/apt/lists/* \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+        ; \
+    rm -rf /var/lib/apt/lists/* ; \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
 # Make sure we have a proper unicode locale and language
 ENV LANG en_US.utf8

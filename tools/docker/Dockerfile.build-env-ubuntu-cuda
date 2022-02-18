@@ -1,12 +1,4 @@
-FROM ubuntu:20.04
-
-# we need at least Ubuntu 19.10 for:
-#   git > 2.18
-#   lcov > 1.13
-#   openmpi > 2.1
-# we need at least Ubuntu 20.04 for:
-#   ninja >= 1.10
-#   an OpenBLAS built with OpenMP-support
+FROM nvidia/cuda:11.6.0-devel-ubuntu20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
