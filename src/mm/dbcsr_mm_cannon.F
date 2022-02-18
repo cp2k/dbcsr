@@ -1622,7 +1622,6 @@ CONTAINS
          IF (has_acc) THEN
             CALL timeset(routineN//"_sync_h2d", handle2)
             CALL acc_device_synchronize()
-            CALL acc_stream_synchronize(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
             CALL timestop(handle2)
          END IF
          !
