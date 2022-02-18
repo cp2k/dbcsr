@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-68-g97472a9cdb</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-69-gf7bdea283c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -168,7 +168,7 @@
 <a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_acc_event</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">acc_event_create</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">                              </span><span class="n">acc_event_destroy</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">                              </span><span class="n">acc_event_synchronize</span><span class="w"></span>
-<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_acc_stream</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">acc_stream_synchronize</span><span class="w"></span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_acc_device</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">acc_device_synchronize</span><span class="w"></span>
 <a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_array_types</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">array_data</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">                                </span><span class="n">array_get</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">                                </span><span class="n">array_size</span><span class="w"></span>
@@ -2157,7 +2157,7 @@
 <a id="ln-2006" name="ln-2006" href="#ln-2006"></a><span class="w">               </span><span class="c">!  Wait for left and right buffers transfer to device before proceeding</span>
 <a id="ln-2007" name="ln-2007" href="#ln-2007"></a><span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-2008" name="ln-2008" href="#ln-2008"></a><span class="k">                  CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_sync_h2d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">handle2</span><span class="p">)</span><span class="w"></span>
-<a id="ln-2009" name="ln-2009" href="#ln-2009"></a><span class="w">                  </span><span class="k">CALL </span><span class="n">acc_stream_synchronize</span><span class="p">(</span><span class="n">right_buffer_p</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+<a id="ln-2009" name="ln-2009" href="#ln-2009"></a><span class="w">                  </span><span class="k">CALL </span><span class="n">acc_device_synchronize</span><span class="p">()</span><span class="w"></span>
 <a id="ln-2010" name="ln-2010" href="#ln-2010"></a><span class="w">                  </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span><span class="w"></span>
 <a id="ln-2011" name="ln-2011" href="#ln-2011"></a><span class="w">               </span><span class="k">END IF</span><span class="w"></span>
 <a id="ln-2012" name="ln-2012" href="#ln-2012"></a><span class="w">               </span><span class="c">!</span>

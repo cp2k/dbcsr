@@ -17,7 +17,7 @@ MODULE dbcsr_mm_3d
    USE dbcsr_acc_event, ONLY: acc_event_create, &
                               acc_event_destroy, &
                               acc_event_synchronize
-   USE dbcsr_acc_stream, ONLY: acc_stream_synchronize
+   USE dbcsr_acc_device, ONLY: acc_device_synchronize
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_get, &
                                 array_size
@@ -2006,7 +2006,7 @@ CONTAINS
                !  Wait for left and right buffers transfer to device before proceeding
                IF (has_acc) THEN
                   CALL timeset(routineN//"_sync_h2d", handle2)
-                  CALL acc_stream_synchronize(right_buffer_p%matrix%data_area%d%memory_type%acc_stream)
+                  CALL acc_device_synchronize()
                   CALL timestop(handle2)
                END IF
                !
