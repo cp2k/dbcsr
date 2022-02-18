@@ -105,7 +105,7 @@ jobs:
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_ACCEL=cuda \
           -DWITH_GPU=V100 \
-          -DWITH_EXAMPLES=ON
+          -DWITH_EXAMPLES=ON \
           ..
     - name: Build
       run: cmake --build build -- --verbose
