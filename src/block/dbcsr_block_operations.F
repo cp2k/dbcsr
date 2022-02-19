@@ -1921,7 +1921,7 @@ CONTAINS
       PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_${nametype1}$ (extent, rows, columns)
      !! In-place block transpose.
 
-#if defined(__LIBXSMM_TRANS)
+#if defined(__LIBXSMM_TRANS) && 0
          USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
 #endif
          INTEGER, INTENT(IN) :: rows, columns
@@ -1931,7 +1931,7 @@ CONTAINS
         !! Matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
-#if defined(__LIBXSMM_TRANS)
+#if defined(__LIBXSMM_TRANS) && 0
          CALL libxsmm_itrans(libxsmm_ptr1(extent), ${typesize1[n]}$, rows, columns, rows)
 #elif defined(__MKL)
          CALL mkl_${nametype1}$imatcopy('C', 'T', rows, columns, ${one1[n]}$, extent, rows, columns)
