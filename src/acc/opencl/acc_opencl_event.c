@@ -79,9 +79,14 @@ int c_dbcsr_acc_event_create(void** event_p) {
     *event_p = (void*)event;
 #  else
     assert(NULL == c_dbcsr_acc_opencl_config.handles || sizeof(void*) >= sizeof(cl_event));
-    *event_p = (NULL != c_dbcsr_acc_opencl_config.handles
-                  ? libxsmm_pmalloc(c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle)
-                  : malloc(sizeof(cl_event)));
+    *event_p = (
+#    if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+      (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
+      NULL != c_dbcsr_acc_opencl_config.handles
+        ? libxsmm_pmalloc(c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle)
+        :
+#    endif
+        malloc(sizeof(cl_event)));
     if (NULL != *event_p) {
       *(cl_event*)*event_p = event;
     }
@@ -117,11 +122,15 @@ int c_dbcsr_acc_event_destroy(void* event) {
 #  if defined(ACC_OPENCL_EVENT_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_event));
 #  else
+#    if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+      (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
     if (NULL != c_dbcsr_acc_opencl_config.handles) {
       /**(cl_event*)event = NULL; assert(NULL == *ACC_OPENCL_EVENT(event));*/
       libxsmm_pfree(event, c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle);
     }
-    else {
+    else
+#    endif
+    {
       free(event);
     }
 #  endif
