@@ -348,7 +348,7 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
 int c_dbcsr_acc_stream_sync(void* stream) {
   int result = EXIT_SUCCESS;
 #  if defined(ACC_OPENCL_STREAM_PRIORITIES)
-  const int* const priority = (0 == (1 & c_dbcsr_acc_opencl_config.flush) ? c_dbcsr_acc_opencl_stream_priority(stream) : NULL);
+  const int* const priority = (0 == (1 & c_dbcsr_acc_opencl_config.flush) ? NULL : c_dbcsr_acc_opencl_stream_priority(stream));
 #  endif
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   int routine_handle;
