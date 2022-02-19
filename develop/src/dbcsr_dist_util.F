@@ -49,14 +49,6 @@ MODULE dbcsr_dist_util
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
-#if !defined(PURE_OMP)
-# if defined(_OPENMP)
-#   define PURE_OMP
-# else
-#   define PURE_OMP PURE
-# endif
-#endif
    IMPLICIT NONE
    PRIVATE
 
@@ -491,7 +483,7 @@ CONTAINS
 !$OMP        PARALLEL DO DEFAULT(NONE) &
 !$OMP                 PRIVATE(bc,m,n,mn,blk_p,blk_cs,tr,co) &
 !$OMP                 SHARED(pd,br,matrix,ro,row_blk_size,col_blk_size,r_dp, r_sp, c_dp,c_sp) &
-!$OMP                 REDUCTION(+:local_cs_row)
+!$OMP                  REDUCTION(+:local_cs_row)
          DO blk = matrix%row_p(br) + 1, matrix%row_p(br + 1)
             bc = matrix%col_i(blk)
             m = row_blk_size(br)
@@ -546,7 +538,6 @@ CONTAINS
                local_cs_row = local_cs_row + blk_cs
             END IF
          END DO
-!$OMP        END PARALLEL DO
          local_cs = local_cs + local_cs_row
       END DO
       checksum = local_cs
@@ -558,7 +549,7 @@ CONTAINS
       CALL timestop(handle)
    END FUNCTION dbcsr_checksum
 
-   PURE_OMP FUNCTION pd_blk_cs(ld, od, DATA, tr, ro, co) RESULT(pd_cs)
+   PURE FUNCTION pd_blk_cs(ld, od, DATA, tr, ro, co) RESULT(pd_cs)
       INTEGER, INTENT(IN)                                :: ld, od
       REAL(KIND=dp), DIMENSION(ld, od), INTENT(IN)       :: DATA
       LOGICAL, INTENT(IN)                                :: tr
@@ -571,27 +562,17 @@ CONTAINS
       rs = ld; cs = od
       IF (tr) THEN
          CALL swap(rs, cs)
-!$OMP PARALLEL DO DEFAULT(NONE) &
-!$OMP             PRIVATE(r, c) &
-!$OMP             SHARED(DATA, rs, cs, ro, co) &
-!$OMP             REDUCTION(+:pd_cs)
          DO r = 1, rs
             DO c = 1, cs
                pd_cs = pd_cs + DATA(c, r)*LOG(ABS(REAL((ro + r - 1), KIND=dp)*REAL((co + c - 1), KIND=dp)))
             END DO
          END DO
-!$OMP END PARALLEL DO
       ELSE
-!$OMP PARALLEL DO DEFAULT(NONE) &
-!$OMP             PRIVATE(r, c) &
-!$OMP             SHARED(DATA, rs, cs, ro, co) &
-!$OMP             REDUCTION(+:pd_cs)
          DO c = 1, cs
             DO r = 1, rs
                pd_cs = pd_cs + DATA(r, c)*LOG(ABS(REAL((ro + r - 1), KIND=dp)*REAL((co + c - 1), KIND=dp)))
             END DO
          END DO
-!$OMP END PARALLEL DO
       END IF
    END FUNCTION pd_blk_cs
 

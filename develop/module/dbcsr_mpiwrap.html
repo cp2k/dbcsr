@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-71-gddf205d469</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-72-g7f88289475</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="16.4% of total for modules and submodules.">10352 statements</a>
+    title="16.4% of total for modules and submodules.">10341 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mpiwrap.F"> Source File</a></li>
   </ul>
@@ -209,7 +209,6 @@
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-has_mp_perf_env">has_mp_perf_env</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-get_mp_perf_env">get_mp_perf_env</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_testall_tv">mp_testall_tv</a>
-      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_get_numnodes">mp_get_numnodes</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_type_make_struct">mp_type_make_struct</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_type_indexed_make_i">mp_type_indexed_make_i</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_type_make_i">mp_type_make_i</a>
@@ -714,10 +713,10 @@
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
-    <li><a href="http://fortranwiki.org/fortran/show/iso_c_binding">iso_c_binding</a></li>
-    <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href="http://fortranwiki.org/fortran/show/iso_c_binding">iso_c_binding</a></li>
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
   </ul>
       </li>
       </ul>
@@ -832,7 +831,6 @@
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-has_mp_perf_env">has_mp_perf_env</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-get_mp_perf_env">get_mp_perf_env</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_testall_tv">mp_testall_tv</a>
-      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_get_numnodes">mp_get_numnodes</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_type_make_struct">mp_type_make_struct</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_type_indexed_make_i">mp_type_indexed_make_i</a>
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#proc-mp_type_make_i">mp_type_make_i</a>
@@ -17707,29 +17705,6 @@ We use mpi_test so that we can use a single status.</p>
 </table>
 
 <h4>Return Value <small>logical</small></h4>  <p>logical which determines if requests are complete</p>
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_get_numnodes"></span><h3>public function <a href='../proc/mp_get_numnodes.html'>mp_get_numnodes</a>(groupid)</h3></div>
-  <div class="panel-body">
-       
-<p>Get the number of physical system (nodes) as opposed to the number of ranks</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>groupid</strong></td><td><p>mpi communicator</p></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>integer</small></h4>  
 
   </div>
   </div>
