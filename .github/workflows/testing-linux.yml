@@ -79,6 +79,38 @@ jobs:
         fail_ci_if_error: true
 
   ##################################################################################
+  # Build on CUDA
+  ##################################################################################
+  build-on-cuda:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04-cuda:develop
+
+    strategy:
+      matrix:
+        use_openmp: [OPENMP=ON, OPENMP=OFF]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Configure
+      run: |
+        mkdir -p build
+        cd build
+        cmake -G Ninja \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DUSE_${{ matrix.use_openmp }} \
+          -DUSE_ACCEL=cuda \
+          -DWITH_GPU=V100 \
+          -DWITH_EXAMPLES=ON \
+          ..
+    - name: Build
+      run: cmake --build build -- --verbose
+
+  ##################################################################################
   # Build on ROCm
   ##################################################################################
   build-on-rocm:
