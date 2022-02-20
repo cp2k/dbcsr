@@ -91,7 +91,7 @@
 #if !defined(ACC_OPENCL_DEBUG) && (defined(_DEBUG) || 0)
 #  define ACC_OPENCL_DEBUG
 #endif
-#if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
+#if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 0
 #  if defined(CL_QUEUE_PRIORITY_KHR)
 #    define ACC_OPENCL_STREAM_PRIORITIES
 #  endif
