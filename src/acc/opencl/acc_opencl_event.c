@@ -79,9 +79,14 @@ int c_dbcsr_acc_event_create(void** event_p) {
     *event_p = (void*)event;
 #  else
     assert(NULL == c_dbcsr_acc_opencl_config.handles || sizeof(void*) >= sizeof(cl_event));
-    *event_p = (NULL != c_dbcsr_acc_opencl_config.handles
-                  ? libxsmm_pmalloc(c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle)
-                  : malloc(sizeof(cl_event)));
+    *event_p = (
+#    if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+      (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
+      NULL != c_dbcsr_acc_opencl_config.handles
+        ? libxsmm_pmalloc(c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle)
+        :
+#    endif
+        malloc(sizeof(cl_event)));
     if (NULL != *event_p) {
       *(cl_event*)*event_p = event;
     }
@@ -117,11 +122,15 @@ int c_dbcsr_acc_event_destroy(void* event) {
 #  if defined(ACC_OPENCL_EVENT_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_event));
 #  else
+#    if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+      (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
     if (NULL != c_dbcsr_acc_opencl_config.handles) {
       /**(cl_event*)event = NULL; assert(NULL == *ACC_OPENCL_EVENT(event));*/
       libxsmm_pfree(event, c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle);
     }
-    else {
+    else
+#    endif
+    {
       free(event);
     }
 #  endif
@@ -211,7 +220,7 @@ int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred) {
   result = clGetEventInfo(*ACC_OPENCL_EVENT(event), CL_EVENT_COMMAND_EXECUTION_STATUS, sizeof(cl_int), &status, NULL);
   if (CL_SUCCESS == result && 0 <= status) {
     *has_occurred = (CL_COMPLETE == status ? 1 : 0);
-    if (0 == *has_occurred && 0 == (8 & c_dbcsr_acc_opencl_config.flush)) {
+    if (0 == *has_occurred && 0 != (8 & c_dbcsr_acc_opencl_config.flush)) {
       result = c_dbcsr_acc_opencl_device_synchronize(ACC_OPENCL_OMP_TID());
     }
   }
