@@ -647,7 +647,7 @@ int libsmm_acc_finalize(void) {
         if (3 == c_dbcsr_acc_opencl_config.verbosity) {
           char fname[ACC_OPENCL_MAXSTRLEN];
           ACC_OPENCL_CHECK(
-            clGetKernelInfo(kernel, CL_KERNEL_FUNCTION_NAME, ACC_OPENCL_BUFFERSIZE, fname, NULL), "retrieve function name", result);
+            clGetKernelInfo(kernel, CL_KERNEL_FUNCTION_NAME, sizeof(fname), fname, NULL), "retrieve function name", result);
           if (EXIT_SUCCESS == result) {
             if (NULL != strstr(fname, OPENCL_LIBSMM_KERNELNAME_TRANS)) { /* trans-kernel */
 #    if !defined(OPENCL_LIBSMM_DEBUG_TRANS)
@@ -1262,7 +1262,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           if (NULL != tname) {
             const char* const env_devid = getenv("OPENCL_LIBSMM_SMM_DEVID");
             const int devid = (NULL == env_devid || '\0' == *env_devid) ? c_dbcsr_acc_opencl_config.devinfo.intel_id
-                                                                        : atoi(env_devid);
+                                                                        : (int)strtol(env_devid, NULL, 0);
             size_t wgsize_max, wgsize_prf, sgs = 0;
             opencl_libsmm_smm_t new_config;
             if (NULL == config) {
