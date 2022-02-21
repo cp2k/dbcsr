@@ -145,7 +145,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
     tid = 0; /*master*/
   }
   {
-    const cl_context context = c_dbcsr_acc_opencl_config.contexts[tid];
+    const cl_context context = NULL != c_dbcsr_acc_opencl_config.contexts ? c_dbcsr_acc_opencl_config.contexts[tid] : NULL;
     if (NULL != context) {
       cl_device_id device = NULL;
       result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
