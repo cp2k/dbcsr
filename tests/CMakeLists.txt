@@ -229,8 +229,12 @@ if (USE_ACCEL MATCHES "cuda|hip")
     target_compile_definitions(
       ${libsmm_acc_test_name} PRIVATE $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
                                       $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>)
+    # some of the tests access internal headers and functions, requiring
+    # include paths to be present which are otherwise not exported
     target_link_libraries(${libsmm_acc_test_name} dbcsr
-                          $<$<STREQUAL:${USE_ACCEL},hip>:hip::host> libsmm_acc)
+                          $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
+                          $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver>
+                          libsmm_acc)
   endforeach ()
 
   add_test(NAME libsmm_acc_unittest_multiply
