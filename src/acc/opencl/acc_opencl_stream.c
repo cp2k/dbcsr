@@ -258,30 +258,24 @@ int c_dbcsr_acc_stream_destroy(void* stream) {
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
   if (NULL != stream) {
-    result = clReleaseCommandQueue(*ACC_OPENCL_STREAM(stream));
-    if (EXIT_SUCCESS == result) {
-      int tid = 0, i = ACC_OPENCL_STREAMS_MAXCOUNT;
-      void** streams = NULL;
-      for (; tid < c_dbcsr_acc_opencl_config.nthreads; ++tid) { /* unregister */
-        streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * tid;
-        for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
-          if (stream == streams[i]) {
+    int tid = 0, i = ACC_OPENCL_STREAMS_MAXCOUNT;
+    void** streams = NULL;
+    assert(NULL != c_dbcsr_acc_opencl_config.streams);
+    for (; tid < c_dbcsr_acc_opencl_config.nthreads; ++tid) { /* unregister */
+      streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * tid;
+      for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
+        if (stream == streams[i]) {
+          const int j = i + 1; /* compacting streams is not thread-safe */
+          result = clReleaseCommandQueue(*ACC_OPENCL_STREAM(stream));
+          if (j < ACC_OPENCL_STREAMS_MAXCOUNT && NULL != streams[j]) {
+            memmove(streams + i, streams + j, sizeof(void*) * (ACC_OPENCL_STREAMS_MAXCOUNT - j));
+          }
+          streams[ACC_OPENCL_STREAMS_MAXCOUNT - j] = NULL;
+          if (0 >= c_dbcsr_acc_opencl_config.share || EXIT_SUCCESS != result) {
             tid = c_dbcsr_acc_opencl_config.nthreads; /* break outer loop */
             break;
           }
         }
-      }
-      if (i < ACC_OPENCL_STREAMS_MAXCOUNT) {
-        const int j = i + 1;
-        assert(NULL != streams);
-        streams[i] = NULL;
-        /* compacting streams is not thread-safe */
-        if (j < ACC_OPENCL_STREAMS_MAXCOUNT && NULL != streams[j]) {
-          memmove(streams + i, streams + j, sizeof(cl_command_queue) * (ACC_OPENCL_STREAMS_MAXCOUNT - j));
-        }
-      }
-      else {
-        result = EXIT_FAILURE;
       }
     }
 #  if defined(_OPENMP)

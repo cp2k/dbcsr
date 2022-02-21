@@ -237,7 +237,6 @@ int c_dbcsr_acc_init(void) {
                                             ? CL_FALSE
                                             : (0 != atoi(env_devmatch) ? CL_TRUE : CL_FALSE));
 #  endif
-
     if ((NULL == disable || '0' == *disable) && EXIT_SUCCESS == result) {
 #  if defined(ACC_OPENCL_CACHEDIR)
       const char* const env_cache = getenv("ACC_OPENCL_CACHE");
@@ -363,8 +362,9 @@ int c_dbcsr_acc_init(void) {
       if (EXIT_SUCCESS == result && 0 < c_dbcsr_acc_opencl_config.ndevices) {
         /* preselect any default device or prune to homogeneous set of GPUs */
         if (NULL == env_device || '\0' == *env_device) {
+          const cl_uint ndevices = (cl_uint)c_dbcsr_acc_opencl_config.ndevices;
           char tmp[ACC_OPENCL_BUFFERSIZE] = "";
-          for (i = 0; i < (cl_uint)c_dbcsr_acc_opencl_config.ndevices; ++i) {
+          for (i = 0; i < ndevices; ++i) {
             cl_device_type itype;
             result = clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_TYPE, sizeof(cl_device_type), &itype, NULL);
             if (CL_SUCCESS == result) {
@@ -375,7 +375,7 @@ int c_dbcsr_acc_init(void) {
               else if (CL_DEVICE_TYPE_ALL == type && NULL == env_devtype && CL_DEVICE_TYPE_GPU == itype && device_id <= (int)i) {
                 result = clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
                 if (CL_SUCCESS == result /* prune for homogeneous set of GPUs */
-                    && 0 != strncmp(buffer, tmp, ACC_OPENCL_BUFFERSIZE)) {
+                    && ('\0' == *tmp || 0 == strncmp(buffer, tmp, ACC_OPENCL_BUFFERSIZE))) {
                   c_dbcsr_acc_opencl_config.ndevices = i + 1;
                   strncpy(tmp, buffer, ACC_OPENCL_BUFFERSIZE);
                 }
@@ -936,13 +936,15 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
               c_dbcsr_acc_opencl_config.devinfo.intel_id = -1;
             }
           }
-          else
+          else {
             c_dbcsr_acc_opencl_config.devinfo.intel_id = 0;
+          }
         }
       }
     }
-    else
+    else {
       result = EXIT_FAILURE;
+    }
   }
   ACC_OPENCL_RETURN(result);
 }
@@ -1116,8 +1118,9 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], con
                   }
                 }
 #  if !defined(NDEBUG)
-                else
+                else if (0 != strcmp("cl_intel_global_float_atomics", ext)) {
                   fprintf(stderr, "WARNING ACC/OpenCL: extension \"%s\" is not supported.\n", ext);
+                }
 #  endif
               }
             }
