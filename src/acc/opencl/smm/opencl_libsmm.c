@@ -1305,9 +1305,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                            : MIN(blockn, n_max));
               new_config.bk = (0 >= blockk ? (NULL == config ? default_bk : LIBXSMM_CLMP(config->bk, 1, m_max))
                                            : MIN(blockk, m_max));
-              new_config.ws = (0 >= wgmin ? (0 == kernel_idx
-                                                ? (NULL == config ? /*default*/ n_max : LIBXSMM_CLMP(config->ws, 1, n_max * m_max))
-                                                : /*default*/ n_max)
+              new_config.ws = (0 >= wgmin ? (0 == kernel_idx ? (NULL == config ? /*default*/ MAX(m_max, n_max)
+                                                                               : LIBXSMM_CLMP(config->ws, 1, n_max * m_max))
+                                                             : /*default*/ MAX(m_max, n_max))
                                           : MIN(wgmin, n_max * m_max));
               new_config.bs =
                 (0 >= blocks ? (0 == kernel_idx ? (NULL == config ? OPENCL_LIBSMM_DEFAULT_BS : MAX(config->bs, 1)) : 1) : blocks);
@@ -1472,7 +1472,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                           atomic_ops = "-Dcl_intel_global_float_atomics";
                         }
                         else {
-                          atomic_ops = "-DATOMIC_PROTOTYPES";
+                          const int proto = atoi(env_atomics);
+                          atomic_ops = (1 >= proto ? "-DATOMIC_PROTOTYPES=1" : "-DATOMIC_PROTOTYPES=2");
                         }
                         atomic_exp = (0 != std_c11 ? "atomic_fetch_add_explicit((global volatile TF*)A, B, "
                                                      "memory_order_relaxed, memory_scope_work_group)"
