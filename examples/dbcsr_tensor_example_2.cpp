@@ -47,7 +47,7 @@ void fill_random(dbcsr_t_tensor tensor, std::vector<std::vector<int>> nzblocks) 
   MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
 
   std::random_device rd;
-  std::mt19937 gen(rd());
+  std::mt19937_64 gen(rd());
   std::uniform_real_distribution<> dis(-1.0, 1.0);
 
   if (myrank == 0) std::cout << "Filling Tensor..." << std::endl;
