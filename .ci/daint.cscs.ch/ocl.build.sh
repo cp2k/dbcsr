@@ -26,7 +26,7 @@ if [ ! -d "${HOME}/libxsmm" ]; then
 fi
 cd "${HOME}/libxsmm"
 git fetch
-git checkout 67e5663b281b83941b54b87d09fe57d3e0d7980a
+git checkout 91cb95725516c5809c85c68337fd49e5b0931d11
 make -j
 cd ..
 
@@ -45,7 +45,7 @@ export PKG_CONFIG_PATH=${HOME}/libxsmm/lib:${PKG_CONFIG_PATH}
 cmake \
     -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment \
     -DCMAKE_CROSSCOMPILING_EMULATOR="" \
-    -DUSE_ACCEL=opencl -DUSE_SMM=libxsmm \
+    -DUSE_ACCEL=opencl -DWITH_GPU=P100 -DUSE_SMM=libxsmm \
     -DOpenCL_LIBRARY="${CUDATOOLKIT_HOME}/lib64/libOpenCL.so" \
     -DBLAS_FOUND=ON -DBLAS_LIBRARIES="-lsci_gnu_mpi_mp" \
     -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES="-lsci_gnu_mpi_mp" \
