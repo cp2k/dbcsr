@@ -66,14 +66,14 @@ To build the benchmarks in double precision (`ELEM_TYPE=double` is default):
 
 ```bash
 cd src/acc/opencl
-make DBG=0
+make
 ```
 
 To build the benchmarks in single precision (SP):
 
 ```bash
 cd src/acc/opencl
-make DBG=0 ELEM_TYPE=float
+make ELEM_TYPE=float
 ```
 
 To auto-tune, please install the Python `wheel` and `opentuner` packages:
@@ -116,7 +116,7 @@ Different problem sizes (like "s15"; see above) are not represented individually
 ```bash
 cd src/acc/opencl
 make realclean
-make DBG=0
+make
 ```
 
 This way auto-tuned kernels just work and can be of course exercised using the afore mentioned benchmark:
@@ -157,4 +157,19 @@ cd src/acc/opencl/smm
 
 The script `tune_multiply.sh` is tuning 1266 kernels by default (`./tune_multiply.sh -t 300 -j 8 -i 1` takes approximately 13 hours per part). If the process is interrupted earlier (per SIGINT or Ctrl-C), the execution terminates for all requested kernels (triplet specification) unless `--continue` is given (or `-c`, or an environment variable `CONTINUE=1`).
 
-For convenience, it is possible to "update" an existing set of JSON-files, i.e., to parse the (M,N,K)-triplet denoted by the JSON filename and re-tune with an unconstrained tuning-level (`-a 0`) and a limited duration (e.g., 320 seconds).
+For convenience, it is possible to "update" an existing set of JSON-files (path can be given with `-p`), i.e., to parse the (M,N,K)-triplet denoted by the JSON filename and to re-tune with an almost unconstrained tuning-level (`-a 1` by default) as well as a limited duration (160 seconds per kernel by default).
+
+```bash
+cd src/acc/opencl
+make realclean
+echo "Rebuild and embed smm/params/tune_multiply_P100.csv"
+make WITH_GPU=P100
+
+echo "Retune original parameters"
+smm/tune_multiply.sh -p smm/params/p100 -u
+
+echo "Override original parameters"
+cp tune_multiply.csv smm/params/tune_multiply_P100.csv
+```
+
+Tuning kernels further that have been previously tuned (like above) is only sensible if the previously tuned parameters are embedded into the binary such that the process does start from scratch. The result of retuned parameters is captured with JSON-files as usual however, the generated CSV-file may be used to override the previous file (as shown above).
