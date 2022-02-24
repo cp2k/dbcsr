@@ -45,7 +45,7 @@ export PKG_CONFIG_PATH=${HOME}/libxsmm/lib:${PKG_CONFIG_PATH}
 cmake \
     -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment \
     -DCMAKE_CROSSCOMPILING_EMULATOR="" \
-    -DUSE_ACCEL=opencl -DUSE_SMM=libxsmm \
+    -DUSE_ACCEL=opencl -DWITH_GPU=P100 -DUSE_SMM=libxsmm \
     -DOpenCL_LIBRARY="${CUDATOOLKIT_HOME}/lib64/libOpenCL.so" \
     -DBLAS_FOUND=ON -DBLAS_LIBRARIES="-lsci_gnu_mpi_mp" \
     -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES="-lsci_gnu_mpi_mp" \
