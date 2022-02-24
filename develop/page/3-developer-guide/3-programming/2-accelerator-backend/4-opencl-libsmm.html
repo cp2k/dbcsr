@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-81-g2952e6f450</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-82-gc36d84ac05</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -149,12 +149,12 @@
 <p>To toggle the benchmarks between tuning single precision (SP) and double precision (DP), <code>make ELEM_TYPE=float</code> can be used when building the benchmark drivers (backend). However, the <code>ELEM_TYPE</code> can be also directly edited in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26">acc_bench_smm.c</a>. Auto-tuned parameters for SP and DP can be embedded into the same final application and are considered correctly at runtime.</p>
 <p>To build the benchmarks in double precision (<code>ELEM_TYPE=double</code> is default):</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
-make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
+make
 </code></pre></div>
 
 <p>To build the benchmarks in single precision (SP):</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
-make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span> <span class="nv">ELEM_TYPE</span><span class="o">=</span>float
+make <span class="nv">ELEM_TYPE</span><span class="o">=</span>float
 </code></pre></div>
 
 <p>To auto-tune, please install the Python <code>wheel</code> and <code>opentuner</code> packages:</p>
@@ -183,7 +183,7 @@ pip install -r requirements.txt
 <p>Different problem sizes (like "s15"; see above) are not represented individually, but are instead collected into a maximum value. In turn, this means tuning for a non-default problem-size must be manually kept pure since the result achieved with a larger problem may dominate (maximum value).</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
 make realclean
-make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
+make
 </code></pre></div>
 
 <p>This way auto-tuned kernels just work and can be of course exercised using the afore mentioned benchmark:</p>
@@ -212,7 +212,20 @@ make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
 </code></pre></div>
 
 <p>The script <code>tune_multiply.sh</code> is tuning 1266 kernels by default (<code>./tune_multiply.sh -t 300 -j 8 -i 1</code> takes approximately 13 hours per part). If the process is interrupted earlier (per SIGINT or Ctrl-C), the execution terminates for all requested kernels (triplet specification) unless <code>--continue</code> is given (or <code>-c</code>, or an environment variable <code>CONTINUE=1</code>).</p>
-<p>For convenience, it is possible to "update" an existing set of JSON-files, i.e., to parse the (M,N,K)-triplet denoted by the JSON filename and re-tune with an unconstrained tuning-level (<code>-a 0</code>) and a limited duration (e.g., 320 seconds).</p>
+<p>For convenience, it is possible to "update" an existing set of JSON-files (path can be given with <code>-p</code>), i.e., to parse the (M,N,K)-triplet denoted by the JSON filename and to re-tune with an almost unconstrained tuning-level (<code>-a 1</code> by default) as well as a limited duration (160 seconds per kernel by default).</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
+make realclean
+<span class="nb">echo</span> <span class="s2">&quot;Rebuild and embed smm/params/tune_multiply_P100.csv&quot;</span>
+make <span class="nv">WITH_GPU</span><span class="o">=</span>P100
+
+<span class="nb">echo</span> <span class="s2">&quot;Retune original parameters&quot;</span>
+smm/tune_multiply.sh -p smm/params/p100 -u
+
+<span class="nb">echo</span> <span class="s2">&quot;Override original parameters&quot;</span>
+cp tune_multiply.csv smm/params/tune_multiply_P100.csv
+</code></pre></div>
+
+<p>Tuning kernels further that have been previously tuned (like above) is only sensible if the previously tuned parameters are embedded into the binary such that the process does start from scratch. The result of retuned parameters is captured with JSON-files as usual however, the generated CSV-file may be used to override the previous file (as shown above).</p>
     </div>
     <div class="col-md-3 col-md-pull-9">
       <hr class="visible-xs visible-sm">
