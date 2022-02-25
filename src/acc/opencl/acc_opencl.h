@@ -247,7 +247,7 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   /** Maximum number of threads (omp_get_max_threads). */
   cl_int nthreads;
   /** Asynchronous memory operations. */
-  cl_bool async;
+  cl_int async;
   /** How to apply/use stream priorities. */
   cl_int priority;
   /** Flush level. */
