@@ -207,17 +207,17 @@ __attribute__((intel_reqd_sub_group_size(SGS)))
 #endif
 kernel void
 FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* restrict bdata,
-/* indexes given by param_stack are one-based (Fortran) */
 #if (1 < BS)
-  GLOBAL const int* restrict param_stack, int stack_size)
-#else
-  GLOBAL const int* restrict param_stack)
-#endif
-{
+  GLOBAL const int* restrict param_stack, int stack_size, int bs) {
   const int gid = get_group_id(0), idx = get_local_id(0);
-  GLOBAL const int* restrict pbase = param_stack + gid * (3 * BS);
+#else
+  GLOBAL const int* restrict param_stack) {
+  const int gid = get_group_id(0), idx = get_local_id(0), bs = 1;
+#endif
+  /* indexes given by param_stack are one-based (Fortran) */
+  GLOBAL const int* restrict pbase = param_stack + gid * (3 * bs);
 #if defined(SLM_P) && (1 < BS)
-  local int params[3 * BS];
+  local int params[3 * BS]; /* bs <= BS */
 #else
   GLOBAL const int* restrict params = pbase;
 #endif
@@ -261,7 +261,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 
 #if (1 < BS)
   /* intra-kernel mini-batch of SMMs */
-  const int batchsize = min(BS, stack_size - BS * gid);
+  const int batchsize = min(bs, stack_size - bs * gid);
   int c0;
 #  if defined(SLM_C)
   local T cnm[SN][SM + SLM_C - 1];
