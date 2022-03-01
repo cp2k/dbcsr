@@ -33,20 +33,21 @@ void timestop(int handle) { c_dbcsr_timestop(&handle); }
 int libsmm_acc_gpu_blas_init() {
   // allocate memory for acc_blas handles
 #if defined _OPENMP
-  int nthreads = omp_get_num_threads();
+  const int nthreads = omp_get_num_threads();
 #else
-  int nthreads = 1;
+  const int nthreads = 1;
 #endif
-  acc_blashandles.resize(nthreads);
+  const int size = static_cast<int>(acc_blashandles.size());
 
-  // initialize acc_blas and store acc_blas handles
-  // one handle per thread!
-  for (int i = 0; i < nthreads; i++) {
-    ACC_BLAS(Handle_t) * c_handle;
-    acc_blas_create(&c_handle);
-    acc_blashandles[i] = c_handle;
+  if (size < nthreads) {
+    acc_blashandles.resize(nthreads);
+    // initialize acc_blas and store acc_blas handles
+    for (int i = size; i < nthreads; i++) {
+      ACC_BLAS(Handle_t) * c_handle;
+      acc_blas_create(&c_handle);
+      acc_blashandles[i] = c_handle;
+    }
   }
-
   return 0;
 }
 
@@ -73,16 +74,8 @@ extern "C" int libsmm_acc_finalize() {
   int handle;
   timeset(routineN, handle);
 #endif
-  // deallocate memory for acc_blas handles
-#if defined _OPENMP
-  int nthreads = omp_get_num_threads();
-#else
-  int nthreads = 1;
-#endif
-
-  // free acc_blas handle resources
-  // one handle per thread!
-  for (int i = 0; i < nthreads; i++) {
+  // free acc_blas handle resources; one handle per thread
+  for (size_t i = 0; i < acc_blashandles.size(); i++) {
     if (NULL != acc_blashandles[i]) {
       acc_blas_destroy(acc_blashandles[i]);
       acc_blashandles[i] = NULL;
