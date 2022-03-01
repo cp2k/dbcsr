@@ -31,6 +31,15 @@
 #if !defined(ALIGNMENT)
 #  define ALIGNMENT 64
 #endif
+#if !defined(BATCHGRAIN)
+#  define BATCHGRAIN 100
+#endif
+#if !defined(BATCHSIZE)
+#  define BATCHSIZE (300 * BATCHGRAIN)
+#endif
+#if !defined(NREPEAT)
+#  define NREPEAT 3
+#endif
 #if !defined(TRANSPOSE)
 #  define TRANSPOSE
 #endif
@@ -183,6 +192,7 @@ int main(int argc, char* argv[]) {
       }
       result = EXIT_FAILURE;
     }
+    srand(25071975); /* seed rng */
   }
   else {
     fprintf(stderr, "ACC initialization failed!\n");
@@ -222,8 +232,8 @@ int main(int argc, char* argv[]) {
     double duration;
 #endif
     const char* const env_stack_size = getenv("SMM_BATCHSIZE");
+    int nrepeat = (0 < inr ? inr : NREPEAT);
     int stack_size, na, nb, nc, nr, r, i;
-    int nrepeat = (0 < inr ? inr : 3);
     if (NULL == env_stack_size) {
       stack_size = 0;
       if (NULL != sss) {
@@ -248,7 +258,7 @@ int main(int argc, char* argv[]) {
         }
       }
     }
-    else {
+    else { /* parse SMM_BATCHSIZE=batchsize,nrepfactor */
       i = strcspn(env_stack_size, DELIMS);
       if (i < (int)sizeof(DELIMS)) {
         r = atoi(env_stack_size + i + 1);
@@ -256,7 +266,16 @@ int main(int argc, char* argv[]) {
       }
       stack_size = atoi(env_stack_size);
     }
-    if (0 >= stack_size) stack_size = 30000; /* default */
+    if (0 >= stack_size) { /* trigger default */
+      if (0 > stack_size) { /* randomize batchsize */
+        const int ss = ((-1 > stack_size ? -stack_size : BATCHSIZE) + BATCHGRAIN - 1) / BATCHGRAIN;
+        stack_size = (rand() % ss + 1) * BATCHGRAIN;
+        nrepeat = MAX((BATCHSIZE * nrepeat + stack_size - 1) / stack_size, NREPEAT);
+      }
+      else { /* plain default */
+        stack_size = BATCHSIZE;
+      }
+    }
     nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
     na = (0 < ina ? ina : (10 * nc));
     nb = (0 < inb ? inb : (10 * nc));
