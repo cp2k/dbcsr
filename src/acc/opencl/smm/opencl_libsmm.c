@@ -1438,7 +1438,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   const int cl_nonv = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia"));
                   if (NULL == env_atomics || '\0' == *env_atomics || 0 != isdigit(*env_atomics)) {
                     /* atomics_native: employ native atomics without confirmation */
-                    const int atomics_native = (NULL != env_atomics && '\0' != *env_atomics);
+                    const int atomics_native = ((NULL == env_atomics || '\0' == *env_atomics) ? 0 : atoi(env_atomics));
                     cl_bitfield fp_atomics;
                     assert(dbcsr_type_real_8 == datatype || dbcsr_type_real_4 == datatype);
                     if (CL_SUCCESS == clGetDeviceInfo(active_device,
@@ -1458,15 +1458,12 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                              0 != atomics_native) {
                       if (dbcsr_type_real_4 == datatype || 0x0bd5 == c_dbcsr_acc_opencl_config.devinfo.intel_id ||
                           0 != atomics_native) {
-                        if (0x0bd5 != c_dbcsr_acc_opencl_config.devinfo.intel_id) {
-                          if (0 == atomics_native) {
-                            extensions[1] = "cl_intel_global_float_atomics";
-                            atomic_ops = "-Dcl_intel_global_float_atomics";
-                          }
-                          else {
-                            const int proto = atoi(env_atomics);
-                            atomic_ops = (1 >= proto ? "-DATOMIC_PROTOTYPES=1" : "-DATOMIC_PROTOTYPES=2");
-                          }
+                        if (0 == atomics_native && 0x0bd5 != c_dbcsr_acc_opencl_config.devinfo.intel_id) {
+                          extensions[1] = "cl_intel_global_float_atomics";
+                          atomic_ops = "-Dcl_intel_global_float_atomics";
+                        }
+                        else {
+                          atomic_ops = (1 >= atomics_native ? "-DATOMIC_PROTOTYPES=1" : "-DATOMIC_PROTOTYPES=2");
                         }
                         atomic_exp = (0 != std_c11 ? "atomic_fetch_add_explicit((global volatile TF*)A, B, "
                                                      "memory_order_relaxed, memory_scope_work_group)"
