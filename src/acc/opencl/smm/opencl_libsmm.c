@@ -552,7 +552,7 @@ int libsmm_acc_init(void) {
             float* const b = (float*)LIBXSMM_UP2((uintptr_t)a + sizeof(float) * na * mk, LIBXSMM_ALIGNMENT);
             float* const c = (float*)LIBXSMM_UP2((uintptr_t)b + sizeof(float) * nb * kn, LIBXSMM_ALIGNMENT);
             const float alpha = 1, beta = 1;
-            init_stack(s, stack_size, mn, mk, kn, nc, na, nb);
+            init_stack(s, stack_size, 0 /*rnd_size*/, NULL /*rnd*/, mn, mk, kn, nc, na, nb);
 #    if defined(_OPENMP)
 #      pragma omp parallel
 #    endif
@@ -585,7 +585,7 @@ int libsmm_acc_init(void) {
             double* const b = (double*)LIBXSMM_UP2((uintptr_t)a + sizeof(double) * na * mk, LIBXSMM_ALIGNMENT);
             double* const c = (double*)LIBXSMM_UP2((uintptr_t)b + sizeof(double) * nb * kn, LIBXSMM_ALIGNMENT);
             const double alpha = 1, beta = 1;
-            init_stack(s, stack_size, mn, mk, kn, nc, na, nb);
+            init_stack(s, stack_size, 0 /*rnd_size*/, NULL /*rnd*/, mn, mk, kn, nc, na, nb);
 #    if defined(_OPENMP)
 #      pragma omp parallel
 #    endif
@@ -1340,7 +1340,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   ? (0 == kernel_idx ? (NULL == config ? /*default*/ default_ac : config->ac) : /*default*/ default_ac)
                   : atoi(env_ac),
                 0, 2);
-              if (0 == kernel_idx || 0 == new_config.s) new_config.s = stack_size;
+              if (0 >= new_config.s) new_config.s = stack_size;
               new_config.bs = bs;
               nbm = (m_max + new_config.bm - 1) / new_config.bm;
               nbn = (n_max + new_config.bn - 1) / new_config.bn;
@@ -1664,53 +1664,49 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                              (0 <= c_dbcsr_acc_opencl_config.verbosity && 4 >= c_dbcsr_acc_opencl_config.verbosity))
                               ? NULL
                               : &event);
-        if (0 == kernel_idx && 1 < config->bs) {
-          if (stack_size < config->s) {
-            const int ss = config->s - 1;
-            bs = (stack_size * config->bs + ss) / ss;
-          }
-        }
 #    if defined(OPENCL_LIBSMM_DEBUG_SMM)
-        { /* validate result (implies readback from device and performance penalty) */
-          char *ainp = NULL, *binp = NULL, *test = NULL, *gold = NULL, *btrn = NULL;
-          const libxsmm_datatype precision =
-            (dbcsr_type_real_8 == datatype ? LIBXSMM_DATATYPE_F64
-                                           : (dbcsr_type_real_4 == datatype ? LIBXSMM_DATATYPE_F32 : LIBXSMM_DATATYPE_UNSUPPORTED));
-          const int typesize = OPENCL_LIBSMM_TYPESIZE(datatype);
-          libxsmm_xmmfunction kernel_cpu = {NULL};
-          size_t asize, bsize, csize;
-          void* scratch = NULL;
-          if (CL_SUCCESS == clGetMemObjectInfo(*ACC_OPENCL_MEM(dev_a_data), CL_MEM_SIZE, sizeof(size_t), &asize, NULL) &&
-              CL_SUCCESS == clGetMemObjectInfo(*ACC_OPENCL_MEM(dev_b_data), CL_MEM_SIZE, sizeof(size_t), &bsize, NULL) &&
-              CL_SUCCESS == clGetMemObjectInfo(*ACC_OPENCL_MEM(dev_c_data), CL_MEM_SIZE, sizeof(size_t), &csize, NULL)) {
-            const double alpha = 1, beta = 1;
-            libxsmm_descriptor_blob blob;
-            libxsmm_gemm_descriptor* const desc = libxsmm_gemm_descriptor_dinit(&blob, precision, m_max, n_max, k_max, m_max, k_max,
-              m_max, alpha, beta, LIBXSMM_GEMM_FLAG_NONE, LIBXSMM_PREFETCH_NONE);
-            scratch = libxsmm_aligned_scratch(
-              asize + bsize + csize + csize + k_max * n_max * typesize + 4 * (LIBXSMM_ALIGNMENT - 1) /*alignments*/,
-              LIBXSMM_ALIGNMENT);
-            if (NULL != desc && NULL != scratch) {
-              ainp = (char*)scratch;
-              binp = (char*)LIBXSMM_UP2((uintptr_t)ainp + asize, LIBXSMM_ALIGNMENT);
-              test = (char*)LIBXSMM_UP2((uintptr_t)binp + bsize, LIBXSMM_ALIGNMENT);
-              gold = (char*)LIBXSMM_UP2((uintptr_t)test + csize, LIBXSMM_ALIGNMENT);
-              btrn = (char*)LIBXSMM_UP2((uintptr_t)gold + csize, LIBXSMM_ALIGNMENT);
-              ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_a_data, ainp, asize, stream), "transfer debug a-data", result);
-              ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_b_data, binp, bsize, stream), "transfer debug b-data", result);
-              ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_c_data, gold, csize, stream), "transfer debug c-data", result);
-              kernel_cpu = libxsmm_xmmdispatch(desc);
-              assert(NULL != kernel_cpu.xmm);
-            }
-            else {
-              result = EXIT_FAILURE;
-            }
+        /* validate result (implies readback from device and performance penalty) */
+        char *ainp = NULL, *binp = NULL, *test = NULL, *gold = NULL, *btrn = NULL;
+        const libxsmm_datatype precision =
+          (dbcsr_type_real_8 == datatype ? LIBXSMM_DATATYPE_F64
+                                         : (dbcsr_type_real_4 == datatype ? LIBXSMM_DATATYPE_F32 : LIBXSMM_DATATYPE_UNSUPPORTED));
+        const int typesize = OPENCL_LIBSMM_TYPESIZE(datatype);
+        libxsmm_xmmfunction kernel_cpu = {NULL};
+        size_t asize, bsize, csize;
+        void* scratch = NULL;
+        if (CL_SUCCESS == clGetMemObjectInfo(*ACC_OPENCL_MEM(dev_a_data), CL_MEM_SIZE, sizeof(size_t), &asize, NULL) &&
+            CL_SUCCESS == clGetMemObjectInfo(*ACC_OPENCL_MEM(dev_b_data), CL_MEM_SIZE, sizeof(size_t), &bsize, NULL) &&
+            CL_SUCCESS == clGetMemObjectInfo(*ACC_OPENCL_MEM(dev_c_data), CL_MEM_SIZE, sizeof(size_t), &csize, NULL)) {
+          const double alpha = 1, beta = 1;
+          libxsmm_descriptor_blob blob;
+          libxsmm_gemm_descriptor* const desc = libxsmm_gemm_descriptor_dinit(
+            &blob, precision, m_max, n_max, k_max, m_max, k_max, m_max, alpha, beta, LIBXSMM_GEMM_FLAG_NONE, LIBXSMM_PREFETCH_NONE);
+          scratch = libxsmm_aligned_scratch(
+            asize + bsize + csize + csize + k_max * n_max * typesize + 4 * (LIBXSMM_ALIGNMENT - 1) /*alignments*/,
+            LIBXSMM_ALIGNMENT);
+          if (NULL != desc && NULL != scratch) {
+            ainp = (char*)scratch;
+            binp = (char*)LIBXSMM_UP2((uintptr_t)ainp + asize, LIBXSMM_ALIGNMENT);
+            test = (char*)LIBXSMM_UP2((uintptr_t)binp + bsize, LIBXSMM_ALIGNMENT);
+            gold = (char*)LIBXSMM_UP2((uintptr_t)test + csize, LIBXSMM_ALIGNMENT);
+            btrn = (char*)LIBXSMM_UP2((uintptr_t)gold + csize, LIBXSMM_ALIGNMENT);
+            ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_a_data, ainp, asize, stream), "transfer debug a-data", result);
+            ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_b_data, binp, bsize, stream), "transfer debug b-data", result);
+            ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_c_data, gold, csize, stream), "transfer debug c-data", result);
+            kernel_cpu = libxsmm_xmmdispatch(desc);
+            assert(NULL != kernel_cpu.xmm);
           }
           else {
             result = EXIT_FAILURE;
           }
         }
+        else {
+          result = EXIT_FAILURE;
+        }
 #    endif
+        if (0 == kernel_idx && 1 < config->bs && stack_size < config->s) {
+          bs = (stack_size * config->bs + config->s - 1) / (config->s - 1);
+        }
         assert(!(OPENCL_LIBSMM_NLOCKS_SMM & (OPENCL_LIBSMM_NLOCKS_SMM - 1))); /* POT */
         { /* OpenCL is thread-safe except for clSetKernelArg (launching kernel shared among threads) */
           static volatile int locks[OPENCL_LIBSMM_NLOCKS_SMM];
