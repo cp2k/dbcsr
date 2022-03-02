@@ -1340,7 +1340,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   ? (0 == kernel_idx ? (NULL == config ? /*default*/ default_ac : config->ac) : /*default*/ default_ac)
                   : atoi(env_ac),
                 0, 2);
-              if (0 == kernel_idx || 0 == new_config.s) new_config.s = stack_size;
+              if (0 >= new_config.s) new_config.s = stack_size;
               new_config.bs = bs;
               nbm = (m_max + new_config.bm - 1) / new_config.bm;
               nbn = (n_max + new_config.bn - 1) / new_config.bn;
