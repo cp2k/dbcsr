@@ -552,7 +552,7 @@ int libsmm_acc_init(void) {
             float* const b = (float*)LIBXSMM_UP2((uintptr_t)a + sizeof(float) * na * mk, LIBXSMM_ALIGNMENT);
             float* const c = (float*)LIBXSMM_UP2((uintptr_t)b + sizeof(float) * nb * kn, LIBXSMM_ALIGNMENT);
             const float alpha = 1, beta = 1;
-            init_stack(s, stack_size, mn, mk, kn, nc, na, nb);
+            init_stack(s, stack_size, 0 /*rnd_size*/, NULL /*rnd*/, mn, mk, kn, nc, na, nb);
 #    if defined(_OPENMP)
 #      pragma omp parallel
 #    endif
@@ -585,7 +585,7 @@ int libsmm_acc_init(void) {
             double* const b = (double*)LIBXSMM_UP2((uintptr_t)a + sizeof(double) * na * mk, LIBXSMM_ALIGNMENT);
             double* const c = (double*)LIBXSMM_UP2((uintptr_t)b + sizeof(double) * nb * kn, LIBXSMM_ALIGNMENT);
             const double alpha = 1, beta = 1;
-            init_stack(s, stack_size, mn, mk, kn, nc, na, nb);
+            init_stack(s, stack_size, 0 /*rnd_size*/, NULL /*rnd*/, mn, mk, kn, nc, na, nb);
 #    if defined(_OPENMP)
 #      pragma omp parallel
 #    endif

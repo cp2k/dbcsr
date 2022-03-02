@@ -37,6 +37,9 @@
 #if !defined(BATCHSIZE)
 #  define BATCHSIZE (300 * BATCHGRAIN)
 #endif
+#if !defined(NRAND)
+#  define NRAND BATCHSIZE
+#endif
 #if !defined(NREPEAT)
 #  define NREPEAT 3
 #endif
@@ -50,7 +53,7 @@
 #  define WARMUP 2
 #endif
 #if !defined(DELIMS)
-#  define DELIMS ",;:\t|/"
+#  define DELIMS ",;:|/\n\t "
 #endif
 
 #define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
@@ -77,8 +80,11 @@ static void parse_params(int argc, char* argv[], FILE** file, const char** snr, 
   else {
     argc = 0;
     if (NULL != fgets(buffer, sizeof(buffer), *file)) {
-      char* arg = strtok(buffer, " \t;,:");
-      for (; NULL != arg; arg = strtok(NULL, " \t;,:")) {
+      char* arg = strtok(buffer, DELIMS);
+      while (NULL == arg && NULL != fgets(buffer, sizeof(buffer), *file)) {
+        arg = strtok(buffer, DELIMS);
+      }
+      for (; NULL != arg; arg = strtok(NULL, DELIMS)) {
         if (argc * sizeof(*args) < sizeof(args)) {
           args[argc++] = arg;
         }
@@ -166,12 +172,11 @@ int main(int argc, char* argv[]) {
 #else
   const int warmup = 0;
 #endif
-  int result = c_dbcsr_acc_init(), nok = 0;
+  int result = c_dbcsr_acc_init(), *rnd = NULL, nok = 0, i;
   const char *snr = NULL, *sss = NULL;
   const char *ssm = NULL, *ssn = NULL, *ssk = NULL;
   const char *snc = NULL, *sna = NULL, *snb = NULL;
   FILE* file = NULL;
-  parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);
   CHECK(libsmm_acc_init(), &result); /* note: libsmm_acc_init() may imply acc_init() */
   if (EXIT_SUCCESS == result) {
     const char* const env_device = getenv("DEVICE");
@@ -192,7 +197,17 @@ int main(int argc, char* argv[]) {
       }
       result = EXIT_FAILURE;
     }
-    srand(25071975); /* seed rng */
+    if (EXIT_SUCCESS == result) {
+      rnd = (int*)malloc(sizeof(int) * NRAND);
+      if (NULL != rnd) {
+        srand(25071975); /* seed rng */
+        for (i = 0; i < NRAND; ++i) rnd[i] = rand();
+        parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);
+      }
+      else {
+        result = EXIT_FAILURE;
+      }
+    }
   }
   else {
     fprintf(stderr, "ACC initialization failed!\n");
@@ -233,7 +248,7 @@ int main(int argc, char* argv[]) {
 #endif
     const char* const env_stack_size = getenv("SMM_BATCHSIZE");
     int nrepeat = (0 < inr ? inr : NREPEAT);
-    int stack_size, na, nb, nc, nr, r, i;
+    int stack_size, na, nb, nc, nr, r;
     if (NULL == env_stack_size) {
       stack_size = 0;
       if (NULL != sss) {
@@ -268,8 +283,9 @@ int main(int argc, char* argv[]) {
     }
     if (0 >= stack_size) { /* trigger default */
       if (0 > stack_size) { /* randomize batchsize */
-        const int ss = ((-1 > stack_size ? -stack_size : BATCHSIZE) + BATCHGRAIN - 1) / BATCHGRAIN;
-        stack_size = (rand() % ss + 1) * BATCHGRAIN;
+        const int r = rnd[nok % NRAND], ss = -stack_size, bs = (1 < ss ? ss : BATCHSIZE);
+        const int limit = (BATCHGRAIN < ss ? ((bs + BATCHGRAIN - 1) / BATCHGRAIN) : ss);
+        stack_size = (r % limit + 1) * BATCHGRAIN;
         nrepeat = MAX((BATCHSIZE * nrepeat + stack_size - 1) / stack_size, NREPEAT);
       }
       else { /* plain default */
@@ -297,6 +313,7 @@ int main(int argc, char* argv[]) {
     CHECK(c_dbcsr_acc_host_mem_allocate((void**)&trans_hst, sizeof(int) * nb, stream), &result);
     CHECK(c_dbcsr_acc_stream_sync(stream), &result); /* ensure host-data is allocated */
     if (NULL != amat_hst && NULL != bmat_hst && NULL != trans_hst && NULL != stack_hst) {
+      init_stack(stack_hst, stack_size, NRAND, rnd, mn, mk, kn, nc, na, nb);
 #if defined(_OPENMP)
 #  pragma omp parallel
 #endif
@@ -313,7 +330,6 @@ int main(int argc, char* argv[]) {
           trans_hst[i] = i * kn;
         }
       }
-      init_stack(stack_hst, stack_size, mn, mk, kn, nc, na, nb);
     }
     CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&amat_dev, sizeof(ELEM_TYPE) * mk * na), &result);
     CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&bmat_dev, sizeof(ELEM_TYPE) * kn * nb), &result);
@@ -472,6 +488,7 @@ int main(int argc, char* argv[]) {
       }
     }
   }
+  free(rnd); /* release array of random numbers */
 #if !defined(__CUDA)
   CHECK(libsmm_acc_finalize(), NULL);
 #endif

@@ -109,7 +109,7 @@ void matInit(double* mat, int mat_n, int x, int y, int seed) {
 // initialize the task list ("stack" in DBCSR lingo)
 // for each of the result matrices we have a random number
 void stackInit(int* stack, int n_stack, int n_c, int n_a, int n_b, int mat_m, int mat_n, int mat_k) {
-  init_stack(stack, n_stack, mat_m * mat_n, mat_m * mat_k, mat_k * mat_n, n_c, n_a, n_b);
+  init_stack(stack, n_stack, 0, NULL, mat_m * mat_n, mat_m * mat_k, mat_k * mat_n, n_c, n_a, n_b);
 }
 
 //===========================================================================
