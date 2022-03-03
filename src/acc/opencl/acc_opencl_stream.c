@@ -79,18 +79,20 @@ int c_dbcsr_acc_opencl_stream_is_thread_specific(int thread_id, const void* stre
 
 
 int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
-  void** streams = NULL;
-  int result, tid, i;
   ACC_OPENCL_COMMAND_QUEUE_PROPERTIES properties[8] = {
     CL_QUEUE_PROPERTIES, 0 /*placeholder*/, 0 /* terminator */
   };
+  int result, i, tid = 0;
   cl_command_queue queue = NULL;
+  cl_context context = NULL;
+  void** streams = NULL;
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   int routine_handle;
   static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
   static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
+  assert(NULL != stream_p);
 #  if !defined(ACC_OPENCL_STREAM_PRIORITIES)
   LIBXSMM_UNUSED(priority);
 #  else
@@ -135,59 +137,53 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
 #    endif
     i = c_dbcsr_acc_opencl_stream_counter++;
     tid = (i < c_dbcsr_acc_opencl_config.nthreads ? i : (i % c_dbcsr_acc_opencl_config.nthreads));
-    /* inherit master's context if current context is NULL */
-    LIBXSMM_ATOMIC_CMPSWP(
-      c_dbcsr_acc_opencl_config.contexts + tid, NULL, c_dbcsr_acc_opencl_config.contexts[/*master*/ 0], LIBXSMM_ATOMIC_RELAXED);
+    if (NULL != c_dbcsr_acc_opencl_config.contexts) { /* inherit master's context if current context is NULL */
+      LIBXSMM_ATOMIC_CMPSWP(
+        c_dbcsr_acc_opencl_config.contexts + tid, NULL, c_dbcsr_acc_opencl_config.contexts[/*master*/ 0], LIBXSMM_ATOMIC_RELAXED);
+    }
   }
-  else
 #  endif
-  {
-    tid = 0; /*master*/
-  }
-  {
-    const cl_context context = (NULL != c_dbcsr_acc_opencl_config.contexts ? c_dbcsr_acc_opencl_config.contexts[tid] : NULL);
-    if (NULL != context) {
-      cl_device_id device = NULL;
-      result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
-      if (CL_SUCCESS == result) {
-        const int share = c_dbcsr_acc_opencl_config.share, s = (0 >= share ? 0 : (1 < share ? share : 2));
-        if (1 >= s || s >= c_dbcsr_acc_opencl_config.nthreads || 0 == (tid % s)) {
-          queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
-        }
-        else {
-          int n = 0;
-          assert(0 < tid);
-          for (i = 0; n < c_dbcsr_acc_opencl_config.nthreads; ++n) {
-            const int j = n + tid - 1, t = j < c_dbcsr_acc_opencl_config.nthreads ? j : (j - c_dbcsr_acc_opencl_config.nthreads);
-            if (0 < t && t != tid) { /* avoid cloning master's and own streams */
-              streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * t;
-              for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
-                if (NULL != streams[i]) {
-                  n = c_dbcsr_acc_opencl_config.nthreads; /* break outer loop */
-                  break;
-                }
+  if (NULL != c_dbcsr_acc_opencl_config.contexts) context = c_dbcsr_acc_opencl_config.contexts[tid];
+  if (NULL != context) {
+    cl_device_id device = NULL;
+    result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
+    if (CL_SUCCESS == result) {
+      const int share = c_dbcsr_acc_opencl_config.share, s = (0 >= share ? 0 : (1 < share ? share : 2));
+      if (1 >= s || s >= c_dbcsr_acc_opencl_config.nthreads || 0 == (tid % s)) {
+        queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
+      }
+      else {
+        int n = 0;
+        assert(0 < tid);
+        for (i = 0; n < c_dbcsr_acc_opencl_config.nthreads; ++n) {
+          const int j = n + tid - 1, t = j < c_dbcsr_acc_opencl_config.nthreads ? j : (j - c_dbcsr_acc_opencl_config.nthreads);
+          if (0 < t && t != tid) { /* avoid cloning master's and own streams */
+            streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * t;
+            for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
+              if (NULL != streams[i]) {
+                n = c_dbcsr_acc_opencl_config.nthreads; /* break outer loop */
+                break;
               }
             }
           }
-          assert(i == ACC_OPENCL_STREAMS_MAXCOUNT || c_dbcsr_acc_opencl_config.streams <= streams);
-          if (i < ACC_OPENCL_STREAMS_MAXCOUNT) { /* clone existing stream (share) */
-            cl_command_queue stream;
-            assert(NULL != streams);
-            stream = *ACC_OPENCL_STREAM(streams[i]);
-            result = clRetainCommandQueue(stream);
-            if (CL_SUCCESS == result) queue = stream;
-          }
-          else {
-            queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
-          }
+        }
+        assert(i == ACC_OPENCL_STREAMS_MAXCOUNT || c_dbcsr_acc_opencl_config.streams <= streams);
+        if (i < ACC_OPENCL_STREAMS_MAXCOUNT) { /* clone existing stream (share) */
+          cl_command_queue stream;
+          assert(NULL != streams);
+          stream = *ACC_OPENCL_STREAM(streams[i]);
+          result = clRetainCommandQueue(stream);
+          if (CL_SUCCESS == result) queue = stream;
+        }
+        else {
+          queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
         }
       }
     }
-    else {
-      result = EXIT_FAILURE;
-    }
   }
-  assert(NULL != stream_p);
+  else {
+    result = EXIT_FAILURE;
+  }
   if (EXIT_SUCCESS == result) {
     const int base = ACC_OPENCL_STREAMS_MAXCOUNT * tid;
     cl_command_queue* const stats = c_dbcsr_acc_opencl_config.stats + base;
@@ -256,34 +252,37 @@ int c_dbcsr_acc_stream_destroy(void* stream) {
   static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
+#  if defined(_OPENMP)
+#    pragma omp critical(c_dbcsr_acc_opencl_stream)
+#  endif
   if (NULL != stream) {
-    int tid = 0, i = ACC_OPENCL_STREAMS_MAXCOUNT;
-    void** streams = NULL;
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
     assert(NULL != c_dbcsr_acc_opencl_config.streams);
-    for (; tid < c_dbcsr_acc_opencl_config.nthreads; ++tid) { /* unregister */
-      streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * tid;
-      for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
-        if (stream == streams[i]) {
-          const int j = i + 1; /* compacting streams is not thread-safe */
-          result = clReleaseCommandQueue(*ACC_OPENCL_STREAM(stream));
-          if (j < ACC_OPENCL_STREAMS_MAXCOUNT && NULL != streams[j]) {
-            memmove(streams + i, streams + j, sizeof(void*) * (ACC_OPENCL_STREAMS_MAXCOUNT - j));
-          }
-          streams[ACC_OPENCL_STREAMS_MAXCOUNT - j] = NULL;
-          if (0 >= c_dbcsr_acc_opencl_config.share || EXIT_SUCCESS != result) {
-            tid = c_dbcsr_acc_opencl_config.nthreads; /* break outer loop */
+    if (NULL != queue) {
+      int tid = 0, i = ACC_OPENCL_STREAMS_MAXCOUNT;
+      void** streams = NULL;
+      for (; tid < c_dbcsr_acc_opencl_config.nthreads; ++tid) { /* unregister */
+        streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * tid;
+        for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
+          if (stream == streams[i]) {
+            const int j = i + 1, result_release = clReleaseCommandQueue(queue); /* soft-error */
+            if (j < ACC_OPENCL_STREAMS_MAXCOUNT && NULL != streams[j]) { /* compacting streams is not thread-safe */
+              memmove(streams + i, streams + j, sizeof(void*) * (ACC_OPENCL_STREAMS_MAXCOUNT - j));
+            }
+            streams[ACC_OPENCL_STREAMS_MAXCOUNT - j] = NULL;
+            /* consider breaking outer loop */
+            if (0 >= c_dbcsr_acc_opencl_config.share) {
+              tid = c_dbcsr_acc_opencl_config.nthreads;
+              result = result_release; /* promote */
+            }
+            else if (EXIT_SUCCESS != result_release) {
+              tid = c_dbcsr_acc_opencl_config.nthreads;
+            }
             break;
           }
         }
       }
     }
-#  if defined(_OPENMP)
-#    if (201107 /*v3.1*/ <= _OPENMP)
-#      pragma omp atomic write
-#    else
-#      pragma omp critical(c_dbcsr_acc_opencl_stream)
-#    endif
-#  endif
     c_dbcsr_acc_opencl_stream_counter = 0; /* reset */
 #  if defined(ACC_OPENCL_STREAM_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_command_queue));
