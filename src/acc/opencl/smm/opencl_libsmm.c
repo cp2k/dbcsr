@@ -48,6 +48,12 @@
 #  if !defined(OPENCL_LIBSMM_KERNELNAME_SMM)
 #    define OPENCL_LIBSMM_KERNELNAME_SMM "smm"
 #  endif
+#  if !defined(OPENCL_LIBSMM_NLOCKS_TRANS)
+#    define OPENCL_LIBSMM_NLOCKS_TRANS 16
+#  endif
+#  if !defined(OPENCL_LIBSMM_NLOCKS_SMM)
+#    define OPENCL_LIBSMM_NLOCKS_SMM 16
+#  endif
 /* default: decompose C-matrix into column-vectors (Mx1) */
 #  if !defined(OPENCL_LIBSMM_DEFAULT_BM)
 #    define OPENCL_LIBSMM_DEFAULT_BM INT_MAX
@@ -910,10 +916,18 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
         result = EXIT_FAILURE;
       }
 #    endif
+      assert(!(OPENCL_LIBSMM_NLOCKS_TRANS & (OPENCL_LIBSMM_NLOCKS_TRANS - 1))); /* POT */
       { /* OpenCL is thread-safe except for clSetKernelArg and launching such shared kernel */
-        static volatile LIBXSMM_ATOMIC_LOCKTYPE lock = 0;
+        static volatile int locks[OPENCL_LIBSMM_NLOCKS_TRANS];
+#    if (1 < OPENCL_LIBSMM_NLOCKS_TRANS)
+        const unsigned int hash = libxsmm_hash(&config->kernel, sizeof(cl_kernel), 25071975 /*seed*/);
+        const unsigned int lidx = LIBXSMM_MOD2(hash, OPENCL_LIBSMM_NLOCKS_TRANS);
+        volatile int* const lock = locks + lidx;
+#    else
+        volatile int* const lock = locks;
+#    endif
         /* calling clSetKernelArg must be consistent across host-threads */
-        LIBXSMM_ATOMIC_ACQUIRE(&lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
+        LIBXSMM_ATOMIC_ACQUIRE(lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
         ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 0, sizeof(cl_mem), ACC_OPENCL_MEM(dev_trs_stack)),
           "set batch-list argument of transpose kernel", result);
         ACC_OPENCL_CHECK(
@@ -975,7 +989,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
           }
 #    endif
         }
-        LIBXSMM_ATOMIC_RELEASE(&lock, LIBXSMM_ATOMIC_RELAXED);
+        LIBXSMM_ATOMIC_RELEASE(lock, LIBXSMM_ATOMIC_RELAXED);
       }
 #    if defined(OPENCL_LIBSMM_DEBUG_TRANS)
       ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_data, omat, data_size, stream), "transfer debug test", result);
@@ -1693,12 +1707,20 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         if (0 == kernel_idx && 1 < config->bs && stack_size < config->s) {
           bs = (stack_size * config->bs + config->s - 1) / (config->s - 1);
         }
+        assert(!(OPENCL_LIBSMM_NLOCKS_SMM & (OPENCL_LIBSMM_NLOCKS_SMM - 1))); /* POT */
         { /* OpenCL is thread-safe except for clSetKernelArg (launching kernel shared among threads) */
-          static volatile LIBXSMM_ATOMIC_LOCKTYPE lock = 0;
+          static volatile int locks[OPENCL_LIBSMM_NLOCKS_SMM];
+#    if (1 < OPENCL_LIBSMM_NLOCKS_SMM)
+          const unsigned int hash = libxsmm_hash(config->kernel + kernel_idx, sizeof(cl_kernel), 25071975 /*seed*/);
+          const unsigned int lidx = LIBXSMM_MOD2(hash, OPENCL_LIBSMM_NLOCKS_SMM);
+          volatile int* const lock = locks + lidx;
+#    else
+          volatile int* const lock = locks;
+#    endif
           /* adjust overall stacksize according to intra-kernel batchsize */
           const size_t work_size = ((stack_size + bs - 1) / bs) * config->wgsize[kernel_idx];
           /* calling clSetKernelArg must be consistent across host-threads */
-          LIBXSMM_ATOMIC_ACQUIRE(&lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
+          LIBXSMM_ATOMIC_ACQUIRE(lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
           ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 0, sizeof(cl_mem), ACC_OPENCL_MEM(dev_c_data)),
             "set C-matrix argument of SMM-kernel", result);
           ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 1, sizeof(cl_mem), ACC_OPENCL_MEM(dev_a_data)),
@@ -1773,7 +1795,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             }
           }
 #    endif
-          LIBXSMM_ATOMIC_RELEASE(&lock, LIBXSMM_ATOMIC_RELAXED);
+          LIBXSMM_ATOMIC_RELEASE(lock, LIBXSMM_ATOMIC_RELAXED);
         }
 #    if defined(OPENCL_LIBSMM_DEBUG_SMM)
         ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_c_data, test, csize, stream), "transfer debug test", result);
