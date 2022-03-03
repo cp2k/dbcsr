@@ -1178,7 +1178,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         key.devuid = 0;
         config = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
       }
-      if (0 >= bs) bs = NULL != config ? config->bs : OPENCL_LIBSMM_DEFAULT_BS;
+      if (0 >= bs) bs = ((NULL != config && 0 < config->bs) ? config->bs : OPENCL_LIBSMM_DEFAULT_BS);
       /* determine kernel-kind (mini-batch vs. mini-kernel) */
       if (1 == bs || 0 > s || (bs * s) > stack_size) kernel_idx = bs = 1;
       if (NULL == config || NULL == config->kernel[kernel_idx]) {
