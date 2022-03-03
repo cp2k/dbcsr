@@ -145,26 +145,25 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
     tid = 0; /*master*/
   }
   {
-    const cl_context context = NULL != c_dbcsr_acc_opencl_config.contexts ? c_dbcsr_acc_opencl_config.contexts[tid] : NULL;
+    const cl_context context = (NULL != c_dbcsr_acc_opencl_config.contexts ? c_dbcsr_acc_opencl_config.contexts[tid] : NULL);
     if (NULL != context) {
       cl_device_id device = NULL;
       result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
       if (CL_SUCCESS == result) {
-        const int s =
-          (0 >= c_dbcsr_acc_opencl_config.share ? 0 : (1 < c_dbcsr_acc_opencl_config.share ? c_dbcsr_acc_opencl_config.share : 2));
+        const int share = c_dbcsr_acc_opencl_config.share, s = (0 >= share ? 0 : (1 < share ? share : 2));
         if (1 >= s || s >= c_dbcsr_acc_opencl_config.nthreads || 0 == (tid % s)) {
           queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
         }
         else {
           int n = 0;
           assert(0 < tid);
-          for (i = 0; n < c_dbcsr_acc_opencl_config.nthreads; n += s) {
+          for (i = 0; n < c_dbcsr_acc_opencl_config.nthreads; ++n) {
             const int j = n + tid - 1, t = j < c_dbcsr_acc_opencl_config.nthreads ? j : (j - c_dbcsr_acc_opencl_config.nthreads);
-            if (0 != t) { /* avoid cloning master's streams */
+            if (0 < t && t != tid) { /* avoid cloning master's and own streams */
               streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * t;
               for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
                 if (NULL != streams[i]) {
-                  n = c_dbcsr_acc_opencl_config.nthreads;
+                  n = c_dbcsr_acc_opencl_config.nthreads; /* break outer loop */
                   break;
                 }
               }

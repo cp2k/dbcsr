@@ -184,7 +184,9 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b) {
 
 int c_dbcsr_acc_opencl_order_streams(const void* /*a*/, const void* /*b*/);
 int c_dbcsr_acc_opencl_order_streams(const void* a, const void* b) { /* NULL-pointers are sorted to the upper end */
-  return a < b ? -1 : (a > b ? 1 : 0);
+  const cl_command_queue *const p = (const cl_command_queue*)a, *const q = (const cl_command_queue*)b;
+  assert(NULL != p && NULL != q);
+  return *p < *q ? -1 : (*p > *q ? 1 : 0);
 }
 
 
