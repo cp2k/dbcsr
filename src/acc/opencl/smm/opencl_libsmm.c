@@ -1170,6 +1170,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       result = c_dbcsr_acc_opencl_device_uid(active_device, &key.devuid);
     }
     if (CL_SUCCESS == result) {
+      /* OpenCL is thread-safe except for clSetKernelArg (launching kernel shared among threads) */
+      static volatile int locks[OPENCL_LIBSMM_NLOCKS_SMM];
+      volatile int* lock = locks;
       opencl_libsmm_smm_t* config = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
       const char *const env_s = getenv("OPENCL_LIBSMM_SMM_S"), *const env_bs = getenv("OPENCL_LIBSMM_SMM_BS");
       const int s = ((NULL == env_s || '\0' == *env_s) ? /*default*/ 64 : atoi(env_s));
@@ -1181,6 +1184,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       if (0 >= bs) bs = ((NULL != config && 0 < config->bs) ? config->bs : OPENCL_LIBSMM_DEFAULT_BS);
       /* determine kernel-kind (mini-batch vs. mini-kernel) */
       if (1 == bs || 0 > s || (bs * s) > stack_size) kernel_idx = bs = 1;
+#    if (1 < OPENCL_LIBSMM_NLOCKS_SMM)
+      assert(!(OPENCL_LIBSMM_NLOCKS_SMM & (OPENCL_LIBSMM_NLOCKS_SMM - 1))); /* POT */
+      lock = locks + LIBXSMM_MOD2(libxsmm_hash(&config, sizeof(config), 25071975 /*seed*/), OPENCL_LIBSMM_NLOCKS_SMM);
+#    endif
+      LIBXSMM_ATOMIC_ACQUIRE(lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
       if (NULL == config || NULL == config->kernel[kernel_idx]) {
         char buffer[ACC_OPENCL_BUFFERSIZE], build_params[ACC_OPENCL_BUFFERSIZE];
         char fname[ACC_OPENCL_MAXSTRLEN];
@@ -1341,7 +1349,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   : atoi(env_ac),
                 0, 2);
               if (0 >= new_config.s) new_config.s = stack_size;
-              new_config.bs = bs;
+              if (0 == kernel_idx || 1 >= new_config.bs) new_config.bs = bs;
               nbm = (m_max + new_config.bm - 1) / new_config.bm;
               nbn = (n_max + new_config.bn - 1) / new_config.bn;
               new_config.wgsize[kernel_idx] = MAX(nbm * nbn, new_config.ws);
@@ -1391,7 +1399,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               }
               if (2 <= new_config.wg) wgsize_prf = LIBXSMM_UP2POT(wgsize_prf);
               if (wgsize_prf < (2 * new_config.wgsize[kernel_idx])) new_config.wgsize[kernel_idx] = wgsize_prf; /* limit */
-              assert(1 <= new_config.bs && 0 < new_config.wgsize[kernel_idx] && 0 < wgsize_max && 0 < wgsize_prf);
+              assert(1 <= bs && 0 < new_config.wgsize[kernel_idx] && 0 < wgsize_max && 0 < wgsize_prf);
               /* ensure minimum requested WG-size */
               while ((nbm * nbn) < new_config.ws && (nbm < m_max || nbn < n_max)) {
                 if (nbn < n_max) {
@@ -1475,8 +1483,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       }
                     }
                     else if (cl_nonv) {
-                      if (NULL != extensions[1] && 1 < new_config.bs && 1 == new_config.bn && new_config.bm >= m_max &&
-                          0 == new_config.al &&
+                      if (NULL != extensions[1] && 1 < bs && 1 == new_config.bn && new_config.bm >= m_max && 0 == new_config.al &&
                           (0 == (m_max & 1) || (0 == c_dbcsr_acc_opencl_config.devinfo.intel_id /*&& cl_nonv*/)) /* TODO */
                           && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions + 1, 1)) {
                         assert(dbcsr_type_real_4 == datatype);
@@ -1494,8 +1501,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                     }
                   }
                   else if (NULL != libxsmm_stristr(env_atomics, "cmpxchg")) {
-                    if (NULL != extensions[1] && 1 < new_config.bs && 1 == new_config.bn && new_config.bm >= m_max &&
-                        0 == new_config.al &&
+                    if (NULL != extensions[1] && 1 < bs && 1 == new_config.bn && new_config.bm >= m_max && 0 == new_config.al &&
                         (0 == (m_max & 1) || (0 == c_dbcsr_acc_opencl_config.devinfo.intel_id && cl_nonv)) /* TODO */
                         && '2' == env_atomics[strlen(env_atomics) - 1] &&
                         EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions + 1, 1)) {
@@ -1524,10 +1530,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DBM=%i -DBN=%i -DBK=%i -DT=%s -DTN=%i "
                   "%s %s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s %s",
                   c_dbcsr_acc_opencl_config.devinfo.intel_id, cmem, (int)new_config.wgsize[kernel_idx], (int)sgs, fname,
-                  NULL == env_nrepeat ? 1 : atoi(env_nrepeat), new_config.lu, m_max, n_max, k_max, new_config.bs, new_config.bm,
-                  new_config.bn, new_config.bk, tname, datatype, 0 == new_config.nz ? "" : "-DATOMIC_INC_NZ",
-                  0 == new_config.al ? "" : "-DAL", 0 == new_config.tb ? "" : "-DTRACK_B", 0 != new_config.tc ? "-DTRACK_C" : "",
-                  0 == new_config.ap ? "" : "-DSLM_P",
+                  NULL == env_nrepeat ? 1 : atoi(env_nrepeat), new_config.lu, m_max, n_max, k_max, bs, new_config.bm, new_config.bn,
+                  new_config.bk, tname, datatype, 0 == new_config.nz ? "" : "-DATOMIC_INC_NZ", 0 == new_config.al ? "" : "-DAL",
+                  0 == new_config.tb ? "" : "-DTRACK_B", 0 != new_config.tc ? "-DTRACK_C" : "", 0 == new_config.ap ? "" : "-DSLM_P",
                   0 == new_config.aa ? "" : (1 == new_config.aa ? "-DSLM_A=1" : (2 == new_config.aa ? "-DSLM_A=2" : "-DREG_A")),
                   0 == new_config.ab ? "" : (1 == new_config.ab ? "-DSLM_B=1" : (2 == new_config.ab ? "-DSLM_B=2" : "-DREG_B")),
                   0 == new_config.ac ? "" : (1 == new_config.ac ? "-DSLM_C=1" : "-DSLM_C=2"), atomic_type, atomic_ops, atomic_exp,
@@ -1588,8 +1593,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 if (EXIT_SUCCESS == result) {
                   assert(0 < new_config.wgsize[kernel_idx] && 0 < wgsize_max && 0 < wgsize_max_kernel);
                   assert(wgsize_max_kernel <= wgsize_max);
-                  /* check planned WG-size against kernel-specific WG-size */
-                  if (new_config.wgsize[kernel_idx] <= wgsize_max_kernel) {
+                  if (new_config.wgsize[kernel_idx] <= wgsize_max_kernel) { /* check planned WG-size vs kernel-specific WG-size */
                     if (NULL == config || NULL == config->kernel[kernel_idx]) {
                       config = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(new_config), &new_config);
                     }
@@ -1609,8 +1613,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       }
 #    endif
                     }
-                    /* failed to register config */
-                    else {
+                    else { /* failed to register config */
                       result = EXIT_FAILURE;
                     }
                   }
@@ -1645,7 +1648,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       assert(EXIT_SUCCESS != result || (1 <= config->bn && config->bn <= n_max));
       assert(EXIT_SUCCESS != result || (1 <= config->bk && config->bk <= m_max));
       assert(EXIT_SUCCESS != result || (1 <= config->ws && config->ws <= (m_max * n_max)));
-      assert(EXIT_SUCCESS != result || (1 <= config->bs && bs == config->bs));
       assert(EXIT_SUCCESS != result || (-2 <= config->wg && 2 >= config->wg));
       assert(EXIT_SUCCESS != result || (-1 <= config->lu && 2 >= config->lu));
       assert(EXIT_SUCCESS != result || (0 <= config->nz && 1 >= config->nz));
@@ -1657,13 +1659,14 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       assert(EXIT_SUCCESS != result || (0 <= config->ab && 3 >= config->ab));
       assert(EXIT_SUCCESS != result || (0 <= config->ac && 2 >= config->ac));
       assert(EXIT_SUCCESS != result || (1 <= config->wgsize[kernel_idx]));
-      assert(EXIT_SUCCESS != result || (1 <= config->s));
+      assert(EXIT_SUCCESS != result || (1 <= config->s && 1 <= config->bs));
       if (EXIT_SUCCESS == result) {
         cl_event event, *const perf_event =
                           ((opencl_libsmm_timer_host == opencl_libsmm_timer ||
                              (0 <= c_dbcsr_acc_opencl_config.verbosity && 4 >= c_dbcsr_acc_opencl_config.verbosity))
                               ? NULL
                               : &event);
+        size_t work_size;
 #    if defined(OPENCL_LIBSMM_DEBUG_SMM)
         /* validate result (implies readback from device and performance penalty) */
         char *ainp = NULL, *binp = NULL, *test = NULL, *gold = NULL, *btrn = NULL;
@@ -1707,96 +1710,82 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         if (0 == kernel_idx && 1 < config->bs && stack_size < config->s) {
           bs = (stack_size * config->bs + config->s - 1) / (config->s - 1);
         }
-        assert(!(OPENCL_LIBSMM_NLOCKS_SMM & (OPENCL_LIBSMM_NLOCKS_SMM - 1))); /* POT */
-        { /* OpenCL is thread-safe except for clSetKernelArg (launching kernel shared among threads) */
-          static volatile int locks[OPENCL_LIBSMM_NLOCKS_SMM];
-#    if (1 < OPENCL_LIBSMM_NLOCKS_SMM)
-          const unsigned int hash = libxsmm_hash(config->kernel + kernel_idx, sizeof(cl_kernel), 25071975 /*seed*/);
-          const unsigned int lidx = LIBXSMM_MOD2(hash, OPENCL_LIBSMM_NLOCKS_SMM);
-          volatile int* const lock = locks + lidx;
-#    else
-          volatile int* const lock = locks;
-#    endif
-          /* adjust overall stacksize according to intra-kernel batchsize */
-          const size_t work_size = ((stack_size + bs - 1) / bs) * config->wgsize[kernel_idx];
-          /* calling clSetKernelArg must be consistent across host-threads */
-          LIBXSMM_ATOMIC_ACQUIRE(lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
-          ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 0, sizeof(cl_mem), ACC_OPENCL_MEM(dev_c_data)),
-            "set C-matrix argument of SMM-kernel", result);
-          ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 1, sizeof(cl_mem), ACC_OPENCL_MEM(dev_a_data)),
-            "set A-matrix argument of SMM-kernel", result);
-          ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 2, sizeof(cl_mem), ACC_OPENCL_MEM(dev_b_data)),
-            "set B-matrix argument of SMM-kernel", result);
-          ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 3, sizeof(cl_mem), ACC_OPENCL_MEM(dev_param_stack)),
-            "set batch-list argument of SMM-kernel", result);
-          if (0 == kernel_idx) {
-            assert(bs <= config->bs);
-            ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 4, sizeof(int), &stack_size),
-              "set stacksize argument of SMM-kernel", result);
-            ACC_OPENCL_CHECK(
-              clSetKernelArg(config->kernel[kernel_idx], 5, sizeof(int), &bs), "set minibatch argument of SMM-kernel", result);
-          }
-          ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(queue, config->kernel[kernel_idx], 1 /*work_dim*/, NULL, &work_size,
-                             config->wgsize + kernel_idx, 0, NULL, perf_event),
-            "launch SMM-kernel", result);
-          /* eventually update performance counters inside of locked region */
+        /* adjust overall stacksize according to intra-kernel batchsize */
+        work_size = ((stack_size + bs - 1) / bs) * config->wgsize[kernel_idx];
+        /* calling clSetKernelArg must be consistent across host-threads */
+        ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 0, sizeof(cl_mem), ACC_OPENCL_MEM(dev_c_data)),
+          "set C-matrix argument of SMM-kernel", result);
+        ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 1, sizeof(cl_mem), ACC_OPENCL_MEM(dev_a_data)),
+          "set A-matrix argument of SMM-kernel", result);
+        ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 2, sizeof(cl_mem), ACC_OPENCL_MEM(dev_b_data)),
+          "set B-matrix argument of SMM-kernel", result);
+        ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 3, sizeof(cl_mem), ACC_OPENCL_MEM(dev_param_stack)),
+          "set batch-list argument of SMM-kernel", result);
+        if (0 == kernel_idx) {
+          assert(bs <= config->bs);
+          ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 4, sizeof(int), &stack_size),
+            "set stacksize argument of SMM-kernel", result);
+          ACC_OPENCL_CHECK(
+            clSetKernelArg(config->kernel[kernel_idx], 5, sizeof(int), &bs), "set minibatch argument of SMM-kernel", result);
+        }
+        ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(queue, config->kernel[kernel_idx], 1 /*work_dim*/, NULL, &work_size,
+                           config->wgsize + kernel_idx, 0, NULL, perf_event),
+          "launch SMM-kernel", result);
+        /* eventually update performance counters inside of locked region */
 #    if !defined(OPENCL_LIBSMM_DEBUG_SMM)
-          if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-            if (NULL != perf_event) {
-              cl_ulong begin = 0, end = 0;
-              clWaitForEvents(1, perf_event);
-              ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
-                "query kernel start time", result);
-              ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
-                "query kernel end time", result);
-              duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
+        if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+          if (NULL != perf_event) {
+            cl_ulong begin = 0, end = 0;
+            clWaitForEvents(1, perf_event);
+            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
+              "query kernel start time", result);
+            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
+              "query kernel end time", result);
+            duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
+          }
+          else {
+            clFinish(queue);
+            duration = libxsmm_timer_duration(start, libxsmm_timer_tick()); /* seconds */
+          }
+          if (EXIT_SUCCESS == result) {
+            const double gflops = 1E-9 * (2ULL * m_max * n_max * k_max * stack_size) / duration;
+#      if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
+            const size_t size = sizeof(config->size) / sizeof(*config->size);
+            assert(2 <= size);
+            libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
+            if (size <= config->nexec) {
+              const int s1 = size - 1, i = (int)((config->nexec++) % s1);
+              config->size[i] = stack_size;
+              if ((i + 1) == s1) { /* fill config->size with median */
+                const int s2 = size >> 1;
+                OPENCL_LIBSMM_ISORT(config->size, size);
+                config->size[s1] = config->size[s2];
+                if (0 == (1 & s1)) config->size[s1] = (config->size[s1] + config->size[s2 - 1]) >> 1;
+              }
             }
             else {
-              clFinish(queue);
-              duration = libxsmm_timer_duration(start, libxsmm_timer_tick()); /* seconds */
+              config->size[config->nexec++] = stack_size;
             }
-            if (EXIT_SUCCESS == result) {
-              const double gflops = 1E-9 * (2ULL * m_max * n_max * k_max * stack_size) / duration;
-#      if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
-              const size_t size = sizeof(config->size) / sizeof(*config->size);
-              assert(2 <= size);
-              libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
-              if (size <= config->nexec) {
-                const int s1 = size - 1, i = (int)((config->nexec++) % s1);
-                config->size[i] = stack_size;
-                if ((i + 1) == s1) { /* fill config->size with median */
-                  const int s2 = size >> 1;
-                  OPENCL_LIBSMM_ISORT(config->size, size);
-                  config->size[s1] = config->size[s2];
-                  if (0 == (1 & s1)) config->size[s1] = (config->size[s1] + config->size[s2 - 1]) >> 1;
-                }
-              }
-              else {
-                config->size[config->nexec++] = stack_size;
-              }
 #      endif
-              if (4 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-                const double est = (dbcsr_type_real_8 == datatype
-                                      ? (OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(double)) * opencl_libsmm_dacc)
-                                      : (OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(float)) * opencl_libsmm_sacc));
-                const int* const priority = c_dbcsr_acc_opencl_stream_priority(stream);
-                LIBXSMM_STDIO_ACQUIRE();
-                fprintf(stderr, "INFO ACC/OpenCL: SMM-kernel ");
-                opencl_libsmm_write_smm_params(
-                  stderr, 1 /*only_key*/, &key, NULL /*config*/, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-                fprintf(stderr, "=");
-                opencl_libsmm_write_smm_params(
-                  stderr, 1 /*only_key*/, &key, config, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-                fprintf(stderr, " prio=%i ss=%i cur=%.1f", NULL != priority ? *priority : -1, stack_size, gflops);
-                if (0 < est) fprintf(stderr, " est=%.1f", est);
-                fprintf(stderr, " GFLOPS/s dur=%.2g ms\n", 1E3 * duration);
-                LIBXSMM_STDIO_RELEASE();
-              }
+            if (4 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+              const double est = (dbcsr_type_real_8 == datatype
+                                    ? (OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(double)) * opencl_libsmm_dacc)
+                                    : (OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(float)) * opencl_libsmm_sacc));
+              const int* const priority = c_dbcsr_acc_opencl_stream_priority(stream);
+              LIBXSMM_STDIO_ACQUIRE();
+              fprintf(stderr, "INFO ACC/OpenCL: SMM-kernel ");
+              opencl_libsmm_write_smm_params(
+                stderr, 1 /*only_key*/, &key, NULL /*config*/, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
+              fprintf(stderr, "=");
+              opencl_libsmm_write_smm_params(stderr, 1 /*only_key*/, &key, config, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
+              fprintf(stderr, " prio=%i ss=%i cur=%.1f", NULL != priority ? *priority : -1, stack_size, gflops);
+              if (0 < est) fprintf(stderr, " est=%.1f", est);
+              fprintf(stderr, " GFLOPS/s dur=%.2g ms\n", 1E3 * duration);
+              LIBXSMM_STDIO_RELEASE();
             }
           }
-#    endif
-          LIBXSMM_ATOMIC_RELEASE(lock, LIBXSMM_ATOMIC_RELAXED);
         }
+#    endif
 #    if defined(OPENCL_LIBSMM_DEBUG_SMM)
         ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_c_data, test, csize, stream), "transfer debug test", result);
 #    endif
@@ -1864,6 +1853,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         LIBXSMM_UNUSED(nparams);
 #    endif
       }
+      LIBXSMM_ATOMIC_RELEASE(lock, LIBXSMM_ATOMIC_RELAXED);
     }
   }
   else if (0 < stack_size) { /* inhomogeneous, large kernel, or unsupported datatype */
