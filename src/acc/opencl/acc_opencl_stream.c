@@ -153,30 +153,46 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
         queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
       }
       else {
-        int n = 0;
+        const int maxn = c_dbcsr_acc_opencl_config.nthreads;
+        cl_command_queue stream = NULL;
         assert(0 < tid);
-        for (i = 0; n < c_dbcsr_acc_opencl_config.nthreads; ++n) {
-          const int j = n + tid - 1, t = j < c_dbcsr_acc_opencl_config.nthreads ? j : (j - c_dbcsr_acc_opencl_config.nthreads);
+        for (i = 0; i < maxn; ++i) {
+          int j = i + tid - 1, t = (j < maxn ? j : (j - maxn));
           if (0 < t && t != tid) { /* avoid cloning master's and own streams */
             streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * t;
-            for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
-              if (NULL != streams[i]) {
-                n = c_dbcsr_acc_opencl_config.nthreads; /* break outer loop */
+            for (j = 0; j < ACC_OPENCL_STREAMS_MAXCOUNT; ++j) {
+              if (NULL != streams[j]) {
+                stream = *ACC_OPENCL_STREAM(streams[j]);
+                i = maxn; /* break outer loop */
                 break;
               }
             }
           }
         }
-        assert(i == ACC_OPENCL_STREAMS_MAXCOUNT || c_dbcsr_acc_opencl_config.streams <= streams);
-        if (i < ACC_OPENCL_STREAMS_MAXCOUNT) { /* clone existing stream (share) */
-          cl_command_queue stream;
-          assert(NULL != streams);
-          stream = *ACC_OPENCL_STREAM(streams[i]);
+        if (NULL != stream) { /* clone existing stream (share) */
           result = clRetainCommandQueue(stream);
-          if (CL_SUCCESS == result) queue = stream;
         }
         else {
-          queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
+#  if defined(ACC_OPENCL_SHARE)
+          for (i = 0; i < maxn; ++i) {
+            if (NULL != c_dbcsr_acc_opencl_config.streams[i]) {
+              stream = *ACC_OPENCL_STREAM(c_dbcsr_acc_opencl_config.streams[i]);
+              result = clRetainCommandQueue(stream);
+            }
+            else {
+              break;
+            }
+          }
+#  else
+          stream = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
+#  endif
+        }
+        if (NULL != stream) {
+          assert(EXIT_SUCCESS == result);
+          queue = stream;
+        }
+        else if (EXIT_SUCCESS == result) {
+          result = EXIT_FAILURE;
         }
       }
     }
@@ -280,6 +296,9 @@ int c_dbcsr_acc_stream_destroy(void* stream) {
             }
             break;
           }
+          else if (NULL == streams[i]) { /* compact streams */
+            break;
+          }
         }
       }
     }
@@ -362,7 +381,8 @@ int c_dbcsr_acc_stream_sync(void* stream) {
   else
 #  endif
   {
-    result = clFinish(*ACC_OPENCL_STREAM(stream));
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+    result = clFinish(queue);
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);

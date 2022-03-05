@@ -106,6 +106,9 @@
 #if !defined(ACC_OPENCL_DEVMATCH) && 0
 #  define ACC_OPENCL_DEVMATCH
 #endif
+#if !defined(ACC_OPENCL_SHARE) && 0
+#  define ACC_OPENCL_SHARE
+#endif
 
 /* can depend on OpenCL implementation (unlikely) */
 #if !defined(ACC_OPENCL_MEM_NOALLOC) && 1
