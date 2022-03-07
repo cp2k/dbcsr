@@ -394,7 +394,8 @@ int c_dbcsr_acc_init(void) {
         else { /* prune number of devices to only expose requested ID */
           if (1 < c_dbcsr_acc_opencl_config.ndevices) {
             if (0 < device_id) {
-              c_dbcsr_acc_opencl_config.devices[0] = c_dbcsr_acc_opencl_config.devices[device_id];
+              c_dbcsr_acc_opencl_config.devices[0] =
+                c_dbcsr_acc_opencl_config.devices[device_id % c_dbcsr_acc_opencl_config.ndevices];
             }
             c_dbcsr_acc_opencl_config.ndevices = 1;
           }
