@@ -57,7 +57,7 @@
 #endif
 
 #define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
-#define ACC_BENCH_SMM_EPSILON_double 1E-3
+#define ACC_BENCH_SMM_EPSILON_double 3E-3
 #define ACC_BENCH_SMM_EPSILON_float 3E-3
 
 #define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT)-1)) & ~((NPOT)-1))
@@ -493,12 +493,10 @@ int main(int argc, char* argv[]) {
   CHECK(libsmm_acc_finalize(), NULL);
 #endif
   CHECK(c_dbcsr_acc_finalize(), NULL);
-  if (EXIT_SUCCESS == result) {
 #if defined(USE_LIBXSMM) && defined(VALIDATE)
-    if (1 < nok) printf("\nmax.error: %g\n", maxerror);
+  if (1 < nok) printf("\nmax.error: %g\n", maxerror);
 #endif
-  }
-  else {
+  if (EXIT_SUCCESS != result) {
     if (NULL != file) fclose(file);
     if (-1 != result) {
       fprintf(stderr, "FAILED\n");

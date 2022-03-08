@@ -57,7 +57,7 @@ typedef struct opencl_libsmm_smmkey_t {
   libsmm_acc_data_t type; /* must be the 1st data member */
   int m, n, k;
   /* device matching configuration (parameters) */
-  int devuid;
+  unsigned int devuid;
 } opencl_libsmm_smmkey_t;
 
 /** Type for SMM-kernel configuration. */

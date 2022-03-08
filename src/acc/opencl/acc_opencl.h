@@ -215,7 +215,9 @@ typedef struct c_dbcsr_acc_opencl_devinfo_t {
   cl_bool svm_interop;
 #endif
   /** Intel device ID (zero if non-Intel). */
-  cl_int intel_id;
+  cl_uint intel_id;
+  /** Kernel-parameters are matched against device's UID */
+  cl_uint devmatch;
   /** Whether host memory is unified or not. */
   cl_bool unified;
 } c_dbcsr_acc_opencl_devinfo_t;
@@ -229,8 +231,6 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_device_id devices[ACC_OPENCL_DEVICES_MAXCOUNT];
   /** Settings updated during c_dbcsr_acc_set_active_device. */
   c_dbcsr_acc_opencl_devinfo_t devinfo;
-  /** Kernel-parameters are matched against device's UID */
-  cl_bool devmatch;
   /** Table of activated device contexts (thread-specific). */
   cl_context* contexts;
   /** Handle-counter. */
@@ -296,9 +296,9 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);
 /** Confirm that match is matching the name of the given device. */
 int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char match[]);
 /** Capture or calculate UID based on the device-name. */
-int c_dbcsr_acc_opencl_devuid(const char devname[], int* uid);
+int c_dbcsr_acc_opencl_devuid(const char devname[], unsigned int* uid);
 /** Capture or calculate UID based on the device-ID. */
-int c_dbcsr_acc_opencl_device_uid(cl_device_id device, int* uid);
+int c_dbcsr_acc_opencl_device_uid(cl_device_id device, unsigned int* uid);
 /** Return the OpenCL support level for the given device. */
 int c_dbcsr_acc_opencl_device_level(cl_device_id device, int* level_major, int* level_minor, char cl_std[16], cl_device_type* type);
 /** Check if given device supports the extensions. */
