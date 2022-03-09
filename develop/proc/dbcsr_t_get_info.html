@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -132,7 +132,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-tensor~174"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor~169"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tensor</strong></td><td></td>
@@ -150,7 +150,7 @@
   <td><strong>nfull_total</strong></td><td><p>number of elements along each dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblks_local~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblks_local~5"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
   <td><strong>nblks_local</strong></td><td><p>local number of blocks along each dimension</p></td>
@@ -162,7 +162,7 @@
   <td><strong>nfull_local</strong></td><td><p>local number of elements along each dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pdims~24"></span>integer,</td>
+  <td><span class="anchor" id="variable-pdims~6"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
   <td><strong>pdims</strong></td><td><p>process grid dimensions</p></td>
@@ -222,25 +222,25 @@
   <td><strong>proc_dist_4</strong></td><td><p>distribution along dimension 4</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size_1~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size_1~5"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(dbcsr_t_nblks_total(tensor, 1))</td><td>::</td>
   <td><strong>blk_size_1</strong></td><td><p>block sizes along dimension 1</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size_2~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size_2~5"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(dbcsr_t_nblks_total(tensor, 2))</td><td>::</td>
   <td><strong>blk_size_2</strong></td><td><p>block sizes along dimension 2</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size_3~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size_3~5"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(dbcsr_t_nblks_total(tensor, 3))</td><td>::</td>
   <td><strong>blk_size_3</strong></td><td><p>block sizes along dimension 3</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size_4~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size_4~5"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(dbcsr_t_nblks_total(tensor, 4))</td><td>::</td>
   <td><strong>blk_size_4</strong></td><td><p>block sizes along dimension 4</p></td>
@@ -270,19 +270,19 @@
   <td><strong>blk_offset_4</strong></td><td><p>block offsets along dimension 4</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-distribution~14"></span>type(<a href='../type/dbcsr_t_distribution_type.html'>dbcsr_t_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-distribution~12"></span>type(<a href='../type/dbcsr_t_distribution_type.html'>dbcsr_t_distribution_type</a>),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>distribution</strong></td><td><p>distribution object</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-name~41"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~24"></span>character(len=*),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td><p>name of tensor</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~91"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~66"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td><p>data type of tensor</p></td>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -124,31 +124,31 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~313"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~281"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>matrix to query</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblkrows_total~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblkrows_total~14"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nblkrows_total</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblkcols_total~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblkcols_total~10"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nblkcols_total</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfullrows_total~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-nfullrows_total~8"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nfullrows_total</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfullcols_total~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-nfullcols_total~7"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nfullcols_total</strong></td><td></td>
@@ -166,7 +166,7 @@
   <td><strong>nblkcols_local</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfullrows_local~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-nfullrows_local~7"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nfullrows_local</strong></td><td></td>
@@ -190,13 +190,13 @@
   <td><strong>my_pcol</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-local_rows~17"></span>integer,</td>
+  <td><span class="anchor" id="variable-local_rows~14"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>local_rows</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-local_cols~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-local_cols~13"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>local_cols</strong></td><td></td>
@@ -214,25 +214,25 @@
   <td><strong>proc_col_dist</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_size~23"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_blk_size~27"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_size~22"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_blk_size~26"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_offset~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_blk_offset~9"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_blk_offset</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_offset~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_blk_offset~8"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_blk_offset</strong></td><td></td>
@@ -244,31 +244,31 @@
   <td><strong>distribution</strong></td><td><p>the data distribution of the matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-name~18"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~17"></span>character(len=*),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td><p>matrix name</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_area~8"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-data_area~9"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_area</strong></td><td><p>data_area</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_type~11"></span>character,</td>
+  <td><span class="anchor" id="variable-matrix_type~12"></span>character,</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>matrix_type</strong></td><td><p>matrix type (regular, symmetric, see dbcsr_types.F for values)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~36"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~57"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td><p>data type (single/double precision real/complex)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-group~35"></span>integer,</td>
+  <td><span class="anchor" id="variable-group~8"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>group</strong></td><td></td>

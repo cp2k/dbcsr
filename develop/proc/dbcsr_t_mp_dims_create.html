@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -112,11 +112,11 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-tensor_dims_sorted">tensor_dims_sorted</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-sort_indices~3">sort_indices</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-sort_indices">sort_indices</a>
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-dims_store">dims_store</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-sort_key~2">sort_key</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-sort_key">sort_key</a>
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-pdims_rem">pdims_rem</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-idim~16">idim</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-idim~10">idim</a>
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-pdim~2">pdim</a>
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-lb_ratio_prv">lb_ratio_prv</a>
     </div>
@@ -140,13 +140,13 @@ tensor dimension.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-nodes~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-nodes~2"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nodes</strong></td><td><p>Total number of nodes available for this matrix dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dims~19"></span>integer,</td>
+  <td><span class="anchor" id="variable-dims~8"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>dims</strong></td><td><p>process grid dimension corresponding to tensor_dims</p></td>
@@ -176,11 +176,11 @@ tensor dimension.</p>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-tensor_dims_sorted">tensor_dims_sorted</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-sort_indices~3">sort_indices</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-sort_indices">sort_indices</a>
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-dims_store">dims_store</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-sort_key~2">sort_key</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-sort_key">sort_key</a>
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-pdims_rem">pdims_rem</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-idim~16">idim</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-idim~10">idim</a>
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-pdim~2">pdim</a>
       <a class="list-group-item" href="../proc/dbcsr_t_mp_dims_create.html#variable-lb_ratio_prv">lb_ratio_prv</a>
     </div>
@@ -202,7 +202,7 @@ tensor dimension.</p>
   <td><strong>tensor_dims_sorted</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-sort_indices~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-sort_indices"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>sort_indices</strong></td><td></td><td></td><td></td>
 </tr>
@@ -212,7 +212,7 @@ tensor dimension.</p>
   <td><strong>dims_store</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-sort_key~2"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-sort_key"></span>real(kind=real_8),</td>
 <td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>sort_key</strong></td><td></td><td></td><td></td>
 </tr>
@@ -222,7 +222,7 @@ tensor dimension.</p>
   <td><strong>pdims_rem</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-idim~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-idim~10"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>idim</strong></td><td></td><td></td><td></td>
 </tr>

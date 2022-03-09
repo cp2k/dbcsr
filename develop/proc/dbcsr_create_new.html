@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,9 +111,9 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-routinen~654">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-routinen~681">routineN</a>
       <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-matrix_type_l">matrix_type_l</a>
-      <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-handle~530">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-handle~562">handle</a>
       <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-my_nze">my_nze</a>
       <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-vec_col_blk_offset">vec_col_blk_offset</a>
       <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-vec_row_blk_offset">vec_row_blk_offset</a>
@@ -149,13 +149,13 @@ see dbcsr_types.F</p>
   <td><strong>matrix</strong></td><td><p>new matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-name~20"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~29"></span>character(len=*),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dist~71"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~86"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dist</strong></td><td><p>distribution_2d distribution</p></td>
@@ -167,38 +167,38 @@ see dbcsr_types.F</p>
   <td><strong>matrix_type</strong></td><td><p>'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_size~38"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_blk_size~39"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_size~37"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_blk_size~38"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_size_obj"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-row_blk_size_obj~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>row_blk_size_obj</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_size_obj"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-col_blk_size_obj~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>col_blk_size_obj</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nze~65"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze~66"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nze</strong></td><td><p>number of elements
 type of data from 'rRcC' for single/double precision real/complex, default is 'R'</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~67"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~76"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td><p>number of elements
@@ -300,9 +300,9 @@ uses the mutable data for working and not the append-only data; default is appen
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-routinen~654">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-routinen~681">routineN</a>
       <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-matrix_type_l">matrix_type_l</a>
-      <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-handle~530">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-handle~562">handle</a>
       <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-my_nze">my_nze</a>
       <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-vec_col_blk_offset">vec_col_blk_offset</a>
       <a class="list-group-item" href="../proc/dbcsr_create_new.html#variable-vec_row_blk_offset">vec_row_blk_offset</a>
@@ -323,7 +323,7 @@ uses the mutable data for working and not the append-only data; default is appen
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-routinen~654"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~681"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_create_new'</td><td></td>
 </tr>
@@ -333,7 +333,7 @@ uses the mutable data for working and not the append-only data; default is appen
   <td><strong>matrix_type_l</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-handle~530"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~562"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>handle</strong></td><td></td><td></td><td></td>
 </tr>

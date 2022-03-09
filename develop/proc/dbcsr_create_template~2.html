@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -124,7 +124,7 @@
       <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-new_dist~4">new_dist</a>
       <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-new_data_memory_type">new_data_memory_type</a>
       <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-new_index_memory_type">new_index_memory_type</a>
-      <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-blk_size~3">blk_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-blk_size~39">blk_size</a>
     </div>
   </div>
 </div>
@@ -155,13 +155,13 @@
   <td><strong>template</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-name~21"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~30"></span>character(len=*),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dist~72"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~87"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>dist</strong></td><td></td>
@@ -173,37 +173,37 @@
   <td><strong>matrix_type</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_size~39"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_blk_size~40"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_size~38"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_blk_size~39"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_size_obj~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-row_blk_size_obj~3"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>row_blk_size_obj</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_size_obj~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-col_blk_size_obj~3"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>col_blk_size_obj</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nze~66"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze~67"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nze</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~68"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~77"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td></td>
@@ -299,7 +299,7 @@
       <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-new_dist~4">new_dist</a>
       <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-new_data_memory_type">new_data_memory_type</a>
       <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-new_index_memory_type">new_index_memory_type</a>
-      <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-blk_size~3">blk_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#variable-blk_size~39">blk_size</a>
     </div>
   </div>
 </div>
@@ -379,7 +379,7 @@
   <td><strong>new_index_memory_type</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size~39"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>blk_size</strong></td><td></td><td></td><td></td>
 </tr>

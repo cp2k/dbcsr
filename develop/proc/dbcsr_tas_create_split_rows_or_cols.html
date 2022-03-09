@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -112,21 +112,21 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-igroup_check">igroup_check</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-iproc~9">iproc</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-iproc~11">iproc</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-iproc_group">iproc_group</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-iproc_group_check">iproc_group_check</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-mp_comm_group~5">mp_comm_group</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-mp_comm_group~3">mp_comm_group</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-numproc~9">numproc</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-numproc_group">numproc_group</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-numproc_group_check">numproc_group_check</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-handle~567">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pcoord~11">pcoord</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-handle~595">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pcoord~12">pcoord</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pcoord_group">pcoord_group</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pdims~11">pdims</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pdims~20">pdims</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pdims_group">pdims_group</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-to_assert">to_assert</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-own_comm_prv">own_comm_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-routinen~694">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-routinen~719">routineN</a>
     </div>
   </div>
 </div>
@@ -152,33 +152,33 @@
   <td><strong>split_info</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mp_comm~22"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm~32"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mp_comm</strong></td><td><p>global mpi communicator with a 2d cartesian grid</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ngroup~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-ngroup~2"></span>integer,</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ngroup</strong></td><td><p>number of groups</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-igroup~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-igroup~6"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>igroup</strong></td><td><p>my group ID
 split rows or columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-split_rowcol~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-split_rowcol~7"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>split_rowcol</strong></td><td><p>my group ID
 split rows or columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-own_comm"></span>logical,</td>
+  <td><span class="anchor" id="variable-own_comm~2"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>own_comm</strong></td><td><p>Whether split_info should own communicator</p></td>
@@ -196,21 +196,21 @@ split rows or columns</p></td>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-igroup_check">igroup_check</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-iproc~9">iproc</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-iproc~11">iproc</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-iproc_group">iproc_group</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-iproc_group_check">iproc_group_check</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-mp_comm_group~5">mp_comm_group</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-mp_comm_group~3">mp_comm_group</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-numproc~9">numproc</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-numproc_group">numproc_group</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-numproc_group_check">numproc_group_check</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-handle~567">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pcoord~11">pcoord</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-handle~595">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pcoord~12">pcoord</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pcoord_group">pcoord_group</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pdims~11">pdims</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pdims~20">pdims</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-pdims_group">pdims_group</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-to_assert">to_assert</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-own_comm_prv">own_comm_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-routinen~694">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_create_split_rows_or_cols.html#variable-routinen~719">routineN</a>
     </div>
   </div>
 </div>
@@ -230,7 +230,7 @@ split rows or columns</p></td>
   <td><strong>igroup_check</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-iproc~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-iproc~11"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>iproc</strong></td><td></td><td></td><td></td>
 </tr>
@@ -245,7 +245,7 @@ split rows or columns</p></td>
   <td><strong>iproc_group_check</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mp_comm_group~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm_group~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>mp_comm_group</strong></td><td></td><td></td><td></td>
 </tr>
@@ -265,12 +265,12 @@ split rows or columns</p></td>
   <td><strong>numproc_group_check</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-handle~567"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~595"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>handle</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pcoord~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-pcoord~12"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>pcoord</strong></td><td></td><td></td><td></td>
 </tr>
@@ -280,7 +280,7 @@ split rows or columns</p></td>
   <td><strong>pcoord_group</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pdims~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-pdims~20"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>pdims</strong></td><td></td><td></td><td></td>
 </tr>
@@ -300,7 +300,7 @@ split rows or columns</p></td>
   <td><strong>own_comm_prv</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-routinen~694"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~719"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_tas_create_split_rows_or_cols'</td><td></td>
 </tr>

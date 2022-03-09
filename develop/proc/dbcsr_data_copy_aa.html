@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -113,7 +113,7 @@
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-lb2_s~2">lb2_s</a>
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-lb_s~3">lb_s</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub~15">ub</a>
+      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub~55">ub</a>
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub2">ub2</a>
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub2_s">ub2_s</a>
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub_s~3">ub_s</a>
@@ -137,39 +137,39 @@ There are no checks done for correctness!</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-dst~6"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-dst~19"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dst</strong></td><td><p>destination data area</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-lb~20"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb~59"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for destination (and source if not given explicitly)
 number of elements to copy</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_size~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size~14"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>data_size</strong></td><td><p>lower bound for destination (and source if not given explicitly)
 number of elements to copy</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-src~3"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-src~11"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>src</strong></td><td><p>source data area</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-source_lb~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-source_lb~4"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>source_lb</strong></td><td><p>lower bound of source</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-scale~21"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-scale~29"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>scale</strong></td><td><p>scale by this factor</p></td>
@@ -183,7 +183,7 @@ number of elements to copy</p></td>
 2nd dimension lower bound for source</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_size2"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size2~2"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_size2</strong></td><td><p>2nd dimension lower bound
@@ -212,7 +212,7 @@ number of elements to copy</p></td>
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-lb2_s~2">lb2_s</a>
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-lb_s~3">lb_s</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub~15">ub</a>
+      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub~55">ub</a>
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub2">ub2</a>
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub2_s">ub2_s</a>
       <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub_s~3">ub_s</a>
@@ -240,7 +240,7 @@ number of elements to copy</p></td>
   <td><strong>lb_s</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ub~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-ub~55"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>ub</strong></td><td></td><td></td><td></td>
 </tr>

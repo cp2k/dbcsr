@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,7 +111,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-ithread~16">ithread</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-ithread~14">ithread</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-max_new_nblks">max_new_nblks</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-nblks_new~2">nblks_new</a>
     </div>
@@ -133,25 +133,25 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-this~49"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
+  <td><span class="anchor" id="variable-this~51"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>this</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-left~16"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-left~17"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>left</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-right~17"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-right~18"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>right</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mi~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-mi~4"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mi</strong></td><td></td>
@@ -211,19 +211,19 @@
   <td><strong>bf</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-m_sizes~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-m_sizes~3"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>m_sizes</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n_sizes~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-n_sizes~3"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>n_sizes</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-k_sizes~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-k_sizes~3"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>k_sizes</strong></td><td></td>
@@ -247,7 +247,7 @@
   <td><strong>c_has_symmetry</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-keep_sparsity~13"></span>logical,</td>
+  <td><span class="anchor" id="variable-keep_sparsity~12"></span>logical,</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td></td>
@@ -259,13 +259,13 @@
   <td><strong>use_eps</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_max_epss~4"></span>real(kind=sp),</td>
+  <td><span class="anchor" id="variable-row_max_epss~3"></span>real(kind=sp),</td>
 <td></td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_max_epss</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~19"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~24"></span>integer(kind=int_8),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td></td>
@@ -306,7 +306,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-ithread~16">ithread</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-ithread~14">ithread</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-max_new_nblks">max_new_nblks</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-nblks_new~2">nblks_new</a>
     </div>
@@ -323,7 +323,7 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-ithread~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-ithread~14"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>ithread</strong></td><td></td><td></td><td></td>
 </tr>

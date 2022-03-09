@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -110,7 +110,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-modulen~55">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-modulen~2">moduleN</a>
       <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-dbcsr_memtype_default">dbcsr_memtype_default</a>
       <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-dbcsr_type_real_4">dbcsr_type_real_4</a>
       <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-dbcsr_type_real_8">dbcsr_type_real_8</a>
@@ -162,11 +162,11 @@
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
-    <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     <li><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
   </ul>
       </li>
       </ul>
@@ -182,7 +182,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-modulen~55">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-modulen~2">moduleN</a>
       <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-dbcsr_memtype_default">dbcsr_memtype_default</a>
       <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-dbcsr_type_real_4">dbcsr_type_real_4</a>
       <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-dbcsr_type_real_8">dbcsr_type_real_8</a>
@@ -231,7 +231,7 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-modulen~55"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~2"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_data_types'</td><td></td>
 </tr>
@@ -320,17 +320,17 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-r_sp~2"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-r_sp"></span>real(kind=real_4),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>r_sp</strong></td><td></td><td></td><td><p>stores real values in single precision</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-r_dp~2"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-r_dp"></span>real(kind=real_8),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>r_dp</strong></td><td></td><td></td><td><p>stores real values in double precision</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-c_sp~2"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-c_sp"></span>complex(kind=real_4),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>c_sp</strong></td><td></td><td></td><td><p>stores complex values in single precision</p></td>
 </tr>
@@ -340,7 +340,7 @@
   <td><strong>c_dp</strong></td><td></td><td></td><td><p>stores complex values in double precision</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td></td><td></td><td><p>which of the data types is actually used</p></td>
 </tr>
@@ -359,7 +359,7 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-d~2"></span>type(<a href='../type/dbcsr_data_area_type.html'>dbcsr_data_area_type</a>),</td>
+  <td><span class="anchor" id="variable-d"></span>type(<a href='../type/dbcsr_data_area_type.html'>dbcsr_data_area_type</a>),</td>
 <td>private,</td>  <td>POINTER</td><td>::</td>
   <td><strong>d</strong></td><td>=> </td><td>Null()</td><td></td>
 </tr>
@@ -379,7 +379,7 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-root~5"></span>type(<a href='../type/dbcsr_mempool_entry_type.html'>dbcsr_mempool_entry_type</a>),</td>
+  <td><span class="anchor" id="variable-root"></span>type(<a href='../type/dbcsr_mempool_entry_type.html'>dbcsr_mempool_entry_type</a>),</td>
 <td>private,</td>  <td>POINTER</td><td>::</td>
   <td><strong>root</strong></td><td>=> </td><td>Null()</td><td></td>
 </tr>
@@ -408,7 +408,7 @@
   <td><strong>area</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-next~3"></span>type(<a href='../type/dbcsr_mempool_entry_type.html'>dbcsr_mempool_entry_type</a>),</td>
+  <td><span class="anchor" id="variable-next"></span>type(<a href='../type/dbcsr_mempool_entry_type.html'>dbcsr_mempool_entry_type</a>),</td>
 <td>private,</td>  <td>POINTER</td><td>::</td>
   <td><strong>next</strong></td><td>=> </td><td>Null()</td><td></td>
 </tr>
@@ -482,17 +482,17 @@
   <td><strong>i8</strong></td><td>=> </td><td>Null()</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-r_sp~3"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-r_sp~2"></span>real(kind=real_4),</td>
 <td>private,</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>r_sp</strong></td><td>=> </td><td>Null()</td><td><p>stores real values in single precision</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-r_dp~3"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-r_dp~2"></span>real(kind=real_8),</td>
 <td>private,</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>r_dp</strong></td><td>=> </td><td>Null()</td><td><p>stores real values in double precision</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-c_sp~3"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-c_sp~2"></span>complex(kind=real_4),</td>
 <td>private,</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>c_sp</strong></td><td>=> </td><td>Null()</td><td><p>stores complex values in single precision</p></td>
 </tr>
@@ -527,12 +527,12 @@
   <td><strong>ref_size</strong></td><td> =</td><td>-1</td><td><p>last data element in array actually referenced</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>-1</td><td><p>reference counter for current structure</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-id~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-id"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>id</strong></td><td> =</td><td>-1</td><td></td>
 </tr>
@@ -542,7 +542,7 @@
   <td><strong>memory_type</strong></td><td> =</td><td>dbcsr_memtype_default</td><td><p>type of memory where data lives</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>which of the data types is actually used</p></td>
 </tr>

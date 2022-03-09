@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,14 +111,14 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-blk~73">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-col_size~92">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nblks~27">nblks</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nrows~16">nrows</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze~64">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-blk~7">blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-col_size~34">col_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nblks~3">nblks</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nrows~2">nrows</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze~7">nze</a>
       <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze_prev">nze_prev</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row~179">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row_size~99">row_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row~50">row</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row_size~35">row_size</a>
       <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-mark">mark</a>
       <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-trb">trb</a>
     </div>
@@ -142,13 +142,13 @@ As opposed to dbcsr_sort_data, this routine calculates block sizes</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-blk_p~51"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_p~5"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>re-arranged block pointers reflecting the new data order</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-old_blk_p~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_blk_p"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>old_blk_p</strong></td><td><p>current block pointers
@@ -158,7 +158,7 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_p~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_p~3"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_p</strong></td><td><p>current block pointers
@@ -168,7 +168,7 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_i~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_i~4"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>current block pointers
@@ -178,7 +178,7 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-rbs~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-rbs~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>rbs</strong></td><td><p>current block pointers
@@ -188,7 +188,7 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-cbs~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-cbs~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>cbs</strong></td><td><p>current block pointers
@@ -198,13 +198,13 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dst~46"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-dst~13"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dst</strong></td><td><p>sorted data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-src~37"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-src~7"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>src</strong></td><td><p>existing unordered data</p></td>
@@ -235,14 +235,14 @@ transpose data blocks</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-blk~73">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-col_size~92">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nblks~27">nblks</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nrows~16">nrows</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze~64">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-blk~7">blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-col_size~34">col_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nblks~3">nblks</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nrows~2">nrows</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze~7">nze</a>
       <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze_prev">nze_prev</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row~179">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row_size~99">row_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row~50">row</a>
+      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row_size~35">row_size</a>
       <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-mark">mark</a>
       <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-trb">trb</a>
     </div>
@@ -259,27 +259,27 @@ transpose data blocks</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-blk~73"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk~7"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>blk</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_size~92"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size~34"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>col_size</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblks~27"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblks~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nblks</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nrows~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-nrows~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nrows</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nze~64"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze~7"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nze</strong></td><td></td><td></td><td></td>
 </tr>
@@ -289,12 +289,12 @@ transpose data blocks</p></td>
   <td><strong>nze_prev</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~179"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~50"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_size~99"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size~35"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>row_size</strong></td><td></td><td></td><td></td>
 </tr>

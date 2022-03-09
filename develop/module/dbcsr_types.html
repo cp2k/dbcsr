@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -110,7 +110,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../module/dbcsr_types.html#variable-modulen~11">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_types.html#variable-modulen~15">moduleN</a>
       <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_filter_frobenius">dbcsr_filter_frobenius</a>
       <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_norm_frobenius">dbcsr_norm_frobenius</a>
       <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_norm_maxabsnorm">dbcsr_norm_maxabsnorm</a>
@@ -214,9 +214,9 @@
       <li class="list-group-item">
   <ul class="list-inline">
     <li><a href='../module/dbcsr_btree.html'>dbcsr_btree</a></li>
-    <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
   </ul>
       </li>
       </ul>
@@ -232,7 +232,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../module/dbcsr_types.html#variable-modulen~11">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_types.html#variable-modulen~15">moduleN</a>
       <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_filter_frobenius">dbcsr_filter_frobenius</a>
       <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_norm_frobenius">dbcsr_norm_frobenius</a>
       <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_norm_maxabsnorm">dbcsr_norm_maxabsnorm</a>
@@ -332,7 +332,7 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-modulen~11"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~15"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_types'</td><td></td>
 </tr>
@@ -676,7 +676,7 @@
   <td><strong>pgrid</strong></td><td>=> </td><td>Null()</td><td><p>processor grid</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>reference counter</p></td>
 </tr>
@@ -835,12 +835,12 @@ list of columns local to the processor grid column</p></td>
   <td><strong>num_threads</strong></td><td> =</td><td>-1</td><td><p>number of threads in the environment</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mp_env"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env~2"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>mp_env</strong></td><td></td><td></td><td><p>multiprocessor environment on which the distribution is based</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>reference counter</p></td>
 </tr>
@@ -859,7 +859,7 @@ list of columns local to the processor grid column</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-d"></span>type(<a href='../type/dbcsr_distribution_type.html'>dbcsr_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-d~2"></span>type(<a href='../type/dbcsr_distribution_type.html'>dbcsr_distribution_type</a>),</td>
 <td>private,</td>  <td>POINTER</td><td>::</td>
   <td><strong>d</strong></td><td>=> </td><td>Null()</td><td></td>
 </tr>
@@ -969,12 +969,12 @@ every real processor row.</p>
   <td><strong>has_global_vcol_map</strong></td><td> =</td><td>.FALSE.</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-id"></span>integer,</td>
+  <td><span class="anchor" id="variable-id~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>id</strong></td><td> =</td><td>-1</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~4"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>count of references</p></td>
 </tr>
@@ -1013,7 +1013,7 @@ every real processor row.</p>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-refcount~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~5"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>Reference counter</p></td>
 </tr>
@@ -1043,7 +1043,7 @@ every real processor row.</p>
   <td><strong>backing</strong></td><td>=> </td><td>Null()</td><td><p>Backing memory (in lieu of main memory)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>Data type used for the buffers</p></td>
 </tr>
@@ -1254,12 +1254,12 @@ every real processor row.</p>
   <td><strong>btree_z</strong></td><td></td><td></td><td><p>Data types for the various types</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~6"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>Reference counter</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~4"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>The data type that is stored</p></td>
 </tr>
@@ -1535,7 +1535,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p></td>
   <td><strong>nfullcols_local</strong></td><td> =</td><td>-1</td><td><p>size of local part of matrix in full columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~5"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>'r'/'R' for single/double precision real or 'c'/'C' for single/double precision complex data</p></td>
 </tr>
@@ -1600,7 +1600,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p></td>
   <td><strong>dist</strong></td><td> =</td><td>dbcsr_distribution_obj()</td><td><p>distribution used by this matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~7"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>reference count</p></td>
 </tr>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,13 +82,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">32 statements</a>
+    title=" 0.1% of total for procedures.">33 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
-     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
+     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
      <li class="active">block_buffer_get_next_block_c_sp</li>
   </ol>
 </div>
@@ -111,7 +111,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-p~37">p</a>
+      <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-p~35">p</a>
+      <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-ndims~9">ndims</a>
       <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-p_data~8">p_data</a>
       <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-do_advance~4">do_advance</a>
     </div>
@@ -133,27 +134,27 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-buffer~23"></span>type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),</td>
+  <td><span class="anchor" id="variable-buffer~16"></span>type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>buffer</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ndata~13"></span>integer,</td>
+  <td><span class="anchor" id="variable-ndata~11"></span>integer,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ndata</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-index~17"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-index~17"></span>integer,</td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(2)</td><td>::</td>
+  <td></td>  <td>DIMENSION(ndims_buffer(buffer))</td><td>::</td>
   <td><strong>index</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block~128"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-block~158"></span>complex(kind=real_4),</td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>DIMENSION(:, :)</td><td>::</td>
+  <td>optional</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>block</strong></td><td></td>
 </tr>
 <tr>
@@ -174,7 +175,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-p~37">p</a>
+      <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-p~35">p</a>
+      <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-ndims~9">ndims</a>
       <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-p_data~8">p_data</a>
       <a class="list-group-item" href="../proc/block_buffer_get_next_block_c_sp.html#variable-do_advance~4">do_advance</a>
     </div>
@@ -191,9 +193,14 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-p~37"></span>integer,</td>
+  <td><span class="anchor" id="variable-p~35"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>p</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ndims~9"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>ndims</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-p_data~8"></span>integer,</td>

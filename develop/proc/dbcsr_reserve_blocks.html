@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,27 +111,27 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-routinen~34">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-blk~13">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-blk_p~9">blk_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-routinen~219">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-blk~63">blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-blk_p~37">blk_p</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-data_size_new">data_size_new</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-data_size_old">data_size_old</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-handle~8">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblkrows~2">nblkrows</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-handle~128">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblkrows~4">nblkrows</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblks_actual_added">nblks_actual_added</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblks_added">nblks_added</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblks_new">nblks_new</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblks_old">nblks_old</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_data_sizes">new_data_sizes</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nze~7">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nze~41">nze</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-add_blkp">add_blkp</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-add_cols">add_cols</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-add_rows">add_rows</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-added_sizes">added_sizes</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_blk_p">new_blk_p</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_col_i">new_col_i</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_row_i">new_row_i</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-old_row_i">old_row_i</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-added_sizes~2">added_sizes</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_blk_p~7">new_blk_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_col_i~7">new_col_i</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_row_i~3">new_row_i</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-old_row_i~2">old_row_i</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-added_blk_info">added_blk_info</a>
     </div>
   </div>
@@ -161,20 +161,20 @@ No data is cleared in this case</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~244"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~320"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>Matrix into which blocks should be added.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-rows~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-rows~49"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>rows</strong></td><td><p>Rows of the blocks to add
 Columns of the blocks to add</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-columns~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-columns~35"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>columns</strong></td><td><p>Rows of the blocks to add
@@ -198,27 +198,27 @@ Columns of the blocks to add</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-routinen~34">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-blk~13">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-blk_p~9">blk_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-routinen~219">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-blk~63">blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-blk_p~37">blk_p</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-data_size_new">data_size_new</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-data_size_old">data_size_old</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-handle~8">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblkrows~2">nblkrows</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-handle~128">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblkrows~4">nblkrows</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblks_actual_added">nblks_actual_added</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblks_added">nblks_added</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblks_new">nblks_new</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nblks_old">nblks_old</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_data_sizes">new_data_sizes</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nze~7">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-nze~41">nze</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-add_blkp">add_blkp</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-add_cols">add_cols</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-add_rows">add_rows</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-added_sizes">added_sizes</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_blk_p">new_blk_p</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_col_i">new_col_i</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_row_i">new_row_i</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-old_row_i">old_row_i</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-added_sizes~2">added_sizes</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_blk_p~7">new_blk_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_col_i~7">new_col_i</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-new_row_i~3">new_row_i</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-old_row_i~2">old_row_i</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_blocks.html#variable-added_blk_info">added_blk_info</a>
     </div>
   </div>
@@ -234,17 +234,17 @@ Columns of the blocks to add</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-routinen~34"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~219"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_reserve_blocks'</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk~13"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk~63"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>blk</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_p~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_p~37"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>blk_p</strong></td><td></td><td></td><td></td>
 </tr>
@@ -259,12 +259,12 @@ Columns of the blocks to add</p></td>
   <td><strong>data_size_old</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-handle~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~128"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>handle</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblkrows~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblkrows~4"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nblkrows</strong></td><td></td><td></td><td></td>
 </tr>
@@ -294,7 +294,7 @@ Columns of the blocks to add</p></td>
   <td><strong>new_data_sizes</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nze~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze~41"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nze</strong></td><td></td><td></td><td></td>
 </tr>
@@ -314,27 +314,27 @@ Columns of the blocks to add</p></td>
   <td><strong>add_rows</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-added_sizes"></span>integer,</td>
+  <td><span class="anchor" id="variable-added_sizes~2"></span>integer,</td>
 <td>private,</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>added_sizes</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-new_blk_p"></span>integer,</td>
+  <td><span class="anchor" id="variable-new_blk_p~7"></span>integer,</td>
 <td>private,</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>new_blk_p</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-new_col_i"></span>integer,</td>
+  <td><span class="anchor" id="variable-new_col_i~7"></span>integer,</td>
 <td>private,</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>new_col_i</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-new_row_i"></span>integer,</td>
+  <td><span class="anchor" id="variable-new_row_i~3"></span>integer,</td>
 <td>private,</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>new_row_i</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-old_row_i"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_row_i~2"></span>integer,</td>
 <td>private,</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>old_row_i</strong></td><td></td><td></td><td></td>
 </tr>

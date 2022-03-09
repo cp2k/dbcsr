@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-91-ga995fe015d</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-92-gb236b4099b</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,13 +111,13 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-blk~18">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-csize~7">csize</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-nze~12">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-offset~9">offset</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-rsize~7">rsize</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_row~8">stored_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_col~7">stored_col</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-blk~68">blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-csize~17">csize</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-nze~46">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-offset~12">offset</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-rsize~17">rsize</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_row~13">stored_row</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_col~12">stored_col</a>
       <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_tr~5">stored_tr</a>
     </div>
   </div>
@@ -138,52 +138,52 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~253"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~329"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~74"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~150"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>the row
 the column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col~47"></span>integer,</td>
+  <td><span class="anchor" id="variable-col~97"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>col</strong></td><td><p>the row
 the column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block~71"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-block~178"></span>real(kind=real_4),</td>
 <td></td>
   <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to get (rank-1 array)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tr~46"></span>logical,</td>
+  <td><span class="anchor" id="variable-tr~131"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tr</strong></td><td><p>whether the data is transposed</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-found~37"></span>logical,</td>
+  <td><span class="anchor" id="variable-found~136"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>found</strong></td><td><p>whether the block exists in the matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_size~42"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size~83"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
 logical column size of block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_size~39"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size~76"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
@@ -201,13 +201,13 @@ logical column size of block</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-blk~18">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-csize~7">csize</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-nze~12">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-offset~9">offset</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-rsize~7">rsize</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_row~8">stored_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_col~7">stored_col</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-blk~68">blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-csize~17">csize</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-nze~46">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-offset~12">offset</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-rsize~17">rsize</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_row~13">stored_row</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_col~12">stored_col</a>
       <a class="list-group-item" href="../proc/dbcsr_get_block_p_s.html#variable-stored_tr~5">stored_tr</a>
     </div>
   </div>
@@ -223,37 +223,37 @@ logical column size of block</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-blk~18"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk~68"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>blk</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-csize~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-csize~17"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>csize</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nze~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze~46"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nze</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-offset~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-offset~12"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>offset</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-rsize~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-rsize~17"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>rsize</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stored_row~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-stored_row~13"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>stored_row</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stored_col~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-stored_col~12"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>stored_col</strong></td><td></td><td></td><td></td>
 </tr>
