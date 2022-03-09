@@ -1701,6 +1701,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
 #    endif
         if (0 == kernel_idx && 1 < config->bs && stack_size < config->s) {
           bs = (stack_size * config->bs + config->s - 1) / (config->s - 1);
+          if (config->bs < bs) bs = config->bs;
         }
         /* adjust overall stacksize according to intra-kernel batchsize */
         work_size = ((stack_size + bs - 1) / bs) * config->wgsize[kernel_idx];
