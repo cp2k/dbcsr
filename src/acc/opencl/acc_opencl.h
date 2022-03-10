@@ -82,7 +82,7 @@
 #endif
 /* First char is CSV-separator by default (w/o spaces) */
 #if !defined(ACC_OPENCL_DELIMS)
-#  define ACC_OPENCL_DELIMS ",;:|/"
+#  define ACC_OPENCL_DELIMS ",;"
 #endif
 
 #if !defined(ACC_OPENCL_PROFILE) && 0
