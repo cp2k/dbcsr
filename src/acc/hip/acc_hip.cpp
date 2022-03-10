@@ -9,7 +9,7 @@
 
 #include "acc_hip.h"
 
-#if defined(__HIP_PLATFORM_NVCC_)
+#if !defined(__HIP_PLATFORM_NVCC__)
 hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags) { return hipHostMalloc(ptr, size, flags); }
 
 hipError_t hipFreeHost(void* ptr) { return hipHostFree(ptr); }
