@@ -10,10 +10,8 @@
 #ifndef ACC_HIP_H
 #define ACC_HIP_H
 
-#if !defined(__HIP_PLATFORM_NVCC__)
-#  include <hip/hip_runtime.h>
-#  include <hip/hip_runtime_api.h>
-#endif
+#include <hip/hip_runtime.h>
+#include <hip/hip_runtime_api.h>
 #include <hipblas.h>
 #include <hip/hiprtc.h>
 
