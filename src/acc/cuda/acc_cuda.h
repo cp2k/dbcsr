@@ -29,7 +29,7 @@
   do { \
     cudaError_t result = ACC(func) args; \
     if (result != cudaSuccess) { \
-      printf("\nCUDA RUNTIME API error: %s failed with error %s\n", #func, cudaGetErrorName(result)); \
+      printf("\nCUDA RUNTIME API error: %s failed with error %s (%s::%d)\n", #func, cudaGetErrorName(result), __FILE__, __LINE__); \
       exit(1); \
     } \
   } while (0)
@@ -41,7 +41,7 @@
     if (result != CUDA_SUCCESS) { \
       const char* msg; \
       cuGetErrorName(result, &msg); \
-      printf("\nCUDA DRIVER API ERROR: %s failed with error %s\n", #func, msg); \
+      printf("\nCUDA DRIVER API ERROR: %s failed with error %s (%s::%d)\n", #func, msg, __FILE__, __LINE__); \
       exit(1); \
     } \
   } while (0)

@@ -28,7 +28,7 @@
   do { \
     hipError_t result = ACC(func) args; \
     if (result != hipSuccess) { \
-      printf("\nHIP error: %s failed with error %s\n", #func, hipGetErrorName(result)); \
+      printf("\nHIP error: %s failed with error %s (%s::%d)\n", #func, hipGetErrorName(result), __FILE__, __LINE__); \
       exit(1); \
     } \
   } while (0)
@@ -42,7 +42,7 @@
   do { \
     hiprtcResult result = ACC_RTC(func) args; \
     if (result != HIPRTC_SUCCESS) { \
-      printf("\nHIPRTC ERROR: %s failed with error %s\n", #func, hiprtcGetErrorString(result)); \
+      printf("\nHIPRTC ERROR: %s failed with error %s (%s::%d)\n", #func, hiprtcGetErrorString(result), __FILE__, __LINE__); \
       exit(1); \
     } \
   } while (0)
