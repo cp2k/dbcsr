@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,16 +111,16 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-routinen~196">routineN</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-blk~59">blk</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-c~11">c</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-routinen~57">routineN</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-blk~29">blk</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-c~10">c</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-col_l">col_l</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-mynblkcols">mynblkcols</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-mynblkrows">mynblkrows</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-nblks~16">nblks</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-nze~31">nze</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-nblks~8">nblks</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-nze~20">nze</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-prev_row">prev_row</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-row~108">row</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-row~113">row</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-row_l">row_l</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-sign_carrier">sign_carrier</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-sz~2">sz</a>
@@ -144,33 +144,33 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-row_p~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_p~7"></span>integer,</td>
 <td>intent(out),</td>
   <td></td>  <td>DIMENSION(1:nblkrows_total + 1)</td><td>::</td>
   <td><strong>row_p</strong></td><td><p>Storage for new index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_i~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_i~7"></span>integer,</td>
 <td>intent(out),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>Storage for new index
 Storage for new index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_p~22"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_p~15"></span>integer,</td>
 <td>intent(out),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>Storage for new index
 Storage for new index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblkrows_total~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblkrows_total~6"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nblkrows_total</strong></td><td><p>Total blocked rows</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblkcols_total~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblkcols_total~5"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nblkcols_total</strong></td><td><p>Total blocked columns</p></td>
@@ -190,27 +190,27 @@ List of blocked columns in my process column</p></td>
 List of blocked columns in my process column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_offsets~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_blk_offsets~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_blk_offsets</strong></td><td><p>List of blocked rows in my process row
 List of blocked columns in my process column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_offsets~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_blk_offsets~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_blk_offsets</strong></td><td><p>List of blocked rows in my process row
 List of blocked columns in my process column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-meta~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-meta~5"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(dbcsr_meta_size)</td><td>::</td>
   <td><strong>meta</strong></td><td><p>Metadata updates for new index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-make_tr~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-make_tr"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>make_tr</strong></td><td><p>Dense blocks are transposed</p></td>
@@ -227,16 +227,16 @@ List of blocked columns in my process column</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-routinen~196">routineN</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-blk~59">blk</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-c~11">c</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-routinen~57">routineN</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-blk~29">blk</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-c~10">c</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-col_l">col_l</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-mynblkcols">mynblkcols</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-mynblkrows">mynblkrows</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-nblks~16">nblks</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-nze~31">nze</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-nblks~8">nblks</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-nze~20">nze</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-prev_row">prev_row</a>
-      <a class="list-group-item" href="../proc/make_dense_index.html#variable-row~108">row</a>
+      <a class="list-group-item" href="../proc/make_dense_index.html#variable-row~113">row</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-row_l">row_l</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-sign_carrier">sign_carrier</a>
       <a class="list-group-item" href="../proc/make_dense_index.html#variable-sz~2">sz</a>
@@ -254,17 +254,17 @@ List of blocked columns in my process column</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-routinen~196"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~57"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'make_dense_index'</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk~59"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk~29"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>blk</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-c~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-c~10"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>c</strong></td><td></td><td></td><td></td>
 </tr>
@@ -284,12 +284,12 @@ List of blocked columns in my process column</p></td>
   <td><strong>mynblkrows</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblks~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblks~8"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nblks</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nze~31"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze~20"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nze</strong></td><td></td><td></td><td></td>
 </tr>
@@ -299,7 +299,7 @@ List of blocked columns in my process column</p></td>
   <td><strong>prev_row</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~108"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~113"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td></td><td></td><td></td>
 </tr>

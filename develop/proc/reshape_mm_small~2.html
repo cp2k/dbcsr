@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,13 +82,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">46 statements</a>
+    title=" 0.1% of total for procedures.">64 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_mm.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor.F"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tas_mm.f.html'>dbcsr_tas_mm.F</a></li>
-     <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor.f.html'>dbcsr_tensor.F</a></li>
+     <li><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
      <li class="active">reshape_mm_small</li>
   </ol>
 </div>
@@ -111,16 +111,12 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-numnodes~45">numnodes</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-dims~25">dims</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-pdims~14">pdims</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-pcoord~4">pcoord</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-new_row_dist~2">new_row_dist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-new_col_dist~2">new_col_dist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-dist~94">dist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-nodata_prv~4">nodata_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-routinen~705">routineN</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-handle~580">handle</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat1~2">compat1</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat2~2">compat2</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat1_old~2">compat1_old</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat2_old~2">compat2_old</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-unit_nr_prv~12">unit_nr_prv</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-nodata_prv~7">nodata_prv</a>
     </div>
   </div>
 </div>
@@ -130,59 +126,73 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, trans, nodata, move_data)</h2>
+    <h2>private subroutine reshape_mm_small(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)</h2>
     
 
-    <p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
-the same process grid as the other 2 matrices.</p>
+    <p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+matrix multiplication. This routine reshapes the smallest of the three tensors.</p>
 
     <h3>Arguments</h3>
       <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-mp_comm~24"></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>mp_comm</strong></td><td><p>communicator that defines Cartesian topology</p></td>
+  <td><span class="anchor" id="variable-tensor_in~17"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+<td>intent(inout),</td>
+  <td></td>  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_in</strong></td><td><p>tensor in</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_in~10"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix_in</strong></td><td></td>
+  <td><span class="anchor" id="variable-ind1"></span>integer,</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>ind1</strong></td><td><p>index that should be mapped to first matrix dimension
+index that should be mapped to second matrix dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_out~8"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-ind2"></span>integer,</td>
+<td>intent(in),</td>
+  <td></td>  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>ind2</strong></td><td><p>index that should be mapped to first matrix dimension
+index that should be mapped to second matrix dimension</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-tensor_out~17"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+<td>intent(out),</td>
+  <td></td>  <td>POINTER</td><td>::</td>
+  <td><strong>tensor_out</strong></td><td><p>tensor out</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-trans~3"></span>character(len=1),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>matrix_out</strong></td><td></td>
+  <td><strong>trans</strong></td><td><p>transpose flag of matrix rep.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-transposed~55"></span>logical,</td>
-<td>intent(in)</td>
+  <td><span class="anchor" id="variable-new"></span>logical,</td>
+<td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>transposed</strong></td><td><p>Whether matrix_out should be transposed</p></td>
+  <td><strong>new</strong></td><td><p>whether a new tensor was created for tensor_out</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-trans~2"></span>character(len=1),</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>trans</strong></td><td><p>update transpose flag for DBCSR mm according to 'transposed' argument</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nodata~11"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata~12"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nodata</strong></td><td><p>Data of matrix_in should not be copied to matrix_out
-memory optimization: move data such that matrix_in is empty on return.</p></td>
+  <td><strong>nodata</strong></td><td><p>don't copy tensor data
+memory optimization: transfer data s.t. tensor_in may be empty on return</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~18"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~20"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
-  <td><strong>move_data</strong></td><td><p>Data of matrix_in should not be copied to matrix_out
-memory optimization: move data such that matrix_in is empty on return.</p></td>
+  <td><strong>move_data</strong></td><td><p>don't copy tensor data
+memory optimization: transfer data s.t. tensor_in may be empty on return</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-unit_nr~34"></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td><p>output unit</p></td>
 </tr>
 </tbody>
 </table>
@@ -196,16 +206,12 @@ memory optimization: move data such that matrix_in is empty on return.</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-numnodes~45">numnodes</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-dims~25">dims</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-pdims~14">pdims</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-pcoord~4">pcoord</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-new_row_dist~2">new_row_dist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-new_col_dist~2">new_col_dist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-dist~94">dist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-nodata_prv~4">nodata_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-routinen~705">routineN</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-handle~580">handle</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat1~2">compat1</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat2~2">compat2</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat1_old~2">compat1_old</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat2_old~2">compat2_old</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-unit_nr_prv~12">unit_nr_prv</a>
+      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-nodata_prv~7">nodata_prv</a>
     </div>
   </div>
 </div>
@@ -220,54 +226,34 @@ memory optimization: move data such that matrix_in is empty on return.</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-numnodes~45"></span>integer,</td>
+  <td><span class="anchor" id="variable-compat1~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
-  <td><strong>numnodes</strong></td><td></td><td></td><td></td>
+  <td><strong>compat1</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dims~25"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>dims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pdims~14"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pdims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pcoord~4"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pcoord</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_row_dist~2"></span>type(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>),</td>
+  <td><span class="anchor" id="variable-compat2~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
-  <td><strong>new_row_dist</strong></td><td></td><td></td><td></td>
+  <td><strong>compat2</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-new_col_dist~2"></span>type(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>),</td>
+  <td><span class="anchor" id="variable-compat1_old~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
-  <td><strong>new_col_dist</strong></td><td></td><td></td><td></td>
+  <td><strong>compat1_old</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dist~94"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-compat2_old~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td><td></td><td></td>
+  <td><strong>compat2_old</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata_prv~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-unit_nr_prv~12"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>unit_nr_prv</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nodata_prv~7"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nodata_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-routinen~705"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'reshape_mm_small'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~580"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
 </table>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -117,15 +117,15 @@
       <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-mp_environ_tmp">mp_environ_tmp</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-nrows~22">nrows</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-ncols~6">ncols</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-irow~16">irow</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-col~127">col</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-icol~13">icol</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-row~190">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-split_rowcol~3">split_rowcol</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-nsplit~14">nsplit</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-handle~589">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-opt_nsplit~3">opt_nsplit</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-routinen~713">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-irow~17">irow</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-col~126">col</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-icol~14">icol</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-row~188">row</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-split_rowcol~4">split_rowcol</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-nsplit~2">nsplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-handle~553">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-opt_nsplit">opt_nsplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-routinen~681">routineN</a>
     </div>
   </div>
 </div>
@@ -147,31 +147,31 @@ arrays.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-dist~98"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-dist~75"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dist</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mp_comm~29"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm~13"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mp_comm</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_dist~29"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
+  <td><span class="anchor" id="variable-row_dist~26"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_dist~29"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
+  <td><span class="anchor" id="variable-col_dist~26"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-split_info~3"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
+  <td><span class="anchor" id="variable-split_info"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>split_info</strong></td><td><p>Strategy of how to split process grid (optional). If not present a default split heuristic is applied.</p></td>
@@ -200,15 +200,15 @@ arrays.</p>
       <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-mp_environ_tmp">mp_environ_tmp</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-nrows~22">nrows</a>
       <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-ncols~6">ncols</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-irow~16">irow</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-col~127">col</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-icol~13">icol</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-row~190">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-split_rowcol~3">split_rowcol</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-nsplit~14">nsplit</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-handle~589">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-opt_nsplit~3">opt_nsplit</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-routinen~713">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-irow~17">irow</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-col~126">col</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-icol~14">icol</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-row~188">row</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-split_rowcol~4">split_rowcol</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-nsplit~2">nsplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-handle~553">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-opt_nsplit">opt_nsplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_tas_distribution_new.html#variable-routinen~681">routineN</a>
     </div>
   </div>
 </div>
@@ -253,47 +253,47 @@ arrays.</p>
   <td><strong>ncols</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-irow~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-irow~17"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>irow</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col~127"></span>integer,</td>
+  <td><span class="anchor" id="variable-col~126"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>col</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-icol~13"></span>integer,</td>
+  <td><span class="anchor" id="variable-icol~14"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>icol</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~190"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~188"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-split_rowcol~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-split_rowcol~4"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>split_rowcol</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nsplit~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-handle~589"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~553"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>handle</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-opt_nsplit~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-opt_nsplit"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>opt_nsplit</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-routinen~713"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~681"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_tas_distribution_new'</td><td></td>
 </tr>

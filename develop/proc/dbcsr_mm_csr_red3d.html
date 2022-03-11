@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -113,18 +113,18 @@
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-c_blk_id~2">c_blk_id</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-iblock">iblock</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-ithread~17">ithread</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-lb~66">lb</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-ithread~19">ithread</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-lb~28">lb</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-lb_data">lb_data</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-lb_meta">lb_meta</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nblks_max~2">nblks_max</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nblocks~7">nblocks</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nthreads~12">nthreads</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nze~59">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nblocks~6">nblocks</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nthreads~16">nthreads</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nze~57">nze</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nze_max">nze_max</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-ub_meta">ub_meta</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-blk_p~48">blk_p</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-col_i~14">col_i</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-blk_p~46">blk_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-col_i~13">col_i</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-row_i~8">row_i</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-block_exists~2">block_exists</a>
     </div>
@@ -146,37 +146,37 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-this~56"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
+  <td><span class="anchor" id="variable-this~54"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>this</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-meta_buffer"></span>integer,</td>
+  <td><span class="anchor" id="variable-meta_buffer~3"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:), TARGET</td><td>::</td>
   <td><strong>meta_buffer</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_buffer~2"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-data_buffer~3"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>data_buffer</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~26"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~21"></span>integer(kind=int_8),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-m_sizes~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-m_sizes~7"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>m_sizes</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n_sizes~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-n_sizes~7"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>n_sizes</strong></td><td></td>
@@ -200,7 +200,7 @@
   <td><strong>original_lastblk</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-keep_sparsity~14"></span>logical,</td>
+  <td><span class="anchor" id="variable-keep_sparsity~15"></span>logical,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td></td>
@@ -219,18 +219,18 @@
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-c_blk_id~2">c_blk_id</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-iblock">iblock</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-ithread~17">ithread</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-lb~66">lb</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-ithread~19">ithread</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-lb~28">lb</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-lb_data">lb_data</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-lb_meta">lb_meta</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nblks_max~2">nblks_max</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nblocks~7">nblocks</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nthreads~12">nthreads</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nze~59">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nblocks~6">nblocks</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nthreads~16">nthreads</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nze~57">nze</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-nze_max">nze_max</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-ub_meta">ub_meta</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-blk_p~48">blk_p</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-col_i~14">col_i</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-blk_p~46">blk_p</a>
+      <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-col_i~13">col_i</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-row_i~8">row_i</a>
       <a class="list-group-item" href="../proc/dbcsr_mm_csr_red3d.html#variable-block_exists~2">block_exists</a>
     </div>
@@ -257,12 +257,12 @@
   <td><strong>iblock</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ithread~17"></span>integer,</td>
+  <td><span class="anchor" id="variable-ithread~19"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>ithread</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-lb~66"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb~28"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>lb</strong></td><td></td><td></td><td></td>
 </tr>
@@ -282,17 +282,17 @@
   <td><strong>nblks_max</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblocks~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblocks~6"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nblocks</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nthreads~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-nthreads~16"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nthreads</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nze~59"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze~57"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nze</strong></td><td></td><td></td><td></td>
 </tr>
@@ -307,12 +307,12 @@
   <td><strong>ub_meta</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_p~48"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_p~46"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>blk_p</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_i~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_i~13"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_i</strong></td><td></td><td></td><td></td>
 </tr>

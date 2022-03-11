@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,9 +111,9 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-routinen~201">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-data_size~11">data_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-handle~123">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-routinen~43">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-data_size~7">data_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-handle~9">handle</a>
       <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-lb2_t~2">lb2_t</a>
       <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-lb_t~3">lb_t</a>
       <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-ub_t~3">ub_t</a>
@@ -140,33 +140,33 @@ There are no checks done for correctness!</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-dst~16"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-dst~3"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dst</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-scale~28"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-scale~20"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>scale</strong></td><td><p>scale data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_size~63"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size~55"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>row size of existing block
 column size of existing block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_size~56"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size~52"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>row size of existing block
 column size of existing block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-lb~56"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb~17"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for destination (and source if not given explicitly)
@@ -191,9 +191,9 @@ lower bound of 2nd dimension for target</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-routinen~201">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-data_size~11">data_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-handle~123">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-routinen~43">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-data_size~7">data_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-handle~9">handle</a>
       <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-lb2_t~2">lb2_t</a>
       <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-lb_t~3">lb_t</a>
       <a class="list-group-item" href="../proc/dbcsr_block_scale.html#variable-ub_t~3">ub_t</a>
@@ -211,17 +211,17 @@ lower bound of 2nd dimension for target</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-routinen~201"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~43"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_block_scale'</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_size~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size~7"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_size</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-handle~123"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~9"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>handle</strong></td><td></td><td></td><td></td>
 </tr>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -124,13 +124,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-map~14"></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
+  <td><span class="anchor" id="variable-map~16"></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>map</strong></td><td><p>index mapping data.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ndim_nd~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-ndim_nd~3"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>ndim_nd</strong></td><td><p>number of dimensions
@@ -138,7 +138,7 @@ number of dimensions that map to first 2d index
 number of dimensions that map to first 2d index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ndim1_2d~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-ndim1_2d~3"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>ndim1_2d</strong></td><td><p>number of dimensions
@@ -146,7 +146,7 @@ number of dimensions that map to first 2d index
 number of dimensions that map to first 2d index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ndim2_2d~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-ndim2_2d~3"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>ndim2_2d</strong></td><td><p>number of dimensions
@@ -166,7 +166,7 @@ number of dimensions that map to first 2d index</p></td>
   <td><strong>dims_2d</strong></td><td><p>2d dimensions</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dims_nd~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-dims_nd~2"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(ndims_mapping(map))</td><td>::</td>
   <td><strong>dims_nd</strong></td><td><p>nd dimensions</p></td>
@@ -184,13 +184,13 @@ number of dimensions that map to first 2d index</p></td>
   <td><strong>dims2_2d</strong></td><td><p>dimensions that map to second 2d index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map1_2d~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-map1_2d~5"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(ndims_mapping_row(map))</td><td>::</td>
   <td><strong>map1_2d</strong></td><td><p>indices that map to first 2d index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map2_2d~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-map2_2d~5"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(ndims_mapping_column(map))</td><td>::</td>
   <td><strong>map2_2d</strong></td><td><p>indices that map to second 2d index</p></td>
@@ -202,13 +202,13 @@ number of dimensions that map to first 2d index</p></td>
   <td><strong>map_nd</strong></td><td><p>inverse of [map1_2d, map2_2d]</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-base~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-base~21"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>base</strong></td><td><p>base index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_major~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-col_major~4"></span>logical,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>col_major</strong></td><td><p>is index in column major order</p></td>

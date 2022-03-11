@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -127,14 +127,14 @@
       <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-size_sum~2">size_sum</a>
       <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-bind_1">bind_1</a>
       <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-bind_2">bind_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-isplit~2">isplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-isplit~3">isplit</a>
       <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-bs">bs</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-idim~15">idim</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-i~162">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-move_prv~3">move_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-nodata1_prv">nodata1_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-nodata2_prv">nodata2_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-order_prv~2">order_prv</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-idim~7">idim</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-i~178">i</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-move_prv~4">move_prv</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-nodata1_prv~2">nodata1_prv</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-nodata2_prv~2">nodata2_prv</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-order_prv">order_prv</a>
     </div>
   </div>
 </div>
@@ -156,14 +156,14 @@ block sizes
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-tensor1~4"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor1"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tensor1</strong></td><td><p>tensor 1 in
 tensor 2 in</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor2~4"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tensor2</strong></td><td><p>tensor 1 in
@@ -184,7 +184,7 @@ tensor 2 with split blocks</p></td>
 tensor 2 with split blocks</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-order~51"></span>integer,</td>
+  <td><span class="anchor" id="variable-order~44"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(ndims_tensor(tensor1))</td><td>::</td>
   <td><strong>order</strong></td><td></td>
@@ -238,14 +238,14 @@ don't copy data of tensor 2</p></td>
       <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-size_sum~2">size_sum</a>
       <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-bind_1">bind_1</a>
       <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-bind_2">bind_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-isplit~2">isplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-isplit~3">isplit</a>
       <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-bs">bs</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-idim~15">idim</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-i~162">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-move_prv~3">move_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-nodata1_prv">nodata1_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-nodata2_prv">nodata2_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-order_prv~2">order_prv</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-idim~7">idim</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-i~178">i</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-move_prv~4">move_prv</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-nodata1_prv~2">nodata1_prv</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-nodata2_prv~2">nodata2_prv</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_make_compatible_blocks.html#variable-order_prv">order_prv</a>
     </div>
   </div>
 </div>
@@ -340,7 +340,7 @@ don't copy data of tensor 2</p></td>
   <td><strong>bind_2</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-isplit~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-isplit~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>isplit</strong></td><td></td><td></td><td></td>
 </tr>
@@ -350,32 +350,32 @@ don't copy data of tensor 2</p></td>
   <td><strong>bs</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-idim~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-idim~7"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>idim</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-i~162"></span>integer,</td>
+  <td><span class="anchor" id="variable-i~178"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>i</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_prv~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_prv~4"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>move_prv</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata1_prv"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata1_prv~2"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nodata1_prv</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata2_prv"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata2_prv~2"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nodata2_prv</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-order_prv~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-order_prv"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(ndims_tensor(tensor1))</td><td>::</td>
   <td><strong>order_prv</strong></td><td></td><td></td><td></td>
 </tr>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,20 +111,20 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-data_block~14">data_block</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-data_block~8">data_block</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-data_block2~5">data_block2</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-col_size~81">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-row_size~88">row_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-stored_row~18">stored_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-stored_col~17">stored_col</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-iw~21">iw</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-col_size~44">col_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-row_size~47">row_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-stored_row~13">stored_row</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-stored_col~12">stored_col</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-iw~11">iw</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-nwms~8">nwms</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-col_blk_size~34">col_blk_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-row_blk_size~35">row_blk_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-found~141">found</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-col_blk_size~15">col_blk_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-row_blk_size~15">row_blk_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-found~42">found</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-gift~4">gift</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-tr~136">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-sym_tr~5">sym_tr</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-tr~51">tr</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-sym_tr~3">sym_tr</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-original_block~3">original_block</a>
     </div>
   </div>
@@ -145,39 +145,39 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~336"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~260"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~156"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~80"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>the row
 the column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col~103"></span>integer,</td>
+  <td><span class="anchor" id="variable-col~53"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>col</strong></td><td><p>the row
 the column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block~184"></span>complex(kind=real_8),</td>
+  <td><span class="anchor" id="variable-block~77"></span>complex(kind=real_8),</td>
 <td></td>
   <td></td>  <td>DIMENSION(:, :), POINTER</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to reserve; added if not NULL</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-transposed~43"></span>logical,</td>
+  <td><span class="anchor" id="variable-transposed~31"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>transposed</strong></td><td><p>the block holds transposed data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-existed~12"></span>logical,</td>
+  <td><span class="anchor" id="variable-existed~11"></span>logical,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>existed</strong></td><td><p>block already existed</p></td>
@@ -194,20 +194,20 @@ the column</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-data_block~14">data_block</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-data_block~8">data_block</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-data_block2~5">data_block2</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-col_size~81">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-row_size~88">row_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-stored_row~18">stored_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-stored_col~17">stored_col</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-iw~21">iw</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-col_size~44">col_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-row_size~47">row_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-stored_row~13">stored_row</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-stored_col~12">stored_col</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-iw~11">iw</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-nwms~8">nwms</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-col_blk_size~34">col_blk_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-row_blk_size~35">row_blk_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-found~141">found</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-col_blk_size~15">col_blk_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-row_blk_size~15">row_blk_size</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-found~42">found</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-gift~4">gift</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-tr~136">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-sym_tr~5">sym_tr</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-tr~51">tr</a>
+      <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-sym_tr~3">sym_tr</a>
       <a class="list-group-item" href="../proc/dbcsr_reserve_block2d_z.html#variable-original_block~3">original_block</a>
     </div>
   </div>
@@ -223,7 +223,7 @@ the column</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-data_block~14"></span>type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),</td>
+  <td><span class="anchor" id="variable-data_block~8"></span>type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_block</strong></td><td></td><td></td><td></td>
 </tr>
@@ -233,27 +233,27 @@ the column</p></td>
   <td><strong>data_block2</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_size~81"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size~44"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>col_size</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_size~88"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size~47"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>row_size</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stored_row~18"></span>integer,</td>
+  <td><span class="anchor" id="variable-stored_row~13"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>stored_row</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stored_col~17"></span>integer,</td>
+  <td><span class="anchor" id="variable-stored_col~12"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>stored_col</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-iw~21"></span>integer,</td>
+  <td><span class="anchor" id="variable-iw~11"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>iw</strong></td><td></td><td></td><td></td>
 </tr>
@@ -263,17 +263,17 @@ the column</p></td>
   <td><strong>nwms</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_size~34"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_blk_size~15"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_size~35"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_blk_size~15"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-found~141"></span>logical,</td>
+  <td><span class="anchor" id="variable-found~42"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>found</strong></td><td></td><td></td><td></td>
 </tr>
@@ -283,12 +283,12 @@ the column</p></td>
   <td><strong>gift</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tr~136"></span>logical,</td>
+  <td><span class="anchor" id="variable-tr~51"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>tr</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-sym_tr~5"></span>logical,</td>
+  <td><span class="anchor" id="variable-sym_tr~3"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>sym_tr</strong></td><td></td><td></td><td></td>
 </tr>

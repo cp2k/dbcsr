@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,7 +111,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_contract.html#variable-handle~114">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_contract.html#variable-handle~583">handle</a>
     </div>
   </div>
 </div>
@@ -153,7 +153,7 @@ bounds_2, bounds_3 give the index ranges of the batches.
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-alpha~37"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~45"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>alpha</strong></td><td></td>
@@ -171,7 +171,7 @@ bounds_2, bounds_3 give the index ranges of the batches.
   <td><strong>tensor_2</strong></td><td><p>second tensor (in)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-beta~10"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta~16"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>beta</strong></td><td></td>
@@ -240,7 +240,7 @@ For use in batched contraction.</p></td>
 For use in batched contraction.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-optimize_dist~5"></span>logical,</td>
+  <td><span class="anchor" id="variable-optimize_dist~7"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>optimize_dist</strong></td><td><p>Whether distribution should be optimized internally. In the current implementation this guarantees optimal parameters
@@ -267,31 +267,31 @@ in this case the pointer is not associated.</p></td>
   <td><strong>pgrid_opt_3</strong></td><td><p>Optionally return optimal process grid for tensor_3.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-filter_eps~5"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps~20"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>filter_eps</strong></td><td><p>As in DBCSR mm</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~8"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~30"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td><p>As in DBCSR mm</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~9"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~18"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>memory optimization: transfer data such that tensor_1 and tensor_2 are empty on return</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-retain_sparsity~11"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~20"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td><p>enforce the sparsity pattern of the existing tensor_3; default is no</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~22"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~31"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>output unit for logging
@@ -299,7 +299,7 @@ set it to -1 on ranks that should not write (and any valid unit number on ranks 
 if 0 on ALL ranks, no output is written</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-log_verbose~6"></span>logical,</td>
+  <td><span class="anchor" id="variable-log_verbose~8"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>log_verbose</strong></td><td><p>verbose logging (for testing only)</p></td>
@@ -316,7 +316,7 @@ if 0 on ALL ranks, no output is written</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_contract.html#variable-handle~114">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_contract.html#variable-handle~583">handle</a>
     </div>
   </div>
 </div>
@@ -331,7 +331,7 @@ if 0 on ALL ranks, no output is written</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-handle~114"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~583"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>handle</strong></td><td></td><td></td><td></td>
 </tr>

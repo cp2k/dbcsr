@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,24 +111,24 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nbrows">nbrows</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nbcols">nbcols</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-data_type~85">data_type</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nproc~9">nproc</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-handle~585">handle</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-pdims~17">pdims</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-pcoord~7">pcoord</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nbrows~2">nbrows</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nbcols~2">nbcols</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-data_type~82">data_type</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nproc~4">nproc</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-handle~564">handle</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-pdims~10">pdims</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-pcoord~10">pcoord</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-row_dist~28">row_dist</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-col_dist~28">col_dist</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-rbsize~2">rbsize</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-rcsize">rcsize</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-dist~96">dist</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-dist_old~2">dist_old</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-dist~81">dist</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-dist_old">dist_old</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-mp_obj~9">mp_obj</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-name~33">name</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nodata_prv~8">nodata_prv</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-name~31">name</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nodata_prv~6">nodata_prv</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-optimize_pgrid_prv">optimize_pgrid_prv</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-routinen~710">routineN</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-routinen~692">routineN</a>
     </div>
   </div>
 </div>
@@ -154,26 +154,26 @@
   <td><strong>mp_comm_cart</strong></td><td><p>new process grid</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_in~14"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_in~12"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_in</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_out~12"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_out~10"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_out</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~21"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~7"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>memory optimization: move data such that matrix_in is empty on return.
 Data of matrix_in should not be copied to matrix_out</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata~15"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata~8"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nodata</strong></td><td><p>memory optimization: move data such that matrix_in is empty on return.
@@ -197,24 +197,24 @@ Data of matrix_in should not be copied to matrix_out</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nbrows">nbrows</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nbcols">nbcols</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-data_type~85">data_type</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nproc~9">nproc</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-handle~585">handle</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-pdims~17">pdims</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-pcoord~7">pcoord</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nbrows~2">nbrows</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nbcols~2">nbcols</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-data_type~82">data_type</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nproc~4">nproc</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-handle~564">handle</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-pdims~10">pdims</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-pcoord~10">pcoord</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-row_dist~28">row_dist</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-col_dist~28">col_dist</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-rbsize~2">rbsize</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-rcsize">rcsize</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-dist~96">dist</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-dist_old~2">dist_old</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-dist~81">dist</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-dist_old">dist_old</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-mp_obj~9">mp_obj</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-name~33">name</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nodata_prv~8">nodata_prv</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-name~31">name</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-nodata_prv~6">nodata_prv</a>
       <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-optimize_pgrid_prv">optimize_pgrid_prv</a>
-      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-routinen~710">routineN</a>
+      <a class="list-group-item" href="../proc/convert_to_new_pgrid.html#variable-routinen~692">routineN</a>
     </div>
   </div>
 </div>
@@ -229,37 +229,37 @@ Data of matrix_in should not be copied to matrix_out</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-nbrows"></span>integer,</td>
+  <td><span class="anchor" id="variable-nbrows~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nbrows</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nbcols"></span>integer,</td>
+  <td><span class="anchor" id="variable-nbcols~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nbcols</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~85"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~82"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nproc~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-nproc~4"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nproc</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-handle~585"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~564"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>handle</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pdims~17"></span>integer,</td>
+  <td><span class="anchor" id="variable-pdims~10"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>pdims</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pcoord~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-pcoord~10"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>pcoord</strong></td><td></td><td></td><td></td>
 </tr>
@@ -284,12 +284,12 @@ Data of matrix_in should not be copied to matrix_out</p></td>
   <td><strong>rcsize</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dist~96"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~81"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>dist</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dist_old~2"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist_old"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>dist_old</strong></td><td></td><td></td><td></td>
 </tr>
@@ -299,12 +299,12 @@ Data of matrix_in should not be copied to matrix_out</p></td>
   <td><strong>mp_obj</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-name~33"></span>character(len=default_string_length),</td>
+  <td><span class="anchor" id="variable-name~31"></span>character(len=default_string_length),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata_prv~8"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata_prv~6"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nodata_prv</strong></td><td></td><td></td><td></td>
 </tr>
@@ -314,7 +314,7 @@ Data of matrix_in should not be copied to matrix_out</p></td>
   <td><strong>optimize_pgrid_prv</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-routinen~710"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~692"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'convert_to_new_pgrid'</td><td></td>
 </tr>

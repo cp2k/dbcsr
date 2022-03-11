@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,16 +111,16 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-routinen~212">routineN</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-blk_p~32">blk_p</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-bp~8">bp</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-csize~6">csize</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-nze~36">nze</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-rsize~6">rsize</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-routinen~68">routineN</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-blk_p~25">blk_p</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-bp~7">bp</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-csize~19">csize</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-nze~25">nze</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-rsize~19">rsize</a>
       <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-block_row_size~3">block_row_size</a>
       <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-block_col_size~3">block_col_size</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-lin_blk_p~2">lin_blk_p</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-error_handle~59">error_handle</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-lin_blk_p~6">lin_blk_p</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-error_handle~31">error_handle</a>
     </div>
   </div>
 </div>
@@ -140,13 +140,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-iterator~58"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
+  <td><span class="anchor" id="variable-iterator~41"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>iterator</strong></td><td><p>the iterator</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~134"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~123"></span>integer,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
@@ -160,46 +160,46 @@ column of the data block</p></td>
 column of the data block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block~165"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-block~89"></span>real(kind=real_4),</td>
 <td></td>
   <td></td>  <td>DIMENSION(:, :), POINTER</td><td>::</td>
   <td><strong>block</strong></td><td><p>pointer to the data block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-transposed~31"></span>logical,</td>
+  <td><span class="anchor" id="variable-transposed~42"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>transposed</strong></td><td><p>whether the block data is transposed</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block_number~23"></span>integer,</td>
+  <td><span class="anchor" id="variable-block_number~24"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>block_number</strong></td><td><p>block number</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_size~72"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size~64"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
 logical column size of block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_size~65"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size~61"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
 logical column size of block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_offset~38"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_offset~24"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
 logical column size of block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_offset~29"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_offset~23"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
@@ -217,16 +217,16 @@ logical column size of block</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-routinen~212">routineN</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-blk_p~32">blk_p</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-bp~8">bp</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-csize~6">csize</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-nze~36">nze</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-rsize~6">rsize</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-routinen~68">routineN</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-blk_p~25">blk_p</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-bp~7">bp</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-csize~19">csize</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-nze~25">nze</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-rsize~19">rsize</a>
       <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-block_row_size~3">block_row_size</a>
       <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-block_col_size~3">block_col_size</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-lin_blk_p~2">lin_blk_p</a>
-      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-error_handle~59">error_handle</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-lin_blk_p~6">lin_blk_p</a>
+      <a class="list-group-item" href="../proc/iterator_next_2d_block_s.html#variable-error_handle~31">error_handle</a>
     </div>
   </div>
 </div>
@@ -241,32 +241,32 @@ logical column size of block</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-routinen~212"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~68"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'iterator_next_2d_block_s'</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_p~32"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_p~25"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>blk_p</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-bp~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-bp~7"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>bp</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-csize~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-csize~19"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>csize</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nze~36"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze~25"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nze</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-rsize~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-rsize~19"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>rsize</strong></td><td></td><td></td><td></td>
 </tr>
@@ -281,12 +281,12 @@ logical column size of block</p></td>
   <td><strong>block_col_size</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-lin_blk_p~2"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-lin_blk_p~6"></span>real(kind=real_4),</td>
 <td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>lin_blk_p</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-error_handle~59"></span>integer,</td>
+  <td><span class="anchor" id="variable-error_handle~31"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>error_handle</strong></td><td></td><td></td><td></td>
 </tr>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -124,13 +124,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-this~9"></span>type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),</td>
+  <td><span class="anchor" id="variable-this~15"></span>type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>this</strong></td><td><p>device memory</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stream~4"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
+  <td><span class="anchor" id="variable-stream~28"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>stream</strong></td><td><p>on which zeroing and memcopying is performed</p></td>
@@ -142,14 +142,14 @@
   <td><strong>requested_size_in_bytes</strong></td><td><p>requested size in bytes</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nocopy~8"></span>logical,</td>
+  <td><span class="anchor" id="variable-nocopy"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>if after growin old content should NOT be copied over. Default: false.
 if after growing the new memory should be zeroed. Default: false.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-zero_pad~8"></span>logical,</td>
+  <td><span class="anchor" id="variable-zero_pad"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>if after growin old content should NOT be copied over. Default: false.

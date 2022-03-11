@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -111,19 +111,19 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-routinen~220">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-routinen~35">routineN</a>
       <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-block_1d">block_1d</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-rsize~13">rsize</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-csize~13">csize</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-blk~64">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-nze~42">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-offset~8">offset</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_row~8">stored_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_col~7">stored_col</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-iw~14">iw</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-rsize~3">rsize</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-csize~3">csize</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-blk~14">blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-nze~8">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-offset~5">offset</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_row~3">stored_row</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_col~2">stored_col</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-iw~4">iw</a>
       <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-nwms">nwms</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-error_handle~66">error_handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-data_block~7">data_block</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-error_handle~12">error_handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-data_block">data_block</a>
       <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_tr~2">stored_tr</a>
       <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-block0">block0</a>
     </div>
@@ -145,52 +145,52 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~322"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~246"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~144"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~68"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>the row
 the column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col~91"></span>integer,</td>
+  <td><span class="anchor" id="variable-col~41"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>col</strong></td><td><p>the row
 the column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block~172"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-block~65"></span>real(kind=real_8),</td>
 <td></td>
   <td></td>  <td>DIMENSION(:, :), POINTER</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to get (rank-2 array)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tr~126"></span>logical,</td>
+  <td><span class="anchor" id="variable-tr~41"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tr</strong></td><td><p>whether the data is transposed</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-found~131"></span>logical,</td>
+  <td><span class="anchor" id="variable-found~32"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>found</strong></td><td><p>whether the block exists in the matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_size~78"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size~37"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
 logical column size of block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_size~71"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size~34"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
@@ -208,19 +208,19 @@ logical column size of block</p></td>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-routinen~220">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-routinen~35">routineN</a>
       <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-block_1d">block_1d</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-rsize~13">rsize</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-csize~13">csize</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-blk~64">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-nze~42">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-offset~8">offset</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_row~8">stored_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_col~7">stored_col</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-iw~14">iw</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-rsize~3">rsize</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-csize~3">csize</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-blk~14">blk</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-nze~8">nze</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-offset~5">offset</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_row~3">stored_row</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_col~2">stored_col</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-iw~4">iw</a>
       <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-nwms">nwms</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-error_handle~66">error_handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-data_block~7">data_block</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-error_handle~12">error_handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-data_block">data_block</a>
       <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-stored_tr~2">stored_tr</a>
       <a class="list-group-item" href="../proc/dbcsr_get_2d_block_p_d.html#variable-block0">block0</a>
     </div>
@@ -237,7 +237,7 @@ logical column size of block</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-routinen~220"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~35"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_get_2d_block_p_d'</td><td></td>
 </tr>
@@ -247,42 +247,42 @@ logical column size of block</p></td>
   <td><strong>block_1d</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-rsize~13"></span>integer,</td>
+  <td><span class="anchor" id="variable-rsize~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>rsize</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-csize~13"></span>integer,</td>
+  <td><span class="anchor" id="variable-csize~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>csize</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk~64"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk~14"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>blk</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nze~42"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze~8"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nze</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-offset~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-offset~5"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>offset</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stored_row~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-stored_row~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>stored_row</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stored_col~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-stored_col~2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>stored_col</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-iw~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-iw~4"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>iw</strong></td><td></td><td></td><td></td>
 </tr>
@@ -292,12 +292,12 @@ logical column size of block</p></td>
   <td><strong>nwms</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-error_handle~66"></span>integer,</td>
+  <td><span class="anchor" id="variable-error_handle~12"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>error_handle</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_block~7"></span>type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),</td>
+  <td><span class="anchor" id="variable-data_block"></span>type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_block</strong></td><td></td><td></td><td></td>
 </tr>

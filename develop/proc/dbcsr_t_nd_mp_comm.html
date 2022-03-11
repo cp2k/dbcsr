@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -113,14 +113,14 @@
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-ndim1">ndim1</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-ndim2">ndim2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-numtask">numtask</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-numtask~3">numtask</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-dims_2d~3">dims_2d</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-task_coor">task_coor</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-task_coor~3">task_coor</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-dims1_nd_prv">dims1_nd_prv</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-dims2_nd_prv">dims2_nd_prv</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-dims_nd_prv">dims_nd_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-handle~101">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-routinen~168">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-handle~590">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-routinen~714">routineN</a>
     </div>
   </div>
 </div>
@@ -144,20 +144,20 @@ This is needed to enable contraction of 2 tensors (must have the same 2d process
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-comm_2d"></span>integer,</td>
+  <td><span class="anchor" id="variable-comm_2d~3"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>comm_2d</strong></td><td><p>communicator with 2-dimensional topology</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map1_2d~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-map1_2d~9"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map1_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
 which nd-indices map to second matrix index and in which order</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map2_2d~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-map2_2d~9"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map2_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
@@ -182,13 +182,13 @@ which nd-indices map to second matrix index and in which order</p></td>
   <td><strong>dims2_nd</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pdims_2d"></span>integer,</td>
+  <td><span class="anchor" id="variable-pdims_2d~2"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>pdims_2d</strong></td><td><p>if comm_2d does not have a cartesian topology associated, can input dimensions with pdims_2d</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tdims"></span>integer,</td>
+  <td><span class="anchor" id="variable-tdims~3"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(SIZE(map1_2d) + SIZE(map2_2d))</td><td>::</td>
   <td><strong>tdims</strong></td><td><p>tensor block dimensions. If present, process grid dimensions are created such that good
@@ -196,13 +196,13 @@ load balancing is ensured even if some of the tensor dimensions are small (i.e. 
 or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nsplit~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~19"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dimsplit~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-dimsplit~3"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>dimsplit</strong></td><td></td>
@@ -223,14 +223,14 @@ or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-ndim1">ndim1</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-ndim2">ndim2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-numtask">numtask</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-numtask~3">numtask</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-dims_2d~3">dims_2d</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-task_coor">task_coor</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-task_coor~3">task_coor</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-dims1_nd_prv">dims1_nd_prv</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-dims2_nd_prv">dims2_nd_prv</a>
       <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-dims_nd_prv">dims_nd_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-handle~101">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-routinen~168">routineN</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-handle~590">handle</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_nd_mp_comm.html#variable-routinen~714">routineN</a>
     </div>
   </div>
 </div>
@@ -255,7 +255,7 @@ or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
   <td><strong>ndim2</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-numtask"></span>integer,</td>
+  <td><span class="anchor" id="variable-numtask~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>numtask</strong></td><td></td><td></td><td></td>
 </tr>
@@ -265,7 +265,7 @@ or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
   <td><strong>dims_2d</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-task_coor"></span>integer,</td>
+  <td><span class="anchor" id="variable-task_coor~3"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>task_coor</strong></td><td></td><td></td><td></td>
 </tr>
@@ -285,12 +285,12 @@ or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
   <td><strong>dims_nd_prv</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-handle~101"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~590"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>handle</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-routinen~168"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~714"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_t_nd_mp_comm'</td><td></td>
 </tr>

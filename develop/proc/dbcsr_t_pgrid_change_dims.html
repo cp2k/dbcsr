@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -112,12 +112,12 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-pgrid_tmp">pgrid_tmp</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-nsplit~4">nsplit</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-dimsplit~4">dimsplit</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-map1_2d~14">map1_2d</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-map2_2d~14">map2_2d</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-nsplit~21">nsplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-dimsplit~5">dimsplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-map1_2d~17">map1_2d</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-map2_2d~17">map2_2d</a>
       <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-nd_index_grid~2">nd_index_grid</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-pdims_2d~5">pdims_2d</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-pdims_2d~6">pdims_2d</a>
     </div>
   </div>
 </div>
@@ -137,13 +137,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-pgrid~29"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+  <td><span class="anchor" id="variable-pgrid~41"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>pgrid</strong></td><td><p>process grid to be changed</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pdims~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-pdims~23"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>pdims</strong></td><td><p>new process grid dimensions, should all be set &gt; 0</p></td>
@@ -161,12 +161,12 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-pgrid_tmp">pgrid_tmp</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-nsplit~4">nsplit</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-dimsplit~4">dimsplit</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-map1_2d~14">map1_2d</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-map2_2d~14">map2_2d</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-nsplit~21">nsplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-dimsplit~5">dimsplit</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-map1_2d~17">map1_2d</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-map2_2d~17">map2_2d</a>
       <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-nd_index_grid~2">nd_index_grid</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-pdims_2d~5">pdims_2d</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_change_dims.html#variable-pdims_2d~6">pdims_2d</a>
     </div>
   </div>
 </div>
@@ -186,22 +186,22 @@
   <td><strong>pgrid_tmp</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nsplit~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~21"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dimsplit~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-dimsplit~5"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>dimsplit</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map1_2d~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-map1_2d~17"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(ndims_mapping_row(pgrid%nd_index_grid))</td><td>::</td>
   <td><strong>map1_2d</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map2_2d~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-map2_2d~17"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(ndims_mapping_column(pgrid%nd_index_grid))</td><td>::</td>
   <td><strong>map2_2d</strong></td><td></td><td></td><td></td>
 </tr>
@@ -211,7 +211,7 @@
   <td><strong>nd_index_grid</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pdims_2d~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-pdims_2d~6"></span>integer,</td>
 <td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>pdims_2d</strong></td><td></td><td></td><td></td>
 </tr>

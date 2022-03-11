@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-99-g004de0d337</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -112,11 +112,11 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-write_int_prv">write_int_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_1~2">i_1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_2~2">i_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_3~2">i_3</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_4~2">i_4</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-ndim~4">ndim</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_1">i_1</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_2">i_2</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_3">i_3</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_4">i_4</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-ndim~3">ndim</a>
     </div>
   </div>
 </div>
@@ -136,55 +136,55 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-name~19"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~34"></span>character(len=*),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td><p>tensor name</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size~28"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size~9"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_size</strong></td><td><p>block size</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_index~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_index~6"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_index</strong></td><td><p>block index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-proc~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-proc~2"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>proc</strong></td><td><p>which process am I</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~18"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~25"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>unit number</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_values_2~3"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-blk_values_2~2"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(blk_size(1), blk_size(2))</td><td>::</td>
   <td><strong>blk_values_2</strong></td><td><p>block values for 2 dimensions</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_values_3~3"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-blk_values_3~2"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(blk_size(1), blk_size(2), blk_size(3))</td><td>::</td>
   <td><strong>blk_values_3</strong></td><td><p>block values for 2 dimensions</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_values_4~3"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-blk_values_4~2"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(blk_size(1), blk_size(2), blk_size(3), blk_size(4))</td><td>::</td>
   <td><strong>blk_values_4</strong></td><td><p>block values for 2 dimensions</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-write_int~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-write_int~2"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>write_int</strong></td><td><p>write_int convert values to integers</p></td>
@@ -202,11 +202,11 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-write_int_prv">write_int_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_1~2">i_1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_2~2">i_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_3~2">i_3</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_4~2">i_4</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-ndim~4">ndim</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_1">i_1</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_2">i_2</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_3">i_3</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-i_4">i_4</a>
+      <a class="list-group-item" href="../proc/dbcsr_t_write_block.html#variable-ndim~3">ndim</a>
     </div>
   </div>
 </div>
@@ -226,27 +226,27 @@
   <td><strong>write_int_prv</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-i_1~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-i_1"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>i_1</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-i_2~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-i_2"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>i_2</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-i_3~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-i_3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>i_3</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-i_4~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-i_4"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>i_4</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ndim~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-ndim~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>ndim</strong></td><td></td><td></td><td></td>
 </tr>
