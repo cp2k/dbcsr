@@ -969,12 +969,9 @@ int c_dbcsr_acc_set_active_device(int device_id) {
 
 int c_dbcsr_acc_opencl_device_synchronize(int thread_id) {
   int result = EXIT_SUCCESS;
-  if (0 == (4 & c_dbcsr_acc_opencl_config.flush)
-#  if defined(ACC_OPENCL_SHARE)
-      && (1 > c_dbcsr_acc_opencl_config.share ||
-           0 == (thread_id % (1 != c_dbcsr_acc_opencl_config.share ? c_dbcsr_acc_opencl_config.share : 2)))
-#  endif
-  ) {
+  if (0 == (4 & c_dbcsr_acc_opencl_config.flush) &&
+      (1 > c_dbcsr_acc_opencl_config.share ||
+        0 == (thread_id % (1 != c_dbcsr_acc_opencl_config.share ? c_dbcsr_acc_opencl_config.share : 2)))) {
     void** const streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * thread_id;
     int i = 0;
     assert(0 <= thread_id && thread_id < c_dbcsr_acc_opencl_config.nthreads);

@@ -54,6 +54,9 @@
 #  if !defined(OPENCL_LIBSMM_NLOCKS_SMM)
 #    define OPENCL_LIBSMM_NLOCKS_SMM 16
 #  endif
+#  if !defined(OPENCL_LIBSMM_CMEM) && 1
+#    define OPENCL_LIBSMM_CMEM
+#  endif
 /* default: decompose C-matrix into column-vectors (Mx1) */
 #  if !defined(OPENCL_LIBSMM_DEFAULT_BM)
 #    define OPENCL_LIBSMM_DEFAULT_BM INT_MAX

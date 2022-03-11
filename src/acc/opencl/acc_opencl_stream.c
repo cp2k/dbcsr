@@ -79,9 +79,14 @@ int c_dbcsr_acc_opencl_stream_is_thread_specific(int thread_id, const void* stre
 
 
 int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
-  ACC_OPENCL_COMMAND_QUEUE_PROPERTIES properties[8] = {
-    CL_QUEUE_PROPERTIES, 0 /*placeholder*/, 0 /* terminator */
-  };
+#  if defined(CL_VERSION_2_0)
+  cl_queue_properties
+#  else
+  cl_int
+#  endif
+    properties[8] = {
+      CL_QUEUE_PROPERTIES, 0 /*placeholder*/, 0 /* terminator */
+    };
   int result, i, tid = 0;
   cl_command_queue queue = NULL;
   cl_context context = NULL;
@@ -173,8 +178,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
           result = clRetainCommandQueue(stream);
         }
         else {
-#  if defined(ACC_OPENCL_SHARE)
-          for (i = 0; i < maxn; ++i) {
+          for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) { /* adopt master's stream created last */
             if (NULL != c_dbcsr_acc_opencl_config.streams[i]) {
               stream = *ACC_OPENCL_STREAM(c_dbcsr_acc_opencl_config.streams[i]);
               result = clRetainCommandQueue(stream);
@@ -183,17 +187,8 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
               break;
             }
           }
-#  else
-          stream = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
-#  endif
         }
-        if (NULL != stream) {
-          assert(EXIT_SUCCESS == result);
-          queue = stream;
-        }
-        else if (EXIT_SUCCESS == result) {
-          result = EXIT_FAILURE;
-        }
+        if (EXIT_SUCCESS == result) queue = stream;
       }
     }
   }

@@ -21,13 +21,13 @@
 #if !defined(OPENCL_LIBSMM_DEBUG) && 0
 #  define OPENCL_LIBSMM_DEBUG 1
 #endif
-#if !defined(OPENCL_LIBSMM_CMEM) && 1
-#  define OPENCL_LIBSMM_CMEM
+#if !defined(OPENCL_LIBSMM_F32_OFF) && defined(__DBCSR_ACC) && 0
+#  define OPENCL_LIBSMM_F32_OFF
 #endif
-#if !defined(OPENCL_LIBSMM_F32) && !defined(__DBCSR_ACC)
+#if !defined(OPENCL_LIBSMM_F32) && !defined(OPENCL_LIBSMM_F32_OFF)
 #  define OPENCL_LIBSMM_F32
 #endif
-#if !defined(OPENCL_LIBSMM_F64) && 1
+#if !defined(OPENCL_LIBSMM_F64) && !defined(OPENCL_LIBSMM_F64_OFF)
 #  define OPENCL_LIBSMM_F64
 #endif
 
