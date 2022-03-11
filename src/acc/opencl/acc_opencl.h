@@ -85,9 +85,6 @@
 #  define ACC_OPENCL_DELIMS ",;"
 #endif
 
-#if !defined(ACC_OPENCL_PROFILE) && 0
-#  define ACC_OPENCL_PROFILE
-#endif
 #if !defined(ACC_OPENCL_DEBUG) && (defined(_DEBUG) || 0)
 #  define ACC_OPENCL_DEBUG
 #endif
@@ -106,8 +103,8 @@
 #if !defined(ACC_OPENCL_DEVMATCH) && 0
 #  define ACC_OPENCL_DEVMATCH
 #endif
-#if !defined(ACC_OPENCL_SHARE) && 0
-#  define ACC_OPENCL_SHARE
+#if !defined(ACC_OPENCL_PROFILE) && 0
+#  define ACC_OPENCL_PROFILE
 #endif
 
 /* can depend on OpenCL implementation (unlikely) */
@@ -130,12 +127,6 @@
 #  define ACC_OPENCL_EVENT(A) ((cl_event*)&(A))
 #else
 #  define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
-#endif
-
-#if defined(CL_VERSION_2_0)
-#  define ACC_OPENCL_COMMAND_QUEUE_PROPERTIES cl_queue_properties
-#else
-#  define ACC_OPENCL_COMMAND_QUEUE_PROPERTIES cl_int
 #endif
 
 #if defined(ACC_OPENCL_DEBUG)
