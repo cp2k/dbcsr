@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,11 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_transpose_distribution.html#variable-mp_env_tr">mp_env_tr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_transpose_distribution.html#src">dbcsr_transpose_distribution</a>
   </div>
 </div>
 
@@ -151,11 +149,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_transpose_distribution.html#variable-mp_env_tr">mp_env_tr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_transpose_distribution.html#src">dbcsr_transpose_distribution</a>
   </div>
 </div>
 
@@ -163,29 +159,41 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-mp_env_tr"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mp_env_tr</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_transpose_distribution</span><span class="p">(</span><span class="n">dist_tr</span><span class="p">,</span><span class="w"> </span><span class="n">dist_normal</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Transposes a distribution</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">dist_tr</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! transposed distribution</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">dist_normal</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! current distribution</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_env_tr</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_mp_new_transposed</span><span class="p">(</span><span class="n">mp_env_tr</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">dist_normal</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist_tr</span><span class="p">,</span><span class="w"> </span><span class="n">mp_env_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">col_dist_block</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">row_dist_block</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_transpose_distribution</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

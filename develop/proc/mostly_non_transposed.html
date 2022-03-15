@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,22 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#variable-n~9">n</a>
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#variable-str~2">str</a>
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#variable-sntr">sntr</a>
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#variable-allcheck_cutoff">allcheck_cutoff</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <div id="subs-0" class="panel-collapse collapse">
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#proc-check_range">check_range</a>
-    </div>
+    <a class="list-group-item" href="../proc/mostly_non_transposed.html#src">mostly_non_transposed</a>
   </div>
 </div>
 
@@ -159,22 +146,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#variable-n~9">n</a>
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#variable-str~2">str</a>
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#variable-sntr">sntr</a>
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#variable-allcheck_cutoff">allcheck_cutoff</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <div id="subs-1" class="panel-collapse collapse">
-      <a class="list-group-item" href="../proc/mostly_non_transposed.html#proc-check_range">check_range</a>
-    </div>
+    <a class="list-group-item" href="../proc/mostly_non_transposed.html#src">mostly_non_transposed</a>
   </div>
 </div>
 
@@ -182,91 +156,66 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-n~9"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-str~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>str</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sntr"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>sntr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-allcheck_cutoff"></span>integer,</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>allcheck_cutoff</strong></td><td> =</td><td>8</td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">mostly_non_transposed</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Determines whether most blocks are stored transposed in normally.</span>
+<span class="w">      </span><span class="c">!! @note Tries to be quick and not necessarily accurate.</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Pointers to blocks</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">mostly_non_transposed</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">sntr</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">allcheck_cutoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">mostly_non_transposed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="k">RETURN</span>
+<span class="k">      END IF</span>
+<span class="k">      </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">sntr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">allcheck_cutoff</span><span class="p">,</span><span class="w"> </span><span class="n">sntr</span><span class="p">,</span><span class="w"> </span><span class="n">str</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">allcheck_cutoff</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">allcheck_cutoff</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">allcheck_cutoff</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="n">sntr</span><span class="p">,</span><span class="w"> </span><span class="n">str</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">allcheck_cutoff</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sntr</span><span class="p">,</span><span class="w"> </span><span class="n">str</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">str</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">mostly_non_transposed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="k">RETURN</span>
+<span class="k">      ELSE</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Bias towards .TRUE.</span>
+<span class="w">         </span><span class="n">mostly_non_transposed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">str</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sntr</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      RETURN</span>
+<span class="k">   CONTAINS</span>
+<span class="k">      PURE SUBROUTINE </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">sntr</span><span class="p">,</span><span class="w"> </span><span class="n">str</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">sntr</span><span class="p">,</span><span class="w"> </span><span class="n">str</span><span class="w"></span>
+
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">b1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MIN</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">),</span><span class="w"> </span><span class="n">ub</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">sntr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sntr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">COUNT</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">b1</span><span class="p">:</span><span class="n">b2</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">COUNT</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">b1</span><span class="p">:</span><span class="n">b2</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">check_range</span><span class="w"></span>
+<span class="w">   </span><span class="k">END FUNCTION </span><span class="n">mostly_non_transposed</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    <section>
-    <h2>Subroutines</h2>
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-check_range"></span><h3>pure subroutine check_range(blk_p, lb, ub, sntr, str)</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>blk_p</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>lb</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>ub</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>sntr</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>str</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-    </section>    
-    
     
     </div>
   </div>

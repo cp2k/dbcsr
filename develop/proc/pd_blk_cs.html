@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,14 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/pd_blk_cs.html#variable-c~3">c</a>
-      <a class="list-group-item" href="../proc/pd_blk_cs.html#variable-cs">cs</a>
-      <a class="list-group-item" href="../proc/pd_blk_cs.html#variable-r~2">r</a>
-      <a class="list-group-item" href="../proc/pd_blk_cs.html#variable-rs">rs</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/pd_blk_cs.html#src">pd_blk_cs</a>
   </div>
 </div>
 
@@ -151,19 +146,19 @@
   <td><strong>DATA</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tr~36"></span>logical,</td>
+  <td><span class="anchor" id="variable-tr~15"></span>logical,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tr</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ro~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-ro"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ro</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-co~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-co"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>co</strong></td><td></td>
@@ -179,14 +174,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/pd_blk_cs.html#variable-c~3">c</a>
-      <a class="list-group-item" href="../proc/pd_blk_cs.html#variable-cs">cs</a>
-      <a class="list-group-item" href="../proc/pd_blk_cs.html#variable-r~2">r</a>
-      <a class="list-group-item" href="../proc/pd_blk_cs.html#variable-rs">rs</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/pd_blk_cs.html#src">pd_blk_cs</a>
   </div>
 </div>
 
@@ -194,44 +184,46 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-c~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>c</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cs"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>cs</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-r~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>r</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rs"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>rs</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">pd_blk_cs</span><span class="p">(</span><span class="n">ld</span><span class="p">,</span><span class="w"> </span><span class="n">od</span><span class="p">,</span><span class="w"> </span><span class="k">DATA</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">ro</span><span class="p">,</span><span class="w"> </span><span class="n">co</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">pd_cs</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">ld</span><span class="p">,</span><span class="w"> </span><span class="n">od</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">ld</span><span class="p">,</span><span class="w"> </span><span class="n">od</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="k">DATA</span>
+<span class="k">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">ro</span><span class="p">,</span><span class="w"> </span><span class="n">co</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">pd_cs</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">cs</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">rs</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">pd_cs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"></span>
+<span class="w">      </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ld</span><span class="p">;</span><span class="w"> </span><span class="n">cs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">od</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">swap</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="w"> </span><span class="n">cs</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">rs</span><span class="w"></span>
+<span class="w">            </span><span class="k">DO </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">cs</span><span class="w"></span>
+<span class="w">               </span><span class="n">pd_cs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pd_cs</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">DATA</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="o">*</span><span class="nb">LOG</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="kt">REAL</span><span class="p">((</span><span class="n">ro</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">((</span><span class="n">co</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)))</span><span class="w"></span>
+<span class="w">            </span><span class="k">END DO</span>
+<span class="k">         END DO</span>
+<span class="k">      ELSE</span>
+<span class="k">         DO </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">cs</span><span class="w"></span>
+<span class="w">            </span><span class="k">DO </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">rs</span><span class="w"></span>
+<span class="w">               </span><span class="n">pd_cs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pd_cs</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">DATA</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="o">*</span><span class="nb">LOG</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="kt">REAL</span><span class="p">((</span><span class="n">ro</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">((</span><span class="n">co</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)))</span><span class="w"></span>
+<span class="w">            </span><span class="k">END DO</span>
+<span class="k">         END DO</span>
+<span class="k">      END IF</span>
+<span class="k">   END FUNCTION </span><span class="n">pd_blk_cs</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

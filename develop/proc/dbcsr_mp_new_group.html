@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,21 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-mynode~12">mynode</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-mypcol~11">mypcol</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-myprow~11">myprow</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-numnodes~13">numnodes</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-pcol~9">pcol</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-prow~10">prow</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-coord">coord</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-mycoord">mycoord</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-pdims~2">pdims</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-mypgrid">mypgrid</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-periods">periods</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#src">dbcsr_mp_new_group</a>
   </div>
 </div>
 
@@ -141,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-mp_env~35"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env~33"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mp_env</strong></td><td></td>
@@ -153,7 +141,7 @@
   <td><strong>mp_group</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pgrid~17"></span>integer,</td>
+  <td><span class="anchor" id="variable-pgrid~11"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:, :), POINTER</td><td>::</td>
   <td><strong>pgrid</strong></td><td><p>Optional, if not provided group is assumed to be a 2D cartesian communicator</p></td>
@@ -167,21 +155,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-mynode~12">mynode</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-mypcol~11">mypcol</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-myprow~11">myprow</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-numnodes~13">numnodes</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-pcol~9">pcol</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-prow~10">prow</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-coord">coord</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-mycoord">mycoord</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-pdims~2">pdims</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-mypgrid">mypgrid</a>
-      <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#variable-periods">periods</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mp_new_group.html#src">dbcsr_mp_new_group</a>
   </div>
 </div>
 
@@ -189,79 +165,76 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-mynode~12"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mynode</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mypcol~11"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mypcol</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-myprow~11"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>myprow</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numnodes~13"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>numnodes</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pcol~9"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>pcol</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-prow~10"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>prow</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-coord"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>coord</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mycoord"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>mycoord</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pdims~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pdims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mypgrid"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:, :), POINTER</td><td>::</td>
-  <td><strong>mypgrid</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-periods"></span>logical,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>periods</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_mp_new_group</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span><span class="w"> </span><span class="n">mp_group</span><span class="p">,</span><span class="w"> </span><span class="n">pgrid</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Creates a new dbcsr_mp_obj based on a input template</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_env</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_group</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">pgrid</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Optional, if not provided group is assumed to be a 2D cartesian communicator</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="n">mypcol</span><span class="p">,</span><span class="w"> </span><span class="n">myprow</span><span class="p">,</span><span class="w"> </span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">pcol</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">prow</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">coord</span><span class="p">,</span><span class="w"> </span><span class="n">mycoord</span><span class="p">,</span><span class="w"> </span><span class="n">pdims</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">mypgrid</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">periods</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="n">mp_group</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">pgrid</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">mypgrid</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pgrid</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">pdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">pdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">myprow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">mypcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">outer</span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">DO </span><span class="n">prow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">pdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">DO </span><span class="n">pcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">pdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">pgrid</span><span class="p">(</span><span class="n">prow</span><span class="p">,</span><span class="w"> </span><span class="n">pcol</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">mynode</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  </span><span class="n">myprow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prow</span><span class="w"></span>
+<span class="w">                  </span><span class="n">mypcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pcol</span><span class="w"></span>
+<span class="w">                  </span><span class="k">EXIT </span><span class="n">outer</span><span class="w"></span>
+<span class="w">               </span><span class="k">END IF</span>
+<span class="k">            END DO</span>
+<span class="k">         END DO </span><span class="n">outer</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">mp_group</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">pdims</span><span class="p">,</span><span class="w"> </span><span class="n">mycoord</span><span class="p">,</span><span class="w"> </span><span class="n">periods</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">pdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">pdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">numnodes</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">myprow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mycoord</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">mypcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mycoord</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">mypgrid</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">pdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="n">pdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO </span><span class="n">prow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">pdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">DO </span><span class="n">pcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">pdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">prow</span><span class="p">,</span><span class="w"> </span><span class="n">pcol</span><span class="o">/</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">mp_cart_rank</span><span class="p">(</span><span class="n">mp_group</span><span class="p">,</span><span class="w"> </span><span class="n">coord</span><span class="p">,</span><span class="w"> </span><span class="n">mypgrid</span><span class="p">(</span><span class="n">prow</span><span class="p">,</span><span class="w"> </span><span class="n">pcol</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">END DO</span>
+<span class="k">         END DO</span>
+<span class="k">      END IF</span>
+
+<span class="k">      </span><span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">mynode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">mypgrid</span><span class="p">(</span><span class="n">myprow</span><span class="p">,</span><span class="w"> </span><span class="n">mypcol</span><span class="p">))</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! create the new mp environment</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span><span class="w"> </span><span class="n">mp_group</span><span class="p">,</span><span class="w"> </span><span class="n">mypgrid</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">mynode</span><span class="o">=</span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="n">numnodes</span><span class="o">=</span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">myprow</span><span class="o">=</span><span class="n">myprow</span><span class="p">,</span><span class="w"> </span><span class="n">mypcol</span><span class="o">=</span><span class="n">mypcol</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">pgrid</span><span class="p">))</span><span class="w"> </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">mypgrid</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mp_new_group</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

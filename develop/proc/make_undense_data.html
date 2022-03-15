@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,26 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-blk_col~2">blk_col</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-blk_col_size~2">blk_col_size</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-blk_row~2">blk_row</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-blk_row_size~2">blk_row_size</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_col~2">dense_col</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_col_offset">dense_col_offset</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_cs">dense_cs</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_offset">dense_offset</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_row~2">dense_row</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_row_offset">dense_row_offset</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_rs">dense_rs</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-sco">sco</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-sro">sro</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-tr~109">tr</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-block~113">block</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-iter~40">iter</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/make_undense_data.html#src">make_undense_data</a>
   </div>
 </div>
 
@@ -147,26 +130,26 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~340"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~252"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>Matrix with data to fill</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dense_data~4"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-dense_data~2"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dense_data</strong></td><td><p>Dense data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfullrows~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-nfullrows~3"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nfullrows</strong></td><td><p>number of full rows in local submatrix
 number of full columns in local submatrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfullcols~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-nfullcols~3"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nfullcols</strong></td><td><p>number of full rows in local submatrix
@@ -209,7 +192,7 @@ mapping from undense to dense rows
 mapping from undense to dense rows</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_internal_offsets~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_internal_offsets~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_internal_offsets</strong></td><td><p>row block offsets for dense data
@@ -218,7 +201,7 @@ mapping from undense to dense rows
 mapping from undense to dense rows</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_internal_offsets~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_internal_offsets~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_internal_offsets</strong></td><td><p>row block offsets for dense data
@@ -235,26 +218,9 @@ mapping from undense to dense rows</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-blk_col~2">blk_col</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-blk_col_size~2">blk_col_size</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-blk_row~2">blk_row</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-blk_row_size~2">blk_row_size</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_col~2">dense_col</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_col_offset">dense_col_offset</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_cs">dense_cs</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_offset">dense_offset</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_row~2">dense_row</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_row_offset">dense_row_offset</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-dense_rs">dense_rs</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-sco">sco</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-sro">sro</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-tr~109">tr</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-block~113">block</a>
-      <a class="list-group-item" href="../proc/make_undense_data.html#variable-iter~40">iter</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/make_undense_data.html#src">make_undense_data</a>
   </div>
 </div>
 
@@ -262,104 +228,101 @@ mapping from undense to dense rows</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-blk_col~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>blk_col</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_col_size~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>blk_col_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_row~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>blk_row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_row_size~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>blk_row_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_col~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dense_col</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_col_offset"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dense_col_offset</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_cs"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dense_cs</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_offset"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dense_offset</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_row~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dense_row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_row_offset"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dense_row_offset</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_rs"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dense_rs</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sco"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>sco</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sro"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>sro</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr~109"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-block~113"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>block</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iter~40"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>iter</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">make_undense_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dense_data</span><span class="p">,</span><span class="w"> </span><span class="n">nfullrows</span><span class="p">,</span><span class="w"> </span><span class="n">nfullcols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">dense_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">dense_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="p">,</span><span class="w"> </span><span class="n">row_internal_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">col_internal_offsets</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Shuffles the data from standard dense to blocked form</span>
+<span class="w">      </span><span class="c">!! @note Used for making matrices dense/undense</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Matrix with data to fill</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">dense_data</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Dense data</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">nfullrows</span><span class="p">,</span><span class="w"> </span><span class="n">nfullcols</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! number of full rows in local submatrix</span>
+<span class="w">         </span><span class="c">!! number of full columns in local submatrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">dense_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">dense_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">col_map</span><span class="p">,</span><span class="w"> </span><span class="n">row_internal_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">col_internal_offsets</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! row block offsets for dense data</span>
+<span class="w">         </span><span class="c">!! column block offsets for dense data</span>
+<span class="w">         </span><span class="c">!! mapping from undense to dense rows</span>
+<span class="w">         </span><span class="c">!! mapping from undense to dense rows</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_col</span><span class="p">,</span><span class="w"> </span><span class="n">blk_col_size</span><span class="p">,</span><span class="w"> </span><span class="n">blk_row</span><span class="p">,</span><span class="w"> </span><span class="n">blk_row_size</span><span class="p">,</span><span class="w"> </span><span class="n">dense_col</span><span class="p">,</span><span class="w"> </span><span class="n">dense_col_offset</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                 </span><span class="n">dense_cs</span><span class="p">,</span><span class="w"> </span><span class="n">dense_offset</span><span class="p">,</span><span class="w"> </span><span class="n">dense_row</span><span class="p">,</span><span class="w"> </span><span class="n">dense_row_offset</span><span class="p">,</span><span class="w"> </span><span class="n">dense_rs</span><span class="p">,</span><span class="w"> </span><span class="n">sco</span><span class="p">,</span><span class="w"> </span><span class="n">sro</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="k">block</span>
+<span class="k">      TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">dense_data</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nfullrows</span><span class="o">*</span><span class="n">nfullcols</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Dense data too small&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_data_clear</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP PARALLEL DEFAULT(NONE) &amp;</span>
+<span class="c">!$OMP PRIVATE (block, iter,&amp;</span>
+<span class="c">!$OMP          blk_row, blk_col, tr,&amp;</span>
+<span class="c">!$OMP          blk_row_size, blk_col_size, sro, sco,&amp;</span>
+<span class="c">!$OMP          dense_row_offset, dense_col_offset, dense_row, dense_col,&amp;</span>
+<span class="c">!$OMP          dense_cs, dense_rs,&amp;</span>
+<span class="c">!$OMP          dense_offset) &amp;</span>
+<span class="c">!$OMP SHARED (&amp;</span>
+<span class="c">!$OMP         matrix, dense_data, &amp;</span>
+<span class="c">!$OMP         nfullrows, nfullcols, &amp;</span>
+<span class="c">!$OMP         dense_row_blk_offsets, dense_col_blk_offsets,&amp;</span>
+<span class="c">!$OMP         row_map, col_map,&amp;</span>
+<span class="c">!$OMP         row_internal_offsets, col_internal_offsets)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">dbcsr_type_1d_to_2d</span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">dense_data</span><span class="p">)))</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">shared</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">contiguous_pointers</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">blk_row</span><span class="p">,</span><span class="w"> </span><span class="n">blk_col</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">row_size</span><span class="o">=</span><span class="n">blk_row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="o">=</span><span class="n">blk_col_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">dense_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_map</span><span class="p">(</span><span class="n">blk_row</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">dense_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_map</span><span class="p">(</span><span class="n">blk_col</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">dense_row_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dense_row_blk_offsets</span><span class="p">(</span><span class="n">dense_row</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">dense_col_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dense_col_blk_offsets</span><span class="p">(</span><span class="n">dense_col</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">dense_rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dense_row_blk_offsets</span><span class="p">(</span><span class="n">dense_row</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                       </span><span class="n">dense_row_blk_offsets</span><span class="p">(</span><span class="n">dense_row</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">dense_cs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dense_col_blk_offsets</span><span class="p">(</span><span class="n">dense_col</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                       </span><span class="n">dense_col_blk_offsets</span><span class="p">(</span><span class="n">dense_col</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">sro</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_internal_offsets</span><span class="p">(</span><span class="n">blk_row</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">sco</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_internal_offsets</span><span class="p">(</span><span class="n">blk_col</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">dense_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">dense_row_offset</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">nfullcols</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">dense_col_offset</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dense_rs</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_block_partial_copy</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">dst</span><span class="o">=</span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">dst_rs</span><span class="o">=</span><span class="n">blk_row_size</span><span class="p">,</span><span class="w"> </span><span class="n">dst_cs</span><span class="o">=</span><span class="n">blk_col_size</span><span class="p">,</span><span class="w"> </span><span class="n">dst_tr</span><span class="o">=</span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">dst_r_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dst_c_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">src</span><span class="o">=</span><span class="n">dense_data</span><span class="p">,</span><span class="w"> </span><span class="n">src_offset</span><span class="o">=</span><span class="n">dense_offset</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">src_rs</span><span class="o">=</span><span class="n">dense_rs</span><span class="p">,</span><span class="w"> </span><span class="n">src_cs</span><span class="o">=</span><span class="n">dense_cs</span><span class="p">,</span><span class="w"> </span><span class="n">src_tr</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">src_r_lb</span><span class="o">=</span><span class="n">sro</span><span class="p">,</span><span class="w"> </span><span class="n">src_c_lb</span><span class="o">=</span><span class="n">sco</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">nrow</span><span class="o">=</span><span class="n">blk_row_size</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="n">blk_col_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">         CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP END PARALLEL</span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">make_undense_data</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

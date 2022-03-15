@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,14 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#variable-routinen~24">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#variable-routinep~11">routineP</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#variable-loc~2">loc</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#variable-lggr~3">lggr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#src">dbcsr_logger_generate_filename</a>
   </div>
 </div>
 
@@ -165,7 +160,7 @@ the end of the name</p></td>
 the end of the name</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-local~11"></span>logical,</td>
+  <td><span class="anchor" id="variable-local~8"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>local</strong></td><td><p>if the name should be local to this task (defaults to false)</p></td>
@@ -179,14 +174,9 @@ the end of the name</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#variable-routinen~24">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#variable-routinep~11">routineP</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#variable-loc~2">loc</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#variable-lggr~3">lggr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_logger_generate_filename.html#src">dbcsr_logger_generate_filename</a>
   </div>
 </div>
 
@@ -194,44 +184,61 @@ the end of the name</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~24"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_logger_generate_filename'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-routinep~11"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineP</strong></td><td> =</td><td>moduleN//':'//routineN</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-loc~2"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>loc</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lggr~3"></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
-<td>private,</td>  <td>POINTER</td><td>::</td>
-  <td><strong>lggr</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_generate_filename</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">postfix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">local</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! generates a unique filename (ie adding eventual suffixes and</span>
+<span class="w">      </span><span class="c">!! process ids)</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! this should be a function returning a variable length string.</span>
+<span class="w">      </span><span class="c">!! All spaces are moved to the end of the string.</span>
+<span class="w">      </span><span class="c">!! Not fully optimized: result must be a little longer than the</span>
+<span class="w">      </span><span class="c">!! resulting compressed filename</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">logger</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the resulting string</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">postfix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the start of filename</span>
+<span class="w">         </span><span class="c">!! the end of the name</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">local</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! if the name should be local to this task (defaults to false)</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_logger_generate_filename&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="nb">loc</span>
+<span class="nb">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">lggr</span><span class="w"></span>
+
+<span class="w">      </span><span class="nb">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"></span>
+<span class="w">      </span><span class="n">lggr</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">logger</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span><span class="w"> </span><span class="n">lggr</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_get_default_logger</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">ref_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local</span><span class="p">))</span><span class="w"> </span><span class="nb">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">loc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">suffix</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;_p&#39;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">dbcsr_to_string</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="p">)</span><span class="o">//</span><span class="n">postfix</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">suffix</span><span class="p">)</span><span class="o">//</span><span class="n">postfix</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      CALL </span><span class="n">compress</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">full</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_generate_filename</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

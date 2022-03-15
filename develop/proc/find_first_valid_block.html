@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/find_first_valid_block.html#src">find_first_valid_block</a>
+  </div>
+</div>
 
 </div>
 
@@ -125,7 +130,7 @@ If there is no valid block, pos is set to 0</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-pos~22"></span>integer,</td>
+  <td><span class="anchor" id="variable-pos~21"></span>integer,</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>pos</strong></td><td><p>input: current position; output: next valid position or 0</p></td>
@@ -137,7 +142,7 @@ If there is no valid block, pos is set to 0</p>
   <td><strong>maxpos</strong></td><td><p>maximal allowed position</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_p~18"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_p~10"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>block pointers, used to check validity</p></td>
@@ -150,7 +155,12 @@ If there is no valid block, pos is set to 0</p>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/find_first_valid_block.html#src">find_first_valid_block</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -164,6 +174,35 @@ If there is no valid block, pos is set to 0</p>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">PURE SUBROUTINE </span><span class="n">find_first_valid_block</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">maxpos</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Finds the first valid block, inclusive from the current position.</span>
+<span class="w">      </span><span class="c">!! If there is no valid block, pos is set to 0</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! input: current position; output: next valid position or 0</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">maxpos</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! maximal allowed position</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! block pointers, used to check validity</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+<span class="c">!IF (pos .LT. 1) pos = 1</span>
+
+<span class="w">      </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">maxpos</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            EXIT</span>
+<span class="k">         END IF</span>
+<span class="k">      END DO</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">maxpos</span><span class="p">)</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">find_first_valid_block</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

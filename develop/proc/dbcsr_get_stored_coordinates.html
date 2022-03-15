@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_get_stored_coordinates.html#src">dbcsr_get_stored_coordinates</a>
+  </div>
+</div>
 
 </div>
 
@@ -126,13 +131,13 @@ column.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~195"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~107"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~54"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~53"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>input is logical row
@@ -159,7 +164,12 @@ input is logical column</p></td>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_get_stored_coordinates.html#src">dbcsr_get_stored_coordinates</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -173,6 +183,38 @@ input is logical column</p></td>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">PURE SUBROUTINE </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="n">processor</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Sets the correct source matrix, row, column and possible data</span>
+<span class="w">      </span><span class="c">!! transposition for a given matrix and matrix logical row and</span>
+<span class="w">      </span><span class="c">!! column.</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! DBCSR matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! input is logical row</span>
+<span class="w">         </span><span class="c">!! input is logical column</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">processor</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! returns the processor on which this block resides</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+<span class="c">! SM-compatible way</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">processor</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">symmetry</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">checker_tr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">            </span><span class="c">! The transposed way.</span>
+<span class="w">            </span><span class="n">processor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_processor</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span><span class="w"></span>
+<span class="w">            </span><span class="c">! The default way.</span>
+<span class="w">            </span><span class="n">processor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_processor</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END IF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_get_stored_coordinates</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

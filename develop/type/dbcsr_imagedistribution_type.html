@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -133,6 +133,12 @@
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#src">dbcsr_imagedistribution_type</a>
+  </div>
+</div>
 
 </div>
 
@@ -175,6 +181,12 @@ every real processor row.</p>
       <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-id">id</a>
       <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-refcount~3">refcount</a>
     </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#src">dbcsr_imagedistribution_type</a>
   </div>
 </div>
 
@@ -290,6 +302,47 @@ every real processor row.</p>
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_imagedistribution_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Image distributions are used to map incompatible processor row and</span>
+<span class="w">      </span><span class="c">!! column distributions.</span>
+<span class="w">      </span><span class="c">!! Used to ease storage or transfer between two different-sizes</span>
+<span class="w">      </span><span class="c">!! sets. For example, if there are 4 real processor rows that are</span>
+<span class="w">      </span><span class="c">!! mapped to 8 &quot;virtual&quot; processor rows, then there are two images for</span>
+<span class="w">      </span><span class="c">!! every real processor row.</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">main</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the main distribution</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_image</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! distribution of matrix elements&#39; rows into image  rows</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">col_image</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! distribution of matrix elements&#39; columns into image columns</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">row_decimation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Number of imaged rows mapped to a real row</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">col_decimation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Number of imaged columns mapped to a real column</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">row_multiplicity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Number of real rows mapped to a virtual row</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">col_multiplicity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Number of real columns mapped to a virtual column</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">vrow_dist</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">vcol_dist</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">other_vl_rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">other_vl_cols</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">global_vrow_map</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">global_vcol_map</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">has_other_vl_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">has_other_vl_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">has_global_vrow_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">has_global_vcol_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">refcount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! count of references</span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_imagedistribution_type</span><span class="w"></span>
+</pre></div>
+
+    </section>
     
     </div>
   </div>

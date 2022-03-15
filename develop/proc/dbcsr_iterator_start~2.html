@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_iterator_start~2.html#src">dbcsr_iterator_start</a>
+  </div>
+</div>
 
 </div>
 
@@ -123,43 +128,43 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-iterator~11"></span>type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),</td>
+  <td><span class="anchor" id="variable-iterator~3"></span>type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>iterator</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix~128"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~40"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-shared~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-shared~2"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>shared</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dynamic~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-dynamic~2"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>dynamic</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dynamic_byrows~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-dynamic_byrows~2"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>dynamic_byrows</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-contiguous_pointers~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-contiguous_pointers~2"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>contiguous_pointers</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-read_only~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-read_only~2"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>read_only</strong></td><td></td>
@@ -172,7 +177,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_iterator_start~2.html#src">dbcsr_iterator_start</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -186,6 +196,22 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">shared</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">dynamic_byrows</span><span class="p">,</span><span class="w"> </span><span class="n">contiguous_pointers</span><span class="p">,</span><span class="w"> </span><span class="n">read_only</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">iterator</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">shared</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic_byrows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">contiguous_pointers</span><span class="p">,</span><span class="w"> </span><span class="n">read_only</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_iterator_start_prv</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">shared</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">dynamic_byrows</span><span class="p">,</span><span class="w"> </span><span class="n">contiguous_pointers</span><span class="p">,</span><span class="w"> </span><span class="n">read_only</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_iterator_start</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

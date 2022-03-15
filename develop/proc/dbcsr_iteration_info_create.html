@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_iteration_info_create.html#variable-routinen~12">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_iteration_info_create.html#variable-routinep">routineP</a>
-      <a class="list-group-item" href="../proc/dbcsr_iteration_info_create.html#variable-stat~13">stat</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_iteration_info_create.html#src">dbcsr_iteration_info_create</a>
   </div>
 </div>
 
@@ -153,13 +149,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_iteration_info_create.html#variable-routinen~12">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_iteration_info_create.html#variable-routinep">routineP</a>
-      <a class="list-group-item" href="../proc/dbcsr_iteration_info_create.html#variable-stat~13">stat</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_iteration_info_create.html#src">dbcsr_iteration_info_create</a>
   </div>
 </div>
 
@@ -167,39 +159,63 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~12"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_iteration_info_create'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-routinep"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineP</strong></td><td> =</td><td>moduleN//':'//routineN</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stat~13"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>stat</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_iteration_info_create</span><span class="p">(</span><span class="n">iteration_info</span><span class="p">,</span><span class="w"> </span><span class="n">project_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! creates an output info object</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iteration_info_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">iteration_info</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the object to create</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">project_name</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! name of the project, used to create the filenames</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_iteration_info_create&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+
+<span class="nb">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">iteration_info</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; could not allocate iteration_info&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">last_it_info_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_it_info_id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">iteration_info</span><span class="p">%</span><span class="n">id_nr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_it_info_id</span><span class="w"></span>
+<span class="w">      </span><span class="n">iteration_info</span><span class="p">%</span><span class="n">ref_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">iteration_info</span><span class="p">%</span><span class="n">print_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">      </span><span class="n">iteration_info</span><span class="p">%</span><span class="n">n_rlevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">iteration_info</span><span class="p">%</span><span class="n">project_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project_name</span><span class="w"></span>
+<span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">iteration</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">level_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">last_iter</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">iteration</span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">n_rlevel</span><span class="p">),</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; iteration_info%iteration allocation&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">level_name</span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">n_rlevel</span><span class="p">),</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; iteration_info%level_name allocation&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">last_iter</span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">n_rlevel</span><span class="p">),</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; iteration_info%last_iter allocation&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      </span><span class="n">iteration_info</span><span class="p">%</span><span class="n">iteration</span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">n_rlevel</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">iteration_info</span><span class="p">%</span><span class="n">level_name</span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">n_rlevel</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;__ROOT__&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="n">iteration_info</span><span class="p">%</span><span class="n">last_iter</span><span class="p">(</span><span class="n">iteration_info</span><span class="p">%</span><span class="n">n_rlevel</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_iteration_info_create</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

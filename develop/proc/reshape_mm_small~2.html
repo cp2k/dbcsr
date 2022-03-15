@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,19 +107,7 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat1~2">compat1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat2~2">compat2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat1_old~2">compat1_old</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat2_old~2">compat2_old</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-unit_nr_prv~12">unit_nr_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-nodata_prv~7">nodata_prv</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
 </div>
 
@@ -137,7 +125,7 @@ matrix multiplication. This routine reshapes the smallest of the three tensors.<
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-tensor_in~17"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_in~12"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_in</strong></td><td><p>tensor in</p></td>
@@ -157,7 +145,7 @@ index that should be mapped to second matrix dimension</p></td>
 index that should be mapped to second matrix dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_out~17"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_out~13"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(out),</td>
   <td></td>  <td>POINTER</td><td>::</td>
   <td><strong>tensor_out</strong></td><td><p>tensor out</p></td>
@@ -175,21 +163,21 @@ index that should be mapped to second matrix dimension</p></td>
   <td><strong>new</strong></td><td><p>whether a new tensor was created for tensor_out</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata~12"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata~11"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nodata</strong></td><td><p>don't copy tensor data
 memory optimization: transfer data s.t. tensor_in may be empty on return</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~20"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~15"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>don't copy tensor data
 memory optimization: transfer data s.t. tensor_in may be empty on return</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~34"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~31"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>output unit</p></td>
@@ -202,64 +190,12 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p></td
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat1~2">compat1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat2~2">compat2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat1_old~2">compat1_old</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-compat2_old~2">compat2_old</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-unit_nr_prv~12">unit_nr_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_small~2.html#variable-nodata_prv~7">nodata_prv</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-compat1~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>compat1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-compat2~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>compat2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-compat1_old~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>compat1_old</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-compat2_old~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>compat2_old</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-unit_nr_prv~12"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>unit_nr_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nodata_prv~7"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nodata_prv</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
     
     
 

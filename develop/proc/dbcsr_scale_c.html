@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_scale_c.html#variable-routinen~538">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_scale_c.html#variable-error_handler~8">error_handler</a>
-      <a class="list-group-item" href="../proc/dbcsr_scale_c.html#variable-sc~4">sc</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_scale_c.html#src">dbcsr_scale_c</a>
   </div>
 </div>
 
@@ -133,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix_a~96"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~68"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td></td>
@@ -145,7 +141,7 @@
   <td><strong>alpha_scalar</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-last_column~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-last_column~12"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>last_column</strong></td><td></td>
@@ -159,13 +155,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_scale_c.html#variable-routinen~538">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_scale_c.html#variable-error_handler~8">error_handler</a>
-      <a class="list-group-item" href="../proc/dbcsr_scale_c.html#variable-sc~4">sc</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_scale_c.html#src">dbcsr_scale_c</a>
   </div>
 </div>
 
@@ -173,39 +165,44 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~538"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_scale_c'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-error_handler~8"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>error_handler</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sc~4"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>sc</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_scale_c</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">alpha_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">last_column</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Interface for matrix scaling by a scalar</span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_a</span><span class="w"></span>
+<span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">alpha_scalar</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">last_column</span><span class="w"></span>
+
+<span class="w">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_scale_c&#39;</span><span class="w"></span>
+
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handler</span><span class="w"></span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">sc</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">sc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_scalar</span><span class="p">(</span><span class="n">alpha_scalar</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_scalar_fill_all</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">sc</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handler</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_column</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_scale_anytype</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">alpha_scalar</span><span class="o">=</span><span class="n">sc</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">last_column</span><span class="o">/</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_scale_anytype</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">alpha_scalar</span><span class="o">=</span><span class="n">sc</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handler</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_scale_c</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

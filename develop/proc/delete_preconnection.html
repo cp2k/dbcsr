@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,12 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/delete_preconnection.html#variable-ic~3">ic</a>
-      <a class="list-group-item" href="../proc/delete_preconnection.html#variable-nc~5">nc</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/delete_preconnection.html#src">delete_preconnection</a>
   </div>
 </div>
 
@@ -132,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-file_name~7"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-file_name~5"></span>character(len=*),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>file_name</strong></td><td></td>
@@ -152,12 +149,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/delete_preconnection.html#variable-ic~3">ic</a>
-      <a class="list-group-item" href="../proc/delete_preconnection.html#variable-nc~5">nc</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/delete_preconnection.html#src">delete_preconnection</a>
   </div>
 </div>
 
@@ -165,34 +159,48 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-ic~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ic</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nc~5"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nc</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">delete_preconnection</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="w"> </span><span class="n">unit_number</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Remove an entry from the list of preconnected units</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">file_name</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">unit_number</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">ic</span><span class="p">,</span><span class="w"> </span><span class="n">nc</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">nc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">preconnected</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! Search for preconnection entry and delete it when found</span>
+<span class="w">      </span><span class="k">DO </span><span class="n">ic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nc</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">preconnected</span><span class="p">(</span><span class="n">ic</span><span class="p">)%</span><span class="n">file_name</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">preconnected</span><span class="p">(</span><span class="n">ic</span><span class="p">)%</span><span class="n">unit_number</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">unit_number</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="n">preconnected</span><span class="p">(</span><span class="n">ic</span><span class="p">)%</span><span class="n">file_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="n">preconnected</span><span class="p">(</span><span class="n">ic</span><span class="p">)%</span><span class="n">unit_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="k">EXIT</span>
+<span class="k">            ELSE</span>
+<span class="k">               CALL </span><span class="n">print_preconnection_list</span><span class="p">()</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="s2">&quot;Attempt to disconnect the file &lt;&quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="nb">TRIM</span><span class="p">(</span><span class="nb">ADJUSTL</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="s2">&quot;&gt; from an unlisted unit&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">         END IF</span>
+<span class="k">      END DO</span>
+
+<span class="k">   END SUBROUTINE </span><span class="n">delete_preconnection</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

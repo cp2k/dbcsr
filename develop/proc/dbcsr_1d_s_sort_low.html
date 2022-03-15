@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,17 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-a~11">a</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-t~11">t</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-m~20">m</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-i~113">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-j~10">j</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-k~8">k</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-swapped~2">swapped</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#src">dbcsr_1d_s_sort_low</a>
   </div>
 </div>
 
@@ -138,25 +130,25 @@ Only dbcsr_1d_s_sort and itself should call this.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-arr~9"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-arr~8"></span>real(kind=real_4),</td>
 <td>intent(inout),</td>
   <td></td>  <td>dimension(:)</td><td>::</td>
   <td><strong>arr</strong></td><td><p>the array to sort</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-indices~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-indices~4"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>dimension(size(arr))</td><td>::</td>
   <td><strong>indices</strong></td><td><p>elements-indices before the sort</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tmp_arr~4"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-tmp_arr~2"></span>real(kind=real_4),</td>
 <td>intent(inout),</td>
   <td></td>  <td>dimension((size(arr) + 1)/2)</td><td>::</td>
   <td><strong>tmp_arr</strong></td><td><p>scratch space</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tmp_idx~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-tmp_idx~2"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>dimension((size(arr) + 1)/2)</td><td>::</td>
   <td><strong>tmp_idx</strong></td><td><p>scratch space</p></td>
@@ -170,17 +162,9 @@ Only dbcsr_1d_s_sort and itself should call this.</p>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-a~11">a</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-t~11">t</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-m~20">m</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-i~113">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-j~10">j</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-k~8">k</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#variable-swapped~2">swapped</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_1d_s_sort_low.html#src">dbcsr_1d_s_sort_low</a>
   </div>
 </div>
 
@@ -188,59 +172,104 @@ Only dbcsr_1d_s_sort and itself should call this.</p>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-a~11"></span>real(kind=real_4),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-t~11"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-m~20"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-i~113"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-j~10"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>j</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-k~8"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>k</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-swapped~2"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>swapped</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">recursive subroutine </span><span class="n">dbcsr_1d_s_sort_low</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="n">tmp_arr</span><span class="p">,</span><span class="w"> </span><span class="n">tmp_idx</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! The actual sort routine.</span>
+<span class="w">      </span><span class="c">!! Only dbcsr_1d_s_sort and itself should call this.</span>
+
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(:),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">arr</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the array to sort</span>
+<span class="w">         </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">)),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">indices</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! elements-indices before the sort</span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">((</span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tmp_arr</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! scratch space</span>
+<span class="w">         </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">((</span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tmp_idx</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! scratch space</span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">         </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"></span>
+<span class="w">         </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">swapped</span><span class="w"></span>
+<span class="w">         </span><span class="c">! a,t:  used during swapping of elements in arr and indices</span>
+
+<span class="w">         </span><span class="n">swapped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! If only a few elements are left we switch to bubble-sort for efficiency.</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="c">! 7 seems to be a good choice for the moment</span>
+<span class="w">            </span><span class="k">DO </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="n">swapped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">               </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
+<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">                     </span><span class="c">! swap arr(i) with arr(i+1)</span>
+<span class="w">                     </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">                     </span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                     </span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">                     </span><span class="c">! swap indices(i) with indices(i+1)</span>
+<span class="w">                     </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indices</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">                     </span><span class="n">indices</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indices</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                     </span><span class="n">indices</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
+<span class="w">                     </span><span class="n">swapped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+<span class="w">                  </span><span class="k">END IF</span>
+<span class="k">               END DO</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">swapped</span><span class="p">)</span><span class="w"> </span><span class="k">EXIT</span>
+<span class="k">            END DO</span>
+<span class="k">            return</span>
+<span class="k">         end if</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! split list in half and recursively sort both sublists</span>
+<span class="w">         </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="w"> </span><span class="c">! index where we going to divide the list in two</span>
+<span class="w">         </span><span class="k">call </span><span class="n">dbcsr_1d_s_sort_low</span><span class="p">(</span><span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">),</span><span class="w"> </span><span class="n">indices</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">),</span><span class="w"> </span><span class="n">tmp_arr</span><span class="p">,</span><span class="w"> </span><span class="n">tmp_idx</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">call </span><span class="n">dbcsr_1d_s_sort_low</span><span class="p">(</span><span class="n">arr</span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:),</span><span class="w"> </span><span class="n">indices</span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:),</span><span class="w"> </span><span class="n">tmp_arr</span><span class="p">,</span><span class="w"> </span><span class="n">tmp_idx</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! Check for a special case: Can we just concatenate the two sorted sublists?</span>
+<span class="w">         </span><span class="c">! This leads to O(n) scaling if the input is already sorted.</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">(</span><span class="n">m</span><span class="p">))</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="c">! ...no - let&#39;s merge the two sorted sublists arr(:m) and arr(m+1:)</span>
+<span class="w">            </span><span class="c">! Merge will be performed directly in arr. Need backup of first sublist.</span>
+<span class="w">            </span><span class="n">tmp_arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">tmp_idx</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indices</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c">! number of elements consumed from 1st sublist</span>
+<span class="w">            </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c">! number of elements consumed from 2nd sublist</span>
+<span class="w">            </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c">! number of elements already merged</span>
+
+<span class="w">            </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tmp_arr</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               </span><span class="n">arr</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="n">indices</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indices</span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">               </span><span class="n">arr</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp_arr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="n">indices</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp_idx</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do</span><span class="w"></span>
+
+<span class="w">            </span><span class="c">! One of the two sublist is now empty.</span>
+<span class="w">            </span><span class="c">! Copy possibly remaining tail of 1st sublist</span>
+<span class="w">            </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="n">arr</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp_arr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="n">indices</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp_idx</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do</span><span class="w"></span>
+
+<span class="w">            </span><span class="c">! The possibly remaining tail of 2nd sublist is already at the right spot.</span>
+
+<span class="w">         </span><span class="k">end if</span>
+
+<span class="k">      end subroutine </span><span class="n">dbcsr_1d_s_sort_low</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

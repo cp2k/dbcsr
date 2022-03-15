@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,11 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/add_timer_env.html#variable-timer_env_">timer_env_</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/add_timer_env.html#src">add_timer_env</a>
   </div>
 </div>
 
@@ -133,7 +131,7 @@ rm_timer_env</p></div>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-timer_env~5"></span>type(<a href='../type/timer_env_type.html'>timer_env_type</a>),</td>
+  <td><span class="anchor" id="variable-timer_env~2"></span>type(<a href='../type/timer_env_type.html'>timer_env_type</a>),</td>
 <td></td>
   <td>optional</td>  <td>POINTER</td><td>::</td>
   <td><strong>timer_env</strong></td><td></td>
@@ -147,11 +145,9 @@ rm_timer_env</p></div>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/add_timer_env.html#variable-timer_env_">timer_env_</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/add_timer_env.html#src">add_timer_env</a>
   </div>
 </div>
 
@@ -159,29 +155,39 @@ rm_timer_env</p></div>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-timer_env_"></span>type(<a href='../type/timer_env_type.html'>timer_env_type</a>),</td>
-<td>private,</td>  <td>POINTER</td><td>::</td>
-  <td><strong>timer_env_</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">add_timer_env</span><span class="p">(</span><span class="n">timer_env</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! adds the given timer_env to the top of the stack</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! for each init_timer_env there should be the symmetric call to</span>
+<span class="w">      </span><span class="c">!! rm_timer_env</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">timer_env</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">timer_env_</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">timer_env</span><span class="p">))</span><span class="w"> </span><span class="n">timer_env_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">timer_env</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">timer_env</span><span class="p">))</span><span class="w"> </span><span class="k">CALL </span><span class="n">timer_env_create</span><span class="p">(</span><span class="n">timer_env_</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">timer_env_</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;add_timer_env: not associated&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timer_env_retain</span><span class="p">(</span><span class="n">timer_env_</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">list_isready</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">))</span><span class="w"> </span><span class="k">CALL </span><span class="n">list_init</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">list_push</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">,</span><span class="w"> </span><span class="n">timer_env_</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">add_timer_env</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

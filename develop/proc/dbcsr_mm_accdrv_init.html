@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,16 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-routinen~590">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-handle~510">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-ithread~11">ithread</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-my_nlayers">my_nlayers</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-c_area">c_area</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-thread_privates~2">thread_privates</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#src">dbcsr_mm_accdrv_init</a>
   </div>
 </div>
 
@@ -162,16 +155,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-routinen~590">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-handle~510">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-ithread~11">ithread</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-my_nlayers">my_nlayers</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-c_area">c_area</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#variable-thread_privates~2">thread_privates</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mm_accdrv_init.html#src">dbcsr_mm_accdrv_init</a>
   </div>
 </div>
 
@@ -179,54 +165,66 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~590"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_mm_accdrv_init'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~510"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ithread~11"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ithread</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-my_nlayers"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>my_nlayers</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_area"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>c_area</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-thread_privates~2"></span>type(<a href='../type/thread_private_type.html'>thread_private_type</a>),</td>
-<td>private,</td>  <td>POINTER</td><td>::</td>
-  <td><strong>thread_privates</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_init</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">product_wm</span><span class="p">,</span><span class="w"> </span><span class="n">nlayers</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Initializes a multiplication cycle for new set of C-blocks.</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_accdrv_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">product_wm</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">nlayers</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_mm_accdrv_init&#39;</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ithread</span><span class="p">,</span><span class="w"> </span><span class="n">my_nlayers</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">c_area</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">thread_private_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">thread_privates</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">ithread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
+<span class="w">      </span><span class="n">thread_privates</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">all_thread_privates</span><span class="p">(</span><span class="n">ithread</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! Setup global data which is reused in between multiplications</span>
+<span class="w">      </span><span class="c">!------------------------------------------------------------------------</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">setup_streams</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">setup_stackbuffers</span><span class="p">()</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">!Each thread has its own memtype with its own mempool</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">memtype_cbuffer</span><span class="p">,</span><span class="w"> </span><span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                               </span><span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_stream</span><span class="o">=</span><span class="n">thread_streams</span><span class="p">(</span><span class="n">ithread</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="n">my_nlayers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nlayers</span><span class="p">))</span><span class="w"> </span><span class="n">my_nlayers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nlayers</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">memtype_cbuffer</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="o">=</span><span class="n">my_nlayers</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! Setup things for this particular multiplication</span>
+<span class="w">      </span><span class="c">!------------------------------------------------------------------------</span>
+<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">product_wm</span><span class="w"></span>
+<span class="w">      </span><span class="n">c_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">c_area</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="n">data_size</span><span class="o">=</span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">c_area</span><span class="p">),</span><span class="w"> </span><span class="n">memory_type</span><span class="o">=</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">memtype_cbuffer</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">acc_devmem_setzero_bytes</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">stream</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="n">stream</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_init</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

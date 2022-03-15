@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,29 +107,7 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/change_split.html#variable-mp_comm~17">mp_comm</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-split_rc~2">split_rc</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-nsplit_old">nsplit_old</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-handle~561">handle</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-data_type~80">data_type</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-nsplit_new">nsplit_new</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-nsplit_prv~2">nsplit_prv</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-split_info~3">split_info</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-name~29">name</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-dist~80">dist</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-nodata_prv~3">nodata_prv</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-rdist~3">rdist</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-cdist~3">cdist</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-rbsize">rbsize</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-cbsize">cbsize</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-routinen~689">routineN</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
 </div>
 
@@ -158,13 +136,13 @@
   <td><strong>matrix_out</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nsplit~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~3"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td><p>new split factor, set to 0 to not change split of matrix_in</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-split_rowcol~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-split_rowcol~2"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>split_rowcol</strong></td><td><p>split rows or columns</p></td>
@@ -176,7 +154,7 @@
   <td><strong>is_new</strong></td><td><p>whether matrix_out is new or a pointer to matrix_in</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-opt_nsplit~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-opt_nsplit~2"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>opt_nsplit</strong></td><td><p>whether nsplit should be optimized for current process grid</p></td>
@@ -201,124 +179,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/change_split.html#variable-mp_comm~17">mp_comm</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-split_rc~2">split_rc</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-nsplit_old">nsplit_old</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-handle~561">handle</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-data_type~80">data_type</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-nsplit_new">nsplit_new</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-nsplit_prv~2">nsplit_prv</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-split_info~3">split_info</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-name~29">name</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-dist~80">dist</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-nodata_prv~3">nodata_prv</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-rdist~3">rdist</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-cdist~3">cdist</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-rbsize">rbsize</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-cbsize">cbsize</a>
-      <a class="list-group-item" href="../proc/change_split.html#variable-routinen~689">routineN</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-mp_comm~17"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mp_comm</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-split_rc~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>split_rc</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nsplit_old"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nsplit_old</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~561"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_type~80"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>data_type</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nsplit_new"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nsplit_new</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nsplit_prv~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nsplit_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-split_info~3"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>split_info</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-name~29"></span>character(len=default_string_length),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>name</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist~80"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nodata_prv~3"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nodata_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rdist~3"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
-<td>private,</td>  <td>ALLOCATABLE</td><td>::</td>
-  <td><strong>rdist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cdist~3"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
-<td>private,</td>  <td>ALLOCATABLE</td><td>::</td>
-  <td><strong>cdist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rbsize"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
-<td>private,</td>  <td>ALLOCATABLE</td><td>::</td>
-  <td><strong>rbsize</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cbsize"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
-<td>private,</td>  <td>ALLOCATABLE</td><td>::</td>
-  <td><strong>cbsize</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-routinen~689"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'change_split'</td><td></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
     
     
 

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_scalar_are_equal.html#src">dbcsr_scalar_are_equal</a>
+  </div>
+</div>
 
 </div>
 
@@ -124,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-s1~2"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-s1"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>s1</strong></td><td><p>one value
@@ -147,7 +152,12 @@ another value</p></td>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_scalar_are_equal.html#src">dbcsr_scalar_are_equal</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -161,6 +171,38 @@ another value</p></td>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_are_equal</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">are_equal</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Returns whether an encapsulated scalar is equal to another value</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! one value</span>
+<span class="w">         </span><span class="c">!! another value</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">are_equal</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! whether values are equal</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">s2</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">are_equal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">are_equal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">s2</span><span class="p">%</span><span class="n">r_sp</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">are_equal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">%</span><span class="n">r_dp</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">s2</span><span class="p">%</span><span class="n">r_dp</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">are_equal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">s2</span><span class="p">%</span><span class="n">c_sp</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">are_equal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">%</span><span class="n">c_dp</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">s2</span><span class="p">%</span><span class="n">c_dp</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">            </span><span class="n">are_equal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="k">END SELECT</span>
+<span class="k">      END IF</span>
+<span class="k">   END FUNCTION </span><span class="n">dbcsr_scalar_are_equal</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

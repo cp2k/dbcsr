@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,15 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-count~27">count</a>
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-count_max">count_max</a>
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-count_rate">count_rate</a>
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-cycles">cycles</a>
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-last_count">last_count</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/m_walltime.html#src">m_walltime</a>
   </div>
 </div>
 
@@ -144,15 +138,9 @@ might still roll, if not called multiple times per count_max/count_rate</p></div
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-count~27">count</a>
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-count_max">count_max</a>
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-count_rate">count_rate</a>
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-cycles">cycles</a>
-      <a class="list-group-item" href="../proc/m_walltime.html#variable-last_count">last_count</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/m_walltime.html#src">m_walltime</a>
   </div>
 </div>
 
@@ -160,49 +148,73 @@ might still roll, if not called multiple times per count_max/count_rate</p></div
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-count~27"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>count</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-count_max"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>SAVE</td><td>::</td>
-  <td><strong>count_max</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-count_rate"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>SAVE</td><td>::</td>
-  <td><strong>count_rate</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cycles"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>SAVE</td><td>::</td>
-  <td><strong>cycles</strong></td><td> =</td><td>-1</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-last_count"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>SAVE</td><td>::</td>
-  <td><strong>last_count</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">FUNCTION </span><span class="n">m_walltime</span><span class="p">()</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">wt</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! returns time from a real-time clock, protected against rolling</span>
+<span class="w">      </span><span class="c">!! early/easily</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! same implementation for all machines.</span>
+<span class="w">      </span><span class="c">!! might still roll, if not called multiple times per count_max/count_rate</span>
+
+<span class="cp">#if defined(__LIBXSMM)</span>
+<span class="w">      </span><span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">libxsmm_timer_tick</span><span class="p">,</span><span class="w"> </span><span class="n">libxsmm_timer_duration</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">wt</span><span class="w"></span>
+
+<span class="cp">#if defined(__LIBXSMM)</span>
+<span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">libxsmm_timer_duration</span><span class="p">(</span><span class="mi">0_int_8</span><span class="p">,</span><span class="w"> </span><span class="n">libxsmm_timer_tick</span><span class="p">())</span><span class="w"></span>
+<span class="cp">#else</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="nb">count</span>
+<span class="nb">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">SAVE</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">count_max</span><span class="p">,</span><span class="w"> </span><span class="n">count_rate</span><span class="p">,</span><span class="w"> </span><span class="n">cycles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">last_count</span><span class="w"></span>
+<span class="c">!$    IF (.FALSE.) THEN</span>
+<span class="c">! count lies in [0,count_max] and increases monotonically</span>
+
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">cycles</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="c">! get parameters of system_clock and initialise</span>
+<span class="w">            </span><span class="k">CALL </span><span class="nb">SYSTEM_CLOCK</span><span class="p">(</span><span class="n">count_rate</span><span class="o">=</span><span class="n">count_rate</span><span class="p">,</span><span class="w"> </span><span class="n">count_max</span><span class="o">=</span><span class="n">count_max</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">cycles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="n">last_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+
+<span class="k">         CALL </span><span class="nb">SYSTEM_CLOCK</span><span class="p">(</span><span class="nb">count</span><span class="o">=</span><span class="nb">count</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! protect against non-standard cases where time might be non-monotonous,</span>
+<span class="w">         </span><span class="c">! but it is unlikely that the clock cycled (e.g. underlying system clock adjustments)</span>
+<span class="w">         </span><span class="c">! i.e. if count is smaller than last_count by only a small fraction of count_max,</span>
+<span class="w">         </span><span class="c">! we use last_count instead</span>
+<span class="w">         </span><span class="c">! if count is smaller, we assume that the clock cycled.</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">last_count</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">last_count</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">count_max</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_count</span><span class="w"></span>
+<span class="w">            </span><span class="k">ELSE</span>
+<span class="k">               </span><span class="n">cycles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cycles</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">         END IF</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! keep track of our history</span>
+<span class="w">         </span><span class="n">last_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span>
+
+<span class="nb">         </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="kt">REAL</span><span class="p">(</span><span class="n">cycles</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0_dp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="kt">REAL</span><span class="p">(</span><span class="n">count_max</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">              </span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">count_rate</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$    ELSE</span>
+<span class="c">!$       wt = OMP_GET_WTIME()</span>
+<span class="c">!$    END IF</span>
+<span class="cp">#endif</span>
+<span class="w">   </span><span class="k">END FUNCTION </span><span class="n">m_walltime</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

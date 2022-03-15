@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,28 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-data_block~3">data_block</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-data_block2~2">data_block2</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-blk~16">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-col_size~37">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-nze~10">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-offset~7">offset</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-row_size~40">row_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-blk_p~10">blk_p</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-stored_row~6">stored_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-stored_col~5">stored_col</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-iw~6">iw</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-nwms~3">nwms</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-found~35">found</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-tr~44">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-do_sum">do_sum</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-tr_diff">tr_diff</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-block_1d~3">block_1d</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-my_flop">my_flop</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#src">dbcsr_put_block_d</a>
   </div>
 </div>
 
@@ -150,27 +131,27 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~250"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~162"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~72"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~66"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>the logical row
 the logical column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col~45"></span>integer,</td>
+  <td><span class="anchor" id="variable-col~41"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>col</strong></td><td><p>the logical row
 the logical column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block~69"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-block~53"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to put</p></td>
@@ -182,14 +163,14 @@ the logical column</p></td>
   <td><strong>lb_row_col</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-transposed~27"></span>logical,</td>
+  <td><span class="anchor" id="variable-transposed~18"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>transposed</strong></td><td><p>the block is transposed
 if block exists, then sum the new block to the old one instead of replacing it</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-summation~17"></span>logical,</td>
+  <td><span class="anchor" id="variable-summation~12"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>summation</strong></td><td><p>the block is transposed
@@ -216,28 +197,9 @@ if block exists, then sum the new block to the old one instead of replacing it</
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-data_block~3">data_block</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-data_block2~2">data_block2</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-blk~16">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-col_size~37">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-nze~10">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-offset~7">offset</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-row_size~40">row_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-blk_p~10">blk_p</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-stored_row~6">stored_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-stored_col~5">stored_col</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-iw~6">iw</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-nwms~3">nwms</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-found~35">found</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-tr~44">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-do_sum">do_sum</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-tr_diff">tr_diff</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-block_1d~3">block_1d</a>
-      <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#variable-my_flop">my_flop</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_put_block_d.html#src">dbcsr_put_block_d</a>
   </div>
 </div>
 
@@ -245,114 +207,182 @@ if block exists, then sum the new block to the old one instead of replacing it</
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-data_block~3"></span>type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>data_block</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_block2~2"></span>type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>data_block2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk~16"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_size~37"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>col_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze~10"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nze</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-offset~7"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>offset</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_size~40"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_p~10"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>blk_p</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stored_row~6"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>stored_row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stored_col~5"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>stored_col</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iw~6"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>iw</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nwms~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nwms</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-found~35"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>found</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr~44"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-do_sum"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>do_sum</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr_diff"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tr_diff</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-block_1d~3"></span>real(kind=real_8),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>block_1d</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-my_flop"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>my_flop</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_put_block_d</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="c">!! Inserts a block in a dbcsr matrix.</span>
+<span class="w">     </span><span class="c">!! If the block exists, the current data is overwritten.</span>
+
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! DBCSR matrix</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! the logical row</span>
+<span class="w">        </span><span class="c">!! the logical column</span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">block</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! the block to put</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lb_row_col</span><span class="w"></span>
+<span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="n">summation</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! the block is transposed</span>
+<span class="w">        </span><span class="c">!! if block exists, then sum the new block to the old one instead of replacing it</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span><span class="w"></span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! scale the OBblock being added</span>
+
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_data_dp2d</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">data_block2</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                     </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                     </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                     </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                     </span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="n">nwms</span><span class="w"></span>
+<span class="w">         </span><span class="kt">LOGICAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">do_sum</span><span class="p">,</span><span class="w"> </span><span class="n">tr_diff</span><span class="w"></span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">block_1d</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">my_flop</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">transposed</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transposed</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">summation</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">do_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">summation</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">do_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         </span><span class="n">my_flop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="n">row_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_blk_row_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">col_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_blk_column_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">swap</span><span class="p">(</span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">stored_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="p">;</span><span class="w"> </span><span class="n">stored_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col</span><span class="w"></span>
+<span class="w">         </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span><span class="w"></span>
+<span class="w">         </span><span class="c">!</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nze</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid block dimensions&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_get_stored_block_info</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                          </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">            </span><span class="c">! let&#39;s copy the block</span>
+<span class="w">            </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ABS</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! Fix the index if the new block&#39;s transpose flag is different</span>
+<span class="w">            </span><span class="c">! from the old one.</span>
+<span class="w">            </span><span class="n">tr_diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="n">NEQV</span><span class="p">.</span><span class="w"> </span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="n">tr_diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">               </span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">            </span><span class="n">block_1d</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pointer_view</span><span class="p">(</span><span class="n">dbcsr_get_data_p</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_real_8</span><span class="p">),</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nze</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_sum</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr_diff</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                     </span><span class="n">block_1d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="nb">TRANSPOSE</span><span class="p">(</span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="o">/</span><span class="p">))),</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">nze</span><span class="o">/</span><span class="p">))</span><span class="w"></span>
+<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                     CALL </span><span class="n">daxpy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">ELSE</span>
+<span class="k">                     CALL </span><span class="n">daxpy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_real_8</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">END IF</span>
+<span class="k">                  </span><span class="n">my_flop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_flop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="o">*</span><span class="mi">2</span><span class="w"></span>
+<span class="w">               </span><span class="k">ELSE</span>
+<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                     CALL </span><span class="n">dcopy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="o">*</span><span class="k">block</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">ELSE</span>
+<span class="k">                     CALL </span><span class="n">dcopy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">END IF</span>
+<span class="k">               END IF</span>
+<span class="k">            END IF</span>
+<span class="k">         ELSE</span><span class="w"></span>
+<span class="w">        </span><span class="c">!!@@@</span>
+<span class="w">            </span><span class="c">!call dbcsr_assert (associated (matrix%wms), dbcsr_fatal_level,&amp;</span>
+<span class="w">            </span><span class="c">!     dbcsr_caller_error, routineN, &quot;Work matrices not prepared&quot;)</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">nblks_guess</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">sizedata_guess</span><span class="o">=</span><span class="n">nze</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">            </span><span class="n">nwms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">iw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="c">!$          IF (debug_mod .AND. nwms &lt; omp_get_num_threads()) &amp;</span>
+<span class="c">!$             DBCSR_ABORT(&quot;Number of work matrices not equal to number of threads&quot;)</span>
+<span class="c">!$          iw = omp_get_thread_num() + 1</span>
+<span class="w">            </span><span class="n">blk_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_wm_use_mutable</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="n">blk_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">blk_p</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">add_work_coordinate</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">),</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_data_set</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span><span class="w"> </span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">data_size</span><span class="o">=</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="o">=</span><span class="nb">scale</span><span class="o">*</span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">source_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">ELSE</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_data_set</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span><span class="w"> </span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">data_size</span><span class="o">=</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="o">=</span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">source_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">END IF</span>
+<span class="k">            ELSE</span>
+<span class="k">               ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">(</span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">))</span><span class="w"></span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  </span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">scale</span><span class="o">*</span><span class="nb">RESHAPE</span><span class="p">(</span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="o">/</span><span class="p">))</span><span class="w"></span>
+<span class="w">               </span><span class="k">ELSE</span>
+<span class="k">                  </span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="o">/</span><span class="p">))</span><span class="w"></span>
+<span class="w">               </span><span class="k">END IF</span>
+<span class="k">               </span><span class="n">data_block</span><span class="p">%</span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tr</span><span class="w"></span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_mutable_instantiated</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_mutable_new</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span><span class="w"></span>
+<span class="w">               </span><span class="k">END IF</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">do_sum</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">btree_add</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                     </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">%</span><span class="n">m</span><span class="p">%</span><span class="n">btree_d</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                     </span><span class="n">make_coordinate_tuple</span><span class="p">(</span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                     </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">data_block2</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                     IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">data_block2</span><span class="p">%</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Data was not present in block&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">data_block2</span><span class="p">%</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">data_block2</span><span class="p">%</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">END IF</span>
+<span class="k">               ELSE</span>
+<span class="k">                  CALL </span><span class="n">btree_add</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                     </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">%</span><span class="n">m</span><span class="p">%</span><span class="n">btree_d</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                     </span><span class="n">make_coordinate_tuple</span><span class="p">(</span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                     </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">data_block2</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                     IF</span><span class="w"> </span><span class="p">(</span><span class="n">nze</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="k">CALL </span><span class="n">daxpy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_real_8</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                               </span><span class="n">data_block2</span><span class="p">%</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Data was not present in block&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">END IF</span>
+<span class="k">               END IF</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">lastblk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">lastblk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="k">END IF</span>
+<span class="k">            END IF</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="c">!$OMP ATOMIC WRITE</span>
+<span class="w">            </span><span class="n">matrix</span><span class="p">%</span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">flop</span><span class="p">))</span><span class="w"> </span><span class="n">flop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">my_flop</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_put_block_d</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

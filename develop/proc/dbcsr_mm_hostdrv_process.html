@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,16 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-routinen~605">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-careful~2">careful</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-dbg~19">dbg</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-error_handle~53">error_handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-sp~2">sp</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-rnd~2">rnd</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#src">dbcsr_mm_hostdrv_process</a>
   </div>
 </div>
 
@@ -142,14 +135,14 @@
   <td><strong>this</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-left~21"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-left~9"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>left</strong></td><td><p>Left-matrix data
 Right-matrix data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-right~22"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-right~9"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>right</strong></td><td><p>Left-matrix data
@@ -162,25 +155,25 @@ Right-matrix data</p></td>
   <td><strong>params</strong></td><td><p>Stack of GEMM parameters</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stack_size~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-stack_size~5"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>stack_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stack_descr~4"></span>type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),</td>
+  <td><span class="anchor" id="variable-stack_descr~3"></span>type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>stack_descr</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-success~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-success~3"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>success</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-used_smm~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-used_smm"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>used_smm</strong></td><td></td>
@@ -194,16 +187,9 @@ Right-matrix data</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-routinen~605">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-careful~2">careful</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-dbg~19">dbg</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-error_handle~53">error_handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-sp~2">sp</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#variable-rnd~2">rnd</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mm_hostdrv_process.html#src">dbcsr_mm_hostdrv_process</a>
   </div>
 </div>
 
@@ -211,54 +197,173 @@ Right-matrix data</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~605"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_mm_hostdrv_process'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-careful~2"></span>logical,</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>careful</strong></td><td> =</td><td>careful_mod</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dbg~19"></span>logical,</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>dbg</strong></td><td> =</td><td>.FALSE.</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-error_handle~53"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>error_handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sp~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>sp</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rnd~2"></span>real(kind=dp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>rnd</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_hostdrv_process</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">success</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Calls the various drivers that process the stack.</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_hostdrv_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Left-matrix data</span>
+<span class="w">         </span><span class="c">!! Right-matrix data</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">stack_size</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">dbcsr_ps_width</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">params</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Stack of GEMM parameters</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">stack_descriptor_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">stack_descr</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">success</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_mm_hostdrv_process&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">careful</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">careful_mod</span><span class="p">,</span><span class="w"> </span><span class="n">dbg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">rnd</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span><span class="c">!for cpu-only runs this is called too often</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"> </span><span class="c">!host driver never fails...hopefully</span>
+<span class="w">      </span><span class="n">used_smm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">rnd</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">rnd</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.01_dp</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Stack size&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_ps_width</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">print_gemm_parameters</span><span class="p">(</span><span class="n">params</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">stack_size</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END IF</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! Verify stack consistency.  Only the upper bound is verified.</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         DO </span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_a_first</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">params</span><span class="p">(</span><span class="n">p_m</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)</span><span class="o">*</span><span class="n">params</span><span class="p">(</span><span class="n">p_k</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;A data out of bounds.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_b_first</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">params</span><span class="p">(</span><span class="n">p_k</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)</span><span class="o">*</span><span class="n">params</span><span class="p">(</span><span class="n">p_n</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;B data out of bounds.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_c_first</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">params</span><span class="p">(</span><span class="n">p_m</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)</span><span class="o">*</span><span class="n">params</span><span class="p">(</span><span class="n">p_n</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;C data out of bounds.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">      END IF</span>
+
+<span class="k">      SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">mm_driver_matmul</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">internal_process_mm_stack_s</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">internal_process_mm_stack_d</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">internal_process_mm_stack_c</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">internal_process_mm_stack_z</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END SELECT</span>
+<span class="k">      CASE</span><span class="w"> </span><span class="p">(</span><span class="n">mm_driver_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">smm_process_mm_stack_s</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">smm_process_mm_stack_d</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">smm_process_mm_stack_c</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">smm_process_mm_stack_z</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END SELECT</span><span class="w"></span>
+<span class="cp">#if defined(__LIBXSMM)</span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">mm_driver_xsmm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#if TO_VERSION(1, 10) &lt; TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)</span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">xsmm_process_mm_batch_s</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">xsmm_process_mm_batch_d</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">xsmm_process_mm_batch_c</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">xsmm_process_mm_batch_z</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#else</span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">xsmm_process_mm_stack_s</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">xsmm_process_mm_stack_d</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">xsmm_process_mm_stack_c</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">xsmm_process_mm_stack_z</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">         </span><span class="k">CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END SELECT</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">mm_driver_blas</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">blas_process_mm_stack_s</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">blas_process_mm_stack_d</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">blas_process_mm_stack_c</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">blas_process_mm_stack_z</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END SELECT</span>
+<span class="k">      CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid multiplication driver&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SELECT</span>
+
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span><span class="c">!for cpu-only runs this is called too often</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_hostdrv_process</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,14 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#variable-i~60">i</a>
-      <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#variable-new_cap~6">new_cap</a>
-      <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#variable-stat~20">stat</a>
-      <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#variable-old_arr~4">old_arr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#src">change_capacity_callstackentry</a>
   </div>
 </div>
 
@@ -154,14 +149,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#variable-i~60">i</a>
-      <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#variable-new_cap~6">new_cap</a>
-      <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#variable-stat~20">stat</a>
-      <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#variable-old_arr~4">old_arr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/change_capacity_callstackentry.html#src">change_capacity_callstackentry</a>
   </div>
 </div>
 
@@ -169,44 +159,85 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-i~60"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_cap~6"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>new_cap</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stat~20"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>stat</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_arr~4"></span>type(<a href='../type/private_item_p_type_callstackentry.html'>private_item_p_type_callstackentry</a>),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>old_arr</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="k">SUBROUTINE </span><span class="n">change_capacity_callstackentry</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">new_capacity</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="c">!! Internal routine for changing the size of the internal array.</span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">new_capacity</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">new_cap</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">TYPE</span><span class="p">(</span><span class="n">private_item_p_type_callstackentry</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">old_arr</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="n">new_cap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_capacity</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">IF</span><span class="p">(</span><span class="n">new_cap</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: new_capacity &lt; 0&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">IF</span><span class="p">(</span><span class="n">new_cap</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: new_capacity &lt; size&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">IF</span><span class="p">(</span><span class="n">new_cap</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">HUGE</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="k">IF</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">HUGE</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: list has reached integer limit.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="n">new_cap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">HUGE</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="c">! grow as far as possible</span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">END IF</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="n">old_arr</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">new_cap</span><span class="p">),</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: allocation failed&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="k">allocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: allocation failed&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">      </span><span class="k">deallocate</span><span class="p">(</span><span class="n">old_arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">end do</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="w">   </span><span class="k">deallocate</span><span class="p">(</span><span class="n">old_arr</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_callstackentry.F&quot;</span>
+<span class="k">END SUBROUTINE </span><span class="n">change_capacity_callstackentry</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

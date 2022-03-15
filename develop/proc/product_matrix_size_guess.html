@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,15 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-size8">size8</a>
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-factor">factor</a>
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-fill_guess">fill_guess</a>
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-left_fill">left_fill</a>
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-right_fill">right_fill</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/product_matrix_size_guess.html#src">product_matrix_size_guess</a>
   </div>
 </div>
 
@@ -165,19 +159,19 @@
   <td><strong>right_data_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-left_col_nimages~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-left_col_nimages"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>left_col_nimages</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-right_row_nimages~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-right_row_nimages"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>right_row_nimages</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nthreads~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-nthreads~2"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nthreads</strong></td><td></td>
@@ -185,7 +179,7 @@
 </tbody>
 </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-size_guess~3"></span>integer</small></h3>
+   <h3>Return Value <small><span class="anchor" id="variable-size_guess"></span>integer</small></h3>
     
     <br>
 
@@ -193,15 +187,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-size8">size8</a>
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-factor">factor</a>
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-fill_guess">fill_guess</a>
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-left_fill">left_fill</a>
-      <a class="list-group-item" href="../proc/product_matrix_size_guess.html#variable-right_fill">right_fill</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/product_matrix_size_guess.html#src">product_matrix_size_guess</a>
   </div>
 </div>
 
@@ -209,49 +197,55 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-size8"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>size8</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-factor"></span>real(kind=real_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>factor</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-fill_guess"></span>real(kind=real_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>fill_guess</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-left_fill"></span>real(kind=real_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>left_fill</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-right_fill"></span>real(kind=real_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>right_fill</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">FUNCTION </span><span class="n">product_matrix_size_guess</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_right</span><span class="p">,</span><span class="w"> </span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Guess the size of the product matrix from the A and B sparsities</span>
+<span class="w">                                      </span><span class="n">left_data_size</span><span class="p">,</span><span class="w"> </span><span class="n">right_data_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">left_col_nimages</span><span class="p">,</span><span class="w"> </span><span class="n">right_row_nimages</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">nthreads</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">size_guess</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_left</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_right</span><span class="p">,</span><span class="w"> </span><span class="n">product_matrix</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">left_data_size</span><span class="p">,</span><span class="w"> </span><span class="n">right_data_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">left_col_nimages</span><span class="p">,</span><span class="w"> </span><span class="n">right_row_nimages</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">nthreads</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">size_guess</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">size8</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">factor</span><span class="p">,</span><span class="w"> </span><span class="n">fill_guess</span><span class="p">,</span><span class="w"> </span><span class="n">left_fill</span><span class="p">,</span><span class="w"> </span><span class="n">right_fill</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! First we calculate the sparsities</span>
+<span class="w">      </span><span class="n">size8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">dbcsr_nfullrows_local</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">              </span><span class="nb">INT</span><span class="p">(</span><span class="n">dbcsr_nfullcols_local</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">size8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1_int_8</span><span class="p">,</span><span class="w"> </span><span class="n">size8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">left_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">left_data_size</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">left_col_nimages</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">))</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">size8</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">size8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">dbcsr_nfullrows_local</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">              </span><span class="nb">INT</span><span class="p">(</span><span class="n">dbcsr_nfullcols_local</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">size8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1_int_8</span><span class="p">,</span><span class="w"> </span><span class="n">size8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">right_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">right_data_size</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">right_row_nimages</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">))</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">size8</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">size8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">dbcsr_nfullrows_local</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">              </span><span class="nb">INT</span><span class="p">(</span><span class="n">dbcsr_nfullcols_local</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">size8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1_int_8</span><span class="p">,</span><span class="w"> </span><span class="n">size8</span><span class="p">)</span><span class="w"></span>
+<span class="c">!     factor = 7.0 ! Old guess</span>
+<span class="w">      </span><span class="n">factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.4</span><span class="w"> </span><span class="c">! New guess</span>
+<span class="w">      </span><span class="n">fill_guess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="o">*</span><span class="nb">MAX</span><span class="p">(</span><span class="n">left_fill</span><span class="p">,</span><span class="w"> </span><span class="n">right_fill</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">fill_guess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MIN</span><span class="p">(</span><span class="mf">1.0_real_8</span><span class="p">,</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mf">0.0_real_8</span><span class="p">,</span><span class="w"> </span><span class="n">fill_guess</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nthreads</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">fill_guess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fill_guess</span><span class="o">*</span><span class="mf">3.0_real_8</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nthreads</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      </span><span class="n">size_guess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">size8</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="o">*</span><span class="n">fill_guess</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END FUNCTION </span><span class="n">product_matrix_size_guess</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

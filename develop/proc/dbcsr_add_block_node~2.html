@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,20 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-c~15">c</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-ithread~3">ithread</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-mynode~16">mynode</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-p~18">p</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-r~15">r</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-dbg~4">dbg</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-existed~13">existed</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-is_there">is_there</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-tr~74">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-dist~59">dist</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#src">dbcsr_add_block_node</a>
   </div>
 </div>
 
@@ -143,7 +132,7 @@ block. Currently it only and always uses the mutable data.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~303"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~215"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
@@ -163,7 +152,7 @@ the column</p></td>
 the column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block~95"></span>real(kind=dp),</td>
+  <td><span class="anchor" id="variable-block~78"></span>real(kind=dp),</td>
 <td></td>
   <td></td>  <td>DIMENSION(:, :), POINTER</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to put</p></td>
@@ -177,20 +166,9 @@ the column</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-c~15">c</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-ithread~3">ithread</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-mynode~16">mynode</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-p~18">p</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-r~15">r</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-dbg~4">dbg</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-existed~13">existed</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-is_there">is_there</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-tr~74">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#variable-dist~59">dist</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_add_block_node~2.html#src">dbcsr_add_block_node</a>
   </div>
 </div>
 
@@ -198,74 +176,71 @@ the column</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-c~15"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>c</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ithread~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ithread</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mynode~16"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mynode</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p~18"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>p</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-r~15"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>r</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dbg~4"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dbg</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-existed~13"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>existed</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-is_there"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>is_there</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr~74"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist~59"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_add_block_node</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">block_row</span><span class="p">,</span><span class="w"> </span><span class="n">block_col</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Emulation of sparse_matrix_types/add_block_node mapped</span>
+<span class="w">      </span><span class="c">!! to add_real_matrix_block.... should not be used any longer</span>
+<span class="w">      </span><span class="c">!! It adds a block to the dbcsr matrix and returns a rank-2 pointer to the</span>
+<span class="w">      </span><span class="c">!! block. Currently it only and always uses the mutable data.</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! DBCSR matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">block_row</span><span class="p">,</span><span class="w"> </span><span class="n">block_col</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the row</span>
+<span class="w">         </span><span class="c">!! the column</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="k">block</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the block to put</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">ithread</span><span class="p">,</span><span class="w"> </span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">dbg</span><span class="p">,</span><span class="w"> </span><span class="n">existed</span><span class="p">,</span><span class="w"> </span><span class="n">is_there</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="n">dbg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">ithread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="c">!$    ithread = omp_get_thread_num()</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">work_mutable</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="c">!$    IF (SIZE(matrix%wms) .LT. omp_get_num_threads()) &amp;</span>
+<span class="c">!$       DBCSR_ABORT(&quot;Too few threads.&quot;)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_wm_use_mutable</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">ithread</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Data loss due to no conversion of appendable to mutable data&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">is_there</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!r = row ; c = col ; tr = .FALSE.</span>
+<span class="w">      </span><span class="c">!CALL dbcsr_get_stored_coordinates (matrix, r, c, tr)</span>
+<span class="w">      </span><span class="c">!CALL dbcsr_reserve_block2d (matrix, row, col, block)</span>
+<span class="w">      </span><span class="c">!write(*,*) &#39;add_block_node: block_row&#39;,block_row,&#39; block_col&#39;,block_col</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_reserve_block2d</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">block_row</span><span class="p">,</span><span class="w"> </span><span class="n">block_col</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="n">existed</span><span class="o">=</span><span class="n">existed</span><span class="p">)</span><span class="w"></span>
+<span class="c">!</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block_row</span><span class="p">;</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block_col</span><span class="p">;</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_get_info</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">distribution</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_distribution_get</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">mynode</span><span class="o">=</span><span class="n">mynode</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">mynode</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Adding non-local element&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">existed</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;You should not add existing blocks according to old API.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">is_there</span><span class="p">)</span><span class="w"> </span><span class="k">block</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_add_block_node</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

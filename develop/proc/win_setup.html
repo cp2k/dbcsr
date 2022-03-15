@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/win_setup.html#variable-routinen~575">routineN</a>
-      <a class="list-group-item" href="../proc/win_setup.html#variable-handle~495">handle</a>
-      <a class="list-group-item" href="../proc/win_setup.html#variable-handle1~2">handle1</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/win_setup.html#src">win_setup</a>
   </div>
 </div>
 
@@ -132,13 +128,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-buffer~3"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
+  <td><span class="anchor" id="variable-buffer~2"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>buffer</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-do_win_create~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-do_win_create"></span>logical,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>do_win_create</strong></td><td></td>
@@ -158,13 +154,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/win_setup.html#variable-routinen~575">routineN</a>
-      <a class="list-group-item" href="../proc/win_setup.html#variable-handle~495">handle</a>
-      <a class="list-group-item" href="../proc/win_setup.html#variable-handle1~2">handle1</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/win_setup.html#src">win_setup</a>
   </div>
 </div>
 
@@ -172,39 +164,61 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~575"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'win_setup'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~495"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle1~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle1</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">win_setup</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">do_win_create</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_buffer</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">buffer</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">do_win_create</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">request</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;win_setup&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">handle1</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">has_rma_win</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_win_check&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">handle1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mp_wait</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_win_create</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">mp_win_unlock_all</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_win</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">mp_win_free</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_win</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_win_create</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">mp_win_unlock_all</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_win</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">mp_win_free</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_win</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END IF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_before_resize</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_before_resize</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">memory_deallocate</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_before_resize</span><span class="p">,</span><span class="w"> </span><span class="n">memtype_mpi_buffer</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_before_resize</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_win_create</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_win_create_any</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="k">data</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">data_win</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mp_win_lock_all</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_win</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_win_create</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">mp_win_create</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_win</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mp_win_lock_all</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_win</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="n">buffer</span><span class="p">%</span><span class="n">has_rma_win</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">win_setup</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

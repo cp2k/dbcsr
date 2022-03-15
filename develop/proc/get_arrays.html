@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/get_arrays.html#variable-i~173">i</a>
-      <a class="list-group-item" href="../proc/get_arrays.html#variable-ndata~16">ndata</a>
-      <a class="list-group-item" href="../proc/get_arrays.html#variable-o~2">o</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/get_arrays.html#src">get_arrays</a>
   </div>
 </div>
 
@@ -139,25 +135,25 @@
   <td><strong>list</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_1~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_1~2"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>data_1</strong></td><td><p>arrays 1 and 2</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_2~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_2~2"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>data_2</strong></td><td><p>arrays 1 and 2</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_3~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_3~2"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>data_3</strong></td><td><p>arrays 1 and 2</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_4~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_4~2"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>data_4</strong></td><td><p>arrays 1 and 2</p></td>
@@ -177,13 +173,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/get_arrays.html#variable-i~173">i</a>
-      <a class="list-group-item" href="../proc/get_arrays.html#variable-ndata~16">ndata</a>
-      <a class="list-group-item" href="../proc/get_arrays.html#variable-o~2">o</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/get_arrays.html#src">get_arrays</a>
   </div>
 </div>
 
@@ -191,39 +183,62 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-i~173"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ndata~16"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ndata</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-o~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(number_of_arrays(list))</td><td>::</td>
-  <td><strong>o</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">get_arrays</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">data_1</span><span class="p">,</span><span class="w"> </span><span class="n">data_2</span><span class="p">,</span><span class="w"> </span><span class="n">data_3</span><span class="p">,</span><span class="w"> </span><span class="n">data_4</span><span class="p">,</span><span class="w"> </span><span class="n">i_selected</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Get all arrays contained in list</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">OPTIONAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">data_1</span><span class="p">,</span><span class="w"> </span><span class="n">data_2</span><span class="p">,</span><span class="w"> </span><span class="n">data_3</span><span class="p">,</span><span class="w"> </span><span class="n">data_4</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! arrays 1 and 2</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">OPTIONAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">i_selected</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! array numbers to retrieve (if not present, all arrays are returned)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ndata</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">number_of_arrays</span><span class="p">(</span><span class="n">list</span><span class="p">))</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">o</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">o</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">i_selected</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">ndata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">i_selected</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">o</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ndata</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_selected</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">ndata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number_of_arrays</span><span class="p">(</span><span class="n">list</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">o</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ndata</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndata</span><span class="p">)</span><span class="o">/</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+
+<span class="k">      ASSOCIATE</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">list</span><span class="p">%</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">col_data</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">list</span><span class="p">%</span><span class="n">col_data</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 167 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F&quot;</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ndata</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">data_1</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">col_data</span><span class="p">(</span><span class="n">ptr</span><span class="p">(</span><span class="n">o</span><span class="p">(</span><span class="mi">1</span><span class="p">)):</span><span class="n">ptr</span><span class="p">(</span><span class="n">o</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="cp"># 167 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F&quot;</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ndata</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">data_2</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">col_data</span><span class="p">(</span><span class="n">ptr</span><span class="p">(</span><span class="n">o</span><span class="p">(</span><span class="mi">2</span><span class="p">)):</span><span class="n">ptr</span><span class="p">(</span><span class="n">o</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="cp"># 167 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F&quot;</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ndata</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">data_3</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">col_data</span><span class="p">(</span><span class="n">ptr</span><span class="p">(</span><span class="n">o</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span><span class="n">ptr</span><span class="p">(</span><span class="n">o</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="cp"># 167 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F&quot;</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ndata</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">data_4</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">col_data</span><span class="p">(</span><span class="n">ptr</span><span class="p">(</span><span class="n">o</span><span class="p">(</span><span class="mi">4</span><span class="p">)):</span><span class="n">ptr</span><span class="p">(</span><span class="n">o</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="cp"># 171 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F&quot;</span>
+<span class="w">      </span><span class="k">END ASSOCIATE</span>
+
+<span class="k">   END SUBROUTINE </span><span class="n">get_arrays</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

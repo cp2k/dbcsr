@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,14 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mp_send_dv.html#variable-routinen~246">routineN</a>
-      <a class="list-group-item" href="../proc/mp_send_dv.html#variable-handle~180">handle</a>
-      <a class="list-group-item" href="../proc/mp_send_dv.html#variable-ierr~191">ierr</a>
-      <a class="list-group-item" href="../proc/mp_send_dv.html#variable-msglen~66">msglen</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_send_dv.html#src">mp_send_dv</a>
   </div>
 </div>
 
@@ -147,7 +142,7 @@
   <td><strong>dest</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tag~34"></span>integer</td>
+  <td><span class="anchor" id="variable-tag~29"></span>integer</td>
 <td></td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tag</strong></td><td></td>
@@ -167,14 +162,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mp_send_dv.html#variable-routinen~246">routineN</a>
-      <a class="list-group-item" href="../proc/mp_send_dv.html#variable-handle~180">handle</a>
-      <a class="list-group-item" href="../proc/mp_send_dv.html#variable-ierr~191">ierr</a>
-      <a class="list-group-item" href="../proc/mp_send_dv.html#variable-msglen~66">msglen</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_send_dv.html#src">mp_send_dv</a>
   </div>
 </div>
 
@@ -182,44 +172,50 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~246"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'mp_send_dv'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~180"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ierr~191"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ierr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-msglen~66"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>msglen</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">mp_send_dv</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Send rank-1 data to another process</span>
+<span class="w">      </span><span class="c">!! @note see mp_send_d</span>
+
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Rank-1 data to send</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="w"></span>
+
+<span class="w">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mp_send_dv&#39;</span><span class="w"></span>
+
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">msglen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#if defined(__parallel)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mpi_send</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_DOUBLE_PRECISION</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_send @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#else</span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="c">! only defined in parallel</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;not in parallel mode&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">mp_send_dv</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

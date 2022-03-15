@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,21 +107,7 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-nproc~8">nproc</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-iproc~15">iproc</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-ndims~18">ndims</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-handle~597">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-pdims_2d~5">pdims_2d</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-pos~38">pos</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-info~23">info</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-routinen~721">routineN</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
 </div>
 
@@ -148,39 +134,39 @@ cartesian grid.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-mp_comm~39"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm~23"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mp_comm</strong></td><td><p>simple MPI Communicator</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dims~25"></span>integer,</td>
+  <td><span class="anchor" id="variable-dims~17"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>dims</strong></td><td><p>grid dimensions - if entries are 0, dimensions are chosen automatically.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pgrid~38"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+  <td><span class="anchor" id="variable-pgrid~17"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>pgrid</strong></td><td><p>n-dimensional grid object</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map1_2d~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-map1_2d~9"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map1_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
 which nd-indices map to first matrix index and in which order</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map2_2d~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-map2_2d~9"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map2_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
 which nd-indices map to first matrix index and in which order</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_dims~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-tensor_dims~3"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>tensor_dims</strong></td><td><p>tensor block dimensions. If present, process grid dimensions are created such that good
@@ -188,7 +174,7 @@ load balancing is ensured even if some of the tensor dimensions are small (i.e. 
 or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nsplit~20"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~12"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td><p>impose a constant split factor
@@ -209,76 +195,12 @@ which matrix dimension to split</p></td>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-nproc~8">nproc</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-iproc~15">iproc</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-ndims~18">ndims</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-handle~597">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-pdims_2d~5">pdims_2d</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-pos~38">pos</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-info~23">info</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_pgrid_create_expert.html#variable-routinen~721">routineN</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-nproc~8"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nproc</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iproc~15"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>iproc</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ndims~18"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ndims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~597"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pdims_2d~5"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pdims_2d</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pos~38"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pos</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-info~23"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>info</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-routinen~721"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_t_pgrid_create'</td><td></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
     
     
 

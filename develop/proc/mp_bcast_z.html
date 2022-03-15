@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,14 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mp_bcast_z.html#variable-routinen~371">routineN</a>
-      <a class="list-group-item" href="../proc/mp_bcast_z.html#variable-handle~305">handle</a>
-      <a class="list-group-item" href="../proc/mp_bcast_z.html#variable-ierr~316">ierr</a>
-      <a class="list-group-item" href="../proc/mp_bcast_z.html#variable-msglen~127">msglen</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_bcast_z.html#src">mp_bcast_z</a>
   </div>
 </div>
 
@@ -164,14 +159,9 @@ Message passing environment identifier</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mp_bcast_z.html#variable-routinen~371">routineN</a>
-      <a class="list-group-item" href="../proc/mp_bcast_z.html#variable-handle~305">handle</a>
-      <a class="list-group-item" href="../proc/mp_bcast_z.html#variable-ierr~316">ierr</a>
-      <a class="list-group-item" href="../proc/mp_bcast_z.html#variable-msglen~127">msglen</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_bcast_z.html#src">mp_bcast_z</a>
   </div>
 </div>
 
@@ -179,44 +169,51 @@ Message passing environment identifier</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~371"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'mp_bcast_z'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~305"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ierr~316"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ierr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-msglen~127"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>msglen</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">mp_bcast_z</span><span class="w"> </span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Broadcasts a datum to all processes.</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! MPI mapping</span>
+<span class="w">      </span><span class="c">!! mpi_bcast</span>
+
+<span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Datum to broadcast</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Processes which broadcasts</span>
+<span class="w">         </span><span class="c">!! Message passing environment identifier</span>
+
+<span class="w">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mp_bcast_z&#39;</span><span class="w"></span>
+
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">msglen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="cp">#if defined(__parallel)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mpi_bcast</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_DOUBLE_COMPLEX</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_bcast @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">))</span><span class="w"></span>
+<span class="cp">#else</span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">mp_bcast_z</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

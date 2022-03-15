@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,20 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-blk~73">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-col_size~92">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nblks~27">nblks</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nrows~16">nrows</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze~64">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze_prev">nze_prev</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row~179">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row_size~99">row_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-mark">mark</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-trb">trb</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#src">dbcsr_copy_sort_data</a>
   </div>
 </div>
 
@@ -142,13 +131,13 @@ As opposed to dbcsr_sort_data, this routine calculates block sizes</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-blk_p~51"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_p~18"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>re-arranged block pointers reflecting the new data order</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-old_blk_p~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_blk_p~5"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>old_blk_p</strong></td><td><p>current block pointers
@@ -158,7 +147,7 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_p~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_p~13"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_p</strong></td><td><p>current block pointers
@@ -168,7 +157,7 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_i~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_i~11"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>current block pointers
@@ -178,7 +167,7 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-rbs~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-rbs~11"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>rbs</strong></td><td><p>current block pointers
@@ -188,7 +177,7 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-cbs~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-cbs~11"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>cbs</strong></td><td><p>current block pointers
@@ -198,13 +187,13 @@ sizes of the blocked rows
 sizes of the blocked columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dst~46"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-dst~41"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dst</strong></td><td><p>sorted data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-src~37"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-src~32"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>src</strong></td><td><p>existing unordered data</p></td>
@@ -232,20 +221,9 @@ transpose data blocks</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-blk~73">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-col_size~92">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nblks~27">nblks</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nrows~16">nrows</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze~64">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-nze_prev">nze_prev</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row~179">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-row_size~99">row_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-mark">mark</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#variable-trb">trb</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_copy_sort_data.html#src">dbcsr_copy_sort_data</a>
   </div>
 </div>
 
@@ -253,74 +231,90 @@ transpose data blocks</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-blk~73"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_size~92"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>col_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblks~27"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nblks</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nrows~16"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nrows</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze~64"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nze</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze_prev"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nze_prev</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row~179"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_size~99"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mark"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mark</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-trb"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>trb</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_copy_sort_data</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">row_p</span><span class="p">,</span><span class="w"> </span><span class="n">col_i</span><span class="p">,</span><span class="w"> </span><span class="n">rbs</span><span class="p">,</span><span class="w"> </span><span class="n">cbs</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">mark_transposed</span><span class="p">,</span><span class="w"> </span><span class="n">transpose_blocks</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Sorts the data in a matrix so that the data blocks follow</span>
+<span class="w">      </span><span class="c">!! sequentially and does various transposing options.</span>
+<span class="w">      </span><span class="c">!! As opposed to dbcsr_sort_data, this routine calculates block sizes</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! re-arranged block pointers reflecting the new data order</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">row_p</span><span class="p">,</span><span class="w"> </span><span class="n">col_i</span><span class="p">,</span><span class="w"> </span><span class="n">rbs</span><span class="p">,</span><span class="w"> </span><span class="n">cbs</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! current block pointers</span>
+<span class="w">         </span><span class="c">!! index</span>
+<span class="w">         </span><span class="c">!! index</span>
+<span class="w">         </span><span class="c">!! sizes of the blocked rows</span>
+<span class="w">         </span><span class="c">!! sizes of the blocked columns</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">dst</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! sorted data</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">src</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! existing unordered data</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">mark_transposed</span><span class="p">,</span><span class="w"> </span><span class="n">transpose_blocks</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! mark data as transposed by negating the blk_p index entries</span>
+<span class="w">         </span><span class="c">!! transpose data blocks</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="n">nrows</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">nze_prev</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">mark</span><span class="p">,</span><span class="w"> </span><span class="n">trb</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+<span class="c">! Analyze parameters</span>
+
+<span class="w">      </span><span class="n">mark</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mark_transposed</span><span class="p">))</span><span class="w"> </span><span class="n">mark</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mark_transposed</span><span class="w"></span>
+<span class="w">      </span><span class="n">trb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">transpose_blocks</span><span class="p">))</span><span class="w"> </span><span class="n">trb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transpose_blocks</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">old_blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">nrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">row_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nblks</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Destination blk_p too small.&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nblks</span><span class="w"> </span><span class="p">.</span><span class="n">GE</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SGN</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">mark</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">nze_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nrows</span><span class="w"></span>
+<span class="w">         </span><span class="n">row_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="n">col_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cbs</span><span class="p">(</span><span class="n">col_i</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span><span class="w"></span>
+<span class="w">               </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span><span class="w"></span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">blk</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  </span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SGN</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze_prev</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">mark</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">END IF</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Destination data space is too small.&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">trb</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_data_copy</span><span class="p">(</span><span class="n">dst</span><span class="o">=</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">dst_lb</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span><span class="o">/</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">dst_sizes</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">nze</span><span class="o">/</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">src_lb</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="nb">ABS</span><span class="p">(</span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span><span class="o">/</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">src_sizes</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">nze</span><span class="o">/</span><span class="p">))</span><span class="w"></span>
+<span class="w">                  </span><span class="c">!CALL dbcsr_data_set (dst, ABS(blk_p(blk)), nze,&amp;</span>
+<span class="w">                  </span><span class="c">!     src, source_lb=ABS(old_blk_p(blk)))</span>
+<span class="w">               </span><span class="k">ELSE</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">lb</span><span class="o">=</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)),</span><span class="w"> </span><span class="n">source_lb</span><span class="o">=</span><span class="nb">ABS</span><span class="p">(</span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)))</span><span class="w"></span>
+<span class="w">               </span><span class="k">END IF</span>
+<span class="k">               </span><span class="n">nze_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nze</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"> </span><span class="c">! blk exists</span>
+<span class="w">         </span><span class="k">END DO</span><span class="w"> </span><span class="c">! blk</span>
+<span class="w">      </span><span class="k">END DO</span><span class="w"> </span><span class="c">! row</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_copy_sort_data</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

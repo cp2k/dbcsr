@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,24 +107,7 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-map1~6">map1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-map2~6">map2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-dims~18">dims</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-nbatches">nbatches</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-pgrid~34">pgrid</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-batch_range_1~3">batch_range_1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-batch_range_2~3">batch_range_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-batch_range_3~3">batch_range_3</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-batch_range_4~3">batch_range_4</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-array~64">array</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-idim~12">idim</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
 </div>
 
@@ -141,31 +124,31 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-tensor~141"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor~64"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tensor</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mp_comm~36"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm~20"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mp_comm</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pdims~21"></span>integer,</td>
+  <td><span class="anchor" id="variable-pdims~4"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>pdims</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata~15"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata~14"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nodata</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nsplit~18"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~10"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td></td>
@@ -177,13 +160,13 @@
   <td><strong>dimsplit</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pgrid_changed~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-pgrid_changed~2"></span>logical,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>pgrid_changed</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~38"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~35"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td></td>
@@ -196,94 +179,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-map1~6">map1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-map2~6">map2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-dims~18">dims</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-nbatches">nbatches</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-pgrid~34">pgrid</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-batch_range_1~3">batch_range_1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-batch_range_2~3">batch_range_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-batch_range_3~3">batch_range_3</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-batch_range_4~3">batch_range_4</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-array~64">array</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_change_pgrid_2d.html#variable-idim~12">idim</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-map1~6"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(ndims_matrix_row(tensor))</td><td>::</td>
-  <td><strong>map1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map2~6"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(ndims_matrix_column(tensor))</td><td>::</td>
-  <td><strong>map2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dims~18"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
-  <td><strong>dims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nbatches"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
-  <td><strong>nbatches</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pgrid~34"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>pgrid</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-batch_range_1~3"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>batch_range_1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-batch_range_2~3"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>batch_range_2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-batch_range_3~3"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>batch_range_3</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-batch_range_4~3"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>batch_range_4</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-array~64"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>array</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-idim~12"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>idim</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
     
     
 

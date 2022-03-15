@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,16 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-c_sp~13">c_sp</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-c_dp~13">c_dp</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-i4~2">i4</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-i8~2">i8</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-r_sp~13">r_sp</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-r_dp~13">r_dp</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#src">dbcsr_data_host2dev</a>
   </div>
 </div>
 
@@ -150,16 +143,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-c_sp~13">c_sp</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-c_dp~13">c_dp</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-i4~2">i4</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-i8~2">i8</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-r_sp~13">r_sp</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#variable-r_dp~13">r_dp</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_data_host2dev.html#src">dbcsr_data_host2dev</a>
   </div>
 </div>
 
@@ -167,54 +153,59 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-c_sp~13"></span>complex(kind=real_4),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>c_sp</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_dp~13"></span>complex(kind=real_8),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>c_dp</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-i4~2"></span>integer(kind=int_4),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>i4</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-i8~2"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>i8</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-r_sp~13"></span>real(kind=real_4),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>r_sp</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-r_dp~13"></span>real(kind=real_8),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>r_dp</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_data_host2dev</span><span class="p">(</span><span class="n">area</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Transfers data from host- to device-buffer, asynchronously.</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">area</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">c_sp</span><span class="w"></span>
+<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">c_dp</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">i4</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">i8</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">r_sp</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">r_dp</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">acc_devmem_allocated</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="c">!nothing to do</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="c">!nothing to do</span>
+
+<span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">i4</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">i4</span><span class="p">(:</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="o">=</span><span class="n">i4</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_int_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">i8</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">i8</span><span class="p">(:</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="o">=</span><span class="n">i8</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">r_sp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(:</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="o">=</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">r_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(:</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="o">=</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">c_sp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(:</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="o">=</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">c_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(:</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="o">=</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SELECT</span>
+
+<span class="k">      CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">,</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_host2dev</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

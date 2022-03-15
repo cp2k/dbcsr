@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,21 +107,7 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-info~16">info</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-numnodes~38">numnodes</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-irow~19">irow</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-icol~16">icol</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-pdims~5">pdims</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-pcoord~5">pcoord</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-local_rows_local">local_rows_local</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-local_cols_local">local_cols_local</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
 </div>
 
@@ -137,145 +123,145 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~395"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~307"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblkrows_total~19"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-nblkrows_total~9"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nblkrows_total</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblkcols_total~14"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-nblkcols_total~8"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nblkcols_total</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfullrows_total~11"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-nfullrows_total~7"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nfullrows_total</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfullcols_total~10"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-nfullcols_total~7"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nfullcols_total</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblkrows_local~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblkrows_local~7"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nblkrows_local</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblkcols_local~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblkcols_local~7"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nblkcols_local</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfullrows_local~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-nfullrows_local~5"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nfullrows_local</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfullcols_local~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-nfullcols_local~5"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nfullcols_local</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nprow~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-nprow"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nprow</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-npcol~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-npcol"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>npcol</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-my_prow~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-my_prow~3"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>my_prow</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-my_pcol~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-my_pcol~3"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>my_pcol</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-local_rows~21"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-local_rows~12"></span>integer(kind=int_8),</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>local_rows</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-local_cols~18"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-local_cols~11"></span>integer(kind=int_8),</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>local_cols</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-proc_row_dist~6"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
+  <td><span class="anchor" id="variable-proc_row_dist~3"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>ALLOCATABLE</td><td>::</td>
   <td><strong>proc_row_dist</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-proc_col_dist~6"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
+  <td><span class="anchor" id="variable-proc_col_dist~3"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>ALLOCATABLE</td><td>::</td>
   <td><strong>proc_col_dist</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_size~44"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
+  <td><span class="anchor" id="variable-row_blk_size~12"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>ALLOCATABLE</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_size~43"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
+  <td><span class="anchor" id="variable-col_blk_size~12"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>ALLOCATABLE</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-distribution~12"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-distribution~9"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>distribution</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-name~28"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~19"></span>character(len=*),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_area~15"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-data_area~14"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_area</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_type~15"></span>character,</td>
+  <td><span class="anchor" id="variable-matrix_type~12"></span>character,</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>matrix_type</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~78"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~42"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td></td>
@@ -288,76 +274,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-info~16">info</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-numnodes~38">numnodes</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-irow~19">irow</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-icol~16">icol</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-pdims~5">pdims</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-pcoord~5">pcoord</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-local_rows_local">local_rows_local</a>
-      <a class="list-group-item" href="../proc/dbcsr_tas_get_info.html#variable-local_cols_local">local_cols_local</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-info~16"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>info</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numnodes~38"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>numnodes</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-irow~19"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>irow</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-icol~16"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>icol</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pdims~5"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pdims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pcoord~5"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pcoord</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-local_rows_local"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>local_rows_local</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-local_cols_local"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>local_cols_local</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
     
     
 

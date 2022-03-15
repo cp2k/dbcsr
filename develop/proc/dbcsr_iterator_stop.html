@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,12 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_iterator_stop.html#variable-routinen~63">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_iterator_stop.html#variable-error_handle~26">error_handle</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_iterator_stop.html#src">dbcsr_iterator_stop</a>
   </div>
 </div>
 
@@ -132,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-iterator~31"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
+  <td><span class="anchor" id="variable-iterator~23"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>iterator</strong></td><td><p>the iterator</p></td>
@@ -146,12 +143,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_iterator_stop.html#variable-routinen~63">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_iterator_stop.html#variable-error_handle~26">error_handle</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_iterator_stop.html#src">dbcsr_iterator_stop</a>
   </div>
 </div>
 
@@ -159,34 +153,56 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~63"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_iterator_stop'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-error_handle~26"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>error_handle</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Stops up an iterator</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">iterator</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the iterator</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_iterator_stop&#39;</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">tdist</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP     CRITICAL (crit_data)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP     END CRITICAL (crit_data)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="c">!$OMP        BARRIER</span>
+<span class="c">!$OMP        MASTER</span>
+<span class="w">         </span><span class="n">common_int_pointer</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="w"></span>
+<span class="w">         </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">common_int_pointer</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP        FLUSH (common_int_pointer)</span>
+<span class="c">!$OMP        END MASTER</span>
+<span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP        BARRIER</span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">local_indexing</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">global_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_iterator_stop</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

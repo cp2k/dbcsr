@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mp_isendrecv_c.html#variable-routinen~475">routineN</a>
-      <a class="list-group-item" href="../proc/mp_isendrecv_c.html#variable-handle~409">handle</a>
-      <a class="list-group-item" href="../proc/mp_isendrecv_c.html#variable-ierr~420">ierr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_isendrecv_c.html#src">mp_isendrecv_c</a>
   </div>
 </div>
 
@@ -181,7 +177,7 @@ Request handle for the receive</p></td>
 Request handle for the receive</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tag~67"></span>integer,</td>
+  <td><span class="anchor" id="variable-tag~62"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>tag</strong></td><td><p>tag to differentiate requests</p></td>
@@ -195,13 +191,9 @@ Request handle for the receive</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mp_isendrecv_c.html#variable-routinen~475">routineN</a>
-      <a class="list-group-item" href="../proc/mp_isendrecv_c.html#variable-handle~409">handle</a>
-      <a class="list-group-item" href="../proc/mp_isendrecv_c.html#variable-ierr~420">ierr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_isendrecv_c.html#src">mp_isendrecv_c</a>
   </div>
 </div>
 
@@ -209,39 +201,76 @@ Request handle for the receive</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~475"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'mp_isendrecv_c'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~409"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ierr~420"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ierr</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">mp_isendrecv_c</span><span class="w"> </span><span class="p">(</span><span class="n">msgin</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">msgout</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">send_request</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">recv_request</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Non-blocking send and receive of a scalar</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Implementation</span>
+<span class="w">      </span><span class="c">!! Calls mpi_isend and mpi_irecv.</span>
+
+<span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">msgin</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Scalar data to send</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">dest</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Which process to send to</span>
+<span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">msgout</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Receive data into this pointer</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Process to receive from</span>
+<span class="w">         </span><span class="c">!! Message passing environment identifier</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">send_request</span><span class="p">,</span><span class="w"> </span><span class="n">recv_request</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Request handle for the send</span>
+<span class="w">         </span><span class="c">!! Request handle for the receive</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">tag</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! tag to differentiate requests</span>
+
+<span class="w">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mp_isendrecv_c&#39;</span><span class="w"></span>
+
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="w"></span>
+<span class="cp">#if defined(__parallel)</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">my_tag</span><span class="w"></span>
+<span class="cp">#endif</span>
+
+<span class="w">         </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+
+<span class="cp">#if defined(__parallel)</span>
+<span class="w">         </span><span class="n">my_tag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span><span class="w"> </span><span class="n">my_tag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tag</span><span class="w"></span>
+
+<span class="w">         </span><span class="k">CALL </span><span class="n">mpi_irecv</span><span class="p">(</span><span class="n">msgout</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMPLEX</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">my_tag</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">recv_request</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_irecv @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="k">CALL </span><span class="n">mpi_isend</span><span class="p">(</span><span class="n">msgin</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMPLEX</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">my_tag</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">send_request</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_isend @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="n">msg_size</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">))</span><span class="w"></span>
+<span class="cp">#else</span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">comm</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">send_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="n">recv_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="n">msgout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msgin</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">mp_isendrecv_c</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

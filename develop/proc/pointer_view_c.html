@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/pointer_view_c.html#src">pointer_view_c</a>
+  </div>
+</div>
 
 </div>
 
@@ -131,14 +136,14 @@
 new pointer</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-lb~54"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb~48"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
 lower and upper bound for the new pointer view</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ub~49"></span>integer,</td>
+  <td><span class="anchor" id="variable-ub~37"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
@@ -155,7 +160,12 @@ new pointer</p>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/pointer_view_c.html#src">pointer_view_c</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -169,6 +179,23 @@ new pointer</p>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">FUNCTION </span><span class="n">pointer_view_c</span><span class="w"> </span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="w"> </span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">view</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="c">!! Returns a pointer with different bounds.</span>
+
+<span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">original</span><span class="p">,</span><span class="w"> </span><span class="n">view</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! original data pointer</span>
+<span class="w">        </span><span class="c">!! new pointer</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! lower and upper bound for the new pointer view</span>
+<span class="w">        </span><span class="c">!! lower and upper bound for the new pointer view</span>
+<span class="w">         </span><span class="n">view</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">original</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END FUNCTION </span><span class="n">pointer_view_c</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

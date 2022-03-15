@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/set_data_p_d.html#src">set_data_p_d</a>
+  </div>
+</div>
 
 </div>
 
@@ -133,7 +138,7 @@ pointer in the data area and that the area is initialized.</p>
   <td><strong>area</strong></td><td><p>target data area</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-p~22"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-p~18"></span>real(kind=real_8),</td>
 <td></td>
   <td></td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td><p>source data pointer</p></td>
@@ -146,7 +151,12 @@ pointer in the data area and that the area is initialized.</p>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/set_data_p_d.html#src">set_data_p_d</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -160,6 +170,29 @@ pointer in the data area and that the area is initialized.</p>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">set_data_p_d</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="c">!! Sets a data pointer.</span>
+<span class="w">     </span><span class="c">!!</span>
+<span class="w">     </span><span class="c">!! Assumptions</span>
+<span class="w">     </span><span class="c">!! Assumes that no memory will be lost when repointing the</span>
+<span class="w">     </span><span class="c">!! pointer in the data area and that the area is initialized.</span>
+
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">area</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! target data area</span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! source data pointer</span>
+
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;set_data_p_d: data-area has wrong type&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">set_data_p_d</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

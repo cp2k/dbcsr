@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,25 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-routinen~510">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-blk_p~34">blk_p</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-col~92">col</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-handle~443">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-nblocks~5">nblocks</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-new_blk~3">new_blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-old_blk~3">old_blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-row~140">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-blkp_list">blkp_list</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-col_list">col_list</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-row_list">row_list</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-shallow~2">shallow</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-tr~80">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-data_block~13">data_block</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-iter~15">iter</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#src">dbcsr_copy_submatrix</a>
   </div>
 </div>
 
@@ -145,19 +129,19 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix_b~42"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~26"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>target DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_a~71"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~43"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>source DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-name~17"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~12"></span>character(len=*),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td><p>name of the new matrix</p></td>
@@ -177,7 +161,7 @@ columns to extract (array of size 2 holding the lower and upper inclusive bounds
 columns to extract (array of size 2 holding the lower and upper inclusive bounds)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-shallow_data~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-shallow_data~3"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>shallow_data</strong></td><td><p>shallow data copy</p></td>
@@ -191,25 +175,9 @@ columns to extract (array of size 2 holding the lower and upper inclusive bounds
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-routinen~510">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-blk_p~34">blk_p</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-col~92">col</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-handle~443">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-nblocks~5">nblocks</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-new_blk~3">new_blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-old_blk~3">old_blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-row~140">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-blkp_list">blkp_list</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-col_list">col_list</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-row_list">row_list</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-shallow~2">shallow</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-tr~80">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-data_block~13">data_block</a>
-      <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#variable-iter~15">iter</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_copy_submatrix.html#src">dbcsr_copy_submatrix</a>
   </div>
 </div>
 
@@ -217,99 +185,134 @@ columns to extract (array of size 2 holding the lower and upper inclusive bounds
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~510"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_copy_submatrix'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_p~34"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>blk_p</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col~92"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>col</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~443"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblocks~5"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nblocks</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_blk~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>new_blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_blk~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>old_blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row~140"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blkp_list"></span>integer,</td>
-<td>private,</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>blkp_list</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_list"></span>integer,</td>
-<td>private,</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>col_list</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_list"></span>integer,</td>
-<td>private,</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>row_list</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-shallow~2"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>shallow</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr~80"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_block~13"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>data_block</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iter~15"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>iter</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_copy_submatrix</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">block_row_bounds</span><span class="p">,</span><span class="w"> </span><span class="n">block_column_bounds</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">shallow_data</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Copy a submatrix.</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_b</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! target DBCSR matrix</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_a</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! source DBCSR matrix</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! name of the new matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">block_row_bounds</span><span class="p">,</span><span class="w"> </span><span class="n">block_column_bounds</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! rows to extract (array of size 2 holding the lower and upper inclusive bounds)</span>
+<span class="w">         </span><span class="c">!! columns to extract (array of size 2 holding the lower and upper inclusive bounds)</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">shallow_data</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! shallow data copy</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_copy_submatrix&#39;</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">nblocks</span><span class="p">,</span><span class="w"> </span><span class="n">new_blk</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">old_blk</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">blkp_list</span><span class="p">,</span><span class="w"> </span><span class="n">col_list</span><span class="p">,</span><span class="w"> </span><span class="n">row_list</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">shallow</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">data_block</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">shallow_data</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">shallow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shallow_data</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">shallow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Verify assumptions.</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Setup target matrix</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">template</span><span class="o">=</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">shallow</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Non-shallow copy uses the standard iterator on the source and</span>
+<span class="w">         </span><span class="c">! block put on the target.</span>
+<span class="c">!</span>
+<span class="c">!$OMP PARALLEL DEFAULT (NONE) &amp;</span>
+<span class="c">!$OMP          PRIVATE (data_block, iter, row, col, tr) &amp;</span>
+<span class="c">!$OMP          SHARED (matrix_a, matrix_b,&amp;</span>
+<span class="c">!$OMP                  block_row_bounds, block_column_bounds)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">work_mutable</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">dynamic_byrows</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! Only keep the block if they are within the specified bounds.</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">            END IF</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">block_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">block_column_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">            END IF</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">         CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP END PARALLEL</span>
+<span class="w">      </span><span class="k">ELSE</span><span class="w"></span>
+<span class="w">         </span><span class="c">! For the shallow copy the source matrix data is referenced.</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_switch_data_area</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">nblocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_num_blocks</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"> </span><span class="c">! High estimate.</span>
+<span class="w">         </span><span class="c">! Shallow copy goes through source&#39;s data blocks and inserts</span>
+<span class="w">         </span><span class="c">! the only the ones corresponding to the submatrix specifier</span>
+<span class="w">         </span><span class="c">! into the target. Block pointers must remain the same as in</span>
+<span class="w">         </span><span class="c">! the source.</span>
+<span class="w">         </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">row_list</span><span class="p">(</span><span class="n">nblocks</span><span class="p">),</span><span class="w"> </span><span class="n">col_list</span><span class="p">(</span><span class="n">nblocks</span><span class="p">),</span><span class="w"> </span><span class="n">blkp_list</span><span class="p">(</span><span class="n">nblocks</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="c">!</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">new_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">blk</span><span class="o">=</span><span class="n">old_blk</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="o">=</span><span class="n">blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">! Only keep the block if they are within the specified bounds.</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">            END IF</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">block_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">block_column_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">            END IF</span>
+<span class="k">            </span><span class="n">row_list</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="w"></span>
+<span class="w">            </span><span class="n">col_list</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col</span><span class="w"></span>
+<span class="w">            </span><span class="n">blkp_list</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blk_p</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">         </span><span class="n">new_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_blk</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_reserve_blocks</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">row_list</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">new_blk</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">col_list</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">new_blk</span><span class="p">),</span><span class="w"> </span><span class="n">blkp_list</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">new_blk</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_copy_submatrix</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_get_processor_name.html#src">mp_get_processor_name</a>
+  </div>
+</div>
 
 </div>
 
@@ -143,7 +148,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_get_processor_name.html#src">mp_get_processor_name</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -157,6 +167,34 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">mp_get_processor_name</span><span class="p">(</span><span class="n">procname</span><span class="p">,</span><span class="w"> </span><span class="n">resultlen</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Get a unique specifier for the actual (as opposed to virtual) node (MPI 2.1)</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">procname</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Name of processor, declared as CHARACTER(LEN=mp_max_processor_name)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">resultlen</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Length (in characters) of procname (INTEGER)</span>
+
+<span class="cp">#if defined(__parallel)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">namelen</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">mpi_get_processor_name</span><span class="p">(</span><span class="n">procname</span><span class="p">,</span><span class="w"> </span><span class="n">namelen</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">resultlen</span><span class="p">))</span><span class="w"> </span><span class="n">resultlen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">namelen</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">procname</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">resultlen</span><span class="p">))</span><span class="w"> </span><span class="n">resultlen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">procname</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#if defined(__parallel)</span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">mp_get_processor_name</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

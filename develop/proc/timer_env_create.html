@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,11 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/timer_env_create.html#variable-stat~15">stat</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/timer_env_create.html#src">timer_env_create</a>
   </div>
 </div>
 
@@ -131,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-timer_env~6"></span>type(<a href='../type/timer_env_type.html'>timer_env_type</a>),</td>
+  <td><span class="anchor" id="variable-timer_env~3"></span>type(<a href='../type/timer_env_type.html'>timer_env_type</a>),</td>
 <td></td>
   <td></td>  <td>POINTER</td><td>::</td>
   <td><strong>timer_env</strong></td><td></td>
@@ -145,11 +143,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/timer_env_create.html#variable-stat~15">stat</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/timer_env_create.html#src">timer_env_create</a>
   </div>
 </div>
 
@@ -157,29 +153,37 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-stat~15"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>stat</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">timer_env_create</span><span class="p">(</span><span class="n">timer_env</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! creates a new timer env</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">timer_env</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+
+<span class="nb">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">timer_env</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timer_env_create: allocation failed&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">timer_env</span><span class="p">%</span><span class="n">ref_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="c">! tracing disabled by default</span>
+<span class="w">      </span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dict_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dict_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callgraph</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">list_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">list_init</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">timer_env_create</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

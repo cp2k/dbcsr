@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,14 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/quick_finalize.html#variable-routinen~659">routineN</a>
-      <a class="list-group-item" href="../proc/quick_finalize.html#variable-error_handle~81">error_handle</a>
-      <a class="list-group-item" href="../proc/quick_finalize.html#variable-nblks~31">nblks</a>
-      <a class="list-group-item" href="../proc/quick_finalize.html#variable-nrows~17">nrows</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/quick_finalize.html#src">quick_finalize</a>
   </div>
 </div>
 
@@ -136,7 +131,7 @@ area and the index is built from the work matrix.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~363"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~275"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>matrix to finalize</p></td>
@@ -150,14 +145,9 @@ area and the index is built from the work matrix.</p>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/quick_finalize.html#variable-routinen~659">routineN</a>
-      <a class="list-group-item" href="../proc/quick_finalize.html#variable-error_handle~81">error_handle</a>
-      <a class="list-group-item" href="../proc/quick_finalize.html#variable-nblks~31">nblks</a>
-      <a class="list-group-item" href="../proc/quick_finalize.html#variable-nrows~17">nrows</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/quick_finalize.html#src">quick_finalize</a>
   </div>
 </div>
 
@@ -165,44 +155,63 @@ area and the index is built from the work matrix.</p>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~659"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'quick_finalize'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-error_handle~81"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>error_handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblks~31"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nblks</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nrows~17"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nrows</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">quick_finalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Performs quick finalization of matrix</span>
+<span class="w">      </span><span class="c">!! The data area from the work matrix is accepted as the new matrix&#39;s data</span>
+<span class="w">      </span><span class="c">!! area and the index is built from the work matrix.</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! matrix to finalize</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;quick_finalize&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="n">nrows</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP     SECTIONS</span>
+<span class="c">!$OMP     SECTION</span>
+<span class="w">      </span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">lastblk</span><span class="w"></span>
+<span class="w">      </span><span class="n">nrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_sort_indices</span><span class="p">(</span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">row_i</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">col_i</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_clearfrom_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_slot_row_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_clearfrom_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_slot_col_i</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_clearfrom_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_slot_blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_slot_row_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">reservation</span><span class="o">=</span><span class="n">nrows</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">extra</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">nblks</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_make_dbcsr_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">row_i</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">nrows</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_slot_col_i</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="k">DATA</span><span class="o">=</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">col_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblks</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_slot_blk_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="k">DATA</span><span class="o">=</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblks</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nblks</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">datasize</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nblks</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nblks</span><span class="w"></span>
+<span class="w">      </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nze</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">datasize</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP     SECTION</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_switch_data_area</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP     END SECTIONS</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">quick_finalize</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -126,6 +126,12 @@
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_logger_type.html#src">dbcsr_logger_type</a>
+  </div>
+</div>
 
 </div>
 
@@ -164,6 +170,12 @@ DO NOT USE THE INTERNAL COMPONENTS DIRECTLY!!!</p></div>
       <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-mp_env~2">mp_env</a>
       <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-iter_info">iter_info</a>
     </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_logger_type.html#src">dbcsr_logger_type</a>
   </div>
 </div>
 
@@ -256,6 +268,48 @@ default_global_unit_nr, only the one used if the unit needs to be opened)</p></t
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_logger_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! type of a logger, at the moment it contains just a print level</span>
+<span class="w">      </span><span class="c">!! starting at which level it should be logged</span>
+<span class="w">      </span><span class="c">!! (0 note, 1 warning, 2 failure, 3 fatal)</span>
+<span class="w">      </span><span class="c">!! it could be expanded with the ability to focus on one or more</span>
+<span class="w">      </span><span class="c">!! module/object/thread/processor</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! This should be private, but as the output functions have been</span>
+<span class="w">      </span><span class="c">!! moved to another module and there is no &quot;friend&quot; keyword, they</span>
+<span class="w">      </span><span class="c">!! are public.</span>
+<span class="w">      </span><span class="c">!! DO NOT USE THE INTERNAL COMPONENTS DIRECTLY!!!</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">id_nr</span><span class="p">,</span><span class="w"> </span><span class="n">ref_count</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! unique number to identify the logger</span>
+<span class="w">         </span><span class="c">!! reference count (see cp2k/doc/ReferenceCounting.html)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">print_level</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the level starting at which something gets printed</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">default_local_unit_nr</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! default unit for local logging (-1 if not yet initialized). Local logging guarantee to each task its own file.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">default_global_unit_nr</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! default unit for global logging (-1 if not yet initialized). This unit is valid only on the processor with</span>
+<span class="w">         </span><span class="c">!! %mp_env%mp%mynode==%mv_env%mp%source.</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">close_local_unit_on_dealloc</span><span class="p">,</span><span class="w"> </span><span class="n">close_global_unit_on_dealloc</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! if the local unit should be closed when this logger is deallocated</span>
+<span class="w">         </span><span class="c">!! whether the global unit should be closed when this logger is deallocated</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">suffix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! a short string that is used as suffix in all the filenames created by this logger. Can be used to guarantee the</span>
+<span class="w">         </span><span class="c">!! uniqueness of generated filename</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_path_length</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">local_filename</span><span class="p">,</span><span class="w"> </span><span class="n">global_filename</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the root of the name of the file used for local logging (can be different from the name of the file corresponding to</span>
+<span class="w">         </span><span class="c">!! default_local_unit_nr, only the one used if the unit needs to be opened)</span>
+<span class="w">         </span><span class="c">!! the root of the name of the file used for global logging (can be different from the name of the file corresponding to</span>
+<span class="w">         </span><span class="c">!! default_global_unit_nr, only the one used if the unit needs to be opened)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_env</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the parallel environment for the output.</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iteration_info_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iter_info</span><span class="w"></span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_logger_type</span><span class="w"></span>
+</pre></div>
+
+    </section>
     
     </div>
   </div>

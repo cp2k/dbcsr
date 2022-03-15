@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -141,6 +141,12 @@
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_iterator.html#src">dbcsr_iterator</a>
+  </div>
+</div>
 
 </div>
 
@@ -191,6 +197,12 @@ is.
       <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-global_rows">global_rows</a>
       <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-data_area~2">data_area</a>
     </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_iterator.html#src">dbcsr_iterator</a>
   </div>
 </div>
 
@@ -346,6 +358,65 @@ is.
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_iterator</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! An iterator over a DBCSR matrix.</span>
+<span class="w">      </span><span class="c">!! @note This is briefly changed to allow being included in the dbcsr_type type</span>
+<span class="w">      </span><span class="c">!! What is written here is what the structure should be and not what it</span>
+<span class="w">      </span><span class="c">!! is.</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the matrix</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_block_buffer_obj</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">buffer_2d</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Buffers for repointing 2d pointers (1 per thread)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Current position (per thread)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Current row (per thread)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Size of current row</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">rbs</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Pointer to row size array</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">cbs</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Pointer to column size array</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">roff</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Pointer to row offset array</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">coff</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Pointer to column offset array</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">local_indexing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! The matrix has local indexing</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">contiguous_pointers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Whether pointers to data should be contiguous in memory.</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="nb">transpose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">shared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Iterators share matrix</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">dynamic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Ignores the thread distribution (FCFS by block)</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">dynamic_byrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Ignores the thread distribution (FCFS by row)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">common_pos</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Position when in mixed mode (row or block depending in dynamic_byrows</span>
+
+<span class="w">      </span><span class="c">! Copies from the matrix.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">nblkrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">row_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">col_i</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">tdist</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">local_rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Mapping of local rows to global rows (if local indexing is enabled)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">global_rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Mapping of global rows to local rows (if local indexing is enabled)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">data_area</span><span class="w"></span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_iterator</span><span class="w"></span>
+</pre></div>
+
+    </section>
     
     </div>
   </div>

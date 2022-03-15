@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -135,6 +135,12 @@
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_distribution_type.html#src">dbcsr_distribution_type</a>
+  </div>
+</div>
 
 </div>
 
@@ -174,6 +180,12 @@
       <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-mp_env">mp_env</a>
       <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-refcount~2">refcount</a>
     </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_distribution_type.html#src">dbcsr_distribution_type</a>
   </div>
 </div>
 
@@ -303,6 +315,51 @@ list of columns local to the processor grid column</p></td>
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_distribution_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Matrix distribution on the processor grid</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_dist_block</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist_block</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! standard row distributions of matrix elements&#39; rows into processor grid rows</span>
+<span class="w">         </span><span class="c">!! standard column distributions of matrix elements&#39; columns into processor grid columns</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">local_cols</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! list of rows local to the processor grid row</span>
+<span class="w">         </span><span class="c">!! list of columns local to the processor grid column</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">max_row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">max_col_dist</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">other_l_rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! local rows for each process row</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">other_l_cols</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! local columns for each process column</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">has_other_l_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! other_rows is defined</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">has_other_l_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! other_cols is defined</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">global_row_map</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! mapping from rows to sequence in local rows (global to local mapping)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">global_col_map</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! mapping from rows to sequence in local columns (global to local mapping)</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">has_global_row_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! whether other_row_map is defined</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">has_global_col_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! whether other_col_map is defined</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_map</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! distribution map for rows</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">col_map</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! distribution map for columns</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">has_thread_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">thread_dist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! thread distribution (of the rows)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">num_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! number of threads in the environment</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_env</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! multiprocessor environment on which the distribution is based</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">refcount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! reference counter</span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_distribution_type</span><span class="w"></span>
+</pre></div>
+
+    </section>
     
     </div>
   </div>

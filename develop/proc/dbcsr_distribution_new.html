@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,12 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_distribution_new.html#variable-cont_row_dist">cont_row_dist</a>
-      <a class="list-group-item" href="../proc/dbcsr_distribution_new.html#variable-cont_col_dist">cont_col_dist</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_distribution_new.html#src">dbcsr_distribution_new</a>
   </div>
 </div>
 
@@ -132,13 +129,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-dist~24"></span>type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-dist~15"></span>type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dist</strong></td><td><p>distribution</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-template~2"></span>type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-template"></span>type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>template</strong></td><td></td>
@@ -150,25 +147,25 @@
   <td><strong>group</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pgrid~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-pgrid~5"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td>DIMENSION(:, :), POINTER</td><td>::</td>
   <td><strong>pgrid</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_dist~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_dist~3"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_dist~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_dist~3"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-reuse_arrays~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-reuse_arrays"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>reuse_arrays</strong></td><td></td>
@@ -182,12 +179,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_distribution_new.html#variable-cont_row_dist">cont_row_dist</a>
-      <a class="list-group-item" href="../proc/dbcsr_distribution_new.html#variable-cont_col_dist">cont_col_dist</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_distribution_new.html#src">dbcsr_distribution_new</a>
   </div>
 </div>
 
@@ -195,34 +189,55 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-cont_row_dist"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
-  <td><strong>cont_row_dist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cont_col_dist"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
-  <td><strong>cont_col_dist</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">template</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="n">row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">reuse_arrays</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Creates new distribution from blockr distributions</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! distribution</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">OPTIONAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">template</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">group</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">pgrid</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">reuse_arrays</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">cont_row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">cont_col_dist</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! Make the arrays contiguous, avoid change in the API</span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">cont_row_dist</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">row_dist</span><span class="p">)),</span><span class="w"> </span><span class="n">cont_col_dist</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">col_dist</span><span class="p">)))</span><span class="w"></span>
+<span class="w">      </span><span class="n">cont_row_dist</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_dist</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">      </span><span class="n">cont_col_dist</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_dist</span><span class="p">(:)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">reuse_arrays</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">reuse_arrays</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END IF</span>
+
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">template</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         call </span><span class="n">dbcsr_distribution_new_prv</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">template</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="n">cont_row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">cont_col_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         call </span><span class="n">dbcsr_distribution_new_prv</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">pgrid</span><span class="o">=</span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="n">row_dist</span><span class="o">=</span><span class="n">cont_row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="o">=</span><span class="n">cont_col_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_distribution_new</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

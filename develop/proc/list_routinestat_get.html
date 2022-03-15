@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/list_routinestat_get.html#src">list_routinestat_get</a>
+  </div>
+</div>
 
 </div>
 
@@ -130,7 +135,7 @@
   <td><strong>list</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pos~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-pos~8"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>pos</strong></td><td><p>Position in the list - must fulfill 0 &lt; pos &lt; list_size+1 .</p></td>
@@ -145,7 +150,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/list_routinestat_get.html#src">list_routinestat_get</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -159,6 +169,47 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="k">FUNCTION </span><span class="n">list_routinestat_get</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="k">value</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">   </span><span class="c">!! Returns the value at the given position from the list.</span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">    </span><span class="k">TYPE</span><span class="p">(</span><span class="n">list_routinestat_type</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">    </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">      </span><span class="c">!! Position in the list - must fulfill 0 &lt; pos &lt; list_size+1 .</span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">    </span><span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">    </span><span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">       </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_routinestat_get: list is not initialized.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">    </span><span class="k">IF</span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)&amp;</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">       </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_routinestat_get: pos &lt; 1&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">    </span><span class="k">IF</span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)&amp;</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">       </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_routinestat_get: pos &gt; size&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="w">    </span><span class="k">value</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span><span class="w"></span>
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+
+<span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F&quot;</span>
+<span class="k">END FUNCTION </span><span class="n">list_routinestat_get</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

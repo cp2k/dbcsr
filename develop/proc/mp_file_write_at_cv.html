@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,11 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mp_file_write_at_cv.html#variable-msg_len~16">msg_len</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_file_write_at_cv.html#src">mp_file_write_at_cv</a>
   </div>
 </div>
 
@@ -140,7 +138,7 @@
   <td><strong>fh</strong></td><td><p>file handle (file storage unit)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-offset~50"></span>integer(kind=file_offset),</td>
+  <td><span class="anchor" id="variable-offset~36"></span>integer(kind=file_offset),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>offset</strong></td><td><p>file offset (position)</p></td>
@@ -152,7 +150,7 @@
   <td><strong>msg</strong>(:)</td><td><p>data to be written to the file</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-msglen~178"></span>integer,</td>
+  <td><span class="anchor" id="variable-msglen~16"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>msglen</strong></td><td><p>number of the elements of data</p></td>
@@ -166,11 +164,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mp_file_write_at_cv.html#variable-msg_len~16">msg_len</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_file_write_at_cv.html#src">mp_file_write_at_cv</a>
   </div>
 </div>
 
@@ -178,29 +174,55 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-msg_len~16"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>msg_len</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">mp_file_write_at_cv</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! (parallel) Blocking individual file write using explicit offsets</span>
+<span class="w">      </span><span class="c">!! (serial) Unformatted stream write</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! MPI-I/O mapping   mpi_file_write_at</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! STREAM-I/O mapping   WRITE</span>
+
+<span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! data to be written to the file</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">fh</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! file handle (file storage unit)</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">msglen</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! number of the elements of data</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">file_offset</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">offset</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! file offset (position)</span>
+
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                    </span><span class="kd">::</span><span class="w"> </span><span class="n">msg_len</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">msg_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">msglen</span><span class="p">))</span><span class="w"> </span><span class="n">msg_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msglen</span><span class="w"></span>
+
+<span class="cp">#if defined(__parallel)</span>
+<span class="w">         </span><span class="k">BLOCK</span>
+<span class="k">            </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mp_file_write_at_cv&#39;</span><span class="w"></span>
+<span class="w">            </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span><span class="w"></span>
+<span class="w">            </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">MPI_FILE_WRITE_AT</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">msg_len</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMPLEX</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_STATUS_IGNORE</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mpi_file_write_at_cv @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END BLOCK</span><span class="w"></span>
+<span class="cp">#else</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">fh</span><span class="p">,</span><span class="w"> </span><span class="n">POS</span><span class="o">=</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">msg</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">msg_len</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">mp_file_write_at_cv</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

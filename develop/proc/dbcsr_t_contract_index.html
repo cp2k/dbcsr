@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -133,13 +133,13 @@ See documentation of dbcsr_t_contract.</p>
   <td><strong>alpha</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_1~12"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_1~4"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_1</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_2~12"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_2~4"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_2</strong></td><td></td>
@@ -151,7 +151,7 @@ See documentation of dbcsr_t_contract.</p>
   <td><strong>beta</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_3~12"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_3~4"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_3</strong></td><td></td>
@@ -193,19 +193,19 @@ See documentation of dbcsr_t_contract.</p>
   <td><strong>map_2</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-bounds_1~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-bounds_1~4"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(2, SIZE(contract_1))</td><td>::</td>
   <td><strong>bounds_1</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-bounds_2~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-bounds_2~4"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(2, SIZE(notcontract_1))</td><td>::</td>
   <td><strong>bounds_2</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-bounds_3~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-bounds_3~4"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(2, SIZE(notcontract_2))</td><td>::</td>
   <td><strong>bounds_3</strong></td><td></td>
@@ -217,13 +217,13 @@ See documentation of dbcsr_t_contract.</p>
   <td><strong>filter_eps</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nblks_local~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblks_local~3"></span>integer,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nblks_local</strong></td><td><p>number of local blocks on this MPI rank</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-result_index~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-result_index~3"></span>integer,</td>
 <td>intent(out),</td>
   <td></td>  <td>DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3))</td><td>::</td>
   <td><strong>result_index</strong></td><td><p>indices of local non-zero tensor blocks for tensor_3

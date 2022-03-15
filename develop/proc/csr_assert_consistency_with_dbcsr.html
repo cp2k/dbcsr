@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/csr_assert_consistency_with_dbcsr.html#variable-routinen~566">routineN</a>
-      <a class="list-group-item" href="../proc/csr_assert_consistency_with_dbcsr.html#variable-handle~487">handle</a>
-      <a class="list-group-item" href="../proc/csr_assert_consistency_with_dbcsr.html#variable-map~3">map</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/csr_assert_consistency_with_dbcsr.html#src">csr_assert_consistency_with_dbcsr</a>
   </div>
 </div>
 
@@ -140,7 +136,7 @@ matrix are consistent before doing the conversion</p>
   <td><strong>csr_mat</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dbcsr_mat~8"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-dbcsr_mat~7"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dbcsr_mat</strong></td><td></td>
@@ -154,13 +150,9 @@ matrix are consistent before doing the conversion</p>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/csr_assert_consistency_with_dbcsr.html#variable-routinen~566">routineN</a>
-      <a class="list-group-item" href="../proc/csr_assert_consistency_with_dbcsr.html#variable-handle~487">handle</a>
-      <a class="list-group-item" href="../proc/csr_assert_consistency_with_dbcsr.html#variable-map~3">map</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/csr_assert_consistency_with_dbcsr.html#src">csr_assert_consistency_with_dbcsr</a>
   </div>
 </div>
 
@@ -168,39 +160,62 @@ matrix are consistent before doing the conversion</p>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~566"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'csr_assert_consistency_with_dbcsr'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~487"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map~3"></span>type(<a href='../type/csr_mapping_data.html'>csr_mapping_data</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>map</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">csr_assert_consistency_with_dbcsr</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Helper function to assert that a given CSR matrix and a given DBCSR</span>
+<span class="w">      </span><span class="c">!! matrix are consistent before doing the conversion</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">csr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">csr_mat</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;csr_assert_consistency_with_dbcsr&#39;</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">csr_mapping_data</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">has_dbcsr_block_data</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">dbcsr_nblkcols_total</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="s2">&quot;field nblkcols_total of DBCSR matrix not consistent with CSR matrix&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">dbcsr_nblkrows_total</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="s2">&quot;field nblkrows_total of DBCSR matrix not consistent with CSR matrix&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">dbcsr_nblks_local</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">%</span><span class="n">nblks</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="s2">&quot;field nblks of DBCSR matrix not consistent with CSR matrix&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">dbcsr_row_p</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">%</span><span class="n">row_p</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="s2">&quot;field row_p of DBCSR matrix not consistent with CSR matrix&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">dbcsr_col_i</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">%</span><span class="n">col_i</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="s2">&quot;field dbcsr_col_i of DBCSR matrix not consistent with CSR matrix&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">dbcsr_row_blk_size</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_row_block_sizes</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="s2">&quot;field row_blk_size of DBCSR matrix not consistent with CSR matrix&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">dbcsr_col_blk_size</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="s2">&quot;field col_blk_size of DBCSR matrix not consistent with CSR matrix&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">dbcsr_warn</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Can not assert consistency of the matrices &quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                         </span><span class="s2">&quot;as no block data stored in CSR matrix.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">csr_assert_consistency_with_dbcsr</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

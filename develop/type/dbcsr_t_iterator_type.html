@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -119,6 +119,12 @@
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#src">dbcsr_t_iterator_type</a>
+  </div>
+</div>
 
 </div>
 
@@ -142,6 +148,12 @@
       <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#variable-blk_sizes">blk_sizes</a>
       <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#variable-blk_offsets">blk_offsets</a>
     </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#src">dbcsr_t_iterator_type</a>
   </div>
 </div>
 
@@ -187,6 +199,17 @@
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_t_iterator_type</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_iterator</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index_blk</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">blk_offsets</span><span class="w"></span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_t_iterator_type</span><span class="w"></span>
+</pre></div>
+
+    </section>
     
     </div>
   </div>

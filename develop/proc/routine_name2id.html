@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/routine_name2id.html#variable-stat~14">stat</a>
-      <a class="list-group-item" href="../proc/routine_name2id.html#variable-r_stat~3">r_stat</a>
-      <a class="list-group-item" href="../proc/routine_name2id.html#variable-timer_env~4">timer_env</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/routine_name2id.html#src">routine_name2id</a>
   </div>
 </div>
 
@@ -135,7 +131,7 @@ then a new entry is created.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-routinen~15"></span>character(len=default_string_length),</td>
+  <td><span class="anchor" id="variable-routinen~3"></span>character(len=default_string_length),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>routineN</strong></td><td></td>
@@ -151,13 +147,9 @@ then a new entry is created.</p>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/routine_name2id.html#variable-stat~14">stat</a>
-      <a class="list-group-item" href="../proc/routine_name2id.html#variable-r_stat~3">r_stat</a>
-      <a class="list-group-item" href="../proc/routine_name2id.html#variable-timer_env~4">timer_env</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/routine_name2id.html#src">routine_name2id</a>
   </div>
 </div>
 
@@ -165,39 +157,64 @@ then a new entry is created.</p>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-stat~14"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>stat</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-r_stat~3"></span>type(<a href='../type/routine_stat_type.html'>routine_stat_type</a>),</td>
-<td>private,</td>  <td>POINTER</td><td>::</td>
-  <td><strong>r_stat</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-timer_env~4"></span>type(<a href='../type/timer_env_type.html'>timer_env_type</a>),</td>
-<td>private,</td>  <td>POINTER</td><td>::</td>
-  <td><strong>timer_env</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">FUNCTION </span><span class="n">routine_name2id</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">routine_id</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Internal routine used by timeset_handler and timings_setup_tracing.</span>
+<span class="w">      </span><span class="c">!! If no routine with given name is found in timer_env%routine_names</span>
+<span class="w">      </span><span class="c">!! then a new entry is created.</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">routine_id</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+<span class="nb">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">r_stat</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">timer_env</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">timer_env</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">routine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dict_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">,</span><span class="w"> </span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">default_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">routine_id</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="c">! found an id - let&#39;s return it</span>
+<span class="w">      </span><span class="c">! routine not found - let&#39;s create it</span>
+
+<span class="w">      </span><span class="c">! enforce space free timer names, to make the output of trace/timings of a fixed number fields</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">INDEX</span><span class="p">(</span><span class="n">routineN</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)),</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: routineN contains spaces: &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! register routine_name_dsl with new routine_id</span>
+<span class="w">      </span><span class="n">routine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dict_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dict_set</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">,</span><span class="w"> </span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">routine_id</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">r_stat</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: allocation failed&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">routine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">routine_id</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">routineN</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">total_calls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">stackdepth_accu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">list_push</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span><span class="w"> </span><span class="n">r_stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">dict_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: assertion failed&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END FUNCTION </span><span class="n">routine_name2id</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

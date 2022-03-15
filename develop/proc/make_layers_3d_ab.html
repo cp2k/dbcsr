@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,15 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-color~2">color</a>
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-key~70">key</a>
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-mygrp">mygrp</a>
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-mypcol~14">mypcol</a>
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-myprow~14">myprow</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/make_layers_3d_ab.html#src">make_layers_3D_AB</a>
   </div>
 </div>
 
@@ -147,7 +141,7 @@
   <td><strong>side3D</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mp_obj~5"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_obj"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mp_obj</strong></td><td></td>
@@ -159,7 +153,7 @@
   <td><strong>is_left</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-buffer~2"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
+  <td><span class="anchor" id="variable-buffer"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>buffer</strong></td><td></td>
@@ -173,15 +167,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-color~2">color</a>
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-key~70">key</a>
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-mygrp">mygrp</a>
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-mypcol~14">mypcol</a>
-      <a class="list-group-item" href="../proc/make_layers_3d_ab.html#variable-myprow~14">myprow</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/make_layers_3d_ab.html#src">make_layers_3D_AB</a>
   </div>
 </div>
 
@@ -189,49 +177,64 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-color~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>color</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-key~70"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>key</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mygrp"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mygrp</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mypcol~14"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mypcol</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-myprow~14"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>myprow</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">make_layers_3D_AB</span><span class="p">(</span><span class="n">my_num_layers_3D</span><span class="p">,</span><span class="w"> </span><span class="n">side3D</span><span class="p">,</span><span class="w"> </span><span class="n">mp_obj</span><span class="p">,</span><span class="w"> </span><span class="n">is_left</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Make communicators for A and B matrices</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">my_num_layers_3D</span><span class="p">,</span><span class="w"> </span><span class="n">side3D</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_obj</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">is_left</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_buffer</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">buffer</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">mygrp</span><span class="p">,</span><span class="w"> </span><span class="n">mypcol</span><span class="p">,</span><span class="w"> </span><span class="n">myprow</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! Switch to single layer communicator</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">my_num_layers_3D</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">mp_comm_null</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">buffer</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">is_left</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_my_row_group</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_my_col_group</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         RETURN</span>
+<span class="k">      END IF</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! Check if any existing 3D communicator can be reused</span>
+<span class="w">      </span><span class="n">mygrp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">grp</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">mygrp</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">my_num_layers_3D</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="c">! Reset previous 3D communicator</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">mp_comm_null</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="n">myprow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_myprow</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">mypcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_mypcol</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">is_left</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MOD</span><span class="p">(</span><span class="n">myprow</span><span class="p">,</span><span class="w"> </span><span class="n">side3D</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Column-major order</span>
+<span class="w">         </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mypcol</span><span class="o">*</span><span class="p">(</span><span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span><span class="o">/</span><span class="n">side3D</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myprow</span><span class="o">/</span><span class="n">side3D</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MOD</span><span class="p">(</span><span class="n">mypcol</span><span class="p">,</span><span class="w"> </span><span class="n">side3D</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Row-major order</span>
+<span class="w">         </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myprow</span><span class="o">*</span><span class="p">(</span><span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span><span class="o">/</span><span class="n">side3D</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mypcol</span><span class="o">/</span><span class="n">side3D</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      CALL </span><span class="n">mp_comm_split_direct</span><span class="p">(</span><span class="n">mygrp</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">buffer</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_num_layers_3D</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">make_layers_3D_AB</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

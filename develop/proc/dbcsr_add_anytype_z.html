@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,26 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-row~153">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-col~102">col</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-row_size~83">row_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-col_size~77">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-nze~41">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-tot_nze~3">tot_nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-blk~47">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-lb_a~4">lb_a</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-first_lb_a~6">first_lb_a</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-lb_a_val~3">lb_a_val</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-lb_b~4">lb_b</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-first_lb_b~6">first_lb_b</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-lb_row_blk~3">lb_row_blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-was_found~3">was_found</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-found~62">found</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-tr~99">tr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#src">dbcsr_add_anytype_z</a>
   </div>
 </div>
 
@@ -146,43 +129,43 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix_a~93"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~65"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_b~53"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~37"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-iter~31"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
+  <td><span class="anchor" id="variable-iter~5"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>iter</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-iw~23"></span>integer,</td>
+  <td><span class="anchor" id="variable-iw~9"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>iw</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-do_scale~9"></span>logical,</td>
+  <td><span class="anchor" id="variable-do_scale~6"></span>logical,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>do_scale</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-my_beta_scalar~7"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-my_beta_scalar~6"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>my_beta_scalar</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-my_flop~8"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-my_flop~3"></span>integer(kind=int_8),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>my_flop</strong></td><td></td>
@@ -196,26 +179,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-row~153">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-col~102">col</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-row_size~83">row_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-col_size~77">col_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-nze~41">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-tot_nze~3">tot_nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-blk~47">blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-lb_a~4">lb_a</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-first_lb_a~6">first_lb_a</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-lb_a_val~3">lb_a_val</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-lb_b~4">lb_b</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-first_lb_b~6">first_lb_b</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-lb_row_blk~3">lb_row_blk</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-was_found~3">was_found</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-found~62">found</a>
-      <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#variable-tr~99">tr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_add_anytype_z.html#src">dbcsr_add_anytype_z</a>
   </div>
 </div>
 
@@ -223,104 +189,100 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-row~153"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col~102"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>col</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_size~83"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_size~77"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>col_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze~41"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nze</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tot_nze~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tot_nze</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk~47"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lb_a~4"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>lb_a</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-first_lb_a~6"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>first_lb_a</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lb_a_val~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>lb_a_val</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lb_b~4"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>lb_b</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-first_lb_b~6"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>first_lb_b</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lb_row_blk~3"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>lb_row_blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-was_found~3"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>was_found</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-found~62"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>found</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr~99"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tr</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_add_anytype_z</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="n">do_scale</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                  </span><span class="n">my_beta_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">my_flop</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b</span>
+
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_a</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! DBCSR matrix</span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_b</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! DBCSR matrix</span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                     </span><span class="kd">::</span><span class="w"> </span><span class="n">iw</span><span class="w"></span>
+<span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                     </span><span class="kd">::</span><span class="w"> </span><span class="n">do_scale</span><span class="w"></span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">my_flop</span><span class="w"></span>
+
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                                    </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">tot_nze</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                                    </span><span class="n">lb_a</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_a</span><span class="p">,</span><span class="w"> </span><span class="n">lb_a_val</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                                    </span><span class="n">lb_b</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_b</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">lb_row_blk</span><span class="w"></span>
+<span class="w">         </span><span class="kt">LOGICAL</span><span class="w">                                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">was_found</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! some start values</span>
+<span class="w">         </span><span class="n">lb_row_blk</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="n">first_lb_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">first_lb_b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="n">tot_nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="c">!</span>
+<span class="w">         </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">lb_b</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nze</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">lb_row_blk</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="n">lb_row_blk</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="w"></span>
+<span class="w">               </span><span class="n">lb_row_blk</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">            </span><span class="c">! get b-block index</span>
+<span class="w">            </span><span class="n">lb_b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ABS</span><span class="p">(</span><span class="n">lb_b</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_find_column</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">lb_row_blk</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">col_i</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">lb_row_blk</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="c">! get index of a-block lb_a whether found (from matrix_a) or not (from workspace array)</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="n">my_flop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_flop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="o">*</span><span class="mi">2</span><span class="w"></span>
+<span class="w">               </span><span class="n">lb_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ABS</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">ELSE</span>
+<span class="k">               </span><span class="n">lb_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="n">lb_a_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb_a</span><span class="w"></span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="n">lb_a_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">lb_a</span><span class="w"></span>
+<span class="w">               </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">lastblk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">lastblk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">row_i</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">lastblk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="w"></span>
+<span class="w">               </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">col_i</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">lastblk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col</span><span class="w"></span>
+<span class="w">               </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">lastblk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb_a_val</span><span class="w"></span>
+<span class="w">               </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">            </span><span class="c">! at the first iteration we skip this and go directly to initialization after</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_b</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">               </span><span class="c">! if found status is the same as before then probably we are in contiguous blocks</span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">((</span><span class="n">found</span><span class="w"> </span><span class="p">.</span><span class="n">EQV</span><span class="p">.</span><span class="w"> </span><span class="n">was_found</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                   </span><span class="p">(</span><span class="n">first_lb_b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tot_nze</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">lb_b</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                   </span><span class="p">(</span><span class="n">first_lb_a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tot_nze</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">lb_a</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  </span><span class="n">tot_nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tot_nze</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"></span>
+<span class="w">                  </span><span class="k">CYCLE</span>
+<span class="k">               END IF</span><span class="w"></span>
+<span class="w">               </span><span class="c">! save block chunk</span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_update_contiguous_blocks_z</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_a</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_b</span><span class="p">,</span><span class="w"> </span><span class="n">tot_nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                                  </span><span class="n">do_scale</span><span class="p">,</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">was_found</span><span class="p">,</span><span class="w"> </span><span class="n">iw</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">            </span><span class="c">!</span>
+<span class="w">            </span><span class="n">first_lb_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb_a</span><span class="w"></span>
+<span class="w">            </span><span class="n">first_lb_b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb_b</span><span class="w"></span>
+<span class="w">            </span><span class="n">tot_nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nze</span><span class="w"></span>
+<span class="w">            </span><span class="n">was_found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">found</span><span class="w"></span>
+<span class="w">         </span><span class="k">END DO</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! save the last block or chunk of blocks</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_b</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            call </span><span class="n">dbcsr_update_contiguous_blocks_z</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_a</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_b</span><span class="p">,</span><span class="w"> </span><span class="n">tot_nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                               </span><span class="n">do_scale</span><span class="p">,</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">was_found</span><span class="p">,</span><span class="w"> </span><span class="n">iw</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+
+<span class="k">      END SUBROUTINE </span><span class="n">dbcsr_add_anytype_z</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

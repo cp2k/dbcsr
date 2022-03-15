@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,14 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#variable-routinen~653">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#variable-handle~529">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#variable-cur~3">cur</a>
-      <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#variable-prev~3">prev</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#src">dbcsr_mempool_clear</a>
   </div>
 </div>
 
@@ -134,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-pool~8"></span>type(<a href='../type/dbcsr_mempool_type.html'>dbcsr_mempool_type</a>),</td>
+  <td><span class="anchor" id="variable-pool~6"></span>type(<a href='../type/dbcsr_mempool_type.html'>dbcsr_mempool_type</a>),</td>
 <td></td>
   <td></td>  <td>POINTER</td><td>::</td>
   <td><strong>pool</strong></td><td></td>
@@ -148,14 +143,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#variable-routinen~653">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#variable-handle~529">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#variable-cur~3">cur</a>
-      <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#variable-prev~3">prev</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mempool_clear.html#src">dbcsr_mempool_clear</a>
   </div>
 </div>
 
@@ -163,44 +153,47 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~653"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_mempool_clear'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~529"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cur~3"></span>type(<a href='../type/dbcsr_mempool_entry_type.html'>dbcsr_mempool_entry_type</a>),</td>
-<td>private,</td>  <td>POINTER</td><td>::</td>
-  <td><strong>cur</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-prev~3"></span>type(<a href='../type/dbcsr_mempool_entry_type.html'>dbcsr_mempool_entry_type</a>),</td>
-<td>private,</td>  <td>POINTER</td><td>::</td>
-  <td><strong>prev</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_mempool_clear</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Deallocates all data_areas contained in given mempool.</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mempool_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">pool</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_mempool_clear&#39;</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mempool_entry_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">cur</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;pool not allocated&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+
+<span class="c">!$    CALL OMP_SET_LOCK(pool%lock)</span>
+<span class="w">      </span><span class="n">cur</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pool</span><span class="p">%</span><span class="n">root</span><span class="p">%</span><span class="n">next</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">cur</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">internal_data_deallocate</span><span class="p">(</span><span class="n">cur</span><span class="p">%</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">cur</span><span class="p">%</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">prev</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cur</span><span class="w"></span>
+<span class="w">         </span><span class="n">cur</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cur</span><span class="p">%</span><span class="n">next</span><span class="w"></span>
+<span class="w">         </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">prev</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END DO</span>
+<span class="k">      NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">pool</span><span class="p">%</span><span class="n">root</span><span class="p">%</span><span class="n">next</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$    CALL OMP_UNSET_LOCK(pool%lock)</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mempool_clear</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

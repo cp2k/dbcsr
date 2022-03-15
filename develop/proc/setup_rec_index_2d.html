@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,19 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-routinen~586">routineN</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-dbg~13">dbg</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-handle~506">handle</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-i_col">i_col</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-i_row">i_row</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-t_f~2">t_f</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-t_l~2">t_l</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-t_size~2">t_size</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-thread_redist~3">thread_redist</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/setup_rec_index_2d.html#src">setup_rec_index_2d</a>
   </div>
 </div>
 
@@ -164,19 +154,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-routinen~586">routineN</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-dbg~13">dbg</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-handle~506">handle</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-i_col">i_col</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-i_row">i_row</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-t_f~2">t_f</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-t_l~2">t_l</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-t_size~2">t_size</a>
-      <a class="list-group-item" href="../proc/setup_rec_index_2d.html#variable-thread_redist~3">thread_redist</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/setup_rec_index_2d.html#src">setup_rec_index_2d</a>
   </div>
 </div>
 
@@ -184,69 +164,78 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~586"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'setup_rec_index_2d'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dbg~13"></span>logical,</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>dbg</strong></td><td> =</td><td>.FALSE.</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~506"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-i_col"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i_col</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-i_row"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i_row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-t_f~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t_f</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-t_l~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t_l</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-t_size~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-thread_redist~3"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>thread_redist</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">setup_rec_index_2d</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">,</span><span class="w"> </span><span class="n">n_rows</span><span class="p">,</span><span class="w"> </span><span class="n">n_cols</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_set</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">n_rows</span><span class="p">,</span><span class="w"> </span><span class="n">n_cols</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;setup_rec_index_2d&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">dbg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">,</span><span class="w"> </span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">t_f</span><span class="p">,</span><span class="w"> </span><span class="n">t_l</span><span class="p">,</span><span class="w"> </span><span class="n">t_size</span><span class="w"></span>
+
+<span class="c">!$    INTEGER                                  :: ithread</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">thread_redist</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="n">i_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n_rows</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO </span><span class="n">i_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n_cols</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_reset_vlocals</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">matrix_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; m, n, size&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)%</span><span class="n">coo_l</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">dbcsr_nblkrows_local</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">dbcsr_nblkcols_local</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">))</span><span class="w"></span>
+<span class="w">               </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(3(1X,I7))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)%</span><span class="n">coo_l</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)%</span><span class="n">coo_l</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)%</span><span class="n">nblks</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Block count mismatch.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">            </span><span class="n">thread_redist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)%</span><span class="n">thr_c</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">t_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)%</span><span class="n">coo_l</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="w"></span>
+<span class="w">            </span><span class="n">t_f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">t_l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_size</span><span class="w"></span>
+<span class="c">!$OMP       PARALLEL IF (thread_redist) DEFAULT (NONE) &amp;</span>
+<span class="c">!$OMP       PRIVATE (ithread) &amp;</span>
+<span class="c">!$OMP       FIRSTPRIVATE (t_f, t_l, t_size) &amp;</span>
+<span class="c">!$OMP       SHARED (matrix_set, i_row, i_col, thread_redist)</span>
+<span class="c">!$          ithread = OMP_GET_THREAD_NUM()</span>
+<span class="c">!$          IF (thread_redist) THEN</span>
+<span class="c">!$             t_f = matrix_set%mats(i_row, i_col)%thr_c(ithread + 1) + 1</span>
+<span class="c">!$             t_l = matrix_set%mats(i_row, i_col)%thr_c(ithread + 2)</span>
+<span class="c">!$          END IF</span>
+<span class="w">            </span><span class="n">t_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_l</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t_f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="c">!$OMP       BARRIER</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">t_size</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">call_rec_sort_index</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">dbcsr_nblkrows_local</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">dbcsr_nblkcols_local</span><span class="p">(</span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">t_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">matrix_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i_row</span><span class="p">,</span><span class="w"> </span><span class="n">i_col</span><span class="p">)%</span><span class="n">coo_l</span><span class="p">((</span><span class="n">t_f</span><span class="o">*</span><span class="mi">3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">):(</span><span class="n">t_l</span><span class="o">*</span><span class="mi">3</span><span class="p">)))</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="c">!$OMP       END PARALLEL</span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">      END DO</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">setup_rec_index_2d</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-ithread~16">ithread</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-max_new_nblks">max_new_nblks</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-nblks_new~2">nblks_new</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#src">dbcsr_mm_csr_multiply</a>
   </div>
 </div>
 
@@ -139,19 +135,19 @@
   <td><strong>this</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-left~16"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-left~4"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>left</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-right~17"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-right~4"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>right</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mi~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-mi~3"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mi</strong></td><td></td>
@@ -163,7 +159,7 @@
   <td><strong>mf</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ni~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-ni~2"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ni</strong></td><td></td>
@@ -211,19 +207,19 @@
   <td><strong>bf</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-m_sizes~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-m_sizes~2"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>m_sizes</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n_sizes~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-n_sizes~2"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>n_sizes</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-k_sizes~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-k_sizes~2"></span>integer,</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>k_sizes</strong></td><td></td>
@@ -247,7 +243,7 @@
   <td><strong>c_has_symmetry</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-keep_sparsity~13"></span>logical,</td>
+  <td><span class="anchor" id="variable-keep_sparsity~8"></span>logical,</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td></td>
@@ -259,13 +255,13 @@
   <td><strong>use_eps</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_max_epss~4"></span>real(kind=sp),</td>
+  <td><span class="anchor" id="variable-row_max_epss~2"></span>real(kind=sp),</td>
 <td></td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_max_epss</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~19"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~18"></span>integer(kind=int_8),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td></td>
@@ -303,13 +299,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-ithread~16">ithread</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-max_new_nblks">max_new_nblks</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#variable-nblks_new~2">nblks_new</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mm_csr_multiply.html#src">dbcsr_mm_csr_multiply</a>
   </div>
 </div>
 
@@ -317,39 +309,93 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-ithread~16"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ithread</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_new_nblks"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>max_new_nblks</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblks_new~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nblks_new</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_csr_multiply</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="p">,</span><span class="w"> </span><span class="n">nf</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">kf</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! A wrapper around dbcsr_mm_csr_multiply_low to avoid expensive dereferencings.</span>
+<span class="w">                                    </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">m_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">k_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">c_local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">c_local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">c_has_symmetry</span><span class="p">,</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">use_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">row_max_epss</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">a_index</span><span class="p">,</span><span class="w"> </span><span class="n">b_index</span><span class="p">,</span><span class="w"> </span><span class="n">a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">b_norms</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_csr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="p">,</span><span class="w"> </span><span class="n">nf</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">kf</span><span class="p">,</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">m_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">k_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">c_local_rows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">c_local_cols</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">c_has_symmetry</span><span class="p">,</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">use_eps</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_max_epss</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">af</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">a_index</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">bf</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">b_index</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">b_norms</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">ithread</span><span class="p">,</span><span class="w"> </span><span class="n">max_new_nblks</span><span class="p">,</span><span class="w"> </span><span class="n">nblks_new</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">ithread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="c">!$    ithread = omp_get_thread_num()</span>
+
+<span class="w">      </span><span class="c">! This has to be done here because ensure_array_size() expects a pointer.</span>
+<span class="w">      </span><span class="c">! the maximum number of blocks can be safely estimated by considering both the rowxcol,</span>
+<span class="w">      </span><span class="c">! but also the blocks the latter can never be larger than norec**2, which is a &#39;small&#39; constant</span>
+<span class="w">      </span><span class="n">max_new_nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="nb">MIN</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">mf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="nb">INT</span><span class="p">(</span><span class="n">nf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="nb">INT</span><span class="p">(</span><span class="n">af</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ai</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="nb">INT</span><span class="p">(</span><span class="n">bf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">int_8</span><span class="p">)))</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">nblks_new</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">lastblk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">max_new_nblks</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">row_i</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="o">=</span><span class="n">nblks_new</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">col_i</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="o">=</span><span class="n">nblks_new</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="o">=</span><span class="n">nblks_new</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_mm_csr_multiply_low</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">mi</span><span class="o">=</span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="o">=</span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="o">=</span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">kf</span><span class="o">=</span><span class="n">kf</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">ai</span><span class="o">=</span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="o">=</span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">bi</span><span class="o">=</span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="o">=</span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">c_row_i</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">row_i</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">c_col_i</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">col_i</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">c_blk_p</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">lastblk</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">lastblk</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">datasize</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">datasize</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">m_sizes</span><span class="o">=</span><span class="n">m_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="o">=</span><span class="n">n_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">k_sizes</span><span class="o">=</span><span class="n">k_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">c_local_rows</span><span class="o">=</span><span class="n">c_local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">c_local_cols</span><span class="o">=</span><span class="n">c_local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">c_has_symmetry</span><span class="o">=</span><span class="n">c_has_symmetry</span><span class="p">,</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="o">=</span><span class="n">keep_sparsity</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">use_eps</span><span class="o">=</span><span class="n">use_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">row_max_epss</span><span class="o">=</span><span class="n">row_max_epss</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">flop</span><span class="o">=</span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">row_size_maps</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">m_size_maps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">col_size_maps</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">n_size_maps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">k_size_maps</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">k_size_maps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">row_size_maps_size</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">m_size_maps_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">col_size_maps_size</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">n_size_maps_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">k_size_maps_size</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">k_size_maps_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">nm_stacks</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">nm_stacks</span><span class="p">,</span><span class="w"> </span><span class="n">nn_stacks</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">nn_stacks</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">nk_stacks</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">nk_stacks</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">stack_map</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">stacks_data</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_data</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">stacks_fillcount</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_fillcount</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">c_hashes</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">c_hashes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">a_index</span><span class="o">=</span><span class="n">a_index</span><span class="p">,</span><span class="w"> </span><span class="n">b_index</span><span class="o">=</span><span class="n">b_index</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">a_norms</span><span class="o">=</span><span class="n">a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">b_norms</span><span class="o">=</span><span class="n">b_norms</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_csr_multiply</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

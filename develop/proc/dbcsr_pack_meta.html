@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_pack_meta.html#src">dbcsr_pack_meta</a>
+  </div>
+</div>
 
 </div>
 
@@ -124,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~200"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~112"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>Matrix</p></td>
@@ -143,7 +148,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_pack_meta.html#src">dbcsr_pack_meta</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -157,6 +167,43 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_pack_meta</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">meta</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Copies metadata into an array.</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_meta_size</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">meta</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Metadata elements</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nblks</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nze</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nze</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nblkrows_total</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nblkcols_total</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols_total</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nfullrows_total</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nfullrows_total</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nfullcols_total</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nfullcols_total</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nblkrows_local</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_local</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nblkcols_local</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols_local</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nfullrows_local</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nfullrows_local</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_nfullcols_local</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nfullcols_local</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_dense</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_type</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="c">!IF (matrix%transpose)&amp;</span>
+<span class="w">      </span><span class="c">!     meta(dbcsr_slot_type) = IBSET (meta(dbcsr_slot_type), 0)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">symmetry</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_type</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">IBSET</span><span class="p">(</span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_type</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_real</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_type</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">IBSET</span><span class="p">(</span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_type</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_type</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">IBSET</span><span class="p">(</span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_slot_type</span><span class="p">),</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_pack_meta</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

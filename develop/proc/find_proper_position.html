@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/find_proper_position.html#variable-local~12">local</a>
-      <a class="list-group-item" href="../proc/find_proper_position.html#variable-row_inrange">row_inrange</a>
-      <a class="list-group-item" href="../proc/find_proper_position.html#variable-row_ok">row_ok</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/find_proper_position.html#src">find_proper_position</a>
   </div>
 </div>
 
@@ -135,14 +131,14 @@ If there is no valid block, pos is set to 0</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-pos~24"></span>integer,</td>
+  <td><span class="anchor" id="variable-pos~23"></span>integer,</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>pos</strong></td><td><p>current position and updated position
 input: current row; output: the row corresponding to the next proper position</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~116"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~83"></span>integer,</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>current position and updated position
@@ -163,14 +159,14 @@ maxmimum row</p></td>
 maxmimum row</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_p~19"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_p~11"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>block pointercs
 row pointers</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_p~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_p~10"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_p</strong></td><td><p>block pointercs
@@ -203,13 +199,9 @@ row pointers</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/find_proper_position.html#variable-local~12">local</a>
-      <a class="list-group-item" href="../proc/find_proper_position.html#variable-row_inrange">row_inrange</a>
-      <a class="list-group-item" href="../proc/find_proper_position.html#variable-row_ok">row_ok</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/find_proper_position.html#src">find_proper_position</a>
   </div>
 </div>
 
@@ -217,39 +209,88 @@ row pointers</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-local~12"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>local</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_inrange"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row_inrange</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_ok"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row_ok</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">PURE SUBROUTINE </span><span class="n">find_proper_position</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">maxpos</span><span class="p">,</span><span class="w"> </span><span class="n">maxrows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">row_p</span><span class="p">,</span><span class="w"> </span><span class="n">tdist</span><span class="p">,</span><span class="w"> </span><span class="n">tid</span><span class="p">,</span><span class="w"> </span><span class="n">local2global</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Finds the next proper position accounting for threads</span>
+<span class="w">      </span><span class="c">!! First time: pos and row are set to 0.</span>
+<span class="w">      </span><span class="c">!! If there is no valid block, pos is set to 0</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! current position and updated position</span>
+<span class="w">         </span><span class="c">!! input: current row; output: the row corresponding to the next proper position</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">maxpos</span><span class="p">,</span><span class="w"> </span><span class="n">maxrows</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! maximum allowable position</span>
+<span class="w">         </span><span class="c">!! maxmimum row</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">row_p</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! block pointercs</span>
+<span class="w">         </span><span class="c">!! row pointers</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">maxrows</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">OPTIONAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">tdist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! thread distribution</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">tid</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! my thread number</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">local2global</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">local</span><span class="p">,</span><span class="w"> </span><span class="n">row_inrange</span><span class="p">,</span><span class="w"> </span><span class="n">row_ok</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">tdist</span><span class="p">)</span><span class="w"> </span><span class="c">! only used with OMP</span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">tid</span><span class="p">)</span><span class="w"> </span><span class="c">! only used with OMP</span>
+
+<span class="w">      </span><span class="n">local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local2global</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">maxpos</span><span class="w"> </span><span class="p">.</span><span class="n">GE</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">         </span><span class="c">!IF (pos.EQ.0) pos = 1</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">find_first_valid_block</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">maxpos</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">find_proper_row</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">maxrows</span><span class="p">,</span><span class="w"> </span><span class="n">row_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">row_inrange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">maxrows</span><span class="w"></span>
+<span class="w">         </span><span class="n">row_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_inrange</span><span class="w"></span>
+<span class="c">!$       IF (present(tdist) .AND. PRESENT(tid) .AND. row_inrange) THEN</span>
+<span class="c">!$          IF (.NOT. local) THEN</span>
+<span class="c">!$             row_ok = tdist(row) .EQ. tid</span>
+<span class="c">!$          ELSE</span>
+<span class="c">!$             row_ok = tdist(local2global(row)) .EQ. tid</span>
+<span class="c">!$          END IF</span>
+<span class="c">!$       END IF</span>
+<span class="w">         </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">row_inrange</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">row_ok</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">maxrows</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">               </span><span class="k">EXIT</span>
+<span class="k">            END IF</span>
+<span class="k">            CALL </span><span class="n">find_first_valid_block</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">maxpos</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">find_proper_row</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">maxrows</span><span class="p">,</span><span class="w"> </span><span class="n">row_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">row_inrange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="n">row_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_inrange</span><span class="w"></span>
+<span class="c">!$          IF (present(tdist) .AND. PRESENT(tid) .AND. row_inrange) THEN</span>
+<span class="c">!$             IF (.NOT. local) THEN</span>
+<span class="c">!$                row_ok = tdist(row) .EQ. tid</span>
+<span class="c">!$             ELSE</span>
+<span class="c">!$                row_ok = tdist(local2global(row)) .EQ. tid</span>
+<span class="c">!$             END IF</span>
+<span class="c">!$          END IF</span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">find_proper_position</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

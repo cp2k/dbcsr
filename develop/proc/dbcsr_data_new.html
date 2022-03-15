@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,18 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-routinen~650">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-d~5">d</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-handle~526">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-total_size_oversized">total_size_oversized</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-total_size_requested">total_size_requested</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-sizes_oversized">sizes_oversized</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-sizes_requested">sizes_requested</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-my_memory_type">my_memory_type</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_data_new.html#src">dbcsr_data_new</a>
   </div>
 </div>
 
@@ -144,13 +135,13 @@
   <td><strong>area</strong></td><td><p>data area</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~66"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~34"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td><p>select data type to use</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_size~23"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size~18"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_size</strong></td><td><p>allocate this much data
@@ -178,18 +169,9 @@ second dimension data size</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-routinen~650">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-d~5">d</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-handle~526">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-total_size_oversized">total_size_oversized</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-total_size_requested">total_size_requested</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-sizes_oversized">sizes_oversized</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-sizes_requested">sizes_requested</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_new.html#variable-my_memory_type">my_memory_type</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_data_new.html#src">dbcsr_data_new</a>
   </div>
 </div>
 
@@ -197,64 +179,90 @@ second dimension data size</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~650"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_data_new'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-d~5"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>d</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~526"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-total_size_oversized"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>total_size_oversized</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-total_size_requested"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>total_size_requested</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sizes_oversized"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>sizes_oversized</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sizes_requested"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>sizes_requested</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-my_memory_type"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>my_memory_type</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">area</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">data_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_size2</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">memory_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Initializes a data area and all the actual data pointers</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">area</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! data area</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! select data type to use</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">data_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_size2</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! allocate this much data</span>
+<span class="w">         </span><span class="c">!! second dimension data size</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">memory_type</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! type of memory to use</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_data_new&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">total_size_oversized</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">total_size_requested</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">sizes_oversized</span><span class="p">,</span><span class="w"> </span><span class="n">sizes_requested</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">my_memory_type</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;area already associated&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">my_memory_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_memtype_default</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">memory_type</span><span class="p">))</span><span class="w"> </span><span class="n">my_memory_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">memory_type</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">sizes_requested</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">))</span><span class="w"> </span><span class="n">sizes_requested</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_size</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">data_type</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size2</span><span class="p">))</span><span class="w"> </span><span class="n">sizes_requested</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_size2</span><span class="w"></span>
+
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NEQV</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size2</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Must specify 2 sizes for 2-D data&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+
+<span class="k">      </span><span class="n">sizes_oversized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">sizes_requested</span><span class="o">*</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">oversize_factor</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">total_size_requested</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">PRODUCT</span><span class="p">(</span><span class="n">sizes_requested</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="n">total_size_oversized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">PRODUCT</span><span class="p">(</span><span class="n">sizes_oversized</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">sizes_requested</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="nb">ANY</span><span class="p">(</span><span class="n">sizes_oversized</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Negative data size requested, integer overflow?&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">total_size_requested</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mempool_get</span><span class="p">(</span><span class="n">my_memory_type</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">total_size_requested</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+
+<span class="k">      IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP        CRITICAL (crit_area_id)</span>
+<span class="w">         </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="w"></span>
+<span class="c">!$OMP        END CRITICAL (crit_area_id)</span>
+<span class="w">         </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_memory_type</span><span class="w"></span>
+<span class="w">         </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_type</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">internal_data_allocate</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">sizes_oversized</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END IF</span>
+
+<span class="k">      </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">total_size_requested</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_new</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,42 +107,7 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dims1">dims1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dims2">dims2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dims_ref">dims_ref</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-d1~7">d1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-d2~7">d2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-routinen~688">routineN</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-handle~560">handle</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-mp_comm~16">mp_comm</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-numnodes~41">numnodes</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-unit_nr_prv~6">unit_nr_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nsplit_prv">nsplit_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-ref">ref</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-split_rc_ref">split_rc_ref</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-pcoord~8">pcoord</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-pdims~8">pdims</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-optimize_dist_prv">optimize_dist_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-trans1_newdist">trans1_newdist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-trans2_newdist">trans2_newdist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-row_dist_1">row_dist_1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-col_dist_1">col_dist_1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-row_dist_2">row_dist_2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-col_dist_2">col_dist_2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dist_1">dist_1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dist_2">dist_2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-split_info~2">split_info</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nze1">nze1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nze2">nze2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nodata1_prv">nodata1_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nodata2_prv">nodata2_prv</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
 </div>
 
@@ -218,13 +183,13 @@ transpose flag of matrix2_in for multiplication</p></td>
   <td><strong>optimize_dist</strong></td><td><p>experimental: optimize matrix splitting and distribution</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nsplit~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~2"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td><p>Optimal split factor (set to 0 if split factor should not be changed)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-opt_nsplit~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-opt_nsplit"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>opt_nsplit</strong></td><td></td>
@@ -278,7 +243,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p><
   <td><strong>comm_new</strong></td><td><p>returns the new communicator only if optimize_dist</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~19"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~16"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>output unit</p></td>
@@ -291,202 +256,12 @@ memory optimization: move data such that matrix2_in may be empty on return.</p><
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dims1">dims1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dims2">dims2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dims_ref">dims_ref</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-d1~7">d1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-d2~7">d2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-routinen~688">routineN</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-handle~560">handle</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-mp_comm~16">mp_comm</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-numnodes~41">numnodes</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-unit_nr_prv~6">unit_nr_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nsplit_prv">nsplit_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-ref">ref</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-split_rc_ref">split_rc_ref</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-pcoord~8">pcoord</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-pdims~8">pdims</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-optimize_dist_prv">optimize_dist_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-trans1_newdist">trans1_newdist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-trans2_newdist">trans2_newdist</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-row_dist_1">row_dist_1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-col_dist_1">col_dist_1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-row_dist_2">row_dist_2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-col_dist_2">col_dist_2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dist_1">dist_1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-dist_2">dist_2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-split_info~2">split_info</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nze1">nze1</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nze2">nze2</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nodata1_prv">nodata1_prv</a>
-      <a class="list-group-item" href="../proc/reshape_mm_compatible.html#variable-nodata2_prv">nodata2_prv</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-dims1"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>dims1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dims2"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>dims2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dims_ref"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>dims_ref</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-d1~7"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>d1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-d2~7"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>d2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-routinen~688"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'reshape_mm_compatible'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~560"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mp_comm~16"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mp_comm</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numnodes~41"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>numnodes</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-unit_nr_prv~6"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>unit_nr_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nsplit_prv"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nsplit_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ref"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ref</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-split_rc_ref"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>split_rc_ref</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pcoord~8"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pcoord</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pdims~8"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pdims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-optimize_dist_prv"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>optimize_dist_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-trans1_newdist"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>trans1_newdist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-trans2_newdist"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>trans2_newdist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_dist_1"></span>type(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row_dist_1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_dist_1"></span>type(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>col_dist_1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_dist_2"></span>type(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row_dist_2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_dist_2"></span>type(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>col_dist_2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist_1"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dist_1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist_2"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dist_2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-split_info~2"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>split_info</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze1"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nze1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze2"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nze2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nodata1_prv"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nodata1_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nodata2_prv"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nodata2_prv</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
     
     
 

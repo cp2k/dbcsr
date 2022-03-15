@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,19 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-routinen~18">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-routinep~5">routineP</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-filename~2">filename</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-host_name">host_name</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-iostat">iostat</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-pid">pid</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-loc">loc</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-skip">skip</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-lggr~2">lggr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#src">dbcsr_logger_get_default_unit_nr</a>
   </div>
 </div>
 
@@ -146,7 +136,7 @@ try to use dbcsr_logger_get_unit_nr</p>
   <td><strong>logger</strong></td><td><p>the logger you want info from</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-local~10"></span>logical,</td>
+  <td><span class="anchor" id="variable-local~7"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>local</strong></td><td><p>if you want the local unit nr (defaults to false)</p></td>
@@ -168,19 +158,9 @@ try to use dbcsr_logger_get_unit_nr</p>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-routinen~18">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-routinep~5">routineP</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-filename~2">filename</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-host_name">host_name</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-iostat">iostat</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-pid">pid</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-loc">loc</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-skip">skip</a>
-      <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#variable-lggr~2">lggr</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_logger_get_default_unit_nr.html#src">dbcsr_logger_get_default_unit_nr</a>
   </div>
 </div>
 
@@ -188,69 +168,118 @@ try to use dbcsr_logger_get_unit_nr</p>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~18"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_logger_get_default_unit_nr'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-routinep~5"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineP</strong></td><td> =</td><td>moduleN//':'//routineN</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-filename~2"></span>character(len=default_path_length),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>filename</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-host_name"></span>character(len=default_path_length),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>host_name</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iostat"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>iostat</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pid"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>pid</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-loc"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>loc</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-skip"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>skip</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lggr~2"></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
-<td>private,</td>  <td>POINTER</td><td>::</td>
-  <td><strong>lggr</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">RECURSIVE FUNCTION </span><span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span><span class="w"> </span><span class="n">local</span><span class="p">,</span><span class="w"> </span><span class="n">skip_not_ionode</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! asks the default unit number of the given logger.</span>
+<span class="w">      </span><span class="c">!! try to use dbcsr_logger_get_unit_nr</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">logger</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the logger you want info from</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">local</span><span class="p">,</span><span class="w"> </span><span class="n">skip_not_ionode</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! if you want the local unit nr (defaults to false)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_logger_get_default_unit_nr&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_path_length</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">host_name</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="nb">loc</span><span class="p">,</span><span class="w"> </span><span class="n">skip</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">lggr</span><span class="w"></span>
+
+<span class="w">      </span><span class="nb">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">lggr</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">logger</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">lggr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span><span class="w"> </span><span class="n">lggr</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_get_default_logger</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">ref_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local</span><span class="p">))</span><span class="w"> </span><span class="nb">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">skip_not_ionode</span><span class="p">))</span><span class="w"> </span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">skip_not_ionode</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">loc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">dbcsr_logger_generate_filename</span><span class="p">(</span><span class="n">lggr</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">global_filename</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                   </span><span class="s2">&quot;.out&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">open_file</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span><span class="w"> </span><span class="n">file_status</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">file_action</span><span class="o">=</span><span class="s2">&quot;WRITE&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">file_position</span><span class="o">=</span><span class="s2">&quot;APPEND&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">unit_number</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">ELSE IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">skip</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">lggr</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">               </span><span class="n">lggr</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">            </span><span class="k">ELSE</span>
+<span class="k">               </span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="n">lggr</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">         END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">((</span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">skip</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(/,T2,A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="s1">&#39; *** WARNING non ionode asked for global logger ***&#39;</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">m_getpid</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** Error trying to WRITE to the local logger ***&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** MPI_id           = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** MPI_Communicator = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** PID              = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** Hostname         = &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">ELSE</span>
+<span class="k">               CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">         END IF</span>
+<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_logger_generate_filename</span><span class="p">(</span><span class="n">lggr</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">local_filename</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="s2">&quot;.out&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">open_file</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span><span class="w"> </span><span class="n">file_status</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">file_action</span><span class="o">=</span><span class="s2">&quot;WRITE&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">file_position</span><span class="o">=</span><span class="s2">&quot;APPEND&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">unit_number</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(/,T2,A,I0,A,I0,A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="s1">&#39;*** Local logger file of MPI task &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="s1">&#39; in communicator &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; ***&#39;</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">m_getpid</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(T2,A,I0)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="s1">&#39;*** PID      = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="s1">&#39;*** Hostname = &#39;</span><span class="o">//</span><span class="n">host_name</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">m_getpid</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** Error trying to WRITE to the local logger ***&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** MPI_id           = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** MPI_Communicator = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** PID              = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="w"></span>
+<span class="w">               </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; *** Hostname         = &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+
+<span class="k">         END IF</span>
+<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">   END FUNCTION </span><span class="n">dbcsr_logger_get_default_unit_nr</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,16 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-routinen~51">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-routinep~13">routineP</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-deplus">deplus</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-space">space</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-ub~22">ub</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-ub_new">ub_new</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#src">dbcsr_addto_index_array</a>
   </div>
 </div>
 
@@ -136,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~273"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~185"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>bcsr matrix</p></td>
@@ -176,16 +169,9 @@ reserve extra space for later additions</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-routinen~51">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-routinep~13">routineP</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-deplus">deplus</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-space">space</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-ub~22">ub</a>
-      <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#variable-ub_new">ub_new</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#src">dbcsr_addto_index_array</a>
   </div>
 </div>
 
@@ -193,54 +179,93 @@ reserve extra space for later additions</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~51"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_addto_index_array'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-routinep~13"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineP</strong></td><td> =</td><td>moduleN//':'//routineN</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-deplus"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>deplus</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-space"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>space</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ub~22"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ub</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ub_new"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ub_new</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">slot</span><span class="p">,</span><span class="w"> </span><span class="k">DATA</span><span class="p">,</span><span class="w"> </span><span class="n">reservation</span><span class="p">,</span><span class="w"> </span><span class="n">extra</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Adds data to the index. Increases the index size when necessary.</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! bcsr matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">slot</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! which index array to add (e.g., dbcsr_slot_row_blk_sizes)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="k">DATA</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! array holding the index data to add to the index array</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">reservation</span><span class="p">,</span><span class="w"> </span><span class="n">extra</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! only reserve space for subsequent array</span>
+<span class="w">         </span><span class="c">!! reserve extra space for later additions</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_addto_index_array&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">deplus</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">ub_new</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Index must be preallocated.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">dbcsr_num_slots</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Actual index size less than declared size&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">reservation</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Either an array or its size must be specified.&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; index&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(:</span><span class="n">dbcsr_num_slots</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">reservation</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reservation</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">extra</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">deplus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">extra</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">deplus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      </span><span class="n">ub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">! The data area was not defined or the new area is greater than the old:</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">          </span><span class="n">space</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; Slot&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">slot</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;not filled, adding at&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_size</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;sized&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_size</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Shorten an index entry.</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">space</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; Shortening index&#39;</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">slot</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      </span><span class="n">ub_new</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">deplus</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; need&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;at&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="s1">&#39;to&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;(&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ub_new</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;have&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ub_new</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; Reallocating index to ubound&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ub_new</span><span class="w"></span>
+<span class="w">         </span><span class="c">!CALL reallocate(matrix%index, 1, ub_new)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="o">=</span><span class="n">ub_new</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">memory_type</span><span class="o">=</span><span class="n">matrix</span><span class="p">%</span><span class="n">index_memory_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; Adding slot&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">slot</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;at&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;sized&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">slot</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">DATA</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="p">):</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">slot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">DATA</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_addto_index_array</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

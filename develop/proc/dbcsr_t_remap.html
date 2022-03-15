@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,31 +107,7 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-name_tmp">name_tmp</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-blk_sizes_1">blk_sizes_1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-blk_sizes_2">blk_sizes_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-blk_sizes_3">blk_sizes_3</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-blk_sizes_4">blk_sizes_4</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nd_dist_1~2">nd_dist_1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nd_dist_2~2">nd_dist_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nd_dist_3~2">nd_dist_3</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nd_dist_4~2">nd_dist_4</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-dist~94">dist</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-comm_2d_prv">comm_2d_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-handle~585">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-i~210">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-pdims~19">pdims</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-myploc~6">myploc</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-routinen~710">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nodata_prv~8">nodata_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-comm_nd~2">comm_nd</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
 </div>
 
@@ -148,45 +124,45 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-tensor_in~18"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_in~13"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tensor_in</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map1_2d~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-map1_2d~4"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map1_2d</strong></td><td><p>new index mapping
 new index mapping</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map2_2d~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-map2_2d~4"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map2_2d</strong></td><td><p>new index mapping
 new index mapping</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_out~18"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_out~14"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tensor_out</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-comm_2d~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-comm_2d"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>comm_2d</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dist1~2"></span>type(<a href='../type/array_list.html'>array_list</a>),</td>
+  <td><span class="anchor" id="variable-dist1"></span>type(<a href='../type/array_list.html'>array_list</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>dist1</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dist2~2"></span>type(<a href='../type/array_list.html'>array_list</a>),</td>
+  <td><span class="anchor" id="variable-dist2"></span>type(<a href='../type/array_list.html'>array_list</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>dist2</strong></td><td></td>
@@ -204,19 +180,19 @@ new index mapping</p></td>
   <td><strong>mp_dims_2</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-name~36"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~22"></span>character(len=*),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata~13"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata~12"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nodata</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~21"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~16"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td></td>
@@ -229,136 +205,12 @@ new index mapping</p></td>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-name_tmp">name_tmp</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-blk_sizes_1">blk_sizes_1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-blk_sizes_2">blk_sizes_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-blk_sizes_3">blk_sizes_3</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-blk_sizes_4">blk_sizes_4</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nd_dist_1~2">nd_dist_1</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nd_dist_2~2">nd_dist_2</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nd_dist_3~2">nd_dist_3</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nd_dist_4~2">nd_dist_4</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-dist~94">dist</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-comm_2d_prv">comm_2d_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-handle~585">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-i~210">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-pdims~19">pdims</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-myploc~6">myploc</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-routinen~710">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-nodata_prv~8">nodata_prv</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_remap.html#variable-comm_nd~2">comm_nd</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-name_tmp"></span>character(len=default_string_length),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>name_tmp</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_sizes_1"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_sizes_1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_sizes_2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_sizes_2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_sizes_3"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_sizes_3</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_sizes_4"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_sizes_4</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nd_dist_1~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>nd_dist_1</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nd_dist_2~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>nd_dist_2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nd_dist_3~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>nd_dist_3</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nd_dist_4~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>nd_dist_4</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist~94"></span>type(<a href='../type/dbcsr_t_distribution_type.html'>dbcsr_t_distribution_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-comm_2d_prv"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>comm_2d_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~585"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-i~210"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pdims~19"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
-  <td><strong>pdims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-myploc~6"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
-  <td><strong>myploc</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-routinen~710"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_t_remap'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nodata_prv~8"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nodata_prv</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-comm_nd~2"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>comm_nd</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
     
     
 

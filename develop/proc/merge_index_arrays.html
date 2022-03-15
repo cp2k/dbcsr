@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,17 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-add_blk">add_blk</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-bp">bp</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-i~63">i</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-merge_from_whom">merge_from_whom</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-new_blk~2">new_blk</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-old_blk~2">old_blk</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-multidata">multidata</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/merge_index_arrays.html#src">merge_index_arrays</a>
   </div>
 </div>
 
@@ -144,7 +136,7 @@ Assumes they are both pre-sorted</p></div>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-new_row_i~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-new_row_i~2"></span>integer,</td>
 <td>intent(out),</td>
   <td></td>  <td>DIMENSION(new_size)</td><td>::</td>
   <td><strong>new_row_i</strong></td><td><p>merged result
@@ -152,7 +144,7 @@ merged result
 merged result</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-new_col_i~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-new_col_i~3"></span>integer,</td>
 <td>intent(out),</td>
   <td></td>  <td>DIMENSION(new_size)</td><td>::</td>
   <td><strong>new_col_i</strong></td><td><p>merged result
@@ -160,7 +152,7 @@ merged result
 merged result</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-new_blk_p~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-new_blk_p~4"></span>integer,</td>
 <td>intent(out),</td>
   <td></td>  <td>DIMENSION(new_size)</td><td>::</td>
   <td><strong>new_blk_p</strong></td><td><p>merged result
@@ -174,7 +166,7 @@ merged result</p></td>
   <td><strong>new_size</strong></td><td><p>size of merged index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-old_row_i~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_row_i"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(old_size)</td><td>::</td>
   <td><strong>old_row_i</strong></td><td><p>current index
@@ -182,7 +174,7 @@ current index
 current index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-old_col_i~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_col_i~4"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(old_size)</td><td>::</td>
   <td><strong>old_col_i</strong></td><td><p>current index
@@ -190,7 +182,7 @@ current index
 current index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-old_blk_p~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_blk_p~4"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(old_size)</td><td>::</td>
   <td><strong>old_blk_p</strong></td><td><p>current index
@@ -198,7 +190,7 @@ current index
 current index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-old_size~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_size"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>old_size</strong></td><td><p>size of current index</p></td>
@@ -234,7 +226,7 @@ current index</p></td>
   <td><strong>added_size_offset</strong></td><td><p>specify base of added sizes</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-added_sizes~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-added_sizes"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>added_sizes</strong></td><td><p>specify sizes of added blocks</p></td>
@@ -262,17 +254,9 @@ actual number of new elements</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-add_blk">add_blk</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-bp">bp</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-i~63">i</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-merge_from_whom">merge_from_whom</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-new_blk~2">new_blk</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-old_blk~2">old_blk</a>
-      <a class="list-group-item" href="../proc/merge_index_arrays.html#variable-multidata">multidata</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/merge_index_arrays.html#src">merge_index_arrays</a>
   </div>
 </div>
 
@@ -280,59 +264,187 @@ actual number of new elements</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-add_blk"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>add_blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-bp"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>bp</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-i~63"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-merge_from_whom"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>merge_from_whom</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_blk~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>new_blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_blk~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>old_blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-multidata"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>multidata</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">merge_index_arrays</span><span class="p">(</span><span class="n">new_row_i</span><span class="p">,</span><span class="w"> </span><span class="n">new_col_i</span><span class="p">,</span><span class="w"> </span><span class="n">new_blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">new_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="n">old_row_i</span><span class="p">,</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">old_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="n">add_ip</span><span class="p">,</span><span class="w"> </span><span class="n">add_size</span><span class="p">,</span><span class="w"> </span><span class="n">new_blk_d</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk_d</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="n">added_size_offset</span><span class="p">,</span><span class="w"> </span><span class="n">added_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">added_size</span><span class="p">,</span><span class="w"> </span><span class="n">added_nblks</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Merges two indices</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Added sizes</span>
+<span class="w">      </span><span class="c">!! added_size_offset and added_sizes can be optionally</span>
+<span class="w">      </span><span class="c">!! specified. This is meant for cases where the added blocks may</span>
+<span class="w">      </span><span class="c">!! be duplicates of existing blocks. In this way it is possible</span>
+<span class="w">      </span><span class="c">!! to recalculate new block pointers to avoid wasted space.</span>
+<span class="w">      </span><span class="c">!! @note Used in local multiply</span>
+<span class="w">      </span><span class="c">!! Assumes they are both pre-sorted</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">new_size</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of merged index</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">new_size</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">new_blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">new_col_i</span><span class="p">,</span><span class="w"> </span><span class="n">new_row_i</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! merged result</span>
+<span class="w">         </span><span class="c">!! merged result</span>
+<span class="w">         </span><span class="c">!! merged result</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">old_size</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of current index</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">old_size</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">,</span><span class="w"> </span><span class="n">old_row_i</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! current index</span>
+<span class="w">         </span><span class="c">!! current index</span>
+<span class="w">         </span><span class="c">!! current index</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">add_size</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! size of index to add into the current index</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">add_size</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">add_ip</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! index to add into the current index</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">new_size</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">OPTIONAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">new_blk_d</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">old_size</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">old_blk_d</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">added_size_offset</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! specify base of added sizes</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">added_sizes</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! specify sizes of added blocks</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">added_size</span><span class="p">,</span><span class="w"> </span><span class="n">added_nblks</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! counts number of sizes of added blocks</span>
+<span class="w">         </span><span class="c">!! actual number of new elements</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">add_blk</span><span class="p">,</span><span class="w"> </span><span class="n">bp</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">merge_from_whom</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">new_blk</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">multidata</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="n">bp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">multidata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">old_blk_d</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">new_blk_d</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">old_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">add_size</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">new_size</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Mismatch of new and old size&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_size_offset</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NEQV</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_sizes</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Must specify a set of arguments&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_sizes</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NEQV</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_size</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Must specify a set of arguments&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot; Old array&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">old_size</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">old_size</span><span class="w"></span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(I7,2X,I7,2X,I7)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">old_row_i</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot; Add array&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">add_size</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">add_size</span><span class="w"></span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(I7,2X,I7,2X,I7)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">      END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_nblks</span><span class="p">))</span><span class="w"> </span><span class="n">added_nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_size</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">added_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="n">bp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">added_size_offset</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">add_size</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">old_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">add_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">new_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">old_size</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">new_row_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">add_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">add_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_col_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">add_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">add_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">add_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">add_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c">!IF (multidata) new_blk_d(1:add_size) = add_ip(4, 1:add_size)</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_nblks</span><span class="p">))</span><span class="w"> </span><span class="n">added_nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_size</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_size</span><span class="p">))</span><span class="w"> </span><span class="n">added_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SUM</span><span class="p">(</span><span class="n">added_sizes</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">new_blk</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">new_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="n">merge_from_whom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">old_blk</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">old_size</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">add_blk</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">add_size</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">old_row_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                      </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                     IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                        WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;Duplicate block! addblk&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">add_blk</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;oldblk&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk</span><span class="w"></span>
+<span class="w">                     </span><span class="k">END IF</span>
+<span class="k">                  END IF</span><span class="w"></span>
+<span class="w">                  </span><span class="c">! Rows come first</span>
+<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">old_row_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                     </span><span class="n">merge_from_whom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">                  </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">old_row_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                     </span><span class="n">merge_from_whom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                  </span><span class="k">ELSE</span><span class="w"> </span><span class="c">! Same rows, so now come the columns</span>
+<span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">add_ip</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! Merges from the add array</span>
+<span class="w">                        </span><span class="n">merge_from_whom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">                     </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">add_ip</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! Merges from the old array</span>
+<span class="w">                        </span><span class="n">merge_from_whom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                     </span><span class="k">ELSE</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! Merge from old array and skip one in the new array</span>
+<span class="w">                        </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                           WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;Duplicate, keeping old&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                              </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">),</span><span class="w"> </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">END IF</span>
+<span class="k">                        </span><span class="n">merge_from_whom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                        </span><span class="n">add_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                     </span><span class="k">END IF</span>
+<span class="k">                  END IF</span>
+<span class="k">               ELSE</span>
+<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">add_blk</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">add_size</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">                     </span><span class="c">! Merges from the add array</span>
+<span class="w">                     </span><span class="n">merge_from_whom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">                  </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">old_blk</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">old_size</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">                     </span><span class="c">! Merges from the old array</span>
+<span class="w">                     </span><span class="n">merge_from_whom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                  </span><span class="k">ELSE</span><span class="w"></span>
+<span class="w">                     </span><span class="c">! Hmmm, nothing to merge...</span>
+<span class="w">                     </span><span class="n">merge_from_whom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                     </span><span class="c">!WRITE(*,*)&quot;Ran out of data to merge&quot;</span>
+<span class="w">                  </span><span class="k">END IF</span>
+<span class="k">               END IF</span>
+<span class="k">               SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">merge_from_whom</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="c">! Merges from the add array</span>
+<span class="w">                  </span><span class="n">new_row_i</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="n">new_col_i</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_ip</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">add_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="c">!IF (multidata) new_blk_d(new_blk) = add_ip(4, add_blk)</span>
+<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_nblks</span><span class="p">))</span><span class="w"> </span><span class="n">added_nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">added_nblks</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_sizes</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                     </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bp</span><span class="w"></span>
+<span class="w">                     </span><span class="n">bp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">added_sizes</span><span class="p">(</span><span class="n">add_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                     </span><span class="n">added_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">added_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">added_sizes</span><span class="p">(</span><span class="n">add_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">END IF</span>
+<span class="k">                  </span><span class="n">add_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="c">! Merges from the old array</span>
+<span class="w">                  </span><span class="n">new_row_i</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_row_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="n">new_col_i</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">multidata</span><span class="p">)</span><span class="w"> </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_blk_d</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span><span class="w"></span>
+<span class="w">                  </span><span class="n">old_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">               </span><span class="k">CASE </span><span class="n">DEFAULT</span><span class="w"></span>
+<span class="w">                  </span><span class="c">!WRITE(*,*)&quot;Nothing to merge&quot;</span>
+<span class="w">               </span><span class="k">END SELECT</span>
+<span class="k">               </span><span class="n">new_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">END DO</span>
+<span class="k">         END IF</span>
+<span class="k">      ELSE</span>
+<span class="k">         </span><span class="n">new_row_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_row_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">new_col_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">new_blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">multidata</span><span class="p">)</span><span class="w"> </span><span class="n">new_blk_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_blk_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot; New array&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">new_size</span><span class="w"></span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(4(2X,I7))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">new_row_i</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">new_col_i</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">      END IF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">merge_index_arrays</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

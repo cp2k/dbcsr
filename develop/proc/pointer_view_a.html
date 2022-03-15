@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/pointer_view_a.html#src">pointer_view_a</a>
+  </div>
+</div>
 
 </div>
 
@@ -136,7 +141,7 @@
   <td><strong>area</strong></td><td><p>area to point into</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-offset~61"></span>integer,</td>
+  <td><span class="anchor" id="variable-offset~43"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>offset</strong></td><td><p>point to this offset in area</p></td>
@@ -157,7 +162,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/pointer_view_a.html#src">pointer_view_a</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -171,6 +181,57 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">FUNCTION </span><span class="n">pointer_view_a</span><span class="p">(</span><span class="n">new_area</span><span class="p">,</span><span class="w"> </span><span class="n">area</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">narea2</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Repoints a pointer into a part of a data area</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">new_area</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! repoints this encapsulated pointer</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">area</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! area to point into</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">offset</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! point to this offset in area</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="nb">len</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! length of data area to point to</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">narea2</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! copy of new_area</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible data types.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">len</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END SELECT</span>
+<span class="k">      ELSE</span>
+<span class="k">         SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">offset</span><span class="p">:)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">offset</span><span class="p">:)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">offset</span><span class="p">:)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">offset</span><span class="p">:)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END SELECT</span>
+<span class="k">      END IF</span>
+<span class="k">      </span><span class="n">narea2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_area</span><span class="w"></span>
+<span class="w">   </span><span class="k">END FUNCTION </span><span class="n">pointer_view_a</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

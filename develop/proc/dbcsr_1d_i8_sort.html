@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,13 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_1d_i8_sort.html#variable-i~116">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_i8_sort.html#variable-tmp_arr~7">tmp_arr</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_i8_sort.html#variable-tmp_idx~7">tmp_idx</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_1d_i8_sort.html#src">dbcsr_1d_i8_sort</a>
   </div>
 </div>
 
@@ -134,19 +130,19 @@ It also returns the indices, which the elements had before the sort.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-arr~12"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-arr~11"></span>integer(kind=int_8),</td>
 <td>intent(inout),</td>
   <td></td>  <td>dimension(1:n)</td><td>::</td>
   <td><strong>arr</strong></td><td><p>the array to sort</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n~48"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~28"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td><p>length of array</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-indices~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-indices~7"></span>integer,</td>
 <td>intent(out),</td>
   <td></td>  <td>dimension(1:n)</td><td>::</td>
   <td><strong>indices</strong></td><td><p>returns elements-indices before the sort</p></td>
@@ -160,13 +156,9 @@ It also returns the indices, which the elements had before the sort.</p>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_1d_i8_sort.html#variable-i~116">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_i8_sort.html#variable-tmp_arr~7">tmp_arr</a>
-      <a class="list-group-item" href="../proc/dbcsr_1d_i8_sort.html#variable-tmp_idx~7">tmp_idx</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_1d_i8_sort.html#src">dbcsr_1d_i8_sort</a>
   </div>
 </div>
 
@@ -174,39 +166,47 @@ It also returns the indices, which the elements had before the sort.</p>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-i~116"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tmp_arr~7"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>pointer, CONTIGUOUS</td><td>::</td>
-  <td><strong>tmp_arr</strong>(:)</td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tmp_idx~7"></span>integer,</td>
-<td>private,</td>  <td>pointer, CONTIGUOUS</td><td>::</td>
-  <td><strong>tmp_idx</strong>(:)</td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">subroutine </span><span class="n">dbcsr_1d_i8_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">indices</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Sorts an array inplace using a combination of merge- and bubble-sort.</span>
+<span class="w">      </span><span class="c">!! It also returns the indices, which the elements had before the sort.</span>
+
+<span class="w">         </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! length of array</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">arr</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! the array to sort</span>
+<span class="w">         </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">indices</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! returns elements-indices before the sort</span>
+
+<span class="w">         </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">pointer</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">tmp_arr</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">         </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">pointer</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">tmp_idx</span><span class="p">(:)</span><span class="w"></span>
+
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="c">! for some reason this is a frequent case in cp2k</span>
+
+<span class="w">         </span><span class="c">! scratch space used during the merge step</span>
+<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">tmp_arr</span><span class="p">((</span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">tmp_idx</span><span class="p">((</span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">indices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span><span class="o">/</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="k">call </span><span class="n">dbcsr_1d_i8_sort_low</span><span class="p">(</span><span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="n">tmp_arr</span><span class="p">,</span><span class="w"> </span><span class="n">tmp_idx</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">tmp_arr</span><span class="p">,</span><span class="w"> </span><span class="n">tmp_idx</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">end subroutine </span><span class="n">dbcsr_1d_i8_sort</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

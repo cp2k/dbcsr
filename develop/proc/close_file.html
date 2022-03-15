@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,17 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/close_file.html#variable-message~8">message</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-status_string">status_string</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-file_name~6">file_name</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-istat~3">istat</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-exists~3">exists</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-is_open~3">is_open</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-keep_file_connection">keep_file_connection</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/close_file.html#src">close_file</a>
   </div>
 </div>
 
@@ -164,17 +156,9 @@ Optionally, keep the file and unit preconnected.</p>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/close_file.html#variable-message~8">message</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-status_string">status_string</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-file_name~6">file_name</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-istat~3">istat</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-exists~3">exists</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-is_open~3">is_open</a>
-      <a class="list-group-item" href="../proc/close_file.html#variable-keep_file_connection">keep_file_connection</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/close_file.html#src">close_file</a>
   </div>
 </div>
 
@@ -182,59 +166,95 @@ Optionally, keep the file and unit preconnected.</p>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-message~8"></span>character(len=2),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>message</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-status_string"></span>character(len=6),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>status_string</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-file_name~6"></span>character(len=default_path_length),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>file_name</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-istat~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>istat</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-exists~3"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>exists</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-is_open~3"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>is_open</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-keep_file_connection"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>keep_file_connection</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">close_file</span><span class="p">(</span><span class="n">unit_number</span><span class="p">,</span><span class="w"> </span><span class="n">file_status</span><span class="p">,</span><span class="w"> </span><span class="n">keep_preconnection</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Close an open file given by its logical unit number.</span>
+<span class="w">      </span><span class="c">!! Optionally, keep the file and unit preconnected.</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">unit_number</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">file_status</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">keep_preconnection</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">default_path_length</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">message</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">status_string</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_path_length</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">file_name</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">istat</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">exists</span><span class="p">,</span><span class="w"> </span><span class="n">is_open</span><span class="p">,</span><span class="w"> </span><span class="n">keep_file_connection</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">keep_file_connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">keep_preconnection</span><span class="p">))</span><span class="w"> </span><span class="n">keep_file_connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">keep_preconnection</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">INQUIRE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_number</span><span class="p">,</span><span class="w"> </span><span class="n">EXIST</span><span class="o">=</span><span class="n">exists</span><span class="p">,</span><span class="w"> </span><span class="n">OPENED</span><span class="o">=</span><span class="n">is_open</span><span class="p">,</span><span class="w"> </span><span class="n">IOSTAT</span><span class="o">=</span><span class="n">istat</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A,I0,A,I0,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;An error occurred inquiring the unit with the number &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">unit_number</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot; (IOSTAT = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">istat</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;)&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">exists</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A,I0,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;The specified unit number &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">unit_number</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot; cannot be closed, because it does not exist.&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! Close the specified file</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">is_open</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Refuse to close any preconnected system unit</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">unit_number</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">default_input_unit</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A,I0)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="s2">&quot;Attempt to close the default input unit number &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">unit_number</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">unit_number</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">default_output_unit</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A,I0)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="s2">&quot;Attempt to close the default output unit number &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">unit_number</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Define status after closing the file</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">file_status</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">status_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="nb">ADJUSTL</span><span class="p">(</span><span class="n">file_status</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">status_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;KEEP&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Optionally, keep this unit preconnected</span>
+<span class="w">         </span><span class="k">INQUIRE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_number</span><span class="p">,</span><span class="w"> </span><span class="n">NAME</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span><span class="w"> </span><span class="n">IOSTAT</span><span class="o">=</span><span class="n">istat</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A,I0,A,I0,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="s2">&quot;An error occurred inquiring the unit with the number &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">unit_number</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="s2">&quot; (IOSTAT = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">istat</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;)&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">         </span><span class="c">! Manage preconnections</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">keep_file_connection</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">assign_preconnection</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="w"> </span><span class="n">unit_number</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">delete_preconnection</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="w"> </span><span class="n">unit_number</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CLOSE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_number</span><span class="p">,</span><span class="w"> </span><span class="n">IOSTAT</span><span class="o">=</span><span class="n">istat</span><span class="p">,</span><span class="w"> </span><span class="n">STATUS</span><span class="o">=</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">status_string</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A,I0,A,I0,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="s2">&quot;An error occurred closing the file with the logical unit number &quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">unit_number</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; (IOSTAT = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">istat</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;)&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span>
+<span class="k">         END IF</span>
+<span class="k">      END IF</span>
+
+<span class="k">   END SUBROUTINE </span><span class="n">close_file</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

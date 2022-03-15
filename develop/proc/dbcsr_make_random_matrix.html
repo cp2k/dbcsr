@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,37 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-routinen~491">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-my_symmetry">my_symmetry</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-col~82">col</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-error_handle~36">error_handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-max_nze">max_nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-my_data_type">my_data_type</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-my_proc">my_proc</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-ncol~18">ncol</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-nrow~19">nrow</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-numproc">numproc</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-nze~30">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-p~17">p</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-row~130">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-s_col">s_col</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-s_row">s_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-counter">counter</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-ele">ele</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-increment">increment</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-nmax~2">nmax</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-iseed">iseed</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-jseed">jseed</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-tr~70">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-my_sparsity">my_sparsity</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-value~44">value</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-data_values">data_values</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-data_values_tr">data_values_tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-new_dist">new_dist</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#src">dbcsr_make_random_matrix</a>
   </div>
 </div>
 
@@ -157,25 +129,25 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~293"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~205"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_blk_sizes~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_blk_sizes~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_sizes</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_blk_sizes~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_blk_sizes~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_sizes</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-name~15"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~10"></span>character(len=*),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>name</strong></td><td></td>
@@ -187,13 +159,13 @@
   <td><strong>sparsity</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mp_group~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_group~7"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~23"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~18"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td></td>
@@ -205,7 +177,7 @@
   <td><strong>symmetry</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dist~58"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~48"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>dist</strong></td><td></td>
@@ -219,37 +191,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-routinen~491">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-my_symmetry">my_symmetry</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-col~82">col</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-error_handle~36">error_handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-max_nze">max_nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-my_data_type">my_data_type</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-my_proc">my_proc</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-ncol~18">ncol</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-nrow~19">nrow</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-numproc">numproc</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-nze~30">nze</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-p~17">p</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-row~130">row</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-s_col">s_col</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-s_row">s_row</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-counter">counter</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-ele">ele</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-increment">increment</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-nmax~2">nmax</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-iseed">iseed</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-jseed">jseed</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-tr~70">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-my_sparsity">my_sparsity</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-value~44">value</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-data_values">data_values</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-data_values_tr">data_values_tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#variable-new_dist">new_dist</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_make_random_matrix.html#src">dbcsr_make_random_matrix</a>
   </div>
 </div>
 
@@ -257,159 +201,168 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~491"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_make_random_matrix'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-my_symmetry"></span>character,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>my_symmetry</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col~82"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>col</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-error_handle~36"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>error_handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_nze"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>max_nze</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-my_data_type"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>my_data_type</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-my_proc"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>my_proc</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ncol~18"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ncol</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nrow~19"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nrow</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numproc"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>numproc</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze~30"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nze</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p~17"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>p</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row~130"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-s_col"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>s_col</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-s_row"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>s_row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-counter"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>counter</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ele"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ele</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-increment"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>increment</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nmax~2"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nmax</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iseed"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(4)</td><td>::</td>
-  <td><strong>iseed</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-jseed"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(4)</td><td>::</td>
-  <td><strong>jseed</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr~70"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-my_sparsity"></span>real(kind=real_8),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>my_sparsity</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-value~44"></span>real(kind=real_8),</td>
-<td>private,</td>  <td>DIMENSION(1)</td><td>::</td>
-  <td><strong>value</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_values"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>data_values</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_values_tr"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>data_values_tr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_dist"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>new_dist</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_make_random_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">mp_group</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">symmetry</span><span class="p">,</span><span class="w"> </span><span class="n">dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Creates a random matrix.</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_sizes</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">sparsity</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_group</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">symmetry</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_make_random_matrix&#39;</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">my_symmetry</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">max_nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">my_data_type</span><span class="p">,</span><span class="w"> </span><span class="n">my_proc</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                            </span><span class="n">numproc</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">s_col</span><span class="p">,</span><span class="w"> </span><span class="n">s_row</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">counter</span><span class="p">,</span><span class="w"> </span><span class="n">ele</span><span class="p">,</span><span class="w"> </span><span class="n">increment</span><span class="p">,</span><span class="w"> </span><span class="n">nmax</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">iseed</span><span class="p">,</span><span class="w"> </span><span class="n">jseed</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">my_sparsity</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
+<span class="k">      TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">data_values</span><span class="p">,</span><span class="w"> </span><span class="n">data_values_tr</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">new_dist</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Check that the counter was initialised (or has not overflowed)</span>
+<span class="w">      </span><span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">randmat_counter</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">! the counter goes into the seed. Every new call gives a new random matrix</span>
+<span class="w">      </span><span class="n">randmat_counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randmat_counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Create the matrix</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">new_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_distribution_hold</span><span class="p">(</span><span class="n">new_dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">dbcsr_make_null_dist</span><span class="p">(</span><span class="n">new_dist</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">row_blk_sizes</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">SIZE</span><span class="p">(</span><span class="n">col_blk_sizes</span><span class="p">),</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">mp_group</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      </span><span class="n">my_data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_real_default</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_type</span><span class="p">))</span><span class="w"> </span><span class="n">my_data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_type</span><span class="w"></span>
+<span class="w">      </span><span class="n">my_symmetry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_no_symmetry</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">symmetry</span><span class="p">))</span><span class="w"> </span><span class="n">my_symmetry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">symmetry</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">new_dist</span><span class="p">,</span><span class="w"> </span><span class="n">my_symmetry</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">col_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">data_type</span><span class="o">=</span><span class="n">my_data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">numproc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">new_dist</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="n">my_proc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_mynode</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">new_dist</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">sparsity</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">my_sparsity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sparsity</span><span class="o">/</span><span class="mi">10</span><span class="mf">0.0</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">my_sparsity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sparsity</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">nblks_guess</span><span class="o">=</span><span class="nb">INT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="o">*</span><span class="p">(</span><span class="mf">1.0_dp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sparsity</span><span class="p">)</span><span class="o">*</span><span class="mf">1.1_dp</span><span class="o">/</span><span class="n">numproc</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">sizedata_guess</span><span class="o">=</span><span class="nb">INT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="o">*</span><span class="p">(</span><span class="mf">1.0_dp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sparsity</span><span class="p">)</span><span class="o">*</span><span class="mf">1.1_dp</span><span class="o">/</span><span class="n">numproc</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">work_mutable</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">max_nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_max_row_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="o">*</span><span class="n">dbcsr_max_col_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">data_values</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">data_values</span><span class="p">,</span><span class="w"> </span><span class="n">my_data_type</span><span class="p">,</span><span class="w"> </span><span class="n">data_size</span><span class="o">=</span><span class="n">max_nze</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">,</span><span class="w"> </span><span class="n">my_data_type</span><span class="p">,</span><span class="w"> </span><span class="n">data_size</span><span class="o">=</span><span class="n">max_nze</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">nmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">nrow</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="nb">INT</span><span class="p">(</span><span class="n">ncol</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">ele</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">set_larnv_seed</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="n">randmat_counter</span><span class="p">,</span><span class="w"> </span><span class="n">jseed</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">DO</span><span class="w"></span>
+<span class="w">         </span><span class="c">! find the next block to add, this is given by a geometrically distributed variable</span>
+<span class="w">         </span><span class="c">! we number the blocks of the matrix and jump to the next one</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dlarnv</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">jseed</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">my_sparsity</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">increment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">FLOOR</span><span class="p">(</span><span class="nb">LOG</span><span class="p">(</span><span class="k">value</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="nb">LOG</span><span class="p">(</span><span class="n">my_sparsity</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">increment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         </span><span class="n">ele</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ele</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">increment</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ele</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">nmax</span><span class="p">)</span><span class="w"> </span><span class="k">EXIT</span>
+<span class="k">         </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">ele</span><span class="o">/</span><span class="n">ncol</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">ele</span><span class="p">,</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">ncol</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="nb">KIND</span><span class="p">(</span><span class="n">ele</span><span class="p">))))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! build the upper matrix if some symmetry, and only deal with the local blocks.</span>
+<span class="w">         </span><span class="n">s_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="p">;</span><span class="w"> </span><span class="n">s_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">s_row</span><span class="p">,</span><span class="w"> </span><span class="n">s_col</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">my_symmetry</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_no_symmetry</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">s_col</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">s_row</span><span class="p">)</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">my_proc</span><span class="p">)</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">         ELSE</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">my_symmetry</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_no_symmetry</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">s_col</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">s_row</span><span class="p">)</span><span class="w"> </span><span class="k">CYCLE</span>
+<span class="k">         END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">my_proc</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CYCLE</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! fill based on a block based seed, makes this the same values in parallel</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">set_larnv_seed</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="p">,</span><span class="w"> </span><span class="n">randmat_counter</span><span class="p">,</span><span class="w"> </span><span class="n">iseed</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">s_row</span><span class="p">)</span><span class="o">*</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">s_col</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_lapack_larnv</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">iseed</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">data_values</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">s_row</span><span class="p">,</span><span class="w"> </span><span class="n">s_col</span><span class="p">,</span><span class="w"> </span><span class="n">data_values</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">my_symmetry</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_no_symmetry</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">s_col</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">s_row</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">my_symmetry</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_symmetric</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">,</span><span class="w"> </span><span class="n">data_values</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                          </span><span class="n">row_size</span><span class="o">=</span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">s_row</span><span class="p">),</span><span class="w"> </span><span class="n">col_size</span><span class="o">=</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">s_col</span><span class="p">),</span><span class="w"> </span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">source_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_antisymmetric</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">,</span><span class="w"> </span><span class="n">data_values</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                          </span><span class="n">row_size</span><span class="o">=</span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">s_row</span><span class="p">),</span><span class="w"> </span><span class="n">col_size</span><span class="o">=</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">s_col</span><span class="p">),</span><span class="w"> </span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">source_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                          </span><span class="nb">scale</span><span class="o">=</span><span class="n">dbcsr_scalar_negative</span><span class="p">(</span><span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">my_data_type</span><span class="p">)))</span><span class="w"></span>
+<span class="w">            </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_hermitian</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">,</span><span class="w"> </span><span class="n">data_values</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                          </span><span class="n">row_size</span><span class="o">=</span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">s_row</span><span class="p">),</span><span class="w"> </span><span class="n">col_size</span><span class="o">=</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">s_col</span><span class="p">),</span><span class="w"> </span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">source_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_block_conjg</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="o">=</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">s_col</span><span class="p">),</span><span class="w"> </span><span class="n">col_size</span><span class="o">=</span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">s_row</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_antihermitian</span><span class="p">)</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">,</span><span class="w"> </span><span class="n">data_values</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                          </span><span class="n">row_size</span><span class="o">=</span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">s_row</span><span class="p">),</span><span class="w"> </span><span class="n">col_size</span><span class="o">=</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">s_col</span><span class="p">),</span><span class="w"> </span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">source_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                          </span><span class="nb">scale</span><span class="o">=</span><span class="n">dbcsr_scalar_negative</span><span class="p">(</span><span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">my_data_type</span><span class="p">)))</span><span class="w"></span>
+<span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_block_conjg</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="o">=</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">s_col</span><span class="p">),</span><span class="w"> </span><span class="n">col_size</span><span class="o">=</span><span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">s_row</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">CASE </span><span class="n">DEFAULT</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;wrong matrix symmetry&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">END SELECT</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">s_row</span><span class="p">,</span><span class="w"> </span><span class="n">s_col</span><span class="p">,</span><span class="w"> </span><span class="n">data_values_tr</span><span class="p">,</span><span class="w"> </span><span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END DO</span>
+
+<span class="k">      CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_values</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">new_dist</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_verify_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_random_matrix</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

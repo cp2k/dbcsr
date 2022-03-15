@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/smm_process_mm_stack_d.html#src">smm_process_mm_stack_d</a>
+  </div>
+</div>
 
 </div>
 
@@ -124,7 +129,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-stack_descr~5"></span>type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),</td>
+  <td><span class="anchor" id="variable-stack_descr~4"></span>type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>stack_descr</strong></td><td></td>
@@ -136,33 +141,33 @@
   <td><strong>params</strong></td><td><p>Stack of MM parameters</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-stack_size~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-stack_size~8"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>stack_size</strong></td><td><p>Number of parameters</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-a_data~14"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-a_data~4"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
 Right-matrix data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-b_data~9"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-b_data~4"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
 Right-matrix data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-c_data~9"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-c_data~8"></span>real(kind=real_8),</td>
 <td>intent(inout),</td>
   <td></td>  <td>DIMENSION(*)</td><td>::</td>
   <td><strong>c_data</strong></td><td><p>Product data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-used_smm~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-used_smm~2"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>used_smm</strong></td><td></td>
@@ -175,7 +180,12 @@ Right-matrix data</p></td>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/smm_process_mm_stack_d.html#src">smm_process_mm_stack_d</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -189,6 +199,66 @@ Right-matrix data</p></td>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">smm_process_mm_stack_d</span><span class="w"> </span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                     </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                     </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="n">b_data</span><span class="p">,</span><span class="w"> </span><span class="n">c_data</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="c">!! Processes MM stack and issues SMM library calls</span>
+
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">stack_size</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! Number of parameters</span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">stack_descriptor_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">stack_descr</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_ps_width</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">stack_size</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">params</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! Stack of MM parameters</span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">b_data</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! Left-matrix data</span>
+<span class="w">        </span><span class="c">!! Right-matrix data</span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">c_data</span><span class="w"></span>
+<span class="w">        </span><span class="c">!! Product data</span>
+<span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">used_smm</span><span class="w"></span>
+
+<span class="cp">#if defined(__HAS_smm_dnn)</span>
+
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">sp</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! TODO we have no way of knowing which calls to libsmm actually resolve to BLAS</span>
+<span class="w">         </span><span class="c">! Fixing this requires an interface change to libsmm.</span>
+<span class="w">         </span><span class="n">used_smm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
+
+<span class="cp">#if defined(__HAS_smm_vec)</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">defined_mnk</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">smm_vec_dnn</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">stack_descr</span><span class="p">%</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stack_descr</span><span class="p">%</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="n">b_data</span><span class="p">,</span><span class="w"> </span><span class="n">c_data</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">dbcsr_ps_width</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">p_a_first</span><span class="p">,</span><span class="w"> </span><span class="n">p_b_first</span><span class="p">,</span><span class="w"> </span><span class="n">p_c_first</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">RETURN</span>
+<span class="k">         END IF</span><span class="w"></span>
+<span class="cp">#endif</span>
+
+<span class="w">         </span><span class="k">DO </span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="w"></span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">smm_dnn</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">params</span><span class="p">(</span><span class="n">p_m</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">params</span><span class="p">(</span><span class="n">p_n</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">params</span><span class="p">(</span><span class="n">p_k</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">a_data</span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_a_first</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">b_data</span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_b_first</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">c_data</span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_c_first</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">)))</span><span class="w"></span>
+<span class="w">         </span><span class="k">END DO</span><span class="w"></span>
+
+<span class="cp">#else</span>
+<span class="w">         </span><span class="c">! We do not want to abort here, fall back to BLAS.</span>
+<span class="w">         </span><span class="n">used_smm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">blas_process_mm_stack_d</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="n">b_data</span><span class="p">,</span><span class="w"> </span><span class="n">c_data</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#endif</span>
+
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">smm_process_mm_stack_d</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,16 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-lb2_s~2">lb2_s</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-lb_s~3">lb_s</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub~15">ub</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub2">ub2</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub2_s">ub2_s</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub_s~3">ub_s</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#src">dbcsr_data_copy_aa</a>
   </div>
 </div>
 
@@ -143,14 +136,14 @@ There are no checks done for correctness!</p>
   <td><strong>dst</strong></td><td><p>destination data area</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-lb~20"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb~15"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for destination (and source if not given explicitly)
 number of elements to copy</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_size~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size~5"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>data_size</strong></td><td><p>lower bound for destination (and source if not given explicitly)
@@ -207,16 +200,9 @@ number of elements to copy</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-lb2_s~2">lb2_s</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-lb_s~3">lb_s</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub~15">ub</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub2">ub2</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub2_s">ub2_s</a>
-      <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#variable-ub_s~3">ub_s</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_data_copy_aa.html#src">dbcsr_data_copy_aa</a>
   </div>
 </div>
 
@@ -224,54 +210,202 @@ number of elements to copy</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-lb2_s~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>lb2_s</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lb_s~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>lb_s</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ub~15"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ub</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ub2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ub2</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ub2_s"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ub2_s</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ub_s~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ub_s</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_data_copy_aa</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">data_size</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">source_lb</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="n">lb2</span><span class="p">,</span><span class="w"> </span><span class="n">data_size2</span><span class="p">,</span><span class="w"> </span><span class="n">source_lb2</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Copy data from one data area to another.</span>
+<span class="w">      </span><span class="c">!! There are no checks done for correctness!</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">dst</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! destination data area</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">data_size</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! lower bound for destination (and source if not given explicitly)</span>
+<span class="w">         </span><span class="c">!! number of elements to copy</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">src</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! source data area</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">source_lb</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! lower bound of source</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! scale by this factor</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">lb2</span><span class="p">,</span><span class="w"> </span><span class="n">data_size2</span><span class="p">,</span><span class="w"> </span><span class="n">source_lb2</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! 2nd dimension lower bound</span>
+<span class="w">         </span><span class="c">!! 2nd dimension data size</span>
+<span class="w">         </span><span class="c">!! 2nd dimension lower bound for source</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">lb2_s</span><span class="p">,</span><span class="w"> </span><span class="n">lb_s</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">ub2</span><span class="p">,</span><span class="w"> </span><span class="n">ub2_s</span><span class="p">,</span><span class="w"> </span><span class="n">ub_s</span><span class="w"></span>
+<span class="c">!     ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="n">lb2_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="n">ub2_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Data areas must be setup.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Data type must be the same.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">scale</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_2d_to_1d</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incomptable data types&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">scale</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incomptable data types&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END IF</span>
+<span class="k">      </span><span class="n">ub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">data_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source_lb</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">lb_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_lb</span><span class="w"></span>
+<span class="w">         </span><span class="n">ub_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">data_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">lb_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb</span><span class="w"></span>
+<span class="w">         </span><span class="n">ub_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ub</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Must specify lb2 for 2-D data area&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size2</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Must specify data_size2 for 2-D data area&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Should not specify lb2 for 1-D data&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         </span><span class="n">ub2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">data_size2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source_lb2</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">lb2_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_lb2</span><span class="w"></span>
+<span class="w">            </span><span class="n">ub2_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_lb2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">data_size2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">lb2_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb2</span><span class="w"></span>
+<span class="w">            </span><span class="n">ub2_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ub2</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END IF</span>
+<span class="k">      SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;associated(dst%d%r_sp)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;associated(src%d%r_sp)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lb</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lb dst%d%r_sp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ub</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;ub dst%d%r_sp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lb_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lb src%d%r_sp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ub_s</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;ub src%d%r_sp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">scale</span><span class="p">%</span><span class="n">r_sp</span><span class="o">*</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;associated(dst%d%r_dp)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;associated(src%d%r_dp)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lb</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lb dst%d%r_dp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ub</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;ub dst%d%r_dp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lb_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lb src%d%r_dp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ub_s</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;ub src%d%r_dp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">scale</span><span class="p">%</span><span class="n">r_dp</span><span class="o">*</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;associated(dst%d%c_sp)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;associated(src%d%c_sp)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lb</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lb dst%d%c_sp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ub</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;ub dst%d%c_sp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lb_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lb src%d%c_sp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ub_s</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;ub src%d%c_sp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">scale</span><span class="p">%</span><span class="n">c_sp</span><span class="o">*</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;associated(dst%d%c_dp)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;associated(src%d%c_dp)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lb</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lb dst%d%c_dp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ub</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;ub dst%d%c_dp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">lb_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lb src%d%c_dp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ub_s</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;ub src%d%c_dp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">scale</span><span class="p">%</span><span class="n">c_dp</span><span class="o">*</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4_2d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="p">:</span><span class="n">ub2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="nb">scale</span><span class="p">%</span><span class="n">r_sp</span><span class="o">*</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_s</span><span class="p">:</span><span class="n">ub2_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="p">:</span><span class="n">ub2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_s</span><span class="p">:</span><span class="n">ub2_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8_2d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="p">:</span><span class="n">ub2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="nb">scale</span><span class="p">%</span><span class="n">r_dp</span><span class="o">*</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_s</span><span class="p">:</span><span class="n">ub2_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="p">:</span><span class="n">ub2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_s</span><span class="p">:</span><span class="n">ub2_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="p">:</span><span class="n">ub2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="nb">scale</span><span class="p">%</span><span class="n">c_sp</span><span class="o">*</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_s</span><span class="p">:</span><span class="n">ub2_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="p">:</span><span class="n">ub2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_s</span><span class="p">:</span><span class="n">ub2_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8_2d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="p">:</span><span class="n">ub2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">               </span><span class="nb">scale</span><span class="p">%</span><span class="n">c_dp</span><span class="o">*</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_s</span><span class="p">:</span><span class="n">ub2_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="p">:</span><span class="n">ub2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_s</span><span class="p">:</span><span class="n">ub2_s</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SELECT</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_data_copy_aa</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

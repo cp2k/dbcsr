@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,15 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-t_a_f">t_a_f</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-t_a_l">t_a_l</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-t_b_f">t_b_f</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-t_b_l">t_b_l</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-k_locals~2">k_locals</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#src">dbcsr_mm_multrec_multiply</a>
   </div>
 </div>
 
@@ -145,21 +139,21 @@ This routine sets up the multiplication.  Specifically, it <ul></p>
   <td><strong>this</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-left~23"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-left~11"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>left</strong></td><td><p>left DBCSR matrix
 right DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-right~24"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-right~11"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>right</strong></td><td><p>left DBCSR matrix
 right DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~27"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~26"></span>integer(kind=int_8),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td><p>number of effective double-precision floating point operations performed</p></td>
@@ -179,7 +173,7 @@ norms of right-matrix blocks</p></td>
 norms of right-matrix blocks</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-k_sizes~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-k_sizes~4"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>k_sizes</strong></td><td></td>
@@ -193,15 +187,9 @@ norms of right-matrix blocks</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-t_a_f">t_a_f</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-t_a_l">t_a_l</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-t_b_f">t_b_f</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-t_b_l">t_b_l</a>
-      <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#variable-k_locals~2">k_locals</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_mm_multrec_multiply.html#src">dbcsr_mm_multrec_multiply</a>
   </div>
 </div>
 
@@ -209,49 +197,82 @@ norms of right-matrix blocks</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-t_a_f"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t_a_f</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-t_a_l"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t_a_l</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-t_b_f"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t_b_f</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-t_b_l"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t_b_l</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-k_locals~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>k_locals</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_multrec_multiply</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">b_norms</span><span class="p">,</span><span class="w"> </span><span class="n">k_sizes</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Multiplies two DBCSR matrices using recursive algorithm</span>
+<span class="w">      </span><span class="c">!! This routine sets up the multiplication.  Specifically, it &lt;ul&gt;</span>
+<span class="w">      </span><span class="c">!! &lt;li&gt; verifies input sanity</span>
+<span class="w">      </span><span class="c">!! &lt;li&gt; converts everything into &quot;local indexing&quot;</span>
+<span class="w">      </span><span class="c">!! &lt;/ul&gt;</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_multrec_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! left DBCSR matrix</span>
+<span class="w">         </span><span class="c">!! right DBCSR matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! number of effective double-precision floating point operations performed</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">TARGET</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">b_norms</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! norms of left-matrix blocks</span>
+<span class="w">         </span><span class="c">!! norms of right-matrix blocks</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">k_sizes</span><span class="w"></span>
+
+<span class="c">!$    INTEGER                                            :: ithread</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">t_a_f</span><span class="p">,</span><span class="w"> </span><span class="n">t_a_l</span><span class="p">,</span><span class="w"> </span><span class="n">t_b_f</span><span class="p">,</span><span class="w"> </span><span class="n">t_b_l</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">k_locals</span><span class="w"></span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">initialized</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;multrec not initialized.&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">flop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! Find out the local A columns / B rows and sizes</span>
+<span class="w">      </span><span class="c">! The right%local_rows is setup by the communication engine.</span>
+<span class="w">      </span><span class="n">k_locals</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">right</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">k_locals</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">k_locals</span><span class="w"></span>
+<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">k_sizes</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">k_sizes</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Setup the block norms</span>
+<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">a_norms</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">a_norms</span><span class="w"></span>
+<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">b_norms</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">b_norms</span><span class="w"></span>
+
+<span class="w">      </span><span class="c">! Start local multiplication</span>
+<span class="w">      </span><span class="n">t_a_f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">t_a_l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="p">%</span><span class="n">nblks</span><span class="w"></span>
+<span class="w">      </span><span class="n">t_b_f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">t_b_l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">nblks</span><span class="w"></span>
+<span class="c">!$    IF (ASSOCIATED(left%thr_c)) THEN</span>
+<span class="c">!$       ithread = OMP_GET_THREAD_NUM()</span>
+<span class="c">!$       t_a_f = left%thr_c(ithread + 1) + 1</span>
+<span class="c">!$       t_a_l = left%thr_c(ithread + 2)</span>
+<span class="c">!$    END IF</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">sparse_multrec</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">%</span><span class="n">nblkrows_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">nblkcols_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">k_locals</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="n">t_a_f</span><span class="p">,</span><span class="w"> </span><span class="n">t_a_l</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="n">t_b_f</span><span class="p">,</span><span class="w"> </span><span class="n">t_b_l</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">%</span><span class="n">coo_l</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                          </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_mm_csr_purge_stacks</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">csr</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">flop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">flop</span><span class="w"></span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_multrec_multiply</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

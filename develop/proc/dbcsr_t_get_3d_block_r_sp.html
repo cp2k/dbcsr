@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,18 +107,7 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-ind_2d~33">ind_2d</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-block_2d_ptr~17">block_2d_ptr</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-tr~151">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-i~200">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-block_ptr~5">block_ptr</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
 </div>
 
@@ -135,31 +124,31 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-tensor~124"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor~47"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tensor</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ind~55"></span>integer,</td>
+  <td><span class="anchor" id="variable-ind~39"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-sizes~46"></span>integer,</td>
+  <td><span class="anchor" id="variable-sizes~44"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block~200"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-block~157"></span>real(kind=real_4),</td>
 <td>intent(out),</td>
   <td></td>  <td>DIMENSION(sizes(1), sizes(2), sizes(3))</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to get</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-found~138"></span>logical,</td>
+  <td><span class="anchor" id="variable-found~62"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>found</strong></td><td><p>whether block was found</p></td>
@@ -172,58 +161,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-ind_2d~33">ind_2d</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-block_2d_ptr~17">block_2d_ptr</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-tr~151">tr</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-i~200">i</a>
-      <a class="list-group-item" href="../proc/dbcsr_t_get_3d_block_r_sp.html#variable-block_ptr~5">block_ptr</a>
-    </div>
-  </div>
-</div>
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-ind_2d~33"></span>integer(kind=int_8),</td>
-<td>private,</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>ind_2d</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-block_2d_ptr~17"></span>real(kind=real_4),</td>
-<td>private,</td>  <td>DIMENSION(:, :), POINTER, CONTIGUOUS</td><td>::</td>
-  <td><strong>block_2d_ptr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr~151"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-i~200"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-block_ptr~5"></span>real(kind=real_4),</td>
-<td>private,</td>  <td>DIMENSION(:,:,:), POINTER</td><td>::</td>
-  <td><strong>block_ptr</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
     
     
 

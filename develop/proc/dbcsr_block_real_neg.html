@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -108,16 +108,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-routinen~44">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-data_size~8">data_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-handle~10">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-lb2_t~3">lb2_t</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-lb_t~4">lb_t</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-ub_t~4">ub_t</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#src">dbcsr_block_real_neg</a>
   </div>
 </div>
 
@@ -146,21 +139,21 @@ There are no checks done for correctness!</p>
   <td><strong>dst</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_size~56"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size~47"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>row size of existing block
 column size of existing block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_size~53"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size~45"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>row size of existing block
 column size of existing block</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-lb~18"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb~13"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for destination (and source if not given explicitly)
@@ -182,16 +175,9 @@ lower bound of 2nd dimension for target</p></td>
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-routinen~44">routineN</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-data_size~8">data_size</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-handle~10">handle</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-lb2_t~3">lb2_t</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-lb_t~4">lb_t</a>
-      <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#variable-ub_t~4">ub_t</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_block_real_neg.html#src">dbcsr_block_real_neg</a>
   </div>
 </div>
 
@@ -199,54 +185,100 @@ lower bound of 2nd dimension for target</p></td>
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-routinen~44"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>routineN</strong></td><td> =</td><td>'dbcsr_block_real_neg'</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_size~8"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>data_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-handle~10"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>handle</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lb2_t~3"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>lb2_t</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lb_t~4"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>lb_t</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ub_t~4"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ub_t</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_block_real_neg</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Negates the real part of a block</span>
+<span class="w">      </span><span class="c">!! There are no checks done for correctness!</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! History</span>
+<span class="w">      </span><span class="c">!! - 2010-09 [??] Copied from block_transpose?</span>
+<span class="w">      </span><span class="c">!! - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">dst</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! row size of existing block</span>
+<span class="w">         </span><span class="c">!! column size of existing block</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">lb2</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! lower bound for destination (and source if not given explicitly)</span>
+<span class="w">         </span><span class="c">!! lower bound of 2nd dimension for target</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_block_real_neg&#39;</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">data_size</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">,</span><span class="w"> </span><span class="n">lb_t</span><span class="p">,</span><span class="w"> </span><span class="n">ub_t</span><span class="w"></span>
+<span class="c">!     ---------------------------------------------------------------------------</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Data area must be setup.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">             </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_4</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">             </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_complex_8</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">             </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_complex_4</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">             </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8_2d</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">             </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_4_2d</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">             </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_complex_8_2d</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">             </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Incorrect data type.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+
+<span class="k">      </span><span class="n">data_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span><span class="w"></span>
+<span class="w">      </span><span class="n">lb_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span><span class="w"> </span><span class="n">lb_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb</span><span class="w"></span>
+<span class="w">      </span><span class="n">ub_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">data_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="n">lb2_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span><span class="w"> </span><span class="n">lb2_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb2</span><span class="w"></span>
+<span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">CMPLX</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="o">-</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="nb">AIMAG</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">CMPLX</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="o">-</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="nb">AIMAG</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">ub_t</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8_2d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="o">-</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4_2d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="o">-</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8_2d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="nb">CMPLX</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="o">-</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="nb">AIMAG</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="nb">CMPLX</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="o">-</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="nb">AIMAG</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="n">lb_t</span><span class="p">:</span><span class="n">lb_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lb2_t</span><span class="p">:</span><span class="n">lb2_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CASE </span><span class="n">default</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect data type.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END SELECT</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_block_real_neg</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

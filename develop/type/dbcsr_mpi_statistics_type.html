@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -120,6 +120,12 @@
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#src">dbcsr_mpi_statistics_type</a>
+  </div>
+</div>
 
 </div>
 
@@ -144,6 +150,12 @@
       <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#variable-data_size">data_size</a>
       <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#variable-data_size_breakdown">data_size_breakdown</a>
     </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#src">dbcsr_mpi_statistics_type</a>
   </div>
 </div>
 
@@ -194,6 +206,23 @@
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_mpi_statistics_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! DBCSR MPI statistics</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                                             </span><span class="kd">::</span><span class="w"> </span><span class="n">last_mpi_ranks_used</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                                             </span><span class="kd">::</span><span class="w"> </span><span class="n">nimages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                                             </span><span class="kd">::</span><span class="w"> </span><span class="n">nexchanged</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                                             </span><span class="kd">::</span><span class="w"> </span><span class="n">nfiltered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="c">! rank 1: 1=right, 2=left</span>
+<span class="w">      </span><span class="c">! rank 2: 1=total, 2=min, 3=max</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">                                               </span><span class="kd">::</span><span class="w"> </span><span class="n">data_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="w"></span>
+<span class="w">      </span><span class="c">! message size breakdown</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">dbcsr_mpi_size_limits</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_size_breakdown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_mpi_statistics_type</span><span class="w"></span>
+</pre></div>
+
+    </section>
     
     </div>
   </div>

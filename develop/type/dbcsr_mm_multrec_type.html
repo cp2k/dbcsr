@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -137,6 +137,12 @@
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#src">dbcsr_mm_multrec_type</a>
+  </div>
+</div>
 
 </div>
 
@@ -179,6 +185,12 @@ its own private copy.</p>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-new_row_max_epss">new_row_max_epss</a>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-initialized">initialized</a>
     </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#src">dbcsr_mm_multrec_type</a>
   </div>
 </div>
 
@@ -352,6 +364,47 @@ Norms of B matrix blocks.</p></td>
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_mm_multrec_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Used to carry data among the various calls.  Each thread has</span>
+<span class="w">      </span><span class="c">!! its own private copy.</span>
+
+<span class="w">      </span><span class="k">PRIVATE</span>
+<span class="k">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c_has_symmetry</span><span class="p">,</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">use_eps</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! The product matrix has symmetry</span>
+<span class="w">         </span><span class="c">!! Sparsity of C matrix should be kept</span>
+<span class="w">         </span><span class="c">!! Use on-the-fly filtering</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">k_sizes</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Block sizes of A and C matrix rows, indexed locally</span>
+<span class="w">         </span><span class="c">!! Block sizes of B and C matrix columns, indexed locally</span>
+<span class="w">         </span><span class="c">!! Block sizes of A matrix columns and B matrix rows, indexed locally</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m_global_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_global_sizes</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c_local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">c_local_cols</span><span class="p">,</span><span class="w"> </span><span class="n">k_locals</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">c_global_rows</span><span class="p">,</span><span class="w"> </span><span class="n">c_global_cols</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! C and A matrix local rows.  Map from local row (index) to global row (value).</span>
+<span class="w">         </span><span class="c">!! C and B matrix local columns.  Map from local column (index) to global column (value).</span>
+<span class="w">         </span><span class="c">!! A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).</span>
+<span class="w">         </span><span class="c">!! C and A matrix global rows.  Map from global rows (index) to local rows (value).</span>
+<span class="w">         </span><span class="c">!! C and B matrix global columns.  Map from global columns (index) to local columns (value).</span>
+
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">row_max_epss</span><span class="p">,</span><span class="w"> </span><span class="n">a_norms</span><span class="p">,</span><span class="w"> </span><span class="n">b_norms</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Maximum eps to be used for one row.</span>
+<span class="w">         </span><span class="c">!! Norms of A matrix blocks.</span>
+<span class="w">         </span><span class="c">!! Norms of B matrix blocks.</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">eps</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">original_lastblk</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! Number of work matrix blocks before addition</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! flop count</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">product_wm</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_csr_type</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">csr</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">new_row_max_epss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_mm_multrec_type</span><span class="w"></span>
+</pre></div>
+
+    </section>
     
     </div>
   </div>

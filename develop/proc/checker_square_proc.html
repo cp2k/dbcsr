@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/checker_square_proc.html#src">checker_square_proc</a>
+  </div>
+</div>
 
 </div>
 
@@ -129,7 +134,7 @@ to the stored position.
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-row~53"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~52"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>logical row
@@ -143,20 +148,20 @@ logical column</p></td>
 logical column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-pgrid~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-pgrid~8"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(0:, 0:)</td><td>::</td>
   <td><strong>pgrid</strong></td><td><p>process grid</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row_dist~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_dist~7"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_dist</strong></td><td><p>row distribution
 column distribution</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col_dist~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_dist~7"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_dist</strong></td><td><p>row distribution
@@ -172,7 +177,12 @@ column distribution</p></td>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/checker_square_proc.html#src">checker_square_proc</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -186,6 +196,38 @@ column distribution</p></td>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">checker_square_proc</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">process</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Determines the home process for a given logical matrix element.</span>
+<span class="w">      </span><span class="c">!! @note This routine is a more low-level version of</span>
+<span class="w">      </span><span class="c">!! dbcsr_get_stored_coordinate without the setting the row and column</span>
+<span class="w">      </span><span class="c">!! to the stored position.</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
+<span class="w">      </span><span class="c">!! @note It assumes a square matrix.</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! logical row</span>
+<span class="w">         </span><span class="c">!! logical column</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:,</span><span class="w"> </span><span class="mi">0</span><span class="p">:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">pgrid</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! process grid</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! row distribution</span>
+<span class="w">         </span><span class="c">!! column distribution</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">process</span><span class="w"></span>
+<span class="w">         </span><span class="c">!! home process of the given element</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">checker_tr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pgrid</span><span class="p">(</span><span class="n">row_dist</span><span class="p">(</span><span class="n">row</span><span class="p">),</span><span class="w"> </span><span class="n">col_dist</span><span class="p">(</span><span class="n">col</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pgrid</span><span class="p">(</span><span class="n">row_dist</span><span class="p">(</span><span class="n">col</span><span class="p">),</span><span class="w"> </span><span class="n">col_dist</span><span class="p">(</span><span class="n">row</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">   END FUNCTION </span><span class="n">checker_square_proc</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

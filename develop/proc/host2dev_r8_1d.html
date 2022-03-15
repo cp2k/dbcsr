@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/host2dev_r8_1d.html#src">host2dev_r8_1D</a>
+  </div>
+</div>
 
 </div>
 
@@ -149,7 +154,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/host2dev_r8_1d.html#src">host2dev_r8_1D</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -163,6 +173,28 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">host2dev_r8_1D</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! Transfers 1D fortran-array from host to GPU devmem.</span>
+
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">hostmem</span><span class="w"></span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">stream</span><span class="w"></span>
+
+<span class="cp">#if ! defined (__DBCSR_ACC)</span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">hostmem</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#else</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">host2dev_raw</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">hostmem</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span><span class="w"> </span><span class="n">real_8_size</span><span class="o">*</span><span class="n">SIZE</span><span class="p">(</span><span class="n">hostmem</span><span class="p">),</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">host2dev_r8_1D</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

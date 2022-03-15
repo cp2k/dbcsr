@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-100-g226462a358</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-101-g112933af63</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -122,6 +122,12 @@
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#src">dbcsr_iteration_info_type</a>
+  </div>
+</div>
 
 </div>
 
@@ -149,6 +155,12 @@ to be able to decide if output is necessary</p>
       <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-project_name">project_name</a>
       <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-level_name">level_name</a>
     </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#src">dbcsr_iteration_info_type</a>
   </div>
 </div>
 
@@ -209,6 +221,23 @@ to be able to decide if output is necessary</p>
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_iteration_info_type</span><span class="w"></span>
+<span class="w">      </span><span class="c">!! contains the information about the current state of the program</span>
+<span class="w">      </span><span class="c">!! to be able to decide if output is necessary</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">ref_count</span><span class="p">,</span><span class="w"> </span><span class="n">id_nr</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">print_level</span><span class="p">,</span><span class="w"> </span><span class="n">n_rlevel</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">iteration</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">last_iter</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">project_name</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">         </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">level_name</span><span class="w"></span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_iteration_info_type</span><span class="w"></span>
+</pre></div>
+
+    </section>
     
     </div>
   </div>
