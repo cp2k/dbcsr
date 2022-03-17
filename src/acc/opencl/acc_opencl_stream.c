@@ -107,7 +107,8 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   else {
     int least = -1, greatest = -1;
     if (0 != (1 & c_dbcsr_acc_opencl_config.priority) && EXIT_SUCCESS == c_dbcsr_acc_stream_priority_range(&least, &greatest) &&
-        least != greatest) {
+        least != greatest)
+    {
       properties[3] = (0 != (2 & c_dbcsr_acc_opencl_config.priority) &&
                         (NULL != libxsmm_stristr(name, "calc") || (NULL != strstr(name, "priority"))))
                         ? CL_QUEUE_PRIORITY_HIGH_KHR
@@ -334,8 +335,8 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
     ACC_OPENCL_CHECK(clGetPlatformInfo(platform, CL_PLATFORM_EXTENSIONS, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
       "retrieve platform extensions", result);
     if (EXIT_SUCCESS == result) {
-      if (NULL != strstr(buffer, "cl_khr_priority_hints") ||
-          EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia")) {
+      if (NULL != strstr(buffer, "cl_khr_priority_hints") || EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia"))
+      {
         priohi = CL_QUEUE_PRIORITY_HIGH_KHR;
         priolo = CL_QUEUE_PRIORITY_LOW_KHR;
       }

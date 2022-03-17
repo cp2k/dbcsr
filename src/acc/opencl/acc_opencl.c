@@ -99,8 +99,8 @@ cl_context c_dbcsr_acc_opencl_device_context(cl_device_id device, const int* thr
     result = c_dbcsr_acc_opencl_config.contexts[tid];
     if (NULL != result) {
       cl_device_id device_id = NULL;
-      if (CL_SUCCESS == clGetContextInfo(result, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device_id, NULL) &&
-          device == device_id) {
+      if (CL_SUCCESS == clGetContextInfo(result, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device_id, NULL) && device == device_id)
+      {
         break;
       }
       else {
@@ -298,7 +298,8 @@ int c_dbcsr_acc_init(void) {
                     n = ACC_OPENCL_DEVICES_MAXCOUNT - (cl_uint)c_dbcsr_acc_opencl_config.ndevices;
                   }
                   if (EXIT_SUCCESS == clCreateSubDevices(devices[j], properties, n,
-                                        c_dbcsr_acc_opencl_config.devices + c_dbcsr_acc_opencl_config.ndevices, NULL)) {
+                                        c_dbcsr_acc_opencl_config.devices + c_dbcsr_acc_opencl_config.ndevices, NULL))
+                  {
                     ACC_OPENCL_CHECK(clReleaseDevice(devices[j]), "release device", result);
                     c_dbcsr_acc_opencl_config.ndevices += n;
                   }
@@ -361,7 +362,8 @@ int c_dbcsr_acc_init(void) {
               else if (CL_DEVICE_TYPE_ALL == type && NULL == env_devtype && CL_DEVICE_TYPE_GPU == itype && device_id <= (int)i) {
                 result = clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
                 if (CL_SUCCESS == result /* prune for homogeneous set of GPUs */
-                    && ('\0' == *tmp || 0 == strncmp(buffer, tmp, ACC_OPENCL_BUFFERSIZE))) {
+                    && ('\0' == *tmp || 0 == strncmp(buffer, tmp, ACC_OPENCL_BUFFERSIZE)))
+                {
                   c_dbcsr_acc_opencl_config.ndevices = i + 1;
                   strncpy(tmp, buffer, ACC_OPENCL_BUFFERSIZE);
                 }
@@ -494,7 +496,8 @@ int c_dbcsr_acc_finalize(void) {
       int d;
       fprintf(stderr, "INFO ACC/OpenCL: pid=%u nthreads=%i", libxsmm_get_pid(), c_dbcsr_acc_opencl_config.nthreads);
       if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device(0, &device) &&
-          EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(device, NULL /*devid*/, &d)) {
+          EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(device, NULL /*devid*/, &d))
+      {
         fprintf(stderr, " device=%i", d);
       }
       if (NULL != c_dbcsr_acc_opencl_config.stats) {
@@ -836,7 +839,8 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id active_id) {
         int dev = 0;
         if (CL_SUCCESS == clGetDeviceInfo(active_id, CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL) &&
             EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(active_id, NULL /*devid*/, &dev) &&
-            EXIT_SUCCESS == c_dbcsr_acc_opencl_device_uid(active_id, &uid)) {
+            EXIT_SUCCESS == c_dbcsr_acc_opencl_device_uid(active_id, &uid))
+        {
           fprintf(stderr, "INFO ACC/OpenCL: ndevices=%i device%i=\"%s\" uid=0x%08X\n", c_dbcsr_acc_opencl_config.ndevices, dev,
             buffer, uid);
         }
@@ -912,7 +916,8 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
           }
 #  endif
           if (CL_SUCCESS != clGetDeviceInfo(active_id, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool),
-                              &c_dbcsr_acc_opencl_config.devinfo.unified, NULL)) {
+                              &c_dbcsr_acc_opencl_config.devinfo.unified, NULL))
+          {
             c_dbcsr_acc_opencl_config.devinfo.unified = CL_FALSE;
           }
           if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "intel")) {
@@ -971,7 +976,8 @@ int c_dbcsr_acc_opencl_device_synchronize(int thread_id) {
   int result = EXIT_SUCCESS;
   if (0 == (4 & c_dbcsr_acc_opencl_config.flush) &&
       (1 > c_dbcsr_acc_opencl_config.share ||
-        0 == (thread_id % (1 != c_dbcsr_acc_opencl_config.share ? c_dbcsr_acc_opencl_config.share : 2)))) {
+        0 == (thread_id % (1 != c_dbcsr_acc_opencl_config.share ? c_dbcsr_acc_opencl_config.share : 2))))
+  {
     void** const streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * thread_id;
     int i = 0;
     assert(0 <= thread_id && thread_id < c_dbcsr_acc_opencl_config.nthreads);
@@ -1094,13 +1100,14 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], con
               for (; NULL != ext; ext = ((ext + 1) < end ? strtok((ext + 1) + strlen(ext), ACC_OPENCL_DELIMS " \t") : NULL)) {
                 const char* line = source;
                 for (;;) {
-                  if (2 !=
-                      sscanf(line, "#pragma OPENCL EXTENSION %[^: ]%*[: ]%[^\n]", buffer, buffer + ACC_OPENCL_BUFFERSIZE / 2)) {
+                  if (2 != sscanf(line, "#pragma OPENCL EXTENSION %[^: ]%*[: ]%[^\n]", buffer, buffer + ACC_OPENCL_BUFFERSIZE / 2))
+                  {
                     line = NULL;
                     break;
                   }
                   else if (0 == strncmp(buffer, ext, ACC_OPENCL_BUFFERSIZE / 2) &&
-                           0 == strncmp(buffer + ACC_OPENCL_BUFFERSIZE / 2, "enable", ACC_OPENCL_BUFFERSIZE / 2)) {
+                           0 == strncmp(buffer + ACC_OPENCL_BUFFERSIZE / 2, "enable", ACC_OPENCL_BUFFERSIZE / 2))
+                  {
                     break;
                   }
                   line = strchr(line, '\n');
