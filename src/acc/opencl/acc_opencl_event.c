@@ -35,8 +35,7 @@ extern "C" {
 int c_dbcsr_acc_opencl_event_create(cl_event* event_p) {
   int result;
   assert(NULL != event_p);
-  if (NULL != *event_p)
-    result = EXIT_SUCCESS;
+  if (NULL != *event_p) result = EXIT_SUCCESS;
   else {
     *event_p = clCreateUserEvent(c_dbcsr_acc_opencl_context(), &result);
   }
@@ -162,7 +161,9 @@ int c_dbcsr_acc_stream_wait_event(void* stream, void* event) { /* wait for an ev
 #  else
   if (NULL != clevent)
 #  endif
-  { result = ACC_OPENCL_WAIT_EVENT(*ACC_OPENCL_STREAM(stream), &clevent); }
+  {
+    result = ACC_OPENCL_WAIT_EVENT(*ACC_OPENCL_STREAM(stream), &clevent);
+  }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #  endif
