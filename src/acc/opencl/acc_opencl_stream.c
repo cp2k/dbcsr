@@ -155,7 +155,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
     result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
     if (CL_SUCCESS == result) {
       const int share = c_dbcsr_acc_opencl_config.share, s = (0 >= share ? 0 : (1 < share ? share : 2));
-      if (1 >= s || s >= c_dbcsr_acc_opencl_config.nthreads || 0 == (tid % s)) {
+      if (1 >= s || s > c_dbcsr_acc_opencl_config.nthreads || 0 == (tid % s)) {
         queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
       }
       else {

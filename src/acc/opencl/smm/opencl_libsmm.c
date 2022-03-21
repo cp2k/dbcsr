@@ -451,7 +451,7 @@ int libsmm_acc_init(void) {
         opencl_libsmm_timer = opencl_libsmm_timer_host;
       }
       if (NULL == env_params || '0' != *env_params) {
-        char buffer[ACC_OPENCL_BUFFERSIZE], control = '0';
+        char buffer[ACC_OPENCL_BUFFERSIZE], bufname[ACC_OPENCL_BUFFERSIZE], control = '0';
         opencl_libsmm_smm_t config;
         opencl_libsmm_smmkey_t key;
         /* zeroing config (tuned parameters are setup below) */
@@ -463,8 +463,7 @@ int libsmm_acc_init(void) {
           if (NULL != file) {
             /* consume first line, check for device entry, and skip CSV header line */
             if (NULL != fgets(buffer, ACC_OPENCL_BUFFERSIZE, file)) {
-              char devname[ACC_OPENCL_BUFFERSIZE];
-              char* const device = (NULL != libxsmm_stristr(buffer, "device") ? devname : NULL);
+              char* const device = (NULL != libxsmm_stristr(buffer, "device") ? bufname : NULL);
               opencl_libsmm_perfest_t* const gflops = (NULL != libxsmm_stristr(buffer, "gflops") ? &perfest : NULL);
               while (NULL != fgets(buffer, ACC_OPENCL_BUFFERSIZE, file)) { /* read params from CSV-file */
                 if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(buffer, &key, &config, gflops, device)) {
@@ -531,17 +530,28 @@ int libsmm_acc_init(void) {
           } while (NULL != next);
         }
 #  endif
-        if ('2' == control) {
-          if (/* try reading OPENCL_LIBSMM_SMM_PARAMS-value as kernel parameters */
-            EXIT_SUCCESS == opencl_libsmm_read_smm_params(env_params, &key, &config, NULL /*perfest*/, NULL /*device*/))
-          {
-            key.devuid = 0;
-            if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
-              result = EXIT_FAILURE;
+        if (EXIT_SUCCESS == result) {
+          if ('2' != control) {
+            if (0 != c_dbcsr_acc_opencl_config.verbosity) {
+              const char* const devname = ('\0' != bufname[0] ? bufname
+#  if defined(OPENCL_LIBSMM_PARAMS_DEVICE)
+                                                              : ('1' != control ? OPENCL_LIBSMM_PARAMS_DEVICE : NULL));
+#  else
+                                                              : NULL);
+#  endif
+              if (NULL != devname) fprintf(stderr, "INFO ACC/OpenCL: tuned parameter loaded for \"%s\"\n", devname);
             }
           }
-          else if (0 != c_dbcsr_acc_opencl_config.verbosity) { /* soft-error */
-            fprintf(stderr, "WARNING LIBSMM: failed to open parameter file!\n");
+          else { /* try interpreting value of OPENCL_LIBSMM_SMM_PARAMS-variable as kernel parameters (not device-specific) */
+            if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(env_params, &key, &config, NULL /*perfest*/, NULL /*device*/)) {
+              key.devuid = 0;
+              if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
+                result = EXIT_FAILURE;
+              }
+            }
+            else if (0 != c_dbcsr_acc_opencl_config.verbosity) { /* soft-error */
+              fprintf(stderr, "WARNING LIBSMM: failed to open parameter file!\n");
+            }
           }
         }
       }
