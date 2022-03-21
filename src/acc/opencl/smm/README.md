@@ -8,9 +8,9 @@ The LIBSMM library implements the [ACC LIBSMM interface](https://github.com/cp2k
 
 ### Compile-time Settings
 
-Compile-time settings are (implicitly) documented and can be adjusted by editing [opencl_libsmm.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h) (adjusting the build-line as per `-D` is possible as well but less convenient). For example, `OPENCL_LIBSMM_F32` is enabled by default but can be disabled, or `OPENCL_LIBSMM_DEBUG` (which is disabled by default) can be enabled for debug purpose.
+Compile-time settings are (implicitly) documented and can be adjusted by editing [opencl_libsmm.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h) (adjusting the build-line as per `-D` is possible as well but less convenient). For example, `OPENCL_LIBSMM_F32` is enabled by default but can be disabled, or `OPENCL_LIBSMM_VALIDATE` (which is disabled by default) can be enabled for debug purpose.
 
-The `OPENCL_LIBSMM_DEBUG` compile-time setting enables side-by-side validation of matrix transpose and multiply operations on GPU against a built-in CPU implementation. For example, running DBCSR's unit tests with this setting produces console output to pin-point a kernel causing validation errors.
+The `OPENCL_LIBSMM_VALIDATE` compile-time setting enables side-by-side validation of matrix transpose and multiply operations on GPU against a built-in CPU implementation. For example, running DBCSR's unit tests with this setting produces console output to pin-point a kernel causing validation errors.
 
 ### Runtime Settings
 

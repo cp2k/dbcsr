@@ -12,14 +12,17 @@
 #include "../../acc_libsmm.h"
 #include "../acc_opencl.h"
 
+/* Inplace-transpose by default (similar environment variable exists for runtime) */
 #if !defined(OPENCL_LIBSMM_TRANS_INPLACE) && 0
 #  define OPENCL_LIBSMM_TRANS_INPLACE
 #endif
+/* Suitability check by default (similar environment variable exists for runtime) */
 #if !defined(OPENCL_LIBSMM_SUITABLE) && 0
 #  define OPENCL_LIBSMM_SUITABLE
 #endif
-#if !defined(OPENCL_LIBSMM_DEBUG) && 0
-#  define OPENCL_LIBSMM_DEBUG 1
+/* Validate kernels (1: OPENCL_LIBSMM_VALIDATE_SMM, 2: OPENCL_LIBSMM_VALIDATE_TRANS) */
+#if !defined(OPENCL_LIBSMM_VALIDATE) && 0
+#  define OPENCL_LIBSMM_VALIDATE 1
 #endif
 #if !defined(OPENCL_LIBSMM_F32_OFF) && defined(__DBCSR_ACC) && 0
 #  define OPENCL_LIBSMM_F32_OFF
@@ -112,7 +115,7 @@ int opencl_libsmm_write_smm_params(FILE* stream, int only_key, const opencl_libs
 int opencl_libsmm_read_smm_params(
   char* parambuf, opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value, opencl_libsmm_perfest_t* perfest, char* device);
 
-#if defined(OPENCL_LIBSMM_DEBUG) && defined(_DEBUG)
+#if defined(OPENCL_LIBSMM_VALIDATE) && defined(_DEBUG)
 void opencl_libsmm_print_matrix(FILE* ostream, const char* label, libsmm_acc_data_t type, const void* mat, int m, int n);
 #endif
 
