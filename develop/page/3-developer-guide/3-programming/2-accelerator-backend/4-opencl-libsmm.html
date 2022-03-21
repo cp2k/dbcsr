@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-104-gec94921938</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-105-g303e8656d5</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -99,8 +99,8 @@
 <p>The LIBSMM library implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h">ACC LIBSMM interface</a>, and depends on the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/README.md">OpenCL backend</a>. At least the compile-time settings below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).</p>
 <h2>Customization</h2>
 <h3>Compile-time Settings</h3>
-<p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h">opencl_libsmm.h</a> (adjusting the build-line as per <code>-D</code> is possible as well but less convenient). For example, <code>OPENCL_LIBSMM_F32</code> is enabled by default but can be disabled, or <code>OPENCL_LIBSMM_DEBUG</code> (which is disabled by default) can be enabled for debug purpose.</p>
-<p>The <code>OPENCL_LIBSMM_DEBUG</code> compile-time setting enables side-by-side validation of matrix transpose and multiply operations on GPU against a built-in CPU implementation. For example, running DBCSR's unit tests with this setting produces console output to pin-point a kernel causing validation errors.</p>
+<p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h">opencl_libsmm.h</a> (adjusting the build-line as per <code>-D</code> is possible as well but less convenient). For example, <code>OPENCL_LIBSMM_F32</code> is enabled by default but can be disabled, or <code>OPENCL_LIBSMM_VALIDATE</code> (which is disabled by default) can be enabled for debug purpose.</p>
+<p>The <code>OPENCL_LIBSMM_VALIDATE</code> compile-time setting enables side-by-side validation of matrix transpose and multiply operations on GPU against a built-in CPU implementation. For example, running DBCSR's unit tests with this setting produces console output to pin-point a kernel causing validation errors.</p>
 <h3>Runtime Settings</h3>
 <p>Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:</p>
 <ul>
