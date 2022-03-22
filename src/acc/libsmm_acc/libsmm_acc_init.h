@@ -15,10 +15,8 @@
 #include <vector>
 #include <string>
 
-#if defined(__DBCSR_ACC)
 void timeset(const std::string& routine_name, int& handle);
 void timestop(int handle);
-#endif
 
 extern "C" int libsmm_acc_init(void);
 extern "C" int libsmm_acc_finalize(void);

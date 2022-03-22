@@ -87,11 +87,11 @@ inline void validate_kernel(ACC_DRV(function) & kern_func, ACC_DRV(stream) strea
 //===========================================================================
 inline void jit_kernel(ACC_DRV(function) & kern_func, libsmm_acc_algo algo, int tile_m, int tile_n, int w, int v, int threads,
   int grouping, int minblocks, int m, int n, int k) {
-#if defined(__DBCSR_ACC)
   std::string routineN = LIBSMM_ACC_PROCESS_ROUTINE_NAME_STR;
   int handle;
+
   timeset(routineN, handle);
-#endif
+
   // Get the code and the lowered name corresponding the kernel to launch
   std::string kernel_code = smm_acc_common; // prepend include file content to code
   std::string kernel_name;
@@ -188,9 +188,8 @@ inline void jit_kernel(ACC_DRV(function) & kern_func, libsmm_acc_algo algo, int 
 
   // Destroy program
   ACC_RTC_CALL(DestroyProgram, (&kernel_program));
-#if defined(__DBCSR_ACC)
+
   timestop(handle);
-#endif
 }
 
 
@@ -338,11 +337,11 @@ inline void validate_transpose_kernel(ACC_DRV(function) & kern_func, int threads
 
 //===========================================================================
 void jit_transpose_handle(ACC_DRV(function) & kern_func, int m, int n) {
-#if defined(__DBCSR_ACC)
   std::string routineN = LIBSMM_ACC_TRANSPOSE_ROUTINE_NAME_STR;
   int handle;
+
   timeset(routineN, handle);
-#endif
+
   // Create nvrtcProgram
   ACC_RTC(Program) kernel_program;
   std::string transpose_code = smm_acc_common + smm_acc_transpose;
@@ -405,9 +404,8 @@ void jit_transpose_handle(ACC_DRV(function) & kern_func, int m, int n) {
 
   // Destroy program
   ACC_RTC_CALL(DestroyProgram, (&kernel_program));
-#if defined(__DBCSR_ACC)
+
   timestop(handle);
-#endif
 }
 
 //===========================================================================

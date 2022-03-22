@@ -230,3 +230,5 @@ spack-*
 .ccls-cache/
 
 .DS_Store
+
+BUILD/

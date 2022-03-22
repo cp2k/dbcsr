@@ -17,8 +17,6 @@
 
 std::vector<ACC_BLAS(Handle_t)*> acc_blashandles;
 
-
-#if defined(__DBCSR_ACC)
 //===========================================================================
 void timeset(const std::string& routine_name, int& handle) {
   const char* routine_name_ = routine_name.c_str();
@@ -27,7 +25,6 @@ void timeset(const std::string& routine_name, int& handle) {
 }
 
 void timestop(int handle) { c_dbcsr_timestop(&handle); }
-#endif
 
 //===========================================================================
 int libsmm_acc_gpu_blas_init() {
@@ -53,27 +50,28 @@ int libsmm_acc_gpu_blas_init() {
 
 //===========================================================================
 extern "C" int libsmm_acc_init() {
-#if defined(__DBCSR_ACC)
   std::string routineN = "libsmm_acc_init";
   int handle;
+
   timeset(routineN, handle);
-#endif
+  printf("alfio\n");
+
   // check warp size consistency
   libsmm_acc_check_gpu_warp_size_consistency();
   libsmm_acc_gpu_blas_init();
-#if defined(__DBCSR_ACC)
+
   timestop(handle);
-#endif
+
   return 0;
 }
 
 //===========================================================================
 extern "C" int libsmm_acc_finalize() {
-#if defined(__DBCSR_ACC)
   std::string routineN = "libsmm_acc_finalize";
   int handle;
+
   timeset(routineN, handle);
-#endif
+
   // free acc_blas handle resources; one handle per thread
   for (size_t i = 0; i < acc_blashandles.size(); i++) {
     if (NULL != acc_blashandles[i]) {
@@ -81,9 +79,9 @@ extern "C" int libsmm_acc_finalize() {
       acc_blashandles[i] = NULL;
     }
   }
-#if defined(__DBCSR_ACC)
+
   timestop(handle);
-#endif
+
   return 0;
 }
 
