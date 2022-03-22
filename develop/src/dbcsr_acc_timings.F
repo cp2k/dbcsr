@@ -21,7 +21,7 @@ MODULE dbcsr_acc_timings
 
 CONTAINS
 
-   SUBROUTINE dbcsr_timeset_F(routineN, routineN_len, handle) BIND(C, name="c_dbcsr_timeset")
+   SUBROUTINE f_dbcsr_timeset(routineN, routineN_len, handle) BIND(C, name="c_dbcsr_timeset")
 
       TYPE(C_PTR), INTENT(IN)      :: routineN
       INTEGER(KIND=C_INT), INTENT(IN)        :: routineN_len
@@ -39,25 +39,14 @@ CONTAINS
          routineName(i:i) = a(i)
       END DO
 
-#if defined (__DBCSR_ACC)
       CALL timeset(routineName, handle)
-#else
-      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
-      handle = 0
-#endif
+   END SUBROUTINE f_dbcsr_timeset
 
-   END SUBROUTINE dbcsr_timeset_F
-
-   SUBROUTINE dbcsr_timestop_F(handle) BIND(C, name="c_dbcsr_timestop")
+   SUBROUTINE f_dbcsr_timestop(handle) BIND(C, name="c_dbcsr_timestop")
 
       INTEGER(KIND=C_INT), INTENT(IN)        :: handle
 
-#if ! defined (__DBCSR_ACC)
-      MARK_USED(handle)
-      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
-#else
       CALL timestop(handle)
-#endif
-   END SUBROUTINE dbcsr_timestop_F
+   END SUBROUTINE f_dbcsr_timestop
 
 END MODULE dbcsr_acc_timings

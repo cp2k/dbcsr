@@ -8,7 +8,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>dbcsr_timeset_F &ndash; DBCSR</title>
+    <title>f_dbcsr_timeset &ndash; DBCSR</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-107-g38f892a79a</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-108-ga2bedce43c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -72,7 +72,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>dbcsr_timeset_F
+    <h1>f_dbcsr_timeset
       <small>Subroutine</small>
     </h1>
     <div class="row">
@@ -82,14 +82,14 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">14 statements</a>
+    title=" 0.0% of total for procedures.">13 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_acc_timings.F"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
      <li><a href='../sourcefile/dbcsr_acc_timings.f.html'>dbcsr_acc_timings.F</a></li>
      <li><a href='../module/dbcsr_acc_timings.html'>dbcsr_acc_timings</a></li>
-     <li class="active">dbcsr_timeset_F</li>
+     <li class="active">f_dbcsr_timeset</li>
   </ol>
 </div>
 </div>
@@ -110,7 +110,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_timeset_f.html#src">dbcsr_timeset_F</a>
+    <a class="list-group-item" href="../proc/f_dbcsr_timeset.html#src">f_dbcsr_timeset</a>
   </div>
 </div>
 
@@ -119,7 +119,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine dbcsr_timeset_F(routineN, routineN_len, handle) bind(C, name="0")</h2>
+    <h2>private subroutine f_dbcsr_timeset(routineN, routineN_len, handle) bind(C, name="0")</h2>
     
 
 
@@ -156,7 +156,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_timeset_f.html#src">dbcsr_timeset_F</a>
+    <a class="list-group-item" href="../proc/f_dbcsr_timeset.html#src">f_dbcsr_timeset</a>
   </div>
 </div>
 
@@ -174,7 +174,7 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_timeset_F</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">routineN_len</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_timeset&quot;</span><span class="p">)</span><span class="w"></span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">f_dbcsr_timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">routineN_len</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_timeset&quot;</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN_len</span><span class="w"></span>
@@ -190,16 +190,10 @@
 <span class="w">      </span><span class="c">! &quot;routineName&quot;</span>
 <span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">routineN_len</span><span class="w"></span>
 <span class="w">         </span><span class="n">routineName</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">END DO</span><span class="w"></span>
+<span class="w">      </span><span class="k">END DO</span>
 
-<span class="cp">#if defined (__DBCSR_ACC)</span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineName</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
-<span class="cp">#else</span>
-<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="cp">#endif</span>
-
-<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_timeset_F</span><span class="w"></span>
+<span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineName</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">f_dbcsr_timeset</span><span class="w"></span>
 </pre></div>
 
     </section>
