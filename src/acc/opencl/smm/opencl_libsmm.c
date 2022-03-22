@@ -433,8 +433,10 @@ int libsmm_acc_init(void) {
 #  endif
     libxsmm_init();
     if (EXIT_SUCCESS == result) {
+      opencl_libsmm_perfest_t perfest;
       char* const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS");
-      const char *const env_suitable = getenv("OPENCL_LIBSMM_SUITABLE"), *const env_timer = getenv("OPENCL_LIBSMM_TIMER");
+      const char* const env_timer = getenv("OPENCL_LIBSMM_TIMER");
+      const char* const env_suitable = getenv("OPENCL_LIBSMM_SUITABLE");
       const int suitable = (NULL == env_suitable
 #  if defined(OPENCL_LIBSMM_SUITABLE)
                               ? 1
@@ -442,7 +444,6 @@ int libsmm_acc_init(void) {
                               ? 0
 #  endif
                               : ('0' != *env_suitable));
-      opencl_libsmm_perfest_t perfest;
       memset(&perfest, 0, sizeof(perfest));
       if (NULL != env_timer && (opencl_libsmm_timer_host == atoi(env_timer) ||
                                  (env_timer == libxsmm_stristr(env_timer, "host") && 4 == strlen(env_timer)) ||
@@ -451,7 +452,7 @@ int libsmm_acc_init(void) {
         opencl_libsmm_timer = opencl_libsmm_timer_host;
       }
       if (NULL == env_params || '0' != *env_params) {
-        char buffer[ACC_OPENCL_BUFFERSIZE], bufname[ACC_OPENCL_BUFFERSIZE], control = '0';
+        char buffer[ACC_OPENCL_BUFFERSIZE], bufname[ACC_OPENCL_BUFFERSIZE] = "", control = '0';
         opencl_libsmm_smm_t config;
         opencl_libsmm_smmkey_t key;
         /* zeroing config (tuned parameters are setup below) */
@@ -539,7 +540,7 @@ int libsmm_acc_init(void) {
 #  else
                                                               : NULL);
 #  endif
-              if (NULL != devname) fprintf(stderr, "INFO ACC/OpenCL: tuned parameter loaded for \"%s\"\n", devname);
+              if (NULL != devname) fprintf(stderr, "INFO ACC/OpenCL: tuned parameters loaded for \"%s\"\n", devname);
             }
           }
           else { /* try interpreting value of OPENCL_LIBSMM_SMM_PARAMS-variable as kernel parameters (not device-specific) */
@@ -1096,22 +1097,16 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
     switch (datatype) {
 #  if defined(OPENCL_LIBSMM_F64)
       case dbcsr_type_real_8: {
-        const double ai = OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(double));
-        hst = ai * opencl_libsmm_dhst;
-        acc = ai * opencl_libsmm_dacc;
-        if (0 == hst || 0 == acc || hst < acc) {
-          result = 1; /* true */
-        }
+        hst = opencl_libsmm_dhst;
+        acc = opencl_libsmm_dacc;
+        if (0 >= hst || 0 >= acc || hst < acc) result = 1; /* true */
       } break;
 #  endif
 #  if defined(OPENCL_LIBSMM_F32)
       case dbcsr_type_real_4: {
-        const double ai = OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(float));
-        hst = ai * opencl_libsmm_shst;
-        acc = ai * opencl_libsmm_sacc;
-        if (0 == hst || 0 == acc || hst < acc) {
-          result = 1; /* true */
-        }
+        hst = opencl_libsmm_shst;
+        acc = opencl_libsmm_sacc;
+        if (0 >= hst || 0 >= acc || hst < acc) result = 1; /* true */
       } break;
 #  endif
       default: assert(/*false*/ 0 == result);
@@ -1132,7 +1127,8 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
     fprintf(stderr, " ss=%i", stack_size);
     if (m_max <= max_kernel_dim && n_max <= max_kernel_dim) {
       if (0 < hst && 0 < acc) {
-        fprintf(stderr, " hst=%.1f acc=%.1f GFLOPS/s is not suitable\n", hst, acc);
+        const double ai = OPENCL_LIBSMM_AI(m_max, n_max, k_max, OPENCL_LIBSMM_TYPESIZE(datatype));
+        fprintf(stderr, " hst=%.1f acc=%.1f GFLOPS/s is not suitable\n", ai * hst, ai * acc);
       }
       else {
         fprintf(stderr, 0 != def_mnk ? " is ignored\n" : " is inhomogeneous\n");
