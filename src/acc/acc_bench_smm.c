@@ -233,14 +233,14 @@ int main(int argc, char* argv[]) {
     ELEM_TYPE *amat_hst = NULL, *bmat_hst = NULL, *cmat_hst = NULL;
     ELEM_TYPE *amat_dev = NULL, *bmat_dev = NULL, *cmat_dev = NULL;
     void* stream = NULL;
-#if defined(__OPENCL)
-    const char* const env_smm_repeat = getenv("SMM_NREPEAT");
-    const int smm_nrepeat = (NULL == env_smm_repeat ? 1 : MAX(atoi(env_smm_repeat), 1));
-#else
-    const int smm_nrepeat = 1;
-#endif
 #if defined(USE_LIBXSMM)
     libxsmm_timer_tickint start;
+#  if defined(__OPENCL)
+    const char* const env_smm_repeat = getenv("SMM_NREPEAT");
+    const int smm_nrepeat = (NULL == env_smm_repeat ? 1 : MAX(atoi(env_smm_repeat), 1));
+#  else
+    const int smm_nrepeat = 1;
+#  endif
 #  if defined(TRANSPOSE) && defined(VALIDATE)
     double transpose;
 #  endif
