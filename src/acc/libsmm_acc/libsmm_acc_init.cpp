@@ -54,7 +54,6 @@ extern "C" int libsmm_acc_init() {
   int handle;
 
   timeset(routineN, handle);
-  printf("alfio\n");
 
   // check warp size consistency
   libsmm_acc_check_gpu_warp_size_consistency();
