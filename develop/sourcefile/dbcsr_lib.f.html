@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-112-g6cad275486</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-113-g4f13428def</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -467,7 +467,7 @@
 <a id="ln-316" name="ln-316" href="#ln-316"></a><span class="w">         </span><span class="k">CALL </span><span class="n">acc_finalize</span><span class="p">()</span><span class="w"></span>
 <a id="ln-317" name="ln-317" href="#ln-317"></a><span class="c">!$OMP    END MASTER</span>
 <a id="ln-318" name="ln-318" href="#ln-318"></a><span class="c">!$OMP    END PARALLEL</span>
-<a id="ln-319" name="ln-319" href="#ln-319"></a><span class="w">      </span><span class="k">ENDIF</span><span class="w"></span>
+<a id="ln-319" name="ln-319" href="#ln-319"></a><span class="w">      </span><span class="k">END IF</span><span class="w"></span>
 <a id="ln-320" name="ln-320" href="#ln-320"></a>
 <a id="ln-321" name="ln-321" href="#ln-321"></a><span class="w">      </span><span class="c">! Check the number of communicators</span>
 <a id="ln-322" name="ln-322" href="#ln-322"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">check_comm_count</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">mp_get_comm_count</span><span class="p">()</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>

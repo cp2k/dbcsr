@@ -316,7 +316,7 @@ CONTAINS
          CALL acc_finalize()
 !$OMP    END MASTER
 !$OMP    END PARALLEL
-      ENDIF
+      END IF
 
       ! Check the number of communicators
       IF (check_comm_count .AND. mp_get_comm_count() .NE. 0) THEN
