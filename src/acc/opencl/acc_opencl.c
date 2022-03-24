@@ -573,7 +573,7 @@ int c_dbcsr_acc_get_ndevices(int* ndevices) {
   static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
-#  if defined(__DBCSR_ACC)
+#  if defined(ACC_OPENCL_LAZYINIT)
   /* DBCSR calls c_dbcsr_acc_get_ndevices before calling c_dbcsr_acc_init. */
   result = c_dbcsr_acc_init();
   if (EXIT_SUCCESS == result)

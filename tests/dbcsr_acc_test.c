@@ -74,6 +74,11 @@ int main(int argc, char* argv[]) {
     randnums[i] = rand();
   }
 
+  /* allow get_ndevices/set_active_device before init */
+  ACC_CHECK(c_dbcsr_acc_get_ndevices(&ndevices));
+  if (0 <= device && device < ndevices) { /* not an error */
+    ACC_CHECK(c_dbcsr_acc_set_active_device(device));
+  }
   ACC_CHECK(c_dbcsr_acc_init());
   ACC_CHECK(c_dbcsr_acc_get_ndevices(&ndevices));
   PRINTF("ndevices: %i\n", ndevices);
