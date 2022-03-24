@@ -204,7 +204,11 @@ CONTAINS
 
       ! Initialize Acc and set active device
       IF (has_acc) THEN
+!$OMP    PARALLEL
+!$OMP    MASTER
          CALL acc_init()
+!$OMP    END MASTER
+!$OMP    END PARALLEL
          IF (dbcsr_acc_get_ndevices() > 0) THEN
             IF (PRESENT(accdrv_active_device_id)) THEN
                CALL set_accdrv_active_device_id(accdrv_active_device_id)
@@ -305,7 +309,13 @@ CONTAINS
 #endif
       ! Reset Acc ID
       CALL reset_accdrv_active_device_id()
-      IF (has_acc) CALL acc_finalize()
+      IF (has_acc) THEN
+!$OMP    PARALLEL
+!$OMP    MASTER
+         CALL acc_finalize()
+!$OMP    END MASTER
+!$OMP    END PARALLEL
+      ENDIF
 
       ! Check the number of communicators
       IF (check_comm_count .AND. mp_get_comm_count() .NE. 0) THEN
