@@ -18,13 +18,20 @@
 std::vector<ACC_BLAS(Handle_t)*> acc_blashandles;
 
 //===========================================================================
+#if defined(__DBCSR_ACC)
 void timeset(const std::string& routine_name, int& handle) {
   const char* routine_name_ = routine_name.c_str();
   int routine_name_length = routine_name.length();
   c_dbcsr_timeset(&routine_name_, &routine_name_length, &handle);
 }
-
 void timestop(int handle) { c_dbcsr_timestop(&handle); }
+#else
+void timeset(const std::string& routine_name, int& handle) {
+  (void)(routine_name);
+  (void)(handle);
+}
+void timestop(int handle) { (void)(handle); }
+#endif
 
 //===========================================================================
 int libsmm_acc_gpu_blas_init() {

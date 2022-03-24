@@ -255,12 +255,3 @@ int main(int argc, char* argv[]) {
   }
   return result;
 }
-
-
-void c_dbcsr_timeset(const char** routineN, const int* routineN_len, int* handle) {
-  (void)(routineN);
-  (void)(routineN_len);
-  (void)(handle);
-}
-
-void c_dbcsr_timestop(const int* handle) { (void)(handle); }
