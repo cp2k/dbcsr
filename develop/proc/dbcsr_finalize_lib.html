@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-111-ge58056db38</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-112-g6cad275486</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">26 statements</a>
+    title=" 0.0% of total for procedures.">28 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_lib.F"> Source File</a></li>
   </ul>
@@ -192,7 +192,13 @@ Cleans up after the DBCSR library.  Used to deallocate persistent objects.</p>
 <span class="cp">#endif</span>
 <span class="w">      </span><span class="c">! Reset Acc ID</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">acc_finalize</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="c">!$OMP    PARALLEL</span>
+<span class="c">!$OMP    MASTER</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">acc_finalize</span><span class="p">()</span><span class="w"></span>
+<span class="c">!$OMP    END MASTER</span>
+<span class="c">!$OMP    END PARALLEL</span>
+<span class="w">      </span><span class="k">ENDIF</span><span class="w"></span>
 
 <span class="w">      </span><span class="c">! Check the number of communicators</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">check_comm_count</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">mp_get_comm_count</span><span class="p">()</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>

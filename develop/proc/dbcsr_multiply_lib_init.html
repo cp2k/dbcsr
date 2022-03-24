@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-111-ge58056db38</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-112-g6cad275486</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">19 statements</a>
+    title=" 0.0% of total for procedures.">18 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm.F"> Source File</a></li>
   </ul>
@@ -174,7 +174,6 @@
 <span class="w">      </span><span class="n">marketing_flops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="w">      </span><span class="n">max_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">memtype_product_wm</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nthreads</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">libsmm_acc_init</span><span class="p">()</span><span class="w"></span>
 <span class="c">!$OMP     END MASTER</span>
 <span class="c">!$OMP     BARRIER</span>
 
