@@ -138,7 +138,7 @@ CONTAINS
       INTEGER                                            :: error_handle, ithread
       TYPE(thread_private_type), POINTER                 :: thread_privates
 
-      CALL timeset(rountineN, error_handle)
+      CALL timeset(routineN, error_handle)
 
       ithread = 0
 !$    ithread = OMP_GET_THREAD_NUM()
