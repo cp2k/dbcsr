@@ -241,14 +241,14 @@ if (USE_ACCEL MATCHES "cuda|hip")
       $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver> libsmm_acc)
   endforeach ()
 
-  add_test(NAME libsmm_acc_unittest_multiply
-           COMMAND libsmm_acc_unittest_multiply)
-  add_test(NAME libsmm_acc_unittest_transpose
-           COMMAND libsmm_acc_unittest_transpose)
-  add_test(NAME libsmm_acc_timer_multiply-autotuned
-           COMMAND libsmm_acc_timer_multiply autotuned)
-  add_test(NAME libsmm_acc_timer_multiply-predicted
-           COMMAND libsmm_acc_timer_multiply predicted)
+  # Comment for the moment, they are not parallelized, very slow... Check issue
+  # https://github.com/cp2k/dbcsr/issues/427 add_test(NAME
+  # libsmm_acc_unittest_multiply COMMAND libsmm_acc_unittest_multiply)
+  # add_test(NAME libsmm_acc_unittest_transpose COMMAND
+  # libsmm_acc_unittest_transpose) add_test(NAME
+  # libsmm_acc_timer_multiply-autotuned COMMAND libsmm_acc_timer_multiply
+  # autotuned) add_test(NAME libsmm_acc_timer_multiply-predicted COMMAND
+  # libsmm_acc_timer_multiply predicted)
 
 endif ()
 
