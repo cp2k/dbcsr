@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-113-g4f13428def</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-114-gb8c02554d7</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -158,9 +158,15 @@
 <span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="cp">#else</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">istat</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Set active device first</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">get_accdrv_active_device_id</span><span class="p">())</span><span class="w"></span>
+<span class="c">!$OMP    PARALLEL DEFAULT(NONE) PRIVATE(istat)</span>
+<span class="c">!$OMP    MASTER</span>
 <span class="w">      </span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_interface_drv_init</span><span class="p">()</span><span class="w"></span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_init failed&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP    END MASTER</span>
+<span class="c">!$OMP    END PARALLEL</span>
 <span class="cp">#endif</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">acc_init</span><span class="w"></span>
 </pre></div>

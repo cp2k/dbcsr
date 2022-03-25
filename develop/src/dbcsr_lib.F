@@ -12,9 +12,8 @@ MODULE dbcsr_lib
 
    !! Routines that affect the DBCSR library as a whole
    USE dbcsr_acc_init, ONLY: acc_finalize, acc_init
-   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device
-   USE dbcsr_config, ONLY: get_accdrv_active_device_id, &
-                           set_accdrv_active_device_id, &
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices
+   USE dbcsr_config, ONLY: set_accdrv_active_device_id, &
                            reset_accdrv_active_device_id, &
                            dbcsr_set_config, &
                            has_acc
@@ -205,24 +204,18 @@ CONTAINS
 
       ! Initialize Acc and set active device
       IF (has_acc) THEN
-!$OMP    PARALLEL
-!$OMP    MASTER
-         CALL acc_init()
-!$OMP    END MASTER
-!$OMP    END PARALLEL
-         IF (dbcsr_acc_get_ndevices() > 0) THEN
-            IF (PRESENT(accdrv_active_device_id)) THEN
-               CALL set_accdrv_active_device_id(accdrv_active_device_id)
-            ELSE
-               ! Use round-robin assignment per rank
-               CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
-            END IF
+         IF (PRESENT(accdrv_active_device_id)) THEN
+            CALL set_accdrv_active_device_id(accdrv_active_device_id)
+         ELSEIF (dbcsr_acc_get_ndevices() > 0) THEN
+            ! Use round-robin assignment per rank
+            CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
+         ELSE
+            DBCSR_ABORT("dbcsr_init_lib: No recongnized GPU devices")
          END IF
+         CALL acc_init()
       END IF
 
 #if defined(__DBCSR_ACC)
-      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
-
       ! Checks related to DBCSR's GPU backend: check consistency in threading level
       libsmm_acc_thread_safe = libsmm_acc_is_thread_safe()  ! 0: not threaded, 1: threaded
       dbcsr_thread_safe = 0  ! not threaded
@@ -311,11 +304,7 @@ CONTAINS
       ! Reset Acc ID
       CALL reset_accdrv_active_device_id()
       IF (has_acc) THEN
-!$OMP    PARALLEL
-!$OMP    MASTER
          CALL acc_finalize()
-!$OMP    END MASTER
-!$OMP    END PARALLEL
       END IF
 
       ! Check the number of communicators
