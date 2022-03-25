@@ -133,8 +133,12 @@ CONTAINS
    SUBROUTINE dbcsr_mm_accdrv_lib_finalize()
       !! Finalize the library
 
-      INTEGER                                            :: ithread
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_lib_finalize'
+
+      INTEGER                                            :: error_handle, ithread
       TYPE(thread_private_type), POINTER                 :: thread_privates
+
+      CALL timeset(rountineN, error_handle)
 
       ithread = 0
 !$    ithread = OMP_GET_THREAD_NUM()
@@ -156,6 +160,8 @@ CONTAINS
       !WRITE (*,*) "after finalize acc mem: ",mem_free, mem_avail, istat
 
       CALL deallocate_streams()
+
+      CALL timestop(error_handle)
 
    END SUBROUTINE dbcsr_mm_accdrv_lib_finalize
 

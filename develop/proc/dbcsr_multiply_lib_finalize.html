@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-114-gb8c02554d7</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-115-gafb4f2c9fd</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">17 statements</a>
+    title=" 0.0% of total for procedures.">20 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm.F"> Source File</a></li>
   </ul>
@@ -156,7 +156,11 @@
     <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_multiply_lib_finalize</span><span class="p">()</span><span class="w"></span>
 <span class="w">      </span><span class="c">!! Finalize the library</span>
 
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">ithread</span><span class="w"></span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_multiply_lib_finalize&#39;</span><span class="w"></span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">ithread</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_mm_multrec_lib_finalize</span><span class="p">()</span><span class="w"></span>
 
@@ -192,6 +196,9 @@
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">acc_stream_associated</span><span class="p">(</span><span class="n">stream_2</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">acc_stream_destroy</span><span class="p">(</span><span class="n">stream_2</span><span class="p">)</span><span class="w"></span>
 <span class="c">!$OMP      END MASTER</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span><span class="w"></span>
+
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_multiply_lib_finalize</span><span class="w"></span>
 </pre></div>
 

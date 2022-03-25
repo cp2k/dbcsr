@@ -157,7 +157,11 @@ CONTAINS
    SUBROUTINE dbcsr_multiply_lib_finalize()
       !! Finalize the library
 
-      INTEGER                                            :: ithread
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_lib_finalize'
+
+      INTEGER                                            :: error_handle, ithread
+
+      CALL timeset(routineN, error_handle)
 
       CALL dbcsr_mm_multrec_lib_finalize()
 
@@ -193,6 +197,9 @@ CONTAINS
       IF (acc_stream_associated(stream_2)) &
          CALL acc_stream_destroy(stream_2)
 !$OMP      END MASTER
+
+      CALL timestop(error_handle)
+
    END SUBROUTINE dbcsr_multiply_lib_finalize
 
    SUBROUTINE dbcsr_multiply_print_statistics(group, output_unit)
