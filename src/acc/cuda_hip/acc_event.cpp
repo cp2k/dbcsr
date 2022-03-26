@@ -38,6 +38,7 @@ extern "C" int c_dbcsr_acc_event_create(void** event_p) {
 extern "C" int c_dbcsr_acc_event_destroy(void* event) {
   ACC(Event_t)* acc_event = (ACC(Event_t*))event;
 
+  c_dbcsr_acc_clear_errors();
   if (verbose_print) printf("EventDestroy, called\n");
   if (event == NULL) return 0; /* not an error */
   ACC(Error_t) cErr = ACC(EventDestroy)(*acc_event);
