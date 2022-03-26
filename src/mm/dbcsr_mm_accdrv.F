@@ -312,8 +312,11 @@ CONTAINS
       DO i = 1, SIZE(stack_buffers)
          CALL acc_devmem_deallocate(stack_buffers(i)%devmem)
          CALL acc_hostmem_deallocate(stack_buffers(i)%hostmem, stack_buffers(i)%stream)
+! Workaround: HIP on NVIDIA cards gives an error when the library finalizes
+#if ! defined(__HIP_PLATFORM_NVCC__)
          CALL acc_event_destroy(stack_buffers(i)%ready)
          CALL acc_event_destroy(stack_buffers(i)%calculated)
+#endif
       END DO
       DEALLOCATE (stack_buffers)
    END SUBROUTINE deallocate_stackbuffers
