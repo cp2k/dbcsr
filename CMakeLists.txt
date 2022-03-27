@@ -260,7 +260,12 @@ if (USE_ACCEL MATCHES "hip")
   # hip-config.cmake which contains targets like hip::host for jitting.
   find_package(hip CONFIG REQUIRED HINTS ${ROCM_PATH})
 
+  if (hip_VERSION LESS 4.5.2)
+    message(FATAL_ERROR "HIP version >= 4.5.2 is required.")
+  endif ()
+
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
+  message(STATUS "Build with HIP ${hip_VERSION}")
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "GPU profiling enabled: " ${WITH_HIP_PROFILING})
