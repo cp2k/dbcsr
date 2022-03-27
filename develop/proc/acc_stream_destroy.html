@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-120-g12b646a0a4</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-121-g1fd537ca00</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -176,7 +176,6 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">istat</span><span class="w"></span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_destroy: stream not allocated&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">c_dbcsr_acc_clear_errors</span><span class="p">();</span><span class="w"></span>
 <span class="w">      </span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_interface_stream_destroy</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_destroy failed&quot;</span><span class="p">)</span><span class="w"></span>
