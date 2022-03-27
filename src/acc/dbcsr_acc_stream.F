@@ -146,6 +146,7 @@ CONTAINS
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_stream_destroy: stream not allocated")
+      c_dbcsr_acc_clear_errors();
       istat = acc_interface_stream_destroy(this%cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_stream_destroy failed")
