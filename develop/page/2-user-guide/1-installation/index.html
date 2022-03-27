@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-121-g1fd537ca00</small></a>
+          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-122-g3b741bf53e</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -118,7 +118,7 @@
 <li>Host C++ compiler which supports at least C++11 standard</li>
 </ul>
 </li>
-<li>or HIP compiler (targets NVIDIA or AMD GPUs) and hipBLAS (ROCm 3.8 was tested)<ul>
+<li>or HIP compiler (targets NVIDIA or AMD GPUs) and hipBLAS (ROCm 4.5.2 was tested)<ul>
 <li>Host C++ compiler which supports at least C++11 standard</li>
 </ul>
 </li>
@@ -186,15 +186,6 @@ spack install dbcsr +openmp +mpi +opencl ^cuda
 <p>See <code>spack info dbcsr</code> for all supported variants.</p>
 <h3>C/C++ Interface</h3>
 <p>If MPI support is enabled (the default), the C API is automatically built.</p>
-<h3>Workaround issue in HIP</h3>
-<p>For custom installs of HIP 3.9.0 and above, some paths have to be configured to ensure the JIT compiler can locate the HIP runtime and compiler tools</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">export</span> <span class="nv">ROCM_PATH</span><span class="o">=</span>/path/to/hip-3.9.0
-<span class="nb">export</span> <span class="nv">HIP_PATH</span><span class="o">=</span><span class="nv">$ROCM_PATH</span>
-<span class="nb">export</span> <span class="nv">LLVM_PATH</span><span class="o">=</span>/path/to/llvm-amdgpu-3.9.0
-<span class="nb">export</span> <span class="nv">HIP_DEVICE_LIB_PATH</span><span class="o">=</span>/path/to/rocm-device-libs-3.9.0/amdgcn/bitcode
-</code></pre></div>
-
-<p>before running on an AMD GPU.</p>
     </div>
     <div class="col-md-3 col-md-pull-9">
       <hr class="visible-xs visible-sm">
