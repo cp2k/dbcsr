@@ -67,6 +67,7 @@ extern "C" int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int 
 extern "C" int c_dbcsr_acc_stream_destroy(void* stream) {
   ACC(Stream_t)* acc_stream = (ACC(Stream_t)*)stream;
 
+  c_dbcsr_acc_clear_errors();
   if (verbose_print) printf("StreamDestroy called\n");
   if (stream == NULL) return 0; /* not an error */
   ACC(Error_t) cErr = ACC(StreamDestroy)(*acc_stream);
@@ -79,6 +80,7 @@ extern "C" int c_dbcsr_acc_stream_destroy(void* stream) {
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_stream_sync(void* stream) {
   ACC(Stream_t)* acc_stream = (ACC(Stream_t)*)stream;
+  c_dbcsr_acc_clear_errors();
   ACC_API_CALL(StreamSynchronize, (*acc_stream));
   return 0;
 }
