@@ -128,7 +128,7 @@ CONTAINS
             local_routine_id = MINLOC(collected, dim=1)
             r_stat => list_get(timer_env%routine_stats, local_routine_id)
             routineN = r_stat%routineN
-         ENDIF
+         END IF
          CALL mp_bcast(routineN, sending_rank, mp_env%mp%mp_group)
 
          ! Create new report for routineN
@@ -180,7 +180,7 @@ CONTAINS
          r_report%max_erank = INT(dbuf(2))
 
          CALL mp_sum(r_report%sum_ecost, mp_env%mp%mp_group)
-      ENDDO
+      END DO
 
    END SUBROUTINE collect_reports_from_ranks
 
@@ -230,7 +230,7 @@ CONTAINS
       ELSE
          WRITE (UNIT=iw, FMT="(T2,A,T35,A,T41,A,T45,2A18)") &
             "SUBROUTINE", "CALLS", " ASD", "SELF "//label, "TOTAL "//label
-      ENDIF
+      END IF
 
       WRITE (UNIT=iw, FMT="(T33,A)") &
          "MAXIMUM       AVERAGE  MAXIMUM  AVERAGE  MAXIMUM"
@@ -245,7 +245,7 @@ CONTAINS
          ELSE
             max_costs(i) = r_report_i%max_icost
          END IF
-      ENDDO
+      END DO
       ALLOCATE (indices(num_routines))
       CALL sort(max_costs, num_routines, indices)
 
@@ -264,7 +264,7 @@ CONTAINS
       ELSE
          WRITE (UNIT=fmt, FMT="(A,I0,A)") &
             "(T2,A30,1X,I7,1X,F4.1,4(1X,F8.", decimals, "))"
-      ENDIF
+      END IF
 
       !write output
       DO i = num_routines, 1, -1
@@ -293,7 +293,7 @@ CONTAINS
                   r_report_j%max_ecost, &
                   r_report_j%sum_icost/mp_env%mp%numnodes, &
                   r_report_j%max_icost
-            ENDIF
+            END IF
          END IF
       END DO
       WRITE (UNIT=iw, FMT="(T2,A,/)") REPEAT("-", 79)

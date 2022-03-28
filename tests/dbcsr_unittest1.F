@@ -53,8 +53,8 @@ PROGRAM dbcsr_unittest_1
    DO prow = 0, npdims(1) - 1
       DO pcol = 0, npdims(2) - 1
          CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
-      ENDDO
-   ENDDO
+      END DO
+   END DO
    CALL dbcsr_mp_new(mp_env, group, pgrid, mynode, numnodes, &
                      myprow=myploc(1), mypcol=myploc(2))
    DEALLOCATE (pgrid)

@@ -29,7 +29,7 @@ def safe_pickle(data, file):
     :param data: data to be pickled
     :param file: file to pickle it into
     """
-    max_bytes = 2 ** 31 - 1  # Maximum number of bytes to write in one chunk
+    max_bytes = 2**31 - 1  # Maximum number of bytes to write in one chunk
     pickle_out = pickle.dumps(data)
     n_bytes = len(pickle_out)
     with open(file, "wb") as f:
@@ -47,7 +47,7 @@ def safe_pickle_load(file_path):
     :param data: data to be loaded through pickle
     :param file: file to read from
     """
-    max_bytes = 2 ** 31 - 1  # Maximum number of bytes to read in one chunk
+    max_bytes = 2**31 - 1  # Maximum number of bytes to read in one chunk
     bytes_in = bytearray(0)
     input_size = os.path.getsize(file_path)
     with open(file_path, "rb") as f:

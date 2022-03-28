@@ -1,16 +1,16 @@
-/*------------------------------------------------------------------------------------------------*
- * Copyright (C) by the DBCSR developers group - All rights reserved                              *
- * This file is part of the DBCSR library.                                                        *
- *                                                                                                *
- * For information on the license, see the LICENSE file.                                          *
- * For further information please visit https://dbcsr.cp2k.org                                    *
- * SPDX-License-Identifier: GPL-2.0+                                                              *
- *------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/* Copyright (C) by the DBCSR developers group - All rights reserved                              */
+/* This file is part of the DBCSR library.                                                        */
+/*                                                                                                */
+/* For information on the license, see the LICENSE file.                                          */
+/* For further information please visit https://dbcsr.cp2k.org                                    */
+/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/*------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-# include "../cuda/acc_cuda.h"
+#  include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
-# include "../hip/acc_hip.h"
+#  include "../hip/acc_hip.h"
 #endif
 
 #include "../acc.h"
@@ -19,7 +19,7 @@
 #include <stdio.h>
 
 #if defined(__CUDA_PROFILING)
-# include <nvToolsExtCudaRt.h>
+#  include <nvToolsExtCudaRt.h>
 #endif
 
 /****************************************************************************/

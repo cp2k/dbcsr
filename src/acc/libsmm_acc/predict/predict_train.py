@@ -489,7 +489,7 @@ def read_data(algo, read_from, nrows, folder, log):
     X = X.drop(cols_to_drop, axis=1)
     log += print_and_log(
         "X    : {:>8,} x {:>8,} ({:>2.2} MB)".format(
-            len(X), len(X.columns), sys.getsizeof(X) / 10 ** 6
+            len(X), len(X.columns), sys.getsizeof(X) / 10**6
         )
     )
     log += print_and_log("Head:")
@@ -505,7 +505,7 @@ def read_data(algo, read_from, nrows, folder, log):
     log += print_and_log("\nRead Y")
     Y = dd.read_parquet(parquet_data_file, columns=["perf_scaled"])
     log += print_and_log(
-        "Y    : {:>8,} ({:>2.2} MB)".format(len(Y), sys.getsizeof(Y) / 10 ** 6)
+        "Y    : {:>8,} ({:>2.2} MB)".format(len(Y), sys.getsizeof(Y) / 10**6)
     )
     log += print_and_log("Head:")
     log += print_and_log(Y.head())
@@ -516,7 +516,7 @@ def read_data(algo, read_from, nrows, folder, log):
     X_mnk = dd.read_parquet(parquet_data_file, columns=["mnk"])
     nrows_data = len(X_mnk.index)
     log += print_and_log(
-        "X_mnk : {:>8,} ({:>2.2} MB)".format(nrows_data, sys.getsizeof(X_mnk) / 10 ** 6)
+        "X_mnk : {:>8,} ({:>2.2} MB)".format(nrows_data, sys.getsizeof(X_mnk) / 10**6)
     )
     log += print_and_log("Head:")
     log += print_and_log(X_mnk.head())

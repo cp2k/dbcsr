@@ -21,7 +21,7 @@ To build DBCSR's GPU backend:
 
 * CUDA Toolkit (targets NVIDIA GPUs, minimal version required: 5.5) with cuBLAS
     * Host C++ compiler which supports at least C++11 standard
-* or HIP compiler (targets NVIDIA or AMD GPUs) and hipBLAS (ROCm 3.8 was tested)
+* or HIP compiler (targets NVIDIA or AMD GPUs) and hipBLAS (ROCm 4.5.2 was tested)
     * Host C++ compiler which supports at least C++11 standard
 * or OpenCL, i.e., development headers (`opencl-headers`), generic loader "ocl-icd" (`ocl-icd-opencl-dev`),
     * Vendor specific OpenCL package, e.g.,
@@ -104,16 +104,3 @@ See `spack info dbcsr` for all supported variants.
 ### C/C++ Interface
 
 If MPI support is enabled (the default), the C API is automatically built.
-
-### Workaround issue in HIP
-
-For custom installs of HIP 3.9.0 and above, some paths have to be configured to ensure the JIT compiler can locate the HIP runtime and compiler tools
-
-```bash
-export ROCM_PATH=/path/to/hip-3.9.0
-export HIP_PATH=$ROCM_PATH
-export LLVM_PATH=/path/to/llvm-amdgpu-3.9.0
-export HIP_DEVICE_LIB_PATH=/path/to/rocm-device-libs-3.9.0/amdgcn/bitcode
-```
-
-before running on an AMD GPU.

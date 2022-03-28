@@ -202,8 +202,8 @@ CONTAINS
             CASE DEFAULT
                DBCSR_ABORT("wrong matrix symmetry")
             END SELECT
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       CALL dbcsr_iterator_stop(iter)
 
       CALL dbcsr_data_release(tmp)
@@ -294,7 +294,7 @@ CONTAINS
             CASE DEFAULT
                DBCSR_ABORT("wrong matrix symmetry")
             END SELECT
-         ENDIF
+         END IF
       END DO
       CALL dbcsr_iterator_stop(iter)
       CALL dbcsr_data_clear_pointer(block)
@@ -357,7 +357,7 @@ CONTAINS
       ELSE
          CALL dbcsr_make_null_dist(new_dist, SIZE(row_blk_sizes), &
                                    SIZE(col_blk_sizes), group=mp_group)
-      ENDIF
+      END IF
       my_data_type = dbcsr_type_real_default
       IF (PRESENT(data_type)) my_data_type = data_type
       my_symmetry = dbcsr_type_no_symmetry
@@ -374,7 +374,7 @@ CONTAINS
          my_sparsity = sparsity/100.0
       ELSE
          my_sparsity = sparsity
-      ENDIF
+      END IF
       CALL dbcsr_work_create(matrix, &
                              nblks_guess=INT(REAL(dbcsr_nblkrows_total(matrix), KIND=dp) &
                                              *REAL(dbcsr_nblkcols_total(matrix), KIND=dp) &
@@ -405,7 +405,7 @@ CONTAINS
             increment = 1 + FLOOR(LOG(value(1))/LOG(my_sparsity), KIND=int_8)
          ELSE
             increment = 1
-         ENDIF
+         END IF
          ele = ele + increment
          IF (ele >= nmax) EXIT
          counter = counter + 1
@@ -421,7 +421,7 @@ CONTAINS
             IF (p .NE. my_proc) CYCLE
          ELSE
             IF (my_symmetry .NE. dbcsr_type_no_symmetry .AND. s_col .LT. s_row) CYCLE
-         ENDIF
+         END IF
          IF (.NOT. PRESENT(dist) .AND. my_proc .NE. 0) CYCLE
 
          ! fill based on a block based seed, makes this the same values in parallel
@@ -453,8 +453,8 @@ CONTAINS
                DBCSR_ABORT("wrong matrix symmetry")
             END SELECT
             CALL dbcsr_put_block(matrix, s_row, s_col, data_values_tr, summation=.TRUE.)
-         ENDIF
-      ENDDO
+         END IF
+      END DO
 
       CALL dbcsr_data_release(data_values)
       CALL dbcsr_data_release(data_values_tr)
@@ -504,8 +504,8 @@ CONTAINS
          IF (mixer(3, selector) .GT. mixer(1, selector)) THEN
             mixer(3, selector) = 1
             selector = MOD(selector, nsize_mix) + 1
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       ALLOCATE (block_sizes(nblocks))
       block_sizes = sizes(1:nblocks)
       current_sum = SUM(block_sizes)
@@ -532,7 +532,7 @@ CONTAINS
                            RESHAPE((/1/), (/1, 1/)), &
                            0, 1, &
                            myprow=0, mypcol=0)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_make_null_mp
    !
    SUBROUTINE dbcsr_make_null_dist(distribution, nblkrows, nblkcols, group)

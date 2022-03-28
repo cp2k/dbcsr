@@ -233,14 +233,14 @@ CONTAINS
             istat = acc_interface_memcpy_d2d(old_cptr, new_cptr, INT(old_size, KIND=C_SIZE_T), stream_cptr)
             IF (istat /= 0) &
                DBCSR_ABORT("acc_devmem_ensure_size_bytes: memcpy failed")
-         ENDIF
+         END IF
 
          CALL acc_stream_synchronize(stream)
          istat = acc_interface_dev_mem_dealloc(old_cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_ensure_size_bytes: dealloc failed")
 
-      ENDIF
+      END IF
 #endif
    END SUBROUTINE acc_devmem_ensure_size_bytes
 
@@ -322,7 +322,7 @@ CONTAINS
          ! Empty buffers
          this%size_in_bytes = pointee%size_in_bytes
          this%cptr = pointee%cptr
-      ENDIF
+      END IF
 #endif
    END SUBROUTINE acc_devmem_set_cptr
 
@@ -417,11 +417,11 @@ CONTAINS
       IF (PRESENT(first_byte)) THEN
          offset = first_byte - 1
          length = length - offset
-      ENDIF
+      END IF
       IF (PRESENT(last_byte)) THEN
          length = last_byte
          IF (PRESENT(first_byte)) length = length - first_byte
-      ENDIF
+      END IF
 
       stream_cptr = acc_stream_cptr(stream)
 
@@ -429,7 +429,7 @@ CONTAINS
          istat = acc_interface_memzero(this%cptr, offset, length, stream_cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_setzero: failed")
-      ENDIF
+      END IF
 #endif
    END SUBROUTINE acc_devmem_setzero_bytes
 
@@ -455,7 +455,7 @@ CONTAINS
                                           INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_host2dev: failed")
-      ENDIF
+      END IF
    END SUBROUTINE host2dev_raw
 #endif
 
@@ -483,70 +483,70 @@ CONTAINS
                                           INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_dev2host: failed")
-      ENDIF
+      END IF
    END SUBROUTINE dev2host_raw
 #endif
 
-#:set instances = [ ('i4', 'int_4_size',    'INTEGER(kind=int_4)'), &
-                    ('i8', 'int_8_size',    'INTEGER(kind=int_8)'), &
-                    ('r4', 'real_4_size',   'REAL(kind=real_4)'), &
-                    ('r8', 'real_8_size',   'REAL(kind=real_8)'), &
-                    ('c4', '2*real_4_size', 'COMPLEX(kind=real_4)'), &
-                    ('c8', '2*real_8_size', 'COMPLEX(kind=real_8)') ]
+   #:set instances = [ ('i4', 'int_4_size',    'INTEGER(kind=int_4)'), &
+      ('i8', 'int_8_size',    'INTEGER(kind=int_8)'), &
+      ('r4', 'real_4_size',   'REAL(kind=real_4)'), &
+      ('r8', 'real_8_size',   'REAL(kind=real_8)'), &
+      ('c4', '2*real_4_size', 'COMPLEX(kind=real_4)'), &
+      ('c8', '2*real_8_size', 'COMPLEX(kind=real_8)') ]
 
-#:for nametype, size, type in instances
+   #:for nametype, size, type in instances
 
-   SUBROUTINE host2dev_${nametype}$_1D(this, hostmem, stream)
+      SUBROUTINE host2dev_${nametype}$_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
 
-      TYPE(acc_devmem_type), INTENT(IN)        :: this
-      ${type}$, DIMENSION(:), POINTER          :: hostmem
-      TYPE(acc_stream_type), INTENT(IN)        :: stream
+         TYPE(acc_devmem_type), INTENT(IN)        :: this
+         ${type}$, DIMENSION(:), POINTER          :: hostmem
+         TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
-      MARK_USED(this)
-      MARK_USED(hostmem)
-      MARK_USED(stream)
-      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
+         MARK_USED(this)
+         MARK_USED(hostmem)
+         MARK_USED(stream)
+         DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CALL host2dev_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
+         CALL host2dev_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
 #endif
-   END SUBROUTINE host2dev_${nametype}$_1D
+      END SUBROUTINE host2dev_${nametype}$_1D
 
-   SUBROUTINE host2dev_${nametype}$_2D(this, hostmem, stream)
+      SUBROUTINE host2dev_${nametype}$_2D(this, hostmem, stream)
       !! Transfers 2D fortran-array from host to GPU devmem.
 
-      TYPE(acc_devmem_type), INTENT(IN)        :: this
-      ${type}$, DIMENSION(:, :), POINTER       :: hostmem
-      TYPE(acc_stream_type), INTENT(IN)        :: stream
+         TYPE(acc_devmem_type), INTENT(IN)        :: this
+         ${type}$, DIMENSION(:, :), POINTER       :: hostmem
+         TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
-      MARK_USED(this)
-      MARK_USED(hostmem)
-      MARK_USED(stream)
-      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
+         MARK_USED(this)
+         MARK_USED(hostmem)
+         MARK_USED(stream)
+         DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CALL host2dev_raw(this, C_LOC(hostmem(1, 1)), ${size}$*SIZE(hostmem), stream)
+         CALL host2dev_raw(this, C_LOC(hostmem(1, 1)), ${size}$*SIZE(hostmem), stream)
 #endif
-   END SUBROUTINE host2dev_${nametype}$_2D
+      END SUBROUTINE host2dev_${nametype}$_2D
 
-   SUBROUTINE dev2host_${nametype}$_1D(this, hostmem, stream)
+      SUBROUTINE dev2host_${nametype}$_1D(this, hostmem, stream)
       !! Transfers GPU devmem to 1D fortran-array.
 
-      TYPE(acc_devmem_type), INTENT(IN)        :: this
-      ${type}$, DIMENSION(:), POINTER          :: hostmem
-      TYPE(acc_stream_type), INTENT(IN)        :: stream
+         TYPE(acc_devmem_type), INTENT(IN)        :: this
+         ${type}$, DIMENSION(:), POINTER          :: hostmem
+         TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
-      MARK_USED(this)
-      MARK_USED(hostmem)
-      MARK_USED(stream)
-      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
+         MARK_USED(this)
+         MARK_USED(hostmem)
+         MARK_USED(stream)
+         DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CALL dev2host_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
+         CALL dev2host_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
 #endif
-   END SUBROUTINE dev2host_${nametype}$_1D
+      END SUBROUTINE dev2host_${nametype}$_1D
 
-#:endfor
+   #:endfor
 
 END MODULE dbcsr_acc_devmem

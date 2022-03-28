@@ -126,17 +126,17 @@ CONTAINS
             size_breakdown(nlimits + 1, 1) = size_breakdown(nlimits + 1, 1) + 1
             size_breakdown(nlimits + 1, 2) = size_breakdown(nlimits + 1, 2) + data_size_bytes
             RETURN
-         ENDIF
+         END IF
          llimit = 0
          DO ilimit = 1, nlimits
             IF (data_size_bytes .GE. llimit .AND. data_size_bytes .LE. dbcsr_mpi_size_limits(ilimit)) THEN
                size_breakdown(ilimit, 1) = size_breakdown(ilimit, 1) + 1
                size_breakdown(ilimit, 2) = size_breakdown(ilimit, 2) + data_size_bytes
                RETURN
-            ENDIF
+            END IF
             llimit = dbcsr_mpi_size_limits(ilimit)
-         ENDDO
-      ENDIF
+         END DO
+      END IF
    END SUBROUTINE count_mpi_statistics
 
    SUBROUTINE setup_buffer_matrix(matrix, source_matrix, &
@@ -159,13 +159,13 @@ CONTAINS
          CALL dbcsr_data_ensure_size( &
             matrix%data_area, &
             data_size, nocopy=.TRUE.)
-      ENDIF
+      END IF
       IF (PRESENT(index_size)) THEN
          CALL ensure_array_size( &
             matrix%index, &
             ub=index_size, nocopy=.TRUE., &
             memory_type=dbcsr_get_index_memory_type(matrix))
-      ENDIF
+      END IF
       matrix%negate_real = source_matrix%negate_real
       matrix%negate_imaginary = source_matrix%negate_imaginary
       matrix%local_indexing = source_matrix%local_indexing
@@ -175,22 +175,22 @@ CONTAINS
          matrix%local_rows = source_matrix%local_rows
          CALL array_hold(matrix%local_rows)
          matrix%has_local_rows = .TRUE.
-      ENDIF
+      END IF
       IF (source_matrix%has_global_rows) THEN
          matrix%global_rows = source_matrix%global_rows
          CALL array_hold(matrix%global_rows)
          matrix%has_global_rows = .TRUE.
-      ENDIF
+      END IF
       IF (source_matrix%has_local_cols) THEN
          matrix%local_cols = source_matrix%local_cols
          CALL array_hold(matrix%local_cols)
          matrix%has_local_cols = .TRUE.
-      ENDIF
+      END IF
       IF (source_matrix%has_global_cols) THEN
          matrix%global_cols = source_matrix%global_cols
          CALL array_hold(matrix%global_cols)
          matrix%has_global_cols = .TRUE.
-      ENDIF
+      END IF
 
    END SUBROUTINE setup_buffer_matrix
 
@@ -215,12 +215,12 @@ CONTAINS
       IF (dbg) THEN
          WRITE (*, *) " rs", mi, mf, "/", ni, nf, "=>", nele, d
          WRITE (*, '(3(1X,I7))') a(:, 1:nele)
-      ENDIF
+      END IF
       IF (dbg) THEN
          IF (d .GT. 20) THEN
             WRITE (*, *) a(1, -d*1000)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       ALLOCATE (tmp(3, nele))
       M = mf - mi + 1
       N = nf - ni + 1
@@ -231,10 +231,10 @@ CONTAINS
          DEALLOCATE (tmp)
          IF (nlow .GT. 1) THEN
             CALL rec_sort_index(mi, mi + half - 1, ni, nf, nlow, a(:, 1:nlow), d + 1)
-         ENDIF
+         END IF
          IF (nele - nlow .GT. 1) THEN
             CALL rec_sort_index(mi + half, mf, ni, nf, nele - nlow, a(:, nlow + 1:nele), d + 1)
-         ENDIF
+         END IF
       ELSE
          half = N/2
          CALL rec_split(nele, a, tmp, 2, nlow, ni, half)
@@ -242,11 +242,11 @@ CONTAINS
          DEALLOCATE (tmp)
          IF (nlow .GT. 1) THEN
             CALL rec_sort_index(mi, mf, ni, ni + half - 1, nlow, a(:, 1:nlow), d + 1)
-         ENDIF
+         END IF
          IF (nele - nlow .GT. 1) THEN
             CALL rec_sort_index(mi, mf, ni + half, nf, nele - nlow, a(:, nlow + 1:nele), d + 1)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE rec_sort_index
 
    SUBROUTINE rec_split(nele, a, split, row_or_col, nlow, mi, half)
@@ -269,8 +269,8 @@ CONTAINS
          ELSE
             split(1:3, p_high) = a(1:3, el)
             p_high = p_high - 1
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       nlow = p_low - 1
       DBCSR_ASSERT(p_high .EQ. nlow)
 
@@ -293,7 +293,7 @@ CONTAINS
 
       DO i = 1, SIZE(blk_sizes)
          enum(blk_sizes(i)) = 1
-      ENDDO
+      END DO
 
       n = SUM(enum)
       ALLOCATE (rev_enum(n))
@@ -305,7 +305,7 @@ CONTAINS
             enum(i) = n
             rev_enum(n) = i
          END IF
-      ENDDO
+      END DO
 
       CALL timestop(handle)
 
@@ -360,7 +360,7 @@ CONTAINS
             DBCSR_ABORT("build_trs_stack: trs_stackbuf undersized")
       ELSE
          CALL dbcsr_data_ensure_size(trs_stackbuf, data_size=nblks, nocopy=.TRUE.)
-      ENDIF
+      END IF
       CALL dbcsr_data_set_size_referenced(trs_stackbuf, nblks)
       trs_stack => trs_stackbuf%d%i4
       CALL timestop(handle1)
@@ -378,7 +378,7 @@ CONTAINS
             IF (blk_p == 0) CYCLE
             counters(1, 1) = counters(1, 1) + 1
             trs_stack(counters(1, 1)) = blk_p - 1
-         ENDDO
+         END DO
       ELSE
          ALLOCATE (tmp_stack(3, nblks))
          ! collect block addresses and dimensions in a temporary stack
@@ -396,15 +396,15 @@ CONTAINS
             tmp_stack(2, i) = ni
             tmp_stack(3, i) = blk_p - 1
             counters(mi, ni) = counters(mi, ni) + 1
-         ENDDO
+         END DO
          ! calculate offsets for first element of each sub-stack
          offset = 0
          DO mi = 1, mi_max
             DO ni = 1, ni_max
                offsets(mi, ni) = offset
                offset = offset + counters(mi, ni)
-            ENDDO
-         ENDDO
+            END DO
+         END DO
          ! write all sub-stacks into the host-pinned buffer
          ALLOCATE (filled(mi_max, ni_max))
          filled(:, :) = 0
@@ -415,7 +415,7 @@ CONTAINS
             x = offsets(mi, ni) + filled(mi, ni) + 1
             trs_stack(x) = blk_p
             filled(mi, ni) = filled(mi, ni) + 1
-         ENDDO
+         END DO
          !sanity check
          DO ni = 1, ni_max
             DO mi = 1, mi_max
@@ -423,7 +423,7 @@ CONTAINS
                   DBCSR_ABORT("acc_transpose_blocks: bug")
             END DO
          END DO
-      ENDIF
+      END IF
       CALL timestop(handle1)
 
       CALL timeset(routineN//"_sync", handle1)
@@ -449,8 +449,8 @@ CONTAINS
                   m=m, n=n, &
                   stream=trs_stackbuf%d%memory_type%acc_stream)
             END IF
-         ENDDO
-      ENDDO
+         END DO
+      END DO
       CALL timestop(handle1)
 
       CALL timeset(routineN//"_sync", handle1)
@@ -495,7 +495,7 @@ CONTAINS
       fill_guess = MIN(1.0_real_8, MAX(0.0_real_8, fill_guess))
       IF (nthreads .GT. 1) THEN
          fill_guess = fill_guess*3.0_real_8/REAL(2*nthreads, KIND=real_8)
-      ENDIF
+      END IF
       size_guess = INT(REAL(size8, KIND=real_8)*fill_guess, KIND=int_4)
    END FUNCTION product_matrix_size_guess
 
@@ -564,25 +564,25 @@ CONTAINS
       END DO
    END SUBROUTINE local_filter
 
-#:include '../data/dbcsr.fypp'
-#:for n, nametype1, base1, prec1, kind1, type1, dkind1, normname1 in inst_params_float
-   SUBROUTINE calc_norms_${nametype1}$ (norms, nblks, &
-                                        blki, rbs, cbs, DATA)
+   #:include '../data/dbcsr.fypp'
+   #:for n, nametype1, base1, prec1, kind1, type1, dkind1, normname1 in inst_params_float
+      SUBROUTINE calc_norms_${nametype1}$ (norms, nblks, &
+                                           blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
-      REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
-      INTEGER, INTENT(IN)                      :: nblks
-      INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
-      INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
-      ${type1}$, DIMENSION(:), &
-         INTENT(IN)                            :: DATA
+         REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
+         INTEGER, INTENT(IN)                      :: nblks
+         INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
+         INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
+         ${type1}$, DIMENSION(:), &
+            INTENT(IN)                            :: DATA
 
-      INTEGER                                  :: blk, bp, bpe, row, col
+         INTEGER                                  :: blk, bp, bpe, row, col
 
-      REAL(KIND=real_8), EXTERNAL              :: DDOT
+         REAL(KIND=real_8), EXTERNAL              :: DDOT
 #if defined (__ACCELERATE)
-      REAL(KIND=real_8), EXTERNAL              :: SDOT
+         REAL(KIND=real_8), EXTERNAL              :: SDOT
 #else
-      REAL(KIND=real_4), EXTERNAL              :: SDOT
+         REAL(KIND=real_4), EXTERNAL              :: SDOT
 #endif
 
 !   ---------------------------------------------------------------------------
@@ -591,21 +591,21 @@ CONTAINS
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(row, col, blk, bp, bpe)
 !$OMP     do schedule(static)
-      DO blk = 1, nblks
-         bp = blki(3, blk)
-         row = blki(1, blk)
-         col = blki(2, blk)
-#:if nametype1 in ['d', 's']
-         bpe = rbs(row)*cbs(col)
-         norms(blk) = REAL(${normname1}$ (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
-#:else
-         bpe = bp + rbs(row)*cbs(col) - 1
-         norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-#:endif
-      ENDDO
+         DO blk = 1, nblks
+            bp = blki(3, blk)
+            row = blki(1, blk)
+            col = blki(2, blk)
+            #:if nametype1 in ['d', 's']
+               bpe = rbs(row)*cbs(col)
+               norms(blk) = REAL(${normname1}$ (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
+            #:else
+               bpe = bp + rbs(row)*cbs(col) - 1
+               norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
+            #:endif
+         END DO
 !$OMP     end do
 !$OMP     end parallel
-   END SUBROUTINE calc_norms_${nametype1}$
-#:endfor
+      END SUBROUTINE calc_norms_${nametype1}$
+   #:endfor
 
 END MODULE dbcsr_mm_common

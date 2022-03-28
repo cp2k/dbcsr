@@ -1,6 +1,6 @@
 #
 # Author: Alfio Lazzaro, alfio.lazzaro@mat.ethz.ch (2013-2015)
-# Library for the generate script used in LIBSMM library    
+# Library for the generate script used in LIBSMM library
 #
 
 #
@@ -24,7 +24,7 @@ write_makefile_header() {
     printf "LIBSMM_INDICES = \$(wordlist \$(LIBSMM_SI),\$(LIBSMM_EI),\$(LIBSMM_DIMS_INDICES))\n\n"
 
     #
-    # output directory for compiled and results files 
+    # output directory for compiled and results files
     #
     printf "LIBSMM_WORKDIR=${work_dir}\n\n"
 
@@ -32,12 +32,12 @@ write_makefile_header() {
     # list of source files
     #
     printf "LIBSMM_SRCFILES=\$(patsubst %%,${prefix_file}_find_%%.f90,\$(LIBSMM_INDICES)) \n"
-    
+
     #
     # list of executables
     #
     printf "LIBSMM_OBJFILES=\$(patsubst %%,\$(LIBSMM_WORKDIR)/${prefix_file}_find_%%.o,\$(LIBSMM_INDICES)) \n"
-    
+
     #
     # list of output files
     #
@@ -176,16 +176,16 @@ collect_results() {
 
 
 do_generate_tiny() {
-    # 
+    #
     # skip the compilation part if it needs only to collect the results
     #
     if [ "$run_cmd" != "true" ]; then
         #
         # compile the generator of tiny mults
         #
-	${host_compile} -c mults.f90 
+	${host_compile} -c mults.f90
 	${host_compile} mults.o tiny_gen.f90 -o tiny_gen.x
-	
+
         #
         # for easy parallelism go via a Makefile
         #
@@ -290,7 +290,7 @@ do_generate_small() {
 		printf " \$@"
 		printf " libxsmm_"
 		printf '`echo $* | awk -F_ '\''{ print $$6"_"$$7"_"$$8" "$$6" "$$7" "$$8" "$$6" "$$8" "$$6 }'\''` '
-		printf "1 1 0 0 ${SIMD_libxsmm} nopf ${data_libxsmm}" 
+		printf "1 1 0 0 ${SIMD_libxsmm} nopf ${data_libxsmm}"
 	    fi
 	    printf "\n\n"
 	) > ${make_file}
@@ -312,8 +312,8 @@ do_generate_lib() {
 	echo "Abort execution."
 	echo
 	exit
-    fi    
-    
+    fi
+
     #
     # Check if small file exists
     #
@@ -322,13 +322,13 @@ do_generate_lib() {
 	echo "Abort execution."
 	echo
 	exit
-    fi    
+    fi
 
     #
     # compile the generator of small mults
     #
-    ${host_compile} -c mults.f90 
-    ${host_compile} -c multrec_gen.f90 
+    ${host_compile} -c mults.f90
+    ${host_compile} -c multrec_gen.f90
     ${host_compile} mults.o multrec_gen.o lib_gen.f90 -o lib_gen.x
 
     #
@@ -357,7 +357,7 @@ do_generate_lib() {
     eles="(/0"
     for i in `seq 1 $maxsize`
     do
-	
+
 	found=0
 	for myn in ${dims_small}
 	do
@@ -369,12 +369,12 @@ do_generate_lib() {
 	    count=$((count+1))
 	    ele=$count
 	else
-	    ele=0 
+	    ele=0
 	fi
 	eles="$eles,$ele"
     done
     eles="$eles/)"
-   
+
     cd ${run_dir}
 
     file="smm${type_label}.f90"
@@ -401,7 +401,7 @@ do_generate_lib() {
 	printf " IF (N<=$maxsize) THEN\n   in=indx(N)\n ELSE\n   in=0\n ENDIF\n" >> ${file}
 	printf " IF (K<=$maxsize) THEN\n   ik=indx(K)\n ELSE\n   ik=0\n ENDIF\n" >> ${file}
 	printf " itot=(ik*($numsize+1)+in)*($numsize+1)+im\n" >> ${file}
-	
+
 	count=0
 	printf " SELECT CASE(itot)\n" >> ${file}
 	for myk in 0 ${dims_small}
@@ -451,7 +451,7 @@ do_generate_lib() {
 	    printf "END SUBROUTINE smm${type_label}\n\n" >> ${file}
 	fi
     }
-    
+
     write_routine
     write_routine 0
 
@@ -498,7 +498,7 @@ do_generate_lib() {
 	printf "LIBSMM_OBJFILES=\$(patsubst %%,\$(LIBSMM_WORKDIR)/smm${type_label}_%%.o,\$(LIBSMM_DIMS_INDICES)) \n\n"
 
 	printf ".PHONY: \$(LIBSMM_WORKDIR)/\$(LIBSMM_DRIVER) all_libsmm \n\n"
-	
+
 	printf "all_libsmm: \n\n"
 
         #
@@ -530,7 +530,7 @@ do_generate_lib() {
             printf " \$@"
             printf " libxsmm_"
             printf '`echo $* | awk -F_ '\''{ print $$4"_"$$5"_"$$6" "$$4" "$$5" "$$6" "$$4" "$$6" "$$4 }'\''` '
-            printf "1 1 0 0 ${SIMD_libxsmm} nopf ${data_libxsmm}\n" 
+            printf "1 1 0 0 ${SIMD_libxsmm} nopf ${data_libxsmm}\n"
         fi
 	printf "\n"
 
@@ -592,7 +592,7 @@ do_check() {
 	exit
     fi
 
-    # 
+    #
     # skip the compilation part if it needs only to collect the results
     #
     if [ "$run_cmd" != "true" ]; then
@@ -621,11 +621,11 @@ do_check() {
 		    if [ $element_end -eq 0 -o $element -gt $element_end ]; then
 			element_end=$(( element_end + nelements_in ))
 			ijob=$(( ijob + 1))
-			
+
 			if [ ${ijob} -le ${nelements_out} ]; then
 			    element_end=$(( element_end + 1))
 			fi
-			
+
 			echo "Preparing test program for job #$ijob..."
 			filename=${test_file}_job$ijob
 
@@ -715,7 +715,7 @@ SUBROUTINE testit(M,N,K)
      CALL MYRAND(C1)
      C2=C1
 
-     CALL ${gemm}("$ta","$tb",M,N,K,one,A,LDA,B,LDB,one,C1,M) 
+     CALL ${gemm}("$ta","$tb",M,N,K,one,A,LDA,B,LDB,one,C1,M)
      CALL smm${type_label}(M,N,K,A,B,C2)
 
      IF (MAXVAL(ABS(C2-C1))>100*EPSILON(REAL(1.0,KIND=KIND(A(1,1))))) THEN
@@ -732,11 +732,11 @@ SUBROUTINE testit(M,N,K)
 
   A=0; B=0; C1=0 ; C2=0
 
-  CALL CPU_TIME(t1) 
+  CALL CPU_TIME(t1)
   DO i=1,Niter
-     CALL ${gemm}("$ta","$tb",M,N,K,one,A,LDA,B,LDB,one,C1,M) 
+     CALL ${gemm}("$ta","$tb",M,N,K,one,A,LDA,B,LDB,one,C1,M)
   ENDDO
-  CALL CPU_TIME(t2) 
+  CALL CPU_TIME(t2)
 
   CALL CPU_TIME(t3)
   DO i=1,Niter
@@ -748,7 +748,7 @@ SUBROUTINE testit(M,N,K)
         " smm: ",Niter*flops/(t4-t3)/gflop," Gflops. Linked blas: ",Niter*flops/(t2-t1)/gflop,&
         " Gflops. Performance ratio: ",((t2-t1)/(t4-t3))*100,"%"
 
-END SUBROUTINE 
+END SUBROUTINE
 EOF
 if [ -n "${target_compile_offload}" ]; then
     printf '!dir$ attributes offload:mic :: testit \n ' >> ${work_dir}/${filename}.f90
@@ -796,7 +796,7 @@ EOF
 
 			rm -f ${work_dir}/${filename}.sh
 			#
-			# Prepare the script for compile the benchmarking 
+			# Prepare the script for compile the benchmarking
 			# and testing program for the smm library
 			#
 			(
@@ -816,7 +816,7 @@ EOF
 			${run_cmd} ./${work_dir}/${filename}.sh
 		    fi
 
-		    element=$(( element + 1 ))  
+		    element=$(( element + 1 ))
 
 		done ; done ; done
 
@@ -859,5 +859,5 @@ EOF
 	echo "Final library can be found at ${archive}"
 	echo
     fi
-    
+
 }

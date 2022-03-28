@@ -118,7 +118,12 @@ def cpp_function_to_string(cpp_file, kernel_name):
             elif re.match(open_comment, line) is not None:
                 in_comment = True
             else:
-                out += line_in_string.format(line.replace('"', '\\"')) + "\n"
+                out += (
+                    line_in_string.format(
+                        line.replace('"', '\\"').replace("\\", "\\\\")
+                    )
+                    + "\n"
+                )
         else:  # in_comment == True
             if re.match(close_comment, line) is not None:
                 in_comment = False

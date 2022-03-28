@@ -10,10 +10,12 @@
 MODULE dbcsr_lib
 
    !! Routines that affect the DBCSR library as a whole
-   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device
-   USE dbcsr_config, ONLY: get_accdrv_active_device_id, &
-                           set_accdrv_active_device_id, &
-                           reset_accdrv_active_device_id
+   USE dbcsr_acc_init, ONLY: acc_finalize, acc_init
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices
+   USE dbcsr_config, ONLY: set_accdrv_active_device_id, &
+                           reset_accdrv_active_device_id, &
+                           dbcsr_set_config, &
+                           has_acc
    USE dbcsr_kinds, ONLY: int_1_size, &
                           int_2_size, &
                           int_4_size, &
@@ -87,16 +89,15 @@ MODULE dbcsr_lib
          BIND(C, name="libsmm_acc_is_thread_safe")
          IMPORT
          INTEGER(KIND=C_INT)        :: thread_safe
-
       END FUNCTION libsmm_acc_is_thread_safe
    END INTERFACE
+
    INTERFACE
       FUNCTION libsmm_acc_gpu_warp_size() &
          RESULT(warp_size) &
          BIND(C, name="libsmm_acc_gpu_warp_size")
          IMPORT
          INTEGER(KIND=C_INT)        :: warp_size
-
       END FUNCTION libsmm_acc_gpu_warp_size
    END INTERFACE
 #endif
@@ -112,7 +113,7 @@ CONTAINS
          ! Update ext_io_unit
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
-      ENDIF
+      END IF
       CALL dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       !
       ! Declare loggers
@@ -148,7 +149,7 @@ CONTAINS
          ! Update ext_io_unit
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
-      ENDIF
+      END IF
       CALL dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       ! abort/warn hooks
       dbcsr_abort_hook => in_abort_hook
@@ -177,6 +178,9 @@ CONTAINS
       INTEGER :: dbcsr_thread_safe, libsmm_acc_thread_safe
 #endif
 
+      ! construct defaults which were unknown at compile-time (dbcsr_config_type)
+      CALL dbcsr_set_config()
+
       CALL mp_environ(numnodes, mynode, mp_comm)
 
       IF (PRESENT(io_unit)) THEN
@@ -184,31 +188,33 @@ CONTAINS
       ELSE
          ext_io_unit = 0
          IF (mynode .EQ. 0) ext_io_unit = default_output_unit
-      ENDIF
+      END IF
 
       ! if MPI was not initialized in DBCSR, then need to check for the number of communicators
       ! when we finalize DBCSR
       IF (mp_get_comm_count() .EQ. 0) THEN
          check_comm_count = .TRUE.
-      ENDIF
+      END IF
       CALL dbcsr_mp_make_env(mp_env, default_group, mp_comm)
 
 #if defined(__LIBXSMM)
       CALL libxsmm_init()
 #endif
 
-      ! Set Acc device
-      IF (dbcsr_acc_get_ndevices() > 0) THEN
+      ! Initialize Acc and set active device
+      IF (has_acc) THEN
          IF (PRESENT(accdrv_active_device_id)) THEN
             CALL set_accdrv_active_device_id(accdrv_active_device_id)
-         ELSE
+         ELSEIF (dbcsr_acc_get_ndevices() > 0) THEN
             ! Use round-robin assignment per rank
             CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
-         ENDIF
-      ENDIF
-#if defined(__DBCSR_ACC)
-      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
+         ELSE
+            DBCSR_ABORT("dbcsr_init_lib: No recongnized GPU devices")
+         END IF
+         CALL acc_init()
+      END IF
 
+#if defined(__DBCSR_ACC)
       ! Checks related to DBCSR's GPU backend: check consistency in threading level
       libsmm_acc_thread_safe = libsmm_acc_is_thread_safe()  ! 0: not threaded, 1: threaded
       dbcsr_thread_safe = 0  ! not threaded
@@ -221,9 +227,8 @@ CONTAINS
          ELSE
             CALL dbcsr_abort(__LOCATION__, &
                              "DBCSR compiled w/o threading support while libsmm_acc is compiled w/ threading support.")
-         ENDIF
-      ENDIF
-
+         END IF
+      END IF
 #endif
    END SUBROUTINE dbcsr_init_lib_pre
 
@@ -248,7 +253,7 @@ CONTAINS
 
       IF (.NOT. has_mp_perf_env()) THEN
          CALL add_mp_perf_env()
-      ENDIF
+      END IF
 
 !$OMP     PARALLEL DEFAULT(NONE)
       CALL dbcsr_multiply_lib_init()
@@ -285,7 +290,7 @@ CONTAINS
          CALL rm_mp_perf_env()
          CALL rm_timer_env()
          NULLIFY (logger)
-      ENDIF
+      END IF
       NULLIFY (timeset_hook)
       NULLIFY (timestop_hook)
       NULLIFY (dbcsr_abort_hook)
@@ -297,12 +302,14 @@ CONTAINS
 #endif
       ! Reset Acc ID
       CALL reset_accdrv_active_device_id()
+      IF (has_acc) THEN
+         CALL acc_finalize()
+      END IF
 
       ! Check the number of communicators
       IF (check_comm_count .AND. mp_get_comm_count() .NE. 0) THEN
          DBCSR_ABORT("Number of DBCSR sub-communicators is not zero!")
-      ENDIF
-
+      END IF
    END SUBROUTINE dbcsr_finalize_lib
 
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
@@ -335,14 +342,14 @@ CONTAINS
       ! Dump callgraph
       IF (PRESENT(callgraph_filename) .AND. ASSOCIATED(logger)) THEN
          CALL timings_report_callgraph(callgraph_filename)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_print_statistics
 
    SUBROUTINE dbcsr_print_timers()
       !! Print timers
       IF (ASSOCIATED(logger)) THEN
          CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_print_timers
 
    SUBROUTINE dbcsr_clear_mempools()

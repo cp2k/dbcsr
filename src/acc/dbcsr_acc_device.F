@@ -16,6 +16,7 @@ MODULE dbcsr_acc_device
    IMPLICIT NONE
 
    PUBLIC :: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device, dbcsr_acc_clear_errors
+   PUBLIC :: acc_device_synchronize
 
    PRIVATE
 
@@ -39,9 +40,17 @@ MODULE dbcsr_acc_device
 
       END FUNCTION acc_set_active_device_cu
 
+      FUNCTION acc_device_synchronize_cu() RESULT(istat) &
+         BIND(C, name="c_dbcsr_acc_device_synchronize")
+         IMPORT
+         INTEGER(KIND=C_INT)                      :: istat
+
+      END FUNCTION acc_device_synchronize_cu
+
       SUBROUTINE acc_clear_errors_cu() &
          BIND(C, name="c_dbcsr_acc_clear_errors")
       END SUBROUTINE acc_clear_errors_cu
+
    END INTERFACE
 
 #endif
@@ -94,5 +103,18 @@ CONTAINS
       DBCSR_ABORT("__DBCSR_ACC not compiled in")
 #endif
    END SUBROUTINE dbcsr_acc_clear_errors
+
+   SUBROUTINE acc_device_synchronize()
+      !! Fortran-wrapper for waiting for work on all streams to complete
+
+#if defined (__DBCSR_ACC)
+      INTEGER                                  :: istat
+      istat = acc_device_synchronize_cu()
+      IF (istat /= 0) &
+         DBCSR_ABORT("acc_device_synchronize failed")
+#else
+      DBCSR_ABORT("__DBCSR_ACC not compiled in")
+#endif
+   END SUBROUTINE acc_device_synchronize
 
 END MODULE dbcsr_acc_device

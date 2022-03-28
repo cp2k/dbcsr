@@ -12,6 +12,8 @@ MODULE dbcsr_acc_init
 #if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_PTR, C_NULL_PTR, C_NULL_CHAR, C_ASSOCIATED
 #endif
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_set_active_device
+   USE dbcsr_config, ONLY: get_accdrv_active_device_id
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -47,9 +49,15 @@ CONTAINS
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
+      ! Set active device first
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
+!$OMP    PARALLEL DEFAULT(NONE) PRIVATE(istat)
+!$OMP    MASTER
       istat = acc_interface_drv_init()
       IF (istat /= 0) &
          DBCSR_ABORT("acc_init failed")
+!$OMP    END MASTER
+!$OMP    END PARALLEL
 #endif
    END SUBROUTINE acc_init
 
@@ -58,10 +66,14 @@ CONTAINS
 #if ! defined (__DBCSR_ACC)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      INTEGER                                  :: istat
+      INTEGER                                :: istat
+!$OMP    PARALLEL DEFAULT(NONE) PRIVATE(istat)
+!$OMP    MASTER
       istat = acc_interface_drv_finalize()
       IF (istat /= 0) &
          DBCSR_ABORT("acc_finalize failed")
+!$OMP    END MASTER
+!$OMP    END PARALLEL
 #endif
    END SUBROUTINE acc_finalize
 

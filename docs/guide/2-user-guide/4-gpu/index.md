@@ -26,7 +26,7 @@ Tuning the 23x23x23-kernel for example is the default case. However, to better i
 
 ```bash
 cd ${HOME}/dbcsr/src/acc/opencl/smm
-./tune_multiply.py 23 23 23
+./tune_multiply.py 23x23x23
 ```
 
 Beside of interactive termination, above process would also terminate based on OpenTuner's default or can be constrained by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html).
@@ -42,7 +42,7 @@ Important kernels can be further tuned (in addition to spending more time for th
 
 ```bash
 cd ${HOME}/dbcsr/src/acc/opencl/smm
-./tune_multiply.py 23 23 23 -a 0
+./tune_multiply.py 23x23x23 -a 0
 ```
 
 To "continue" tuning beyond the default level, the previously found parameters must be embedded (by rebuilding the library and driver program) or can be alternatively specified at runtime (`OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv`).

@@ -96,7 +96,7 @@ CONTAINS
       matrix%refcount = matrix%refcount - 1
       IF (matrix%refcount .EQ. 0) THEN
          CALL dbcsr_destroy(matrix)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_release
 
    RECURSIVE SUBROUTINE dbcsr_destroy(matrix, force)
@@ -125,7 +125,7 @@ CONTAINS
             DBCSR_WARN("Destroying unfinalized matrix")
          IF (ASSOCIATED(matrix%index)) THEN
             CALL memory_deallocate(matrix%index, matrix%index_memory_type)
-         ENDIF
+         END IF
          CALL dbcsr_data_release(matrix%data_area)
          CALL array_release(matrix%row_blk_size)
          CALL array_release(matrix%col_blk_size)
@@ -135,7 +135,7 @@ CONTAINS
          CALL dbcsr_release_locals(matrix)
          matrix%valid = .FALSE.
          matrix%refcount = 0
-      ENDIF
+      END IF
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_destroy
 
@@ -159,8 +159,8 @@ CONTAINS
             CALL array_release(dist%d%col_map)
             CALL dbcsr_dist_release_locals(dist)
             DEALLOCATE (dist%d)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE dbcsr_distribution_release
 
    SUBROUTINE dbcsr_dist_release_locals(dist)
@@ -173,19 +173,19 @@ CONTAINS
             CALL array_release(dist%d%other_l_rows(i))
          END DO
          DEALLOCATE (dist%d%other_l_rows)
-      ENDIF
+      END IF
       IF (dist%d%has_other_l_cols) THEN
          DO i = LBOUND(dist%d%other_l_cols, 1), UBOUND(dist%d%other_l_cols, 1)
             CALL array_release(dist%d%other_l_cols(i))
          END DO
          DEALLOCATE (dist%d%other_l_cols)
-      ENDIF
+      END IF
       IF (dist%d%has_global_row_map) THEN
          CALL array_release(dist%d%global_row_map)
-      ENDIF
+      END IF
       IF (dist%d%has_global_col_map) THEN
          CALL array_release(dist%d%global_col_map)
-      ENDIF
+      END IF
       dist%d%has_other_l_rows = .FALSE.
       dist%d%has_other_l_cols = .FALSE.
       dist%d%has_global_row_map = .FALSE.
@@ -206,8 +206,8 @@ CONTAINS
             CALL dbcsr_mp_grid_remove(mp_env)
             DEALLOCATE (mp_env%mp%pgrid)
             DEALLOCATE (mp_env%mp)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE dbcsr_mp_release
 
    SUBROUTINE dbcsr_mp_grid_remove(mp_env)
@@ -219,7 +219,7 @@ CONTAINS
       IF (mp_env%mp%subgroups_defined) THEN
          CALL mp_comm_free(mp_env%mp%prow_group)
          CALL mp_comm_free(mp_env%mp%pcol_group)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_mp_grid_remove
 
    SUBROUTINE dbcsr_release_locals(matrix)
@@ -469,10 +469,10 @@ CONTAINS
             matrix_type = dbcsr_type_antisymmetric
          ELSEIF ((.NOT. matrix%negate_real) .AND. (.NOT. matrix%negate_imaginary)) THEN
             matrix_type = dbcsr_type_symmetric
-         ENDIF
+         END IF
       ELSE
          matrix_type = dbcsr_type_no_symmetry
-      ENDIF
+      END IF
    END FUNCTION dbcsr_get_matrix_type
 
    PURE FUNCTION dbcsr_has_symmetry(matrix) RESULT(has_symmetry)
@@ -604,9 +604,9 @@ CONTAINS
             IF (matrix%blk_p(blk) .NE. 0) THEN
                nze = row_blk_sizes(row)*col_blk_sizes(col)
                data_size = data_size + nze
-            ENDIF
-         ENDDO
-      ENDDO
+            END IF
+         END DO
+      END DO
 !$OMP     END DO
       CALL timestop(error_handle)
    END FUNCTION dbcsr_get_data_size_used
@@ -647,7 +647,7 @@ CONTAINS
 
       DO i = LBOUND(marray%mats, 1), UBOUND(marray%mats, 1)
          CALL dbcsr_destroy(marray%mats(i), force=.TRUE.)
-      ENDDO
+      END DO
       CALL dbcsr_image_dist_release(marray%image_dist)
       DEALLOCATE (marray%mats)
    END SUBROUTINE dbcsr_destroy_1d_array
@@ -665,8 +665,8 @@ CONTAINS
       DO row = LBOUND(marray%mats, 1), UBOUND(marray%mats, 1)
          DO col = LBOUND(marray%mats, 2), UBOUND(marray%mats, 2)
             CALL dbcsr_destroy(marray%mats(row, col), force=.TRUE.)
-         ENDDO
-      ENDDO
+         END DO
+      END DO
       CALL dbcsr_image_dist_release(marray%image_dist)
       DEALLOCATE (marray%mats)
    END SUBROUTINE dbcsr_destroy_2d_array
@@ -682,8 +682,8 @@ CONTAINS
          IF (imgdist%i%refcount .EQ. 0) THEN
             CALL dbcsr_destroy_image_dist(imgdist%i)
             DEALLOCATE (imgdist%i)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE dbcsr_image_dist_release
 
    SUBROUTINE dbcsr_image_dist_hold(imgdist)
@@ -727,7 +727,7 @@ CONTAINS
          END DO
          DEALLOCATE (imgdist%other_vl_rows)
          imgdist%has_other_vl_rows = .FALSE.
-      ENDIF
+      END IF
       !
       IF (imgdist%has_other_vl_cols) THEN
          DO i = LBOUND(imgdist%other_vl_cols, 1), UBOUND(imgdist%other_vl_cols, 1)
@@ -735,14 +735,14 @@ CONTAINS
          END DO
          DEALLOCATE (imgdist%other_vl_cols)
          imgdist%has_other_vl_cols = .FALSE.
-      ENDIF
+      END IF
       !
       IF (imgdist%has_global_vrow_map) THEN
          CALL array_release(imgdist%global_vrow_map)
-      ENDIF
+      END IF
       IF (imgdist%has_global_vcol_map) THEN
          CALL array_release(imgdist%global_vcol_map)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_destroy_image_dist
 
 ! **************************************************************************************************
@@ -772,7 +772,7 @@ CONTAINS
          CALL btree_delete(mutable%m%btree_c)
          CALL btree_delete(mutable%m%btree_z)
          DEALLOCATE (mutable%m)
-      ENDIF
+      END IF
       NULLIFY (mutable%m)
    END SUBROUTINE dbcsr_mutable_destroy
 
@@ -790,7 +790,7 @@ CONTAINS
       mutable%m%refcount = mutable%m%refcount - 1
       IF (mutable%m%refcount .EQ. 0) THEN
          CALL dbcsr_mutable_destroy(mutable)
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_mutable_release
 
    SUBROUTINE dbcsr_mutable_new(mutable, data_type)

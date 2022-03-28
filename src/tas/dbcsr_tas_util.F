@@ -67,8 +67,8 @@ CONTAINS
          DO pcol = 0, npdims(2) - 1
             coord = (/prow, pcol/)
             CALL mp_cart_rank(mp_comm, coord, pgrid(prow, pcol))
-         ENDDO
-      ENDDO
+         END DO
+      END DO
 
       DBCSR_ASSERT(mynode == pgrid(mycoord(1), mycoord(2)))
 
@@ -118,8 +118,8 @@ CONTAINS
             count = count + 1
             index_tmp(count, :) = index_sorted(blk, :)
             prev_index(:) = index_sorted(blk, :)
-         ENDIF
-      ENDDO
+         END IF
+      END DO
 
       ALLOCATE (index_out(count, 2))
       index_out(:, :) = index_tmp(1:count, :)
@@ -132,7 +132,7 @@ CONTAINS
          trans_flag = dbcsr_no_transpose
       ELSEIF (trans_flag == dbcsr_no_transpose) THEN
          trans_flag = dbcsr_transpose
-      ENDIF
+      END IF
    END SUBROUTINE
 
    PURE_ARRAY_EQ FUNCTION array_eq_i(arr1, arr2)

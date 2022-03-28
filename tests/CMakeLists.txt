@@ -62,7 +62,7 @@ set(DBCSR_TESTS_FTN
     dbcsr_test_csr_conversions)
 
 if (USE_ACCEL)
-  set(DBCSR_TESTS_C dbcsr_acc_test_c)
+  set(DBCSR_TESTS_BACKEND dbcsr_acc_test acc_bench_trans acc_bench_smm)
 endif ()
 
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
@@ -79,7 +79,9 @@ set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
 set(dbcsr_test_cpp_SRCS dbcsr_test.cpp)
 set(dbcsr_tensor_test_cpp_SRCS dbcsr_tensor_test.cpp)
-set(dbcsr_acc_test_c_SRCS dbcsr_acc_test.c)
+set(dbcsr_acc_test_SRCS dbcsr_acc_test.c)
+set(acc_bench_trans_SRCS ${CMAKE_SOURCE_DIR}/src/acc/acc_bench_trans.c)
+set(acc_bench_smm_SRCS ${CMAKE_SOURCE_DIR}/src/acc/acc_bench_smm.c)
 
 # Make a list of the source files of fortran tests
 set(DBCSR_TESTS_SRCS_FTN)
@@ -159,29 +161,32 @@ if (WITH_C_API)
                                           OMP_NUM_THREADS=${TEST_OMP_THREADS})
     endif ()
   endforeach ()
-
-  foreach (dbcsr_test_c ${DBCSR_TESTS_C})
-    add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
-    target_link_libraries(${dbcsr_test_c} dbcsr_c dbcsr)
-    # register unittest executable with CMake
-    if (USE_MPI)
-      separate_arguments(MPIEXEC_PREFLAGS)
-      add_test(
-        NAME ${dbcsr_test_c}
-        COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks}
-                ${MPIEXEC_PREFLAGS} ./${dbcsr_test_c} ${MPIEXEC_POSTFLAGS})
-    else ()
-      add_test(NAME ${dbcsr_test_c} COMMAND ./${dbcsr_test_c})
-    endif ()
-    if (OpenMP_FOUND)
-      set_tests_properties(
-        ${dbcsr_test_c} PROPERTIES ENVIRONMENT
-                                   OMP_NUM_THREADS=${TEST_OMP_THREADS})
-    endif ()
-  endforeach ()
 endif ()
 
-# =================================== GPU BACKEND TESTS (CUDA / HIP)
+# =================================== BACKEND TESTS (ACC interface)
+
+foreach (dbcsr_test_backend ${DBCSR_TESTS_BACKEND})
+  add_executable(${dbcsr_test_backend} ${${dbcsr_test_backend}_SRCS})
+  # tests may not need to link dbcsr but there is no separate dbcsr_acc
+  target_link_libraries(${dbcsr_test_backend} PRIVATE dbcsr)
+  # at least acc_bench_trans and acc_bench_smm benefit from LIBXSMM
+  if (USE_SMM MATCHES "libxsmm")
+    target_compile_definitions(${dbcsr_test_backend} PRIVATE __LIBXSMM)
+    if (USE_OPENMP)
+      target_link_libraries(${dbcsr_test_backend} PRIVATE PkgConfig::LIBXSMMEXT)
+    endif ()
+    target_link_libraries(${dbcsr_test_backend} PRIVATE PkgConfig::LIBXSMM)
+  endif ()
+  # register unittest executable with CMake
+  add_test(NAME ${dbcsr_test_backend} COMMAND ./${dbcsr_test_backend})
+  if (OpenMP_FOUND)
+    set_tests_properties(
+      ${dbcsr_test_backend} PROPERTIES ENVIRONMENT
+                                       OMP_NUM_THREADS=${TEST_OMP_THREADS})
+  endif ()
+endforeach ()
+
+# =================================== GPU BACKEND TESTS (CUDA/HIP)
 
 # Add custom commands for the test files that need to be generated from a
 # template
@@ -229,18 +234,21 @@ if (USE_ACCEL MATCHES "cuda|hip")
     target_compile_definitions(
       ${libsmm_acc_test_name} PRIVATE $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
                                       $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>)
-    target_link_libraries(${libsmm_acc_test_name} dbcsr
-                          $<$<STREQUAL:${USE_ACCEL},hip>:hip::host> libsmm_acc)
+    # some of the tests access internal headers and functions, requiring include
+    # paths to be present which are otherwise not exported
+    target_link_libraries(
+      ${libsmm_acc_test_name} dbcsr $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
+      $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver> libsmm_acc)
   endforeach ()
 
-  add_test(NAME libsmm_acc_unittest_multiply
-           COMMAND libsmm_acc_unittest_multiply)
-  add_test(NAME libsmm_acc_unittest_transpose
-           COMMAND libsmm_acc_unittest_transpose)
-  add_test(NAME libsmm_acc_timer_multiply-autotuned
-           COMMAND libsmm_acc_timer_multiply autotuned)
-  add_test(NAME libsmm_acc_timer_multiply-predicted
-           COMMAND libsmm_acc_timer_multiply predicted)
+  # Comment for the moment, they are not parallelized, very slow... Check issue
+  # https://github.com/cp2k/dbcsr/issues/427 add_test(NAME
+  # libsmm_acc_unittest_multiply COMMAND libsmm_acc_unittest_multiply)
+  # add_test(NAME libsmm_acc_unittest_transpose COMMAND
+  # libsmm_acc_unittest_transpose) add_test(NAME
+  # libsmm_acc_timer_multiply-autotuned COMMAND libsmm_acc_timer_multiply
+  # autotuned) add_test(NAME libsmm_acc_timer_multiply-predicted COMMAND
+  # libsmm_acc_timer_multiply predicted)
 
 endif ()
 

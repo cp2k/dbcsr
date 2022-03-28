@@ -46,8 +46,8 @@ PROGRAM dbcsr_example_3
 !$    IF (ierr /= 0) STOP "Error in MPI_Init_thread"
 !$    IF (provided_tsl .LT. MPI_THREAD_FUNNELED) THEN
 !$       STOP "MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED)."
-!$    ENDIF
-!$ ENDIF
+!$    END IF
+!$ END IF
 
    !
    ! setup the mpi environment
@@ -134,9 +134,9 @@ PROGRAM dbcsr_example_3
             nze = row_blk_sizes(row_s)*col_blk_sizes(col_s)
             CALL RANDOM_NUMBER(values(1:nze))
             CALL dbcsr_put_block(matrix_a, row_s, col_s, values(1:nze))
-         ENDIF
-      ENDDO
-   ENDDO
+         END IF
+      END DO
+   END DO
    DEALLOCATE (values)
 
    !
@@ -151,9 +151,9 @@ PROGRAM dbcsr_example_3
             nze = row_blk_sizes(row_s)*col_blk_sizes(col_s)
             CALL RANDOM_NUMBER(values(1:nze))
             CALL dbcsr_put_block(matrix_b, row_s, col_s, values(1:nze))
-         ENDIF
-      ENDDO
-   ENDDO
+         END IF
+      END DO
+   END DO
    DEALLOCATE (values)
 
    !

@@ -23,7 +23,7 @@ CONTAINS
       opts = (/5, 1, 1, 1/)
       DO i = 1, SIZE(tiny_opts, 2)
          IF (ALL(tiny_opts(1:3, i) == (/m, n, k/))) opts = tiny_opts(4:7, i)
-      ENDDO
+      END DO
    END SUBROUTINE find_tiny_opts
 
    RECURSIVE SUBROUTINE MULTREC(mi, mf, ni, nf, ki, kf, block_size, tiny_opts, transpose_flavor, data_type)
@@ -58,7 +58,7 @@ CONTAINS
             CALL MULTREC(mi, mf, ni, ni + s1 - 1, ki, kf, block_size, tiny_opts, transpose_flavor, data_type)
             CALL MULTREC(mi, mf, ni + s1, nf, ki, kf, block_size, tiny_opts, transpose_flavor, data_type)
          END SELECT
-      ENDIF
+      END IF
    END SUBROUTINE MULTREC
 
    FUNCTION trsum(last)
@@ -68,7 +68,7 @@ CONTAINS
          trsum = ""
       ELSE
          trsum = "+ &"
-      ENDIF
+      END IF
    END FUNCTION trsum
 
    SUBROUTINE write_subroutine_stack(label, M, N, K, transpose_flavor, &
@@ -90,7 +90,7 @@ CONTAINS
                write (6, '(A,I0,A,I0,A,I0,A)') "!dir$ attributes offload:mic :: smm_" &
                   //trstr(transpose_flavor, data_type)//"_", &
                   M, "_", N, "_", K, TRIM(label)
-            ENDIF
+            END IF
             write (6, '(A)') "#endif"
             write (6, '(A,I0,A,I0,A,I0,A)') "   SUBROUTINE smm_"//trstr(transpose_flavor, data_type)//"_", &
                M, "_", N, "_", K, "_stack"//TRIM(label)//"("//TRIM(trparam(stack_size_label))//")"
@@ -98,7 +98,7 @@ CONTAINS
             write (6, '(A)') "      INTEGER            :: sp"
             IF (PRESENT(Cbuffer_row) .AND. PRESENT(Cbuffer_col)) THEN
                write (6, '(A,I0,A,I0,A)') "       "//trdat(data_type, .FALSE.)//":: Cbuffer(", Cbuffer_row, ",", Cbuffer_col, ")"
-            ENDIF
+            END IF
             IF (version .eq. 9) THEN
                write (6, '(A)') "      INTERFACE"
                write (6, '(A,I0,A,I0,A,I0,A)') "        SUBROUTINE smm_"//trstr(transpose_flavor, data_type)//"_", &
@@ -106,7 +106,7 @@ CONTAINS
                CALL write_matrix_defs(M, N, K, transpose_flavor, data_type, .TRUE., version .eq. 9)
                write (6, '(A)') "        END SUBROUTINE"
                write (6, '(A)') "      END INTERFACE"
-            ENDIF
+            END IF
             write (6, '(A)') "      DO sp = 1, "//TRIM(stack_size_label)
             IF (PRESENT(Cbuffer_row) .AND. PRESENT(Cbuffer_col)) THEN
                write (6, '(A,I0,A,I0,A,I0,A)') "         CALL smm_"//trstr(transpose_flavor, data_type)//"_", &
@@ -116,11 +116,11 @@ CONTAINS
                write (6, '(A,I0,A,I0,A,I0,A)') "         CALL smm_"//trstr(transpose_flavor, data_type)//"_", &
                   M, "_", N, "_", K, &
                   TRIM(label)//"(A(params(p_a_first,sp)),B(params(p_b_first,sp)),C(params(p_c_first,sp)))"
-            ENDIF
+            END IF
             write (6, '(A)') "      ENDDO"
             write (6, '(A)') "   END SUBROUTINE"
-         ENDIF
-      ENDIF
+         END IF
+      END IF
    END SUBROUTINE write_subroutine_stack
 
    SUBROUTINE MULTVECTOR(label, M, N, K, transpose_flavor, data_type, nSIMD, stride, stack_size_label)
@@ -138,7 +138,7 @@ CONTAINS
          do_stack = .FALSE.
          IF (PRESENT(stack_size_label)) THEN
             IF (stack_size_label /= "") do_stack = .TRUE.
-         ENDIF
+         END IF
          IF (do_stack) THEN
             write (6, '(A,I0,A,I0,A,I0,A)') "   PURE SUBROUTINE smm_"//trstr(transpose_flavor, data_type)//"_", &
                M, "_", N, "_", K, TRIM(label)//"_buffer(A,B,C,Cbuffer)"
@@ -147,15 +147,15 @@ CONTAINS
             write (6, '(A,I0,A,I0,A,I0,A)') "   PURE SUBROUTINE smm_"//trstr(transpose_flavor, data_type)//"_", &
                M, "_", N, "_", K, TRIM(label)//"(A,B,C)"
             write (6, '(A,I0,A,I0,A)') "      "//trdat(data_type, .FALSE.)//" :: Cbuffer(", nSIMD, ",", MIN(stride, N), ")"
-         ENDIF
+         END IF
       ELSE
          if (PRESENT(stack_size_label)) THEN
             write (6, '(A,I0,A,I0,A,I0,A)') "   PURE SUBROUTINE smm_"//trstr(transpose_flavor, data_type)//"_", &
                M, "_", N, "_", K, TRIM(label)//"(A,B,C)"
          ELSE
             RETURN
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       CALL write_matrix_defs(M, N, K, transpose_flavor, data_type, .TRUE., .FALSE.)
 
@@ -175,10 +175,10 @@ CONTAINS
                   DO li = le, MIN(le + sl - 1, K), 1
                      write (6, '(A,I0,A,I0,A,I0,A)') "         A(i,", &
                         li, ")*B(", li, ",", ji, ")"//trsum(li == MIN(le + sl - 1, K))
-                  ENDDO
-               ENDDO
+                  END DO
+               END DO
                write (6, '(A)') "     ENDDO "
-            ENDIF
+            END IF
 
             ! consider remaining elements
             IF (modElements > 0) THEN
@@ -190,17 +190,17 @@ CONTAINS
                   ELSE
                      write (6, '(A,I0,A,I0,A,I0,A)') "       Cbuffer(i,", &
                         MOD(ji - 1, sj) + 1, ")=C(i+", multElements, ",", ji, ")+ &"
-                  ENDIF
+                  END IF
 
                   DO li = le, MIN(le + sl - 1, K), 1
                      write (6, '(A,I0,A,I0,A,I0,A,I0,A)') "         A(i+", &
                         multElements, ",", li, ")*B(", li, ",", ji, ")"//trsum(li == MIN(le + sl - 1, K))
-                  ENDDO
-               ENDDO
+                  END DO
+               END DO
                write (6, '(A)') "     ENDDO "
 
-            ENDIF
-         ENDDO
+            END IF
+         END DO
 
          ! copy the remaining elements
          IF (modElements > 0) THEN
@@ -208,9 +208,9 @@ CONTAINS
                1 + multElements, ":", M, ",", je, ":", MIN(je + sj - 1, N), ")=Cbuffer(", &
                1, ":", modElements, ",1:", MIN(je + sj, N + 1) - je, ")"
 
-         ENDIF
+         END IF
 
-      ENDDO
+      END DO
 
       write (6, '(A)') "   END SUBROUTINE"
 
@@ -220,8 +220,8 @@ CONTAINS
             CALL write_subroutine_stack(label, M, N, K, transpose_flavor, data_type, 8, stack_size_label, nSIMD, MIN(stride, N))
          ELSE
             CALL write_subroutine_stack(label, M, N, K, transpose_flavor, data_type, 8, stack_size_label)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
    END SUBROUTINE MULTVECTOR
 
@@ -253,7 +253,7 @@ CONTAINS
          END SELECT
 
          nSIMD = SIMD_size/size_type
-      ENDIF
+      END IF
 
       !
       ! filename is the result of tiny optimization (cat tiny_gen_optimal.out)
@@ -265,7 +265,7 @@ CONTAINS
       DO
          READ (10, *, END=999) line
          nline = nline + 1
-      ENDDO
+      END DO
 999   CONTINUE
       ALLOCATE (tiny_opts(7, nline))
       ALLOCATE (tiny_perf(nline))
@@ -273,7 +273,7 @@ CONTAINS
       DO iline = 1, nline
          READ (10, '(A1024)', END=999) line
          READ (line, *) tiny_opts(:, iline), tmp, tiny_perf(iline)
-      ENDDO
+      END DO
       CLOSE (10)
 
       ! find square sizes that give good performance with tiny opts
@@ -283,8 +283,8 @@ CONTAINS
       DO iline = 1, nline
          IF (tiny_opts(1, iline) == tiny_opts(2, iline) .AND. tiny_opts(1, iline) == tiny_opts(3, iline)) THEN
             square_perf(tiny_opts(1, iline)) = tiny_perf(iline)
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       best_square = -1
       DO isquare = 1, SIZE(best_square)
          tmp = -HUGE(tmp)
@@ -292,9 +292,9 @@ CONTAINS
             IF (square_perf(i) > tmp .AND. .NOT. ANY(best_square .EQ. i)) THEN
                tmp = square_perf(i)
                best_square(isquare) = i
-            ENDIF
-         ENDDO
-      ENDDO
+            END IF
+         END DO
+      END DO
       IF (ANY(best_square < 1)) ERROR STOP "tiny opts file needs sufficiently many square sizes"
 
       IF ((version .ge. 1 .and. version .le. 7) .or. version .eq. 9) THEN
@@ -306,10 +306,10 @@ CONTAINS
                M, "_", N, "_", K, TRIM(label)//"(A,B,C)"
             IF (version .eq. 9) THEN
                write (6, '(A)') "      USE, INTRINSIC :: ISO_C_BINDING"
-            ENDIF
-         ENDIF
+            END IF
+         END IF
          CALL write_matrix_defs(M, N, K, transpose_flavor, data_type, .TRUE., version .eq. 9)
-      ENDIF
+      END IF
 
       SELECT CASE (version)
       CASE (1)
@@ -362,10 +362,10 @@ CONTAINS
             IF (PRESENT(write_buffer_interface)) THEN
                IF (write_buffer_interface) THEN
                   CALL MULTVECTOR(label, M, N, K, transpose_flavor, data_type, nSIMD, stride)
-               ENDIF
-            ENDIF
+               END IF
+            END IF
 
-         ENDIF
+         END IF
       CASE (9)
          write (6, '(A)') "      INTERFACE"
          write (6, '(A,I0,A,I0,A,I0,A)') "        SUBROUTINE libxsmm_", M, "_", N, "_", K, "(A,B,C) BIND(C)"
@@ -381,7 +381,7 @@ CONTAINS
       IF ((version .ge. 1 .and. version .le. 7) .or. version .eq. 9) THEN
          write (6, '(A)') "   END SUBROUTINE"
          CALL write_subroutine_stack(label, M, N, K, transpose_flavor, data_type, version, stack_size_label)
-      ENDIF
+      END IF
 
    END SUBROUTINE mult_versions
 

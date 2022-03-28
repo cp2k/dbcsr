@@ -173,8 +173,8 @@ CONTAINS
             CALL dbcsr_transpose_distribution(new_dist, normal%dist)
          ELSE
             CALL dbcsr_transpose_dims(new_dist, normal%dist)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       ! Create the transposed matrix
       CALL dbcsr_create(transposed, name="transposed "//TRIM(normal%name), &
                         template=normal, &
@@ -194,7 +194,7 @@ CONTAINS
       ELSE
          CALL dbcsr_addto_index_array(transposed, dbcsr_slot_row_p, &
                                       reservation=normal%nblkrows_total + 1, extra=transposed%nblks*2)
-      ENDIF
+      END IF
       CALL dbcsr_addto_index_array(transposed, dbcsr_slot_col_i, &
                                    reservation=normal%nblks)
       CALL dbcsr_addto_index_array(transposed, dbcsr_slot_blk_p, &
@@ -204,7 +204,7 @@ CONTAINS
          CALL dbcsr_data_ensure_size(transposed%data_area, &
                                      dbcsr_data_get_size_referenced(normal%data_area), &
                                      nocopy=.TRUE.)
-      ENDIF
+      END IF
       !
       transposed%nblks = normal%nblks
       transposed%nze = normal%nze
@@ -223,13 +223,13 @@ CONTAINS
             WRITE (*, *) 'new . row_p', transposed%row_p
             WRITE (*, *) 'new . col_i', transposed%col_i
             WRITE (*, *) 'new . blk_p', blk_p!transposed%blk_p
-         ENDIF
+         END IF
       ELSE
          transposed%row_p(:) = normal%row_p(:)
          transposed%col_i(:) = normal%col_i(:)
          blk_p(:) = normal%blk_p(:)
          !transposed%transpose = .TRUE.
-      ENDIF
+      END IF
       ! Copy the data
       IF (shallow) THEN
          CALL dbcsr_switch_data_area(transposed, normal%data_area)
@@ -242,7 +242,7 @@ CONTAINS
                                    transposed%data_area, normal%data_area, &
                                    mark_transposed=.not. tr_blocks, &
                                    transpose_blocks=tr_blocks)
-      ENDIF
+      END IF
       transposed%valid = .TRUE.
       !CALL dbcsr_copy_sort_data (transposed%blk_p, blk_p, transposed%row_p,&
       !     transposed%col_i, array_data (transposed%row_blk_size),&
@@ -256,7 +256,7 @@ CONTAINS
          WRITE (*, 1315) transposed%row_p
          WRITE (*, 1315) transposed%col_i
          WRITE (*, 1315) transposed%blk_p
-      ENDIF
+      END IF
       !
       IF (tr_index) DEALLOCATE (blk_p)
       !
@@ -264,14 +264,14 @@ CONTAINS
          redist = redistribute
       ELSE
          redist = .NOT. tr_dist .AND. .NOT. shallow
-      ENDIF
+      END IF
       IF (redist) THEN
          !write (*,*)routineN//" redistributing"
          CALL dbcsr_create(t2, template=transposed)
          CALL dbcsr_redistribute(transposed, t2)
          CALL dbcsr_release(transposed)
          transposed = t2
-      ENDIF
+      END IF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_new_transposed
 
@@ -341,18 +341,18 @@ CONTAINS
          DBCSR_ABORT("Input matrix is invalid.")
       IF (dbcsr_valid_index(desm)) THEN
          CALL dbcsr_release(desm)
-      ENDIF
+      END IF
       CALL dbcsr_create(desm, sm, matrix_type="N")
 
       IF (PRESENT(untransposed_data)) THEN
          make_untr = untransposed_data
       ELSE
          make_untr = .FALSE.
-      ENDIF
+      END IF
       nsymmetries = 1
       IF (sm%symmetry) THEN
          nsymmetries = 2
-      ENDIF
+      END IF
       row_blk_size => array_data(sm%row_blk_size)
       col_blk_size => array_data(sm%col_blk_size)
       target_dist = sm%dist
@@ -388,7 +388,7 @@ CONTAINS
             ELSE
                IF (row .EQ. col) CYCLE
                stored_row = col; stored_col = row
-            ENDIF
+            END IF
             ! Where do we send this block?
             prow = row_dist(stored_row)
             pcol = col_dist(stored_col)
@@ -396,8 +396,8 @@ CONTAINS
             nze = row_size*col_size
             send_count(imeta, dst_p) = send_count(imeta, dst_p) + 1
             send_count(idata, dst_p) = send_count(idata, dst_p) + nze
-         ENDDO ! symmetry_i
-      ENDDO ! iter
+         END DO ! symmetry_i
+      END DO ! iter
       CALL dbcsr_iterator_stop(iter)
       !
       CALL mp_alltoall(send_count, recv_count, 2, mp_group)
@@ -418,7 +418,7 @@ CONTAINS
          total_send_count(idata, dst_p) = send_count(idata, dst_p)
          total_recv_count(imeta, dst_p) = recv_count(imeta, dst_p)
          total_recv_count(idata, dst_p) = recv_count(idata, dst_p)
-      ENDDO
+      END DO
       sd_disp = -1; sm_disp = -1
       rd_disp = -1; rm_disp = -1
       sd_disp(0) = 1; sm_disp(0) = 1
@@ -432,7 +432,7 @@ CONTAINS
                           + metalen*total_recv_count(imeta, dst_p - 1)
          rd_disp(dst_p) = rd_disp(dst_p - 1) &
                           + total_recv_count(idata, dst_p - 1)
-      ENDDO
+      END DO
       sdp(:) = sd_disp
       smp(:) = sm_disp
       !
@@ -446,7 +446,7 @@ CONTAINS
             ELSE
                IF (row .EQ. col) CYCLE
                stored_row = col; stored_col = row; tr = .TRUE.
-            ENDIF
+            END IF
             ! Where do we send this block?
             prow = row_dist(stored_row)
             pcol = col_dist(stored_col)
@@ -480,11 +480,11 @@ CONTAINS
                                     sm%data_area, (/ABS(blk_p)/), (/nze/))
                IF (tr) &
                   send_meta(smp(dst_p) + 2) = -send_meta(smp(dst_p) + 2)
-            ENDIF
+            END IF
             smp(dst_p) = smp(dst_p) + metalen
             sdp(dst_p) = sdp(dst_p) + nze
-         ENDDO ! symmetry_i
-      ENDDO ! iter
+         END DO ! symmetry_i
+      END DO ! iter
       CALL dbcsr_iterator_stop(iter)
       ! Exchange the data and metadata structures.
       CALL hybrid_alltoall_any(send_data, &
@@ -513,7 +513,7 @@ CONTAINS
          IF (careful_mod) THEN
             IF ((blks - 1)*3 /= rm_disp(src_p) - 1) &
                DBCSR_ABORT("Count mismatch")
-         ENDIF
+         END IF
          blks = (rm_disp(src_p) - 1)/metalen + 1
          DO blk_l = 1, recv_count(imeta, src_p)
             stored_row = recv_meta(rm_disp(src_p) + metalen*(blk_l - 1))
@@ -526,8 +526,8 @@ CONTAINS
                   *col_blk_size(stored_col)
             blk_ps = blk_ps + nze
             blks = blks + 1
-         ENDDO
-      ENDDO
+         END DO
+      END DO
       !
       desm%wms(1)%lastblk = blks - 1
       desm%wms(1)%datasize = blk_ps - 1
@@ -580,7 +580,7 @@ CONTAINS
          mini = fast
       ELSE
          mini = .FALSE.
-      ENDIF
+      END IF
       SELECT CASE (matrix%data_type)
       CASE (dbcsr_type_real_8)
          CALL dbcsr_get_data(matrix%data_area, r_dp)
@@ -609,8 +609,8 @@ CONTAINS
             CALL dbcsr_get_stored_coordinates(matrix, row, col, p)
             IF (mynode .EQ. p) THEN
                matrix%blk_p(blk) = 0
-            ENDIF
-         ENDDO
+            END IF
+         END DO
          CALL dbcsr_iterator_stop(iter)
          matrix%replication_type = dbcsr_repl_none
       ELSE
@@ -630,8 +630,8 @@ CONTAINS
             IF (mynode .EQ. p) THEN
                nze = nze + row_blk_size(row)*col_blk_size(col)
                nblks = nblks + 1
-            ENDIF
-         ENDDO
+            END IF
+         END DO
          CALL dbcsr_iterator_stop(iter)
          ! Preallocate the array
          CALL dbcsr_work_create(distributed, nblks_guess=nblks, &
@@ -644,8 +644,8 @@ CONTAINS
             CALL dbcsr_get_stored_coordinates(matrix, row, col, p)
             IF (mynode .EQ. p) THEN
                CALL dbcsr_put_block(distributed, row, col, r_dp, transposed=tr)
-            ENDIF
-         ENDDO
+            END IF
+         END DO
          CALL dbcsr_iterator_stop(iter)
          CALL dbcsr_finalize(distributed)
          ! Now replace the data and index
@@ -660,7 +660,7 @@ CONTAINS
          matrix%nze = distributed%nze
          matrix%nblks = distributed%nblks
          CALL dbcsr_release(distributed)
-      ENDIF
+      END IF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_distribute
 
@@ -709,10 +709,10 @@ CONTAINS
                CASE (dbcsr_type_complex_8)
                   block_data%d%c_dp(:) = -block_data%d%c_dp(:)
                END SELECT
-            ENDIF
+            END IF
             matrix%blk_p(blk) = -matrix%blk_p(blk)
-         ENDIF
-      ENDDO
+         END IF
+      END DO
       CALL dbcsr_iterator_stop(iter)
       CALL dbcsr_data_clear_pointer(block_data)
       CALL dbcsr_data_release(block_data)
@@ -752,7 +752,7 @@ CONTAINS
       IF (dbg) THEN
          cs = dbcsr_checksum(matrix)
          WRITE (*, *) routineN//" prod cs pre", cs
-      ENDIF
+      END IF
       old_distribution = dbcsr_distribution(matrix)
       ! Conversion of global to local offsets for the dense blocks
       CALL dbcsr_get_local_rows(dense_dist, dense_local_rows, &
@@ -772,7 +772,7 @@ CONTAINS
       IF (dbg) THEN
          cs = dbcsr_checksum(dense_matrix)
          WRITE (*, *) routineN//" prod cs pst", cs
-      ENDIF
+      END IF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_make_dense
 
@@ -972,7 +972,7 @@ CONTAINS
       IF (dbg) THEN
          cs = dbcsr_checksum(matrix)
          WRITE (*, *) routineN//" prod cs pre", cs
-      ENDIF
+      END IF
       dense_distribution = dbcsr_distribution(matrix)
       nfullrows_local = matrix%nfullrows_local
       nfullcols_local = matrix%nfullcols_local
@@ -1066,7 +1066,7 @@ CONTAINS
       IF (dbg) THEN
          cs = dbcsr_checksum(matrix)
          WRITE (*, *) routineN//" prod cs pst", cs
-      ENDIF
+      END IF
       DEALLOCATE (local_row_blk_offsets)
       DEALLOCATE (local_col_blk_offsets)
       DEALLOCATE (dense_local_row_blk_offsets)
@@ -1155,7 +1155,7 @@ CONTAINS
                target_row_offset = und_row_blk_offsets(blk_row)
                target_rs = blk_row_size
                tro = 1
-            ENDIF
+            END IF
             IF (join_cols) THEN
                target_col_offset = dense_col_blk_offsets(dense_col)
                target_cs = dense_col_blk_offsets(dense_col + 1) - &
@@ -1165,7 +1165,7 @@ CONTAINS
                target_col_offset = und_col_blk_offsets(blk_col)
                target_cs = blk_col_size
                tco = 1
-            ENDIF
+            END IF
             target_offset = (target_row_offset - 1)*nfullcols &
                             + (target_col_offset - 1)*( &
                             dense_row_blk_offsets(dense_row + 1) - &
@@ -1176,12 +1176,12 @@ CONTAINS
                                           dst_r_lb=tro, dst_c_lb=tco, &
                                           src=block, src_rs=blk_row_size, src_cs=blk_col_size, src_tr=tr, &
                                           src_r_lb=1, src_c_lb=1, nrow=blk_row_size, ncol=blk_col_size)
-         ENDDO
+         END DO
          CALL dbcsr_iterator_stop(iter)
          CALL dbcsr_data_clear_pointer(block)
          CALL dbcsr_data_release(block)
 !$OMP END PARALLEL
-      ENDIF
+      END IF
       CALL timestop(error_handle)
    END SUBROUTINE make_dense_data
 
@@ -1259,12 +1259,12 @@ CONTAINS
                src_rs=dense_rs, src_cs=dense_cs, src_tr=.FALSE., &
                src_r_lb=sro, src_c_lb=sco, &
                nrow=blk_row_size, ncol=blk_col_size)
-         ENDDO
+         END DO
          CALL dbcsr_iterator_stop(iter)
          CALL dbcsr_data_clear_pointer(block)
          CALL dbcsr_data_release(block)
 !$OMP END PARALLEL
-      ENDIF
+      END IF
    END SUBROUTINE make_undense_data
 
    SUBROUTINE dbcsr_replicate_all(matrix)
@@ -1334,7 +1334,7 @@ CONTAINS
          rep_type = dbcsr_repl_none
          IF (.NOT. replicate_rows .AND. .NOT. replicate_columns) &
             DBCSR_ABORT("Some replication must be specified")
-      ENDIF
+      END IF
       data_type = dbcsr_get_data_type(matrix)
       row_blk_size => array_data(matrix%row_blk_size)
       col_blk_size => array_data(matrix%col_blk_size)
@@ -1352,13 +1352,13 @@ CONTAINS
       IF (dbg) THEN
          IF (MAXVAL(row_dist) .NE. UBOUND(blacs2mpi, 1)) &
             DBCSR_WARN('Range of row distribution not equal to processor rows')
-      ENDIF
+      END IF
       IF (MAXVAL(col_dist) .GT. UBOUND(blacs2mpi, 2)) &
          DBCSR_ABORT('Col distribution references unexistent processor cols')
       IF (dbg) THEN
          IF (MAXVAL(col_dist) .NE. UBOUND(blacs2mpi, 2)) &
             DBCSR_WARN('Range of col distribution not equal to processor cols')
-      ENDIF
+      END IF
       ! Define the number of nodes with which I will communicate. Also
       ! setup row and column communicators.
       had_subcomms = dbcsr_mp_has_subgroups(mp_obj)
@@ -1391,7 +1391,7 @@ CONTAINS
       ELSE
          rest_src = .FALSE.
          i_am_restricted = .FALSE.
-      ENDIF
+      END IF
       !
       ALLOCATE (recv_count(2, 0:numnodes - 1))
       ALLOCATE (rd_disp(0:numnodes - 1))
@@ -1416,9 +1416,9 @@ CONTAINS
             nze = row_size*col_size
             send_count(1) = send_count(1) + 1
             send_count(2) = send_count(2) + nze
-         ENDDO
+         END DO
          send_count(2) = dbcsr_data_get_size_referenced(matrix%data_area)
-      ENDIF
+      END IF
       CALL dbcsr_iterator_stop(iter)
       ! Exchange how much data others have.
       CALL mp_allgather(send_count(1:2), recv_count, mp_group)
@@ -1433,7 +1433,7 @@ CONTAINS
       ELSE
          CALL dbcsr_data_new(send_data, data_type=data_type)
          send_data = pointer_view(send_data, matrix%data_area, 1, send_count(2))
-      ENDIF
+      END IF
       ALLOCATE (recv_meta(metalen*nblks))
       ALLOCATE (send_meta(metalen*send_count(1)))
       recv_meta(:) = 0
@@ -1445,7 +1445,7 @@ CONTAINS
                           + metalen*recv_count(1, dst_p - 1)
          rd_disp(dst_p) = rd_disp(dst_p - 1) &
                           + recv_count(2, dst_p - 1)
-      ENDDO
+      END DO
       CALL dbcsr_data_init(data_block)
       CALL dbcsr_data_new(data_block, data_type=data_type)
       CALL dbcsr_iterator_start(iter, matrix)
@@ -1458,8 +1458,8 @@ CONTAINS
             send_meta(smp + 1) = col
             send_meta(smp + 2) = blk_p
             smp = smp + metalen
-         ENDDO
-      ENDIF
+         END DO
+      END IF
       CALL dbcsr_iterator_stop(iter)
       CALL dbcsr_data_clear_pointer(data_block)
       CALL dbcsr_data_release(data_block)
@@ -1474,7 +1474,7 @@ CONTAINS
       ! cleared and not deallocated.
       IF (send_count(2) .NE. 0) THEN
          CALL dbcsr_data_clear_pointer(send_data)
-      ENDIF
+      END IF
       CALL dbcsr_data_release(send_data)
       !
       ! Now fill in the data.
@@ -1505,8 +1505,8 @@ CONTAINS
                   *col_blk_size(stored_col)
             blk_ps = MAX(blk_ps, ABS(stored_blk_p) + nze + offset)
             blks = blks + 1
-         ENDDO
-      ENDDO
+         END DO
+      END DO
       CALL dbcsr_data_set_size_referenced(replicated%wms(1)%data_area, blk_ps - 1)
       !
       replicated%wms(1)%lastblk = blks - 1
@@ -1517,7 +1517,7 @@ CONTAINS
       IF (had_subcomms .AND. &
           (rep_type .EQ. dbcsr_repl_row .OR. rep_type .EQ. dbcsr_repl_col)) THEN
          CALL dbcsr_mp_grid_remove(mp_obj)
-      ENDIF
+      END IF
       DEALLOCATE (recv_count)
       DEALLOCATE (rd_disp)
       DEALLOCATE (rm_disp)
@@ -1652,13 +1652,13 @@ CONTAINS
       IF (dbg) THEN
          IF (MAXVAL(row_dist_new) .NE. UBOUND(pgrid, 1)) &
             DBCSR_WARN('Range of row distribution not equal to processor rows')
-      ENDIF
+      END IF
       IF (MAXVAL(col_dist_new) > UBOUND(pgrid, 2)) &
          DBCSR_ABORT('Col distribution references unexistent processor cols')
       IF (dbg) THEN
          IF (MAXVAL(col_dist_new) .NE. UBOUND(pgrid, 2)) &
             DBCSR_WARN('Range of col distribution not equal to processor cols')
-      ENDIF
+      END IF
       ALLOCATE (send_count(2, 0:numnodes - 1))
       ALLOCATE (recv_count(2, 0:numnodes - 1))
       ALLOCATE (total_send_count(2, 0:numnodes - 1))
@@ -1671,7 +1671,7 @@ CONTAINS
       ALLOCATE (rm_disp(0:numnodes - 1))
       IF (dbg) THEN
          cs1 = dbcsr_checksum(matrix)
-      ENDIF
+      END IF
       !cs1 = dbcsr_checksum (matrix)
       !call dbcsr_print(matrix)
       !
@@ -1699,10 +1699,10 @@ CONTAINS
                   send_count(1, dst_p) = send_count(1, dst_p) + 1
                   send_count(2, dst_p) = send_count(2, dst_p) + &
                                          col_reblocks(2, col_int)*row_reblocks(2, row_int)
-               ENDIF
-            ENDDO
-         ENDDO
-      ENDDO
+               END IF
+            END DO
+         END DO
+      END DO
       CALL dbcsr_iterator_stop(iter)
       !
       !
@@ -1720,7 +1720,7 @@ CONTAINS
          total_send_count(2, dst_p) = send_count(2, dst_p)
          total_recv_count(1, dst_p) = recv_count(1, dst_p)
          total_recv_count(2, dst_p) = recv_count(2, dst_p)
-      ENDDO
+      END DO
       sd_disp = -1; sm_disp = -1
       rd_disp = -1; rm_disp = -1
       sd_disp(0) = 1; sm_disp(0) = 1
@@ -1734,7 +1734,7 @@ CONTAINS
                           + metalen*total_recv_count(1, dst_p - 1)
          rd_disp(dst_p) = rd_disp(dst_p - 1) &
                           + total_recv_count(2, dst_p - 1)
-      ENDDO
+      END DO
       sdp(:) = sd_disp     ! sdp points to the the next place to store
       ! data. It is postincremented.
       smp(:) = sm_disp - metalen  ! But smp points to the "working" data, not
@@ -1787,10 +1787,10 @@ CONTAINS
                      src_r_lb=row_offset_old, src_c_lb=col_offset_old, &
                      nrow=row_rle, ncol=col_rle)
                   sdp(dst_p) = sdp(dst_p) + nze_rle
-               ENDIF loc_ok
-            ENDDO ! row_int
-         ENDDO ! col_int
-      ENDDO
+               END IF loc_ok
+            END DO ! row_int
+         END DO ! col_int
+      END DO
       CALL dbcsr_iterator_stop(iter)
       CALL dbcsr_data_clear_pointer(data_block)
       CALL dbcsr_data_release(data_block)
@@ -1877,7 +1877,7 @@ CONTAINS
                         col_blk_size_new(stored_col_new)
                valid_block = .TRUE.
                cnt_new = cnt_new + 1
-            ENDIF
+            END IF
             nze_rle = row_rle*col_rle
 
             IF (valid_block) THEN
@@ -1893,7 +1893,7 @@ CONTAINS
                   nrow=row_rle, ncol=col_rle)
             ELSE
                cnt_skip = cnt_skip + 1
-            ENDIF
+            END IF
 
             data_offset_l = data_offset_l + nze_rle
             IF ((.NOT. found .OR. my_summation) .AND. valid_block) THEN
@@ -1906,9 +1906,9 @@ CONTAINS
                IF (.NOT. my_keep_sparsity .AND. dbg) &
                   WRITE (*, *) routineN//" Reusing block at", &
                   stored_row_new, stored_col_new
-            ENDIF
-         ENDDO
-      ENDDO
+            END IF
+         END DO
+      END DO
 
       CALL dbcsr_data_clear_pointer(data_block)
       CALL dbcsr_data_release(buff_data)
@@ -1919,7 +1919,7 @@ CONTAINS
             "actual=", blks
          WRITE (*, *) routineN//" Declared data size=", redist%wms(1)%datasize, &
             "actual=", blk_ps
-      ENDIF
+      END IF
 
       CALL dbcsr_finalize(redist)
 
@@ -1940,7 +1940,7 @@ CONTAINS
       IF (dbg) THEN
          cs2 = dbcsr_checksum(redist)
          WRITE (*, *) routineN//" Checksums=", cs1, cs2, cs1 - cs2
-      ENDIF
+      END IF
       !IF(cs1-cs2 > 0.00001) DBCSR_ABORT("Mangled data!")
       CALL timestop(handle)
    END SUBROUTINE dbcsr_complete_redistribute
@@ -2002,13 +2002,13 @@ CONTAINS
       IF (dbg) THEN
          IF (MAXVAL(row_dist_new) .NE. UBOUND(pgrid, 1)) &
             DBCSR_WARN('Range of row distribution not equal to processor rows')
-      ENDIF
+      END IF
       IF (MAXVAL(col_dist_new) .GT. UBOUND(pgrid, 2)) &
          DBCSR_ABORT('Col distribution references unexistent processor cols')
       IF (dbg) THEN
          IF (MAXVAL(col_dist_new) .NE. UBOUND(pgrid, 2)) &
             DBCSR_WARN('Range of col distribution not equal to processor cols')
-      ENDIF
+      END IF
       ALLOCATE (send_count(2, 0:numnodes - 1))
       ALLOCATE (recv_count(2, 0:numnodes - 1))
       ALLOCATE (total_send_count(2, 0:numnodes - 1))
@@ -2033,7 +2033,7 @@ CONTAINS
          nze = row_size*col_size
          send_count(1, dst_p) = send_count(1, dst_p) + 1
          send_count(2, dst_p) = send_count(2, dst_p) + nze
-      ENDDO
+      END DO
       CALL dbcsr_iterator_stop(iter)
       CALL mp_alltoall(send_count, recv_count, 2, mp_group)
       ! Allocate data structures needed for data exchange.
@@ -2049,7 +2049,7 @@ CONTAINS
          total_send_count(2, dst_p) = send_count(2, dst_p)
          total_recv_count(1, dst_p) = recv_count(1, dst_p)
          total_recv_count(2, dst_p) = recv_count(2, dst_p)
-      ENDDO
+      END DO
       sd_disp = -1; sm_disp = -1
       rd_disp = -1; rm_disp = -1
       sd_disp(0) = 1; sm_disp(0) = 1
@@ -2063,7 +2063,7 @@ CONTAINS
                           + metalen*total_recv_count(1, dst_p - 1)
          rd_disp(dst_p) = rd_disp(dst_p - 1) &
                           + total_recv_count(2, dst_p - 1)
-      ENDDO
+      END DO
       sdp(:) = sd_disp     ! sdp points to the the next place to store
       ! data. It is postincremented.
       smp(:) = sm_disp - metalen  ! But smp points to the "working" data, not
@@ -2084,7 +2084,7 @@ CONTAINS
             send_meta(smp(dst_p)) = -row
          ELSE
             send_meta(smp(dst_p)) = row
-         ENDIF
+         END IF
          send_meta(smp(dst_p) + 1) = col ! new blocked column
          nze = dbcsr_data_get_size(data_block)
          CALL dbcsr_data_set(send_data, lb=sdp(dst_p), data_size=nze, &
@@ -2092,7 +2092,7 @@ CONTAINS
          !send_data(sdp(dst_p):sdp(dst_p)+SIZE(r_dp)-1) &
          !     = r_dp(:)
          sdp(dst_p) = sdp(dst_p) + nze
-      ENDDO
+      END DO
       CALL dbcsr_iterator_stop(iter)
       CALL dbcsr_data_clear_pointer(data_block)
       ! Exchange the data and metadata structures.
@@ -2148,8 +2148,8 @@ CONTAINS
             CALL dbcsr_put_block(redist, stored_row_new, stored_col_new, data_block, transposed=tr)
             blk_ps = blk_ps + nze
             blks = blks + 1
-         ENDDO
-      ENDDO
+         END DO
+      END DO
       CALL dbcsr_data_clear_pointer(data_block)
       CALL dbcsr_data_release(data_block)
       !
@@ -2158,7 +2158,7 @@ CONTAINS
             "actual=", blks
          WRITE (*, *) routineN//" Declared data size=", redist%wms(1)%datasize, &
             "actual=", blk_ps
-      ENDIF
+      END IF
       CALL dbcsr_finalize(redist)
       CALL dbcsr_data_release(recv_data)
       CALL dbcsr_data_release(send_data)
@@ -2254,7 +2254,7 @@ CONTAINS
       IF (job_count > 0) THEN
          CALL cumsum_l(INT((/0, proc_nblks(1:job_count - 1)/), kind=int_8), extra_nblks)
          CALL cumsum_l(INT((/0, proc_darea_sizes(1:job_count - 1)/), kind=int_8), extra_darea_size)
-      ENDIF
+      END IF
 
       i = 0
       DO ind = 1, job_count*nblkrows_total
@@ -2270,8 +2270,8 @@ CONTAINS
             CALL dbcsr_get_stored_coordinates(new_matrix, brow, bcol, dst_p)
             send_count(1, dst_p) = send_count(1, dst_p) + 1
             send_count(2, dst_p) = send_count(2, dst_p) + blk_size
-         ENDDO
-      ENDDO
+         END DO
+      END DO
       CALL mp_alltoall(send_count, recv_count, 2, mp_group)
       CALL dbcsr_data_init(recv_data)
       CALL dbcsr_data_new(recv_data, data_type, SUM(recv_count(2, :)))
@@ -2284,7 +2284,7 @@ CONTAINS
          total_send_count(2, dst_p) = send_count(2, dst_p)
          total_recv_count(1, dst_p) = recv_count(1, dst_p)
          total_recv_count(2, dst_p) = recv_count(2, dst_p)
-      ENDDO
+      END DO
       sd_disp = -1; sm_disp = -1; rd_disp = -1; rm_disp = -1
       sd_disp(0) = 1; sm_disp(0) = 1; rd_disp(0) = 1; rm_disp(0) = 1
       DO dst_p = 1, numnodes - 1
@@ -2292,7 +2292,7 @@ CONTAINS
          sd_disp(dst_p) = sd_disp(dst_p - 1) + total_send_count(2, dst_p - 1)
          rm_disp(dst_p) = rm_disp(dst_p - 1) + metalen*total_recv_count(1, dst_p - 1)
          rd_disp(dst_p) = rd_disp(dst_p - 1) + total_recv_count(2, dst_p - 1)
-      ENDDO
+      END DO
       sdp(:) = sd_disp
       smp(:) = sm_disp - metalen
 
@@ -2349,8 +2349,8 @@ CONTAINS
             CALL dbcsr_data_set(send_data, lb=sdp(dst_p), &
                                 data_size=blk_size, src=data_block, source_lb=1)
             sdp(dst_p) = sdp(dst_p) + blk_size
-         ENDDO
-      ENDDO
+         END DO
+      END DO
       CALL dbcsr_data_clear_pointer(data_block)
 
       SELECT CASE (data_type)
@@ -2395,8 +2395,8 @@ CONTAINS
 
             blk_ps = blk_ps + blk_size
             blks = blks + 1
-         ENDDO
-      ENDDO
+         END DO
+      END DO
       CALL dbcsr_data_clear_pointer(data_block)
       DEALLOCATE (data_block%d)
       CALL dbcsr_finalize(new_matrix, reshuffle=.TRUE.)
@@ -2427,7 +2427,7 @@ CONTAINS
             DO i = 2, SIZE(cumsum)
                cumsum(i) = cumsum(i - 1) + arr(i)
             END DO
-         ENDIF
+         END IF
       END SUBROUTINE cumsum_l
    END SUBROUTINE dbcsr_datablock_redistribute
 

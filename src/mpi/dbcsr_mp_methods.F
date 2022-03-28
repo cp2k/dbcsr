@@ -89,7 +89,7 @@ CONTAINS
          mp_env%mp%numnodes = numnodes
       ELSE
          mp_env%mp%numnodes = SIZE(pgrid)
-      ENDIF
+      END IF
       IF (PRESENT(myprow) .AND. PRESENT(mypcol)) THEN
          mp_env%mp%myprow = myprow
          mp_env%mp%mypcol = mypcol
@@ -102,10 +102,10 @@ CONTAINS
                   mp_env%mp%myprow = prow
                   mp_env%mp%mypcol = pcol
                   EXIT column_loop
-               ENDIF test_position
-            ENDDO row_loop
-         ENDDO column_loop
-      ENDIF
+               END IF test_position
+            END DO row_loop
+         END DO column_loop
+      END IF
       mp_env%mp%subgroups_defined = .FALSE.
       !call dbcsr_mp_grid_setup(mp_env)
    END SUBROUTINE dbcsr_mp_new_grid
@@ -139,9 +139,9 @@ CONTAINS
                   myprow = prow
                   mypcol = pcol
                   EXIT outer
-               ENDIF
-            ENDDO
-         ENDDO outer
+               END IF
+            END DO
+         END DO outer
 
       ELSE
          CALL mp_environ(mp_group, 2, pdims, mycoord, periods)
@@ -153,9 +153,9 @@ CONTAINS
             DO pcol = 0, pdims(2) - 1
                coord = (/prow, pcol/)
                CALL mp_cart_rank(mp_group, coord, mypgrid(prow, pcol))
-            ENDDO
-         ENDDO
-      ENDIF
+            END DO
+         END DO
+      END IF
 
       DBCSR_ASSERT(mynode == mypgrid(myprow, mypcol))
 
@@ -198,7 +198,7 @@ CONTAINS
          CALL mp_cart_sub(tmp_group, remain, mp_env%mp%pcol_group)
          CALL mp_comm_free(tmp_group)
          mp_env%mp%subgroups_defined = .TRUE.
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_mp_grid_setup
 
    SUBROUTINE dbcsr_mp_make_env(mp_env, cart_group, mp_group, &
@@ -232,14 +232,14 @@ CONTAINS
          IF (nprocs > numnodes) &
             DBCSR_ABORT("Can not grow processes.")
          numnodes = nprocs
-      ENDIF
+      END IF
       !
       IF (PRESENT(pgrid_dims)) THEN
          npdims(:) = pgrid_dims
       ELSE
          npdims(:) = 0
          CALL mp_dims_create(numnodes, npdims)
-      ENDIF
+      END IF
       CALL mp_cart_create(mp_group, 2, npdims, myploc, cart_group)
       alive = cart_group .NE. mp_comm_null
       IF (alive) THEN
@@ -249,14 +249,14 @@ CONTAINS
             DO pcol = 0, npdims(2) - 1
                coord = (/prow, pcol/)
                CALL mp_cart_rank(cart_group, coord, pgrid(prow, pcol))
-            ENDDO
-         ENDDO
+            END DO
+         END DO
          CALL dbcsr_mp_new(mp_env, cart_group, pgrid, &
                            mynode, numnodes, &
                            myprow=myploc(1), mypcol=myploc(2))
       ELSE
          CALL dbcsr_mp_init(mp_env)
-      ENDIF
+      END IF
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_mp_make_env
 

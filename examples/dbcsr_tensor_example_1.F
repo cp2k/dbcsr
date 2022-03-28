@@ -281,8 +281,8 @@ program dbcsr_tensor_example_1
          blk_ind_1(ind) = row
          blk_ind_2(ind) = col
 
-      enddo
-   enddo
+      end do
+   end do
 
    ! reserve blocks
    call dbcsr_reserve_blocks(c_matrix, blk_ind_1, blk_ind_2)
@@ -301,9 +301,9 @@ program dbcsr_tensor_example_1
             o = o_arr + blk_offset_2d(2) - 1
             ! calculate matrix element
             blk_values_2d(n_arr, o_arr) = exp(-0.5*gamma*real((n - o)**2))
-         enddo
-      enddo
-   enddo
+         end do
+      end do
+   end do
    call dbcsr_iterator_stop(iter_matrix)
 
    ! finalize the DBCSR matrix
@@ -417,9 +417,9 @@ program dbcsr_tensor_example_1
             blk_ind_1(ind) = i
             blk_ind_2(ind) = j
             blk_ind_3(ind) = k
-         enddo
-      enddo
-   enddo
+         end do
+      end do
+   end do
 
    call dbcsr_t_reserve_blocks(a_ijk, blk_ind_1, blk_ind_2, blk_ind_3)
    deallocate (blk_ind_1, blk_ind_2, blk_ind_3)
@@ -437,12 +437,12 @@ program dbcsr_tensor_example_1
                j = j_arr + blk_offset_3d(2) - 1
                k = k_arr + blk_offset_3d(3) - 1
                blk_values_3d(i_arr, j_arr, k_arr) = exp(-1./3*alpha*real((i - j)**2 + (i - k)**2 + (j - k)**2))
-            enddo
-         enddo
-      enddo
+            end do
+         end do
+      end do
       call dbcsr_t_put_block(a_ijk, blk_ind_3d, blk_size_3d, blk_values_3d)
       deallocate (blk_values_3d)
-   enddo
+   end do
    call dbcsr_t_iterator_stop(iter_tensor)
 
    call dbcsr_t_filter(a_ijk, filter_eps)
@@ -511,9 +511,9 @@ program dbcsr_tensor_example_1
             blk_ind_1(ind) = i
             blk_ind_2(ind) = l
             blk_ind_3(ind) = n
-         enddo
-      enddo
-   enddo
+         end do
+      end do
+   end do
 
    call dbcsr_t_reserve_blocks(b_iln, blk_ind_1, blk_ind_2, blk_ind_3)
    deallocate (blk_ind_1, blk_ind_2, blk_ind_3)
@@ -529,12 +529,12 @@ program dbcsr_tensor_example_1
                l = l_arr + blk_offset_3d(2) - 1
                n = n_arr + blk_offset_3d(3) - 1
                blk_values_3d(i_arr, l_arr, n_arr) = exp(-1./3*beta*real((i - l)**2 + (i - n)**2 + (l - n)**2))
-            enddo
-         enddo
-      enddo
+            end do
+         end do
+      end do
       call dbcsr_t_put_block(b_iln, blk_ind_3d, blk_size_3d, blk_values_3d)
       deallocate (blk_values_3d)
-   enddo
+   end do
    call dbcsr_t_iterator_stop(iter_tensor)
 
    call dbcsr_t_filter(b_iln, filter_eps)
@@ -698,9 +698,9 @@ program dbcsr_tensor_example_1
          write (io_unit, "(a,t73,es8.2)") "performance: total number of flops:", real(nflop_sum*numnodes)
          write (io_unit, "(a,t66,f15.2)") "performance: total execution time:", time
          write (io_unit, "(a,t66,f15.2)") "performance: contraction flop rate (gflops / mpi rank):", flop_rate
-      endif
+      end if
 
-   endif
+   end if
 
    if (contract_batched) then
 
@@ -784,11 +784,11 @@ program dbcsr_tensor_example_1
                   ! free memory
                   call dbcsr_t_clear(d_ijlm)
 
-               enddo
+               end do
 
                ! complete batched contraction of a
                call dbcsr_t_batched_contract_finalize(a_ijk)
-            enddo
+            end do
 
 ! ------ c(n,o) = c(n,o) + e(j,m,n) x f(j,m,o) ------
 
@@ -812,8 +812,8 @@ program dbcsr_tensor_example_1
 
             ! free memory
             call dbcsr_t_clear(e_jmn)
-         enddo
-      enddo
+         end do
+      end do
 
       ! complete batched contraction of c
       call dbcsr_t_batched_contract_finalize(c_no)
@@ -834,12 +834,12 @@ program dbcsr_tensor_example_1
          write (io_unit, "(a,t73,es8.2)") "performance (batched): total number of flops:", real(nflop_sum*numnodes)
          write (io_unit, "(a,t66,f15.2)") "performance (batched): total execution time:", time
          write (io_unit, "(a,t66,f15.2)") "performance (batched): contraction flop rate (gflops / mpi rank):", flop_rate
-      endif
+      end if
 
       deallocate (start_batch_i, start_batch_j, start_batch_l, start_batch_m, &
                   end_batch_i, end_batch_j, end_batch_l, end_batch_m)
 
-   endif
+   end if
 
 ! ------ copy tensor c to matrix c ------
    call dbcsr_t_copy_tensor_to_matrix(c_no, c_matrix)
@@ -900,8 +900,8 @@ contains
             allocate (blk_sizes(nblk))
             blk_sizes(1:nblk - 1) = tmp; deallocate (tmp)
             blk_sizes(nblk) = bsize
-         enddo
-      endif
+         end do
+      end if
       call mpi_bcast(nblk, 1, mpi_integer, 0, mpi_comm_world, ierr)
       if (ierr /= 0) stop "error in mpi_bcast"
       if (mynode /= 0) allocate (blk_sizes(nblk))
@@ -926,7 +926,7 @@ contains
          block_minabsdiff = limits_1(1) - limits_2(2)
       else
          block_minabsdiff = 0
-      endif
+      end if
 
    end function
 
@@ -954,8 +954,8 @@ contains
             end_batch(ibatch) = blk_sum
             start_batch(ibatch) = end_batch(ibatch - 1) + 1
             batch_sum = min(batch_sum + nel_batch, nel)
-         endif
-      enddo
+         end if
+      end do
 
       call move_alloc(end_batch, tmp)
       allocate (end_batch(1:nbatch))

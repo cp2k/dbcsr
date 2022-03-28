@@ -125,7 +125,7 @@ CONTAINS
          WRITE (io_unit, *) 'retain_sparsity', retain_sparsity
          WRITE (io_unit, *) 'bs_m', bs_m
          WRITE (io_unit, *) 'bs_n', bs_n
-      ENDIF
+      END IF
       !
       !
       ! loop over symmetry
@@ -161,17 +161,17 @@ CONTAINS
             my_sizes_n => sizes_n
             IF (a_symm .NE. dbcsr_type_no_symmetry) THEN
                my_sizes_n => sizes_m
-            ENDIF
+            END IF
             IF (b_symm .NE. dbcsr_type_no_symmetry) THEN
                my_sizes_n => sizes_m
-            ENDIF
+            END IF
 
             IF (.FALSE.) THEN
                WRITE (*, *) 'sizes_m', my_sizes_m
                WRITE (*, *) 'sum(sizes_m)', SUM(my_sizes_m), ' matrix_sizes(1)', matrix_sizes(1)
                WRITE (*, *) 'sizes_n', my_sizes_n
                WRITE (*, *) 'sum(sizes_n)', SUM(my_sizes_n), ' matrix_sizes(2)', matrix_sizes(2)
-            ENDIF
+            END IF
 
             !
             ! Create the undistributed matrices.
@@ -201,7 +201,7 @@ CONTAINS
             IF (.FALSE.) THEN
                CALL dbcsr_print(matrix_a, matlab_format=.TRUE., variable_name='a0')
                CALL dbcsr_print(matrix_b, matlab_format=.TRUE., variable_name='b0')
-            ENDIF
+            END IF
 
             !
             ! Prepare test parameters
@@ -218,9 +218,9 @@ CONTAINS
             CALL dbcsr_data_release(data_b)
             CALL dbcsr_data_release(data_a_dbcsr)
 
-         ENDDO ! itype
+         END DO ! itype
 
-      ENDDO !isymm
+      END DO !isymm
 
       CALL timestop(handle)
 
@@ -291,7 +291,7 @@ CONTAINS
       IF (.FALSE.) THEN
          CALL dbcsr_print(m_a, matlab_format=.FALSE., variable_name='a_in_')
          CALL dbcsr_print(m_b, matlab_format=.FALSE., variable_name='b_')
-      ENDIF
+      END IF
 
       occ_a_in = dbcsr_get_occupation(m_a)
       occ_b = dbcsr_get_occupation(m_b)
@@ -302,14 +302,14 @@ CONTAINS
          DBCSR_ABORT("limits shouldnt be 0")
       ELSE
          CALL dbcsr_add(m_a, m_b, alpha, beta)
-      ENDIF
+      END IF
 
       occ_a_out = dbcsr_get_occupation(m_a)
 
       IF (.FALSE.) THEN
          PRINT *, 'retain_sparsity', retain_sparsity, occ_a_in, occ_b, occ_a_out
          CALL dbcsr_print(m_a, matlab_format=.TRUE., variable_name='a_out_')
-      ENDIF
+      END IF
 
       CALL dbcsr_replicate_all(m_a)
       CALL dbcsr_to_dense_local(m_a, data_a_dbcsr)
@@ -338,8 +338,8 @@ CONTAINS
                ") ................. FAILED !"
             WRITE (io_unit, *) REPEAT("*", 70)
             DBCSR_ABORT('Test failed')
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       CALL dbcsr_release(m_a)
       CALL dbcsr_release(m_b)
@@ -491,15 +491,15 @@ CONTAINS
             DO i = 1, SIZE(dense_a%d%c2_sp, 1)
                WRITE (*, '(A,I3,A,I3,A,E15.7,A,E15.7,A)') 'a_in(', i, ',', j, ')=', REAL(dense_a%d%c2_sp(i, j)), '+', &
                   AIMAG(dense_a%d%c2_sp(i, j)), 'i;'
-            ENDDO
-            ENDDO
+            END DO
+            END DO
             DO j = 1, SIZE(dense_b%d%c2_sp, 2)
             DO i = 1, SIZE(dense_b%d%c2_sp, 1)
                WRITE (*, '(A,I3,A,I3,A,E15.7,A,E15.7,A)') 'b(', i, ',', j, ')=', REAL(dense_b%d%c2_sp(i, j)), '+', &
                   AIMAG(dense_b%d%c2_sp(i, j)), 'i;'
-            ENDDO
-            ENDDO
-         ENDIF
+            END DO
+            END DO
+         END IF
 
          dense_a%d%c2_sp(row:row + m - 1, col:col + n - 1) = alpha%c_sp*dense_a%d%c2_sp(row:row + m - 1, col:col + n - 1) + &
                                                              beta%c_sp*dense_b%d%c2_sp(row:row + m - 1, col:col + n - 1)
@@ -514,15 +514,15 @@ CONTAINS
             DO i = 1, SIZE(dense_a%d%c2_sp, 1)
                WRITE (*, '(A,I3,A,I3,A,E15.7,A,E15.7,A)') 'a_out(', i, ',', j, ')=', REAL(dense_a%d%c2_sp(i, j)), '+', &
                   AIMAG(dense_a%d%c2_sp(i, j)), 'i;'
-            ENDDO
-            ENDDO
+            END DO
+            END DO
             DO j = 1, SIZE(dense_a_dbcsr%d%c2_sp, 2)
             DO i = 1, SIZE(dense_a_dbcsr%d%c2_sp, 1)
                WRITE (*, '(A,I3,A,I3,A,E15.7,A,E15.7,A)') 'a_dbcsr(', i, ',', j, ')=', REAL(dense_a_dbcsr%d%c2_sp(i, j)), '+', &
                   AIMAG(dense_a_dbcsr%d%c2_sp(i, j)), 'i;'
-            ENDDO
-            ENDDO
-         ENDIF
+            END DO
+            END DO
+         END IF
 
          a_norm_out = clange(norm, row_size, col_size, dense_a%d%c2_sp(1, 1), ld, work_sp)
          !
@@ -541,8 +541,8 @@ CONTAINS
             success = .FALSE.
          ELSE
             success = .TRUE.
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       !
       ! synchronize the result...
       CALL mp_bcast(success, 0, mp_group)
@@ -562,9 +562,9 @@ CONTAINS
             WRITE (io_unit, '(A)') ' The solution is CORRECT !'
          ELSE
             WRITE (io_unit, '(A)') ' The solution is suspicious !'
-         ENDIF
+         END IF
 
-      ENDIF
+      END IF
 
       CALL timestop(handle)
 

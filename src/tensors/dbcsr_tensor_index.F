@@ -12,7 +12,7 @@ MODULE dbcsr_tensor_index
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_kinds, ONLY: int_8
 #include "base/dbcsr_base_uses.f90"
-#:include "dbcsr_tensor.fypp"
+   #:include "dbcsr_tensor.fypp"
 
    IMPLICIT NONE
    PRIVATE
@@ -77,13 +77,13 @@ CONTAINS
          map%col_major = col_major
       ELSE
          map%col_major = .TRUE.
-      ENDIF
+      END IF
 
       IF (PRESENT(base)) THEN
          map%base = base
       ELSE
          map%base = 1
-      ENDIF
+      END IF
 
       map%ndim1_2d = SIZE(map1_2d)
       map%ndim2_2d = SIZE(map2_2d)
@@ -178,28 +178,28 @@ CONTAINS
       IF (PRESENT(dims_2d)) dims_2d(:) = INT(map%dims_2d(:))
       IF (PRESENT(dims_nd)) THEN
          dims_nd(:) = map%dims_nd(:)
-      ENDIF
+      END IF
       IF (PRESENT(dims1_2d)) THEN
          dims1_2d(:) = map%dims1_2d
-      ENDIF
+      END IF
       IF (PRESENT(dims2_2d)) THEN
          dims2_2d(:) = map%dims2_2d
-      ENDIF
+      END IF
       IF (PRESENT(map1_2d)) THEN
          map1_2d(:) = map%map1_2d
-      ENDIF
+      END IF
       IF (PRESENT(map2_2d)) THEN
          map2_2d(:) = map%map2_2d
-      ENDIF
+      END IF
       IF (PRESENT(map_nd)) THEN
          map_nd(:) = map%map_nd(:)
-      ENDIF
+      END IF
       IF (PRESENT(base)) THEN
          base = map%base
-      ENDIF
+      END IF
       IF (PRESENT(col_major)) THEN
          col_major = map%col_major
-      ENDIF
+      END IF
 
    END SUBROUTINE dbcsr_t_get_mapping_info
 
@@ -215,7 +215,7 @@ CONTAINS
       ind_out = ind_in(SIZE(dims))
       DO i_dim = SIZE(dims) - 1, 1, -1
          ind_out = (ind_out - 1)*dims(i_dim) + ind_in(i_dim)
-      ENDDO
+      END DO
 
    END FUNCTION
 
@@ -233,7 +233,7 @@ CONTAINS
       ind_out = ind_in(1)
       DO i_dim = 2, SIZE(dims)
          ind_out = ind_out*dims(i_dim) + ind_in(i_dim)
-      ENDDO
+      END DO
    END FUNCTION
 
    PURE FUNCTION split_tensor_index(ind_in, dims) RESULT(ind_out)
@@ -291,12 +291,12 @@ CONTAINS
 
       DO i = 1, map%ndim1_2d
          ind_tmp(i) = ind_in(map%map1_2d(i))
-      ENDDO
+      END DO
       ind_out(1) = combine_tensor_index(ind_tmp(:map%ndim1_2d), map%dims1_2d)
 
       DO i = 1, map%ndim2_2d
          ind_tmp(i) = ind_in(map%map2_2d(i))
-      ENDDO
+      END DO
       ind_out(2) = combine_tensor_index(ind_tmp(:map%ndim2_2d), map%dims2_2d)
    END FUNCTION
 
@@ -314,12 +314,12 @@ CONTAINS
 
       DO i = 1, map%ndim1_2d
          ind_tmp(i) = ind_in(map%map1_2d(i))
-      ENDDO
+      END DO
       ind_out(1) = combine_pgrid_index(ind_tmp(:map%ndim1_2d), map%dims1_2d)
 
       DO i = 1, map%ndim2_2d
          ind_tmp(i) = ind_in(map%map2_2d(i))
-      ENDDO
+      END DO
       ind_out(2) = combine_pgrid_index(ind_tmp(:map%ndim2_2d), map%dims2_2d)
    END FUNCTION
 
@@ -339,13 +339,13 @@ CONTAINS
 
       DO i = 1, map%ndim1_2d
          ind_out(map%map1_2d(i)) = ind_tmp(i)
-      ENDDO
+      END DO
 
       ind_tmp(:map%ndim2_2d) = split_tensor_index(ind_in(2), map%dims2_2d)
 
       DO i = 1, map%ndim2_2d
          ind_out(map%map2_2d(i)) = ind_tmp(i)
-      ENDDO
+      END DO
 
    END FUNCTION
 

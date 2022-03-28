@@ -97,7 +97,7 @@ $(LIBSMM_EXE:.x=.f90):
 	  done; \
 	  printf "\n"; \
 	 fi >> $@
-	@printf "PROGRAM $(notdir $(basename $@)) \n" >> $@ 
+	@printf "PROGRAM $(notdir $(basename $@)) \n" >> $@
 	@printf "  USE omp_lib \n" >> $@
 	@if [ -n "$(LIBSMM_MIC_OFFLOAD)" ]; then printf "  USE mic_lib \n" >> $@ ; fi
 	@printf "  IMPLICIT NONE \n" >> $@

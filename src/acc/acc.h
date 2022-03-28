@@ -1,11 +1,11 @@
-/*------------------------------------------------------------------------------------------------*
- * Copyright (C) by the DBCSR developers group - All rights reserved                              *
- * This file is part of the DBCSR library.                                                        *
- *                                                                                                *
- * For information on the license, see the LICENSE file.                                          *
- * For further information please visit https://dbcsr.cp2k.org                                    *
- * SPDX-License-Identifier: GPL-2.0+                                                              *
- *------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/* Copyright (C) by the DBCSR developers group - All rights reserved                              */
+/* This file is part of the DBCSR library.                                                        */
+/*                                                                                                */
+/* For information on the license, see the LICENSE file.                                          */
+/* For further information please visit https://dbcsr.cp2k.org                                    */
+/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/*------------------------------------------------------------------------------------------------*/
 #ifndef DBCSR_ACC_H
 #define DBCSR_ACC_H
 
@@ -61,6 +61,9 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
 int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbytes, void* stream);
 int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* stream);
 int c_dbcsr_acc_dev_mem_info(size_t* mem_free, size_t* mem_total);
+
+void c_dbcsr_timeset(const char** routineN, const int* routineN_len, int* handle);
+void c_dbcsr_timestop(const int* handle);
 
 #if defined(__cplusplus)
 }

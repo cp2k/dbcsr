@@ -160,7 +160,7 @@ Each tune-directory contains a job file. Since there might be many tune-director
 When `tune_submit.py` is called without arguments, it will just list the jobs that could be submitted:
 
 ```bash
-$ ./tune_submit.py 
+$ ./tune_submit.py
           tune_5x5x5: Would submit, run with "doit!"
           tune_5x5x8: Would submit, run with "doit!"
           tune_5x8x5: Would submit, run with "doit!"

@@ -11,9 +11,9 @@ MODULE dbcsr_array_list_methods
    !! Representation of arbitrary number of 1d integer arrays with arbitrary sizes.
    !! This is needed for generic handling of dimension-specific tensor quantities (such as block index).
 
-#:include "dbcsr_tensor.fypp"
-#:set maxdim = maxrank
-#:set ndims = range(2,maxdim+1)
+   #:include "dbcsr_tensor.fypp"
+   #:set maxdim = maxrank
+   #:set ndims = range(2,maxdim+1)
 
    USE dbcsr_tensor_index, ONLY: dbcsr_t_inverse_order
    USE dbcsr_allocate_wrap, ONLY: allocate_any
@@ -73,7 +73,7 @@ CONTAINS
       DO i = 1, SIZE(indices)
          ind = indices(i) + list%ptr(i) - 1
          get_array_elements(i) = list%col_data(ind)
-      ENDDO
+      END DO
 
    END FUNCTION get_array_elements
 
@@ -90,12 +90,12 @@ CONTAINS
 
       size_all = 0
 
-#:for dim in range(1, maxdim+1)
-      IF (ndata .GE. ${dim}$) THEN
-         DBCSR_ASSERT(PRESENT(data_${dim}$))
-         size_all = size_all + SIZE(data_${dim}$)
-      ENDIF
-#:endfor
+      #:for dim in range(1, maxdim+1)
+         IF (ndata .GE. ${dim}$) THEN
+            DBCSR_ASSERT(PRESENT(data_${dim}$))
+            size_all = size_all + SIZE(data_${dim}$)
+         END IF
+      #:endfor
 
       ALLOCATE (list%ptr(ndata + 1))
       ALLOCATE (list%col_data(size_all))
@@ -103,13 +103,13 @@ CONTAINS
       ptr = 1
       list%ptr(1) = ptr
 
-#:for dim in range(1, maxdim+1)
-      IF (ndata .GE. ${dim}$) THEN
-         list%col_data(ptr:ptr + SIZE(data_${dim}$) - 1) = data_${dim}$ (:)
-         ptr = ptr + SIZE(data_${dim}$)
-         list%ptr(${dim+1}$) = ptr
-      ENDIF
-#:endfor
+      #:for dim in range(1, maxdim+1)
+         IF (ndata .GE. ${dim}$) THEN
+            list%col_data(ptr:ptr + SIZE(data_${dim}$) - 1) = data_${dim}$ (:)
+            ptr = ptr + SIZE(data_${dim}$)
+            list%ptr(${dim+1}$) = ptr
+         END IF
+      #:endfor
 
    END SUBROUTINE
 
@@ -126,12 +126,12 @@ CONTAINS
 
       ndata = SIZE(i_selected)
 
-#:for dim in range(1, maxdim+1)
-      IF (ndata == ${dim}$) THEN
-         CALL get_arrays(list, ${varlist("data", nmax=dim)}$, i_selected=i_selected)
-         CALL create_array_list(array_sublist, ndata, ${varlist("data", nmax=dim)}$)
-      ENDIF
-#:endfor
+      #:for dim in range(1, maxdim+1)
+         IF (ndata == ${dim}$) THEN
+            CALL get_arrays(list, ${varlist("data", nmax=dim)}$, i_selected=i_selected)
+            CALL create_array_list(array_sublist, ndata, ${varlist("data", nmax=dim)}$)
+         END IF
+      #:endfor
    END FUNCTION
 
    SUBROUTINE destroy_array_list(list)
@@ -160,14 +160,14 @@ CONTAINS
       ELSE
          ndata = number_of_arrays(list)
          o(1:ndata) = (/(i, i=1, ndata)/)
-      ENDIF
+      END IF
 
       ASSOCIATE (ptr => list%ptr, col_data => list%col_data)
-#:for dim in range(1, maxdim+1)
-         IF (ndata > ${dim-1}$) THEN
-            CALL allocate_any(data_${dim}$, source=col_data(ptr(o(${dim}$)):ptr(o(${dim}$) + 1) - 1))
-         ENDIF
-#:endfor
+         #:for dim in range(1, maxdim+1)
+            IF (ndata > ${dim-1}$) THEN
+               CALL allocate_any(data_${dim}$, source=col_data(ptr(o(${dim}$)):ptr(o(${dim}$) + 1) - 1))
+            END IF
+         #:endfor
       END ASSOCIATE
 
    END SUBROUTINE get_arrays
@@ -212,7 +212,7 @@ CONTAINS
       ALLOCATE (sizes_of_arrays(num_data))
       DO i_data = 1, num_data
          sizes_of_arrays(i_data) = list%ptr(i_data + 1) - list%ptr(i_data)
-      ENDDO
+      END DO
    END FUNCTION sizes_of_arrays
 
    FUNCTION sum_of_arrays(list)
@@ -226,7 +226,7 @@ CONTAINS
       ALLOCATE (sum_of_arrays(num_data))
       DO i_data = 1, num_data
          sum_of_arrays(i_data) = SUM(list%col_data(list%ptr(i_data):list%ptr(i_data + 1) - 1))
-      ENDDO
+      END DO
 
    END FUNCTION sum_of_arrays
 
@@ -245,8 +245,8 @@ CONTAINS
          DO i_ptr = list_out%ptr(i_data), list_out%ptr(i_data + 1) - 1
             list_out%col_data(i_ptr) = partial_sum
             partial_sum = partial_sum + list_in%col_data(i_ptr)
-         ENDDO
-      ENDDO
+         END DO
+      END DO
    END SUBROUTINE
 
    SUBROUTINE reorder_arrays(list_in, list_out, order)
@@ -257,13 +257,13 @@ CONTAINS
       INTEGER, DIMENSION(number_of_arrays(list_in)), &
          INTENT(IN)                                    :: order
 
-#:for ndim in ndims
-      IF (number_of_arrays(list_in) == ${ndim}$) THEN
-         CALL get_arrays(list_in, ${varlist("data", nmax=ndim)}$, i_selected=dbcsr_t_inverse_order(order))
-         CALL create_array_list(list_out, number_of_arrays(list_in), &
-                                ${varlist("data", nmax=ndim)}$)
-      ENDIF
-#:endfor
+      #:for ndim in ndims
+         IF (number_of_arrays(list_in) == ${ndim}$) THEN
+            CALL get_arrays(list_in, ${varlist("data", nmax=ndim)}$, i_selected=dbcsr_t_inverse_order(order))
+            CALL create_array_list(list_out, number_of_arrays(list_in), &
+                                   ${varlist("data", nmax=ndim)}$)
+         END IF
+      #:endfor
 
    END SUBROUTINE
 

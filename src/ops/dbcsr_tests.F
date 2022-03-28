@@ -130,7 +130,7 @@ CONTAINS
       ELSE
          CALL dbcsr_make_random_block_sizes(sizes_m, matrix_sizes(1), (/1, 13, 2, 5/))
          bmin = 5; bmax = 13
-      ENDIF
+      END IF
       IF (ASSOCIATED(bs_n)) THEN
          bmin = MIN(bmin, MINVAL(bs_n(2::2)))
          bmax = MAX(bmax, MAXVAL(bs_n(2::2)))
@@ -138,7 +138,7 @@ CONTAINS
       ELSE
          CALL dbcsr_make_random_block_sizes(sizes_n, matrix_sizes(2), (/1, 13, 2, 5/))
          bmin = MIN(bmin, 5); bmax = MAX(bmax, 13)
-      ENDIF
+      END IF
       IF (ASSOCIATED(bs_k)) THEN
          bmin = MIN(bmin, MINVAL(bs_k(2::2)))
          bmax = MAX(bmax, MAXVAL(bs_k(2::2)))
@@ -146,7 +146,7 @@ CONTAINS
       ELSE
          CALL dbcsr_make_random_block_sizes(sizes_k, matrix_sizes(3), (/1, 13, 2, 5/))
          bmin = MIN(bmin, 5); bmax = MAX(bmax, 13)
-      ENDIF
+      END IF
       !
       ! Create dist
 
@@ -181,7 +181,7 @@ CONTAINS
                                        REAL(sparsities(1), real_8), &
                                        mp_group, data_type=data_type, dist=dist_a)
          DEALLOCATE (col_dist_a)
-      ENDIF
+      END IF
       CALL dbcsr_distribution_release(dist_a)
       IF (trs(2)) THEN
          CALL dbcsr_dist_bin(row_dist_b, SIZE(sizes_n), npdims(1), &
@@ -201,7 +201,7 @@ CONTAINS
                                        REAL(sparsities(2), real_8), &
                                        mp_group, data_type=data_type, dist=dist_b)
          DEALLOCATE (row_dist_b)
-      ENDIF
+      END IF
       CALL dbcsr_mp_release(mp_env)
       CALL dbcsr_distribution_release(dist_b)
       DEALLOCATE (row_dist_c, col_dist_c)
@@ -210,7 +210,7 @@ CONTAINS
       IF (io_unit .GT. 0) THEN
          WRITE (io_unit, fmt_desc) "Testing with sizes", matrix_sizes(1:3), &
             "min/max block sizes", bmin, bmax, "transposed?", trs(1:2)
-      ENDIF
+      END IF
       CALL mp_environ(numnodes, mynode, mp_group)
       pgiven = ASSOCIATED(nproc)
       IF (pgiven) pgiven = nproc(1) .NE. 0
@@ -225,7 +225,7 @@ CONTAINS
          !ENDDO
          ALLOCATE (group_sizes(1, 2))
          group_sizes(1, 1:2) = (/numnodes, 0/)
-      ENDIF
+      END IF
       t_a = 'N'; IF (trs(1)) t_a = 'T'
       t_b = 'N'; IF (trs(2)) t_b = 'T'
 
@@ -276,7 +276,7 @@ CONTAINS
       IF (io_unit > 0) THEN
          WRITE (io_unit, *) "checksums", pre, post
          WRITE (io_unit, *) "difference norm", norm
-      ENDIF
+      END IF
 
       IF (norm /= 0.0_dp) &
          DBCSR_ABORT("bug in binary io")
@@ -339,7 +339,7 @@ CONTAINS
             CALL dbcsr_mp_make_env(mp_env, cart_group, group, nprocs=MAXVAL(npdims))
          ELSE
             CALL dbcsr_mp_make_env(mp_env, cart_group, group, pgrid_dims=npdims)
-         ENDIF
+         END IF
          IF (numnodes < 0) &
             DBCSR_ABORT("Cartesian sides must be greater or equal to 0")
          i_am_alive = dbcsr_mp_active(mp_env)
@@ -427,7 +427,7 @@ CONTAINS
                                          last_k=limits(6), &
                                          retain_sparsity=retain_sparsity, flop=flop, &
                                          filter_eps=eps)
-                  ENDIF
+                  END IF
                ELSE
                   IF (eps .LE. -0.0_dp) THEN
                      CALL dbcsr_multiply(transa, transb, alpha, &
@@ -438,8 +438,8 @@ CONTAINS
                                          m_a, m_b, beta, m_c, &
                                          retain_sparsity=retain_sparsity, flop=flop, &
                                          filter_eps=eps)
-                  ENDIF
-               ENDIF
+                  END IF
+               END IF
                t1 = t1 + m_walltime()
                t2 = t2 + t1
                flop_sum = flop_sum + flop
@@ -452,24 +452,24 @@ CONTAINS
                   WRITE (io_unit, '(A,I5,A,I5,A,F12.3,A,I9,A)') &
                      " loop ", loop_iter, " with ", numnodes, " MPI ranks: using ", t1, "s ", INT(flops_all), " Mflops/rank"
                   CALL m_flush(io_unit)
-               ENDIF
+               END IF
                IF (loop_iter .EQ. n_loops .OR. always_checksum) THEN
                   cs = dbcsr_checksum(m_c)
                   cs_pos = dbcsr_checksum(m_c, pos=.TRUE.)
                   IF (io_unit > 0) THEN
                      WRITE (io_unit, *) "Final checksums", cs, cs_pos
-                  ENDIF
-               ENDIF
-            ENDDO loops
+                  END IF
+               END IF
+            END DO loops
             ! Release
             CALL dbcsr_mp_release(mp_env)
             CALL dbcsr_release(m_a)
             CALL dbcsr_release(m_b)
             CALL dbcsr_release(m_c)
             CALL dbcsr_release(m_c_reserve)
-         ENDIF alive
+         END IF alive
          CALL mp_comm_free(cart_group)
-      ENDDO p_sizes
+      END DO p_sizes
       CALL timestop(error_handle)
    END SUBROUTINE test_multiplies_multiproc
 

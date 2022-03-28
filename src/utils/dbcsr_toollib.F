@@ -111,7 +111,7 @@ CONTAINS
       DO i = 1, SIZE(merged)
          array_upper(i) = INT(ISHFT(merged(i), -32), KIND=int_4)
          array_lower(i) = INT(IAND(merged(i), lmask8), KIND=int_4)
-      ENDDO
+      END DO
    END SUBROUTINE dbcsr_unpack_i8_2i4
 
    ELEMENTAL FUNCTION gcd(a, b)
@@ -128,18 +128,18 @@ CONTAINS
       ELSE
          s = ab
          l = aa
-      ENDIF
+      END IF
       IF (s .NE. 0) THEN
          DO
             rem = MOD(l, s)
             IF (rem == 0) EXIT
             l = s
             s = rem
-         ENDDO
+         END DO
          GCD = s
       ELSE
          GCD = l
-      ENDIF
+      END IF
    END FUNCTION gcd
 
    ELEMENTAL FUNCTION lcm(a, b)
@@ -190,8 +190,8 @@ CONTAINS
             hash = IAND(hash + byte, b32)
             hash = IAND(hash + IAND(ISHFT(hash, 10), b32), b32)
             hash = IAND(IEOR(hash, IAND(ISHFT(hash, -6), b32)), b32)
-         ENDDO
-      ENDDO
+         END DO
+      END DO
       hash = IAND(hash + IAND(ISHFT(hash, 3), b32), b32)
       hash = IAND(IEOR(hash, IAND(ISHFT(hash, -11), b32)), b32)
       hash = IAND(hash + IAND(ISHFT(hash, 15), b32), b32)
@@ -216,12 +216,12 @@ CONTAINS
          low = lb
       ELSE
          low = LBOUND(array, 1)
-      ENDIF
+      END IF
       IF (PRESENT(ub)) THEN
          high = ub
       ELSE
          high = UBOUND(array, 1)
-      ENDIF
+      END IF
       loc = (low + high)/2
       DO WHILE (loc .GE. low .AND. loc .LE. high)
          val = array(loc)
@@ -232,9 +232,9 @@ CONTAINS
             low = loc + 1
          ELSE
             high = loc - 1
-         ENDIF
+         END IF
          loc = (low + high)/2
-      ENDDO
+      END DO
    END SUBROUTINE ordered_search
 
    FUNCTION atoi(a)

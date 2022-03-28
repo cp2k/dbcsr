@@ -90,13 +90,13 @@ CONTAINS
          own_comm_prv = own_comm
       ELSE
          own_comm_prv = .FALSE.
-      ENDIF
+      END IF
 
       IF (own_comm_prv) THEN
          split_info%mp_comm = mp_comm
       ELSE
          CALL mp_comm_dup(mp_comm, split_info%mp_comm)
-      ENDIF
+      END IF
 
       split_info%igroup = igroup
       split_info%split_rowcol = split_rowcol
@@ -113,7 +113,7 @@ CONTAINS
          to_assert = MOD(numproc_group, pdims(MOD(split_rowcol, 2) + 1)) == 0
          DBCSR_ASSERT(to_assert)
          split_info%pgrid_split_size = numproc_group/pdims(MOD(split_rowcol, 2) + 1)
-      ENDIF
+      END IF
       CALL mp_bcast(split_info%pgrid_split_size, 0, split_info%mp_comm)
 
       ngroup = (pdims(split_rowcol) + split_info%pgrid_split_size - 1)/split_info%pgrid_split_size
@@ -124,7 +124,7 @@ CONTAINS
 
       IF (igroup_check .NE. split_info%igroup) THEN
          DBCSR_ABORT('inconsistent subgroups')
-      ENDIF
+      END IF
 
       CALL mp_cart_create(mp_comm_group, 2, pdims_group, pcoord_group, split_info%mp_comm_group)
 
@@ -223,7 +223,7 @@ CONTAINS
 
       IF (split_pgrid) THEN
          DBCSR_ASSERT(PRESENT(pdim_nonsplit))
-      ENDIF
+      END IF
 
       lb = CEILING(REAL(nsplit, real_8)/default_nsplit_accept_ratio)
       ub = FLOOR(REAL(nsplit, real_8)*default_nsplit_accept_ratio)
@@ -244,7 +244,7 @@ CONTAINS
                CALL mp_dims_create(numproc/split, dims_sub)
             ELSE
                dims_sub = [numproc/split, pdim_nonsplit]
-            ENDIF
+            END IF
 
             IF (dims_sub(1) == dims_sub(2)) THEN
                count_square = count_square + 1
@@ -254,10 +254,10 @@ CONTAINS
             ELSEIF (accept_pgrid_dims(dims_sub, relative=.FALSE.)) THEN
                count_accept = count_accept + 1
                nsplit_list_accept(count_accept) = split
-            ENDIF
+            END IF
 
-         ENDIF
-      ENDDO
+         END IF
+      END DO
 
       IF (count_square > 0) THEN
          minpos = MINLOC(ABS(nsplit_list_square(1:count_square) - nsplit), DIM=1)
@@ -272,8 +272,8 @@ CONTAINS
          get_opt_nsplit = nsplit
          DO WHILE (MOD(numproc, get_opt_nsplit) .NE. 0)
             get_opt_nsplit = get_opt_nsplit - 1
-         ENDDO
-      ENDIF
+         END DO
+      END IF
 
    END FUNCTION
 
@@ -295,7 +295,7 @@ CONTAINS
       ELSE
          split_rowcol = colsplit
          nsplit = INT((nblkcols - 1)/nblkrows + 1)
-      ENDIF
+      END IF
 
       mp_comm_new = dbcsr_tas_mp_comm(mp_comm, split_rowcol, nsplit)
    END FUNCTION
@@ -329,7 +329,7 @@ CONTAINS
          opt_nsplit_prv = opt_nsplit
       ELSE
          opt_nsplit_prv = .TRUE.
-      ENDIF
+      END IF
 
       DBCSR_ASSERT(nsplit > 0)
 
@@ -350,9 +350,9 @@ CONTAINS
       ELSE
          IF (MOD(pdims(split_rowcol), nsplit) .NE. 0) THEN
             DBCSR_ABORT("Split factor does not divide process grid dimension")
-         ENDIF
+         END IF
          nsplit_opt = nsplit
-      ENDIF
+      END IF
 
       pdims_group = pdims
       pdims_group(split_rowcol) = pdims_group(split_rowcol)/nsplit_opt
@@ -363,7 +363,7 @@ CONTAINS
 
       IF (nsplit > 0) THEN
          ALLOCATE (split_info%ngroup_opt, SOURCE=nsplit)
-      ENDIF
+      END IF
 
       CALL timestop(handle)
 
@@ -382,7 +382,7 @@ CONTAINS
          accept_pgrid_dims = (MAXVAL(REAL(dims, real_8))/MAXVAL(dims_opt) .LT. default_pdims_accept_ratio)
       ELSE
          accept_pgrid_dims = (MAXVAL(REAL(dims, real_8))/MINVAL(dims) .LT. default_pdims_accept_ratio**2)
-      ENDIF
+      END IF
    END FUNCTION
 
    SUBROUTINE dbcsr_tas_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)
@@ -412,7 +412,7 @@ CONTAINS
          CASE (colsplit)
             pgrid_offset(:) = [0, info%igroup*info%pgrid_split_size]
          END SELECT
-      ENDIF
+      END IF
 
    END SUBROUTINE
 
@@ -426,11 +426,11 @@ CONTAINS
          abort = .TRUE.
       ELSEIF (split_info%refcount < 1) THEN
          abort = .TRUE.
-      ENDIF
+      END IF
 
       IF (abort) THEN
          DBCSR_ABORT("can not destroy non-existing split_info")
-      ENDIF
+      END IF
 
       split_info%refcount = split_info%refcount - 1
 
@@ -438,7 +438,7 @@ CONTAINS
          CALL mp_comm_free(split_info%mp_comm_group)
          CALL mp_comm_free(split_info%mp_comm)
          DEALLOCATE (split_info%refcount)
-      ENDIF
+      END IF
 
       split_info%pdims = 0
 
@@ -452,7 +452,7 @@ CONTAINS
 
       IF (split_info%refcount < 1) THEN
          DBCSR_ABORT("can not hold non-existing split_info")
-      ENDIF
+      END IF
       ref => split_info%refcount
       ref = ref + 1
    END SUBROUTINE
@@ -479,7 +479,7 @@ CONTAINS
 
       IF (PRESENT(iproc_group)) THEN
          DBCSR_ASSERT(PRESENT(pdims_group))
-      ENDIF
+      END IF
 
       pcoord = [iproc/pdims(2), MOD(iproc, pdims(2))]
 
@@ -615,7 +615,7 @@ CONTAINS
       DO pcoord = igroup*info%pgrid_split_size, (igroup + 1)*info%pgrid_split_size - 1
          pcoord_group = pcoord - igroup*info%pgrid_split_size
          nrowcols_group(pcoord_group) = SIZE(rowcol_dist%rowcols(pcoord))
-      ENDDO
+      END DO
       nrowcols = SUM(nrowcols_group)
 
       ALLOCATE (rowcols(nrowcols))
@@ -625,7 +625,7 @@ CONTAINS
          pcoord_group = pcoord - igroup*info%pgrid_split_size
          rowcols(count + 1:count + nrowcols_group(pcoord_group)) = rowcol_dist%rowcols(pcoord)
          count = count + nrowcols_group(pcoord_group)
-      ENDDO
+      END DO
 
       ALLOCATE (sort_indices(nrowcols))
       CALL sort(rowcols, nrowcols, sort_indices)

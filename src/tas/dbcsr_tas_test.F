@@ -107,13 +107,13 @@ CONTAINS
          reuse_comm_prv = reuse_comm
       ELSE
          reuse_comm_prv = .FALSE.
-      ENDIF
+      END IF
 
       IF (reuse_comm_prv) THEN
          mp_comm_out = mp_comm
       ELSE
          mp_comm_out = dbcsr_tas_mp_comm(mp_comm, nrows, ncols)
-      ENDIF
+      END IF
 
       CALL mp_environ(numnodes, mynode, mp_comm_out)
       CALL mp_environ(numnodes, pdims, pcoord, mp_comm_out)
@@ -154,10 +154,10 @@ CONTAINS
                   CALL set_larnv_seed(INT(row_s), INT(nrow), INT(col_s), INT(ncol), randmat_counter, iseed)
                   CALL dlarnv(1, iseed, max_nze, values)
                   CALL dbcsr_tas_put_block(matrix, row_s, col_s, values(1:row_size, 1:col_size))
-               ENDIF
-            ENDIF
-         ENDDO
-      ENDDO
+               END IF
+            END IF
+         END DO
+      END DO
 
       CALL dbcsr_tas_finalize(matrix)
 
@@ -191,8 +191,8 @@ CONTAINS
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
          WRITE (io_unit, "(A)") "starting tall-and-skinny benchmark"
-      ENDIF
-      ENDIF
+      END IF
+      END IF
       CALL timeset("benchmark_tas_mm", handle1)
       CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a, matrix_b, &
                               dbcsr_scalar(0.0_real_8), matrix_c, &
@@ -201,8 +201,8 @@ CONTAINS
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
          WRITE (io_unit, "(A)") "tall-and-skinny benchmark completed"
-      ENDIF
-      ENDIF
+      END IF
+      END IF
 
       IF (compare_dbcsr) THEN
          CALL dbcsr_tas_convert_to_dbcsr(matrix_a, dbcsr_a)
@@ -254,8 +254,8 @@ CONTAINS
          IF (PRESENT(io_unit)) THEN
          IF (io_unit > 0) THEN
             WRITE (io_unit, "(A)") "starting dbcsr benchmark"
-         ENDIF
-         ENDIF
+         END IF
+         END IF
          CALL timeset("benchmark_dbcsr_mm", handle2)
          CALL dbcsr_multiply(transa, transb, dbcsr_scalar(1.0_real_8), dbcsr_a_mm, dbcsr_b_mm, &
                              dbcsr_scalar(0.0_real_8), dbcsr_c_mm, filter_eps=filter_eps)
@@ -263,8 +263,8 @@ CONTAINS
          IF (PRESENT(io_unit)) THEN
          IF (io_unit > 0) THEN
             WRITE (io_unit, "(A)") "dbcsr benchmark completed"
-         ENDIF
-         ENDIF
+         END IF
+         END IF
 
          CALL dbcsr_release(dbcsr_a)
          CALL dbcsr_release(dbcsr_b)
@@ -277,7 +277,7 @@ CONTAINS
          CALL dbcsr_distribution_release(dist_c)
 
          CALL mp_comm_free(comm_dbcsr)
-      ENDIF
+      END IF
 
    END SUBROUTINE
 
@@ -370,7 +370,7 @@ CONTAINS
          CALL invert_transpose_flag(transb_prv)
          CALL dbcsr_multiply(transb_prv, transa_prv, dbcsr_scalar(1.0_real_8), &
                              dbcsr_b_mm, dbcsr_a_mm, dbcsr_scalar(0.0_real_8), dbcsr_c_mm, filter_eps=filter_eps)
-      ENDIF
+      END IF
 
       sq_cs = dbcsr_checksum(dbcsr_c_mm)
       rc_cs = dbcsr_checksum(dbcsr_c_mm_check)
@@ -389,8 +389,8 @@ CONTAINS
             transb, 'passed!'
          WRITE (io_unit, "(A,1X,E9.2,1X,E9.2)") "checksums", sq_cs, rc_cs
          WRITE (io_unit, "(A,1X,E9.2)") "difference norm", norm
-      ENDIF
-      ENDIF
+      END IF
+      END IF
 
       CALL dbcsr_release(dbcsr_a)
       CALL dbcsr_release(dbcsr_a_mm)
@@ -431,7 +431,7 @@ CONTAINS
       DO d = 1, SIZE(block_sizes)
          size_i = MOD((d - 1)/repeat, SIZE(sizes)) + 1
          block_sizes(d) = sizes(size_i)
-      ENDDO
+      END DO
    END SUBROUTINE
 
    SUBROUTINE dbcsr_tas_reset_randmat_seed()

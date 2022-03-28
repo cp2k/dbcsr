@@ -1,0 +1,61 @@
+FROM nvidia/cuda:11.6.0-devel-ubuntu20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN set -ex ; \
+    apt-get update ; \
+    apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        gnupg \
+        software-properties-common \
+        curl \
+        ; \
+    curl -LsS https://apt.kitware.com/keys/kitware-archive-latest.asc \
+        | gpg --dearmor - \
+        | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null ; \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' ; \
+    apt-get install -y \
+        locales \
+        gfortran \
+        g++ \
+        openmpi-bin \
+        libopenmpi-dev \
+        mpich \
+        libmpich-dev \
+        libopenblas-openmp-dev \
+        cmake \
+        ninja-build \
+        lcov \
+        pkg-config \
+        git \
+        python3-pip \
+        unzip \
+        rsync \
+        valgrind \
+        ; \
+    rm -rf /var/lib/apt/lists/* ; \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+# Make sure we have a proper unicode locale and language
+ENV LANG en_US.utf8
+
+RUN set -ex ; \
+    pip3 install \
+        pre-commit \
+        ford \
+        git-archive-all \
+        ;
+
+ARG libxsmm_version=1.17
+
+RUN set -ex ; \
+    curl -LsS https://github.com/hfp/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt ; \
+    ln -s libxsmm-${libxsmm_version} /opt/libxsmm ; \
+    make -j -C /opt/libxsmm MALLOC=0
+
+ENV PKG_CONFIG_PATH="/opt/libxsmm/lib:${PKG_CONFIG_PATH}"
+
+# Leak suppression
+COPY lsan.supp /opt
+ENV LSAN_OPTIONS=suppressions=/opt/lsan.supp

@@ -1,17 +1,17 @@
-/*------------------------------------------------------------------------------------------------*
- * Copyright (C) by the DBCSR developers group - All rights reserved                              *
- * This file is part of the DBCSR library.                                                        *
- *                                                                                                *
- * For information on the license, see the LICENSE file.                                          *
- * For further information please visit https://dbcsr.cp2k.org                                    *
- * SPDX-License-Identifier: GPL-2.0+                                                              *
- *------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+/* Copyright (C) by the DBCSR developers group - All rights reserved                              */
+/* This file is part of the DBCSR library.                                                        */
+/*                                                                                                */
+/* For information on the license, see the LICENSE file.                                          */
+/* For further information please visit https://dbcsr.cp2k.org                                    */
+/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/*------------------------------------------------------------------------------------------------*/
 
-/*****************************************************************************
- *  Authors: Peter Messmer <pmessmer@nvidia.com>,                            *
- *           Nikolay Markovskiy <nmarkovskiy@nvidia.com>                     *
- *           Ole Schuett <ole.schuett@mat.ethz.ch>                           *
- *****************************************************************************/
+/*****************************************************************************/
+/*  Authors: Peter Messmer <pmessmer@nvidia.com>,                            */
+/*           Nikolay Markovskiy <nmarkovskiy@nvidia.com>                     */
+/*           Ole Schuett <ole.schuett@mat.ethz.ch>                           */
+/*****************************************************************************/
 
 #include "smm_acc_common.h"
 
@@ -19,68 +19,57 @@
 namespace ns_smm_acc_dnt_largeDB2 {
 
 /****************************************************************************/
-__device__ static inline void load_gmem_into_regs(const double* __restrict__ from, double* dest,
-                                           const int length, const int threads) {
-
+__device__ static inline void load_gmem_into_regs(
+  const double* __restrict__ from, double* dest, const int length, const int threads) {
   const int NR = (length + threads - 1) / threads;
   int i = threadIdx.x;
 
   /* length >= threads, which is usually given for large blocks with medium tile-sizes */
-  for (int ri = 0; ri < NR - 1; ri++) {  /* loop with fixed bounds */
+  for (int ri = 0; ri < NR - 1; ri++) { /* loop with fixed bounds */
     dest[ri] = __ldg(&from[i]);
     i += threads;
   }
-  if (i < length)
-    dest[NR - 1] = __ldg(&from[i]);
+  if (i < length) dest[NR - 1] = __ldg(&from[i]);
 }
 
 
 /****************************************************************************/
-__device__ static inline void load_regs_into_smem(double* from, double* dest,
-                                           const int length, const int threads) {
-
+__device__ static inline void load_regs_into_smem(double* from, double* dest, const int length, const int threads) {
   const int NR = (length + threads - 1) / threads;
   int i = threadIdx.x;
 
   /* length >= threads, which is usually given for large blocks with medium tile-sizes */
-  for (int ri = 0; ri < NR - 1; ri++) {  /* loop with fixed bounds */
+  for (int ri = 0; ri < NR - 1; ri++) { /* loop with fixed bounds */
     dest[i] = from[ri];
     i += threads;
   }
-  if (i < length)
-    dest[i] = from[NR - 1];
+  if (i < length) dest[i] = from[NR - 1];
 }
 
 
 /****************************************************************************/
-__device__ static inline void multiply(const double* buff_a, const double* buff_b, double* buff_c,
-                                const int w, const int m, const int n,
-                                const int M, const int N) {
-
+__device__ static inline void multiply(
+  const double* buff_a, const double* buff_b, double* buff_c, const int w, const int m, const int n, const int M, const int N) {
   /* There might be more threads than needed for the calculation.
    * Only the first cmax*rmax threads participate in the calculation.
    */
-  const int cmax = (n + N - 1) / N;     /* max tile-column */
-  const int rmax = (m + M - 1) / M;     /* max tile-row */
-  const int c = threadIdx.x / rmax;     /* this thread's tile-column */
+  const int cmax = (n + N - 1) / N; /* max tile-column */
+  const int rmax = (m + M - 1) / M; /* max tile-row */
+  const int c = threadIdx.x / rmax; /* this thread's tile-column */
   const int r = threadIdx.x - c * rmax; /* this thread's tile-row */
 
   if (c < cmax && r < rmax) /* is this thread participating? */
     for (int l = 0; l < w; l++)
       for (int i = 0; i < N; i++)
-        for (int j = 0; j < M; j++)
-          buff_c[M * i + j] += buff_a[l * m + M * r + j] * buff_b[l * n + N * c + i];
+        for (int j = 0; j < M; j++) buff_c[M * i + j] += buff_a[l * m + M * r + j] * buff_b[l * n + N * c + i];
 }
 
 
 /****************************************************************************/
-__device__ static inline void store_results_into_smem(double* from, double* dest,
-                                               const int t, const int v,
-                                               const int m, const int n,
-                                               const int M, const int N) {
-
-  const int rmax = (m + M - 1) / M;     /* max tile-row */
-  const int c = threadIdx.x / rmax;     /* this thread's tile-column */
+__device__ static inline void store_results_into_smem(
+  double* from, double* dest, const int t, const int v, const int m, const int n, const int M, const int N) {
+  const int rmax = (m + M - 1) / M; /* max tile-row */
+  const int c = threadIdx.x / rmax; /* this thread's tile-column */
   const int r = threadIdx.x - c * rmax; /* this thread's tile-row */
 
   const int ctmp = c * N - t;
@@ -96,20 +85,15 @@ __device__ static inline void store_results_into_smem(double* from, double* dest
 }
 
 /****************************************************************************/
-__device__ static inline void writeback_results(double* from, double* dest,
-                                                double* buff,
-                                           const int m, const int n,
-                                           const int M, const int N,
-                                           const int v, const int threads) {
-
+__device__ static inline void writeback_results(
+  double* from, double* dest, double* buff, const int m, const int n, const int M, const int N, const int v, const int threads) {
   /* results are written in output-slabs of width v */
   for (int t = 0; t < (n / v) * v; t += v) {
     /* copy output slab from registers to shared memory */
     store_results_into_smem(from, buff, t, v, m, n, M, N);
     syncthreads();
     /* Add our results to the accumulator in global memory */
-    for (int i = threadIdx.x; i < m * v; i += threads)
-      atomicAdd(&dest[i], buff[i]);
+    for (int i = threadIdx.x; i < m * v; i += threads) atomicAdd(&dest[i], buff[i]);
     dest += m * v;
     syncthreads();
   }
@@ -118,18 +102,16 @@ __device__ static inline void writeback_results(double* from, double* dest,
    * a smaller tail-slab of width va has to be process
    */
   const int va = n - (n / v) * v;
-  if (va != 0) {  /* is there a tail-slab? */
+  if (va != 0) { /* is there a tail-slab? */
     int t = (n / v) * v;
     store_results_into_smem(from, buff, t, va, m, n, M, N);
     syncthreads();
-    for (int i = threadIdx.x; i < m * va; i += threads)
-      atomicAdd(&dest[i], buff[i]);
+    for (int i = threadIdx.x; i < m * va; i += threads) atomicAdd(&dest[i], buff[i]);
     syncthreads();
   }
-
 }
 
-} /*end of namespace*/
+} // namespace ns_smm_acc_dnt_largeDB2
 
 
 /****************************************************************************/
@@ -174,12 +156,9 @@ __device__ static inline void writeback_results(double* from, double* dest,
  * For coalesced writes: slabs of C (P_c with width 'v') are put in shared memory
  * and only then added to the C in global memory using atomic compare-and-swap
  */
-template <int m, int n, int k, int M, int N, int w, int v, int threads, int grouping, int minblocks>
-__global__ void
-__launch_bounds__(threads, minblocks)
-smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
-    const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data) {
-
+template<int m, int n, int k, int M, int N, int w, int v, int threads, int grouping, int minblocks>
+__global__ void __launch_bounds__(threads, minblocks) smm_acc_dnt_largeDB2(const int* __restrict__ param_stack,
+  const int stack_size, const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data) {
   using namespace ns_smm_acc_dnt_largeDB2;
 
   const int mw = m * w;
@@ -197,10 +176,9 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
    * slab P_b has dimensions (w x n)
    * registers are thread-local, so we divide the amount of memory needed to store
    * the slabs by the number of threads to get the amount of memory that THIS thread needs */
-  const int mya_size  = (mw + threads - 1) / threads;
-  const int myb_size  = (wn + threads - 1) / threads;
-  const int buff_tmp  = MAX(     (w - 1) * m + ((m + M - 1) / M) * M,
-                            mw + (w - 1) * n + ((n + N - 1) / N) * N);
+  const int mya_size = (mw + threads - 1) / threads;
+  const int myb_size = (wn + threads - 1) / threads;
+  const int buff_tmp = MAX((w - 1) * m + ((m + M - 1) / M) * M, mw + (w - 1) * n + ((n + N - 1) / N) * N);
   /* v x m = number of elements in P_c */
   const int buff_size = MAX(buff_tmp, v * m);
 
@@ -218,7 +196,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
    * param_stack_s: shared memory buffer containing the stack entries this thread should process
    *                number of stack entries in param_stack_s = grouping,
    *                number of integers per stack entry: 3 */
-  __shared__ int    param_stack_s[npar * grouping];
+  __shared__ int param_stack_s[npar * grouping];
 
   /* buff: shared memory buffer containing the elements of P_c to be written from regs to smem in slabs */
   __shared__ double buff[buff_size];
@@ -231,8 +209,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
   if (((bidx + 1) * grouping) > stack_size) nrun = stack_size % grouping;
 
   /* Set the partial sum (tile T) to zero */
-  for (int i = 0; i < M * N; i++)
-      myc[i] = 0.0;
+  for (int i = 0; i < M * N; i++) myc[i] = 0.0;
 
   /* Load and pack stack data for current block from global memory into smem
    * Get parameter stack entries from index "psp" to "psp + (nrun-1)*npar + 2"
@@ -241,7 +218,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
 #pragma unroll 3
   for (int i = tidx; i < nrun; i += threads) {
     // param_stack is 1-based, convert to 0-based here
-    param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1;
+    param_stack_s[i * npar] = __ldg(&param_stack[psp + i * npar]) - 1;
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1;
     param_stack_s[i * npar + 2] = __ldg(&param_stack[psp + i * npar + 2]) - 1;
   }
@@ -253,7 +230,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
   /* Index in a_data, b_data and c_data arrays
    * indicating where to fetch resp. write back matrix elements for this run
    * srcA, B, C corresponding to the starting indices (i.e. offsets) of block submatrices to multiply */
-  srcA = param_stack_s[psp    ];
+  srcA = param_stack_s[psp];
   srcB = param_stack_s[psp + 1];
 
   /* Start off double buffering by loading the first data from gmem into registers */
@@ -263,14 +240,13 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
 
   /* In each run, we process one stack entry from param_stack_s */
   for (int run = 0; run < nrun; run++) {
-
     /* load first data for run from regs to smem */
     load_regs_into_smem(mya, buff_l, mw, threads);
     load_regs_into_smem(myb, buff_r, wn, threads);
     syncthreads();
 
     /* Actual double buffering loop: */
-    for (int t = 0; t < (k / w - 1) * w ; t += w) {
+    for (int t = 0; t < (k / w - 1) * w; t += w) {
       /* load next input slab from global memory into registers */
       srcA += mw;
       srcB += wn;
@@ -309,7 +285,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
 
     if (run < nrun - 1) { /* If this is not the last run */
       /* get the offsets for the a-block and the b-block from the stack */
-      srcA = param_stack_s[psp    ];
+      srcA = param_stack_s[psp];
       srcB = param_stack_s[psp + 1];
 
       /* load the data for the next iteration of the loop */
@@ -320,7 +296,8 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
     if (wa != 0) { /* is there a tail-slab? */
       /* multiply the tail-slab */
       multiply(buff_l, buff_r, myc, wa, m, n, M, N);
-    } else {
+    }
+    else {
       /* multiply last regular slab, which the loop left in shared memory */
       multiply(buff_l, buff_r, myc, w, m, n, M, N);
     }

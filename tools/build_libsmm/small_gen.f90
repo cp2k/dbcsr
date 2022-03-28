@@ -58,7 +58,7 @@ PROGRAM small_gen
    DO isquare = ibest_square + 1, ibest_square + best_square
       write (label, '(A,I0)') "_", isquare
       CALL mult_versions(M, N, K, isquare, label, transpose_flavor, data_type, SIMD_size, filename)
-   ENDDO
+   END DO
 
    ! generation of the vector version,
    ! only in the case of SIMD_size=32(i.e. AVX/AVX2) and SIMD_size=64(i.e. KNC/AVX512)
@@ -67,7 +67,7 @@ PROGRAM small_gen
       write (label, '(A,I0)') "_", ibest_square + best_square
       CALL mult_versions(M, N, K, ibest_square + best_square, label, &
                          transpose_flavor, data_type, SIMD_size, filename, stack_size_label="")
-   ENDIF
+   END IF
 
    ! generation of the libxsmm version interface
    ibest_square = ibest_square + 1
@@ -96,7 +96,7 @@ PROGRAM small_gen
       IF (isquare == 9 .AND. ((.NOT. do_libxsmm) .OR. transpose_flavor /= 1 .OR. data_type > 2)) CYCLE
       write (6, '(A,I0,A,I0,A,I0,A,I0)') "PROCEDURE(X) :: smm_"//trstr(transpose_flavor, data_type)//"_", &
          M, "_", N, "_", K, "_", isquare
-   ENDDO
+   END DO
    write (6, '(A,I0,A,I0)') "  INTEGER, PARAMETER :: Nmin=5,Nk=1,Nloop=", ibest_square + best_square
    write (6, '(A)') "  TYPE t_kernels"
    write (6, '(A)') "    PROCEDURE(X), POINTER, NOPASS :: ptr"
@@ -111,8 +111,8 @@ PROGRAM small_gen
          write (6, '(A,I0,A,I0,A,I0,A,I0,A,I0)') &
             "  kernels(Nk,", isquare, ")%ptr => smm_"//trstr(transpose_flavor, data_type)//"_", &
             M, "_", N, "_", K, "_", isquare
-      ENDIF
-   ENDDO
+      END IF
+   END DO
    write (6, '(A,I0,A,I0,A,I0,A)') "  filename='small_find_", M, "_", N, "_", K, ".out'"
    write (6, '(A)') "  C = 0 ; A = 0 ; B = 0"
    write (6, '(A)') "  mnk=0"

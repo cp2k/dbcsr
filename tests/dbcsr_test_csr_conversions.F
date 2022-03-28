@@ -124,12 +124,12 @@ PROGRAM dbcsr_test_csr_conversions
          DBCSR_ABORT("Error in csr conversion")
       ELSE
          IF (io_unit > 0) WRITE (io_unit, *) "Conversion OK!"
-      ENDIF
+      END IF
 
       CALL dbcsr_release(matrix_a)
       DEALLOCATE (rn_array)
 
-   ENDDO
+   END DO
 
    DEALLOCATE (seed)
 
@@ -216,10 +216,10 @@ CONTAINS
                   nze = row_blk_sizes(row_s)*col_blk_sizes(col_s)
                   CALL RANDOM_NUMBER(values(1:nze))
                   CALL dbcsr_put_block(matrix_a, row_s, col_s, values(1:nze))
-               ENDIF
-            ENDIF
-         ENDDO
-      ENDDO
+               END IF
+            END IF
+         END DO
+      END DO
       DEALLOCATE (values)
 
       CALL dbcsr_finalize(matrix_a)

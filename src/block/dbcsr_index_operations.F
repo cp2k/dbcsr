@@ -111,7 +111,7 @@ CONTAINS
          WRITE (*, *) "old row_p", old_row_p
          WRITE (*, *) "old col_i", old_col_i
          WRITE (*, *) "old blk_p", old_blk_p
-      ENDIF
+      END IF
       DO row = 1, SIZE(old_row_p) - 1
          DO blk = old_row_p(row) + 1, old_row_p(row + 1)
             col = old_col_i(blk)
@@ -129,9 +129,9 @@ CONTAINS
                new_blk_p(blk) = old_blk_p(blk)
             ELSE
                new_blk_p(blk) = -old_blk_p(blk)
-            ENDIF
-         ENDDO
-      ENDDO
+            END IF
+         END DO
+      END DO
       CALL dbcsr_sort_indices(nblks, row_i, new_col_i, blk_p=new_blk_p)
       ! Re-create the index
       CALL dbcsr_make_dbcsr_index(new_row_p, row_i, SIZE(new_row_p) - 1, nblks)
@@ -140,7 +140,7 @@ CONTAINS
          WRITE (*, *) "new row_i", row_i
          WRITE (*, *) "new col_i", new_col_i
          WRITE (*, *) "new blk_p", new_blk_p
-      ENDIF
+      END IF
    END SUBROUTINE make_index_canonical
 
    SUBROUTINE make_index_triangular(new_row_p, new_col_i, new_blk_p, &
@@ -173,7 +173,7 @@ CONTAINS
          WRITE (*, *) "old row_p", old_row_p
          WRITE (*, *) "old col_i", old_col_i
          WRITE (*, *) "old blk_p", old_blk_p
-      ENDIF
+      END IF
       DO row = 1, SIZE(old_row_p) - 1
          DO blk = old_row_p(row) + 1, old_row_p(row + 1)
             col = old_col_i(blk)
@@ -184,7 +184,7 @@ CONTAINS
             IF (stored_row .GT. stored_col) THEN
                CALL swap(stored_row, stored_col)
                tr = .NOT. tr
-            ENDIF
+            END IF
             IF (debug_mod) &
                WRITE (*, '(A,2(1X,I5),A,2(1X,I5),";",I7,1X,L1)') &
                routineN//" X->", row, col, "->", &
@@ -195,9 +195,9 @@ CONTAINS
                new_blk_p(blk) = old_blk_p(blk)
             ELSE
                new_blk_p(blk) = -old_blk_p(blk)
-            ENDIF
-         ENDDO
-      ENDDO
+            END IF
+         END DO
+      END DO
       CALL dbcsr_sort_indices(nblks, row_i, new_col_i, blk_p=new_blk_p)
       ! Re-create the index
       CALL dbcsr_make_dbcsr_index(new_row_p, row_i, SIZE(new_row_p) - 1, nblks)
@@ -206,7 +206,7 @@ CONTAINS
          WRITE (*, *) "new row_i", row_i
          WRITE (*, *) "new col_i", new_col_i
          WRITE (*, *) "new blk_p", new_blk_p
-      ENDIF
+      END IF
    END SUBROUTINE make_index_triangular
 
    SUBROUTINE dbcsr_make_dbcsr_index(row_p, row_i, nrows, nblks)
@@ -232,12 +232,12 @@ CONTAINS
                IF (blk .GT. nblks) THEN
                   row_p(row + 1) = nblks - 1
                   EXIT
-               ENDIF
-            ENDDO
-         ENDIF
+               END IF
+            END DO
+         END IF
          row_p(row + 1) = blk - 1
          row = row + 1
-      ENDDO
+      END DO
 
       CALL timestop(error_handle)
 
@@ -253,7 +253,7 @@ CONTAINS
 
       DO row = 1, nrows
          row_i(row_p(row) + 1:row_p(row + 1)) = row
-      ENDDO
+      END DO
    END SUBROUTINE dbcsr_expand_row_index
 
    PURE SUBROUTINE dbcsr_expand_row_index_2d(row_p, row_i, nrows, dst_i)
@@ -266,7 +266,7 @@ CONTAINS
 
       DO row = 1, nrows
          row_i(dst_i, row_p(row) + 1:row_p(row + 1)) = row
-      ENDDO
+      END DO
    END SUBROUTINE dbcsr_expand_row_index_2d
 
    PURE SUBROUTINE dbcsr_count_row_index_inplace(rows, nrows)
@@ -281,7 +281,7 @@ CONTAINS
 
       DO row = 1, nrows
          rows(row) = rows(row + 1) - rows(row)
-      ENDDO
+      END DO
       rows(nrows + 1) = 0
    END SUBROUTINE dbcsr_count_row_index_inplace
 
@@ -319,8 +319,8 @@ CONTAINS
             o = rows(row)
             rows(row) = rows(row - 1) + old_count
             old_count = o
-         ENDDO
-      ENDIF
+         END DO
+      END IF
    END SUBROUTINE dbcsr_build_row_index_inplace
 
    PURE SUBROUTINE dbcsr_build_row_index_copy(counts, rows, nrows)
@@ -372,17 +372,17 @@ CONTAINS
          IF (.NOT. PRESENT(DATA) .AND. .NOT. PRESENT(reservation)) &
             DBCSR_ABORT('Either an array or its size must be specified.')
          WRITE (*, *) routineP//' index', matrix%index(:dbcsr_num_slots)
-      ENDIF
+      END IF
       IF (PRESENT(reservation)) THEN
          space = reservation
       ELSE
          space = SIZE(DATA)
-      ENDIF
+      END IF
       IF (PRESENT(extra)) THEN
          deplus = extra
       ELSE
          deplus = 0
-      ENDIF
+      END IF
       ub = UBOUND(matrix%index, 1)
       ! The data area was not defined or the new area is greater than the old:
       IF (matrix%index(slot) .EQ. 0 .OR. &
@@ -392,13 +392,13 @@ CONTAINS
          matrix%index(slot) = matrix%index(dbcsr_slot_size) + 1
          matrix%index(slot + 1) = matrix%index(slot) + space - 1
          matrix%index(dbcsr_slot_size) = matrix%index(slot + 1)
-      ENDIF
+      END IF
       ! Shorten an index entry.
       IF (space .LT. matrix%index(slot + 1) - matrix%index(slot) + 1) THEN
          IF (debug_mod) WRITE (*, *) routineP//' Shortening index'
          matrix%index(slot + 1) = matrix%index(slot) + space - 1
          CALL dbcsr_repoint_index(matrix, slot)
-      ENDIF
+      END IF
       ub_new = matrix%index(slot + 1) + deplus
       IF (debug_mod) WRITE (*, *) routineP//' need', space, 'at', matrix%index(slot), &
          'to', matrix%index(slot + 1), '(', ub_new, ')', 'have', ub
@@ -410,7 +410,7 @@ CONTAINS
                                 nocopy=.FALSE., &
                                 memory_type=matrix%index_memory_type)
          CALL dbcsr_repoint_index(matrix)
-      ENDIF
+      END IF
       IF (debug_mod) WRITE (*, *) routineP//' Adding slot', slot, 'at', &
          matrix%index(slot), 'sized', space
       CALL dbcsr_repoint_index(matrix, slot)
@@ -471,14 +471,14 @@ CONTAINS
       IF (m%nblks .NE. m%index(dbcsr_slot_nblks)) THEN
          m%nblks = m%index(dbcsr_slot_nblks)
          m%nze = m%index(dbcsr_slot_nze)
-      ENDIF
+      END IF
       all = .TRUE.
       IF (PRESENT(slot)) THEN
          all = .FALSE.
          s = slot
       ELSE
          s = 0
-      ENDIF
+      END IF
 
       IF (m%index(dbcsr_slot_row_p) .GT. 0 .AND. all .OR. &
           s .EQ. dbcsr_slot_row_p) THEN
@@ -487,8 +487,8 @@ CONTAINS
                                m%index(dbcsr_slot_row_p + 1))
          ELSE
             NULLIFY (m%row_p)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (m%index(dbcsr_slot_col_i) .GT. 0 .AND. all .OR. &
           s .EQ. dbcsr_slot_col_i) THEN
          IF (m%index(dbcsr_slot_col_i) .GT. 0) THEN
@@ -496,8 +496,8 @@ CONTAINS
                                m%index(dbcsr_slot_col_i + 1))
          ELSE
             NULLIFY (m%col_i)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (m%index(dbcsr_slot_blk_p) .GT. 0 .AND. all .OR. &
           s .EQ. dbcsr_slot_blk_p) THEN
          IF (m%index(dbcsr_slot_blk_p) .GT. 0) THEN
@@ -505,8 +505,8 @@ CONTAINS
                                m%index(dbcsr_slot_blk_p + 1))
          ELSE
             NULLIFY (m%blk_p)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (m%index(dbcsr_slot_thr_c) .GT. 0 .AND. all .OR. &
           s .EQ. dbcsr_slot_thr_c) THEN
          IF (m%index(dbcsr_slot_thr_c) .GT. 0) THEN
@@ -514,8 +514,8 @@ CONTAINS
                                m%index(dbcsr_slot_thr_c + 1))
          ELSE
             NULLIFY (m%thr_c)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (m%index(dbcsr_slot_coo_l) .GT. 0 .AND. all .OR. &
           s .EQ. dbcsr_slot_coo_l) THEN
          IF (m%index(dbcsr_slot_coo_l) .GT. 0) THEN
@@ -523,12 +523,12 @@ CONTAINS
                                m%index(dbcsr_slot_coo_l + 1))
          ELSE
             NULLIFY (m%coo_l)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       IF (all) THEN
          m%index(dbcsr_slot_nblks) = m%nblks
          m%index(dbcsr_slot_nze) = m%nze
-      ENDIF
+      END IF
    END SUBROUTINE dbcsr_repoint_index
 
    SUBROUTINE dbcsr_make_index_exist(m)
@@ -549,15 +549,15 @@ CONTAINS
          CALL dbcsr_addto_index_array(m, dbcsr_slot_row_p, &
                                       reservation=m%nblkrows_total + 1)
          m%row_p(:) = 0
-      ENDIF
+      END IF
       IF (.NOT. ASSOCIATED(m%col_i)) THEN
          CALL dbcsr_addto_index_array(m, dbcsr_slot_col_i, &
                                       reservation=0)
-      ENDIF
+      END IF
       IF (.NOT. ASSOCIATED(m%blk_p)) THEN
          CALL dbcsr_addto_index_array(m, dbcsr_slot_blk_p, &
                                       reservation=0)
-      ENDIF
+      END IF
       CALL dbcsr_repoint_index(m)
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_make_index_exist
@@ -601,11 +601,11 @@ CONTAINS
          IF (SIZE(blk_p) < n) DBCSR_ABORT('blk_p too small')
          ALLOCATE (buf(n))
          buf(1:n) = blk_p(1:n)
-      ENDIF
+      END IF
       IF (PRESENT(blk_d)) THEN
          ALLOCATE (buf_d(n))
          buf_d(1:n) = blk_d(1:n)
-      ENDIF
+      END IF
       ! Create an ordering for both rows and columns. If the blk_p must
       ! be rearranged, then the col_i array will be used as a
       ! permutation vector.
@@ -619,19 +619,19 @@ CONTAINS
       IF (PRESENT(blk_p)) THEN
          DO i = 1, n
             blk_p(i) = buf(col_i(i))
-         ENDDO
+         END DO
          DEALLOCATE (buf)
       END IF
       IF (PRESENT(blk_d)) THEN
          DO i = 1, n
             blk_d(i) = buf_d(col_i(i))
-         ENDDO
+         END DO
          DEALLOCATE (buf_d)
-      ENDIF
+      END IF
       DO i = 1, n
          col_i(i) = INT(IAND(sort_keys(i), lmask8), int_4)
          row_i(i) = INT(ISHFT(sort_keys(i), -32), int_4)
-      ENDDO
+      END DO
       DEALLOCATE (sort_keys)
       IF (debug_mod .AND. PRESENT(blk_p)) &
          WRITE (*, *) routineP//' sort, blk_p =', blk_p
@@ -679,9 +679,9 @@ CONTAINS
                new_row_count(row) = new_row_count(row) + 1
                new_col_i(new_blk) = old_col_i(old_blk)
                new_blk_p(new_blk) = old_blk_p(old_blk)
-            ENDIF
-         ENDDO
-      ENDDO
+            END IF
+         END DO
+      END DO
       !
       CALL dbcsr_clearfrom_index_array(matrix, dbcsr_slot_row_p)
       CALL dbcsr_clearfrom_index_array(matrix, dbcsr_slot_col_i)
@@ -771,7 +771,7 @@ CONTAINS
       ELSE
          CALL make_index_canonical(new_row_p, new_col_i, new_blk_p, &
                                    matrix%row_p, matrix%col_i, matrix%blk_p, matrix)
-      ENDIF
+      END IF
       matrix%row_p(:) = new_row_p
       matrix%col_i(:) = new_col_i
       matrix%blk_p(:) = new_blk_p
@@ -814,7 +814,7 @@ CONTAINS
       sign_carrier = 1
       IF (PRESENT(make_tr)) THEN
          IF (make_tr) sign_carrier = -1
-      ENDIF
+      END IF
       mynblkrows = SIZE(myblkrows)
       mynblkcols = SIZE(myblkcols)
       meta(dbcsr_slot_nblkrows_local) = mynblkrows
@@ -841,20 +841,20 @@ CONTAINS
                   nze = nze + sz
                ELSE
                   blk_p(blk + col_l) = 0
-               ENDIF
-            ENDDO
+               END IF
+            END DO
             prev_row = row
             blk = blk + mynblkcols
          END DO
          IF (blk /= nblks) DBCSR_ABORT("Block mismatch")
          row_p(prev_row + 1:nblkrows_total + 1) = nblks
-      ENDIF
+      END IF
       IF (debug_mod) THEN
          WRITE (*, *) routineN//" new index"
          WRITE (*, *) "row_p=", row_p
          WRITE (*, *) "col_i=", col_i
          WRITE (*, *) "blk_p=", blk_p
-      ENDIF
+      END IF
       meta(dbcsr_slot_nblkrows_total) = nblkrows_total
       meta(dbcsr_slot_nblkcols_total) = nblkcols_total
    END SUBROUTINE make_dense_index
@@ -903,7 +903,7 @@ CONTAINS
          lr = lr + nblkcols_local
          row_p(row + 1) = lr
          prev_row = row
-      ENDDO
+      END DO
       row_p(prev_row + 1:nblkrows_total + 1) = lr
       !
       DO row = 1, nblkrows_local
@@ -976,17 +976,17 @@ CONTAINS
          WRITE (*, *) " Old array", old_size
          DO i = 1, old_size
             WRITE (*, '(I7,2X,I7,2X,I7)') old_row_i(i), old_col_i(i), old_blk_p(i)
-         ENDDO
+         END DO
          WRITE (*, *) " Add array", add_size
          DO i = 1, add_size
             WRITE (*, '(I7,2X,I7,2X,I7)') add_ip(1:3, i)
-         ENDDO
-      ENDIF
+         END DO
+      END IF
       IF (PRESENT(added_nblks)) added_nblks = 0
       IF (PRESENT(added_size)) THEN
          added_size = 0
          bp = added_size_offset
-      ENDIF
+      END IF
       IF (add_size .GT. 0) THEN
          old_blk = 1
          add_blk = 1
@@ -1007,8 +1007,8 @@ CONTAINS
                      IF (debug_mod) THEN
                         WRITE (*, *) "Duplicate block! addblk", &
                            add_blk, "oldblk", old_blk
-                     ENDIF
-                  ENDIF
+                     END IF
+                  END IF
                   ! Rows come first
                   IF (add_ip(1, add_blk) .LT. old_row_i(old_blk)) THEN
                      merge_from_whom = 2
@@ -1026,11 +1026,11 @@ CONTAINS
                         IF (debug_mod) THEN
                            WRITE (*, *) "Duplicate, keeping old", &
                               add_ip(1, add_blk), add_ip(2, add_blk)
-                        ENDIF
+                        END IF
                         merge_from_whom = 1
                         add_blk = add_blk + 1
-                     ENDIF
-                  ENDIF
+                     END IF
+                  END IF
                ELSE
                   IF (add_blk .LE. add_size) THEN
                      ! Merges from the add array
@@ -1042,8 +1042,8 @@ CONTAINS
                      ! Hmmm, nothing to merge...
                      merge_from_whom = 0
                      !WRITE(*,*)"Ran out of data to merge"
-                  ENDIF
-               ENDIF
+                  END IF
+               END IF
                SELECT CASE (merge_from_whom)
                CASE (2)
                   ! Merges from the add array
@@ -1056,7 +1056,7 @@ CONTAINS
                      new_blk_p(new_blk) = bp
                      bp = bp + added_sizes(add_blk)
                      added_size = added_size + added_sizes(add_blk)
-                  ENDIF
+                  END IF
                   add_blk = add_blk + 1
                CASE (1)
                   ! Merges from the old array
@@ -1069,20 +1069,20 @@ CONTAINS
                   !WRITE(*,*)"Nothing to merge"
                END SELECT
                new_blk = new_blk + 1
-            ENDDO
-         ENDIF
+            END DO
+         END IF
       ELSE
          new_row_i(1:old_size) = old_row_i(1:old_size)
          new_col_i(1:old_size) = old_col_i(1:old_size)
          new_blk_p(1:old_size) = old_blk_p(1:old_size)
          IF (multidata) new_blk_d(1:old_size) = old_blk_d(1:old_size)
-      ENDIF
+      END IF
       IF (debug_mod) THEN
          WRITE (*, *) " New array"
          DO i = 1, new_size
             WRITE (*, '(4(2X,I7))') new_row_i(i), new_col_i(i), new_blk_p(i)
-         ENDDO
-      ENDIF
+         END DO
+      END IF
    END SUBROUTINE merge_index_arrays
 
    SUBROUTINE dbcsr_make_index_local_row(matrix)
@@ -1109,7 +1109,7 @@ CONTAINS
       prow = matrix%index(dbcsr_slot_home_vprow)
       IF (prow .LT. 0) THEN
          prow = matrix%index(dbcsr_slot_home_prow)
-      ENDIF
+      END IF
       nlocal_rows = matrix%nblkrows_local
       ALLOCATE (local_row_p(nlocal_rows + 1))
       ! The existing row_p is converted from an indexing array into a
@@ -1124,7 +1124,7 @@ CONTAINS
       ! The counts are mapped to local rows,
       DO lrow = 1, nlocal_rows
          local_row_p(lrow) = matrix%row_p(local_rows(lrow))
-      ENDDO
+      END DO
       IF (SUM(matrix%row_p(1:ntotal_rows)) /= SUM(local_row_p(1:nlocal_rows))) &
          DBCSR_ABORT("Inconsistent row counts. Perhaps non-local rows contain data?.")
       ! then converted into an index.
@@ -1142,8 +1142,8 @@ CONTAINS
          IF (array_size(matrix%global_rows) .EQ. 0) THEN
             IF (nlocal_rows /= 0) &
                DBCSR_ABORT("Invalid number of local or global rows.")
-         ENDIF
-      ENDIF
+         END IF
+      END IF
       DEALLOCATE (local_row_p)
       !
       CALL timestop(error_handle)
@@ -1186,7 +1186,7 @@ CONTAINS
       ELSE
          IF (SIZE(matrix%row_p) - 1 /= matrix%nblkrows_total) &
             DBCSR_ABORT("Global row index incorrectly sized")
-      ENDIF
+      END IF
       !
       matrix%list_indexing = .TRUE.
       !
@@ -1194,7 +1194,7 @@ CONTAINS
          nrows = matrix%nblkrows_local
       ELSE
          nrows = matrix%nblkrows_total
-      ENDIF
+      END IF
       !
       nblks = matrix%nblks
       ALLOCATE (blki(3, nblks))
@@ -1208,18 +1208,18 @@ CONTAINS
             WRITE (*, '(10(1X,i7))') global_cols
             WRITE (*, *) 'local'
             WRITE (*, '(10(1X,i7))') array_data(matrix%local_cols)
-         ENDIF
+         END IF
          DO blk = 1, nblks
             blki(2, blk) = global_cols(matrix%col_i(blk))
             blki(3, blk) = matrix%blk_p(blk)
-         ENDDO
+         END DO
       ELSE
          IF (dbg) WRITE (*, *) routineN//" Not making local columns"
          DO blk = 1, nblks
             blki(2, blk) = matrix%col_i(blk)
             blki(3, blk) = matrix%blk_p(blk)
          END DO
-      ENDIF
+      END IF
       CALL dbcsr_clearfrom_index_array(matrix, dbcsr_slot_row_p)
       CALL dbcsr_clearfrom_index_array(matrix, dbcsr_slot_col_i)
       CALL dbcsr_clearfrom_index_array(matrix, dbcsr_slot_blk_p)
@@ -1231,7 +1231,7 @@ CONTAINS
          td => array_data(dbcsr_distribution_thread_dist(dbcsr_distribution(matrix)))
          IF (matrix%local_indexing) THEN
             local_rows => array_data(matrix%local_rows)
-         ENDIF
+         END IF
 !$OMP        PARALLEL DEFAULT (NONE) &
 !$OMP        PRIVATE (my_cnt, ithread, blk) &
 !$OMP        SHARED (td, blki, nthreads, thr_c, nblks, matrix,local_rows)
@@ -1252,7 +1252,7 @@ CONTAINS
             my_cnt = COUNT(td(local_rows(blki(1, :))) .EQ. ithread)
          ELSE
             my_cnt = COUNT(td(blki(1, :)) .EQ. ithread)
-         ENDIF
+         END IF
          !DO blk = 1, nblks
          !   IF (td(blki(1, blk)) .EQ. ithread) my_cnt = my_cnt+1
          !ENDDO
@@ -1268,16 +1268,16 @@ CONTAINS
                IF (td(local_rows(blki(1, blk))) .EQ. ithread) THEN
                   matrix%coo_l(my_cnt:my_cnt + 2) = blki(1:3, blk)
                   my_cnt = my_cnt + 3
-               ENDIF
-            ENDDO
+               END IF
+            END DO
          ELSE
             DO blk = 1, nblks
                IF (td(blki(1, blk)) .EQ. ithread) THEN
                   matrix%coo_l(my_cnt:my_cnt + 2) = blki(1:3, blk)
                   my_cnt = my_cnt + 3
-               ENDIF
-            ENDDO
-         ENDIF
+               END IF
+            END DO
+         END IF
 !$OMP        END PARALLEL
       ELSE
          ! Small price to pay for avoiding infinite recursions.
@@ -1287,8 +1287,8 @@ CONTAINS
                IF (-blki(1, blk) /= blki(2, blk)) &
                   CALL dbcsr_abort(__LOCATION__, &
                                    "Should not have duplicate matrix blocks. (-row, col) is duplicated.")
-            ENDIF
-         ENDDO
+            END IF
+         END DO
          !
          IF (nblks > 0) THEN
             CALL dbcsr_addto_index_array(matrix, dbcsr_slot_coo_l, &
@@ -1296,8 +1296,8 @@ CONTAINS
          ELSE
             CALL dbcsr_addto_index_array(matrix, dbcsr_slot_coo_l, &
                                          DATA=zero_len_array)
-         ENDIF
-      ENDIF
+         END IF
+      END IF
 
       DEALLOCATE (blki)
       !
@@ -1330,31 +1330,31 @@ CONTAINS
          size_row_p = SIZE(matrix%row_p)
       ELSE
          size_row_p = 0
-      ENDIF
+      END IF
       has_col_i = ASSOCIATED(matrix%col_i)
       IF (has_col_i) THEN
          size_col_i = SIZE(matrix%col_i)
       ELSE
          size_col_i = 0
-      ENDIF
+      END IF
       has_blk_p = ASSOCIATED(matrix%blk_p)
       IF (has_blk_p) THEN
          size_blk_p = SIZE(matrix%blk_p)
       ELSE
          size_blk_p = 0
-      ENDIF
+      END IF
       has_thr_c = ASSOCIATED(matrix%thr_c)
       IF (has_thr_c) THEN
          size_thr_c = SIZE(matrix%thr_c)
       ELSE
          size_thr_c = 0
-      ENDIF
+      END IF
       has_coo_l = ASSOCIATED(matrix%coo_l)
       IF (has_coo_l) THEN
          size_coo_l = SIZE(matrix%coo_l)
       ELSE
          size_coo_l = 0
-      ENDIF
+      END IF
       !
       new_size = dbcsr_num_slots + &
                  size_row_p + size_col_i + size_blk_p + size_thr_c + size_coo_l
@@ -1364,23 +1364,23 @@ CONTAINS
          IF (has_row_p) THEN
             ALLOCATE (row_p(size_row_p))
             row_p(:) = matrix%row_p(:)
-         ENDIF
+         END IF
          IF (has_col_i) THEN
             ALLOCATE (col_i(size_col_i))
             col_i(:) = matrix%col_i(:)
-         ENDIF
+         END IF
          IF (has_blk_p) THEN
             ALLOCATE (blk_p(size_blk_p))
             blk_p(:) = matrix%blk_p(:)
-         ENDIF
+         END IF
          IF (has_thr_c) THEN
             ALLOCATE (thr_c(size_thr_c))
             thr_c(:) = matrix%thr_c(:)
-         ENDIF
+         END IF
          IF (has_coo_l) THEN
             ALLOCATE (coo_l(size_coo_l))
             coo_l(:) = matrix%coo_l(:)
-         ENDIF
+         END IF
          ALLOCATE (meta(dbcsr_num_slots))
          meta(:) = matrix%index(1:dbcsr_num_slots)
          ! Clear the index.
@@ -1398,23 +1398,23 @@ CONTAINS
          IF (has_thr_c) THEN
             CALL dbcsr_addto_index_array(matrix, dbcsr_slot_thr_c, thr_c)
             DEALLOCATE (thr_c)
-         ENDIF
+         END IF
          IF (has_row_p) THEN
             CALL dbcsr_addto_index_array(matrix, dbcsr_slot_row_p, row_p)
             DEALLOCATE (row_p)
-         ENDIF
+         END IF
          IF (has_col_i) THEN
             CALL dbcsr_addto_index_array(matrix, dbcsr_slot_col_i, col_i)
             DEALLOCATE (col_i)
-         ENDIF
+         END IF
          IF (has_blk_p) THEN
             CALL dbcsr_addto_index_array(matrix, dbcsr_slot_blk_p, blk_p)
             DEALLOCATE (blk_p)
-         ENDIF
+         END IF
          IF (has_coo_l) THEN
             CALL dbcsr_addto_index_array(matrix, dbcsr_slot_coo_l, coo_l)
             DEALLOCATE (coo_l)
-         ENDIF
+         END IF
          DEALLOCATE (meta)
          IF (careful_mod) THEN
             ! This is pretty strong but it should be true.
@@ -1422,9 +1422,9 @@ CONTAINS
                DBCSR_ABORT("Unexpected index size.")
             IF (SIZE(matrix%index) /= new_size) &
                DBCSR_ABORT("Unexpected index size.")
-         ENDIF
+         END IF
          CALL dbcsr_repoint_index(matrix)
-      ENDIF
+      END IF
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_index_compact
 

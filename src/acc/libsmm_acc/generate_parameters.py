@@ -20,20 +20,28 @@ from kernels.smm_acc import params_dict_to_kernel, gpu_architectures
 
 # ===============================================================================
 def main(gpu_version, base_dir):
-    # Read existing parameters
-    print("GPU version: {}".format(gpu_version))
-    param_fn = path.join(base_dir, "parameters_{}.json".format(gpu_version))
-    with open(param_fn) as f:
-        all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
-    print(
-        "About to process {:,} kernels from file {}".format(len(all_kernels), param_fn)
-    )
+    try:  # Read existing parameters
+        param_fn = path.join(base_dir, "parameters_{}.json".format(gpu_version))
+        with open(param_fn) as f:
+            print("GPU version: {}".format(gpu_version))
+            all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
+        print(
+            "About to process {:,} kernels from file {}".format(
+                len(all_kernels), param_fn
+            )
+        )
+    except:  # noqa: E722
+        all_kernels = []
+        pass
 
-    # Read GPU properties (warp size)
-    gpu_props_fn = path.join(base_dir, "../kernels/gpu_properties.json")
-    arch_code = gpu_architectures[path.basename(param_fn)]
-    with open(gpu_props_fn) as f:
-        gpu_warp_size = json.load(f)[arch_code]["Threads_/_Warp"]
+    try:  # Read GPU properties (warp size)
+        gpu_props_fn = path.join(base_dir, "../kernels/gpu_properties.json")
+        arch_code = gpu_architectures[path.basename(param_fn)]
+        with open(gpu_props_fn) as f:
+            gpu_warp_size = json.load(f)[arch_code]["Threads_/_Warp"]
+    except:  # noqa: E722
+        gpu_warp_size = 32
+        pass
     print("GPU warp size: {}".format(gpu_warp_size))
 
     # Construct output
@@ -41,7 +49,8 @@ def main(gpu_version, base_dir):
 
     # Write to c++ header-file
     file_h = "parameters.h"
-    print("Found {:,} kernels in file {}".format(len(all_kernels), param_fn))
+    if all_kernels:
+        print("Found {:,} kernels in file {}".format(len(all_kernels), param_fn))
     print("Printing them to file {}".format(file_h))
     with open(file_h, "w") as f:
         f.write(out)

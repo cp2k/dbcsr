@@ -42,8 +42,8 @@ PROGRAM dbcsr_example_1
 !$    IF (ierr /= 0) STOP "Error in MPI_Init_thread"
 !$    IF (provided_tsl .LT. MPI_THREAD_FUNNELED) THEN
 !$       STOP "MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED)."
-!$    ENDIF
-!$ ENDIF
+!$    END IF
+!$ END IF
 
    !
    ! setup the mpi environment
