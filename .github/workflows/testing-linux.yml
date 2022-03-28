@@ -136,7 +136,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_ACCEL=hip \
-          -DWITH_GPU=Mi50 \
+          -DWITH_GPU=Mi100 \
           -DWITH_EXAMPLES=ON \
           -DCMAKE_PREFIX_PATH=/opt/rocm \
           ..
