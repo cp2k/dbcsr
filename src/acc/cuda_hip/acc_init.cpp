@@ -18,10 +18,6 @@
 
 #include <stdio.h>
 
-#if defined(__CUDA_PROFILING)
-#  include <nvToolsExtCudaRt.h>
-#endif
-
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_init() {
   int myDevice;
