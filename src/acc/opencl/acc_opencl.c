@@ -684,14 +684,15 @@ int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char match[]) {
 
 int c_dbcsr_acc_opencl_devuid(const char devname[], unsigned int* uid) {
   int result;
-  assert(NULL != devname && NULL != uid);
-  result = ('\0' != *devname ? EXIT_SUCCESS : EXIT_FAILURE);
-  if (CL_SUCCESS == result) {
+  if (NULL != uid) {
     char skip[ACC_OPENCL_BUFFERSIZE];
-    if (2 != sscanf(devname, "%[^[][0x%xu]", skip, uid)) {
+    if (NULL != devname && '\0' != *devname && 2 != sscanf(devname, "%[^[][0x%xu]", skip, uid)) {
       *uid = libxsmm_hash(devname, (unsigned int)strlen(devname), 25071975 /*seed*/);
     }
+    else *uid = 0;
+    result = EXIT_SUCCESS;
   }
+  else result = EXIT_FAILURE;
   ACC_OPENCL_RETURN(result);
 }
 
@@ -905,6 +906,13 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
         }
         if (EXIT_SUCCESS == result) { /* update c_dbcsr_acc_opencl_config.devinfo */
           const char* const env_devmatch = getenv("ACC_OPENCL_DEVMATCH");
+          const unsigned int devmatch = (NULL == env_devmatch
+#  if defined(ACC_OPENCL_DEVMATCH)
+                                           ? 1
+#  else
+                                           ? 0
+#  endif
+                                           : ('\0' == *env_devmatch ? 1 : (unsigned int)strtoul(env_devmatch, NULL, 0)));
 #  if defined(ACC_OPENCL_SVM)
           {
             const char* const env_svm = getenv("ACC_OPENCL_SVM");
@@ -928,12 +936,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
           else {
             c_dbcsr_acc_opencl_config.devinfo.intel_id = 0;
           }
-#  if defined(ACC_OPENCL_DEVMATCH)
-          if (NULL == env_devmatch || 0 != atoi(env_devmatch))
-#  else
-          if (NULL != env_devmatch && 0 != atoi(env_devmatch))
-#  endif
-          {
+          if (1 == devmatch || ((unsigned int)-1) == devmatch) {
             if (0 != c_dbcsr_acc_opencl_config.devinfo.intel_id) {
               c_dbcsr_acc_opencl_config.devinfo.devmatch = c_dbcsr_acc_opencl_config.devinfo.intel_id;
             }
@@ -942,7 +945,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
             }
           }
           else {
-            c_dbcsr_acc_opencl_config.devinfo.devmatch = 0;
+            c_dbcsr_acc_opencl_config.devinfo.devmatch = devmatch;
           }
         }
       }

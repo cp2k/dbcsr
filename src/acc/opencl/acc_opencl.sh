@@ -10,8 +10,10 @@
 # shellcheck disable=SC2129
 
 BASENAME=$(command -v basename)
+SORT=$(command -v sort)
 SED=$(command -v gsed)
 CPP=$(command -v cpp)
+TR=$(command -v tr)
 RM=$(command -v rm)
 
 # flags used to control preprocessor
@@ -19,13 +21,14 @@ CPPBASEFLAGS="-dD -P -fpreprocessed"
 
 # delimiters allowed in CSV-file
 DELIMS=";,\t|/"
+IFS=$'\n'
 
 # GNU sed is desired (macOS)
 if [ "" = "${SED}" ]; then
   SED=$(command -v sed)
 fi
 
-if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
+if [ "${BASENAME}" ] && [ "${SORT}" ] && [ "${SED}" ] && [ "${TR}" ] && [ "${RM}" ]; then
   for OFILE in "$@"; do :; done
   while test $# -gt 0; do
     case "$1" in
@@ -56,17 +59,17 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
         if [ "${IFILE##*.}" = "cl" ]; then
           if [ -e "${IFILE}" ]; then
             BNAME=$(${BASENAME} "${IFILE}" .cl)
-            UNAME=$(echo "${BNAME}" | tr '[:lower:]' '[:upper:]')
+            UNAME=$(echo "${BNAME}" | ${TR} '[:lower:]' '[:upper:]')
             SNAME=OPENCL_LIBSMM_STRING_${UNAME}
             VNAME=opencl_libsmm_source_${BNAME}
             MNAME=OPENCL_LIBSMM_SOURCE_${UNAME}
             echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
             echo "#define ${SNAME} \\" >>"${OFILE}"
             if [ "${CPP}" ] && \
-               [ "$(eval "${CPP} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null >/dev/null && echo "OK")" ];
+               [ "$(eval "${CPP} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null >/dev/null && echo "YES")" ];
             then
               if [ "" != "${CPPFLAGS}" ] && \
-                 [ "$(eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null >/dev/null && echo "OK")" ];
+                 [ "$(eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null >/dev/null && echo "YES")" ];
               then
                 eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null
               else
@@ -94,34 +97,42 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
             SEPAR=${DELIM:0:1}
             SNAME=OPENCL_LIBSMM_STRING_PARAMS_SMM
             VNAME=opencl_libsmm_params_smm
-            MNAME=$(echo "${VNAME}" | tr '[:lower:]' '[:upper:]')
-            DEVCOL=0
-            if [ "$(command -v tail)" ] && [ "$(command -v cut)" ] && \
-               [ "$(command -v sort)" ] && [ "$(command -v wc)" ];
-            then
-              DEVICE=$(tail -n+2 "${IFILE}" | cut -d"${SEPAR}" -f1 | sort -u)
-              if [ "$(echo "${DEVICE}" | ${SED} "s/[0-9]//g")" ]; then DEVCOL=1; fi
-              if [ "0" = "${DEVCOL}" ] || [ "1" = "$(echo "${DEVICE}" | wc -l | ${SED} "s/[[:space:]]//g")" ]; then
-                if [ "0" != "${DEVCOL}" ] && [ "${DEVICE}" ]; then
-                  echo "#define OPENCL_LIBSMM_PARAMS_DEVICE \"${DEVICE}\"" >>"${OFILE}"
-                else
-                  echo "#define OPENCL_LIBSMM_PARAMS_DEVICE NULL" >>"${OFILE}"
-                fi
-              else
-                >&2 echo "ERROR: ${IFILE} contains parameters for different devices!"
-                if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
-                exit 1
-              fi
-            fi
+            DNAME=opencl_libsmm_params_dev
+            MNAME=$(echo "${VNAME}" | ${TR} '[:lower:]' '[:upper:]')
+            DEVCOL=$(${TR} '[:lower:]' '[:upper:]' <"${IFILE}" | ${SED} -n "1 s/^[[:space:]]*DEVICE[[:space:]]*${SEPAR}..*$/YES/p")
+            DEVPAT="s/${SEPAR}..*//"
             echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
             echo "#define ${SNAME} \\" >>"${OFILE}"
-            if [ "0" != "${DEVCOL}" ]; then
-              ${SED} "1d;s/^[^${SEPAR}]*${SEPAR}/  \"/;s/[\r]*$/\\\n\" \\\/" "${IFILE}" >>"${OFILE}"
+            if [ "${DEVCOL}" ]; then
+              DEVICES=$(${SED} "1d;${DEVPAT}" "${IFILE}" | ${SORT} -u)
             else
-              ${SED} "1d;s/^/  \"/;s/[\r]*$/\\\n\" \\\/" "${IFILE}" >>"${OFILE}"
+              DNAME=NULL
             fi
+            while read -r LINE; do
+              if [ "${DEVCOL}" ]; then
+                I=0; IDEVICE=$(echo "${LINE}" | ${SED} "${DEVPAT}")
+                for DEVICE in ${DEVICES}; do
+                  if [ "${DEVICE}" = "${IDEVICE}" ]; then break; fi
+                  I=$((I+1));
+                done
+                echo "${LINE}" | ${SED} "s/[^${SEPAR}]*//;s/^/  \"${I}/" >>"${OFILE}"
+              else
+                echo "${LINE}" | ${SED} "s/^/  \"-1${SEPAR}/" >>"${OFILE}"
+              fi
+            done < <(${SED} "1d;s/[\r]*$/\\\n\" \\\/" "${IFILE}")
             echo "  \"\"" >>"${OFILE}"
             echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
+            echo >>"${OFILE}"
+            echo "#define OPENCL_LIBSMM_PARAMS_DEVICES ${DNAME}" >>"${OFILE}"
+            if [ "${DEVCOL}" ]; then
+              echo "static const char *const ${DNAME}[] = {" >>"${OFILE}"
+              NDEVICES=$(echo "${DEVICES}" | wc -l); I=0; S=","
+              for DEVICE in ${DEVICES}; do
+                I=$((I+1)); if [ "0" != "$((NDEVICES==I))" ]; then S=""; fi
+                echo "  \"${DEVICE}\"${S}" >>"${OFILE}"
+              done
+              echo "};" >>"${OFILE}"
+            fi
             NFILES_CSV=$((NFILES_CSV+1))
           fi
         else
