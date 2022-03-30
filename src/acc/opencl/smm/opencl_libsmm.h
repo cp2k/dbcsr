@@ -70,7 +70,7 @@ typedef struct opencl_libsmm_smm_t {
   /* (pseudo-)parameters (either pretuned or determined) */
   int s, bs, bm, bn, bk, ws, wg, lu, nz, al, tb, tc, ap, aa, ab, ac;
   /* ACC_OPENCL_VERBOSE: perf. counters */
-  double gflops_sumlog, gflops_comp;
+  double gflops, gflops_sumlog, gflops_comp;
   size_t nexec;
   int size[7];
 } opencl_libsmm_smm_t;

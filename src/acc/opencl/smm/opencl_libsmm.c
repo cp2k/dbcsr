@@ -290,6 +290,7 @@ int opencl_libsmm_read_smm_params(
         break;
       case 6:
         if (NULL != perfest && 1 == sscanf(s, "%lf", &gflops) && 0 <= gflops) {
+          value->gflops = gflops;
           ++consumed; /* optional "GFLOPS" param */
         }
         break;
@@ -456,8 +457,6 @@ int libsmm_acc_init(void) {
         opencl_libsmm_smm_t config;
         opencl_libsmm_smmkey_t key;
         unsigned int ntuned = 0;
-        /* zeroing config (tuned parameters are setup below) */
-        memset(&config, 0, sizeof(config));
         LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data (alignment gaps) */
         if (NULL != env_params && '\0' != *env_params) { /* filename */
           FILE* const file = fopen(env_params, "r");
@@ -467,18 +466,26 @@ int libsmm_acc_init(void) {
               char* const device = (NULL != libxsmm_stristr(buffer, "device") ? bufname : NULL);
               opencl_libsmm_perfest_t* const gflops = (NULL != libxsmm_stristr(buffer, "gflops") ? &perfest : NULL);
               while (NULL != fgets(buffer, ACC_OPENCL_BUFFERSIZE, file)) { /* read params from CSV-file */
+                memset(&config, 0, sizeof(config));
                 if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(buffer, &key, &config, gflops, device)) {
+                  opencl_libsmm_smm_t* config_init;
                   if (NULL == device || 0 == c_dbcsr_acc_opencl_config.devinfo.devmatch ||
                       EXIT_SUCCESS != c_dbcsr_acc_opencl_devuid(device, &key.devuid))
                   {
                     key.devuid = 0;
                   }
-                  if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
-                    ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libxsmm_xregister failed!\n");
-                    result = EXIT_FAILURE;
-                    break;
+                  config_init = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
+                  if (NULL == config_init) {
+                    if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
+                      ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libxsmm_xregister failed!\n");
+                      result = EXIT_FAILURE;
+                      break;
+                    }
+                    else ++ntuned;
                   }
-                  else ++ntuned;
+                  else if (config_init->gflops < config.gflops) { /* update */
+                    memcpy(config_init, &config, sizeof(config));
+                  }
                 }
                 else {
                   if (0 != c_dbcsr_acc_opencl_config.verbosity) {
@@ -511,21 +518,29 @@ int libsmm_acc_init(void) {
               const int len = next - line;
               memcpy(buffer, line, len);
               buffer[len] = '\0';
+              memset(&config, 0, sizeof(config));
               if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(/* read params from embedded params */
                                     buffer, &key, &config, &perfest, bufname /*consume name/id*/))
               {
+                opencl_libsmm_smm_t* config_init;
                 const int i = atoi(bufname);
                 if (0 >= ndevices || 0 == c_dbcsr_acc_opencl_config.devinfo.devmatch || 0 > i || ndevices <= i ||
                     EXIT_SUCCESS != c_dbcsr_acc_opencl_devuid(OPENCL_LIBSMM_PARAMS_DEVICES[i], &key.devuid))
                 {
                   key.devuid = 0;
                 }
-                if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
-                  ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libxsmm_xregister failed!\n");
-                  result = EXIT_FAILURE;
-                  break;
+                config_init = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
+                if (NULL == config_init) {
+                  if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
+                    ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libxsmm_xregister failed!\n");
+                    result = EXIT_FAILURE;
+                    break;
+                  }
+                  else ++ntuned;
                 }
-                else ++ntuned;
+                else if (config_init->gflops < config.gflops) { /* update */
+                  memcpy(config_init, &config, sizeof(config));
+                }
               }
               else {
                 if (0 != c_dbcsr_acc_opencl_config.verbosity) {
@@ -544,9 +559,11 @@ int libsmm_acc_init(void) {
               fprintf(stderr, "INFO ACC/OpenCL: %u tuned parameters loaded\n", ntuned);
             }
           }
-          else { /* try interpreting value of OPENCL_LIBSMM_SMM_PARAMS-variable as kernel parameters (not device-specific) */
+          else { /* attempt to interpret value of OPENCL_LIBSMM_SMM_PARAMS-variable as kernel parameters (not device-specific) */
+            memset(&config, 0, sizeof(config));
             if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(env_params, &key, &config, NULL /*perfest*/, NULL /*device*/)) {
               key.devuid = 0;
+              /* override potentially existing config */
               if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
                 result = EXIT_FAILURE;
               }
