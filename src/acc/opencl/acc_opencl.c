@@ -686,8 +686,10 @@ int c_dbcsr_acc_opencl_devuid(const char devname[], unsigned int* uid) {
   int result;
   if (NULL != uid) {
     char skip[ACC_OPENCL_BUFFERSIZE];
-    if (NULL != devname && '\0' != *devname && 2 != sscanf(devname, "%[^[][0x%xu]", skip, uid)) {
-      *uid = libxsmm_hash(devname, (unsigned int)strlen(devname), 25071975 /*seed*/);
+    if (NULL != devname && '\0' != *devname) {
+      if (2 != sscanf(devname, "%[^[][0x%xu]", skip, uid)) {
+        *uid = libxsmm_hash(devname, (unsigned int)strlen(devname), 25071975 /*seed*/);
+      }
     }
     else *uid = 0;
     result = EXIT_SUCCESS;
@@ -704,11 +706,6 @@ int c_dbcsr_acc_opencl_device_uid(cl_device_id device, unsigned int* uid) {
   if (CL_SUCCESS == result) {
     result = c_dbcsr_acc_opencl_devuid(buffer, uid);
   }
-#  if defined(OPENCL_LIBSMM_PARAMS_DEVICE)
-  else {
-    result = c_dbcsr_acc_opencl_devuid(OPENCL_LIBSMM_PARAMS_DEVICE, uid);
-  }
-#  endif
   ACC_OPENCL_RETURN(result);
 }
 
