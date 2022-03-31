@@ -555,7 +555,7 @@ int libsmm_acc_init(void) {
         if (EXIT_SUCCESS == result) {
           if ('2' != control) {
             if (0 != c_dbcsr_acc_opencl_config.verbosity && 0 != ntuned) {
-              fprintf(stderr, "INFO ACC/OpenCL: %u tuned parameters loaded\n", ntuned);
+              fprintf(stderr, "INFO ACC/OpenCL: %u sets of tuned parameters loaded\n", ntuned);
             }
           }
           else { /* attempt to interpret value of OPENCL_LIBSMM_SMM_PARAMS-variable as kernel parameters (not device-specific) */
