@@ -903,22 +903,15 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
         }
         if (EXIT_SUCCESS == result) { /* update c_dbcsr_acc_opencl_config.devinfo */
           const char* const env_devmatch = getenv("ACC_OPENCL_DEVMATCH");
-          const unsigned int devmatch = (NULL == env_devmatch
-#  if defined(ACC_OPENCL_DEVMATCH)
-                                           ? 1
-#  else
-                                           ? 0
-#  endif
-                                           : ('\0' == *env_devmatch ? 1 : (unsigned int)strtoul(env_devmatch, NULL, 0)));
+          const unsigned int devmatch =
+            ((NULL == env_devmatch || '\0' == *env_devmatch) ? 1 : (unsigned int)strtoul(env_devmatch, NULL, 0));
 #  if defined(ACC_OPENCL_SVM)
-          {
-            const char* const env_svm = getenv("ACC_OPENCL_SVM");
-            int level_major = 0;
-            c_dbcsr_acc_opencl_config.devinfo.svm_interop =
-              (NULL == env_svm || 0 != atoi(env_svm)) && (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_level(active_id, &level_major,
-                                                                            NULL /*level_minor*/, NULL /*cl_std*/, NULL /*type*/) &&
-                                                           2 <= level_major);
-          }
+          const char* const env_svm = getenv("ACC_OPENCL_SVM");
+          int level_major = 0;
+          c_dbcsr_acc_opencl_config.devinfo.svm_interop =
+            (NULL == env_svm || 0 != atoi(env_svm)) && (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_level(active_id, &level_major,
+                                                                          NULL /*level_minor*/, NULL /*cl_std*/, NULL /*type*/) &&
+                                                         2 <= level_major);
 #  endif
           if (CL_SUCCESS != clGetDeviceInfo(active_id, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool),
                               &c_dbcsr_acc_opencl_config.devinfo.unified, NULL))

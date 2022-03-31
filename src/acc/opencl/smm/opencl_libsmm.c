@@ -508,9 +508,8 @@ int libsmm_acc_init(void) {
         }
 #  if defined(OPENCL_LIBSMM_PARAMS_SMM)
         if (EXIT_SUCCESS == result && '1' != control) {
-          const int ndevices = (NULL != OPENCL_LIBSMM_PARAMS_DEVICES
-                                  ? (int)(sizeof(OPENCL_LIBSMM_PARAMS_DEVICES) / sizeof(*OPENCL_LIBSMM_PARAMS_DEVICES))
-                                  : 0);
+          const int ndevices =
+            (NULL != OPENCL_LIBSMM_DEVICES ? (int)(sizeof(OPENCL_LIBSMM_DEVICES) / sizeof(*OPENCL_LIBSMM_DEVICES)) : 0);
           const char *line = OPENCL_LIBSMM_PARAMS_SMM, *next;
           do {
             next = strchr(line, '\n');
@@ -525,7 +524,7 @@ int libsmm_acc_init(void) {
                 opencl_libsmm_smm_t* config_init;
                 const int i = atoi(bufname);
                 if (0 >= ndevices || 0 == c_dbcsr_acc_opencl_config.devinfo.devmatch || 0 > i || ndevices <= i ||
-                    EXIT_SUCCESS != c_dbcsr_acc_opencl_devuid(OPENCL_LIBSMM_PARAMS_DEVICES[i], &key.devuid))
+                    EXIT_SUCCESS != c_dbcsr_acc_opencl_devuid(OPENCL_LIBSMM_DEVICES[i], &key.devuid))
                 {
                   key.devuid = 0;
                 }

@@ -15,6 +15,7 @@ SED=$(command -v gsed)
 CPP=$(command -v cpp)
 TR=$(command -v tr)
 RM=$(command -v rm)
+WC=$(command -v wc)
 
 # flags used to control preprocessor
 CPPBASEFLAGS="-dD -P -fpreprocessed"
@@ -28,18 +29,30 @@ if [ "" = "${SED}" ]; then
   SED=$(command -v sed)
 fi
 
-if [ "${BASENAME}" ] && [ "${SORT}" ] && [ "${SED}" ] && [ "${TR}" ] && [ "${RM}" ]; then
+if [ "${BASENAME}" ] && [ "${SORT}" ] && [ "${SED}" ] && \
+   [ "${TR}" ] && [ "${RM}" ] && [ "${WC}" ];
+then
   for OFILE in "$@"; do :; done
   while test $# -gt 0; do
     case "$1" in
     -h|--help)
       shift $#;;
+    -p|--params)
+      PARAMPATH=yes
+      PARAMS=$2
+      shift 2;;
     -c|-d|--debug|--comments)
       CPPFLAGS+=" -C"
       shift;;
     *) break;;
     esac
   done
+  if [ "${PARAMPATH}" ]; then
+    PARAMPATH=${PARAMS}
+  else
+    HERE="$(cd "$(dirname "$0")" && pwd -P)"
+    PARAMPATH="${HERE}/smm/params"
+  fi
   if [ "$#" -gt 1 ]; then
     # allow for instance /dev/stdout
     if [ "${OFILE##*.}" = "h" ]; then
@@ -50,112 +63,119 @@ if [ "${BASENAME}" ] && [ "${SORT}" ] && [ "${SED}" ] && [ "${TR}" ] && [ "${RM}
       exit 1
     fi
     NFILES_OCL=0
-    NFILES_CSV=0
-    for IFILE in "$@"; do
-      if [ "${IFILE}" != "${OFILE}" ]; then
-        if [ "0" != "$((0<(NFILES_OCL+NFILES_CSV)))" ]; then
-          echo >>"${OFILE}"
-        fi
-        if [ "${IFILE##*.}" = "cl" ]; then
-          if [ -e "${IFILE}" ]; then
-            BNAME=$(${BASENAME} "${IFILE}" .cl)
-            UNAME=$(echo "${BNAME}" | ${TR} '[:lower:]' '[:upper:]')
-            SNAME=OPENCL_LIBSMM_STRING_${UNAME}
-            VNAME=opencl_libsmm_source_${BNAME}
-            MNAME=OPENCL_LIBSMM_SOURCE_${UNAME}
-            echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
-            echo "#define ${SNAME} \\" >>"${OFILE}"
-            if [ "${CPP}" ] && \
-               [ "$(eval "${CPP} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null >/dev/null && echo "YES")" ];
-            then
-              if [ "" != "${CPPFLAGS}" ] && \
-                 [ "$(eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null >/dev/null && echo "YES")" ];
-              then
-                eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null
-              else
-                eval "${CPP} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null
-              fi
-            else # fallback to sed
-              ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' "${IFILE}"
-            fi | \
-            ${SED} \
-              -e '/^[[:space:]]*$/d' -e 's/[[:space:]]*$//' \
-              -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/  "/' -e 's/$/\\n" \\/' \
-              >>"${OFILE}"
-            echo "  \"\"" >>"${OFILE}"
-            echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
-            NFILES_OCL=$((NFILES_OCL+1))
-          else
-            >&2 echo "ERROR: ${IFILE} does not exist!"
-            if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
-            exit 1
-          fi
-        elif [ "${IFILE##*.}" = "csv" ]; then
-          # non-existence does not trigger an error
-          if [ -e "${IFILE}" ]; then
-            DELIM=$(tr -cd "${DELIMS}" < "${IFILE}")
-            SEPAR=${DELIM:0:1}
-            SNAME=OPENCL_LIBSMM_STRING_PARAMS_SMM
-            VNAME=opencl_libsmm_params_smm
-            DNAME=opencl_libsmm_params_dev
-            MNAME=$(echo "${VNAME}" | ${TR} '[:lower:]' '[:upper:]')
-            DEVCOL=$(${TR} '[:lower:]' '[:upper:]' <"${IFILE}" | ${SED} -n "1 s/^[[:space:]]*DEVICE[[:space:]]*${SEPAR}..*$/YES/p")
-            DEVPAT="s/${SEPAR}..*//"
-            echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
-            echo "#define ${SNAME} \\" >>"${OFILE}"
-            if [ "${DEVCOL}" ]; then
-              DEVICES=$(${SED} "1d;${DEVPAT}" "${IFILE}" | ${SORT} -u)
-            else
-              DNAME=NULL
-            fi
-            while read -r LINE; do
-              if [ "${DEVCOL}" ]; then
-                I=0; IDEVICE=$(echo "${LINE}" | ${SED} "${DEVPAT}")
-                for DEVICE in ${DEVICES}; do
-                  if [ "${DEVICE}" = "${IDEVICE}" ]; then break; fi
-                  I=$((I+1));
-                done
-                echo "${LINE}" | ${SED} "s/[^${SEPAR}]*//;s/^/  \"${I}/" >>"${OFILE}"
-              else
-                echo "${LINE}" | ${SED} "s/^/  \"-1${SEPAR}/" >>"${OFILE}"
-              fi
-            done < <(${SED} "1d;s/[\r]*$/\\\n\" \\\/" "${IFILE}")
-            echo "  \"\"" >>"${OFILE}"
-            echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
+    for CLFILE in ${*:1:${#@}-1}; do
+      if [ "${CLFILE##*.}" = "cl" ]; then
+        if [ -e "${CLFILE}" ]; then
+          BNAME=$(${BASENAME} "${CLFILE}" .cl)
+          UNAME=$(echo "${BNAME}" | ${TR} '[:lower:]' '[:upper:]')
+          SNAME=OPENCL_LIBSMM_STRING_${UNAME}
+          VNAME=opencl_libsmm_source_${BNAME}
+          MNAME=OPENCL_LIBSMM_SOURCE_${UNAME}
+          if [ "0" != "$((0<(NFILES_OCL)))" ]; then
             echo >>"${OFILE}"
-            echo "#define OPENCL_LIBSMM_PARAMS_DEVICES ${DNAME}" >>"${OFILE}"
-            if [ "${DEVCOL}" ]; then
-              echo "static const char *const ${DNAME}[] = {" >>"${OFILE}"
-              NDEVICES=$(echo "${DEVICES}" | wc -l); I=0; S=","
-              for DEVICE in ${DEVICES}; do
-                I=$((I+1)); if [ "0" != "$((NDEVICES==I))" ]; then S=""; fi
-                echo "  \"${DEVICE}\"${S}" >>"${OFILE}"
-              done
-              echo "};" >>"${OFILE}"
-            fi
-            NFILES_CSV=$((NFILES_CSV+1))
           fi
+          echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
+          echo "#define ${SNAME} \\" >>"${OFILE}"
+          if [ "${CPP}" ] && \
+             [ "$(eval "${CPP} ${CPPBASEFLAGS} ${CLFILE}" 2>/dev/null >/dev/null && echo "YES")" ];
+          then
+            if [ "" != "${CPPFLAGS}" ] && \
+               [ "$(eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${CLFILE}" 2>/dev/null >/dev/null && echo "YES")" ];
+            then
+              eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${CLFILE}" 2>/dev/null
+            else
+              eval "${CPP} ${CPPBASEFLAGS} ${CLFILE}" 2>/dev/null
+            fi
+          else # fallback to sed
+            ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' "${CLFILE}"
+          fi | \
+          ${SED} \
+            -e '/^[[:space:]]*$/d' -e 's/[[:space:]]*$//' \
+            -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/  "/' -e 's/$/\\n" \\/' \
+            >>"${OFILE}"
+          echo "  \"\"" >>"${OFILE}"
+          echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
+          NFILES_OCL=$((NFILES_OCL+1))
         else
-          >&2 echo "ERROR: ${IFILE} is not an OpenCL or CSV file!"
+          >&2 echo "ERROR: ${CLFILE} does not exist!"
           if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
           exit 1
         fi
+      else
+        CSVFILES=("${*:NFILES_OCL+1:${#@}-NFILES_OCL-1}")
+        break
       fi
     done
     if [ "0" = "${NFILES_OCL}" ]; then
       >&2 echo "ERROR: no OpenCL file was given!"
       if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
       exit 1
-    elif [ "0" != "$((1<NFILES_CSV))" ]; then
-      >&2 echo "ERROR: more than one CSV file was given!"
-      if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
-      exit 1
+    fi
+    NFILES_CSV=0
+    for CSVFILE in "${CSVFILES[@]}"; do
+      if [ "${CSVFILE##*.}" = "csv" ]; then
+        if [ -e "${CSVFILE}" ]; then
+          NFILES_CSV=$((NFILES_CSV+1))
+        fi
+      else
+        >&2 echo "ERROR: ${CSVFILE} is not a CSV file!"
+        if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
+        exit 1
+      fi
+    done
+    if [ "0" = "${NFILES_CSV}" ] && [ "${PARAMPATH}" ]; then
+      CSVFILES=("${PARAMPATH}"/*.csv)
+      NFILES_CSV=${#CSVFILES[@]}
+    fi
+    for CSVFILE in "${CSVFILES[@]}"; do
+      if [ ! "${DELIM}" ]; then
+        SEPAR=$(${SED} "1s/[^${DELIMS}]//g" "${CSVFILE}")
+        DELIM=${SEPAR:0:1}
+        MATCH=$(${SED} -n "1s/[^${DELIM}]//gp" "${CSVFILE}")
+      fi
+      if [ ! "${DELIM}" ] || \
+         [ "${MATCH}" != "$(${SED} "s/[^${DELIM}]//g" "${CSVFILE}" | ${SORT} -u | ${SED} "/^$/d")" ];
+      then
+        >&2 echo "ERROR: ${CSVFILE} is malformed!"
+        if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
+        exit 1
+      fi
+    done
+    DEVPAT="s/${DELIM}..*//"
+    DEVICES=$(for CSVFILE in "${CSVFILES[@]}"; do ${SED} "1d;/^[[:space:]]*$/d;${DEVPAT}" "${CSVFILE}"; done | ${SORT} -u)
+    SNAME=OPENCL_LIBSMM_STRING_PARAMS_SMM
+    VNAME=opencl_libsmm_params_smm
+    DNAME=opencl_libsmm_devices
+    MNAME=$(echo "${VNAME}" | ${TR} '[:lower:]' '[:upper:]')
+    NNAME=$(echo "${DNAME}" | ${TR} '[:lower:]' '[:upper:]')
+    if [ "${DEVICES}" ]; then
+      echo >>"${OFILE}"
+      echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
+      echo "#define ${SNAME} \\" >>"${OFILE}"
+      for LINE in $(for CSVFILE in "${CSVFILES[@]}"; do ${SED} "1d;/^[[:space:]]*$/d;s/[\r]*$/\\\n\" \\\/" "${CSVFILE}"; done); do
+        I=0; IDEVICE=$(echo "${LINE}" | ${SED} "${DEVPAT}")
+        for DEVICE in ${DEVICES}; do
+          if [ "${DEVICE}" = "${IDEVICE}" ]; then break; fi
+          I=$((I+1));
+        done
+        echo "${LINE}" | ${SED} "s/[^${DELIM}]*//;s/^/  \"${I}/" >>"${OFILE}"
+      done
+      echo "  \"\"" >>"${OFILE}"
+      echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
+      echo >>"${OFILE}"
+      echo "#define ${NNAME} ${DNAME}" >>"${OFILE}"
+      echo "static const char *const ${DNAME}[] = {" >>"${OFILE}"
+      I=0; S=","; NDEVICES=$(echo "${DEVICES}" | ${WC} -l)
+      for DEVICE in ${DEVICES}; do
+        I=$((I+1)); if [ "0" != "$((NDEVICES==I))" ]; then S=""; fi
+        echo "  \"${DEVICE}\"${S}" >>"${OFILE}"
+      done
+      echo "};" >>"${OFILE}"
     fi
   else
-    echo "Usage: $0 infile.cl [infile2.cl .. infileN.cl] [infile.csv] outfile.h"
+    echo "Usage: $0 infile.cl [infile2.cl .. infileN.cl] [infile.csv [.. infileN.csv]] outfile.h"
     echo "       At least one OpenCL file must be supplied."
     echo "       Parameters per CSV file are optional."
-    echo "       The CSV file can be at any position."
     echo "       -c|-d|--debug|--comments: keep comments"
   fi
 else
