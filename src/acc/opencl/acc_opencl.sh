@@ -133,10 +133,18 @@ then
         DELIM=${SEPAR:0:1}
         MATCH=$(${SED} -n "1s/[^${DELIM}]//gp" "${CSVFILE}")
       fi
-      if [ ! "${DELIM}" ] || \
-         [ "${MATCH}" != "$(${SED} "s/[^${DELIM}]//g" "${CSVFILE}" | ${SORT} -u | ${SED} "/^$/d")" ];
-      then
-        >&2 echo "ERROR: ${CSVFILE} is malformed!"
+      if [ "${DELIM}" ]; then
+        CHECK=$(${SED} "/^[[:space:]]*$/d;s/[^${DELIM}]//g" "${CSVFILE}" | ${SORT} -u)
+        if [ "0" != "$((${#MATCH}<${#CHECK}))" ]; then
+          ERRFILE=${CSVFILES[0]}
+        elif [ "${MATCH}" != "${CHECK}" ]; then
+          ERRFILE=${CSVFILE}
+        fi
+      else
+        ERRFILE=${CSVFILE}
+      fi
+      if [ "${ERRFILE}" ]; then
+        >&2 echo "ERROR: ${ERRFILE} is malformed!"
         if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
         exit 1
       fi
