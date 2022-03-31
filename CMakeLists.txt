@@ -98,7 +98,7 @@ set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
 set(SUPPORTED_CUDA_ARCHITECTURES K20X K40 K80 P100 V100 A100)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100)
 set(WITH_GPU
-    $<IF:$<MATCHES:${USE_ACCEL},"cuda|hip">,"P100","">
+    $<IF:$<STREQUAL:${USE_ACCEL},"opencl">,"","P100">
     CACHE
       STRING
       "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
