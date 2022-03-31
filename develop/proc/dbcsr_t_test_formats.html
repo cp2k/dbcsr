@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.3.0-rc0-6-g1de2c11d52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.3.0-rc0-7-g27102f5c2d</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -124,19 +124,19 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-ndims~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-ndims"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ndims</strong></td><td><p>tensor rank</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mp_comm~18"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm~15"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mp_comm</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~24"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~15"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>output unit, needs to be a valid unit number on all mpi ranks</p></td>
@@ -148,49 +148,49 @@
   <td><strong>verbose</strong></td><td><p>if .TRUE., print all tensor blocks</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size_1~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size_1"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_size_1</strong></td><td><p>block sizes along respective dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size_2~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size_2"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_size_2</strong></td><td><p>block sizes along respective dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size_3~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size_3"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_size_3</strong></td><td><p>block sizes along respective dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_size_4~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_size_4"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_size_4</strong></td><td><p>block sizes along respective dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_ind_1~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_ind_1"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_ind_1</strong></td><td><p>index along respective dimension of non-zero blocks</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_ind_2~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_ind_2"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_ind_2</strong></td><td><p>index along respective dimension of non-zero blocks</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_ind_3~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_ind_3"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_ind_3</strong></td><td><p>index along respective dimension of non-zero blocks</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-blk_ind_4~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_ind_4"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_ind_4</strong></td><td><p>index along respective dimension of non-zero blocks</p></td>

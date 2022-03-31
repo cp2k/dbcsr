@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.3.0-rc0-6-g1de2c11d52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.3.0-rc0-7-g27102f5c2d</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -146,7 +146,7 @@ bounds_2, bounds_3 give the index ranges of the batches.
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-alpha~45"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~34"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>alpha</strong></td><td></td>
@@ -164,7 +164,7 @@ bounds_2, bounds_3 give the index ranges of the batches.
   <td><strong>tensor_2</strong></td><td><p>second tensor (in)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-beta~16"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta~14"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>beta</strong></td><td></td>
@@ -266,25 +266,25 @@ in this case the pointer is not associated.</p></td>
   <td><strong>filter_eps</strong></td><td><p>As in DBCSR mm</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~29"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~28"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td><p>As in DBCSR mm</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~13"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~10"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>memory optimization: transfer data such that tensor_1 and tensor_2 are empty on return</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-retain_sparsity~16"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~14"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td><p>enforce the sparsity pattern of the existing tensor_3; default is no</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~28"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~19"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>output unit for logging
