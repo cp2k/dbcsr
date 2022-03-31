@@ -103,9 +103,6 @@
 #    define ACC_OPENCL_SVM
 #  endif
 #endif
-#if !defined(ACC_OPENCL_DEVMATCH) && 0
-#  define ACC_OPENCL_DEVMATCH
-#endif
 #if !defined(ACC_OPENCL_PROFILE) && 0
 #  define ACC_OPENCL_PROFILE
 #endif
@@ -243,10 +240,10 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_int ndevices;
   /** Maximum number of threads (omp_get_max_threads). */
   cl_int nthreads;
-  /** Asynchronous memory operations. */
-  cl_int async;
   /** How to apply/use stream priorities. */
   cl_int priority;
+  /** Asynchronous memory operations. */
+  cl_int async;
   /** Flush level. */
   cl_int flush;
   /** Dump level. */
