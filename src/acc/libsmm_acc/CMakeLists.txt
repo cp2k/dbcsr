@@ -7,14 +7,15 @@ set(SMM_ACC_KERNELS
     kernels/smm_acc_dnt_tiny.h
     kernels/smm_acc_transpose.h)
 
+set(WITH_GPU_PARAMS $<IF:$<STREQUAL:${WITH_GPU},"A100">,"V100",${WITH_GPU}>)
 add_custom_target(
   parameters ALL
   COMMAND
     ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_parameters.py
     --gpu_version=${WITH_GPU} --base_dir=${CMAKE_CURRENT_SOURCE_DIR}/parameters
-  DEPENDS generate_parameters.py parameters/parameters_${WITH_GPU}.json
+  DEPENDS generate_parameters.py parameters/parameters_${WITH_GPU_PARAMS}.json
   BYPRODUCTS parameters.h
-  COMMENT "libsmm_acc: generating parameters for GPU ${WITH_GPU}")
+  COMMENT "libsmm_acc: generating parameters for GPU ${WITH_GPU_PARAMS}")
 
 add_custom_target(
   smm_acc_kernels ALL

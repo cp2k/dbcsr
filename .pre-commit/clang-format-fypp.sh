@@ -16,13 +16,13 @@ function main()
 {
     local files=""
     for i in "$@"; do
-	case $i in
-	    -*|--*)
-	    ;;
-	    *)
-		files+="$i "
-	    ;;
-	esac
+    case $i in
+      -*|--*)
+      ;;
+      *)
+          files+="$i "
+      ;;
+    esac
     done
 
     clang-format "$@"
