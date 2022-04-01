@@ -18,7 +18,7 @@
 #    include <omp.h>
 #  endif
 
-#  if LIBXSMM_VERSION4(1, 16, 1, 808) <= LIBXSMM_VERSION_NUMBER && LIBXSMM_VERSION4(1, 17, 0, 2042) > LIBXSMM_VERSION_NUMBER
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER && LIBXSMM_VERSION4(1, 17, 0, 2042) > LIBXSMM_VERSION_NUMBER
 #    define OPENCL_LIBSMM_REGISTER(KEY, KEY_SIZE, VALUE_SIZE, VALUE_INIT) \
       libxsmm_xregister(KEY, KEY_SIZE, VALUE_SIZE, VALUE_INIT, NULL /*key_hash*/)
 #    define OPENCL_LIBSMM_DISPATCH(KEY, KEY_SIZE) libxsmm_xdispatch(KEY, KEY_SIZE, NULL /*key_hash*/)
@@ -1384,7 +1384,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               nbm = (m_max + new_config.bm - 1) / new_config.bm;
               nbn = (n_max + new_config.bn - 1) / new_config.bn;
               new_config.wgsize[kernel_idx] = MAX(nbm * nbn, new_config.ws);
-#    if LIBXSMM_VERSION4(1, 16, 1, 1598) <= LIBXSMM_VERSION_NUMBER
+#    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
               if (0 != new_config.wg) {
                 const unsigned int limit = (unsigned int)MAX(wgsize_prf, OPENCL_LIBSMM_VLEN);
                 unsigned int r = libxsmm_remainder(
@@ -1855,7 +1855,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   dbcsr_type_real_8 == datatype ? "f64" : (dbcsr_type_real_4 == datatype ? "f32" : "unknown"), m_max, n_max, k_max,
                   max_kernel_dim, stream);
               }
-#      if LIBXSMM_VERSION4(1, 16, 1, 1014) <= LIBXSMM_VERSION_NUMBER
+#      if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
               fprintf(stderr, " => ERROR diff=%g (%g != %g)\n", diff.linf_abs, diff.v_ref, diff.v_tst);
 #      else
               fprintf(stderr, " => ERROR diff=%g\n", diff.linf_abs);
