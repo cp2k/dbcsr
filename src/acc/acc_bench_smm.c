@@ -14,6 +14,10 @@
 
 #if defined(__LIBXSMM)
 #  include <libxsmm.h>
+#  if !defined(LIBXSMM_VERSION_NUMBER)
+#    define LIBXSMM_VERSION_NUMBER \
+      LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
+#  endif
 #  define USE_LIBXSMM
 #  if defined(_OPENMP)
 #    define ACC_BENCH_USEOMP(FUNC) LIBXSMM_USEOMP(FUNC)
@@ -438,6 +442,7 @@ int main(int argc, char* argv[]) {
           /* transfer result from device to host for validation */
           CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result);
           CHECK(c_dbcsr_acc_stream_sync(stream), &result);
+#    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
           if (EXIT_SUCCESS == result) {
             libxsmm_matdiff_info diff;
             /* validate result buffers at once (including excess/padded space) */
@@ -460,6 +465,7 @@ int main(int argc, char* argv[]) {
               if (0 < check && check < relerror) result = EXIT_FAILURE;
             }
           }
+#    endif
         }
       }
       libxsmm_free(gold_hst);
