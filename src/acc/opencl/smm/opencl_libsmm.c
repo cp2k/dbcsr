@@ -392,7 +392,7 @@ int opencl_libsmm_read_smm_params(
       switch (key->type) {
         case dbcsr_type_real_8: {
           const double ratio = gflops / OPENCL_LIBSMM_AI(key->m, key->n, key->k, sizeof(double));
-#  if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
           libxsmm_kahan_sum(log(ratio), &perfest->gf_ai_dratio_sumlog, &perfest->gf_ai_dratio_kahan);
 #  else
           perfest->gf_ai_dratio_sumlog += log(ratio);
@@ -402,7 +402,7 @@ int opencl_libsmm_read_smm_params(
         } break;
         case dbcsr_type_real_4: {
           const double ratio = gflops / OPENCL_LIBSMM_AI(key->m, key->n, key->k, sizeof(float));
-#  if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
           libxsmm_kahan_sum(log(ratio), &perfest->gf_ai_sratio_sumlog, &perfest->gf_ai_sratio_kahan);
 #  else
           perfest->gf_ai_sratio_sumlog += log(ratio);
@@ -681,7 +681,7 @@ int libsmm_acc_finalize(void) {
   ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result)
   ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libsmm_acc_finalize called in OpenMP parallel region!\n");
   if (0 == LIBXSMM_ATOMIC_SUB_FETCH(&opencl_libsmm_initialized, 1, LIBXSMM_ATOMIC_RELAXED)) {
-#  if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
     /* multiple calls to libsmm_acc_finalize are not considered as an error */
     const void *regkey = NULL, *regentry = libxsmm_get_registry_begin(LIBXSMM_KERNEL_KIND_USER, &regkey);
     for (; NULL != regentry; regentry = libxsmm_get_registry_next(regentry, &regkey)) {
@@ -1000,7 +1000,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
           }
           if (EXIT_SUCCESS == result) {
             const double membw = (1ULL * stack_size * (typesize * m * n)) / (duration * (1ULL << 30));
-#      if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
+#      if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
             const size_t size = sizeof(config->size) / sizeof(*config->size);
             assert(2 <= size);
             libxsmm_kahan_sum(log(membw), &config->membw_sumlog, &config->membw_comp);
@@ -1780,7 +1780,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           }
           if (EXIT_SUCCESS == result) {
             const double gflops = 1E-9 * (2ULL * m_max * n_max * k_max * stack_size) / duration;
-#      if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
+#      if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
             const size_t size = sizeof(config->size) / sizeof(*config->size);
             assert(2 <= size);
             libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
