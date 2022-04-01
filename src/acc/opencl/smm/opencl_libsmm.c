@@ -18,7 +18,7 @@
 #    include <omp.h>
 #  endif
 
-#  if LIBXSMM_VERSION4(1, 16, 1, 808) <= LIBXSMM_VERSION_NUMBER && LIBXSMM_VERSION4(1, 17, 0, 2042) > LIBXSMM_VERSION_NUMBER
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER && LIBXSMM_VERSION4(1, 17, 0, 2042) > LIBXSMM_VERSION_NUMBER
 #    define OPENCL_LIBSMM_REGISTER(KEY, KEY_SIZE, VALUE_SIZE, VALUE_INIT) \
       libxsmm_xregister(KEY, KEY_SIZE, VALUE_SIZE, VALUE_INIT, NULL /*key_hash*/)
 #    define OPENCL_LIBSMM_DISPATCH(KEY, KEY_SIZE) libxsmm_xdispatch(KEY, KEY_SIZE, NULL /*key_hash*/)
@@ -392,13 +392,21 @@ int opencl_libsmm_read_smm_params(
       switch (key->type) {
         case dbcsr_type_real_8: {
           const double ratio = gflops / OPENCL_LIBSMM_AI(key->m, key->n, key->k, sizeof(double));
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
           libxsmm_kahan_sum(log(ratio), &perfest->gf_ai_dratio_sumlog, &perfest->gf_ai_dratio_kahan);
+#  else
+          perfest->gf_ai_dratio_sumlog += log(ratio);
+#  endif
           if (perfest->gf_ai_dratio_max < ratio) perfest->gf_ai_dratio_max = ratio;
           ++perfest->dcount;
         } break;
         case dbcsr_type_real_4: {
           const double ratio = gflops / OPENCL_LIBSMM_AI(key->m, key->n, key->k, sizeof(float));
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
           libxsmm_kahan_sum(log(ratio), &perfest->gf_ai_sratio_sumlog, &perfest->gf_ai_sratio_kahan);
+#  else
+          perfest->gf_ai_sratio_sumlog += log(ratio);
+#  endif
           if (perfest->gf_ai_sratio_max < ratio) perfest->gf_ai_sratio_max = ratio;
           ++perfest->scount;
         } break;
@@ -447,8 +455,8 @@ int libsmm_acc_init(void) {
                               : ('0' != *env_suitable));
       memset(&perfest, 0, sizeof(perfest));
       if (NULL != env_timer && (opencl_libsmm_timer_host == atoi(env_timer) ||
-                                 (env_timer == libxsmm_stristr(env_timer, "host") && 4 == strlen(env_timer)) ||
-                                 (env_timer == libxsmm_stristr(env_timer, "cpu") && 3 == strlen(env_timer))))
+                                 (env_timer == c_dbcsr_acc_opencl_stristr(env_timer, "host") && 4 == strlen(env_timer)) ||
+                                 (env_timer == c_dbcsr_acc_opencl_stristr(env_timer, "cpu") && 3 == strlen(env_timer))))
       {
         opencl_libsmm_timer = opencl_libsmm_timer_host;
       }
@@ -463,8 +471,8 @@ int libsmm_acc_init(void) {
           if (NULL != file) {
             /* consume first line, check for device entry, and skip CSV header */
             if (NULL != fgets(buffer, ACC_OPENCL_BUFFERSIZE, file)) {
-              char* const device = (NULL != libxsmm_stristr(buffer, "device") ? bufname : NULL);
-              opencl_libsmm_perfest_t* const gflops = (NULL != libxsmm_stristr(buffer, "gflops") ? &perfest : NULL);
+              char* const device = (NULL != c_dbcsr_acc_opencl_stristr(buffer, "device") ? bufname : NULL);
+              opencl_libsmm_perfest_t* const gflops = (NULL != c_dbcsr_acc_opencl_stristr(buffer, "gflops") ? &perfest : NULL);
               while (NULL != fgets(buffer, ACC_OPENCL_BUFFERSIZE, file)) { /* read params from CSV-file */
                 memset(&config, 0, sizeof(config));
                 if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(buffer, &key, &config, gflops, device)) {
@@ -673,7 +681,7 @@ int libsmm_acc_finalize(void) {
   ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result)
   ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libsmm_acc_finalize called in OpenMP parallel region!\n");
   if (0 == LIBXSMM_ATOMIC_SUB_FETCH(&opencl_libsmm_initialized, 1, LIBXSMM_ATOMIC_RELAXED)) {
-#  if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
     /* multiple calls to libsmm_acc_finalize are not considered as an error */
     const void *regkey = NULL, *regentry = libxsmm_get_registry_begin(LIBXSMM_KERNEL_KIND_USER, &regkey);
     for (; NULL != regentry; regentry = libxsmm_get_registry_next(regentry, &regkey)) {
@@ -992,7 +1000,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
           }
           if (EXIT_SUCCESS == result) {
             const double membw = (1ULL * stack_size * (typesize * m * n)) / (duration * (1ULL << 30));
-#      if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
+#      if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
             const size_t size = sizeof(config->size) / sizeof(*config->size);
             assert(2 <= size);
             libxsmm_kahan_sum(log(membw), &config->membw_sumlog, &config->membw_comp);
@@ -1376,7 +1384,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               nbm = (m_max + new_config.bm - 1) / new_config.bm;
               nbn = (n_max + new_config.bn - 1) / new_config.bn;
               new_config.wgsize[kernel_idx] = MAX(nbm * nbn, new_config.ws);
-#    if LIBXSMM_VERSION4(1, 16, 1, 1598) <= LIBXSMM_VERSION_NUMBER
+#    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
               if (0 != new_config.wg) {
                 const unsigned int limit = (unsigned int)MAX(wgsize_prf, OPENCL_LIBSMM_VLEN);
                 unsigned int r = libxsmm_remainder(
@@ -1526,7 +1534,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       atomic_exp = "atomic_add_global_xchg(A, B)";
                     }
                   }
-                  else if (NULL != libxsmm_stristr(env_atomics, "cmpxchg")) {
+                  else if (NULL != c_dbcsr_acc_opencl_stristr(env_atomics, "cmpxchg")) {
                     if (NULL != extensions[1] && 1 < bs && 1 == new_config.bn && new_config.bm >= m_max && 0 == new_config.al &&
                         (0 == (m_max & 1) || (0 == c_dbcsr_acc_opencl_config.devinfo.intel_id && cl_nonv)) /* TODO */
                         && '2' == env_atomics[strlen(env_atomics) - 1] &&
@@ -1772,7 +1780,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           }
           if (EXIT_SUCCESS == result) {
             const double gflops = 1E-9 * (2ULL * m_max * n_max * k_max * stack_size) / duration;
-#      if LIBXSMM_VERSION4(1, 16, 1, 1159) <= LIBXSMM_VERSION_NUMBER
+#      if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
             const size_t size = sizeof(config->size) / sizeof(*config->size);
             assert(2 <= size);
             libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
@@ -1847,7 +1855,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   dbcsr_type_real_8 == datatype ? "f64" : (dbcsr_type_real_4 == datatype ? "f32" : "unknown"), m_max, n_max, k_max,
                   max_kernel_dim, stream);
               }
-#      if LIBXSMM_VERSION4(1, 16, 1, 1014) <= LIBXSMM_VERSION_NUMBER
+#      if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
               fprintf(stderr, " => ERROR diff=%g (%g != %g)\n", diff.linf_abs, diff.v_ref, diff.v_tst);
 #      else
               fprintf(stderr, " => ERROR diff=%g\n", diff.linf_abs);
