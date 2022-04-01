@@ -47,11 +47,13 @@ then
     *) break;;
     esac
   done
+  HERE="$(cd "$(dirname "$0")" && pwd -P)"
+  PARAMDIR="${HERE}/smm/params"
   if [ "${PARAMPATH}" ]; then
     PARAMPATH=${PARAMS}
   else
     HERE="$(cd "$(dirname "$0")" && pwd -P)"
-    PARAMPATH="${HERE}/smm/params"
+    PARAMPATH=${PARAMDIR}
   fi
   if [ "$#" -gt 1 ]; then
     # allow for instance /dev/stdout
@@ -129,12 +131,12 @@ then
     fi
     for CSVFILE in "${CSVFILES[@]}"; do
       if [ ! "${DELIM}" ]; then
-        SEPAR=$(${SED} "1s/[^${DELIMS}]//g" "${CSVFILE}")
+        SEPAR=$(${SED} -n "1s/[^${DELIMS}]//gp" "${CSVFILE}")
         DELIM=${SEPAR:0:1}
         MATCH=$(${SED} -n "1s/[^${DELIM}]//gp" "${CSVFILE}")
       fi
       if [ "${DELIM}" ]; then
-        CHECK=$(${SED} "/^[[:space:]]*$/d;s/[^${DELIM}]//g" "${CSVFILE}" | ${SORT} -u)
+        CHECK=$(${SED} "/^[[:space:]]*$/d;s/[^${DELIM}]//g" "${CSVFILE}" | ${SORT} -u | ${SED} -n "0,/./p")
         if [ "0" != "$((${#MATCH}<${#CHECK}))" ]; then
           ERRFILE=${CSVFILES[0]}
         elif [ "${MATCH}" != "${CHECK}" ]; then
@@ -182,9 +184,10 @@ then
     fi
   else
     echo "Usage: $0 infile.cl [infile2.cl .. infileN.cl] [infile.csv [.. infileN.csv]] outfile.h"
-    echo "       At least one OpenCL file must be supplied."
-    echo "       Parameters per CSV file are optional."
-    echo "       -c|-d|--debug|--comments: keep comments"
+    echo "       At least one OpenCL file and one header file must be supplied."
+    echo "       -p|--params P: directory-path to CSV-files (can be \"\")"
+    echo "             default: ${PARAMDIR}"
+    echo "       -c|-d|--debug|--comments: keep comments in source-code"
   fi
 else
   >&2 echo "ERROR: missing prerequisites!"
