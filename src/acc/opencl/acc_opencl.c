@@ -112,6 +112,33 @@ cl_context c_dbcsr_acc_opencl_device_context(cl_device_id device, const int* thr
 }
 
 
+const char* c_dbcsr_acc_opencl_stristr(const char a[], const char b[]) {
+  const char* result = NULL;
+  if (NULL != a && NULL != b && '\0' != *a && '\0' != *b) {
+    do {
+      if (tolower(*a) != tolower(*b)) {
+        ++a;
+      }
+      else {
+        const char* c = b;
+        result = a;
+        while ('\0' != *++a && '\0' != *++c) {
+          if (tolower(*a) != tolower(*c)) {
+            result = NULL;
+            break;
+          }
+        }
+        if ('\0' != c[0] && '\0' != c[1]) {
+          result = NULL;
+        }
+        else break;
+      }
+    } while ('\0' != *a);
+  }
+  return result;
+}
+
+
 /**
  * Comparator used with qsort; stabilized by tail condition (a < b ? -1 : 1).
  * Brings GPUs with local memory in front, followed by (potentially) integrated GPUs,
@@ -256,13 +283,14 @@ int c_dbcsr_acc_init(void) {
       }
       if (EXIT_SUCCESS == result) {
         if (NULL != env_devtype && '\0' != *env_devtype) {
-          if (NULL != libxsmm_stristr(env_devtype, "gpu")) {
+          if (NULL != c_dbcsr_acc_opencl_stristr(env_devtype, "gpu")) {
             type = CL_DEVICE_TYPE_GPU;
           }
-          else if (NULL != libxsmm_stristr(env_devtype, "cpu")) {
+          else if (NULL != c_dbcsr_acc_opencl_stristr(env_devtype, "cpu")) {
             type = CL_DEVICE_TYPE_CPU;
           }
-          else if (NULL != libxsmm_stristr(env_devtype, "acc") || NULL != libxsmm_stristr(env_devtype, "other")) {
+          else if (NULL != c_dbcsr_acc_opencl_stristr(env_devtype, "acc") ||
+                   NULL != c_dbcsr_acc_opencl_stristr(env_devtype, "other")) {
             type = CL_DEVICE_TYPE_ACCELERATOR;
           }
           else {
@@ -324,7 +352,7 @@ int c_dbcsr_acc_init(void) {
           for (i = 0; i < (cl_uint)c_dbcsr_acc_opencl_config.ndevices;) {
             if (CL_SUCCESS ==
                 clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL)) {
-              if (NULL == libxsmm_stristr(buffer, env_vendor)) {
+              if (NULL == c_dbcsr_acc_opencl_stristr(buffer, env_vendor)) {
                 --c_dbcsr_acc_opencl_config.ndevices;
                 if (i < (cl_uint)c_dbcsr_acc_opencl_config.ndevices) { /* keep original order (stable) */
                   memmove(c_dbcsr_acc_opencl_config.devices + i, c_dbcsr_acc_opencl_config.devices + i + 1,
@@ -659,7 +687,7 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]) {
   ACC_OPENCL_CHECK(
     clGetDeviceInfo(device, CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL), "retrieve device vendor", result);
   if (EXIT_SUCCESS == result) {
-    return (NULL != libxsmm_stristr(buffer, vendor) ? EXIT_SUCCESS : EXIT_FAILURE);
+    return (NULL != c_dbcsr_acc_opencl_stristr(buffer, vendor) ? EXIT_SUCCESS : EXIT_FAILURE);
   }
   else {
     ACC_OPENCL_RETURN(result);
@@ -673,7 +701,7 @@ int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char match[]) {
   assert(NULL != device && NULL != match);
   ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL), "retrieve device name", result);
   if (EXIT_SUCCESS == result) {
-    const char* const p = libxsmm_stristr(buffer, match);
+    const char* const p = c_dbcsr_acc_opencl_stristr(buffer, match);
     return (NULL != p ? EXIT_SUCCESS : EXIT_FAILURE);
   }
   else {
