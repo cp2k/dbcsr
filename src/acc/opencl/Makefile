@@ -43,10 +43,10 @@ PARAMS_WITHGPU := $(MAKDIR)/smm/params/tune_multiply_$(WITH_GPU).csv
 PARAMS_DEFAULT := $(MAKDIR)/smm/tune_multiply.csv
 PARAMS := $(if $(wildcard $(PARAMS_WITHGPU)),$(PARAMS_WITHGPU),$(wildcard $(PARAMS_DEFAULT)))
 
-#PARAMS_DIR ?= $(MAKDIR)/smm/params
+#PARAMDIR ?= $(MAKDIR)/smm/params
 ifeq (,$(PARAMS))
-ifneq (,$(wildcard $(PARAMS_DIR)))
-  WITH_GPUS := $(shell ls -1 $(PARAMS_DIR)/*.csv | cut -d. -f1 | rev | cut -d_ -f1 | rev)
+ifneq (,$(wildcard $(PARAMDIR)))
+  WITH_GPUS := $(shell ls -1 $(PARAMDIR)/*.csv | cut -d. -f1 | rev | cut -d_ -f1 | rev)
 endif
 endif
 
@@ -214,7 +214,7 @@ $(MAKDIR)/test-smm.log: bench
 	$(eval SHAPES = $(shell $(ACCDIR)/acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
 	$(eval DEVICE = "$(shell LIBXSMM_VERBOSE=0 ACC_OPENCL_VERBOSE=1 CHECK=0 $(ACCDIR)/acc_bench_smm 1 1 1 2>&1 >/dev/null)")
 	$(eval WITH_GPU = $(firstword $(foreach GPU,$(WITH_GPUS),$(findstring $(GPU),$(DEVICE)))))
-	$(eval PARAMS = $(firstword $(wildcard $(PARAMS_DIR)/tune_multiply_*$(WITH_GPU).csv)))
+	$(eval PARAMS = $(firstword $(wildcard $(PARAMDIR)/tune_multiply_*$(WITH_GPU).csv)))
 	$(eval GPUENV = $(if $(PARAMS),$(if $(OPENCL_LIBSMM_SMM_PARAMS),$(NULL),OPENCL_LIBSMM_SMM_PARAMS=$(PARAMS))))
 	@echo "--- DBCSR OpenCL SMMs ($(words $(SHAPES)))"
 	@echo "$(DEVICE)"

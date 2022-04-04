@@ -33,6 +33,7 @@
 
 #if defined(__LIBXSMM)
 #  include <libxsmm.h>
+#  include <libxsmm_sync.h>
 #else
 /* OpenCL backend depends on LIBXSMM */
 #  include <libxsmm_source.h>
@@ -48,6 +49,7 @@
 #if !defined(NDEBUG)
 #  include <assert.h>
 #endif
+#include <stdlib.h>
 #include <stdio.h>
 
 #if !defined(ACC_OPENCL_CACHELINE_NBYTES)
@@ -140,6 +142,7 @@
 #endif
 
 #if defined(_OPENMP)
+#  include <omp.h>
 #  define ACC_OPENCL_OMP_TID() omp_get_thread_num()
 #else
 #  define ACC_OPENCL_OMP_TID() (/*master*/ 0)

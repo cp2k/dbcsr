@@ -8,13 +8,7 @@
 /*------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
-#  include <libxsmm_sync.h>
-#  include <stdlib.h>
 #  include <string.h>
-#  include <assert.h>
-#  if defined(_OPENMP)
-#    include <omp.h>
-#  endif
 
 #  if defined(CL_VERSION_2_0)
 #    define ACC_OPENCL_CREATE_COMMAND_QUEUE(CTX, DEV, PROPS, RESULT) clCreateCommandQueueWithProperties(CTX, DEV, PROPS, RESULT)

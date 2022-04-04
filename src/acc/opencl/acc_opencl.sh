@@ -48,7 +48,7 @@ then
     esac
   done
   HERE="$(cd "$(dirname "$0")" && pwd -P)"
-  PARAMDIR="${HERE}/smm/params"
+  PARAMDIR=$(if [ ! "${PARAMDIR}" ]; then echo "${HERE}/smm/params"; fi)
   if [ "${PARAMPATH}" ]; then
     PARAMPATH=${PARAMS}
   else

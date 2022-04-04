@@ -8,15 +8,9 @@
 /*------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
-#  include <libxsmm_sync.h>
-#  include <stdlib.h>
 #  include <string.h>
-#  include <assert.h>
 #  include <limits.h>
 #  include <ctype.h>
-#  if defined(_OPENMP)
-#    include <omp.h>
-#  endif
 #  if defined(_WIN32)
 #    include <windows.h>
 #    include <process.h>

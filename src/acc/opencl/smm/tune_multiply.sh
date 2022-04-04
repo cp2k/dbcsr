@@ -8,8 +8,9 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-HERE=$(cd "$(dirname "$0")" && pwd -P)
+XARGS=$(command -v xargs)
 SORT=$(command -v sort)
+HEAD=$(command -v head)
 SED=$(command -v gsed)
 LS=$(command -v ls)
 RM=$(command -v rm)
@@ -21,7 +22,9 @@ if [ ! "${SED}" ]; then
   SED=$(command -v sed)
 fi
 
-if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; then
+if [ "${XARGS}" ] && [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && \
+   [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ];
+then
   while test $# -gt 0; do
     case "$1" in
     -h|--help)
@@ -97,10 +100,6 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
   if [ ! "${BATCHSIZE}" ]; then BATCHSIZE=0; fi
   if [ ! "${JSONDIR}" ]; then JSONDIR=.; fi
   if [ ! "${TLEVEL}" ]; then TLEVEL=-1; fi
-  if [ ! "${MAXEXT}" ]; then MAXEXT=0; fi
-  if [ ! "${MAXNUM}" ]; then MAXNUM=0; fi
-  if [ ! "${BOUNDL}" ]; then BOUNDL=0; fi
-  if [ ! "${BOUNDU}" ]; then BOUNDU=0; fi
   if [ ! "${NPARTS}" ]; then NPARTS=1; fi
   if [ ! "${PART}" ]; then PART=1; fi
   # sanity checks
@@ -108,6 +107,7 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
     >&2 echo "ERROR: part-number ${PART} is larger than the requested ${NPARTS} parts!"
     exit 1
   fi
+  HERE=$(cd "$(dirname "$0")" && pwd -P)
   JSONS=$(${LS} -1 ${JSONDIR}/tune_multiply-*-*x*x*-*gflops.json 2>/dev/null)
   if [ "${SPECID}" ] && [ "$1" ]; then
     >&2 echo "ERROR: --specid and <triplet-spec> are mutual exclusive!"
@@ -117,16 +117,45 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
       if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=1; fi
       if [ ! "${MAXTIME}" ]; then MAXTIME=160; fi
       MNKS=$(echo "${JSONS}" | ${SED} -n "s/.*tune_multiply-..*-\(..*x..*x.[^-]*\)-..*gflops\.json/\1/p" \
-         | ${SORT} -u -n -tx -k1 -k2 -k3)
+         | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3)
     elif [ "${SPECID}" ]; then
-      MNKS=$(eval "${HERE}/../../acc_triplets.sh -r ${BOUNDL} ${BOUNDU} -m ${MAXEXT} -n ${MAXNUM} -k ${SPECID} 2>/dev/null")
+      MNKS=$(eval "${HERE}/../../acc_triplets.sh -k ${SPECID} 2>/dev/null")
     else
-      MNKS=$(eval "${HERE}/../../acc_triplets.sh -r ${BOUNDL} ${BOUNDU} -m ${MAXEXT} -n ${MAXNUM} $* 2>/dev/null")
+      MNKS=$(eval "${HERE}/../../acc_triplets.sh $* 2>/dev/null")
     fi
   else
     exit 0
   fi
-  NTRIPLETS=$(echo "${MNKS}" | wc -w)
+  if [ "${MNKS}" ]; then
+    if [ "${BOUNDL}" ] || [ "${BOUNDU}" ]; then
+      if [ ! "${BOUNDL}" ]; then BOUNDL=0; elif [ ! "${BOUNDU}" ]; then BOUNDU=0; fi
+      if [ "0" != "$((0<=BOUNDL))" ]; then
+        for MNK in $(echo "${MNKS}" | ${SED} "s/x/*/g"); do
+          S=$((MNK))
+          if [ "0" != "$((BOUNDL<BOUNDU))" ]; then
+            if [ "0" != "$((BOUNDL**3<S&&S<=BOUNDU**3))" ]; then TMP="${TMP} ${MNK}"; fi
+          else
+            if [ "0" != "$((BOUNDL**3<S))" ]; then TMP="${TMP} ${MNK}"; fi
+          fi
+        done
+        MNKS=$(echo "${TMP}" | ${SED} "s/*/x/g")
+      fi
+    fi
+    if [ "${MNKS}" ] && [ "${MAXEXT}" ] && [ "0" != "$((0<MAXEXT))" ]; then
+      TMP=""
+      for MNK in ${MNKS}; do
+        for EXT in $(echo "${MNK}" | ${SED} "s/x/ /g"); do
+          if [ "0" != "$((MAXEXT<EXT))" ]; then continue 2; fi
+        done
+        TMP="${TMP} ${MNK}"
+      done
+      MNKS=${TMP}
+    fi
+    if [ "${MNKS}" ] && [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then
+      MNKS=$(echo "${MNKS}" | ${XARGS} -n1 | ${HEAD} -n"${MAXNUM}")
+    fi
+  fi
+  NTRIPLETS=$(echo "${MNKS}" | ${WC} -w)
   if [ "0" != "$((0==NTRIPLETS))" ]; then
     if [ "${HELP}" ] || [ "0" = "${HELP}" ]; then exit 0; fi
     >&2 echo "ERROR: invalid or no <triplet-spec> given!"
@@ -169,7 +198,7 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
       echo
       echo "Started auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
-      ${RM} -rf "${HERE}/opentuner.db"
+      ${RM} -rf ./opentuner.db
       eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
       RESULT=$?
       # environment var. CONTINUE allows to proceed with next kernel
@@ -186,7 +215,7 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
     N=$((N+1))
   done
   if [ "${RESULT}" ]; then
-    ${RM} -rf "${HERE}/opentuner.db"
+    ${RM} -rf ./opentuner.db
   fi
 else
   >&2 echo "ERROR: missing prerequisites!"
