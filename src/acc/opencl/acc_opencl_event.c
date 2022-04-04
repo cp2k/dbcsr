@@ -8,11 +8,6 @@
 /*------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
-#  include <stdlib.h>
-#  include <assert.h>
-#  if defined(_OPENMP)
-#    include <omp.h>
-#  endif
 
 #  if defined(CL_VERSION_1_2)
 #    define ACC_OPENCL_WAIT_EVENT(QUEUE, EVENT) clEnqueueMarkerWithWaitList(QUEUE, 1, EVENT, NULL)

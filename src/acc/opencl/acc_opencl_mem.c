@@ -8,13 +8,7 @@
 /*------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
-#  include <libxsmm_sync.h>
-#  include <stdlib.h>
-#  include <assert.h>
 #  include <string.h>
-#  if defined(_OPENMP)
-#    include <omp.h>
-#  endif
 #  if defined(_WIN32)
 #    include <Windows.h>
 #  else
@@ -27,9 +21,6 @@
 
 #  if !defined(ACC_OPENCL_MEM_ZERO_KERNEL) && 0
 #    define ACC_OPENCL_MEM_ZERO_KERNEL
-#  endif
-#  if !defined(ACC_OPENCL_MEM_NLOCKS)
-#    define ACC_OPENCL_MEM_NLOCKS ACC_OPENCL_NLOCKS
 #  endif
 #  if !defined(ACC_OPENCL_MEM_ALIGNSCALE)
 #    define ACC_OPENCL_MEM_ALIGNSCALE 8
