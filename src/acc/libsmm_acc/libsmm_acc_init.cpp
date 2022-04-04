@@ -80,11 +80,9 @@ extern "C" int libsmm_acc_finalize() {
 
   // free acc_blas handle resources; one handle per thread
   for (size_t i = 0; i < acc_blashandles.size(); i++) {
-    if (NULL != acc_blashandles[i]) {
-      acc_blas_destroy(acc_blashandles[i]);
-      acc_blashandles[i] = NULL;
-    }
+    acc_blas_destroy(acc_blashandles[i]);
   }
+  acc_blashandles.clear();
 
   timestop(handle);
 
