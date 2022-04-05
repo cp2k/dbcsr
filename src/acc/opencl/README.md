@@ -21,8 +21,7 @@ Runtime settings are made by the means of environment variables. The OpenCL back
 * `ACC_OPENCL_VERBOSE`: verbosity level (integer) with console output on `stderr`.
     * `ACC_OPENCL_VERBOSE=1`: outputs the number of devices found and the name of the selected device.
     * `ACC_OPENCL_VERBOSE=2`: outputs the duration needed to generate a requested kernel.
-    * `ACC_OPENCL_VERBOSE=3`: outputs device-side measured performance of kernels (geometric mean).
-    * `ACC_OPENCL_VERBOSE=4`: outputs device-side performance of kernels (every launch profiled).
+    * `ACC_OPENCL_VERBOSE=3`: outputs device-side performance of kernels (every launch profiled).
 * `ACC_OPENCL_DUMP`: dump preprocessed kernel source code (1) or dump compiled OpenCL kernels (2).
     * `ACC_OPENCL_DUMP=1`: dump preprocessed kernel source code and use it for JIT compilation. Instantiates the original source code using preprocessor definitions (`-D`) and collapses the code accordingly.
     * `ACC_OPENCL_DUMP=2`: dump compiled OpenCL kernels (depends on OpenCL implementation), e.g., PTX code on Nvidia.

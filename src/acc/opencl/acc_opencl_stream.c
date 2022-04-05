@@ -178,9 +178,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
               stream = *ACC_OPENCL_STREAM(c_dbcsr_acc_opencl_config.streams[i]);
               result = clRetainCommandQueue(stream);
             }
-            else {
-              break;
-            }
+            else break;
           }
         }
         if (EXIT_SUCCESS == result) queue = stream;

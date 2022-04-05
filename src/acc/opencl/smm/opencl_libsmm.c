@@ -441,13 +441,11 @@ int libsmm_acc_init(void) {
       char* const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS");
       const char* const env_timer = getenv("OPENCL_LIBSMM_TIMER");
       const char* const env_suitable = getenv("OPENCL_LIBSMM_SUITABLE");
-      const int suitable = (NULL == env_suitable
 #  if defined(OPENCL_LIBSMM_SUITABLE)
-                              ? 1
+      const int suitable = (NULL == env_suitable ? 1 : ('0' != *env_suitable));
 #  else
-                              ? 0
+      const int suitable = (NULL == env_suitable ? 0 : ('0' != *env_suitable));
 #  endif
-                              : ('0' != *env_suitable));
       memset(&perfest, 0, sizeof(perfest));
       if (NULL != env_timer && (opencl_libsmm_timer_host == atoi(env_timer) ||
                                  (env_timer == c_dbcsr_acc_opencl_stristr(env_timer, "host") && 4 == strlen(env_timer)) ||
@@ -675,75 +673,30 @@ int libsmm_acc_finalize(void) {
 #  endif
   ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result)
   ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libsmm_acc_finalize called in OpenMP parallel region!\n");
+  /* multiple calls to libsmm_acc_finalize are not considered as an error */
   if (0 == LIBXSMM_ATOMIC_SUB_FETCH(&opencl_libsmm_initialized, 1, LIBXSMM_ATOMIC_RELAXED)) {
 #  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
-    /* multiple calls to libsmm_acc_finalize are not considered as an error */
-    const void *regkey = NULL, *regentry = libxsmm_get_registry_begin(LIBXSMM_KERNEL_KIND_USER, &regkey);
-    for (; NULL != regentry; regentry = libxsmm_get_registry_next(regentry, &regkey)) {
+    char fname[ACC_OPENCL_MAXSTRLEN];
+    const void* regentry = libxsmm_get_registry_begin(LIBXSMM_KERNEL_KIND_USER, NULL /*key*/);
+    for (; NULL != regentry; regentry = libxsmm_get_registry_next(regentry, NULL /*key*/)) {
       /* opencl_libsmm_trans_t/opencl_libsmm_smm_t carry cl_kernel as 1st data member */
       cl_kernel kernel = *(const cl_kernel*)regentry;
       if (NULL == kernel) kernel = ((const opencl_libsmm_smm_t*)regentry)->kernel[1];
-      if (NULL != kernel) {
-        if (3 == c_dbcsr_acc_opencl_config.verbosity) {
-          char fname[ACC_OPENCL_MAXSTRLEN];
-          ACC_OPENCL_CHECK(
-            clGetKernelInfo(kernel, CL_KERNEL_FUNCTION_NAME, sizeof(fname), fname, NULL), "retrieve function name", result);
-          if (EXIT_SUCCESS == result) {
-            if (NULL != strstr(fname, OPENCL_LIBSMM_KERNELNAME_TRANS)) { /* trans-kernel */
-#    if !defined(OPENCL_LIBSMM_VALIDATE_TRANS)
-              const opencl_libsmm_transkey_t* const desc = (const opencl_libsmm_transkey_t*)regkey;
-              opencl_libsmm_trans_t* const entry = (opencl_libsmm_trans_t*)regentry;
-              if (0 < entry->nexec) {
-                opencl_libsmm_trans_t dummy;
-                const int size = (int)MIN(sizeof(entry->size) / sizeof(*entry->size), entry->nexec);
-                int blocks;
-                OPENCL_LIBSMM_ISORT(entry->size, size);
-                blocks = entry->size[size >> 1];
-                if (0 == (1 & size)) blocks = (blocks + entry->size[(size >> 1) - 1]) >> 1;
-                LIBXSMM_STDIO_ACQUIRE();
-                fprintf(stderr, "INFO ACC/OpenCL: TRANS-kernel ");
-                opencl_libsmm_write_trans_params(
-                  stderr, 1 /*only_key*/, desc, NULL /*config*/, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-                fprintf(stderr, "=");
-                opencl_libsmm_write_trans_params(
-                  stderr, 1 /*only_key*/, desc, &dummy, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-                fprintf(stderr, " ss=%i geo=%.1f GB/s\n", blocks, exp(entry->membw_sumlog / entry->nexec));
-                LIBXSMM_STDIO_RELEASE();
-              }
-#    endif
-            }
-            else if (NULL != strstr(fname, OPENCL_LIBSMM_KERNELNAME_SMM)) { /* SMM-kernel */
-#    if !defined(OPENCL_LIBSMM_VALIDATE_SMM)
-              const opencl_libsmm_smmkey_t* const desc = (const opencl_libsmm_smmkey_t*)regkey;
-              opencl_libsmm_smm_t* const entry = (opencl_libsmm_smm_t*)regentry;
-              if (0 < entry->nexec) {
-                opencl_libsmm_smm_t dummy;
-                const double geo = exp(entry->gflops_sumlog / entry->nexec);
-                const double est = (dbcsr_type_real_8 == desc->type
-                                      ? (OPENCL_LIBSMM_AI(desc->m, desc->n, desc->k, sizeof(double)) * opencl_libsmm_dacc)
-                                      : (OPENCL_LIBSMM_AI(desc->m, desc->n, desc->k, sizeof(float)) * opencl_libsmm_sacc));
-                const int size = (int)MIN(sizeof(entry->size) / sizeof(*entry->size), entry->nexec);
-                int blocks;
-                OPENCL_LIBSMM_ISORT(entry->size, size);
-                blocks = entry->size[size >> 1];
-                if (0 == (1 & size)) blocks = (blocks + entry->size[(size >> 1) - 1]) >> 1;
-                LIBXSMM_STDIO_ACQUIRE();
-                fprintf(stderr, "INFO ACC/OpenCL: SMM-kernel ");
-                opencl_libsmm_write_smm_params(
-                  stderr, 1 /*only_key*/, desc, NULL /*config*/, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-                fprintf(stderr, "=");
-                opencl_libsmm_write_smm_params(
-                  stderr, 1 /*only_key*/, desc, &dummy, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-                fprintf(stderr, " ss=%i geo=%.1f", blocks, geo);
-                if (0 < est) fprintf(stderr, " est=%.1f", est);
-                fprintf(stderr, " GFLOPS/s\n");
-                LIBXSMM_STDIO_RELEASE();
-              }
-#    endif
+      if (NULL != kernel) { /* only consider user-entry if clGetKernelInfo succeeded */
+        cl_int result_entry = clGetKernelInfo(kernel, CL_KERNEL_FUNCTION_NAME, sizeof(fname), fname, NULL);
+        if (CL_SUCCESS == result_entry) {
+          if (NULL != strstr(fname, OPENCL_LIBSMM_KERNELNAME_TRANS)) { /* trans-kernel */
+            result_entry = clReleaseKernel(kernel);
+          }
+          else if (NULL != strstr(fname, OPENCL_LIBSMM_KERNELNAME_SMM)) { /* SMM-kernel */
+            result_entry = clReleaseKernel(kernel);
+            if (CL_SUCCESS == result_entry && kernel != ((const opencl_libsmm_smm_t*)regentry)->kernel[1]) {
+              kernel = ((const opencl_libsmm_smm_t*)regentry)->kernel[1]; /* release 2nd kernel */
+              if (NULL != kernel) result_entry = clReleaseKernel(kernel);
             }
           }
+          if (CL_SUCCESS != result_entry) result = result_entry;
         }
-        ACC_OPENCL_CHECK(clReleaseKernel(kernel), "release kernel", result);
       }
     }
 #  endif
@@ -923,7 +876,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
     assert((NULL != config && NULL != config->kernel && 0 < config->wgsize) || EXIT_SUCCESS != result);
     if (EXIT_SUCCESS == result) {
       cl_event event, *const perf_event = ((opencl_libsmm_timer_host == opencl_libsmm_timer ||
-                                             (0 <= c_dbcsr_acc_opencl_config.verbosity && 4 >= c_dbcsr_acc_opencl_config.verbosity))
+                                             (0 <= c_dbcsr_acc_opencl_config.verbosity && 2 >= c_dbcsr_acc_opencl_config.verbosity))
                                              ? NULL
                                              : &event);
       const size_t work_size = config->wgsize * stack_size;
@@ -995,37 +948,16 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
           }
           if (EXIT_SUCCESS == result) {
             const double membw = (1ULL * stack_size * (typesize * m * n)) / (duration * (1ULL << 30));
-#      if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
-            const size_t size = sizeof(config->size) / sizeof(*config->size);
-            assert(2 <= size);
-            libxsmm_kahan_sum(log(membw), &config->membw_sumlog, &config->membw_comp);
-            if (size <= config->nexec) {
-              const int s1 = size - 1, i = (int)((config->nexec++) % s1);
-              config->size[i] = stack_size;
-              if ((i + 1) == s1) { /* fill config->size with median */
-                const int s2 = size >> 1;
-                OPENCL_LIBSMM_ISORT(config->size, size);
-                config->size[s1] = config->size[s2];
-                if (0 == (1 & s1)) config->size[s1] = (config->size[s1] + config->size[s2 - 1]) >> 1;
-              }
-            }
-            else {
-              config->size[config->nexec++] = stack_size;
-            }
-#      endif
-            if (4 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-              const int* const priority = c_dbcsr_acc_opencl_stream_priority(stream);
-              LIBXSMM_STDIO_ACQUIRE();
-              fprintf(stderr, "INFO ACC/OpenCL: TRANS-kernel ");
-              opencl_libsmm_write_trans_params(
-                stderr, 1 /*only_key*/, &key, NULL /*config*/, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-              fprintf(stderr, "=");
-              opencl_libsmm_write_trans_params(
-                stderr, 1 /*only_key*/, &key, config, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-              fprintf(stderr, " prio=%i ss=%i cur=%.1f GB/s dur=%.2g ms\n", NULL != priority ? *priority : -1, stack_size, membw,
-                1E3 * duration);
-              LIBXSMM_STDIO_RELEASE();
-            }
+            const int* const priority = c_dbcsr_acc_opencl_stream_priority(stream);
+            LIBXSMM_STDIO_ACQUIRE();
+            fprintf(stderr, "INFO ACC/OpenCL: TRANS-kernel ");
+            opencl_libsmm_write_trans_params(
+              stderr, 1 /*only_key*/, &key, NULL /*config*/, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
+            fprintf(stderr, "=");
+            opencl_libsmm_write_trans_params(stderr, 1 /*only_key*/, &key, config, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
+            fprintf(stderr, " prio=%i ss=%i cur=%.1f GB/s dur=%.2g ms\n", NULL != priority ? *priority : -1, stack_size, membw,
+              1E3 * duration);
+            LIBXSMM_STDIO_RELEASE();
           }
 #    endif
         }
@@ -1687,7 +1619,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       if (EXIT_SUCCESS == result) {
         cl_event event, *const perf_event =
                           ((opencl_libsmm_timer_host == opencl_libsmm_timer ||
-                             (0 <= c_dbcsr_acc_opencl_config.verbosity && 4 >= c_dbcsr_acc_opencl_config.verbosity))
+                             (0 <= c_dbcsr_acc_opencl_config.verbosity && 2 >= c_dbcsr_acc_opencl_config.verbosity))
                               ? NULL
                               : &event);
         size_t work_size;
@@ -1775,40 +1707,20 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           }
           if (EXIT_SUCCESS == result) {
             const double gflops = 1E-9 * (2ULL * m_max * n_max * k_max * stack_size) / duration;
-#      if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
-            const size_t size = sizeof(config->size) / sizeof(*config->size);
-            assert(2 <= size);
-            libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
-            if (size <= config->nexec) {
-              const int s1 = size - 1, i = (int)((config->nexec++) % s1);
-              config->size[i] = stack_size;
-              if ((i + 1) == s1) { /* fill config->size with median */
-                const int s2 = size >> 1;
-                OPENCL_LIBSMM_ISORT(config->size, size);
-                config->size[s1] = config->size[s2];
-                if (0 == (1 & s1)) config->size[s1] = (config->size[s1] + config->size[s2 - 1]) >> 1;
-              }
-            }
-            else {
-              config->size[config->nexec++] = stack_size;
-            }
-#      endif
-            if (4 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-              const double est = (dbcsr_type_real_8 == datatype
-                                    ? (OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(double)) * opencl_libsmm_dacc)
-                                    : (OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(float)) * opencl_libsmm_sacc));
-              const int* const priority = c_dbcsr_acc_opencl_stream_priority(stream);
-              LIBXSMM_STDIO_ACQUIRE();
-              fprintf(stderr, "INFO ACC/OpenCL: SMM-kernel ");
-              opencl_libsmm_write_smm_params(
-                stderr, 1 /*only_key*/, &key, NULL /*config*/, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-              fprintf(stderr, "=");
-              opencl_libsmm_write_smm_params(stderr, 1 /*only_key*/, &key, config, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
-              fprintf(stderr, " prio=%i ss=%i cur=%.1f", NULL != priority ? *priority : -1, stack_size, gflops);
-              if (0 < est) fprintf(stderr, " est=%.1f", est);
-              fprintf(stderr, " GFLOPS/s dur=%.2g ms\n", 1E3 * duration);
-              LIBXSMM_STDIO_RELEASE();
-            }
+            const double est = (dbcsr_type_real_8 == datatype
+                                  ? (OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(double)) * opencl_libsmm_dacc)
+                                  : (OPENCL_LIBSMM_AI(m_max, n_max, k_max, sizeof(float)) * opencl_libsmm_sacc));
+            const int* const priority = c_dbcsr_acc_opencl_stream_priority(stream);
+            LIBXSMM_STDIO_ACQUIRE();
+            fprintf(stderr, "INFO ACC/OpenCL: SMM-kernel ");
+            opencl_libsmm_write_smm_params(
+              stderr, 1 /*only_key*/, &key, NULL /*config*/, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
+            fprintf(stderr, "=");
+            opencl_libsmm_write_smm_params(stderr, 1 /*only_key*/, &key, config, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
+            fprintf(stderr, " prio=%i ss=%i cur=%.1f", NULL != priority ? *priority : -1, stack_size, gflops);
+            if (0 < est) fprintf(stderr, " est=%.1f", est);
+            fprintf(stderr, " GFLOPS/s dur=%.2g ms\n", 1E3 * duration);
+            LIBXSMM_STDIO_RELEASE();
           }
         }
 #    endif
