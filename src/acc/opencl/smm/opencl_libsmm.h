@@ -49,10 +49,6 @@ typedef struct opencl_libsmm_transkey_t {
 typedef struct opencl_libsmm_trans_t {
   cl_kernel kernel; /* must be the 1st data member */
   size_t wgsize;
-  /* ACC_OPENCL_VERBOSE: perf. counters */
-  double membw_sumlog, membw_comp;
-  size_t nexec;
-  int size[7];
 } opencl_libsmm_trans_t;
 
 /** Type for querying SMM-kernel configuration. */
@@ -67,12 +63,9 @@ typedef struct opencl_libsmm_smmkey_t {
 typedef struct opencl_libsmm_smm_t {
   cl_kernel kernel[2]; /* must be the 1st data member */
   size_t wgsize[2];
+  double gflops;
   /* (pseudo-)parameters (either pretuned or determined) */
   int s, bs, bm, bn, bk, ws, wg, lu, nz, al, tb, tc, ap, aa, ab, ac;
-  /* ACC_OPENCL_VERBOSE: perf. counters */
-  double gflops, gflops_sumlog, gflops_comp;
-  size_t nexec;
-  int size[7];
 } opencl_libsmm_smm_t;
 
 typedef enum opencl_libsmm_timer_t { opencl_libsmm_timer_device, opencl_libsmm_timer_host } opencl_libsmm_timer_t;

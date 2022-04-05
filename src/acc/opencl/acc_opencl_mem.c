@@ -19,9 +19,6 @@
 #    include <unistd.h>
 #  endif
 
-#  if !defined(ACC_OPENCL_MEM_ZERO_KERNEL) && 0
-#    define ACC_OPENCL_MEM_ZERO_KERNEL
-#  endif
 #  if !defined(ACC_OPENCL_MEM_ALIGNSCALE)
 #    define ACC_OPENCL_MEM_ALIGNSCALE 8
 #  endif
@@ -405,16 +402,18 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
 #  endif
   assert((NULL != dev_mem || 0 == nbytes) && NULL != stream);
   if (0 != nbytes) {
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+    const cl_mem* const buffer = ACC_OPENCL_MEM(dev_mem);
     ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
       ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
                                        "c_dbcsr_acc_memset_zero called by foreign thread!\n");
     }
-    {
-      const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
-      const cl_mem* const buffer = ACC_OPENCL_MEM(dev_mem);
-#  if defined(ACC_OPENCL_MEM_ZERO_KERNEL)
-      /* creating cl_kernel and calling clSetKernelArg must be synchronized */
-      static volatile int lock;
+    if (0 == c_dbcsr_acc_opencl_config.nullify) {
+      static const cl_uchar pattern = 0; /* fill with zeros */
+      result = clEnqueueFillBuffer(queue, *buffer, &pattern, sizeof(pattern), offset, nbytes, 0, NULL, NULL);
+    }
+    else {
+      static volatile int lock; /* creating cl_kernel and clSetKernelArg must be synchronized */
       static cl_kernel kernel = NULL;
       LIBXSMM_ATOMIC_ACQUIRE(&lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
       if (NULL == kernel) { /* generate kernel */
@@ -434,10 +433,6 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
           "launch memset_zero kernel", result);
       }
       LIBXSMM_ATOMIC_RELEASE(&lock, LIBXSMM_ATOMIC_RELAXED);
-#  else
-      static const cl_uchar pattern = 0; /* fill with zeros */
-      result = clEnqueueFillBuffer(queue, *buffer, &pattern, sizeof(pattern), offset, nbytes, 0, NULL, NULL);
-#  endif
     }
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
