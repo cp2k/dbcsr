@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.3.0-rc0-14-gd03b4cf4f7</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.3.0-rc0-15-g62edaa57c5</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -98,10 +98,7 @@
 <h2>Overview</h2>
 <p>The OpenCL backend implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC interface</a>, which is exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)acceleration based on ACC's device enumeration, data movement, and synchronization functionality. The customizations below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).</p>
 <h2>Customization</h2>
-<h3>Compile-time Settings</h3>
-<p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h">acc_opencl.h</a> (adjusting the build-line as per <code>-D</code> is possible as well but less convenient). For example, <code>ACC_OPENCL_STREAM_PRIORITIES</code> is enabled by default (and further confirmed at runtime/build-time) but can be disabled, or <code>ACC_OPENCL_DEBUG</code> (which is disabled by default) can be enabled for debug purpose.</p>
-<h3>Runtime Settings</h3>
-<p>Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:</p>
+<p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h">acc_opencl.h</a>. Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:</p>
 <ul>
 <li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero/default: subdevices, zero: aggregated).</li>
 <li><code>ACC_OPENCL_DEVTYPE</code>: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).</li>
