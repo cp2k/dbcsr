@@ -423,8 +423,6 @@ int libsmm_acc_init(void) {
 #  else
   int result = EXIT_SUCCESS;
 #  endif
-  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result)
-  ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libsmm_acc_init called in OpenMP parallel region!\n");
   /* multiple calls to libsmm_acc_init are not considered as an error */
   if (1 == LIBXSMM_ATOMIC_ADD_FETCH(&opencl_libsmm_initialized, 1, LIBXSMM_ATOMIC_RELAXED)) {
 #  if !defined(__DBCSR_ACC)
@@ -478,7 +476,6 @@ int libsmm_acc_init(void) {
                   config_init = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
                   if (NULL == config_init) {
                     if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
-                      ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libxsmm_xregister failed!\n");
                       result = EXIT_FAILURE;
                       break;
                     }
@@ -497,7 +494,6 @@ int libsmm_acc_init(void) {
               }
             }
             else { /* invalid header */
-              ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: reading %s failed!\n", env_params);
               result = EXIT_FAILURE;
             }
             fclose(file);
@@ -532,7 +528,6 @@ int libsmm_acc_init(void) {
                 config_init = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
                 if (NULL == config_init) {
                   if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
-                    ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libxsmm_xregister failed!\n");
                     result = EXIT_FAILURE;
                     break;
                   }
@@ -654,7 +649,6 @@ int libsmm_acc_init(void) {
         libxsmm_free(scratch);
       }
     }
-    ACC_OPENCL_DEBUG_ELSE ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: c_dbcsr_acc_init failed!\n");
   }
   ACC_OPENCL_RETURN(result);
 }
@@ -671,8 +665,6 @@ int libsmm_acc_finalize(void) {
 #  else
   int result = EXIT_SUCCESS;
 #  endif
-  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result)
-  ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: libsmm_acc_finalize called in OpenMP parallel region!\n");
   /* multiple calls to libsmm_acc_finalize are not considered as an error */
   if (0 == LIBXSMM_ATOMIC_SUB_FETCH(&opencl_libsmm_initialized, 1, LIBXSMM_ATOMIC_RELAXED)) {
 #  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
@@ -707,11 +699,7 @@ int libsmm_acc_finalize(void) {
      * The implementation of c_dbcsr_acc_init should hence be safe against "over initialization".
      * However, DBCSR only calls c_dbcsr_acc_init (and expects an implicit libsmm_acc_init).
      */
-    if (EXIT_SUCCESS == result) {
-      result = c_dbcsr_acc_finalize();
-      ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result)
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: c_dbcsr_acc_finalize failed!\n");
-    }
+    if (EXIT_SUCCESS == result) result = c_dbcsr_acc_finalize();
 #  endif
     libxsmm_finalize();
   }
@@ -762,10 +750,6 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
     double duration;
     const libxsmm_timer_tickint start = libxsmm_timer_tick();
 #    endif
-    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                       "libsmm_acc_transpose called by foreign thread!\n");
-    }
     LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data (alignment gaps) */
     key.type = datatype;
     key.m = m;
@@ -1114,10 +1098,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
     const libxsmm_timer_tickint start = libxsmm_timer_tick();
 #    endif
     const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
-    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                       "libsmm_acc_process called by foreign thread!\n");
-    }
     LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data */
     key.type = datatype;
     key.m = m_max;

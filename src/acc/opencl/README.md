@@ -6,13 +6,7 @@ The OpenCL backend implements the [ACC interface](https://github.com/cp2k/dbcsr/
 
 ## Customization
 
-### Compile-time Settings
-
-Compile-time settings are (implicitly) documented and can be adjusted by editing [acc_opencl.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h) (adjusting the build-line as per `-D` is possible as well but less convenient). For example, `ACC_OPENCL_STREAM_PRIORITIES` is enabled by default (and further confirmed at runtime/build-time) but can be disabled, or `ACC_OPENCL_DEBUG` (which is disabled by default) can be enabled for debug purpose.
-
-### Runtime Settings
-
-Runtime settings are made by the means of environment variables. The OpenCL backend provides `acc_getenv.sh` to list all occurrences of `getenv` categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:
+Compile-time settings are (implicitly) documented and can be adjusted by editing [acc_opencl.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h). Runtime settings are made by the means of environment variables. The OpenCL backend provides `acc_getenv.sh` to list all occurrences of `getenv` categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:
 
 * `ACC_OPENCL_DEVSPLIT`: integer enabling devices to be split into subdevices (non-zero/default: subdevices, zero: aggregated).
 * `ACC_OPENCL_DEVTYPE`: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).

@@ -220,8 +220,6 @@ int c_dbcsr_acc_init(void) {
   static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
-  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result)
-  ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: c_dbcsr_acc_init called in OpenMP parallel region!\n");
   if (0 == c_dbcsr_acc_opencl_config.ndevices) { /* avoid to initialize multiple times */
     cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT] = {NULL};
     cl_device_id devices[ACC_OPENCL_DEVICES_MAXCOUNT];
@@ -446,9 +444,6 @@ int c_dbcsr_acc_init(void) {
             }
           }
         }
-        ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: started pid=%u nthreads=%i ndevices=%i (device=%i, context=%p).\n",
-          libxsmm_get_pid(), c_dbcsr_acc_opencl_config.nthreads, c_dbcsr_acc_opencl_config.ndevices, device_id,
-          NULL != c_dbcsr_acc_opencl_config.contexts ? ((const void*)c_dbcsr_acc_opencl_config.contexts[/*master*/ 0]) : NULL);
       }
       else { /* mark as initialized */
         c_dbcsr_acc_opencl_config.ndevices = -1;
@@ -457,8 +452,6 @@ int c_dbcsr_acc_init(void) {
     else { /* mark as initialized (ACC_OPENCL_DISABLE) */
       c_dbcsr_acc_opencl_config.ndevices = -1;
     }
-    ACC_OPENCL_DEBUG_IF(0 >= c_dbcsr_acc_opencl_config.ndevices)
-    ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: pid=%u found no devices.\n", libxsmm_get_pid());
 #  if defined(__DBCSR_ACC)
     /* DBCSR shall call c_dbcsr_acc_init as well as libsmm_acc_init (since both interfaces are used).
      * Also, libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
@@ -488,11 +481,8 @@ int c_dbcsr_acc_finalize(void) {
   static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
-  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != result)
-  ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: c_dbcsr_acc_finalize called in OpenMP parallel region!\n");
   if (0 != c_dbcsr_acc_opencl_config.ndevices) {
     int i;
-    ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: stopped pid=%u.\n", libxsmm_get_pid());
     assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_DEVICES_MAXCOUNT);
 #  if defined(__DBCSR_ACC)
     /* DBCSR may call c_dbcsr_acc_init as well as libsmm_acc_init() since both interface are used.
@@ -540,11 +530,7 @@ int c_dbcsr_acc_finalize(void) {
         const cl_context context = c_dbcsr_acc_opencl_config.contexts[i];
         if (NULL != context) {
           c_dbcsr_acc_opencl_config.contexts[i] = NULL;
-          if (EXIT_SUCCESS == clReleaseContext(context)) {
-            ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: released context %p (tid=%i).\n", (const void*)context, i);
-          }
-          ACC_OPENCL_DEBUG_ELSE ACC_OPENCL_DEBUG_FPRINTF(
-            stderr, "WARNING ACC/OpenCL: releasing context %p (tid=%i) failed!\n", (const void*)context, i);
+          clReleaseContext(context); /* ignore return code */
         }
       }
     }
@@ -837,8 +823,6 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id active_id) {
         /* apply context to master-thread if master's context is NULL */
         LIBXSMM_ATOMIC_CMPSWP(c_dbcsr_acc_opencl_config.contexts, NULL, context, LIBXSMM_ATOMIC_RELAXED);
         assert(NULL != c_dbcsr_acc_opencl_config.contexts[/*master*/ 0]);
-        ACC_OPENCL_DEBUG_IF(NULL == c_dbcsr_acc_opencl_config.contexts[/*master*/ 0])
-        ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: applying context to master-thread failed!\n");
       }
       if (0 != c_dbcsr_acc_opencl_config.verbosity) {
         char buffer[ACC_OPENCL_BUFFERSIZE];
@@ -892,22 +876,9 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
         }
         else if (NULL == c_dbcsr_acc_opencl_config.contexts[thread_id]) {
           result = c_dbcsr_acc_opencl_create_context(thread_id, active_id);
-          if (EXIT_SUCCESS == result) {
-            if (NULL /*context*/ != inherit) {
-              c_dbcsr_acc_opencl_config.contexts[inherit_id] = c_dbcsr_acc_opencl_config.contexts[thread_id];
-              result = clReleaseContext(inherit);
-              ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS == result) {
-                ACC_OPENCL_DEBUG_FPRINTF(
-                  stderr, "INFO ACC/OpenCL: released context %p (tid=%i).\n", (const void*)inherit, thread_id);
-              }
-              ACC_OPENCL_DEBUG_ELSE {
-                ACC_OPENCL_DEBUG_FPRINTF(
-                  stderr, "ERROR ACC/OpenCL: releasing context %p (tid=%i) failed!\n", (const void*)inherit, thread_id);
-              }
-            }
-            ACC_OPENCL_DEBUG_IF(/*master*/ 0 != thread_id)
-            ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: created device context %p (tid=%i, device=%i).\n",
-              (const void*)c_dbcsr_acc_opencl_config.contexts[thread_id], thread_id, device_id);
+          if (EXIT_SUCCESS == result && NULL /*context*/ != inherit) {
+            c_dbcsr_acc_opencl_config.contexts[inherit_id] = c_dbcsr_acc_opencl_config.contexts[thread_id];
+            result = clReleaseContext(inherit);
           }
         }
         if (EXIT_SUCCESS == result) { /* update c_dbcsr_acc_opencl_config.devinfo */
