@@ -208,9 +208,7 @@ int main(int argc, char* argv[]) {
         for (i = 0; i < NRAND; ++i) rnd[i] = rand();
         parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);
       }
-      else {
-        result = EXIT_FAILURE;
-      }
+      else result = EXIT_FAILURE;
     }
   }
   else {
@@ -264,17 +262,11 @@ int main(int argc, char* argv[]) {
             na = (0 < ina ? ina : (10 * nc));
             nb = (0 < inb ? inb : (10 * nc));
             s = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
-            if (s < nbytes) {
-              ++stack_size;
-            }
-            else {
-              break;
-            }
+            if (s < nbytes) ++stack_size;
+            else break;
           }
         }
-        else {
-          stack_size = (int)nelems;
-        }
+        else stack_size = (int)nelems;
       }
     }
     else { /* parse SMM_BATCHSIZE=batchsize,nrepfactor */
@@ -292,9 +284,7 @@ int main(int argc, char* argv[]) {
         stack_size = (r % limit + 1) * BATCHGRAIN;
         nrepeat = MAX((BATCHSIZE * nrepeat + stack_size - 1) / stack_size, NREPEAT);
       }
-      else { /* plain default */
-        stack_size = BATCHSIZE;
-      }
+      else stack_size = BATCHSIZE; /* plain default */
     }
     nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
     na = (0 < ina ? ina : (10 * nc));
@@ -489,9 +479,7 @@ int main(int argc, char* argv[]) {
       if (NULL != file) {
         printf("\n");
       }
-      else {
-        break;
-      }
+      else break;
     }
   }
   free(rnd); /* release array of random numbers */

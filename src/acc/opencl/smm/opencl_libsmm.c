@@ -1266,10 +1266,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                           : MIN(wgmin, n_max * m_max));
               new_config.wg = LIBXSMM_CLMP(
                 (NULL == env_wg || '\0' == *env_wg) ? (NULL == config ? default_wg : config->wg) : atoi(env_wg), -2, 2);
-              new_config.lu = LIBXSMM_CLMP((NULL == env_lu || '\0' == *env_lu)
-                                             ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->lu) : /*default*/ 0)
-                                             : atoi(env_lu),
-                -1, 2);
+              new_config.lu = LIBXSMM_MAX(-2, (NULL == env_lu || '\0' == *env_lu)
+                                                ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->lu) : /*default*/ 0)
+                                                : atoi(env_lu)); /* populate only lower bound */
               new_config.nz = LIBXSMM_CLMP((NULL == env_nz || '\0' == *env_nz)
                                              ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->nz) : /*default*/ 0)
                                              : atoi(env_nz),
@@ -1605,7 +1604,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       assert(EXIT_SUCCESS != result || (1 <= config->bk && config->bk <= m_max));
       assert(EXIT_SUCCESS != result || (1 <= config->ws && config->ws <= (m_max * n_max)));
       assert(EXIT_SUCCESS != result || (-2 <= config->wg && 2 >= config->wg));
-      assert(EXIT_SUCCESS != result || (-1 <= config->lu && 2 >= config->lu));
+      assert(EXIT_SUCCESS != result || (-2 <= config->lu /*&& 2 >= config->lu*/));
       assert(EXIT_SUCCESS != result || (0 <= config->nz && 1 >= config->nz));
       assert(EXIT_SUCCESS != result || (0 <= config->al && 1 >= config->al));
       assert(EXIT_SUCCESS != result || (0 <= config->tb && 1 >= config->tb));

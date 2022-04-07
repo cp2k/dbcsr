@@ -80,7 +80,7 @@ class SmmTuner(MeasurementInterface):
         )
         run_result = (  # verbosity to capture device name and tuned parameters
             self.launch(["ACC_OPENCL_VERBOSE=2", "CHECK=0"], nrep=1)
-            if not self.args.merge
+            if (self.args.merge is None or 0 > self.args.merge)
             and (self.args.update is None or "" == self.args.update)
             else None
         )
@@ -131,7 +131,7 @@ class SmmTuner(MeasurementInterface):
                 "WS", params, paramt, seed, 5, 1, self.mnk[0] * self.mnk[1]
             )
             self.create_param("WG", params, paramt, seed, 6, -2, 1)  # avoid WG=2
-            self.create_param("LU", params, paramt, seed, 7, -1, 2)
+            self.create_param("LU", params, paramt, seed, 7, -2, 2)
             self.create_param("NZ", params, paramt, seed, 8, 0, 1)
             self.create_param("AL", params, paramt, seed, 9, 0, 1)
             self.create_param("TB", params, paramt, seed, 10, 0, 1)
@@ -148,14 +148,18 @@ class SmmTuner(MeasurementInterface):
             for param in params + paramt:
                 manipulator.add_parameter(param)
         # consider to update and/or merge JSONS (update first)
-        if self.args.merge or self.args.update is None or "" != self.args.update:
+        if (
+            (self.args.merge is not None and (0 <= self.args.merge or self.typeid))
+            or self.args.update is None
+            or "" != self.args.update
+        ):
             filepattern = "{}-*.json".format(default_basename)
             filenames = glob.glob(
                 os.path.normpath(os.path.join(self.args.jsondir, filepattern))
             )
             if self.args.update is None or "" != self.args.update:
                 self.update_jsons(filenames)
-            if self.args.merge:
+            if self.args.merge is not None:
                 self.merge_jsons(filenames)
             exit(0)
         elif (
@@ -322,6 +326,12 @@ class SmmTuner(MeasurementInterface):
                     data = dict()
                     with open(filename, "r") as file:
                         data = json.load(file)
+                    if self.args.merge is not None and (
+                        (0 > self.args.merge and self.typeid != data["TYPEID"])
+                        or (1 == self.args.merge and 1 != data["TYPEID"])
+                        or (2 == self.args.merge and 3 != data["TYPEID"])
+                    ):
+                        continue
                     device = data["DEVICE"] if "DEVICE" in data else self.device
                     key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
                     value = (
@@ -373,7 +383,7 @@ class SmmTuner(MeasurementInterface):
                             self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
                         )
                     )
-                    for key, value in merged.items():  # CSV data lines
+                    for key, value in sorted(merged.items()):  # CSV data lines
                         strkey = self.args.csvsep.join([str(k) for k in key])
                         strval = self.args.csvsep.join([str(v) for v in value[:-1]])
                         file.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
@@ -513,10 +523,12 @@ if __name__ == "__main__":
     argparser.add_argument(
         "-m",
         "--csv-merge-jsons",
-        action="store_true",
-        default=False,
+        type=int,
+        default=None,
+        const=-1,
+        nargs="?",
         dest="merge",
-        help="Merge JSONs into CSV, and terminate",
+        help="Merge JSONs into CSV (-1: auto, 0: all, 1: SP, 2: DP)",
     )
     argparser.add_argument(
         "-p",
@@ -534,7 +546,7 @@ if __name__ == "__main__":
         default="",
         nargs="?",
         dest="update",
-        help="Update JSONs (device name), and terminate",
+        help="Update JSONs (device name optional)",
     )
     argparser.add_argument(
         "-c",
@@ -612,7 +624,7 @@ if __name__ == "__main__":
         type=int,
         default=env_value("OPENCL_LIBSMM_SMM_LU", "0"),
         dest="lu",
-        help="Loop unroll (-1) no hints, (0) default, (1) limited, (2) full",
+        help="Loop unroll (-2) full, (-1) no hints, (0) default, (1) limited, (2) literal",
     )
     argparser.add_argument(
         "-nz",
