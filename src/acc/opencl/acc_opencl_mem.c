@@ -74,10 +74,6 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
   nbytes += alignment + size_meminfo - 1;
   assert(NULL != host_mem && NULL != stream);
   queue = *ACC_OPENCL_STREAM(stream);
-  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-    ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                     "c_dbcsr_acc_host_mem_allocate called by foreign thread!\n");
-  }
   result = clGetCommandQueueInfo(queue, CL_QUEUE_CONTEXT, sizeof(cl_context), &context, NULL);
   if (CL_SUCCESS == result) {
     memory = (
@@ -330,10 +326,6 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
 #  endif
   assert((NULL != host_mem || 0 == nbytes) && (NULL != dev_mem || 0 == nbytes) && NULL != stream);
   if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
-    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                       "c_dbcsr_acc_memcpy_h2d called by foreign thread!\n");
-    }
     result = clEnqueueWriteBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(dev_mem), 0 == (1 & c_dbcsr_acc_opencl_config.async),
       0 /*offset*/, nbytes, host_mem, 0, NULL, NULL);
   }
@@ -354,10 +346,6 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
 #  endif
   assert((NULL != dev_mem || 0 == nbytes) && (NULL != host_mem || 0 == nbytes) && NULL != stream);
   if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
-    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                       "c_dbcsr_acc_memcpy_d2h called by foreign thread!\n");
-    }
     result = clEnqueueReadBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(dev_mem), 0 == (2 & c_dbcsr_acc_opencl_config.async),
       0 /*offset*/, nbytes, host_mem, 0, NULL, NULL);
   }
@@ -378,10 +366,6 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
 #  endif
   assert((NULL != devmem_src || 0 == nbytes) && (NULL != devmem_dst || 0 == nbytes) && NULL != stream);
   if (NULL != devmem_src && NULL != devmem_dst && 0 != nbytes) {
-    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                       "c_dbcsr_acc_memcpy_d2d called by foreign thread!\n");
-    }
     result = clEnqueueCopyBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(devmem_src), *ACC_OPENCL_MEM(devmem_dst),
       0 /*src_offset*/, 0 /*dst_offset*/, nbytes, 0, NULL, NULL);
   }
@@ -404,10 +388,6 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
   if (0 != nbytes) {
     const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
     const cl_mem* const buffer = ACC_OPENCL_MEM(dev_mem);
-    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                       "c_dbcsr_acc_memset_zero called by foreign thread!\n");
-    }
     if (0 == c_dbcsr_acc_opencl_config.nullify) {
       static const cl_uchar pattern = 0; /* fill with zeros */
       result = clEnqueueFillBuffer(queue, *buffer, &pattern, sizeof(pattern), offset, nbytes, 0, NULL, NULL);

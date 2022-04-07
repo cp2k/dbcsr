@@ -18,20 +18,14 @@
 #if defined(LU) && (0 <= LU || -1 != LU)
 #  if (0 == LU)
 #    define UNROLL_OUTER(N) UNROLL_FORCE(N)
-#  elif (1 == LU)
-#    define UNROLL_OUTER(N) UNROLL_FORCE(1)
+#  elif (1 <= LU)
+#    define UNROLL_OUTER(N) UNROLL_FORCE(MIN(LU, N))
 #  else
 #    define UNROLL_OUTER(N) UNROLL_FORCE(N)
 #  endif
 #  define UNROLL(N) UNROLL_FORCE(N)
-#  if (1 < LU)
-#    define UNROLL_INNER(N) UNROLL_FORCE(MIN(LU, N))
-#  else
-#    define UNROLL_INNER(N) UNROLL_FORCE(N)
-#  endif
 #else
 #  define UNROLL_OUTER(N)
-#  define UNROLL_INNER(N)
 #  define UNROLL(N)
 #endif
 
@@ -398,7 +392,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    else
               const int mc = bn, nc = idx;
 #    endif
-              UNROLL_INNER(SK)
+              UNROLL_FORCE(SK)
               for (short k = 0; k < SK; ++k) {
                 CNM(nc, mc) = MAD(AMK(m, k),
 #    if defined(REG_B)
@@ -446,7 +440,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    else
             const int nb = n;
 #    endif
-            UNROLL_INNER(BM)
+            UNROLL_FORCE(BM)
             for (short bm = 0; bm < BM; ++bm) {
               const int m = bm + m0;
 #    if (SM % BM)
@@ -509,7 +503,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    else
             const int mc = bm, nc = bn;
 #    endif
-            UNROLL_INNER(SK)
+            UNROLL_FORCE(SK)
             for (short k = 0; k < SK; ++k) CNM(nc, mc) = MAD(AMK(m, k), BNK(nb, k), CNM(nc, mc));
           }
         }
@@ -554,7 +548,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    if (WRK == SM) && (SGS >= SM) && !defined(SLM_A) && !defined(REG_A)
         const T a = AMK(idx, k);
 #    endif
-        UNROLL_INNER(SM)
+        UNROLL_FORCE(SM)
         for (short m = 0; m < SM; ++m) {
 #    if (WRK == SM) && (SGS >= SM) && !defined(SLM_A) && !defined(REG_A)
           CNM(idx, m) = MAD(sub_group_broadcast(a, m), b, CNM(idx, m));
@@ -600,7 +594,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
           UNROLL_FORCE(SK)
           for (short k = 0; k < SK; ++k) amk[k] = ADX(um, k);
 #    endif
-          UNROLL_INNER(SK)
+          UNROLL_FORCE(SK)
           for (short k = 0; k < SK; ++k) {
             CNM(idx, vm) = MAD(AMK(um, k), BNK(idx, k), CNM(idx, vm));
           }
@@ -638,7 +632,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
         UNROLL_FORCE(SK)
         for (short k = 0; k < SK; ++k) amk[k] = ADX(um, k);
 #      endif
-        UNROLL_INNER(SK)
+        UNROLL_FORCE(SK)
         for (short k = 0; k < SK; ++k) {
           CNM(idx, vm) = MAD(AMK(um, k), BNK(idx, k), CNM(idx, vm));
         }
