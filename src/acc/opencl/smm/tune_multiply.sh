@@ -15,7 +15,6 @@ SED=$(command -v gsed)
 LS=$(command -v ls)
 RM=$(command -v rm)
 WC=$(command -v wc)
-DELAY=12
 
 # GNU sed is desired (macOS)
 if [ ! "${SED}" ]; then
@@ -33,6 +32,9 @@ then
     -c|--continue)
       CONTINUE=1
       shift 1;;
+    -w|--wait)
+      WAIT=$2
+      shift 2;;
     -u|--update)
       UPDATE=1
       shift 1;;
@@ -91,8 +93,8 @@ then
   eval "${ECHO} \"       -n|--triplets N: limit number of triplet\""
   eval "${ECHO} \"       -k|--specid N: predefined triplets\""
   eval "${ECHO} \"        0-10: older to newer (larger), e.g.,\""
-  eval "${ECHO} \"       -k  0:  201 kernels\""
-  eval "${ECHO} \"       -k 10: 1266 kernels\""
+  eval "${ECHO} \"           0:  201 kernels\""
+  eval "${ECHO} \"          10: 1266 kernels\""
   eval "${ECHO} \"       <triplet-spec>, e.g., 134 kernels\""
   eval "${ECHO} \"         23, 5 32 13 24 26, 4 9\""
   eval "${ECHO}"
@@ -186,17 +188,17 @@ then
   elif [ -e tune_multiply.csv ]; then
     echo "No JSON file found but (unrelated?) tune_multiply.csv exists."
   fi
-  SLEEP=$(command -v sleep)
-  if [ "${DELAY}" ] && [ "${SLEEP}" ]; then
+  if [ ! "${WAIT}" ]; then WAIT=12; fi
+  if [ "0" != "$((0<WAIT))" ] && [ "$(command -v sleep)" ]; then
     echo
-    echo "Tuning will start in ${DELAY} seconds. Hit CTRL-C to abort."
-    ${SLEEP} ${DELAY}
+    echo "Tuning will start in ${WAIT} seconds. Hit CTRL-C to abort."
+    sleep ${WAIT}
   fi
   N=0
   for MNK in ${MNKS}; do
     if [ "0" != "$((PARTOFFS<=N))" ]; then
       echo
-      echo "Started auto-tuning ${MNK}-kernel..."
+      echo "[$((N-PARTOFFS+1)) of ${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf ./opentuner.db
       eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
