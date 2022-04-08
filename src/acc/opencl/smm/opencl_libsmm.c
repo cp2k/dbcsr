@@ -943,8 +943,8 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
               1E3 * duration);
             LIBXSMM_STDIO_RELEASE();
           }
-#    endif
         }
+#    endif
         LIBXSMM_ATOMIC_RELEASE(lock, LIBXSMM_ATOMIC_RELAXED);
       }
 #    if defined(OPENCL_LIBSMM_VALIDATE_TRANS)
@@ -1049,7 +1049,7 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
     }
   }
   if ((/*false*/ 0 == result) && (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity)) {
-    opencl_libsmm_smm_t dummy;
+    opencl_libsmm_smm_t dummy = {0};
     opencl_libsmm_smmkey_t key;
     key.type = datatype;
     key.m = m_max;

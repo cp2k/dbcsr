@@ -78,12 +78,14 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
   if (CL_SUCCESS == result) {
     memory = (
 #  if defined(ACC_OPENCL_SVM)
-      0 != c_dbcsr_acc_opencl_config.devinfo.svm_interop ? clCreateBuffer(context,
-          CL_MEM_USE_HOST_PTR, nbytes,
-        clSVMAlloc(context, CL_MEM_READ_WRITE, nbytes, sizeof(void*)/*minimal alignment*/), &result) :
-#  elif defined(ACC_OPENCL_MALLOC_LIBXSMM)
-      clCreateBuffer(
-        context, CL_MEM_USE_HOST_PTR, nbytes, libxsmm_aligned_malloc(nbytes, sizeof(void*) /*minimal alignment*/), &result));
+      0 != c_dbcsr_acc_opencl_config.devinfo.svm_interop
+        ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR, nbytes,
+            clSVMAlloc(context, CL_MEM_READ_WRITE, nbytes, sizeof(void*) /*minimal alignment*/), &result)
+        :
+#  endif
+#  if defined(ACC_OPENCL_MALLOC_LIBXSMM)
+        clCreateBuffer(
+          context, CL_MEM_USE_HOST_PTR, nbytes, libxsmm_aligned_malloc(nbytes, sizeof(void*) /*minimal alignment*/), &result));
 #  else
       clCreateBuffer(context, CL_MEM_ALLOC_HOST_PTR, nbytes, NULL /*host_ptr*/, &result));
 #  endif
