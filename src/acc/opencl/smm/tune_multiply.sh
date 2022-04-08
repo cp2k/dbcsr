@@ -16,6 +16,9 @@ LS=$(command -v ls)
 RM=$(command -v rm)
 WC=$(command -v wc)
 
+# initial delay before auto-tuning (interactive)
+WAIT_DEFAULT=12
+
 # GNU sed is desired (macOS)
 if [ ! "${SED}" ]; then
   SED=$(command -v sed)
@@ -80,6 +83,7 @@ then
   fi
   eval "${ECHO} \"Usage: $0 [options] [<triplet-spec>]\""
   eval "${ECHO} \"       Options must precede triplet specification\""
+  eval "${ECHO} \"       -w|--wait N: initial delay before auto-tuning (default: ${WAIT_DEFAULT} s)\""
   eval "${ECHO} \"       -c|--continue: proceed with plan if tuning is interrupted\""
   eval "${ECHO} \"       -u|--update: retune all JSONs found in directory (see -p)\""
   eval "${ECHO} \"       -s|--batchsize N: Number of batched SMMs (a.k.a. stacksize)\""
@@ -188,7 +192,7 @@ then
   elif [ -e tune_multiply.csv ]; then
     echo "No JSON file found but (unrelated?) tune_multiply.csv exists."
   fi
-  if [ ! "${WAIT}" ]; then WAIT=12; fi
+  if [ ! "${WAIT}" ]; then WAIT=${WAIT_DEFAULT}; fi
   if [ "0" != "$((0<WAIT))" ] && [ "$(command -v sleep)" ]; then
     echo
     echo "Tuning will start in ${WAIT} seconds. Hit CTRL-C to abort."
@@ -198,7 +202,7 @@ then
   for MNK in ${MNKS}; do
     if [ "0" != "$((PARTOFFS<=N))" ]; then
       echo
-      echo "[$((N-PARTOFFS+1)) of ${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
+      echo "[$((N-PARTOFFS+1))/${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf ./opentuner.db
       eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
