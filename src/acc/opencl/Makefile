@@ -150,6 +150,7 @@ endif
 ifeq (Darwin,$(UNAME))
   LDFLAGS += -framework OpenCL
 else
+  LIBOPENCL := $(shell ldconfig -p 2>/dev/null | grep -m1 OpenCL | rev | cut -d' ' -f1 | rev)
   ifeq (,$(CUDATOOLKIT_HOME))
     CUDATOOLKIT_HOME := $(NVSDKCOMPUTE_ROOT)
   endif
@@ -164,16 +165,11 @@ else
       LDFLAGS += -Wl,-rpath=$(CUDATOOLKIT_HOME)/lib64
     endif
   endif
-  ifeq (,$(wildcard $(LIBOPENCL)))
-    LDFLAGS += -lOpenCL
-  else
+  ifneq (,$(wildcard $(LIBOPENCL)))
     LDFLAGS += $(LIBOPENCL)
+  else
+    LDFLAGS += -lOpenCL
   endif
-endif
-
-CXXLIBDIR := $(dir $(call which,$(CXX)))/../lib64
-ifneq (,$(wildcard $(CXXLIBDIR)))
-  LDFLAGS += -Wl,-rpath=$(abspath $(CXXLIBDIR))
 endif
 
 .PHONY: bench
