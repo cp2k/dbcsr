@@ -22,7 +22,7 @@
 #    define OPENCL_LIBSMM_DISPATCH(KEY, KEY_SIZE) libxsmm_xdispatch(KEY, KEY_SIZE)
 #  endif
 
-#  if defined(_OPENMP)
+#  if defined(_OPENMP) && !defined(__DBCSR_ACC)
 #    define OPENCL_LIBSMM_USEOMP(FUNC) LIBXSMM_USEOMP(FUNC)
 #  else
 #    define OPENCL_LIBSMM_USEOMP(FUNC) (FUNC)
