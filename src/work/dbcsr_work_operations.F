@@ -137,7 +137,7 @@ CONTAINS
          !! 'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric
       INTEGER, DIMENSION(:), INTENT(INOUT), POINTER, &
          CONTIGUOUS, OPTIONAL                            :: row_blk_size, col_blk_size
-      TYPE(array_i1d_obj), INTENT(INOUT), OPTIONAL       :: row_blk_size_obj, col_blk_size_obj
+      TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_size_obj, col_blk_size_obj
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
          !! number of elements
          !! type of data from 'rRcC' for single/double precision real/complex, default is 'R'
@@ -146,7 +146,7 @@ CONTAINS
          !! allocate indices and data using special memory
          !! allocate indices using special memory
       INTEGER, INTENT(IN), OPTIONAL                      :: max_rbs, max_cbs
-      TYPE(array_i1d_obj), INTENT(INOUT), OPTIONAL       :: row_blk_offset, col_blk_offset
+      TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_offset, col_blk_offset
       TYPE(dbcsr_distribution_obj), INTENT(IN), OPTIONAL :: thread_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse, reuse_arrays, mutable_work, &
                                                             make_index
@@ -448,12 +448,12 @@ CONTAINS
       CHARACTER, INTENT(IN), OPTIONAL                    :: matrix_type
       INTEGER, DIMENSION(:), INTENT(INOUT), OPTIONAL, &
          POINTER, CONTIGUOUS                             :: row_blk_size, col_blk_size
-      TYPE(array_i1d_obj), INTENT(INOUT), OPTION         :: row_blk_size_obj, col_blk_size_obj
+      TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_size_obj, col_blk_size_obj
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
       TYPE(dbcsr_data_obj), INTENT(IN), OPTIONAL         :: data_buffer
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: data_memory_type, index_memory_type
       INTEGER, INTENT(IN), OPTIONAL                      :: max_rbs, max_cbs
-      TYPE(array_i1d_obj), INTENT(INOUT), OPTIONAL       :: row_blk_offset, col_blk_offset
+      TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_offset, col_blk_offset
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays, mutable_work, make_index
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
