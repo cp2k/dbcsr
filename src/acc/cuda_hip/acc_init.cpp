@@ -20,7 +20,7 @@
 
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_init() {
-  int myDevice;
+  int myDevice, runtimeVersion;
   // Driver boilerplate
   ACC_DRV_CALL(Init, (0));
   ACC_DRV(device) acc_device;
@@ -28,6 +28,7 @@ extern "C" int c_dbcsr_acc_init() {
   ACC_DRV_CALL(DeviceGet, (&acc_device, myDevice));
   ACC_DRV(context) ctx;
   ACC_DRV_CALL(DevicePrimaryCtxRetain, (&ctx, acc_device));
+  ACC_API_CALL(RuntimeGetVersion, (&runtimeVersion));
 
   // Initialize libsmm_acc, DBCSR's GPU backend
   return libsmm_acc_init();
