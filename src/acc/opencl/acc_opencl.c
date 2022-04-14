@@ -521,6 +521,7 @@ int c_dbcsr_acc_finalize(void) {
             ++nstreams;
           }
         }
+        free(c_dbcsr_acc_opencl_config.stats); /* release buffer */
         fprintf(stderr, "} nstreams=%i", nstreams);
       }
       fprintf(stderr, "\n");
@@ -533,6 +534,7 @@ int c_dbcsr_acc_finalize(void) {
           clReleaseContext(context); /* ignore return code */
         }
       }
+      free(c_dbcsr_acc_opencl_config.contexts); /* release buffer */
     }
     for (i = 0; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
       const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[i];
@@ -548,7 +550,6 @@ int c_dbcsr_acc_finalize(void) {
     free(c_dbcsr_acc_opencl_config.handles);
     free(c_dbcsr_acc_opencl_config.storage);
     free(c_dbcsr_acc_opencl_config.streams);
-    free(c_dbcsr_acc_opencl_config.contexts);
     /* clear configuration */
     memset(&c_dbcsr_acc_opencl_config, 0, sizeof(c_dbcsr_acc_opencl_config));
   }
