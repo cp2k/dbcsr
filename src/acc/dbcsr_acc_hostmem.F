@@ -85,9 +85,9 @@ CONTAINS
       !! Helper-routine performing allocation of host-pinned GPU memory.
 
       TYPE(C_PTR), INTENT(OUT)                           :: host_mem_c_ptr
-         !! pointer to allocated memory
-      INTEGER, INTENT(IN)                                :: n_bytes
-         !! number of bytes to allocate
+      !! pointer to allocated memory
+      INTEGER(KIND=C_SIZE_T), INTENT(IN)                 :: n_bytes
+      !! number of bytes to allocate
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
 
       INTEGER                                            :: istat
@@ -98,7 +98,7 @@ CONTAINS
 
       stream_cptr = acc_stream_cptr(stream)
 
-      istat = acc_interface_host_mem_alloc(host_mem_c_ptr, INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
+      istat = acc_interface_host_mem_alloc(host_mem_c_ptr, n_bytes, stream_cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_hostmem_alloc_raw: Could not allocate host pinned memory")
    END SUBROUTINE acc_hostmem_alloc_raw
@@ -127,7 +127,8 @@ CONTAINS
    END SUBROUTINE acc_hostmem_dealloc_raw
 #endif
 
-   #:set instances = [ ('i4', 'int_4_size',    'INTEGER(kind=int_4)'), &
+   #:set instances = [ &
+      ('i4', 'int_4_size',    'INTEGER(kind=int_4)'), &
       ('i8', 'int_8_size',    'INTEGER(kind=int_8)'), &
       ('r4', 'real_4_size',   'REAL(kind=real_4)'), &
       ('r8', 'real_8_size',   'REAL(kind=real_8)'), &
@@ -146,8 +147,11 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*${size}$, stream)
+         n_bytes = INT(${size}$, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n), KIND=C_SIZE_T)
+         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
 #else
          MARK_USED(host_mem)
@@ -168,9 +172,10 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
-         INTEGER                                  :: n_bytes
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         n_bytes = MAX(1, n1)*MAX(1, n2)*${size}$
+         n_bytes = INT(${size}$, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
 #else
