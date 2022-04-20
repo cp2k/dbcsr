@@ -95,38 +95,38 @@
 #define UM (SM / BK)
 #define VM (SM % UM)
 
-
+#define GLOBAL_VOLATILE(A) global volatile A
 #if defined(ATOMIC_PROTOTYPES) || defined(__opencl_c_ext_fp64_global_atomic_add)
 #  if defined(__opencl_c_ext_fp64_global_atomic_add)
 #    undef ATOMIC_ADD_GLOBAL
 #    if defined(TF)
 #      define ATOMIC_ADD_GLOBAL(A, B) \
-        atomic_fetch_add_explicit((global volatile TF*)A, B, memory_order_relaxed, memory_scope_work_group)
+        atomic_fetch_add_explicit((GLOBAL_VOLATILE(TF)*)A, B, memory_order_relaxed, memory_scope_work_group)
 #    else
 #      define ATOMIC_ADD_GLOBAL(A, B) atomic_add(A, B)
 #    endif
 #  elif (1 < ATOMIC_PROTOTYPES) && defined(TF)
 #    undef ATOMIC_ADD_GLOBAL
 #    define ATOMIC_ADD_GLOBAL(A, B) \
-      __opencl_atomic_fetch_add((global volatile TF*)A, B, memory_order_relaxed, memory_scope_work_group)
+      __opencl_atomic_fetch_add((GLOBAL_VOLATILE(TF)*)A, B, memory_order_relaxed, memory_scope_work_group)
 #  else
 #    if defined(TF)
-__attribute__((overloadable)) T atomic_fetch_add_explicit(global volatile TF*, T, memory_order, memory_scope);
+__attribute__((overloadable)) T atomic_fetch_add_explicit(GLOBAL_VOLATILE(TF) *, T, memory_order, memory_scope);
 #    else
-__attribute__((overloadable)) T atomic_add(global volatile T*, T);
+__attribute__((overloadable)) T atomic_add(GLOBAL_VOLATILE(T) *, T);
 #    endif
 #  endif
 #endif
 
 #if !defined(cl_intel_global_float_atomics) || (1 != TN)
 #  if defined(ATOMIC32_ADD64)
-__attribute__((always_inline)) inline void atomic32_add64_global(global volatile double* dst, double inc) {
+__attribute__((always_inline)) inline void atomic32_add64_global(GLOBAL_VOLATILE(double) * dst, double inc) {
   *dst += inc; /* TODO */
 }
 #  endif
 
 #  if defined(CMPXCHG)
-__attribute__((always_inline)) inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc) {
+__attribute__((always_inline)) inline void atomic_add_global_cmpxchg(GLOBAL_VOLATILE(T) * dst, T inc) {
 #    if !defined(ATOMIC32_ADD64)
   union {
     T f;
@@ -136,11 +136,11 @@ __attribute__((always_inline)) inline void atomic_add_global_cmpxchg(global vola
     exp_val.a = cur_val.a;
     try_val.f = exp_val.f + inc;
 #      if defined(TA2)
-    if (0 == atomic_compare_exchange_weak_explicit((global volatile TA2*)dst, &cur_val.a, try_val.a, memory_order_relaxed,
+    if (0 == atomic_compare_exchange_weak_explicit((GLOBAL_VOLATILE(TA2)*)dst, &cur_val.a, try_val.a, memory_order_relaxed,
                memory_order_relaxed, memory_scope_work_group))
       continue;
 #      else
-    cur_val.a = CMPXCHG((global volatile TA*)dst, exp_val.a, try_val.a);
+    cur_val.a = CMPXCHG((GLOBAL_VOLATILE(TA)*)dst, exp_val.a, try_val.a);
 #      endif
   } while (cur_val.a != exp_val.a);
 #    else
@@ -150,7 +150,7 @@ __attribute__((always_inline)) inline void atomic_add_global_cmpxchg(global vola
 #  endif
 
 #  if defined(ATOMIC_ADD2_GLOBAL) && (1 == TN)
-__attribute__((always_inline)) inline void atomic_add_global_cmpxchg2(global volatile float* dst, float2 inc) {
+__attribute__((always_inline)) inline void atomic_add_global_cmpxchg2(GLOBAL_VOLATILE(float) * dst, float2 inc) {
   union {
     float2 f;
     long a;
@@ -159,18 +159,18 @@ __attribute__((always_inline)) inline void atomic_add_global_cmpxchg2(global vol
     exp_val.a = cur_val.a;
     try_val.f = exp_val.f + inc;
 #    if defined(TA2)
-    if (0 == atomic_compare_exchange_weak_explicit((global volatile atomic_long*)dst, &cur_val.a, try_val.a, memory_order_relaxed,
+    if (0 == atomic_compare_exchange_weak_explicit((GLOBAL_VOLATILE(atomic_long)*)dst, &cur_val.a, try_val.a, memory_order_relaxed,
                memory_order_relaxed, memory_scope_work_group))
       continue;
 #    else
-    cur_val.a = atom_cmpxchg((global volatile long*)dst, exp_val.a, try_val.a);
+    cur_val.a = atom_cmpxchg((GLOBAL_VOLATILE(long)*)dst, exp_val.a, try_val.a);
 #    endif
   } while (cur_val.a != exp_val.a);
 }
 #  endif
 
 #  if defined(XCHG) || (defined(__NV_CL_C_VERSION) && !defined(CMPXCHG))
-__attribute__((always_inline)) inline void atomic_add_global_xchg(global volatile T* dst, T inc) {
+__attribute__((always_inline)) inline void atomic_add_global_xchg(GLOBAL_VOLATILE(T) * dst, T inc) {
 #    if !defined(ATOMIC32_ADD64)
 #      if (defined(__NV_CL_C_VERSION) && !defined(XCHG)) && (1 == TN)
   asm("{ .reg .f32 t; atom.global.add.f32 t, [%0], %1; }" ::"l"(dst), "f"(inc));
@@ -183,15 +183,15 @@ __attribute__((always_inline)) inline void atomic_add_global_xchg(global volatil
   } exp_val = {.f = inc}, try_val, cur_val = {/*.f = ZERO*/ .a = 0};
   do {
 #        if defined(TA2)
-    try_val.a = atomic_exchange_explicit((global volatile TA2*)dst, cur_val.a, memory_order_relaxed, memory_scope_work_group);
+    try_val.a = atomic_exchange_explicit((GLOBAL_VOLATILE(TA2)*)dst, cur_val.a, memory_order_relaxed, memory_scope_work_group);
 #        else
-    try_val.a = XCHG((global volatile TA*)dst, cur_val.a);
+    try_val.a = XCHG((GLOBAL_VOLATILE(TA)*)dst, cur_val.a);
 #        endif
     try_val.f += exp_val.f;
 #        if defined(TA2)
-    exp_val.a = atomic_exchange_explicit((global volatile TA2*)dst, try_val.a, memory_order_relaxed, memory_scope_work_group);
+    exp_val.a = atomic_exchange_explicit((GLOBAL_VOLATILE(TA2)*)dst, try_val.a, memory_order_relaxed, memory_scope_work_group);
 #        else
-    exp_val.a = XCHG((global volatile TA*)dst, try_val.a);
+    exp_val.a = XCHG((GLOBAL_VOLATILE(TA)*)dst, try_val.a);
 #        endif
   } while (cur_val.a != exp_val.a);
 #      endif

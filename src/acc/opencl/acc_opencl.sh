@@ -22,7 +22,6 @@ CPPBASEFLAGS="-dD -P -fpreprocessed"
 
 # delimiters allowed in CSV-file
 DELIMS=";,\t|/"
-IFS=$'\n'
 
 # GNU sed is desired (macOS)
 if [ "" = "${SED}" ]; then
@@ -162,7 +161,9 @@ then
       echo >>"${OFILE}"
       echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
       echo "#define ${SNAME} \\" >>"${OFILE}"
-      for LINE in $(for CSVFILE in "${CSVFILES[@]}"; do ${SED} "1d;/^[[:space:]]*$/d;s/[\r]*$/\\\n\" \\\/" "${CSVFILE}"; done); do
+      CSVLINES=$(for CSVFILE in "${CSVFILES[@]}"; do ${SED} "1d;/^[[:space:]]*$/d;s/[\r]*$/\\\n\" \\\/" "${CSVFILE}"; done)
+      IFS=$'\n'
+      for LINE in ${CSVLINES}; do
         I=0; IDEVICE=$(echo "${LINE}" | ${SED} "${DEVPAT}")
         for DEVICE in ${DEVICES}; do
           if [ "${DEVICE}" = "${IDEVICE}" ]; then break; fi
@@ -180,6 +181,7 @@ then
         I=$((I+1)); if [ "0" != "$((NDEVICES==I))" ]; then S=""; fi
         echo "  \"${DEVICE}\"${S}" >>"${OFILE}"
       done
+      unset IFS
       echo "};" >>"${OFILE}"
     fi
   else
