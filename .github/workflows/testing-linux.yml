@@ -17,7 +17,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run pre-commit
-      run:
+      run: |
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
         pre-commit run --all-files || ( git status --short ; git diff ; exit 1 )
 
   ##################################################################################
