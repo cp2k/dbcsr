@@ -44,6 +44,9 @@ then
     -a|--tuning-level)
       TLEVEL=$2
       shift 2;;
+    -b|--backwards)
+      REVERSE=1
+      shift 1;;
     -t|--maxtime)
       MAXTIME=$2
       shift 2;;
@@ -88,6 +91,7 @@ then
   eval "${ECHO} \"       -u|--update: retune all JSONs found in directory (see -p)\""
   eval "${ECHO} \"       -s|--batchsize N: Number of batched SMMs (a.k.a. stacksize)\""
   eval "${ECHO} \"       -a|--tuning-level N=0..3: all, most, some, least tunables\""
+  eval "${ECHO} \"       -b|--backwards: tune in descending order of triplets\""
   eval "${ECHO} \"       -t|--maxtime N: number of seconds spent per kernel\""
   eval "${ECHO} \"       -p|--jsondir P: path to JSON-files (tuned params)\""
   eval "${ECHO} \"       -i|--part N (1-based): Nth session out of nparts\""
@@ -156,6 +160,11 @@ then
         TMP="${TMP} ${MNK}"
       done
       MNKS=${TMP}
+    fi
+    if [ "${REVERSE}" ] && [ "0" != "${REVERSE}" ] && \
+       [ "$(command -v tr)" ] && [ "$(command -v tac)" ];
+    then
+      MNKS=$(echo "${MNKS}" | tr ' ' '\n' | tac | tr '\n' ' '; echo)
     fi
     if [ "${MNKS}" ] && [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then
       MNKS=$(echo "${MNKS}" | ${XARGS} -n1 | ${HEAD} -n"${MAXNUM}")
