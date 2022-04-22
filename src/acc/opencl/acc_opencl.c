@@ -661,14 +661,20 @@ int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char match[]) {
 int c_dbcsr_acc_opencl_devuid(const char devname[], unsigned int* uid) {
   int result;
   if (NULL != uid) {
-    char skip[ACC_OPENCL_BUFFERSIZE];
     if (NULL != devname && '\0' != *devname) {
-      if (2 != sscanf(devname, "%[^[][0x%xu]", skip, uid)) {
-        *uid = libxsmm_hash(devname, (unsigned int)strlen(devname), 25071975 /*seed*/);
+      if (0 == isdigit(*devname)) {
+        char skip[ACC_OPENCL_BUFFERSIZE];
+        if (2 != sscanf(devname, "%[^[][0x%xu]", skip, uid)) {
+          *uid = libxsmm_hash(devname, (unsigned int)strlen(devname), 25071975 /*seed*/);
+        }
       }
+      else *uid = (unsigned int)strtoul(devname, NULL, 0);
+      result = EXIT_SUCCESS;
     }
-    else *uid = 0;
-    result = EXIT_SUCCESS;
+    else {
+      result = EXIT_FAILURE;
+      *uid = 0;
+    }
   }
   else result = EXIT_FAILURE;
   ACC_OPENCL_RETURN(result);
@@ -860,8 +866,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
         }
         if (EXIT_SUCCESS == result) { /* update c_dbcsr_acc_opencl_config.devinfo */
           const char* const env_devmatch = getenv("ACC_OPENCL_DEVMATCH");
-          const unsigned int devmatch =
-            ((NULL == env_devmatch || '\0' == *env_devmatch) ? 1 : (unsigned int)strtoul(env_devmatch, NULL, 0));
+          unsigned int devmatch;
 #  if defined(ACC_OPENCL_SVM)
           const char* const env_svm = getenv("ACC_OPENCL_SVM");
           int level_major = 0;
@@ -870,6 +875,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
                                                                           NULL /*level_minor*/, NULL /*cl_std*/, NULL /*type*/) &&
                                                          2 <= level_major);
 #  endif
+          if (EXIT_SUCCESS != c_dbcsr_acc_opencl_devuid(env_devmatch, &devmatch)) devmatch = 1;
           if (CL_SUCCESS != clGetDeviceInfo(active_id, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool),
                               &c_dbcsr_acc_opencl_config.devinfo.unified, NULL))
           {

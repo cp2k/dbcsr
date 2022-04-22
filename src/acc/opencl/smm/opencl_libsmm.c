@@ -38,6 +38,9 @@
 #  if !defined(OPENCL_LIBSMM_VALIDATE_EXIT) && defined(OPENCL_LIBSMM_VALIDATE) && 1
 #    define OPENCL_LIBSMM_VALIDATE_EXIT
 #  endif
+#  if !defined(OPENCL_LIBSMM_DEVMATCH_PARAMFILE) && 0
+#    define OPENCL_LIBSMM_DEVMATCH_PARAMFILE
+#  endif
 #  if !defined(OPENCL_LIBSMM_KERNELNAME_TRANS)
 #    define OPENCL_LIBSMM_KERNELNAME_TRANS "trans"
 #  endif
@@ -181,28 +184,22 @@ int opencl_libsmm_write_smm_params(FILE* stream, int only_key, const opencl_libs
     if (NULL != config) {
       if (NULL != key) {
         result += fprintf(stream, "%i%c%i%c%i%c%i", (int)key->type, d, key->m, d, key->n, d, key->k);
-        if (0 == only_key) result += fprintf(stream, "%c", d);
+        if (0 == only_key) result += fprintf(stream, "%c ", d);
       }
       if (0 == only_key) {
-        result += fprintf(stream,
-          "%i%c%i%c%i%c%i%c%i"
-          "%c%i%c%i%c%i%c%i%c%i"
-          "%c%i%c%i%c%i%c%i%c%i",
-          config->bs, d, config->bm, d, config->bn, d, config->bk, d, config->ws, d, config->wg, d, config->lu, d, config->nz, d,
-          config->al, d, config->tb, d, config->tc, d, config->ap, d, config->aa, d, config->ab, d, config->ac);
+        result += fprintf(stream, "%i%c%i%c%i%c%i%c %i%c%i%c %i%c%i%c%i%c %i%c%i%c %i%c%i%c%i%c%i", config->bs, d, config->bm, d,
+          config->bn, d, config->bk, d, config->ws, d, config->wg, d, config->lu, d, config->nz, d, config->al, d, config->tb, d,
+          config->tc, d, config->ap, d, config->aa, d, config->ab, d, config->ac);
       }
     }
     else {
       if (NULL != key) {
         result += fprintf(stream, "t%cm%cn%ck", d, d, d);
-        if (0 == only_key) result += fprintf(stream, "%c", d);
+        if (0 == only_key) result += fprintf(stream, "%c ", d);
       }
       if (0 == only_key) {
-        result += fprintf(stream,
-          "bs%cbm%cbn%cbk%cws"
-          "%cwg%clu%cnz%cal%ctb"
-          "%ctc%cap%caa%cab%cac",
-          d, d, d, d, d, d, d, d, d, d, d, d, d, d);
+        result += fprintf(
+          stream, "bs%cbm%cbn%cbk%c ws%cwg%c lu%cnz%cal%c tb%ctc%c ap%caa%cab%cac", d, d, d, d, d, d, d, d, d, d, d, d, d, d);
       }
     }
     if (NULL != key || 0 == only_key) result += fprintf(stream, "%c", NULL == close ? '}' : *close);
@@ -444,8 +441,12 @@ int libsmm_acc_init(void) {
                 memset(&config, 0, sizeof(config));
                 if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(buffer, &key, &config, gflops, device)) {
                   opencl_libsmm_smm_t* config_init;
+#  if defined(OPENCL_LIBSMM_DEVMATCH_PARAMFILE)
                   if (NULL == device || 0 == c_dbcsr_acc_opencl_config.devinfo.devmatch ||
                       EXIT_SUCCESS != c_dbcsr_acc_opencl_devuid(device, &key.devuid))
+#  else
+                  c_dbcsr_acc_opencl_config.devinfo.devmatch = 0; /* disable device-match */
+#  endif
                   {
                     key.devuid = 0;
                   }
@@ -532,10 +533,10 @@ int libsmm_acc_init(void) {
             memset(&config, 0, sizeof(config));
             if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(env_params, &key, &config, NULL /*perfest*/, NULL /*device*/)) {
               key.devuid = 0;
-              /* override potentially existing config */
-              if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
-                result = EXIT_FAILURE;
+              if (NULL != OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) { /* override existing config */
+                c_dbcsr_acc_opencl_config.devinfo.devmatch = 0; /* disable device-match */
               }
+              else result = EXIT_FAILURE;
             }
             else if (0 != c_dbcsr_acc_opencl_config.verbosity) { /* soft-error */
               fprintf(stderr, "WARNING LIBSMM: failed to open parameter file!\n");
