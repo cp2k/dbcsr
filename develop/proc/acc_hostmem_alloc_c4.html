@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.3.0-rc0-18-gf4f2564955</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.3.0-rc1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -185,8 +185,11 @@
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">stream</span><span class="w"></span>
 <span class="cp">#if defined (__DBCSR_ACC)</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">host_mem_c_ptr</span><span class="w"></span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">n_bytes</span><span class="w"></span>
 
-<span class="w">         </span><span class="k">CALL </span><span class="n">acc_hostmem_alloc_raw</span><span class="p">(</span><span class="n">host_mem_c_ptr</span><span class="p">,</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">n_bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">)</span><span class="o">*</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                   </span><span class="nb">INT</span><span class="p">(</span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">acc_hostmem_alloc_raw</span><span class="p">(</span><span class="n">host_mem_c_ptr</span><span class="p">,</span><span class="w"> </span><span class="n">n_bytes</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span><span class="w"></span>
 <span class="w">         </span><span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">host_mem_c_ptr</span><span class="p">,</span><span class="w"> </span><span class="n">host_mem</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="p">))</span><span class="w"></span>
 <span class="cp">#else</span>
 <span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span><span class="w"></span>

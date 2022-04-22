@@ -136,7 +136,7 @@ CONTAINS
          !! distribution_2d distribution
       CHARACTER, INTENT(IN)                              :: matrix_type
          !! 'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER, &
+      INTEGER, DIMENSION(:), INTENT(INOUT), POINTER, &
          CONTIGUOUS, OPTIONAL                            :: row_blk_size, col_blk_size
       TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_size_obj, col_blk_size_obj
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
@@ -447,7 +447,7 @@ CONTAINS
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name
       TYPE(dbcsr_distribution_obj), INTENT(IN), OPTIONAL :: dist
       CHARACTER, INTENT(IN), OPTIONAL                    :: matrix_type
-      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
+      INTEGER, DIMENSION(:), INTENT(INOUT), OPTIONAL, &
          POINTER, CONTIGUOUS                             :: row_blk_size, col_blk_size
       TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_size_obj, col_blk_size_obj
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type

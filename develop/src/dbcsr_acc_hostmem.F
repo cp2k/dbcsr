@@ -86,9 +86,9 @@ CONTAINS
       !! Helper-routine performing allocation of host-pinned GPU memory.
 
       TYPE(C_PTR), INTENT(OUT)                           :: host_mem_c_ptr
-         !! pointer to allocated memory
-      INTEGER, INTENT(IN)                                :: n_bytes
-         !! number of bytes to allocate
+      !! pointer to allocated memory
+      INTEGER(KIND=C_SIZE_T), INTENT(IN)                 :: n_bytes
+      !! number of bytes to allocate
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
 
       INTEGER                                            :: istat
@@ -99,7 +99,7 @@ CONTAINS
 
       stream_cptr = acc_stream_cptr(stream)
 
-      istat = acc_interface_host_mem_alloc(host_mem_c_ptr, INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
+      istat = acc_interface_host_mem_alloc(host_mem_c_ptr, n_bytes, stream_cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_hostmem_alloc_raw: Could not allocate host pinned memory")
    END SUBROUTINE acc_hostmem_alloc_raw
@@ -128,9 +128,9 @@ CONTAINS
    END SUBROUTINE acc_hostmem_dealloc_raw
 #endif
 
-# 136 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 137 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
-# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_i4 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -142,8 +142,11 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*int_4_size, stream)
+         n_bytes = INT(int_4_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n), KIND=C_SIZE_T)
+         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
 #else
          MARK_USED(host_mem)
@@ -164,9 +167,10 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
-         INTEGER                                  :: n_bytes
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         n_bytes = MAX(1, n1)*MAX(1, n2)*int_4_size
+         n_bytes = INT(int_4_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
 #else
@@ -212,7 +216,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_i4_2D
 
-# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_i8 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -224,8 +228,11 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*int_8_size, stream)
+         n_bytes = INT(int_8_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n), KIND=C_SIZE_T)
+         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
 #else
          MARK_USED(host_mem)
@@ -246,9 +253,10 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
-         INTEGER                                  :: n_bytes
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         n_bytes = MAX(1, n1)*MAX(1, n2)*int_8_size
+         n_bytes = INT(int_8_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
 #else
@@ -294,7 +302,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_i8_2D
 
-# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_r4 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -306,8 +314,11 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*real_4_size, stream)
+         n_bytes = INT(real_4_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n), KIND=C_SIZE_T)
+         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
 #else
          MARK_USED(host_mem)
@@ -328,9 +339,10 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
-         INTEGER                                  :: n_bytes
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         n_bytes = MAX(1, n1)*MAX(1, n2)*real_4_size
+         n_bytes = INT(real_4_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
 #else
@@ -376,7 +388,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_r4_2D
 
-# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_r8 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -388,8 +400,11 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*real_8_size, stream)
+         n_bytes = INT(real_8_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n), KIND=C_SIZE_T)
+         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
 #else
          MARK_USED(host_mem)
@@ -410,9 +425,10 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
-         INTEGER                                  :: n_bytes
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         n_bytes = MAX(1, n1)*MAX(1, n2)*real_8_size
+         n_bytes = INT(real_8_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
 #else
@@ -458,7 +474,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_r8_2D
 
-# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_c4 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -470,8 +486,11 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*2*real_4_size, stream)
+         n_bytes = INT(2*real_4_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n), KIND=C_SIZE_T)
+         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
 #else
          MARK_USED(host_mem)
@@ -492,9 +511,10 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
-         INTEGER                                  :: n_bytes
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         n_bytes = MAX(1, n1)*MAX(1, n2)*2*real_4_size
+         n_bytes = INT(2*real_4_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
 #else
@@ -540,7 +560,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_c4_2D
 
-# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_c8 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -552,8 +572,11 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*2*real_8_size, stream)
+         n_bytes = INT(2*real_8_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n), KIND=C_SIZE_T)
+         CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
 #else
          MARK_USED(host_mem)
@@ -574,9 +597,10 @@ CONTAINS
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
          TYPE(C_PTR)                              :: host_mem_c_ptr
-         INTEGER                                  :: n_bytes
+         INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
-         n_bytes = MAX(1, n1)*MAX(1, n2)*2*real_8_size
+         n_bytes = INT(2*real_8_size, KIND=C_SIZE_T)* &
+                   INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
 #else
@@ -622,6 +646,6 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_c8_2D
 
-# 220 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 225 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
 END MODULE dbcsr_acc_hostmem
