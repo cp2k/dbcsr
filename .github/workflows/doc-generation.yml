@@ -38,6 +38,10 @@ jobs:
         cmake --build build -- doc
         touch build/doc/.nojekyll
 
+    - name: Configure git to trust the workspace despite the different owner
+      run:
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
     - name: Deploy Development Documentation
       if: github.repository == 'cp2k/dbcsr' && github.ref == 'refs/heads/develop'
       uses: JamesIves/github-pages-deploy-action@releases/v4
