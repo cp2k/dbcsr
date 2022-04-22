@@ -26,7 +26,7 @@ if [ ! -d "${HOME}/libxsmm" ]; then
 fi
 cd "${HOME}/libxsmm"
 git fetch
-git checkout e61787dc29d955e9530e8fd348f03029b5b49d28
+git checkout 1a10386117eb0d6771bcd512c1cd00860424477f
 make -j
 cd ..
 
@@ -38,8 +38,9 @@ mkdir -p "${SCRATCH}/${BUILD_TAG}.ocl"
 chmod 0775 "${SCRATCH}/${BUILD_TAG}.ocl"
 cd "${SCRATCH}/${BUILD_TAG}.ocl"
 
-# help CMake to find the OpenCL implementation
-export NVSDKCOMPUTE_ROOT=${CUDATOOLKIT_HOME}
+# CMake (older): find OpenCL implementation
+#export NVSDKCOMPUTE_ROOT=${CUDATOOLKIT_HOME}
+# CMake: find LIBXSMM (pkg-config)
 export PKG_CONFIG_PATH=${HOME}/libxsmm/lib:${PKG_CONFIG_PATH}
 
 cmake \

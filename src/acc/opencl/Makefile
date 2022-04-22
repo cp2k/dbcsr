@@ -210,8 +210,8 @@ $(MAKDIR)/test-smm.log: bench
 	$(eval SHAPES = $(shell $(ACCDIR)/acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
 	$(eval DEVICE = "$(shell LIBXSMM_VERBOSE=0 ACC_OPENCL_VERBOSE=1 CHECK=0 $(ACCDIR)/acc_bench_smm 1 1 1 2>&1 >/dev/null)")
 	$(eval WITH_GPU = $(firstword $(foreach GPU,$(WITH_GPUS),$(findstring $(GPU),$(DEVICE)))))
-	$(eval PARAMS = $(firstword $(wildcard $(PARAMDIR)/tune_multiply_*$(WITH_GPU).csv)))
-	$(eval GPUENV = $(if $(PARAMS),$(if $(OPENCL_LIBSMM_SMM_PARAMS),$(NULL),OPENCL_LIBSMM_SMM_PARAMS=$(PARAMS))))
+	$(eval PARAMS = $(firstword $(wildcard $(PARAMDIR)/tune_multiply_$(WITH_GPU).csv)))
+	$(eval GPUENV = $(if $(PARAMS)$(OPENCL_LIBSMM_SMM_PARAMS),OPENCL_LIBSMM_SMM_PARAMS=$(if $(PARAMS),$(PARAMS),$(OPENCL_LIBSMM_SMM_PARAMS))))
 	@echo "--- DBCSR OpenCL SMMs ($(words $(SHAPES)))"
 	@echo "$(DEVICE)"
 	@if [ "$(GPUENV)" ]; then echo "$(GPUENV)"; fi
