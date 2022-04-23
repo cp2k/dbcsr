@@ -426,6 +426,11 @@ int libsmm_acc_init(void) {
       }
       if (NULL == env_params || '0' != *env_params) {
         char buffer[ACC_OPENCL_BUFFERSIZE], bufname[ACC_OPENCL_BUFFERSIZE], control = '0';
+#  if defined(OPENCL_LIBSMM_DEVICES)
+        const int ndevices = (int)(sizeof(OPENCL_LIBSMM_DEVICES) / sizeof(*OPENCL_LIBSMM_DEVICES));
+#  else
+        const int ndevices = 0;
+#  endif
         opencl_libsmm_smm_t config;
         opencl_libsmm_smmkey_t key;
         unsigned int ntuned = 0;
@@ -480,8 +485,6 @@ int libsmm_acc_init(void) {
         }
 #  if defined(OPENCL_LIBSMM_PARAMS_SMM)
         if (EXIT_SUCCESS == result && '1' != control) {
-          const int ndevices =
-            (NULL != OPENCL_LIBSMM_DEVICES ? (int)(sizeof(OPENCL_LIBSMM_DEVICES) / sizeof(*OPENCL_LIBSMM_DEVICES)) : 0);
           const char *line = OPENCL_LIBSMM_PARAMS_SMM, *next;
           do {
             next = strchr(line, '\n');
@@ -526,7 +529,8 @@ int libsmm_acc_init(void) {
         if (EXIT_SUCCESS == result) {
           if ('2' != control) {
             if (0 != c_dbcsr_acc_opencl_config.verbosity && 0 != ntuned) {
-              fprintf(stderr, "INFO ACC/OpenCL: %u %s of tuned parameters loaded\n", ntuned, 1 < ntuned ? "sets" : "set");
+              fprintf(stderr, "INFO ACC/OpenCL: %u set%s of tuned parameters targeting %i device%s loaded\n", ntuned,
+                1 != ntuned ? "s" : "", ndevices, 1 != ndevices ? "s" : "");
             }
           }
           else { /* attempt to interpret value of OPENCL_LIBSMM_SMM_PARAMS-variable as kernel parameters (not device-specific) */
@@ -541,6 +545,10 @@ int libsmm_acc_init(void) {
             else if (0 != c_dbcsr_acc_opencl_config.verbosity) { /* soft-error */
               fprintf(stderr, "WARNING LIBSMM: failed to open parameter file!\n");
             }
+          }
+          if (0 != c_dbcsr_acc_opencl_config.verbosity && EXIT_SUCCESS == result && (0 != ntuned || '2' == control)) {
+            fprintf(
+              stderr, "INFO ACC/OpenCL: device-match %sabled\n", 0 != c_dbcsr_acc_opencl_config.devinfo.devmatch ? "en" : "dis");
           }
         }
       }
