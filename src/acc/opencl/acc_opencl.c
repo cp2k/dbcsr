@@ -593,7 +593,7 @@ int c_dbcsr_acc_opencl_device(int thread_id, cl_device_id* device) {
     else *device = NULL;
   }
   else *device = NULL;
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -624,7 +624,7 @@ int c_dbcsr_acc_opencl_device_id(cl_device_id device, int* device_id, int* globa
     if (NULL != global_id) *global_id = -1;
     if (NULL != device) result = EXIT_FAILURE;
   }
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -635,11 +635,9 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]) {
   ACC_OPENCL_CHECK(
     clGetDeviceInfo(device, CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL), "retrieve device vendor", result);
   if (EXIT_SUCCESS == result) {
-    return (NULL != c_dbcsr_acc_opencl_stristr(buffer, vendor) ? EXIT_SUCCESS : EXIT_FAILURE);
+    result = (NULL != c_dbcsr_acc_opencl_stristr(buffer, vendor) ? EXIT_SUCCESS : EXIT_FAILURE);
   }
-  else {
-    ACC_OPENCL_RETURN(result);
-  }
+  return result;
 }
 
 
@@ -649,12 +647,9 @@ int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char match[]) {
   assert(NULL != device && NULL != match);
   ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL), "retrieve device name", result);
   if (EXIT_SUCCESS == result) {
-    const char* const p = c_dbcsr_acc_opencl_stristr(buffer, match);
-    return (NULL != p ? EXIT_SUCCESS : EXIT_FAILURE);
+    result = (NULL != c_dbcsr_acc_opencl_stristr(buffer, match) ? EXIT_SUCCESS : EXIT_FAILURE);
   }
-  else {
-    ACC_OPENCL_RETURN(result);
-  }
+  return result;
 }
 
 
@@ -677,7 +672,7 @@ int c_dbcsr_acc_opencl_devuid(const char devname[], unsigned int* uid) {
     }
   }
   else result = EXIT_FAILURE;
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -688,7 +683,7 @@ int c_dbcsr_acc_opencl_device_uid(cl_device_id device, unsigned int* uid) {
   if (CL_SUCCESS == result) {
     result = c_dbcsr_acc_opencl_devuid(buffer, uid);
   }
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -771,7 +766,7 @@ int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char* const extname
       }
     } while (0 < num_exts);
   }
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -825,7 +820,7 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id active_id) {
                       "                    SMI must be used to enable sharing the device.\n");
     }
   }
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -905,7 +900,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
     }
     else result = EXIT_FAILURE;
   }
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -945,7 +940,7 @@ int c_dbcsr_acc_opencl_device_synchronize(int thread_id) {
       else break;
     }
   }
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -1006,7 +1001,7 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max
 #  endif
     }
   }
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
@@ -1240,7 +1235,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], con
   if (EXIT_SUCCESS != result) *kernel = NULL;
 #  endif
   if (NULL != try_ok) *try_ok = result | ok;
-  ACC_OPENCL_RETURN_CAUSE(result, buffer);
+  return result;
 }
 
 #  if defined(__cplusplus)
