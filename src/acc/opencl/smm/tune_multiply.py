@@ -352,7 +352,7 @@ class SmmTuner(MeasurementInterface):
                         data["AL"] if "AL" in data else 0,
                         data["TB"] if "TB" in data else 0,
                         data["TC"] if "TC" in data else 1,
-                        data["AP"] if "AP" in data else 1,
+                        data["AP"] if "AP" in data else 0,
                         data["AA"] if "AA" in data else 1,
                         data["AB"] if "AB" in data else 3,
                         data["AC"] if "AC" in data else 0,
@@ -666,7 +666,7 @@ if __name__ == "__main__":
         "-ap",
         "--initial-ap",
         type=int,
-        default=env_value("OPENCL_LIBSMM_SMM_AP", "1"),
+        default=env_value("OPENCL_LIBSMM_SMM_AP", "0"),
         dest="ap",
         help="Params: global (0), shared (1)",
     )

@@ -56,15 +56,28 @@
 #  if !defined(OPENCL_LIBSMM_CMEM) && 1
 #    define OPENCL_LIBSMM_CMEM
 #  endif
-/* default: decompose C-matrix into column-vectors (Mx1) */
+/* default: decompose C-matrix into column-vectors (BMxBN) */
 #  if !defined(OPENCL_LIBSMM_DEFAULT_BM)
 #    define OPENCL_LIBSMM_DEFAULT_BM INT_MAX
 #  endif
 #  if !defined(OPENCL_LIBSMM_DEFAULT_BN)
 #    define OPENCL_LIBSMM_DEFAULT_BN 1
 #  endif
+#  if !defined(OPENCL_LIBSMM_DEFAULT_BK)
+#    if 1
+#      define OPENCL_LIBSMM_DEFAULT_BK INT_MAX
+#    else
+#      define OPENCL_LIBSMM_DEFAULT_BK 1
+#    endif
+#  endif
 #  if !defined(OPENCL_LIBSMM_DEFAULT_BS)
 #    define OPENCL_LIBSMM_DEFAULT_BS 8
+#  endif
+#  if !defined(OPENCL_LIBSMM_BS_MIN) && 1
+#    define OPENCL_LIBSMM_BS_MIN 32
+#  endif
+#  if !defined(OPENCL_LIBSMM_SMM_S)
+#    define OPENCL_LIBSMM_SMM_S 64
 #  endif
 #  if !defined(OPENCL_LIBSMM_VLEN)
 #    define OPENCL_LIBSMM_VLEN 32
@@ -1084,7 +1097,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
     if (CL_SUCCESS == result) {
       static volatile int locks[OPENCL_LIBSMM_NLOCKS_SMM]; /* OpenCL is thread-safe except for clSetKernelArg */
       const char *const env_s = getenv("OPENCL_LIBSMM_SMM_S"), *const env_bs = getenv("OPENCL_LIBSMM_SMM_BS");
-      const int s = ((NULL == env_s || '\0' == *env_s) ? /*default*/ 64 : atoi(env_s));
+      const int s = ((NULL == env_s || '\0' == *env_s) ? OPENCL_LIBSMM_SMM_S : atoi(env_s));
       int kernel_idx = 0, bs = ((NULL == env_bs || '\0' == *env_bs) ? 0 : atoi(env_bs));
       opencl_libsmm_smm_t* config;
       volatile int* lock = locks;
@@ -1200,8 +1213,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               const int default_aa = ((0x0bd5 != devid) ? ((k_max % OPENCL_LIBSMM_VMIN) ? 1 : 2) : 0);
               const int default_ab = ((0x0bd5 != devid && 0x020a != devid) ? 3 : 0);
               const int default_ac = ((0x0bd5 != devid) ? 0 : ((n_max % OPENCL_LIBSMM_VMIN) ? 1 : 2));
-              const int default_bk =
-                ((0x0bd5 != devid && 0x020a != devid) ? (0 == kernel_idx ? m_max : MIN(OPENCL_LIBSMM_VMIN, m_max)) : 1);
+              const int default_bk = ((0x0bd5 != devid && 0x020a != devid)
+                                        ? (0 == kernel_idx ? MIN(OPENCL_LIBSMM_DEFAULT_BK, m_max) : MIN(OPENCL_LIBSMM_VMIN, m_max))
+                                        : 1);
               const int default_wg = ((0x0bd5 != devid) ? (0 == kernel_idx ? 0 : -2) : -1);
               int nbm, nbn;
               /* two defaults for new_config parameters: 1st - regular, 2nd - BS=1 kernel */
@@ -1240,10 +1254,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                              ? (0 == kernel_idx ? (NULL == config ? /*default*/ 1 : config->tc) : /*default*/ 1)
                                              : atoi(env_tc),
                 0, 1);
-              new_config.ap = LIBXSMM_CLMP(
-                (NULL == env_ap || '\0' == *env_ap)
-                  ? (0 == kernel_idx ? (NULL == config ? /*default*/ (0 != devid ? 0 : 1) : config->ap) : /*default*/ 0)
-                  : atoi(env_ap),
+              new_config.ap = LIBXSMM_CLMP((NULL == env_ap || '\0' == *env_ap)
+                                             ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->ap) : /*default*/ 0)
+                                             : atoi(env_ap),
                 0, 1);
               new_config.aa = LIBXSMM_CLMP(
                 (NULL == env_aa || '\0' == *env_aa)
@@ -1601,11 +1614,17 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         }
         else result = EXIT_FAILURE;
 #    endif
+        /* scale intra-kernel batchsize according to stacksize */
         if (0 == kernel_idx && 1 < config->bs && stack_size < config->s) {
-          bs = (stack_size * config->bs + config->s - 1) / (config->s - 1);
+#    if defined(OPENCL_LIBSMM_BS_MIN)
+          const int config_bs = MAX(config->bs, OPENCL_LIBSMM_BS_MIN);
+#    else
+          const int config_bs = config->bs;
+#    endif
+          bs = (stack_size * config_bs + config->s - 1) / (config->s - 1);
           if (config->bs < bs) bs = config->bs;
         }
-        /* adjust overall stacksize according to intra-kernel batchsize */
+        /* adjust launchsize according to intra-kernel batchsize */
         work_size = ((stack_size + bs - 1) / bs) * config->wgsize[kernel_idx];
         /* calling clSetKernelArg must be consistent across host-threads */
         ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 0, sizeof(cl_mem), ACC_OPENCL_MEM(dev_c_data)),
