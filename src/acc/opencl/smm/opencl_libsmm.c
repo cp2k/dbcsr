@@ -496,7 +496,7 @@ int libsmm_acc_init(void) {
           }
           else control = '2';
         }
-#  if defined(OPENCL_LIBSMM_PARAMS_SMM)
+#  if defined(OPENCL_LIBSMM_PARAMS_SMM) && defined(OPENCL_LIBSMM_DEVICES)
         if (EXIT_SUCCESS == result && '1' != control) {
           const char *line = OPENCL_LIBSMM_PARAMS_SMM, *next;
           do {
@@ -540,18 +540,13 @@ int libsmm_acc_init(void) {
         }
 #  endif
         if (EXIT_SUCCESS == result) {
-          if ('2' != control) {
-            if (0 != c_dbcsr_acc_opencl_config.verbosity && 0 != ntuned) {
-              fprintf(stderr, "INFO ACC/OpenCL: %u set%s of tuned parameters targeting %i device%s loaded\n", ntuned,
-                1 != ntuned ? "s" : "", ndevices, 1 != ndevices ? "s" : "");
-            }
-          }
-          else { /* attempt to interpret value of OPENCL_LIBSMM_SMM_PARAMS-variable as kernel parameters (not device-specific) */
+          if ('2' == control) { /* try interpreting OPENCL_LIBSMM_SMM_PARAMS as kernel parameters (not device-specific) */
             memset(&config, 0, sizeof(config));
             if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(env_params, &key, &config, NULL /*perfest*/, NULL /*device*/)) {
               key.devuid = 0;
-              if (NULL != OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) { /* override existing config */
+              if (NULL != OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
                 c_dbcsr_acc_opencl_config.devinfo.devmatch = 0; /* disable device-match */
+                ntuned = MAX(ntuned, 1); /* no destinction of overridden or new */
               }
               else result = EXIT_FAILURE;
             }
@@ -559,10 +554,23 @@ int libsmm_acc_init(void) {
               fprintf(stderr, "WARNING LIBSMM: failed to open parameter file!\n");
             }
           }
-          if (0 != c_dbcsr_acc_opencl_config.verbosity && EXIT_SUCCESS == result && (0 != ntuned || '2' == control)) {
-            fprintf(
-              stderr, "INFO ACC/OpenCL: device-match %sabled\n", 0 != c_dbcsr_acc_opencl_config.devinfo.devmatch ? "en" : "dis");
+#  if defined(OPENCL_LIBSMM_DEVICES)
+          if (0 != c_dbcsr_acc_opencl_config.verbosity && 0 != ntuned) {
+            fprintf(stderr, "INFO ACC/OpenCL: %u set%s of tuned parameters loaded targeting ", ntuned, 1 != ntuned ? "s" : "");
+            if (0 != c_dbcsr_acc_opencl_config.devinfo.devmatch) {
+              fprintf(stderr, "%i device%s\n", ndevices, 1 != ndevices ? "s" : "");
+              if (1 < c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+                unsigned int devuid, i = 0;
+                for (; i < (unsigned int)ndevices; ++i) {
+                  if (EXIT_SUCCESS == c_dbcsr_acc_opencl_devuid(OPENCL_LIBSMM_DEVICES[i], &devuid)) {
+                    fprintf(stderr, "INFO ACC/OpenCL: 0x%08X - \"%s\"\n", devuid, OPENCL_LIBSMM_DEVICES[i]);
+                  }
+                }
+              }
+            }
+            else fprintf(stderr, "any device\n");
           }
+#  endif
         }
       }
       if (0 != suitable && EXIT_SUCCESS == result) {
