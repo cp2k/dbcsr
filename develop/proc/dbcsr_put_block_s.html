@@ -131,59 +131,59 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix~223"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~305"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-row~83"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~113"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>the logical row
 the logical column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-col~49"></span>integer,</td>
+  <td><span class="anchor" id="variable-col~63"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>col</strong></td><td><p>the logical row
 the logical column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-block~138"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-block~164"></span>real(kind=real_4),</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to put</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-lb_row_col~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb_row_col~6"></span>integer,</td>
 <td>intent(inout),</td>
   <td>optional</td>  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb_row_col</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-transposed~32"></span>logical,</td>
+  <td><span class="anchor" id="variable-transposed~56"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>transposed</strong></td><td><p>the block is transposed
 if block exists, then sum the new block to the old one instead of replacing it</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-summation~39"></span>logical,</td>
+  <td><span class="anchor" id="variable-summation~47"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>summation</strong></td><td><p>the block is transposed
 if block exists, then sum the new block to the old one instead of replacing it</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~25"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~26"></span>integer(kind=int_8),</td>
 <td>intent(inout),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-scale~34"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-scale~39"></span>real(kind=real_4),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>scale</strong></td><td><p>scale the OBblock being added</p></td>
