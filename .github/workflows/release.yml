@@ -27,6 +27,10 @@ jobs:
           -DMPI_EXECUTABLE_SUFFIX=.mpich \
           ..
 
+    - name: Configure git to trust the workspace despite the different owner
+      run:
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
     - name: Build Release Asset
       run: cmake --build build -- dist
 
