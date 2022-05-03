@@ -33,6 +33,7 @@
 
 #if defined(__LIBXSMM)
 #  include <libxsmm.h>
+#  include <libxsmm_sync.h>
 #else
 /* OpenCL backend depends on LIBXSMM */
 #  include <libxsmm_source.h>
@@ -48,6 +49,7 @@
 #if !defined(NDEBUG)
 #  include <assert.h>
 #endif
+#include <stdlib.h>
 #include <stdio.h>
 
 #if !defined(ACC_OPENCL_CACHELINE_NBYTES)
@@ -88,9 +90,6 @@
 #if !defined(ACC_OPENCL_LAZYINIT) && (defined(__DBCSR_ACC) || 1)
 #  define ACC_OPENCL_LAZYINIT
 #endif
-#if !defined(ACC_OPENCL_DEBUG) && (defined(_DEBUG) || 0)
-#  define ACC_OPENCL_DEBUG
-#endif
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 0
 #  if defined(CL_QUEUE_PRIORITY_KHR)
 #    define ACC_OPENCL_STREAM_PRIORITIES
@@ -102,9 +101,6 @@
 #  if defined(CL_VERSION_2_0)
 #    define ACC_OPENCL_SVM
 #  endif
-#endif
-#if !defined(ACC_OPENCL_DEVMATCH) && 0
-#  define ACC_OPENCL_DEVMATCH
 #endif
 #if !defined(ACC_OPENCL_PROFILE) && 0
 #  define ACC_OPENCL_PROFILE
@@ -132,23 +128,14 @@
 #  define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
 #endif
 
-#if defined(ACC_OPENCL_DEBUG)
-#  define ACC_OPENCL_DEBUG_FPRINTF(STREAM, ...) fprintf(STREAM, __VA_ARGS__)
-#  define ACC_OPENCL_DEBUG_IF(CONDITION) if (CONDITION)
-#  define ACC_OPENCL_DEBUG_ELSE else
-#else
-#  define ACC_OPENCL_DEBUG_FPRINTF(STREAM, ...)
-#  define ACC_OPENCL_DEBUG_IF(CONDITION)
-#  define ACC_OPENCL_DEBUG_ELSE
-#endif
-
 #if defined(_OPENMP)
+#  include <omp.h>
 #  define ACC_OPENCL_OMP_TID() omp_get_thread_num()
 #else
 #  define ACC_OPENCL_OMP_TID() (/*master*/ 0)
 #endif
 
-#if !defined(NDEBUG) || defined(ACC_OPENCL_DEBUG)
+#if !defined(NDEBUG)
 #  define ACC_OPENCL_EXPECT(EXPECTED, EXPR) assert((EXPECTED) == (EXPR))
 #  define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) \
     do { \
@@ -195,7 +182,7 @@
     LIBXSMM_UNUSED(CAUSE); \
     return RESULT
 #endif
-#define ACC_OPENCL_RETURN(RESULT) ACC_OPENCL_RETURN_CAUSE(RESULT, NULL)
+#define ACC_OPENCL_RETURN(RESULT) ACC_OPENCL_RETURN_CAUSE(RESULT, "")
 
 
 #if defined(__cplusplus)
@@ -243,10 +230,12 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_int ndevices;
   /** Maximum number of threads (omp_get_max_threads). */
   cl_int nthreads;
-  /** Asynchronous memory operations. */
-  cl_int async;
   /** How to apply/use stream priorities. */
   cl_int priority;
+  /** Determines how device-side buffers are zeroed. */
+  cl_int nullify;
+  /** Asynchronous memory operations. */
+  cl_int async;
   /** Flush level. */
   cl_int flush;
   /** Dump level. */
@@ -279,6 +268,8 @@ const int* c_dbcsr_acc_opencl_stream_priority(const void* stream);
 
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
+/** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
+const char* c_dbcsr_acc_opencl_stristr(const char a[], const char b[]);
 /** Amount of device memory; local memory is only non-zero if separate from global. */
 int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t* mem_total, size_t* mem_local, int* mem_unified);
 /** Get device associated with thread-ID. */

@@ -18,7 +18,7 @@ if [ "" = "${SED}" ]; then
   SED=$(command -v sed)
 fi
 
-if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT}" ]; then
+if [ "${XARGS}" ] && [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT}" ]; then
   LINES=0
   while test $# -gt 0; do
     case "$1" in
@@ -33,7 +33,7 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
       BOUNDU=$3
       shift 3;;
     -m|--limit)
-      LIMIT=$2
+      MAXEXT=$2
       shift 2;;
     -n|--triplets)
       MAXNUM=$2
@@ -89,9 +89,9 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
   if [[ "${TRIPLETS}" && (! "${HELP}" || "0" = "${HELP}") ]]; then
     for SPECS in $(echo "${TRIPLETS}" | ${SED} -e "s/[[:space:]][[:space:]]*/x/g" -e "s/,/ /g"); do
       SPEC=$(echo "${SPECS}" | ${SED} -e "s/^x//g" -e "s/x$//g" -e "s/x/,/g")
-      if [ "${LIMIT}" ] && [ "0" != "$((0<LIMIT))" ]; then
+      if [ "${MAXEXT}" ] && [ "0" != "$((0<MAXEXT))" ]; then
         for EXT in $(echo "${SPEC}" | ${SED} "s/,/ /g"); do
-          if [ "0" != "$((LIMIT<EXT))" ]; then continue 2; fi
+          if [ "0" != "$((MAXEXT<EXT))" ]; then continue 2; fi
         done
       fi
       MNKS="${MNKS} $(eval printf "%s" "{${SPEC}}x{${SPEC}}x{${SPEC}}\" \"" | ${SED} -e "s/{//g" -e "s/}//g")"
@@ -112,10 +112,10 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
         fi
       fi
       if [ "${CUTSEL}" ]; then
-        MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${CUT} -dx ${CUTSEL} | ${SORT} -u -n -tx -k1 -k2 -k3 | \
+        MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${CUT} -dx ${CUTSEL} | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3 | \
           if [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then ${HEAD} -n"${MAXNUM}"; else cat; fi)
       else
-        MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${SORT} -u -n -tx -k1 -k2 -k3 | \
+        MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3 | \
           if [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then ${HEAD} -n"${MAXNUM}"; else cat; fi)
       fi
       if [ "0" = "${LINES}" ]; then

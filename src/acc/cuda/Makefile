@@ -160,11 +160,6 @@ ifneq (,$(CUDA_PATH))
   CFLAGS += -I$(CUDA_PATH)/include
 endif
 
-CXXLIBDIR := $(dir $(call which,$(CXX)))/../lib64
-ifneq (,$(wildcard $(CXXLIBDIR)))
-  LDFLAGS += -Wl,-rpath=$(abspath $(CXXLIBDIR))
-endif
-
 LDFLAGS += -lcudart -lcublas -lnvrtc -lcuda
 CXXFLAGS += -std=c++11 $(CFLAGS)
 

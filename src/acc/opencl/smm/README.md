@@ -6,15 +6,7 @@ The LIBSMM library implements the [ACC LIBSMM interface](https://github.com/cp2k
 
 ## Customization
 
-### Compile-time Settings
-
-Compile-time settings are (implicitly) documented and can be adjusted by editing [opencl_libsmm.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h) (adjusting the build-line as per `-D` is possible as well but less convenient). For example, `OPENCL_LIBSMM_F32` is enabled by default but can be disabled, or `OPENCL_LIBSMM_VALIDATE` (which is disabled by default) can be enabled for debug purpose.
-
-The `OPENCL_LIBSMM_VALIDATE` compile-time setting enables side-by-side validation of matrix transpose and multiply operations on GPU against a built-in CPU implementation. For example, running DBCSR's unit tests with this setting produces console output to pin-point a kernel causing validation errors.
-
-### Runtime Settings
-
-Runtime settings are made by the means of environment variables. The OpenCL backend provides `acc_getenv.sh` to list all occurrences of `getenv` categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:
+Compile-time settings are (implicitly) documented and can be adjusted by editing [opencl_libsmm.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h), e.g., `OPENCL_LIBSMM_VALIDATE` is disabled by default but can be enabled for debug purpose. The `OPENCL_LIBSMM_VALIDATE` compile-time setting enables side-by-side validation of matrix transpose and multiply operations on GPU against a built-in CPU implementation. For example, running DBCSR's unit tests with `OPENCL_LIBSMM_VALIDATE` enabled produce console output that allows to pin-point a kernel which is causing errors (validation). Runtime settings are made by the means of environment variables. The OpenCL backend provides `acc_getenv.sh` to list all occurrences of `getenv` categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:
 
 * `ACC_OPENCL_DEVSPLIT`: integer enabling devices to be split into subdevices (non-zero/default: subdevices, zero: aggregated).
 * `ACC_OPENCL_DEVTYPE`: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).
@@ -23,8 +15,7 @@ Runtime settings are made by the means of environment variables. The OpenCL back
 * `ACC_OPENCL_VERBOSE`: verbosity level (integer) with console output on `stderr`.
     * `ACC_OPENCL_VERBOSE=1`: outputs the number of devices found and the name of the selected device.
     * `ACC_OPENCL_VERBOSE=2`: outputs the duration needed to generate a requested kernel.
-    * `ACC_OPENCL_VERBOSE=3`: outputs device-side measured performance of kernels (geometric mean).
-    * `ACC_OPENCL_VERBOSE=4`: outputs device-side performance of kernels (every launch profiled).
+    * `ACC_OPENCL_VERBOSE=3`: outputs device-side performance of kernels (every launch profiled).
 * `ACC_OPENCL_DUMP`: dump preprocessed kernel source code (1) or dump compiled OpenCL kernels (2).
     * `ACC_OPENCL_DUMP=1`: dump preprocessed kernel source code and use it for JIT compilation. Instantiates the original source code using preprocessor definitions (`-D`) and collapses the code accordingly.
     * `ACC_OPENCL_DUMP=2`: dump compiled OpenCL kernels (depends on OpenCL implementation), e.g., PTX code on Nvidia.

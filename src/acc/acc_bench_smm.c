@@ -14,6 +14,10 @@
 
 #if defined(__LIBXSMM)
 #  include <libxsmm.h>
+#  if !defined(LIBXSMM_VERSION_NUMBER)
+#    define LIBXSMM_VERSION_NUMBER \
+      LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
+#  endif
 #  define USE_LIBXSMM
 #  if defined(_OPENMP)
 #    define ACC_BENCH_USEOMP(FUNC) LIBXSMM_USEOMP(FUNC)
@@ -204,9 +208,7 @@ int main(int argc, char* argv[]) {
         for (i = 0; i < NRAND; ++i) rnd[i] = rand();
         parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);
       }
-      else {
-        result = EXIT_FAILURE;
-      }
+      else result = EXIT_FAILURE;
     }
   }
   else {
@@ -260,17 +262,11 @@ int main(int argc, char* argv[]) {
             na = (0 < ina ? ina : (10 * nc));
             nb = (0 < inb ? inb : (10 * nc));
             s = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
-            if (s < nbytes) {
-              ++stack_size;
-            }
-            else {
-              break;
-            }
+            if (s < nbytes) ++stack_size;
+            else break;
           }
         }
-        else {
-          stack_size = (int)nelems;
-        }
+        else stack_size = (int)nelems;
       }
     }
     else { /* parse SMM_BATCHSIZE=batchsize,nrepfactor */
@@ -288,9 +284,7 @@ int main(int argc, char* argv[]) {
         stack_size = (r % limit + 1) * BATCHGRAIN;
         nrepeat = MAX((BATCHSIZE * nrepeat + stack_size - 1) / stack_size, NREPEAT);
       }
-      else { /* plain default */
-        stack_size = BATCHSIZE;
-      }
+      else stack_size = BATCHSIZE; /* plain default */
     }
     nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
     na = (0 < ina ? ina : (10 * nc));
@@ -438,6 +432,7 @@ int main(int argc, char* argv[]) {
           /* transfer result from device to host for validation */
           CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result);
           CHECK(c_dbcsr_acc_stream_sync(stream), &result);
+#    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
           if (EXIT_SUCCESS == result) {
             libxsmm_matdiff_info diff;
             /* validate result buffers at once (including excess/padded space) */
@@ -460,6 +455,7 @@ int main(int argc, char* argv[]) {
               if (0 < check && check < relerror) result = EXIT_FAILURE;
             }
           }
+#    endif
         }
       }
       libxsmm_free(gold_hst);
@@ -483,9 +479,7 @@ int main(int argc, char* argv[]) {
       if (NULL != file) {
         printf("\n");
       }
-      else {
-        break;
-      }
+      else break;
     }
   }
   free(rnd); /* release array of random numbers */

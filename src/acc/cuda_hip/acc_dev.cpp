@@ -36,9 +36,8 @@ extern "C" int c_dbcsr_acc_device_synchronize() {
 
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_set_active_device(int device_id) {
-  int myDevice, runtimeVersion;
+  int myDevice;
 
-  ACC_API_CALL(RuntimeGetVersion, (&runtimeVersion));
   ACC_API_CALL(SetDevice, (device_id));
   ACC_API_CALL(GetDevice, (&myDevice));
 

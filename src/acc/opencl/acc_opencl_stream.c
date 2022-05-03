@@ -8,13 +8,7 @@
 /*------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
-#  include <libxsmm_sync.h>
-#  include <stdlib.h>
 #  include <string.h>
-#  include <assert.h>
-#  if defined(_OPENMP)
-#    include <omp.h>
-#  endif
 
 #  if defined(CL_VERSION_2_0)
 #    define ACC_OPENCL_CREATE_COMMAND_QUEUE(CTX, DEV, PROPS, RESULT) clCreateCommandQueueWithProperties(CTX, DEV, PROPS, RESULT)
@@ -110,7 +104,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
         least != greatest)
     {
       properties[3] = (0 != (2 & c_dbcsr_acc_opencl_config.priority) &&
-                        (NULL != libxsmm_stristr(name, "calc") || (NULL != strstr(name, "priority"))))
+                        (NULL != c_dbcsr_acc_opencl_stristr(name, "calc") || (NULL != strstr(name, "priority"))))
                         ? CL_QUEUE_PRIORITY_HIGH_KHR
                         : CL_QUEUE_PRIORITY_MED_KHR;
     }
@@ -126,12 +120,6 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
 #  endif
   if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
     properties[1] = CL_QUEUE_PROFILING_ENABLE;
-  }
-  ACC_OPENCL_DEBUG_IF(NULL == c_dbcsr_acc_opencl_config.contexts || NULL == c_dbcsr_acc_opencl_config.contexts[/*master*/ 0]) {
-    ACC_OPENCL_DEBUG_FPRINTF(stderr,
-      "ERROR ACC/OpenCL: "
-      "pid=%u not initialized!\n",
-      libxsmm_get_pid());
   }
 #  if defined(_OPENMP)
   if (1 < omp_get_num_threads()) {
@@ -184,9 +172,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
               stream = *ACC_OPENCL_STREAM(c_dbcsr_acc_opencl_config.streams[i]);
               result = clRetainCommandQueue(stream);
             }
-            else {
-              break;
-            }
+            else break;
           }
         }
         if (EXIT_SUCCESS == result) queue = stream;
@@ -236,14 +222,6 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
       clReleaseCommandQueue(queue);
       result = EXIT_FAILURE;
       *stream_p = NULL;
-    }
-    ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS == result) {
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, "INFO ACC/OpenCL: create stream \"%s\" (tid=%i", NULL != name ? name : "unknown", tid);
-#  if defined(ACC_OPENCL_STREAM_PRIORITIES)
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, ", priority=%i [%i->%i->%i]", priority, CL_QUEUE_PRIORITY_LOW_KHR, CL_QUEUE_PRIORITY_MED_KHR,
-        CL_QUEUE_PRIORITY_HIGH_KHR);
-#  endif
-      ACC_OPENCL_DEBUG_FPRINTF(stderr, ").\n");
     }
   }
   else {
@@ -364,10 +342,6 @@ int c_dbcsr_acc_stream_sync(void* stream) {
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
   assert(NULL != stream);
-  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-    ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                     "c_dbcsr_acc_stream_sync called by foreign thread!\n");
-  }
 #  if defined(ACC_OPENCL_STREAM_PRIORITIES)
   if (NULL != priority && CL_QUEUE_PRIORITY_HIGH_KHR <= *priority && CL_QUEUE_PRIORITY_MED_KHR > *priority) {
     if (0 != (2 & c_dbcsr_acc_opencl_config.flush)) {

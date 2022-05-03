@@ -8,11 +8,6 @@
 /*------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
-#  include <stdlib.h>
-#  include <assert.h>
-#  if defined(_OPENMP)
-#    include <omp.h>
-#  endif
 
 #  if defined(CL_VERSION_1_2)
 #    define ACC_OPENCL_WAIT_EVENT(QUEUE, EVENT) clEnqueueMarkerWithWaitList(QUEUE, 1, EVENT, NULL)
@@ -151,10 +146,6 @@ int c_dbcsr_acc_stream_wait_event(void* stream, void* event) { /* wait for an ev
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
   assert(NULL != stream && NULL != event);
-  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-    ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                     "c_dbcsr_acc_stream_wait_event called by foreign thread!\n");
-  }
   clevent = *ACC_OPENCL_EVENT(event);
 #  if defined(ACC_OPENCL_EVENT_CREATE)
   assert(NULL != clevent);
@@ -181,10 +172,6 @@ int c_dbcsr_acc_event_record(void* event, void* stream) {
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
   assert(NULL != event && NULL != stream);
-  ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS != c_dbcsr_acc_opencl_stream_is_thread_specific(ACC_OPENCL_OMP_TID(), stream)) {
-    ACC_OPENCL_DEBUG_FPRINTF(stderr, "WARNING ACC/OpenCL: "
-                                     "c_dbcsr_acc_event_record called by foreign thread!\n");
-  }
 #  if defined(ACC_OPENCL_EVENT_BARRIER) && defined(CL_VERSION_1_2)
   result = clEnqueueBarrierWithWaitList(*ACC_OPENCL_STREAM(stream), 0, NULL, &clevent);
 #  elif defined(CL_VERSION_1_2)
