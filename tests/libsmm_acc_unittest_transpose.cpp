@@ -22,6 +22,9 @@
 \****************************************************************************/
 
 int main(int argc, char** argv) {
+  DBCSR_MARK_USED(argc);
+  DBCSR_MARK_USED(argv);
+
   TransposeLauncher launcher_tr = libsmm_acc_transpose_d;
 
   char buffer[1000];

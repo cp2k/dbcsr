@@ -38,7 +38,7 @@ typedef std::unordered_map<Triplet, kernel_launcher>::iterator kernel_map_iterat
 static std::unordered_map<Triplet, kernel_launcher> kernel_handles;
 
 int libsmm_acc_process_blas(const int* param_stack_host, int stack_size, ACC_DRV(stream) stream, int m, int n, int k,
-  const double* a_data, const double* b_data, double* c_data, ACC_BLAS(Handle_t) * handle);
+  const double* a_data, const double* b_data, double* c_data);
 
 int libsmm_acc_process_d(const int* param_stack_dev, int stack_size, ACC_DRV(stream) stream, int m, int n, int k,
   const double* a_data, const double* b_data, double* c_data);

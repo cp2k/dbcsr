@@ -57,6 +57,8 @@ extern "C" int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int 
 
 #if defined(__CUDA_PROFILING)
   nvtxNameCudaStreamA(*acc_stream, name);
+#else
+  DBCSR_MARK_USED(name);
 #endif
 
   return 0;

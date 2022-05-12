@@ -42,9 +42,9 @@ c_dbcsr_acc_bool_t libsmm_acc_is_thread_safe(void);
 int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, void* dev_data, libsmm_acc_data_t datatype, int m,
   int n, int max_kernel_dim, void* stream);
 
-int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, int nparams,
-  libsmm_acc_data_t datatype, const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max,
-  int max_kernel_dim, c_dbcsr_acc_bool_t def_mnk, void* stack_stream, void* c_stream);
+int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, libsmm_acc_data_t datatype,
+  const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max, int max_kernel_dim,
+  c_dbcsr_acc_bool_t def_mnk, void* stack_stream, void* c_stream);
 
 static const char libsmm_acc_transpose_routine_name_str[] = "jit_kernel_transpose";
 static const char* const libsmm_acc_transpose_routine_name_ptr = libsmm_acc_transpose_routine_name_str;
