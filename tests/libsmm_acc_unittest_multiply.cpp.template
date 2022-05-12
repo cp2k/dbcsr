@@ -21,6 +21,9 @@
 
 int main(int argc, char** argv) {
 
+    DBCSR_MARK_USED(argc);
+    DBCSR_MARK_USED(argv);
+
     KernelLauncher launcher_mm = libsmm_acc_process_d;
 
     char buffer[1000];

@@ -370,8 +370,8 @@ int main(int argc, char* argv[]) {
 #endif
     /* warmup execution and prebuild SMM-kernel */
     for (r = 0; r < warmup; ++r) {
-      CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, 3 /*nparams*/, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev,
-              m, n, k, MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
+      CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
+              MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
         &result);
     }
     CHECK(c_dbcsr_acc_memset_zero(cmat_dev, 0 /*offset*/, sizeof(ELEM_TYPE) * mn * nc, stream), &result);
@@ -381,8 +381,8 @@ int main(int argc, char* argv[]) {
 #endif
     for (r = 0; r < nrepeat; ++r) {
       /* GPU-kernel is limited to C += Ai * Bi^T, i.e., NT (for NN, all Bi must be transposed upfront) */
-      CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, 3 /*nparams*/, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev,
-              m, n, k, MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
+      CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
+              MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
         &result);
     }
 #if defined(USE_LIBXSMM)

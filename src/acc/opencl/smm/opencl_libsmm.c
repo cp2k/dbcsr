@@ -1075,14 +1075,15 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
 }
 
 
-int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, int nparams,
-  libsmm_acc_data_t datatype, const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max,
-  int max_kernel_dim, c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream) {
+int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, libsmm_acc_data_t datatype,
+  const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max, int max_kernel_dim,
+  c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream) {
   int result = EXIT_SUCCESS;
 #  if !defined(OPENCL_LIBSMM_SOURCE_MULTIPLY)
   result = EXIT_FAILURE;
 #  else
   LIBXSMM_UNUSED(c_stream); /* TODO */
+  const int nparams = 3;
   assert(0 == stack_size || (NULL != dev_a_data && NULL != *ACC_OPENCL_MEM(dev_a_data)));
   assert(0 == stack_size || (NULL != dev_b_data && NULL != *ACC_OPENCL_MEM(dev_b_data)));
   assert(0 == stack_size || (NULL != dev_c_data && NULL != *ACC_OPENCL_MEM(dev_c_data)));

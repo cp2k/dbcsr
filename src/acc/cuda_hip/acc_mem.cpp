@@ -48,6 +48,8 @@ extern "C" int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
 extern "C" int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t n, void* stream) {
   unsigned int flag = ACC(HostAllocDefault);
 
+  DBCSR_MARK_USED(stream);
+
   ACC_API_CALL(HostAlloc, ((void**)host_mem, (size_t)n, flag));
   if (host_mem == NULL) return -2;
   if (verbose_print) printf("Allocating %zd bytes of host pinned memory at %p\n", n, *host_mem);
@@ -58,6 +60,8 @@ extern "C" int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t n, void* st
 
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream) {
+  DBCSR_MARK_USED(stream);
+
   if (verbose_print) printf("Host pinned deallocation address %p\n", host_mem);
   ACC_API_CALL(FreeHost, ((void*)host_mem));
 
