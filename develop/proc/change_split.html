@@ -124,25 +124,25 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-matrix_in~3"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_in~9"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>matrix_in</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_out~3"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_out~7"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
 <td>intent(out),</td>
   <td></td>  <td>POINTER</td><td>::</td>
   <td><strong>matrix_out</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nsplit~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~8"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td><p>new split factor, set to 0 to not change split of matrix_in</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-split_rowcol~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-split_rowcol~9"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>split_rowcol</strong></td><td><p>split rows or columns</p></td>
@@ -154,19 +154,19 @@
   <td><strong>is_new</strong></td><td><p>whether matrix_out is new or a pointer to matrix_in</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-opt_nsplit~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-opt_nsplit~3"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>opt_nsplit</strong></td><td><p>whether nsplit should be optimized for current process grid</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~5"></span>logical,</td>
 <td>intent(inout),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>memory optimization: move data such that matrix_in is empty on return.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata~4"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nodata</strong></td><td><p>Data of matrix_in should not be copied to matrix_out</p></td>

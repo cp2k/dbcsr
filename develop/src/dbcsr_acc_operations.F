@@ -38,7 +38,7 @@ MODULE dbcsr_acc_operations
 
 #if defined (__DBCSR_ACC)
    INTERFACE
-      FUNCTION libsmm_acc_process_cu(param_stack_host, param_stack_dev, stack_size, nparams, &
+      FUNCTION libsmm_acc_process_cu(param_stack_host, param_stack_dev, stack_size, &
                                      data_type, a_data, b_data, c_data, m_max, &
                                      n_max, k_max, max_kernel_dim, def_mnk, &
                                      stack_stream_ptr, c_stream_ptr) &
@@ -47,7 +47,7 @@ MODULE dbcsr_acc_operations
          IMPORT
          TYPE(C_PTR), INTENT(IN), VALUE           :: param_stack_host
          TYPE(C_PTR), INTENT(IN), VALUE           :: param_stack_dev
-         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: stack_size, nparams, data_type
+         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: stack_size, data_type
          TYPE(C_PTR), INTENT(IN), VALUE           :: a_data, b_data, c_data
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: m_max, n_max, k_max
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: max_kernel_dim, def_mnk
@@ -122,7 +122,6 @@ CONTAINS
       istat = libsmm_acc_process_cu(C_LOC(param_stack_host_ptr), &
                                     acc_devmem_cptr(param_stack_dev), &
                                     INT(stack_size, KIND=C_INT), &
-                                    INT(dbcsr_ps_width, KIND=C_INT), &
                                     INT(data_type, KIND=C_INT), &
                                     acc_devmem_cptr(a_data), &
                                     acc_devmem_cptr(b_data), &
