@@ -282,15 +282,23 @@ int c_dbcsr_acc_init(void) {
           if (CL_SUCCESS == clGetDeviceIDs(platforms[i], type, 0, NULL, &ndevices) && 0 < ndevices) {
             ACC_OPENCL_CHECK(clGetDeviceIDs(platforms[i], type, ndevices, devices, NULL), "retrieve device ids", result);
             if (EXIT_SUCCESS == result) {
+              cl_uint j = 0;
+#  if defined(CL_VERSION_1_2)
               /* TODO: introduce more advanced syntax (partitioning a device) */
               const char* const env_devsplit = getenv("ACC_OPENCL_DEVSPLIT");
-#  if defined(CL_VERSION_1_2)
-              const cl_device_partition_property properties[] = {
-                CL_DEVICE_PARTITION_BY_AFFINITY_DOMAIN, CL_DEVICE_AFFINITY_DOMAIN_NUMA, /*terminator*/ 0};
+              const cl_uint devsplit = (NULL == env_devsplit ? 0 : atoi(env_devsplit));
+              cl_uint n = 0;
 #  endif
-              cl_uint j = 0, n = 0;
               for (; j < ndevices; ++j) {
 #  if defined(CL_VERSION_1_2)
+                cl_device_partition_property properties[] = {
+                  CL_DEVICE_PARTITION_BY_AFFINITY_DOMAIN, CL_DEVICE_AFFINITY_DOMAIN_NUMA, /*terminator*/ 0};
+                cl_uint nunits = 0;
+                if (1 < devsplit &&
+                    CL_SUCCESS == clGetDeviceInfo(devices[j], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(cl_uint), &nunits, NULL)) {
+                  properties[0] = CL_DEVICE_PARTITION_EQUALLY;
+                  properties[1] = nunits / devsplit;
+                }
                 if ((NULL != env_devsplit && '0' == *env_devsplit) ||
                     (c_dbcsr_acc_opencl_config.ndevices + 1) == ACC_OPENCL_DEVICES_MAXCOUNT ||
                     (CL_SUCCESS != clCreateSubDevices(devices[j], properties, 0, NULL, &n)))
