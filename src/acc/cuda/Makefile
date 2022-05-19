@@ -232,9 +232,13 @@ $(DIRSMM)/parameters.h: $(MAKDIR)/Makefile $(DIRSMM)/generate_parameters.py $(PA
 $(DIRSMM)/smm_acc_kernels.h: $(GPUSMM) $(MAKDIR)/Makefile $(DIRSMM)/generate_kernels.py $(PARAMS)
 	@cd $(DIRSMM) && $(PYTHON) ../libsmm_acc/generate_kernels.py ../libsmm_acc/kernels
 
+.PHONY: backend
+backend: $(ACCDIR)/dbcsr_acc.a
 $(ACCDIR)/dbcsr_acc.a: $(OBJACC) $(DIRSMM)/libsmm_acc_init.o
 	$(AR) -rs $@ $^
 
+.PHONY: libsmm
+libsmm: $(ACCDIR)/dbcsr_acc_smm.a
 $(ACCDIR)/dbcsr_acc_smm.a: $(OBJSMM)
 	$(AR) -rs $@ $^
 
