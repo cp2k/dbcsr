@@ -24,6 +24,7 @@
 extern "C" {
 #  endif
 
+int c_dbcsr_acc_opencl_stream_counter_base;
 int c_dbcsr_acc_opencl_stream_counter;
 
 
@@ -54,7 +55,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   ACC_OPENCL_STREAM_PROPERTIES_TYPE properties[8] = {
     CL_QUEUE_PROPERTIES, 0 /*placeholder*/, 0 /* terminator */
   };
-  int result, i, tid = 0;
+  int result, i, tid = 0, offset = 0;
   cl_command_queue queue = NULL;
   cl_context context = NULL;
   void** streams = NULL;
@@ -111,13 +112,15 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
         c_dbcsr_acc_opencl_config.device[/*master*/ 0].context, LIBXSMM_ATOMIC_RELAXED);
     }
   }
+  else offset = c_dbcsr_acc_opencl_stream_counter_base++;
 #  endif
   if (NULL != c_dbcsr_acc_opencl_config.device) context = c_dbcsr_acc_opencl_config.device[tid].context;
   if (NULL != context) {
     cl_device_id device = NULL;
     result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
     if (CL_SUCCESS == result) {
-      if (0 == c_dbcsr_acc_opencl_config.share || 0 == (tid % c_dbcsr_acc_opencl_config.share)) {
+      const int s = c_dbcsr_acc_opencl_config.share;
+      if (0 == s || 0 == (tid % s)) {
         if (0 != c_dbcsr_acc_opencl_config.device[tid].intel) {
           const int xhints = ((1 == c_dbcsr_acc_opencl_config.xhints || 0 > c_dbcsr_acc_opencl_config.xhints)
                                 ? (0 != c_dbcsr_acc_opencl_config.device[tid].intel ? 1 : 0)
@@ -147,8 +150,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
                   properties[j + 0] = 0x418C; /* CL_QUEUE_FAMILY_INTEL */
                   properties[j + 1] = (int)i;
                   properties[j + 2] = 0x418D; /* CL_QUEUE_INDEX_INTEL */
-                  properties[j + 3] = (0 == c_dbcsr_acc_opencl_config.share ? tid : (tid / c_dbcsr_acc_opencl_config.share)) %
-                                      (intel_qfprops[i].count);
+                  properties[j + 3] = (i + offset) % intel_qfprops[i].count;
                   properties[j + 4] = 0; /* terminator */
                   break;
                 }
@@ -283,7 +285,7 @@ int c_dbcsr_acc_stream_destroy(void* stream) {
         }
       }
     }
-    c_dbcsr_acc_opencl_stream_counter = 0; /* reset */
+    c_dbcsr_acc_opencl_stream_counter_base = c_dbcsr_acc_opencl_stream_counter = 0; /* reset */
     free(c_dbcsr_acc_opencl_info_stream(stream)->pointer);
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
