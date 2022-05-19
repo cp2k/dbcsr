@@ -32,7 +32,7 @@ int c_dbcsr_acc_opencl_event_create(cl_event* event_p) {
   assert(NULL != event_p);
   if (NULL != *event_p) result = EXIT_SUCCESS;
   else {
-    *event_p = clCreateUserEvent(c_dbcsr_acc_opencl_context(), &result);
+    *event_p = clCreateUserEvent(c_dbcsr_acc_opencl_context(NULL /*tid*/), &result);
   }
   if (CL_SUCCESS == result) {
     assert(NULL != *event_p);
@@ -68,18 +68,14 @@ int c_dbcsr_acc_event_create(void** event_p) {
   if (EXIT_SUCCESS == result)
 #  endif
   {
-#  if defined(ACC_OPENCL_EVENT_NOALLOC)
-    assert(sizeof(void*) >= sizeof(cl_event));
-    *event_p = (void*)event;
-#  else
     assert(NULL == c_dbcsr_acc_opencl_config.handles || sizeof(void*) >= sizeof(cl_event));
     *event_p = (
-#    if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
-      (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
+#  if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+    (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
       NULL != c_dbcsr_acc_opencl_config.handles
         ? libxsmm_pmalloc(c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle)
         :
-#    endif
+#  endif
         malloc(sizeof(cl_event)));
     if (NULL != *event_p) {
       *(cl_event*)*event_p = event;
@@ -88,7 +84,6 @@ int c_dbcsr_acc_event_create(void** event_p) {
       if (NULL != event) ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseEvent(event));
       result = EXIT_FAILURE;
     }
-#  endif
   }
 #  if defined(ACC_OPENCL_EVENT_CREATE)
   else {
@@ -113,21 +108,17 @@ int c_dbcsr_acc_event_destroy(void* event) {
   if (NULL != event) {
     const cl_event clevent = *ACC_OPENCL_EVENT(event);
     if (NULL != clevent) result = clReleaseEvent(clevent);
-#  if defined(ACC_OPENCL_EVENT_NOALLOC)
-    assert(sizeof(void*) >= sizeof(cl_event));
-#  else
-#    if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
-      (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
+#  if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+    (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
     if (NULL != c_dbcsr_acc_opencl_config.handles) {
       /**(cl_event*)event = NULL; assert(NULL == *ACC_OPENCL_EVENT(event));*/
       libxsmm_pfree(event, c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle);
     }
     else
-#    endif
+#  endif
     {
       free(event);
     }
-#  endif
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
@@ -181,12 +172,7 @@ int c_dbcsr_acc_event_record(void* event, void* stream) {
 #  endif
   if (CL_SUCCESS == result) {
     assert(NULL != clevent);
-#  if defined(ACC_OPENCL_EVENT_NOALLOC)
-    assert(!"ACC_OPENCL_EVENT_NOALLOC not supported");
-    result = EXIT_FAILURE;
-#  else
     *(cl_event*)event = clevent;
-#  endif
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);

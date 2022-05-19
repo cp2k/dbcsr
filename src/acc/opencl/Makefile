@@ -242,9 +242,13 @@ endif
 $(MAKDIR)/smm/opencl_kernels.h: $(MAKDIR)/acc_opencl.sh $(KERNEL) $(PARAMS)
 	@CPPFLAGS=$(CPP_OPENCL_FLAGS) $(MAKDIR)/acc_opencl.sh $(KERNEL) $(PARAMS) $@
 
+.PHONY: backend
+backend: $(ACCDIR)/dbcsr_acc.a
 $(ACCDIR)/dbcsr_acc.a: $(OBJACC)
 	$(AR) -rs $@ $^
 
+.PHONY: libsmm
+libsmm: $(ACCDIR)/dbcsr_acc_smm.a
 $(ACCDIR)/dbcsr_acc_smm.a: $(OBJSMM)
 	$(AR) -rs $@ $^
 

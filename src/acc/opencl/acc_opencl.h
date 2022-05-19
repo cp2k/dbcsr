@@ -95,13 +95,6 @@
 #    define ACC_OPENCL_STREAM_PRIORITIES
 #  endif
 #endif
-#if !defined(ACC_OPENCL_MALLOC_LIBXSMM) && 0
-#  define ACC_OPENCL_MALLOC_LIBXSMM
-#elif !defined(ACC_OPENCL_SVM) && 0
-#  if defined(CL_VERSION_2_0)
-#    define ACC_OPENCL_SVM
-#  endif
-#endif
 #if !defined(ACC_OPENCL_PROFILE) && 0
 #  define ACC_OPENCL_PROFILE
 #endif
@@ -113,20 +106,10 @@
 #else
 #  define ACC_OPENCL_MEM(A) ((cl_mem*)(A))
 #endif
-/* can depend on OpenCL implementation (unlikely) */
-#if !defined(ACC_OPENCL_STREAM_NOALLOC) && !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
-#  define ACC_OPENCL_STREAM_NOALLOC
-#  define ACC_OPENCL_STREAM(A) ((cl_command_queue*)&(A))
-#else
-#  define ACC_OPENCL_STREAM(A) ((cl_command_queue*)(A))
-#endif
+/* attaching c_dbcsr_acc_opencl_info_stream_t is needed */
+#define ACC_OPENCL_STREAM(A) ((cl_command_queue*)(A))
 /* incompatible with c_dbcsr_acc_event_record */
-#if !defined(ACC_OPENCL_EVENT_NOALLOC) && 0
-#  define ACC_OPENCL_EVENT_NOALLOC
-#  define ACC_OPENCL_EVENT(A) ((cl_event*)&(A))
-#else
-#  define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
-#endif
+#define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
 
 #if defined(_OPENMP)
 #  include <omp.h>
@@ -189,19 +172,27 @@
 extern "C" {
 #endif
 
+/** Enumeration of timer kinds used for built-in execution-profile. */
+typedef enum c_dbcsr_acc_opencl_timer_t {
+  c_dbcsr_acc_opencl_timer_device,
+  c_dbcsr_acc_opencl_timer_host
+} c_dbcsr_acc_opencl_timer_t;
+
 /** Settings updated during c_dbcsr_acc_set_active_device. */
-typedef struct c_dbcsr_acc_opencl_devinfo_t {
-#if defined(ACC_OPENCL_SVM)
-  /** Runtime SVM support (needs ACC_OPENCL_SVM at compile-time). */
+typedef struct c_dbcsr_acc_opencl_device_t {
+  /** Activated device context. */
+  cl_context context;
+#if defined(CL_VERSION_2_0)
+  /** Runtime SVM support. */
   cl_bool svm_interop;
 #endif
-  /** Intel device ID (zero if non-Intel). */
-  cl_uint intel_id;
-  /** Kernel-parameters are matched against device's UID */
-  cl_uint devmatch;
+  /** Device-ID. */
+  cl_uint uid;
+  /** Intel device? */
+  cl_bool intel;
   /** Whether host memory is unified or not. */
   cl_bool unified;
-} c_dbcsr_acc_opencl_devinfo_t;
+} c_dbcsr_acc_opencl_device_t;
 
 /**
  * Settings discovered/setup during c_dbcsr_acc_init (independent of the device)
@@ -210,10 +201,8 @@ typedef struct c_dbcsr_acc_opencl_devinfo_t {
 typedef struct c_dbcsr_acc_opencl_config_t {
   /** Table of ordered viable/discovered devices (matching criterion). */
   cl_device_id devices[ACC_OPENCL_DEVICES_MAXCOUNT];
-  /** Settings updated during c_dbcsr_acc_set_active_device. */
-  c_dbcsr_acc_opencl_devinfo_t devinfo;
-  /** Table of activated device contexts (thread-specific). */
-  cl_context* contexts;
+  /** Table of devices (thread-specific). */
+  c_dbcsr_acc_opencl_device_t* device;
   /** Handle-counter. */
   size_t handle;
   /** All handles and related storage. */
@@ -222,19 +211,25 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   void** streams;
   /** Counts number of streams created (thread-local). */
   cl_command_queue* stats;
-  /** Determines how streams are shared across threads. */
-  cl_int share;
+  /** Kind of timer used for built-in execution-profile. */
+  c_dbcsr_acc_opencl_timer_t timer;
+  /** Kernel-parameters are matched against device's UID */
+  cl_uint devmatch;
   /** Verbosity level (output on stderr). */
   cl_int verbosity;
-  /** Non-zero if library is initialized; negative in case of no device. */
+  /** Non-zero if library is initialized (negative: no device). */
   cl_int ndevices;
   /** Maximum number of threads (omp_get_max_threads). */
   cl_int nthreads;
   /** How to apply/use stream priorities. */
   cl_int priority;
-  /** Determines how device-side buffers are zeroed. */
+  /** How to zero device-side buffers. */
   cl_int nullify;
-  /** Asynchronous memory operations. */
+  /** Execution-hints (command stream). */
+  cl_int xhints;
+  /** Share streams across threads. */
+  cl_int share;
+  /** Asynchronous memory ops. */
   cl_int async;
   /** Flush level. */
   cl_int flush;
@@ -246,7 +241,7 @@ typedef struct c_dbcsr_acc_opencl_config_t {
 extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
 /** Contexts implement 1:1 relation with device. */
-cl_context c_dbcsr_acc_opencl_context(void);
+cl_context c_dbcsr_acc_opencl_context(int* thread_id);
 /** Share context for given device (start searching at optional thread_id), or return NULL). */
 cl_context c_dbcsr_acc_opencl_device_context(cl_device_id device, const int* thread_id);
 
@@ -261,9 +256,9 @@ c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory)
 typedef struct c_dbcsr_acc_opencl_info_stream_t {
   void* pointer;
   int priority;
+  int tid;
 } c_dbcsr_acc_opencl_info_stream_t;
 c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream);
-int c_dbcsr_acc_opencl_stream_is_thread_specific(int thread_id, const void* stream);
 const int* c_dbcsr_acc_opencl_stream_priority(const void* stream);
 
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
