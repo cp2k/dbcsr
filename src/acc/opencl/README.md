@@ -2,7 +2,7 @@
 
 ## Overview
 
-The OpenCL backend implements the [ACC interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h), which is exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)acceleration based on ACC's device enumeration, data movement, and synchronization functionality. The customizations below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).
+The OpenCL backend implements the [ACC interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h), which is exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)acceleration based on ACC's device enumeration, data movement, and synchronization functionality. By design, DBCSR activates one device per rank (process). For instance, multiple GPUs can be used by the means of multiple ranks per system or at least one rank per device.
 
 ## Customization
 
