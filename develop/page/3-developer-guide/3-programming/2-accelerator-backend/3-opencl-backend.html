@@ -96,7 +96,7 @@
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>OpenCL Backend</h1>
 <h2>Overview</h2>
-<p>The OpenCL backend implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC interface</a>, which is exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)acceleration based on ACC's device enumeration, data movement, and synchronization functionality. The customizations below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).</p>
+<p>The OpenCL backend implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC interface</a>, which is exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)acceleration based on ACC's device enumeration, data movement, and synchronization functionality. By design, DBCSR activates one device per rank (process). For instance, multiple GPUs can be used by the means of multiple ranks per system or at least one rank per device.</p>
 <h2>Customization</h2>
 <p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h">acc_opencl.h</a>. Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:</p>
 <ul>
