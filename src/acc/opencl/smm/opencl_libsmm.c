@@ -1383,11 +1383,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                           atomic_ops = "-Dcl_intel_global_float_atomics";
                         }
                         else {
-                          atomic_ops = (1 >= atomics_native ? "-DATOMIC_PROTOTYPES=1" : "-DATOMIC_PROTOTYPES=2");
+                          atomic_ops = (2 >= atomics_native ? "-DATOMIC_PROTOTYPES=1" : "-DATOMIC_PROTOTYPES=2");
                         }
-                        atomic_exp = (0 != std_c11 ? "atomic_fetch_add_explicit((GLOBAL_VOLATILE(TF)*)A,B,"
-                                                     "memory_order_relaxed,memory_scope_work_group)"
-                                                   : "atomic_add(A,B)");
+                        atomic_exp = ((0 != std_c11 && 1 != atomics_native) ? "atomic_fetch_add_explicit((GLOBAL_VOLATILE(TF)*)A,B,"
+                                                                              "memory_order_relaxed,memory_scope_work_group)"
+                                                                            : "atomic_add(A,B)");
                       }
                       else {
                         atomic_exp = "atomic_add_global_cmpxchg(A,B)";
