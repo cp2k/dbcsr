@@ -105,7 +105,7 @@
 #    else
 #      define ATOMIC_ADD_GLOBAL(A, B) atomic_add(A, B)
 #    endif
-#  elif (1 < ATOMIC_PROTOTYPES) && defined(TF)
+#  elif (2 < ATOMIC_PROTOTYPES) && defined(TF)
 #    undef ATOMIC_ADD_GLOBAL
 #    define ATOMIC_ADD_GLOBAL(A, B) \
       __opencl_atomic_fetch_add((GLOBAL_VOLATILE(TF)*)A, B, memory_order_relaxed, memory_scope_work_group)

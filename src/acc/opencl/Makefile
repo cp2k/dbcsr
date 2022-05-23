@@ -151,6 +151,9 @@ ifeq (Darwin,$(UNAME))
   LDFLAGS += -framework OpenCL
 else
   LIBOPENCL := $(shell ldconfig -p 2>/dev/null | grep -m1 OpenCL | rev | cut -d' ' -f1 | rev)
+  ifeq (,$(LIBOPENCL))
+    LIBOPENCL := $(wildcard /usr/lib/x86_64-linux-gnu/libOpenCL.so.1)
+  endif
   ifeq (,$(CUDATOOLKIT_HOME))
     CUDATOOLKIT_HOME := $(NVSDKCOMPUTE_ROOT)
   endif
