@@ -169,7 +169,7 @@ __attribute__((always_inline)) inline void atomic_add_global_cmpxchg2(GLOBAL_VOL
 }
 #  endif
 
-#  if defined(XCHG) || (defined(__NV_CL_C_VERSION) && !defined(CMPXCHG))
+#  if defined(XCHG) || (defined(__NV_CL_C_VERSION) && !defined(CMPXCHG) && !defined(ATOMIC_PROTOTYPES))
 __attribute__((always_inline)) inline void atomic_add_global_xchg(GLOBAL_VOLATILE(T) * dst, T inc) {
 #    if !defined(ATOMIC32_ADD64)
 #      if (defined(__NV_CL_C_VERSION) && !defined(XCHG)) && (1 == TN)
