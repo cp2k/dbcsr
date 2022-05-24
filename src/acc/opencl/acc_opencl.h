@@ -212,7 +212,7 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   /** Counts number of streams created (thread-local). */
   cl_command_queue* stats;
   /** Kind of timer used for built-in execution-profile. */
-  c_dbcsr_acc_opencl_timer_t timer;
+  c_dbcsr_acc_opencl_timer_t timer; /* c_dbcsr_acc_opencl_device_t? */
   /** Kernel-parameters are matched against device's UID */
   cl_uint devmatch;
   /** Verbosity level (output on stderr). */

@@ -1356,10 +1356,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 else barrier_expr = ""; /* no barrier */
                 assert(NULL != barrier_expr);
                 if (NULL == env_atomics || '0' != *env_atomics) {
+                  /* atomics_force: attempt to force atomics without confirmation */
+                  const int atomics_force = ((NULL == env_atomics || '\0' == *env_atomics) ? 0 : atoi(env_atomics));
                   const int cl_nonv = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia"));
-                  if (NULL == env_atomics || '\0' == *env_atomics || 0 != isdigit(*env_atomics)) {
-                    /* atomics_native: employ native atomics without confirmation */
-                    const int atomics_native = ((NULL == env_atomics || '\0' == *env_atomics) ? 0 : atoi(env_atomics));
+                  if (NULL == env_atomics || '\0' == *env_atomics || 0 != atomics_force) {
                     cl_bitfield fp_atomics;
                     assert(dbcsr_type_real_8 == datatype || dbcsr_type_real_4 == datatype);
                     if (CL_SUCCESS == clGetDeviceInfo(active_device,
@@ -1374,20 +1374,23 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                       : "atomic_fetch_add_explicit((GLOBAL_VOLATILE(atomic_float)*)A,B,"
                                         "memory_order_relaxed,memory_scope_work_group)");
                     }
-                    else if ((0 != devinfo->intel && 0x4905 != devinfo->uid && 0 == devinfo->unified) || 0 != atomics_native) {
-                      if (dbcsr_type_real_4 == datatype ||
-                          (0 != devinfo->intel && 0x0bd0 <= devinfo->uid && 0x0bdb >= devinfo->uid) || 0 != atomics_native)
+                    else if ((0 != devinfo->intel && 0x4905 != devinfo->uid && 0 == devinfo->unified) || 0 != atomics_force) {
+                      if ((0 != devinfo->intel &&
+                            (dbcsr_type_real_4 == datatype || (0x0bd0 <= devinfo->uid && 0x0bdb >= devinfo->uid))) ||
+                          (0 != atomics_force))
                       {
-                        if (0 == atomics_native && (0 == devinfo->intel || 0x0bd0 > devinfo->uid || 0x0bdb < devinfo->uid)) {
+                        if (0 == atomics_force && (0 == devinfo->intel || 0x0bd0 > devinfo->uid || 0x0bdb < devinfo->uid)) {
                           extensions[1] = "cl_intel_global_float_atomics";
                           atomic_ops = "-Dcl_intel_global_float_atomics";
                         }
                         else {
-                          atomic_ops = (2 >= atomics_native ? "-DATOMIC_PROTOTYPES=1" : "-DATOMIC_PROTOTYPES=2");
+                          atomic_ops = (2 > atomics_force
+                                          ? "-DATOMIC_PROTOTYPES=1"
+                                          : (3 > atomics_force ? "-DATOMIC_PROTOTYPES=2" : "-DATOMIC_PROTOTYPES=3"));
                         }
-                        atomic_exp = ((0 != std_c11 && 1 != atomics_native) ? "atomic_fetch_add_explicit((GLOBAL_VOLATILE(TF)*)A,B,"
-                                                                              "memory_order_relaxed,memory_scope_work_group)"
-                                                                            : "atomic_add(A,B)");
+                        atomic_exp = ((0 != std_c11 && 1 < atomics_force) ? "atomic_fetch_add_explicit((GLOBAL_VOLATILE(TF)*)A,B,"
+                                                                            "memory_order_relaxed,memory_scope_work_group)"
+                                                                          : "atomic_add(A,B)");
                       }
                       else {
                         atomic_exp = "atomic_add_global_cmpxchg(A,B)";

@@ -92,11 +92,6 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
     properties[4] = 0; /* terminator */
   }
 #  endif
-  if ((c_dbcsr_acc_opencl_timer_host != c_dbcsr_acc_opencl_config.timer) &&
-      (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
-  {
-    properties[1] = CL_QUEUE_PROFILING_ENABLE;
-  }
 #  if defined(_OPENMP)
   if (1 < omp_get_num_threads()) {
     assert(0 < c_dbcsr_acc_opencl_config.nthreads);
@@ -130,7 +125,10 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
               CL_QUEUE_PROPERTIES, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, 0 /* terminator */
             };
             const cl_command_queue q = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, props, &result);
-            if (CL_SUCCESS == result) clReleaseCommandQueue(q);
+            if (CL_SUCCESS == result) {
+              c_dbcsr_acc_opencl_config.timer = c_dbcsr_acc_opencl_timer_host; /* force host-timer */
+              clReleaseCommandQueue(q);
+            }
             else result = CL_SUCCESS;
           }
           if (0 != (2 & xhints)) { /* attempt to enable queue families */
@@ -157,6 +155,11 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
               }
             }
           }
+        }
+        if ((c_dbcsr_acc_opencl_timer_device == c_dbcsr_acc_opencl_config.timer) &&
+            (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
+        {
+          properties[1] = CL_QUEUE_PROFILING_ENABLE;
         }
         queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
       }

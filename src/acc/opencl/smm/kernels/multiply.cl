@@ -110,7 +110,7 @@
 #    define ATOMIC_ADD_GLOBAL(A, B) \
       __opencl_atomic_fetch_add((GLOBAL_VOLATILE(TF)*)A, B, memory_order_relaxed, memory_scope_work_group)
 #  else
-#    if defined(TF)
+#    if defined(TF) && (!defined(ATOMIC_PROTOTYPES) || 1 < ATOMIC_PROTOTYPES)
 __attribute__((overloadable)) T atomic_fetch_add_explicit(GLOBAL_VOLATILE(TF) *, T, memory_order, memory_scope);
 #    else
 __attribute__((overloadable)) T atomic_add(GLOBAL_VOLATILE(T) *, T);
@@ -169,7 +169,7 @@ __attribute__((always_inline)) inline void atomic_add_global_cmpxchg2(GLOBAL_VOL
 }
 #  endif
 
-#  if defined(XCHG) || (defined(__NV_CL_C_VERSION) && !defined(CMPXCHG))
+#  if defined(XCHG) || (defined(__NV_CL_C_VERSION) && !defined(CMPXCHG) && !defined(ATOMIC_PROTOTYPES))
 __attribute__((always_inline)) inline void atomic_add_global_xchg(GLOBAL_VOLATILE(T) * dst, T inc) {
 #    if !defined(ATOMIC32_ADD64)
 #      if (defined(__NV_CL_C_VERSION) && !defined(XCHG)) && (1 == TN)
