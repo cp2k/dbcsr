@@ -110,7 +110,7 @@
 #    define ATOMIC_ADD_GLOBAL(A, B) \
       __opencl_atomic_fetch_add((GLOBAL_VOLATILE(TF)*)A, B, memory_order_relaxed, memory_scope_work_group)
 #  else
-#    if defined(TF)
+#    if defined(TF) && (!defined(ATOMIC_PROTOTYPES) || 1 < ATOMIC_PROTOTYPES)
 __attribute__((overloadable)) T atomic_fetch_add_explicit(GLOBAL_VOLATILE(TF) *, T, memory_order, memory_scope);
 #    else
 __attribute__((overloadable)) T atomic_add(GLOBAL_VOLATILE(T) *, T);
