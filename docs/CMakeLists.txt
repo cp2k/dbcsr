@@ -14,9 +14,14 @@ add_custom_target(
   COMMENT "Generating API documentation and doc pages"
   COMMAND "${FORD_EXE}" "${FORD_PROJECT_FILE}"
   VERBATIM)
-add_dependencies(doc doc_copy_tests)
+
+if (BUILD_TESTING)
+  add_dependencies(doc doc_copy_tests)
+endif ()
+
 if (WITH_C_API AND WITH_EXAMPLES)
   add_dependencies(doc doc_copy_examples)
 endif ()
+
 add_dependencies(doc fypp) # only depend on the fypp step to avoid building
                            # everything just for the docs
