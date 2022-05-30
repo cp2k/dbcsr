@@ -14,16 +14,26 @@
 
 #if defined(__LIBXSMM)
 #  include <libxsmm.h>
+#  include <libxsmm_sync.h>
+#  define USE_LIBXSMM
 #  if !defined(LIBXSMM_VERSION_NUMBER)
 #    define LIBXSMM_VERSION_NUMBER \
       LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
 #  endif
-#  define USE_LIBXSMM
 #  if defined(_OPENMP)
 #    define ACC_BENCH_USEOMP(FUNC) LIBXSMM_USEOMP(FUNC)
 #  else
 #    define ACC_BENCH_USEOMP(FUNC) (FUNC)
 #  endif
+#  define PRINTF(...) \
+    do { \
+      const size_t print_buffer_size = sizeof(print_buffer) - print_offset; \
+      const int print_buffer_result = LIBXSMM_SNPRINTF(print_buffer + print_offset, print_buffer_size, __VA_ARGS__); \
+      assert(0 <= print_buffer_result && print_buffer_result < (int)print_buffer_size); \
+      print_offset += print_buffer_result; \
+    } while (0)
+#else
+#  define PRINTF(...) printf(__VA_ARGS__)
 #endif
 
 #if !defined(ELEM_TYPE)
@@ -81,7 +91,7 @@ static void parse_params(int argc, char* argv[], FILE** file, const char** snr, 
   if (NULL == *file) {
     for (i = 0; i < argc; ++i) args[i] = argv[i + 1];
   }
-  else {
+  else { /* input file is specified */
     argc = 0;
     if (NULL != fgets(buffer, sizeof(buffer), *file)) {
       char* arg = strtok(buffer, DELIMS);
@@ -89,9 +99,7 @@ static void parse_params(int argc, char* argv[], FILE** file, const char** snr, 
         arg = strtok(buffer, DELIMS);
       }
       for (; NULL != arg; arg = strtok(NULL, DELIMS)) {
-        if (argc * sizeof(*args) < sizeof(args)) {
-          args[argc++] = arg;
-        }
+        if (argc * sizeof(*args) < sizeof(args)) args[argc++] = arg;
         else { /* malformed command-line */
           fclose(*file);
           *file = NULL;
@@ -237,6 +245,8 @@ int main(int argc, char* argv[]) {
     void* stream = NULL;
 #if defined(USE_LIBXSMM)
     libxsmm_timer_tickint start;
+    int print_offset = 0;
+    char print_buffer[1024];
 #  if defined(__OPENCL)
     const char* const env_smm_repeat = getenv("SMM_NREPEAT");
     const int smm_nrepeat = (NULL == env_smm_repeat ? 1 : MAX(atoi(env_smm_repeat), 1));
@@ -293,8 +303,8 @@ int main(int argc, char* argv[]) {
     assert(m <= (mn / n) && 0 == (mn % n));
     assert(m <= (mk / k) && 0 == (mk % k));
     assert(k <= (kn / n) && 0 == (kn % n));
-    printf("%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "", nrepeat, stack_size, m, n, k, nc, na, nb);
-    printf("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
+    PRINTF("%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "", nrepeat, stack_size, m, n, k, nc, na, nb);
+    PRINTF("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
     if (MAX_KERNEL_DIM < m || MAX_KERNEL_DIM < n || MAX_KERNEL_DIM < k) {
       fprintf(stderr, "Matrix shape exceeds MAX_KERNEL_DIM!\n");
       result = EXIT_FAILURE;
@@ -344,7 +354,7 @@ int main(int argc, char* argv[]) {
     if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
       const size_t size = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
       duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-      printf("copy-in (%i MB): %.2g ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20), 1000.0 * duration,
+      PRINTF("copy-in (%i MB): %.2g ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20), 1000.0 * duration,
         size / (duration * (1ULL << 30)));
     }
 #endif
@@ -390,10 +400,10 @@ int main(int argc, char* argv[]) {
     duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
     if (EXIT_SUCCESS == result) {
 #  if defined(TRANSPOSE)
-      printf("transpose: %.2g ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * smm_nrepeat),
+      PRINTF("transpose: %.2g ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * smm_nrepeat),
         1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / (duration + transpose));
 #  endif
-      printf("device: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
+      PRINTF("device: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
         1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
     }
 #  if defined(VALIDATE)
@@ -425,7 +435,7 @@ int main(int argc, char* argv[]) {
             stack_hst + 2, stack_size);
         }
         duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-        printf("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
+        PRINTF("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
           1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
         /* validate correctness in case of successful result code/status */
         if (EXIT_SUCCESS == result) {
@@ -439,18 +449,18 @@ int main(int argc, char* argv[]) {
             result = libxsmm_matdiff(&diff, LIBXSMM_DATATYPE(ELEM_TYPE), mn, nc, gold_hst, cmat_hst, &mn, &mn);
             if (EXIT_SUCCESS == result) {
               const double relerror = 1.0 - diff.rsq;
-              printf("rel.error: %g", relerror);
+              PRINTF("rel.error: %g", relerror);
               if (maxerror < relerror && NULL != file) maxerror = relerror;
               if (0 < relerror) {
                 if (LIBXSMM_NOTNAN(diff.v_tst)) {
-                  printf(" (%g != %g)\n", diff.v_ref, diff.v_tst);
+                  PRINTF(" (%g != %g)\n", diff.v_ref, diff.v_tst);
                 }
                 else {
-                  printf(" (%g)\n", diff.v_tst);
+                  PRINTF(" (%g)\n", diff.v_tst);
                 }
               }
               else {
-                printf("\n");
+                PRINTF("\n");
               }
               if (0 < check && check < relerror) result = EXIT_FAILURE;
             }
@@ -474,13 +484,16 @@ int main(int argc, char* argv[]) {
     CHECK(c_dbcsr_acc_dev_mem_deallocate(cmat_dev), NULL);
     CHECK(c_dbcsr_acc_stream_destroy(stream), NULL);
     if (EXIT_SUCCESS == result) {
-      ++nok;
       parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);
-      if (NULL != file) {
-        printf("\n");
-      }
-      else break;
+      if (NULL != file) PRINTF("\n");
+      ++nok;
     }
+#if defined(USE_LIBXSMM)
+    LIBXSMM_STDIO_ACQUIRE();
+    fputs(print_buffer, stdout);
+    LIBXSMM_STDIO_RELEASE();
+#endif
+    if (EXIT_SUCCESS == result && NULL == file) break;
   }
   free(rnd); /* release array of random numbers */
 #if !defined(__CUDA)
