@@ -14,7 +14,7 @@ SED=$(command -v gsed)
 CUT=$(command -v cut)
 
 # GNU sed is desired (macOS)
-if [ "" = "${SED}" ]; then
+if [ ! "${SED}" ]; then
   SED=$(command -v sed)
 fi
 

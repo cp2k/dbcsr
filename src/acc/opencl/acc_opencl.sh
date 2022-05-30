@@ -24,7 +24,7 @@ CPPBASEFLAGS="-dD -P -fpreprocessed"
 DELIMS=";,\t|/"
 
 # GNU sed is desired (macOS)
-if [ "" = "${SED}" ]; then
+if [ ! "${SED}" ]; then
   SED=$(command -v sed)
 fi
 
