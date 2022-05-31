@@ -990,8 +990,7 @@ CONTAINS
       ! (OpenMPI has several bugs with RMA and it does not
       ! give any performance benefit)
       CHARACTER(LEN=mp_max_library_version_string)       :: mpi_library_version
-      INTEGER                                            :: ipos, jpos, major, minor, patch, &
-                                                            resultlen, jpos_next
+      INTEGER                                            :: resultlen
 
       IF (.NOT. dbcsr_cfg%use_mpi_rma) &
          RETURN
