@@ -423,7 +423,9 @@ last full column of limiting inner product</p></td>
 <span class="k">         CALL </span><span class="n">dbcsr_acc_clear_errors</span><span class="p">()</span><span class="w"></span>
 <span class="w">      </span><span class="k">END IF</span><span class="w"></span>
 
-<span class="w">      </span><span class="c">! Check if RMA is used with buggy OpenMPI (version&lt;1.10.4 or 2.0.1)</span>
+<span class="w">      </span><span class="c">! Check if RMA is used with OpenMPI, if so disabled it</span>
+<span class="w">      </span><span class="c">! (OpenMPI has several bugs with RMA and it does not</span>
+<span class="w">      </span><span class="c">! give any performance benefit)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">check_openmpi_rma</span><span class="p">()</span><span class="w"></span>
 
 <span class="w">      </span><span class="n">use_mempools</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">has_acc</span><span class="w"></span>
