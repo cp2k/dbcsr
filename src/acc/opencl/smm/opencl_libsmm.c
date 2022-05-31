@@ -494,7 +494,7 @@ int libsmm_acc_init(void) {
                 opencl_libsmm_smm_t* config_init;
                 const int i = atoi(bufname);
                 if (0 >= ndevices || 0 == c_dbcsr_acc_opencl_config.devmatch || 0 > i || ndevices <= i ||
-                    EXIT_SUCCESS != c_dbcsr_acc_opencl_devuid(OPENCL_LIBSMM_DEVICES[i], &key.devuid))
+                    EXIT_SUCCESS != c_dbcsr_acc_opencl_device_uid(OPENCL_LIBSMM_DEVICES[i], &key.devuid))
                 {
                   key.devuid = 0;
                 }
@@ -544,7 +544,7 @@ int libsmm_acc_init(void) {
               if (1 < c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
                 unsigned int devuid, i = 0;
                 for (; i < (unsigned int)ndevices; ++i) {
-                  if (EXIT_SUCCESS == c_dbcsr_acc_opencl_devuid(OPENCL_LIBSMM_DEVICES[i], &devuid)) {
+                  if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_uid(OPENCL_LIBSMM_DEVICES[i], &devuid)) {
                     fprintf(stderr, "INFO ACC/OpenCL: 0x%08X - \"%s\"\n", devuid, OPENCL_LIBSMM_DEVICES[i]);
                   }
                 }
