@@ -16,6 +16,8 @@
 #define DBCSR_CONCATENATE2(A, B) A##B
 #define DBCSR_CONCATENATE(A, B) DBCSR_CONCATENATE2(A, B)
 
+/** used to mark variables used */
+#define DBCSR_MARK_USED(x) (void)(x)
 
 #if defined(__cplusplus)
 extern "C" {

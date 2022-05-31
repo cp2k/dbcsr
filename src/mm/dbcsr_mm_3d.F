@@ -87,7 +87,7 @@ MODULE dbcsr_mm_3d
    USE dbcsr_mpiwrap, ONLY: &
       mp_allgather, mp_alltoall, mp_comm_free, mp_comm_null, mp_comm_split_direct, &
       mp_iallgather, mp_isendrecv, mp_isum, mp_request_null, mp_rget, mp_wait, mp_waitall, &
-      mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all
+      mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all, mp_environ
    USE dbcsr_ptr_util, ONLY: ensure_array_size, &
                              memory_deallocate
    USE dbcsr_types, ONLY: &
@@ -122,6 +122,7 @@ MODULE dbcsr_mm_3d
                                                      data_before_resize, &
                                                      trs_stackbuf
       INTEGER                                     :: vprow, vpcol
+      INTEGER                                     :: myproc = -1
       INTEGER                                     :: grp = mp_comm_null, & ! Global communicator
                                                      subgrp = mp_comm_null ! Communicator for A and B
       INTEGER                                     :: data_win, meta_win
@@ -2250,7 +2251,7 @@ CONTAINS
       INTEGER, INTENT(INOUT)                             :: request
 
       CHARACTER(len=*), PARAMETER :: routineN = 'win_setup'
-      INTEGER                                            :: handle, handle1
+      INTEGER                                            :: handle, handle1, myproc
 
       CALL timeset(routineN, handle)
 
@@ -2273,6 +2274,8 @@ CONTAINS
          NULLIFY (buffer%meta_before_resize)
       END IF
       !
+      CALL mp_environ(taskid=myproc, groupid=buffer%subgrp)
+      buffer%myproc = myproc
       IF (do_win_create(1)) THEN
          CALL dbcsr_win_create_any(buffer%data, buffer%subgrp, buffer%data_win)
          CALL mp_win_lock_all(buffer%data_win)
@@ -2427,6 +2430,7 @@ CONTAINS
       CALL mp_rget(meta_get, recv_proc, &
                    meta_win, &
                    buffer_win%meta, &
+                   buffer_win%myproc, &
                    disp=displ_layers3D(imeta), &
                    request=buffer%get_requests(1))
       CALL dbcsr_data_set_pointer( &
@@ -2438,6 +2442,7 @@ CONTAINS
       CALL dbcsr_rget_any(data_get, recv_proc, &
                           data_win, &
                           buffer_win%data, &
+                          buffer_win%myproc, &
                           disp=displ_layers3D(idata), &
                           request=buffer%get_requests(2))
       CALL count_mpi_statistics(dbcsr_mpi_statistics%data_size(1, :), &

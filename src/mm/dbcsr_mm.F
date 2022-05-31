@@ -424,7 +424,9 @@ CONTAINS
          CALL dbcsr_acc_clear_errors()
       END IF
 
-      ! Check if RMA is used with buggy OpenMPI (version<1.10.4 or 2.0.1)
+      ! Check if RMA is used with OpenMPI, if so disabled it
+      ! (OpenMPI has several bugs with RMA and it does not
+      ! give any performance benefit)
       CALL check_openmpi_rma()
 
       use_mempools = dbcsr_cfg%use_mempools_cpu .OR. has_acc
@@ -983,14 +985,18 @@ CONTAINS
    END SUBROUTINE dbcsr_multiply_generic
 
    SUBROUTINE check_openmpi_rma()
-      !! Check if RMA is used with buggy OpenMPI
-      !! Currently tracked buggy versions: <1.10.4, 2.0.0, 2.1.x, 3.1.x
+      ! Check if RMA is used with OpenMPI, if so disabled it
+      ! (OpenMPI has several bugs with RMA and it does not
+      ! give any performance benefit)
       CHARACTER(LEN=mp_max_library_version_string)       :: mpi_library_version
-      INTEGER                                            :: ipos, jpos, major, minor, patch, &
-                                                            resultlen, jpos_next
+      INTEGER                                            :: ipos, resultlen
 
       IF (.NOT. dbcsr_cfg%use_mpi_rma) &
          RETURN
+
+#if defined(__DBCSR_OPENMPI_RMA)
+      RETURN
+#endif
 
       CALL mp_get_library_version(mpi_library_version, resultlen)
       ! ignore failure to obtain the library version string
@@ -1002,47 +1008,12 @@ CONTAINS
       IF (ipos .EQ. 0) &
          RETURN
 
-      ! Read major version
-      major = 0
-      ipos = ipos + 10
-      jpos = INDEX(mpi_library_version(ipos:resultlen), ".")
-      jpos = ipos + jpos - 2
-      READ (mpi_library_version(ipos:jpos), *) major
-
-      ! Open MPI 4+ is fine
-      IF (major .GT. 3) &
-         RETURN
-
-      ! Read minor version
-      minor = 0
-      ipos = jpos + 2
-      jpos = INDEX(mpi_library_version(ipos:resultlen), ".")
-      jpos = ipos + jpos - 2
-      READ (mpi_library_version(ipos:jpos), *) minor
-
-      ! Read patch version
-      patch = 0
-      ipos = jpos + 2
-      jpos = INDEX(mpi_library_version(ipos:resultlen), ",")
-
-      ! some version strings have additional components, filter them out:
-      jpos_next = INDEX(mpi_library_version(ipos:resultlen), ".")
-      IF ((jpos_next .GT. 0) .AND. (jpos_next .LT. jpos)) &
-         jpos = jpos_next
-
-      jpos = ipos + jpos - 2
-      READ (mpi_library_version(ipos:jpos), *) patch
-
-      IF ((major .LT. 2 .AND. (minor .LT. 10 .OR. (minor .EQ. 10 .AND. patch .LT. 4))) .OR. &
-          (major .EQ. 2 .AND. minor .EQ. 0 .AND. patch .EQ. 0) .OR. &
-          (major .EQ. 2 .AND. minor .EQ. 1) .OR. &
-          (major .EQ. 3 .AND. minor .EQ. 1)) THEN
-         CALL dbcsr_warn(__LOCATION__, "You are using an OpenMPI version with buggy RMA: --- "// &
-                         mpi_library_version(1:resultlen)// &
-                         " --- We disable RMA to prevent errors. "// &
-                         "Please install a new OpenMPI version (>=4.0.1). ")
-         CALL dbcsr_set_config(use_mpi_rma=.FALSE.)
-      END IF
+      CALL dbcsr_warn(__LOCATION__, "You are using OpenMPI: --- "// &
+                      mpi_library_version(1:resultlen)// &
+                      " --- We disable RMA to prevent errors. "// &
+                      "Please install MPICH version or use __DBCSR_OPENMPI_RMA to force the "// &
+                      "execution. ")
+      CALL dbcsr_set_config(use_mpi_rma=.FALSE.)
 
    END SUBROUTINE check_openmpi_rma
 

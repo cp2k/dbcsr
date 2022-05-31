@@ -2,11 +2,11 @@
 
 ## Overview
 
-The LIBSMM library implements the [ACC LIBSMM interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h), and depends on the [OpenCL backend](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/README.md). At least the compile-time settings below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).
+The LIBSMM library implements the [ACC LIBSMM interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h), and depends on the [OpenCL backend](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/README.md).
 
 ## Customization
 
-Compile-time settings are (implicitly) documented and can be adjusted by editing [opencl_libsmm.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h), e.g., `OPENCL_LIBSMM_VALIDATE` is disabled by default but can be enabled for debug purpose. The `OPENCL_LIBSMM_VALIDATE` compile-time setting enables side-by-side validation of matrix transpose and multiply operations on GPU against a built-in CPU implementation. For example, running DBCSR's unit tests with `OPENCL_LIBSMM_VALIDATE` enabled produce console output that allows to pin-point a kernel which is causing errors (validation). Runtime settings are made by the means of environment variables. The OpenCL backend provides `acc_getenv.sh` to list all occurrences of `getenv` categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:
+Compile-time settings are (implicitly) documented and can be adjusted by editing [opencl_libsmm.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h), e.g., `OPENCL_LIBSMM_VALIDATE` is disabled by default but can be enabled for debug purpose. The `OPENCL_LIBSMM_VALIDATE` compile-time setting enables side-by-side validation of matrix transpose and multiply operations between device and host. For example, running DBCSR's unit tests with `OPENCL_LIBSMM_VALIDATE` enabled produces console output that allows to pin-point a kernel which misses validation. Runtime settings are made by the means of environment variables. The OpenCL backend provides `acc_getenv.sh` to list all occurrences of `getenv` categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:
 
 * `ACC_OPENCL_DEVSPLIT`: integer enabling devices to be split into subdevices (non-zero/default: subdevices, zero: aggregated).
 * `ACC_OPENCL_DEVTYPE`: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).
@@ -45,13 +45,13 @@ The full list of tunable parameters and some explanation can be received with `s
 
 ## Auto Tuning
 
-Auto tuning code for performance is a practical way to find the "best" setting for parameterized code (e.g., GPU kernels). Introducing effective parameters is a prerequisite, and exploring the (potentially) high-dimensional parameter space in an efficient way is an art. It is desirable to have reasonable defaults even without auto-tuning the parameters. It would be even better to avoid auto-tuning if best performance was possible right away, i.e., if auto-tuning is not able to find better settings.
+Auto tuning code for performance is a practical way to find the "best" setting for parameterized code (e.g., GPU kernels). Introducing effective parameters is a prerequisite, and exploring the (potentially) high-dimensional parameter space in an efficient way is an art. It is desirable to have reasonable defaults even without auto-tuning the parameters. It would be even better to avoid auto-tuning if best performance was possible right away.
 
-For the OpenCL based LIBSMM a variety of parameters are explored using [OpenTuner](http://opentuner.org/). The script [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) (or tune_multiply.sh) leverages the `acc_bench_smm` benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.
+For the OpenCL based LIBSMM, a variety of parameters are explored using [OpenTuner](http://opentuner.org/). The script [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) (or tune_multiply.sh) leverages the `acc_bench_smm` by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned. The "communication" between the tuner and the executable is solely based on environment variables.
 
 **NOTE**: If `tune_multiply.py` (or `tune_multiply.sh`) is called with an environment variable already set, the respective parameter (e.g., `OPENCL_LIBSMM_SMM_BM` or `OPENCL_LIBSMM_SMM_BN`) is considered fixed (and not tuned automatically). This way, the parameter space is reduced in size and effort can be directed more intensely towards the remaining parameters.
 
-To toggle the benchmarks between tuning single precision (SP) and double precision (DP), `make ELEM_TYPE=float` can be used when building the benchmark drivers (backend). However, the `ELEM_TYPE` can be also directly edited in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26). Auto-tuned parameters for SP and DP can be embedded into the same final application and are considered correctly at runtime.
+To toggle the benchmarks between tuning single precision (SP) and double precision (DP), `make ELEM_TYPE=float` can be used when building the benchmark drivers (`ELEM_TYPE` can be also directly edited in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26)). Auto-tuned parameters for SP and DP can be embedded into the same final application and are considered correctly at runtime.
 
 To build the benchmarks in double precision (`ELEM_TYPE=double` is default):
 
@@ -82,7 +82,7 @@ The OpenTuner script supports several command line arguments (`tune_multiply.py 
 
 **NOTE**: If multiple different kernels are tuned using `tune_multiply.py`, it is advisable to delete the `opentuner.db` directory prior to tuning a different kernel since otherwise auto-tuning is potentially (mis-)guided by information which was collected for a different kernel (`tune_multiply.sh` does this automatically).
 
-The OpenTuner script implements multiple objectives ("cost"), primarily "accuracy" (maximized) and a secondary objective "size" (minimized). The former represents the achieved performance (GFLOPS/s) while the latter represents an artificial kernel requirement (just to prefer one parameter set over another in case of similar performance). The console output looks like:
+The OpenTuner script implements multiple objectives ("cost"), primarily "accuracy" (maximized) and a secondary objective "size" (minimized). The former represents the achieved performance (GFLOPS/s) while the latter represents an artificial kernel requirement (just to prefer one parameter set over another in case of similar performance). The console output looks like ("accuracy" denotes performance in GFLOPS/s):
 
 ```text
 [    15s]    INFO opentuner.search.plugin.DisplayPlugin: tests=8, best {'BS': 32, 'BM': 6, 'BN': 1}, cost accuracy=28.80000000, size=1.0, found by UniformGreedyMutation
@@ -98,9 +98,9 @@ The script finally writes a JSON-file with a filename like `tune_multiply-float-
 
 ## Optimized Kernels
 
-JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file (can be disabled). Further and beyond actual auto-tuning kernels, [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) can be used to perform some basic operations on collected data: explicitly merging all JSON-files into a CSV-file (`tune_multiply.py -m`), and updating the device name in all JSON-files according to current driver version (`tune_multiply.py -u`).
+JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file. Further and beyond auto-tuning kernels, [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) can be used to perform basic operations on collected data: explicitly merging all JSON-files into a CSV-file (`tune_multiply.py -m`), and updating the device name in all JSON-files according to current driver version (`tune_multiply.py -u`).
 
-Collected or auto-tuned parameters achieved with single precision (SP), double precision (DP), or from different devices can be safely combined. Practically, `acc_opencl.sh` transforms the CSV-file into source code compiled into the final binary, which is independent of `OPENCL_LIBSMM_SMM_PARAMS` accepting a CSV-file (path). However, `acc_opencl.sh` currently limits the origin of parameters to a single device. Care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).
+Collected or auto-tuned parameters achieved with single precision (SP), double precision (DP), or from different devices can be safely combined. Practically, `acc_opencl.sh` transforms the CSV-file into source code compiled into the final binary, which is independent of `OPENCL_LIBSMM_SMM_PARAMS` accepting a CSV-file (path/filename). However, `acc_opencl.sh` currently limits the origin of parameters to a single device. Care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).
 
 Different problem sizes (like "s15"; see above) are not represented individually, but are instead collected into a maximum value. In turn, this means tuning for a non-default problem-size must be manually kept pure since the result achieved with a larger problem may dominate (maximum value).
 
@@ -124,7 +124,7 @@ cd src/acc
 OPENCL_LIBSMM_SMM_PARAMS=0 ./acc_bench_smm 5 30000 13 5 7
 ```
 
-Further, a CSV-file can be supplied to override embedded parameters or defaults:
+By supplying a CSV-file at runtime, embedded parameters and defaults are overriden, and given parameters are applied even if the current device is different from what would match the given parameters:
 
 ```bash
 cd src/acc
@@ -163,4 +163,4 @@ echo "Override original parameters"
 cp tune_multiply.csv smm/params/tune_multiply_P100.csv
 ```
 
-Tuning kernels further that have been previously tuned (like above) is only sensible if the previously tuned parameters are embedded into the binary such that the process does start from scratch. The result of retuned parameters is captured with JSON-files as usual however, the generated CSV-file may be used to override the previous file (as shown above).
+Tuning kernels further is only sensible if the previously tuned parameters are embedded into the binary (such that the process does not start from scratch). Retuned parameters are captured with JSON-files as usual.

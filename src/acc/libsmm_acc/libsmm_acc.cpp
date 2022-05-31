@@ -224,7 +224,7 @@ kernel_map_iterator add_kernel_handle_to_jitted_kernels(
 
 //===========================================================================
 int libsmm_acc_process_blas(const int* param_stack, int stack_size, ACC_DRV(stream) stream, int m, int n, int k, int max_kernel_dim,
-  const double* a_data, const double* b_data, double* c_data, std::vector<ACC_BLAS(Handle_t) *> handles = acc_blashandles) {
+  const double* a_data, const double* b_data, double* c_data) {
 #if defined _OPENMP
   int ithread = omp_get_thread_num();
 #else
@@ -287,9 +287,9 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
 }
 
 //===========================================================================
-int libsmm_acc_process(const int* param_stack_host, const int* param_stack_dev, int stack_size, int nparams,
-  libsmm_acc_data_t datatype, const void* a_data, const void* b_data, void* c_data, int m, int n, int k, int max_kernel_dim,
-  int def_mnk, void* stack_stream, void* c_stream) {
+int libsmm_acc_process(const int* param_stack_host, const int* param_stack_dev, int stack_size, libsmm_acc_data_t datatype,
+  const void* a_data, const void* b_data, void* c_data, int m, int n, int k, int max_kernel_dim, int def_mnk, void* stack_stream,
+  void* c_stream) {
   if (def_mnk != 1) return -1; // inhomogeneous stacks not supported
   if (datatype == dbcsr_type_real_8) {
     if (m > max_kernel_dim || n > max_kernel_dim || k > max_kernel_dim)

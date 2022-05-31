@@ -31,6 +31,13 @@ MAXEXT ?= 48
 NTRANS ?= 10
 NSMMS ?= 10
 
+MULTI ?= 0
+ifneq (0,$(MULTI))
+  ACC_BENCH_SMM := $(ACCDIR)/acc_bench_smm.sh
+else
+  ACC_BENCH_SMM := $(ACCDIR)/acc_bench_smm
+endif
+
 COMMAND := $(shell which command 2>/dev/null)
 ifneq (,$(COMMAND))
   which = $(shell $(COMMAND) -v $1)
@@ -151,6 +158,9 @@ ifeq (Darwin,$(UNAME))
   LDFLAGS += -framework OpenCL
 else
   LIBOPENCL := $(shell ldconfig -p 2>/dev/null | grep -m1 OpenCL | rev | cut -d' ' -f1 | rev)
+  ifeq (,$(LIBOPENCL))
+    LIBOPENCL := $(wildcard /usr/lib/x86_64-linux-gnu/libOpenCL.so.1)
+  endif
   ifeq (,$(CUDATOOLKIT_HOME))
     CUDATOOLKIT_HOME := $(NVSDKCOMPUTE_ROOT)
   endif
@@ -189,7 +199,7 @@ test-interface: $(ACCDIR)/dbcsr_acc_test
 .PHONY: test-trans
 test-trans: bench
 	$(eval SHAPES = $(shell $(ACCDIR)/acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
-	$(eval DEVICE = $(shell ACC_OPENCL_VERBOSE=1 CHECK=0 $(ACCDIR)/acc_bench_smm 1 1 1 2>&1 >/dev/null))
+	$(eval DEVICE = $(shell ACC_OPENCL_VERBOSE=1 CHECK=0 $(ACCDIR)/acc_bench_trans 1 1 1 2>&1 >/dev/null))
 	@echo "--- DBCSR OpenCL Transposes ($(words $(SHAPES)))"
 	@echo "$(DEVICE)"
 	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
@@ -225,7 +235,7 @@ endif
 	@echo "hostname: $$(hostname)"
 	@echo
 	@echo "$(SHAPES)" | xargs -n1 | \
-		($(GPUENV) CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L $(ACCDIR)/acc_bench_smm /dev/stdin \
+		($(GPUENV) CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L $(ACC_BENCH_SMM) /dev/stdin \
 			2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 	@if [ -s $(MAKDIR)/test-smm.err ]; then cat $(MAKDIR)/test-smm.err && exit 1; fi
 
@@ -242,9 +252,13 @@ endif
 $(MAKDIR)/smm/opencl_kernels.h: $(MAKDIR)/acc_opencl.sh $(KERNEL) $(PARAMS)
 	@CPPFLAGS=$(CPP_OPENCL_FLAGS) $(MAKDIR)/acc_opencl.sh $(KERNEL) $(PARAMS) $@
 
+.PHONY: backend
+backend: $(ACCDIR)/dbcsr_acc.a
 $(ACCDIR)/dbcsr_acc.a: $(OBJACC)
 	$(AR) -rs $@ $^
 
+.PHONY: libsmm
+libsmm: $(ACCDIR)/dbcsr_acc_smm.a
 $(ACCDIR)/dbcsr_acc_smm.a: $(OBJSMM)
 	$(AR) -rs $@ $^
 
