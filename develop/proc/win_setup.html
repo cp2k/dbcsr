@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">36 statements</a>
+    title=" 0.1% of total for procedures.">38 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_3d.F"> Source File</a></li>
   </ul>
@@ -180,7 +180,7 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">request</span><span class="w"></span>
 
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;win_setup&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">handle1</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">handle1</span><span class="p">,</span><span class="w"> </span><span class="n">myproc</span><span class="w"></span>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
 
@@ -203,6 +203,8 @@
 <span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_before_resize</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">END IF</span><span class="w"></span>
 <span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">taskid</span><span class="o">=</span><span class="n">myproc</span><span class="p">,</span><span class="w"> </span><span class="n">groupid</span><span class="o">=</span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">buffer</span><span class="p">%</span><span class="n">myproc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myproc</span><span class="w"></span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_win_create</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_win_create_any</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="k">data</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">%</span><span class="n">data_win</span><span class="p">)</span><span class="w"></span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">mp_win_lock_all</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_win</span><span class="p">)</span><span class="w"></span>
