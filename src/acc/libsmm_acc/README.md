@@ -16,9 +16,9 @@ For a description of the library (some details are outdated, but this neverthele
 - [`notebooks/`](notebooks/): jupyter notebooks for exploring data generated from autotuning and prediction.
 - `generate_*.py`: utility scripts for `libsmm_acc` compilation
 - `libsmm_acc*`: libsmm_acc C++ and CUDA / HIP code
-- [`parameters/`](parameters/): contains `parameters_GPU.json` files. These are sets of matrix-matrix multiplication parameters for different (m, n, k)-triplets optimized for a given GPU card. You can explore these parameters interactively using the [provided jupyter notebook](notebooks/inspect_autotuned_parameters.ipynb)
-- [`predict/`](predict/): scripts for prediction of optimal parameter sets, see [predictive modeling of kernel parameters](predict/README.md)
-- [`tune/`](tune/): scripts for autotuning of optimal parameter sets, see [autotuning of kernel parameters](tune/README.md)
+- [`parameters/`](parameters/): contains `parameters_GPU.json` files. These are sets of matrix-matrix multiplication parameters for different (m, n, k)-triplets optimized for a given GPU card. You can explore these parameters interactively using the [provided jupyter notebook](src/acc/libsmm_acc/notebooks/inspect_autotuned_parameters.ipynb)
+- [`predict/`](predict/): scripts for prediction of optimal parameter sets, see [predictive modeling of kernel parameters](src/acc/libsmm_acc/predict/README.md)
+- [`tune/`](tune/): scripts for autotuning of optimal parameter sets, see [autotuning of kernel parameters](src/acc/libsmm_acc/tune/README.md)
 
 ## Matrix-matrix Multiplication Kernels and Parameters
 
