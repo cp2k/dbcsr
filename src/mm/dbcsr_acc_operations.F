@@ -115,7 +115,6 @@ CONTAINS
 
       mnk = 0
       IF (def_mnk) mnk = 1
-      istat = -100 ! big kernels
 
       ! Call batched matrix-matrix multiplication in libsmm_acc
       istat = libsmm_acc_process_cu(C_LOC(param_stack_host_ptr), &
@@ -130,7 +129,8 @@ CONTAINS
                                     INT(k_max, KIND=C_INT), &
                                     INT(max_kernel_dim, KIND=C_INT), &
                                     mnk, acc_stream_cptr(stack_stream), acc_stream_cptr(c_stream))
-      IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
+      IF (istat == -10) DBCSR_ABORT("Data type not supported with GPU backend.")
+      IF (istat == -20) DBCSR_ABORT("GPU kernel not JIT-ed.")
       success = (istat == 0) ! false if no suitable kernel was found
 
       IF (careful_mod) CALL timestop(error_handle)
