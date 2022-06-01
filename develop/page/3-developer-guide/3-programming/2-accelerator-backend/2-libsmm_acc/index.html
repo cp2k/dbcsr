@@ -110,13 +110,13 @@
 <p><code>libsmm_acc</code> is compiled from within DBCSR, there is no separate compilation.</p>
 <h2>Directory Organization</h2>
 <ul>
-<li><a href="kernels/"><code>kernels/</code></a>: GPU kernels (CUDA- and HIP-compatible) for matrix-matrix multiplication and python interface to autotuning and predictive code.</li>
-<li><a href="notebooks/"><code>notebooks/</code></a>: jupyter notebooks for exploring data generated from autotuning and prediction.</li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/"><code>kernels/</code></a>: GPU kernels (CUDA- and HIP-compatible) for matrix-matrix multiplication and python interface to autotuning and predictive code.</li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/"><code>notebooks/</code></a>: jupyter notebooks for exploring data generated from autotuning and prediction.</li>
 <li><code>generate_*.py</code>: utility scripts for <code>libsmm_acc</code> compilation</li>
 <li><code>libsmm_acc*</code>: libsmm_acc C++ and CUDA / HIP code</li>
-<li><a href="parameters/"><code>parameters/</code></a>: contains <code>parameters_GPU.json</code> files. These are sets of matrix-matrix multiplication parameters for different (m, n, k)-triplets optimized for a given GPU card. You can explore these parameters interactively using the <a href="notebooks/inspect_autotuned_parameters.ipynb">provided jupyter notebook</a></li>
-<li><a href="predict/"><code>predict/</code></a>: scripts for prediction of optimal parameter sets, see <a href="predict/README.md">predictive modeling of kernel parameters</a></li>
-<li><a href="tune/"><code>tune/</code></a>: scripts for autotuning of optimal parameter sets, see <a href="tune/README.md">autotuning of kernel parameters</a></li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/parameters/"><code>parameters/</code></a>: contains <code>parameters_GPU.json</code> files. These are sets of matrix-matrix multiplication parameters for different (m, n, k)-triplets optimized for a given GPU card. You can explore these parameters interactively using the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/inspect_autotuned_parameters.ipynb">provided jupyter notebook</a></li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/"><code>predict/</code></a>: scripts for prediction of optimal parameter sets, see <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/README.md">predictive modeling of kernel parameters</a></li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/"><code>tune/</code></a>: scripts for autotuning of optimal parameter sets, see <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/README.md">autotuning of kernel parameters</a></li>
 </ul>
 <h2>Matrix-matrix Multiplication Kernels and Parameters</h2>
 <p>For a given matrix-matrix multiplication <strong>triplet</strong> characterized by dimensions</p>
@@ -127,11 +127,11 @@
 </ul>
 <p><code>libsmm_acc</code> can run 5 different matrix-matrix multiplication <strong>kernels</strong>:</p>
 <ul>
-<li><a href="kernels/smm_acc_dnt_tiny.h">tiny</a></li>
-<li><a href="kernels/smm_acc_dnt_small.h">small</a></li>
-<li><a href="kernels/smm_acc_dnt_medium.h">medium</a></li>
-<li><a href="kernels/smm_acc_dnt_largeDB1.h">largeDB1</a> ("large double-buffering 1")</li>
-<li><a href="kernels/smm_acc_dnt_largeDB2.h">largeDB2</a> ("large double-buffering 2")</li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_tiny.h">tiny</a></li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_small.h">small</a></li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_medium.h">medium</a></li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_largeDB1.h">largeDB1</a> ("large double-buffering 1")</li>
+<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_largeDB2.h">largeDB2</a> ("large double-buffering 2")</li>
 </ul>
 <p>which take between 3 - 7 <strong>parameters</strong> (see figure at the top):</p>
 <ul>
@@ -146,9 +146,9 @@
 <p>The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters. For this reason, <code>libsmm_acc</code> provides lists of optimal parameters for different GPU cards and different (m, n, k)-triplets. These sets of optimal parameters can be found either through <em>autotuning</em> or <em>predictive modeling</em>.</p>
 <h2>Contributing to libsmm_acc</h2>
 <h4>Autotuning procedure</h4>
-<p>Follow the <a href="tune/README.md">autotuning procedure</a></p>
+<p>Follow the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/README.md">autotuning procedure</a></p>
 <h4>Predictive modeling of kernel parameters</h4>
-<p>Follow the <a href="predict/README.md">predictive modeling procedure</a></p>
+<p>Follow the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/README.md">predictive modeling procedure</a></p>
 <h4>Adding a new kernel</h4>
 <ol>
 <li>
@@ -161,19 +161,19 @@
 <p>Add python kernel class inheriting from base class <code>kernels/smm_acc_dnt_name.py</code></p>
 </li>
 <li>
-<p>Add the new kernel to the <code>kernel_algorithm</code> data structure in <a href="kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></p>
+<p>Add the new kernel to the <code>kernel_algorithm</code> data structure in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></p>
 </li>
 </ol>
 <h4>Adding support for a new GPU card</h4>
 <ol>
 <li>
-<p>Add the GPU's compute architecture properties to <a href="kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>. For more information on where to find these properties, please refer to the "info" field of <a href="kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>.</p>
+<p>Add the GPU's compute architecture properties to <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>. For more information on where to find these properties, please refer to the "info" field of <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>.</p>
 </li>
 <li>
-<p>Add the GPU to the <code>arch_number</code> data structure in <a href="kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></p>
+<p>Add the GPU to the <code>arch_number</code> data structure in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></p>
 </li>
 <li>
-<p>Add the necessary code for setting <code>ARCH_NUMBER</code> correctly in the <a href="CMakeLists.txt"><code>CMakeLists</code></a>. Also add this GPU to the list of <code>SUPPORTED_CUDA_ARCHITECTURES</code> or <code>SUPPORTED_HIP_ARCHITECTURES</code> in the <a href="CMakeLists.txt"><code>CMakeLists</code></a>.</p>
+<p>Add the necessary code for setting <code>ARCH_NUMBER</code> correctly in the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt"><code>CMakeLists</code></a>. Also add this GPU to the list of <code>SUPPORTED_CUDA_ARCHITECTURES</code> or <code>SUPPORTED_HIP_ARCHITECTURES</code> in the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt"><code>CMakeLists</code></a>.</p>
 </li>
 <li>
 <p>Add a minimal JSON file <code>parameters_GPU.json</code>, containing:</p>

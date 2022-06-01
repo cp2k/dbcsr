@@ -124,7 +124,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-alpha~29"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~51"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>alpha</strong></td><td></td>
@@ -142,7 +142,7 @@
   <td><strong>tensor_2</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-beta~14"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta~17"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>beta</strong></td><td></td>
@@ -208,7 +208,7 @@
   <td><strong>bounds_3</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-optimize_dist~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-optimize_dist~4"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>optimize_dist</strong></td><td></td>
@@ -232,25 +232,25 @@
   <td><strong>pgrid_opt_3</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-filter_eps~17"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps~21"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>filter_eps</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~19"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~30"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~7"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~14"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-retain_sparsity~13"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~17"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td></td>
@@ -262,20 +262,20 @@
   <td><strong>nblks_local</strong></td><td><p>number of local blocks on this MPI rank</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-result_index"></span>integer,</td>
+  <td><span class="anchor" id="variable-result_index~2"></span>integer,</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3))</td><td>::</td>
   <td><strong>result_index</strong></td><td><p>get indices of non-zero tensor blocks for tensor_3 without actually performing contraction
 this is an estimate based on block norm multiplication</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~13"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~21"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-log_verbose~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-log_verbose~5"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>log_verbose</strong></td><td></td>
