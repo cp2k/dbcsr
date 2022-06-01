@@ -12,13 +12,13 @@ For a description of the library (some details are outdated, but this neverthele
 
 ## Directory Organization
 
-- [`kernels/`](kernels/): GPU kernels (CUDA- and HIP-compatible) for matrix-matrix multiplication and python interface to autotuning and predictive code.
-- [`notebooks/`](notebooks/): jupyter notebooks for exploring data generated from autotuning and prediction.
+- [`kernels/`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/): GPU kernels (CUDA- and HIP-compatible) for matrix-matrix multiplication and python interface to autotuning and predictive code.
+- [`notebooks/`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/): jupyter notebooks for exploring data generated from autotuning and prediction.
 - `generate_*.py`: utility scripts for `libsmm_acc` compilation
 - `libsmm_acc*`: libsmm_acc C++ and CUDA / HIP code
-- [`parameters/`](parameters/): contains `parameters_GPU.json` files. These are sets of matrix-matrix multiplication parameters for different (m, n, k)-triplets optimized for a given GPU card. You can explore these parameters interactively using the [provided jupyter notebook](notebooks/inspect_autotuned_parameters.ipynb)
-- [`predict/`](predict/): scripts for prediction of optimal parameter sets, see [predictive modeling of kernel parameters](predict/README.md)
-- [`tune/`](tune/): scripts for autotuning of optimal parameter sets, see [autotuning of kernel parameters](tune/README.md)
+- [`parameters/`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/parameters/): contains `parameters_GPU.json` files. These are sets of matrix-matrix multiplication parameters for different (m, n, k)-triplets optimized for a given GPU card. You can explore these parameters interactively using the [provided jupyter notebook](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/inspect_autotuned_parameters.ipynb)
+- [`predict/`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/): scripts for prediction of optimal parameter sets, see [predictive modeling of kernel parameters](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/README.md)
+- [`tune/`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/): scripts for autotuning of optimal parameter sets, see [autotuning of kernel parameters](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/README.md)
 
 ## Matrix-matrix Multiplication Kernels and Parameters
 
@@ -30,11 +30,11 @@ For a given matrix-matrix multiplication **triplet** characterized by dimensions
 
 `libsmm_acc` can run 5 different matrix-matrix multiplication **kernels**:
 
-- [tiny](kernels/smm_acc_dnt_tiny.h)
-- [small](kernels/smm_acc_dnt_small.h)
-- [medium](kernels/smm_acc_dnt_medium.h)
-- [largeDB1](kernels/smm_acc_dnt_largeDB1.h) ("large double-buffering 1")
-- [largeDB2](kernels/smm_acc_dnt_largeDB2.h) ("large double-buffering 2")
+- [tiny](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_tiny.h)
+- [small](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_small.h)
+- [medium](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_medium.h)
+- [largeDB1](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_largeDB1.h) ("large double-buffering 1")
+- [largeDB2](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_largeDB2.h) ("large double-buffering 2")
 
 which take between 3 - 7 **parameters** (see figure at the top):
 
@@ -52,11 +52,11 @@ The performance of the matrix-matrix multiplication kernels is highly dependent 
 
 #### Autotuning procedure
 
-Follow the [autotuning procedure](tune/README.md)
+Follow the [autotuning procedure](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/README.md)
 
 #### Predictive modeling of kernel parameters
 
-Follow the [predictive modeling procedure](predict/README.md)
+Follow the [predictive modeling procedure](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/README.md)
 
 #### Adding a new kernel
 
@@ -66,15 +66,15 @@ Follow the [predictive modeling procedure](predict/README.md)
 
 3. Add python kernel class inheriting from base class `kernels/smm_acc_dnt_name.py`
 
-4. Add the new kernel to the `kernel_algorithm` data structure in [`kernels/smm_acc_predict.py`](kernels/smm_acc_predict.py)
+4. Add the new kernel to the `kernel_algorithm` data structure in [`kernels/smm_acc_predict.py`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py)
 
 #### Adding support for a new GPU card
 
-1. Add the GPU's compute architecture properties to [`kernels/gpu_properties.json`](kernels/gpu_properties.json). For more information on where to find these properties, please refer to the "info" field of [`kernels/gpu_properties.json`](kernels/gpu_properties.json).
+1. Add the GPU's compute architecture properties to [`kernels/gpu_properties.json`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json). For more information on where to find these properties, please refer to the "info" field of [`kernels/gpu_properties.json`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json).
 
-2. Add the GPU to the `arch_number` data structure in [`kernels/smm_acc_predict.py`](kernels/smm_acc_predict.py)
+2. Add the GPU to the `arch_number` data structure in [`kernels/smm_acc_predict.py`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py)
 
-3. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`CMakeLists`](CMakeLists.txt). Also add this GPU to the list of `SUPPORTED_CUDA_ARCHITECTURES` or `SUPPORTED_HIP_ARCHITECTURES` in the [`CMakeLists`](CMakeLists.txt).
+3. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`CMakeLists`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt). Also add this GPU to the list of `SUPPORTED_CUDA_ARCHITECTURES` or `SUPPORTED_HIP_ARCHITECTURES` in the [`CMakeLists`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt).
 
 4. Add a minimal JSON file `parameters_GPU.json`, containing:
 
