@@ -2,21 +2,21 @@
 
 ## Directory Organization
 
-* [`autotuning_properties.json`](autotuning_properties.json) Properties of the autotuning procedure, read from [DBCSR source code](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/libsmm_acc_benchmark.cpp)
+* [`autotuning_properties.json`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/autotuning_properties.json) Properties of the autotuning procedure, read from [DBCSR source code](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/libsmm_acc_benchmark.cpp)
 
-* [`gpu_properties.json`](gpu_properties.json) GPU card properties
+* [`gpu_properties.json`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json) GPU card properties
 
-* [`smm_acc_common.h`](smm_acc_common.h) Functionalities common to kernel CUDA/HIP codes
+* [`smm_acc_common.h`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_common.h) Functionalities common to kernel CUDA/HIP codes
 
-* [`smm_acc_dnt_base.py`](smm_acc_dnt_base.py) Kernel base class
+* [`smm_acc_dnt_base.py`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_base.py) Kernel base class
 
   * `smm_acc_dnt_ALGORITHM.py` Kernel class in python
 
   * `smm_acc_dnt_ALGORITHM.h` Batched Multiply Kernel CUDA/HIP code
 
-* [`smm_acc_predict.py`](smm_acc_predict.py) Class and helper functions for parameter prediction procedure
+* [`smm_acc_predict.py`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py) Class and helper functions for parameter prediction procedure
 
-* [`smm_acc_transpose.h`](smm_acc_transpose.h) Transpose CUDA/HIP code
+* [`smm_acc_transpose.h`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_transpose.h) Transpose CUDA/HIP code
 
 ## Batched Multiplication Kernels
 
