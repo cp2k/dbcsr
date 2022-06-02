@@ -12,6 +12,9 @@
 #include <stdlib.h>
 #include <algorithm>
 #include "libsmm_acc_benchmark.h"
+#ifdef __TUNING
+#include "parameters.h"
+#endif
 #include "parameters_utils.h"
 #include "../acc_bench.h"
 

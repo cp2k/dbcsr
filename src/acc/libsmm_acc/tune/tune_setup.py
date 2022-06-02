@@ -280,19 +280,17 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task=12, max_num_nodes=0):
     output += "#SBATCH --ntasks-per-node=1\n"
     output += "#SBATCH --cpus-per-task=" + "%d\n" % cpus_per_task
     output += "#SBATCH --time=%s\n" % time
-    output += "#SBATCH --partition=normal\n"
-    output += "#SBATCH --constraint=gpu\n"
+    output += "#SBATCH --partition=bp11\n"
     output += "\n"
-    output += "source ${MODULESHOME}/init/sh;\n"
-    output += "module load daint-gpu\n"
+    output += "source ${MODULESHOME}/init/sh; module use /global/opt/modulefiles;\n"
     output += "module unload PrgEnv-cray\n"
     output += "module load PrgEnv-gnu\n"
     if compiler == "nvcc":
         output += "module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c\n"
     else:  # i.e. compiler = hipcc
-        output += "module load hip\n"
+        output += "module load rocm/5.1.0; module load craype-accel-amd-gfx90a;\n"
+    output += "export ROCR_VISIBLE_DEVICES=0\n"
     output += "module list\n"
-    output += "export CRAY_CUDA_MPS=1\n"
     output += "cd $SLURM_SUBMIT_DIR \n"
     output += "\n"
     output += "date\n"
@@ -374,18 +372,18 @@ def gen_makefile(outdir, compiler, arch):
     output += "libsmm_acc_benchmark.o acc.o :\n"
     if compiler == "nvcc":
         output += (
-            "\tnvcc -O3 -D__CUDA -arch=" + str(arch) + " -w -c -o $@ -std=c++11 $<\n\n"
+            "\tnvcc -O3 -D__TUNING -D__CUDA -arch=" + str(arch) + " -w -c -o $@ -std=c++11 $<\n\n"
         )
     else:
-        output += "\thipcc -O3 -D__HIP -w -c -o $@ $<\n\n"
+        output += "\thipcc -O3 -D__TUNING -D__HIP -w -c -o $@ $<\n\n"
 
     # compilation rule for kernel files
     headers = " ".join(["../" + fn for fn in glob("../kernels/*.h")])
     output += "%.o : %" + file_extension + " " + headers + "\n"
     if compiler == "nvcc":
-        output += "\tnvcc -O3 -D__CUDA -arch=" + str(arch) + " -w -c $<\n\n"
+        output += "\tnvcc -O3 -D__TUNING -D__CUDA -arch=" + str(arch) + " -w -c $<\n\n"
     else:
-        output += "\thipcc -O3 -D__HIP -w -c $<\n\n"
+        output += "\thipcc -O3 -D__TUNING -D__HIP -w -c $<\n\n"
 
     # compilation rule for autotuning executables
     for exe_src in all_exe_src:

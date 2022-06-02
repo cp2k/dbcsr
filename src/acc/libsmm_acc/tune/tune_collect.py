@@ -24,36 +24,45 @@ re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")
 re_gflops = re.compile(r"# ([0-9.]+) GFlop/s")
 re_errors = re.compile(r"Number of errors: (\d+)\n")
 
+from dataclasses import dataclass
+
+@dataclass
+class awinner:
+    value: str = ""
+    missing: int = 0
+    incomplete: int = 0
+    n_errors: int = 0
 
 # ===============================================================================
 def main():
     winners = dict()
 
+    n_errors = 0
     for d in glob("tune_*"):
         if not os.path.isdir(d):
             continue
 
         for exe_fn in glob(d + "/tune_*main.c*"):
             mnk = tuple([int(i) for i in re_mnk.search(exe_fn).groups()])
+            if mnk not in winners:
+                winners[mnk] = awinner()
             log_fn = exe_fn.replace("_main.cu", ".log").replace("_main.cpp", ".log")
-            error_code = 0
             if not os.path.exists(log_fn):
                 winners[mnk] = "log missing: " + log_fn
                 print(
-                    "Missing log:",
+                    "WARNINGL: Missing log:",
                     log_fn,
                     ", please re-run (cd tune_mxnxk; sbatch tune_mxnxk.job)",
                 )
-                error_code = 1
+                n_errors += 1
             else:
-                error_code += process_log(log_fn, mnk, winners)
+                n_errors += process_log(log_fn, mnk, winners)
 
-            if error_code > 0:
-                print("Missing or incomplete logs")
-                return
+    if n_errors > 0:
+        print("WARNING: Found %d issues, check above messages." % n_errors)
 
     # Get kernel objects from list of strings
-    kernels = [descr_to_kernel(kernel_descr) for kernel_descr in winners.values()]
+    kernels = [descr_to_kernel(kernel_descr.value) for kernel_descr in winners.values()]
     kernels_dict = dict(zip([(k.m, k.n, k.k) for k in kernels], kernels))
     new_file = "../parameters/parameters.json"
     with open(new_file, "w") as f:
@@ -81,9 +90,9 @@ def process_log(log_fn, mnk, winners):
 
     m = re_errors.search(content)
     if not m:
-        winners[mnk] = "log incomplete: " + log_fn
+        winners[mnk].incomplete += 1
         print(
-            "Found incomplete log:",
+            "WARNING: Found incomplete log:",
             log_fn,
             ", please re-run (cd tune_mxnxk; sbatch tune_mxnxk.job)",
         )
@@ -91,21 +100,19 @@ def process_log(log_fn, mnk, winners):
 
     n_errors = int(m.group(1))
     if n_errors != 0:
-        winners[mnk] = "errors: " + log_fn
-        return 0
+        winners[mnk].n_errors += n_errors
+        return 1
 
     old_gflops = 0.0
-    if mnk in winners.keys():
-        m = re_gflops.search(winners[mnk])
-        if not m:
-            return 0
+    m = re_gflops.search(winners[mnk].value)
+    if m:
         old_gflops = float(m.group(1))
 
     new_winner = re_winner.search(content).group(1).strip().replace("GFlops", "GFlop/s")
     new_gflops = float(re_gflops.search(new_winner).group(1))
 
     if new_gflops > old_gflops:
-        winners[mnk] = new_winner
+        winners[mnk].value = new_winner
     return 0
 
 
