@@ -8,8 +8,6 @@
 - [`dbcsr_tensor_example_2`](dbcsr_tensor_example_2.cpp): tensor contraction example (cpp)
     - tensor1 x tensor2 = tensor3, (13|2)x(54|21)=(3|45)
 
-See the [examples' documentation](../docs/guide/2-user-guide/3-examples/index.md).
-
 ## Build
 
 Compile the DBCSR library, using `-DUSE_MPI=ON -DWITH_EXAMPLES=ON`.
