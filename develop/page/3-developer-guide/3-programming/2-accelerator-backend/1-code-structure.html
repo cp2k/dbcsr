@@ -95,14 +95,15 @@
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>GPU Backend Code Architecture</h1>
-<div class="codehilite"><pre><span></span><code>dbcsr/
--- src/
----- acc/: contains interfaces to ACC and LIBSMM (top-level) as well as backends (subdirectories)
------- cuda/: CUDA backend
------- hip/: HIP backend
------- libsmm_acc/: small matrix-matrix operations on GPU (can use either cuda or hip interface)
------- opencl/: OpenCL backend
------- opencl/smm/: LIBSMM implementation based on OpenCL
+<div class="codehilite"><pre><span></span><code><span class="nv">dbcsr</span><span class="o">/</span>
+<span class="o">--</span> <span class="nv">src</span><span class="o">/</span>
+<span class="o">----</span> <span class="nv">acc</span><span class="o">/</span>: <span class="nv">contains</span> <span class="nv">interfaces</span> <span class="nv">to</span> <span class="nv">ACC</span> <span class="nv">and</span> <span class="nv">LIBSMM</span> <span class="ss">(</span><span class="nv">top</span><span class="o">-</span><span class="nv">level</span><span class="ss">)</span> <span class="nv">as</span> <span class="nv">well</span> <span class="nv">as</span> <span class="nv">backends</span> <span class="ss">(</span><span class="nv">subdirectories</span><span class="ss">)</span>
+<span class="o">------</span> <span class="nv">cuda</span><span class="o">/</span>: <span class="nv">CUDA</span> <span class="nv">backend</span>
+<span class="o">------</span> <span class="nv">hip</span><span class="o">/</span>: <span class="nv">HIP</span> <span class="nv">backend</span>
+<span class="o">------</span> <span class="nv">cuda_hip</span><span class="o">/</span>: <span class="nv">common</span> <span class="nv">code</span> <span class="k">for</span> <span class="nv">CUDA</span> <span class="nv">and</span> <span class="nv">HIP</span>
+<span class="o">------</span> <span class="nv">libsmm_acc</span><span class="o">/</span>: <span class="nv">small</span> <span class="nv">matrix</span><span class="o">-</span><span class="nv">matrix</span> <span class="nv">operations</span> <span class="nv">on</span> <span class="nv">GPU</span> <span class="ss">(</span><span class="nv">can</span> <span class="nv">use</span> <span class="nv">either</span> <span class="nv">cuda</span> <span class="nv">or</span> <span class="nv">hip</span> <span class="nv">interface</span><span class="ss">)</span>
+<span class="o">------</span> <span class="nv">opencl</span><span class="o">/</span>: <span class="nv">OpenCL</span> <span class="nv">backend</span>
+<span class="o">------</span> <span class="nv">opencl</span><span class="o">/</span><span class="nv">smm</span><span class="o">/</span>: <span class="nv">LIBSMM</span> <span class="nv">implementation</span> <span class="nv">based</span> <span class="nv">on</span> <span class="nv">OpenCL</span>
 </code></pre></div>
     </div>
     <div class="col-md-3 col-md-pull-9">

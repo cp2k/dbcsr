@@ -96,11 +96,11 @@
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>Training Procedure for Predictive Modeling of Optimal Parameters in <code>libsmm_acc</code></h1>
-<p>The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters, this is why <a href="tune.md"><em>autotuning</em></a> is used to find optimal kernel parameters.</p>
+<p>The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters, this is why <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/README.md"><em>autotuning</em></a> is used to find optimal kernel parameters.</p>
 <p>However, the auto-tuning procedure is expensive, and the space of (m,n,k)-triplets to explore is large. The following predictive modeling procedure is set up to predict optimal parameters for (m,n,k)-triplets that have not been auto-tuned from the data gathered from auto-tuning other (m,n,k)-triplets.</p>
 <hr>
 <h3>Requirements</h3>
-<p>Python version required: <code>python 3.6</code></p>
+<p>Python version required: <code>python 3.6+</code></p>
 <p>Install all python packages required (if you do not want this project's requirements to interfere with your other Python projects, consider doing so in a <a href="https://docs.python.org/3/tutorial/venv.html">virtual environment</a>), using</p>
 <div class="codehilite"><pre><span></span><code>pip install -r requirements.txt
 </code></pre></div>
@@ -119,7 +119,7 @@
 <p><code>bash
   wget https://github.com/cp2k/dbcsr-data/blob/master/GPU/raw_training_data_ALGORITHM.csv  # for ALGORITHM = tiny, small, medium, largeDB1, largeDB2</code></p>
 <ul>
-<li>Compute derived parameters from raw parameters and create a record of baseline and maximum performances: run <a href="prepare_training_data.py"><code>prepare_training_data.py</code></a>, providing the CUDA/HIP architecture number and the location of the downloaded data:</li>
+<li>Compute derived parameters from raw parameters and create a record of baseline and maximum performances: run <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/prepare_training_data.py"><code>prepare_training_data.py</code></a>, providing the CUDA/HIP architecture number and the location of the downloaded data:</li>
 </ul>
 <p><code>bash
   ./prepare_training_data.py # –arch 60 --folder /scratch/autotuning_dataset, e.g.</code></p>
@@ -129,7 +129,7 @@
 <p>We would appreciate if you would upload the data resulting from your auto-tuning procedure to the <a href="https://github.com/cp2k/dbcsr-data">dedicated repository</a>. For this, please take note, at this stage, of the <a href="https://github.com/cp2k/dbcsr-data/blob/master/git-commit.template">information required to upload your data</a>.</p>
 </li>
 <li>
-<p>If you're auto-tuning data for a new GPU, make sure that the GPU's compute architecture properties are given in the file <a href="kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>. If not, please add them.</p>
+<p>If you're auto-tuning data for a new GPU, make sure that the GPU's compute architecture properties are given in the file <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>. If not, please add them.</p>
 </li>
 <li>
 <p>Follow the <a href="tune.md">instructions for auto-tuning</a>.</p>
@@ -138,7 +138,7 @@
 <p>If all went well, you now have directories named <code>tune_mxnxk</code> containing log files in which parameter sets and their corresponding measured performances are recorded.</p>
 </li>
 <li>
-<p>Collect the information in all the <code>tune_mxnxk</code> directories into CSV files: run <a href="predict_collect.py"><code>predict_collect.py</code></a>, providing the location of the auto-tuning data:</p>
+<p>Collect the information in all the <code>tune_mxnxk</code> directories into CSV files: run <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/predict_collect.py"><code>predict_collect.py</code></a>, providing the location of the auto-tuning data:</p>
 </li>
 </ul>
 <p><code>bash
@@ -171,7 +171,7 @@ A good way of running it, is to</p>
 <li><code>maximum_performances_ALGORITHM.json</code>, <code>max_performances_by_algo.json</code> and <code>max_performances.json</code> (containing, for each (m, n, k)-triplet, its maximum performance). Additionally, the maximum performances are plotted in <code>maximum_performances.svg</code>.</li>
 </ul>
 <h4>3. (optional) Explore the data</h4>
-<p>Explore the data interactively using the <a href="notebooks/inspect_training_data.ipynb">provided Jupyter notebook</a>.</p>
+<p>Explore the data interactively using the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/inspect_training_data.ipynb">provided Jupyter notebook</a>.</p>
 <h4>4. Train</h4>
 <p>For each algorithm, build a predictive model using decision trees and feature selection based on the features' permutation importance.</p>
 <div class="codehilite"><pre><span></span><code>./predict_train.py  <span class="c1"># --algo medium --folder /scratch/autotuning_dataset, e.g.</span>
@@ -208,7 +208,7 @@ Moreover, depending on the size of the training data, large amounts of memory ma
 <ul>
 <li>Choose the new feature's name, "<code>NAME</code>"</li>
 <li>Add the feature as a method of <code>class PredictiveParameters</code>, named <code>get_NAME</code></li>
-<li>Add the derived feature to the data structure <code>derived_parameters</code> in <a href="kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></li>
+<li>Add the derived feature to the data structure <code>derived_parameters</code> in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></li>
 </ul>
     </div>
     <div class="col-md-3 col-md-pull-9">

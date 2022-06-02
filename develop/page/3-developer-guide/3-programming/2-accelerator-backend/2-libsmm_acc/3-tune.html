@@ -99,8 +99,8 @@
 <p>The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters. This is why auto-tuning is used to find optimal kernel parameters.</p>
 <hr>
 <h3>Requirements</h3>
-<p>Python version required: <code>python 3.6</code></p>
-<p>If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no auto-tuned parameters yet), please first follow <a href="../README.md#adding-support-for-a-new-gpu-card">the instructions for a new GPU</a>.</p>
+<p>Python version required: <code>python 3.6+</code></p>
+<p>If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no auto-tuned parameters yet), please first follow <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/README.md#adding-support-for-a-new-gpu-card">the instructions for a new GPU</a>.</p>
 <p>Install all python packages required (if you do not want this project's requirements to interfere with your other Python projects, consider doing so in a <a href="https://docs.python.org/3/tutorial/venv.html">virtual environment</a>), using</p>
 <div class="codehilite"><pre><span></span><code>pip install -r requirements.txt
 </code></pre></div>
@@ -282,7 +282,7 @@ Wrote parameters.new.json
 
 <p>The file <code>parameters.new.json</code> can now be used as a parameter file. Rename it to <code>parameters_GPU.json</code>, with the appropriate <code>GPU</code>.</p>
 <h4>8. (optional) Explore the data</h4>
-<p>Explore the data interactively using the <a href="notebooks/inspect_training_data.ipynb">provided Jupyter Notebook</a>.</p>
+<p>Explore the data interactively using the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/inspect_training_data.ipynb">provided Jupyter Notebook</a>.</p>
 <h4>9. Contribute parameters to the community</h4>
 <p><strong>Contribute new optimal parameters</strong></p>
 <p>Submit a pull request updating the appropriate <code>parameters_GPU.json</code> file to the <a href="https://github.com/cp2k/dbcsr">DBCSR repository</a>.</p>
