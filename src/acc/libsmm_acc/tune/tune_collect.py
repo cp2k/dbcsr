@@ -24,7 +24,8 @@ re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")
 re_gflops = re.compile(r"# ([0-9.]+) GFlop/s")
 re_errors = re.compile(r"Number of errors: (\d+)\n")
 
-from dataclasses import dataclass
+from dataclasses import dataclass  # noqa: E402
+
 
 @dataclass
 class awinner:
@@ -32,6 +33,7 @@ class awinner:
     missing: int = 0
     incomplete: int = 0
     n_errors: int = 0
+
 
 # ===============================================================================
 def main():

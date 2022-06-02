@@ -372,7 +372,9 @@ def gen_makefile(outdir, compiler, arch):
     output += "libsmm_acc_benchmark.o acc.o :\n"
     if compiler == "nvcc":
         output += (
-            "\tnvcc -O3 -D__TUNING -D__CUDA -arch=" + str(arch) + " -w -c -o $@ -std=c++11 $<\n\n"
+            "\tnvcc -O3 -D__TUNING -D__CUDA -arch="
+            + str(arch)
+            + " -w -c -o $@ -std=c++11 $<\n\n"
         )
     else:
         output += "\thipcc -O3 -D__TUNING -D__HIP -w -c -o $@ $<\n\n"
