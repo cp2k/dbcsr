@@ -22,7 +22,7 @@ an alternative base installation path for DBCSR instead:
 In your project's CMake you can then easily search for the DBCSR library:
 
 ```cmake
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.22)
 
 enable_language(Fortran C CXX)  # only request the required language
 
