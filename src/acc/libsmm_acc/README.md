@@ -72,7 +72,7 @@ Follow the [predictive modeling procedure](https://github.com/cp2k/dbcsr/blob/de
 
 1. Add the GPU's compute architecture properties to [`kernels/gpu_properties.json`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json). For more information on where to find these properties, please refer to the "info" field of [`kernels/gpu_properties.json`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json).
 
-2. Add the GPU to the `arch_number` data structure in [`kernels/smm_acc_predict.py`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py)
+2. Add the GPU to the `gpu_architectures` data structure in [`kernels/smm_acc.py`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc.py).
 
 3. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`CMakeLists`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt). Also add this GPU to the list of `SUPPORTED_CUDA_ARCHITECTURES` or `SUPPORTED_HIP_ARCHITECTURES` in the [`CMakeLists`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt).
 

@@ -61,6 +61,7 @@ gpu_architectures = {
     "parameters_Vega10.json": "gfx900",
     "parameters_Mi50.json": "gfx906",
     "parameters_Mi100.json": "gfx908",
+    "parameters_Mi250.json": "gfx90a",
 }
 
 
