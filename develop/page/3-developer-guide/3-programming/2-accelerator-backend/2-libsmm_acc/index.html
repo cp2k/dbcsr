@@ -170,7 +170,7 @@
 <p>Add the GPU's compute architecture properties to <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>. For more information on where to find these properties, please refer to the "info" field of <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>.</p>
 </li>
 <li>
-<p>Add the GPU to the <code>arch_number</code> data structure in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></p>
+<p>Add the GPU to the <code>gpu_architectures</code> data structure in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc.py"><code>kernels/smm_acc.py</code></a>.</p>
 </li>
 <li>
 <p>Add the necessary code for setting <code>ARCH_NUMBER</code> correctly in the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt"><code>CMakeLists</code></a>. Also add this GPU to the list of <code>SUPPORTED_CUDA_ARCHITECTURES</code> or <code>SUPPORTED_HIP_ARCHITECTURES</code> in the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt"><code>CMakeLists</code></a>.</p>
