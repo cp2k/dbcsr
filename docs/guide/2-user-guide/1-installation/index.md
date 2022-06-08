@@ -6,7 +6,7 @@ title: Install
 
 You need:
 
-* [CMake](https://cmake.org/) (3.17+)
+* [CMake](https://cmake.org/) (3.22+)
 * GNU make or Ninja
 * Fortran compiler which supports at least Fortran 2008 (including the TS 29113 when using the C-bindings)
 * BLAS+LAPACK implementation (reference, OpenBLAS and MKL have been tested. Note: DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.)
@@ -33,7 +33,7 @@ To build DBCSR's GPU backend:
     * Optionally, `clinfo` (can be useful to show available devices)
 
 DBCSR is tested against GNU and Intel compilers on Linux systems, and GNU compiler on MacOS systems.
-See a list of supported compilers [here](3-supported-compilers.html).
+See a list of supported compilers [here](2-supported-compilers.html).
 
 ## Get DBCSR
 

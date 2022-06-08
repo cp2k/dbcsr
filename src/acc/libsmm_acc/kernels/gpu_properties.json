@@ -10,7 +10,8 @@
         "amd_source_url": [
             "https://www.amd.com/en/products/professional-graphics/radeon-pro-wx-9100",
             "https://www.amd.com/en/products/professional-graphics/instinct-mi50",
-            "https://developer.amd.com/wp-content/resources/Vega_Shader_ISA_28July2017.pdf"
+	    "https://www.amd.com/en/products/server-accelerators/instinct-mi100",
+	    "https://www.amd.com/en/products/server-accelerators/instinct-mi250"
         ]
     },
     "sm_35": {
@@ -136,7 +137,7 @@
         "Memory_Interface_(bits)": 4096
     },
     "gfx908" : {
-        "GPU_Architecture": "Vega20",
+        "GPU_Architecture": "CDNA",
         "Product_Names": ["Instinct MI100"],
         "Threads_/_Warp" : 64,
         "Warps_/_Multiprocessor": 32,
@@ -149,6 +150,20 @@
         "Stream_Multiprocessors": 7860,
         "Memory_Size_(GB)": 32,
         "Memory_Interface_(bits)": 4096
+    },
+    "gfx90a" : {
+        "GPU_Architecture": "CDNA2",
+        "Product_Names": ["Instinct MI250"],
+        "Threads_/_Warp" : 64,
+        "Warps_/_Multiprocessor": 32,
+        "Threads_/_Multiprocessor": 2048,
+        "Thread_Blocks_/_Multiprocessor": 16,
+        "Max_Thread_Block_Size": 1024,
+        "Max_Shared_Memory_/_Block_(bytes)": 64000,
+        "Shared_Memory_/_Multiprocessor_(bytes)": 64000,
+        "Compute_Units": 208,
+        "Stream_Multiprocessors": 13312,
+        "Memory_Size_(GB)": 128,
+        "Memory_Interface_(bits)": 8192
     }
 }
-

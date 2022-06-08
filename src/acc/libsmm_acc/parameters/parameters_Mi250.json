@@ -1,0 +1,3 @@
+[
+{"m": 23, "n": 23, "k": 23, "tile_m": 3, "tile_n": 2, "threads": 192, "grouping": 30, "minblocks": 3, "algorithm": "medium", "perf": 2633.42, "source": "autotuned"}
+]

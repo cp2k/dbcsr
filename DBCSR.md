@@ -10,6 +10,7 @@ github: https://github.com/cp2k/dbcsr/blob/master/AUTHORS
 fpp_extensions: F
 fixed_extensions:
 extensions: F
+preprocessor: cpp -traditional-cpp -E -Wno-invalid-pp-token
 include: ../src
 predocmark: >
 media_dir: @CMAKE_SOURCE_DIR@/docs/media
@@ -29,6 +30,8 @@ graph: false
 search: false
 favicon: @CMAKE_SOURCE_DIR@/docs/media/logo/logo.png
 version: @dbcsr_VERSION@
+exclude: Makefile
+extra_filetypes: cpp #
 ---
 
 --------------------

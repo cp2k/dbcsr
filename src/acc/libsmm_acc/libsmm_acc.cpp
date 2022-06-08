@@ -238,7 +238,7 @@ int libsmm_acc_process_blas(const int* param_stack, int stack_size, ACC_DRV(stre
     transb = 'T';
   }
 
-  for (int stack_entry = 0; stack_entry < stack_size; stack_entry++) {
+  for (int stack_entry = 0; stack_entry < stack_size && istat == 0; stack_entry++) {
     istat = acc_blas_dgemm(acc_blashandles[ithread], 'N', transb, m, n, k, param_stack[7 * stack_entry + 3] - 1,
       param_stack[7 * stack_entry + 4] - 1, param_stack[7 * stack_entry + 5] - 1, a_data, b_data, c_data, 1.f, 1.f, &stream);
   }
@@ -271,7 +271,7 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
 
   if (kernel_it == kernel_handles.end()) { // the kernel could not be JIT-ed, so we should fall back to CPU
 
-    return -2; // fall back to CPU
+    return -20; // fall back to CPU
   }
   else {
     // Retrieve kernel launching parameters
@@ -300,7 +300,7 @@ int libsmm_acc_process(const int* param_stack_host, const int* param_stack_dev, 
       return (libsmm_acc_process_d((const int*)param_stack_dev, stack_size, *((ACC_DRV(stream)*)stack_stream), m, n, k,
         (const double*)a_data, (const double*)b_data, (double*)c_data));
   }
-  return -1; // datatype not supported
+  return -10; // datatype not supported
 }
 
 //===========================================================================

@@ -821,7 +821,7 @@ CONTAINS
 
    SUBROUTINE multiply_cannon(left_set, right_set, product_matrix, &
                               retain_sparsity, &
-                              filter_eps, flop)
+                              filter_eps, flop, keep_product_data)
       !! Multiplies two DBCSR matrices
 
       TYPE(dbcsr_2d_array_type), POINTER                 :: left_set, right_set
@@ -834,6 +834,7 @@ CONTAINS
       REAL(kind=real_8), INTENT(in), OPTIONAL            :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT)                   :: flop
          !! effective flop
+      LOGICAL, INTENT(IN)                                :: keep_product_data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'multiply_cannon'
       INTEGER, PARAMETER                                 :: idata = 1, ileft = 0, imeta = 2, &
@@ -1269,7 +1270,7 @@ CONTAINS
 !$OMP         keep_sparsity, filter_eps, row_max_epss, multrec, nthreads, &
 !$OMP         right_data_sr, right_data_rr, left_data_sr, left_data_rr,&
 !$OMP         right_index_sr, right_index_rr, left_index_sr, left_index_rr,&
-!$OMP         m_sizes, n_sizes), &
+!$OMP         m_sizes, n_sizes, keep_product_data), &
 !$OMP PRIVATE(ithread)
       ithread = 0
 !$    ithread = OMP_GET_THREAD_NUM()
@@ -1283,7 +1284,8 @@ CONTAINS
                                                     left_buffer_comm%mats(1, 1)%nblks, &
                                                     right_buffer_comm%mats(1, 1)%nblks)/nthreads, &
                                  right_row_blk_size=array_data(right_buffer_comm%mats(1, 1)%row_blk_size), &
-                                 m_sizes=m_sizes, n_sizes=n_sizes)
+                                 m_sizes=m_sizes, n_sizes=n_sizes, &
+                                 keep_product_data=keep_product_data)
 !$OMP END PARALLEL
       !
       ! Setup indexing

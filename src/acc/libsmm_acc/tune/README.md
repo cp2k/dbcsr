@@ -6,9 +6,9 @@ The performance of the matrix-matrix multiplication kernels is highly dependent 
 
 ### Requirements
 
-Python version required: `python 3.6`
+Python version required: `python 3.6+`
 
-If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no auto-tuned parameters yet), please first follow [the instructions for a new GPU](../README.md#adding-support-for-a-new-gpu-card).
+If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no auto-tuned parameters yet), please first follow [the instructions for a new GPU](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/README.md#adding-support-for-a-new-gpu-card).
 
 Install all python packages required (if you do not want this project's requirements to interfere with your other Python projects, consider doing so in a [virtual environment](https://docs.python.org/3/tutorial/venv.html)), using
 
@@ -237,7 +237,7 @@ The file `parameters.new.json` can now be used as a parameter file. Rename it to
 
 #### 8. (optional) Explore the data
 
-Explore the data interactively using the [provided Jupyter Notebook](notebooks/inspect_training_data.ipynb).
+Explore the data interactively using the [provided Jupyter Notebook](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/inspect_training_data.ipynb).
 
 #### 9. Contribute parameters to the community
 

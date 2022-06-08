@@ -590,7 +590,7 @@ CONTAINS
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(row, col, blk, bp, bpe)
-!$OMP     do schedule(static)
+!$OMP     do schedule(dynamic)
          DO blk = 1, nblks
             bp = blki(3, blk)
             row = blki(1, blk)

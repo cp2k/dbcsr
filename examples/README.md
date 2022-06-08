@@ -8,8 +8,6 @@
 - [`dbcsr_tensor_example_2`](dbcsr_tensor_example_2.cpp): tensor contraction example (cpp)
     - tensor1 x tensor2 = tensor3, (13|2)x(54|21)=(3|45)
 
-See the [examples' documentation](../docs/guide/2-user-guide/2-examples/index.md).
-
 ## Build
 
 Compile the DBCSR library, using `-DUSE_MPI=ON -DWITH_EXAMPLES=ON`.
@@ -31,4 +29,3 @@ How to run (this example and DBCSR for tensors in general):
 * ideally number of mpi ranks should be composed of small prime factors (e.g. powers of 2).
 * for sparse data & heterogeneous block sizes, DBCSR should be run on CPUs with libxsmm backend.
 * for dense data best performance is obtained by choosing homogeneous block sizes of 64 and by compiling with GPU support.
-
