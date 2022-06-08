@@ -76,6 +76,7 @@ MODULE dbcsr_mm_csr
       INTEGER, DIMENSION(:, :, :), POINTER       :: stacks_data => Null()
       INTEGER, DIMENSION(:), POINTER           :: stacks_fillcount => Null()
       TYPE(dbcsr_mm_sched_type)                      :: sched
+      LOGICAL                                  :: keep_product_data
    END TYPE dbcsr_mm_csr_type
 
 #include "utils/dbcsr_hash_table_types.f90"
@@ -360,7 +361,7 @@ CONTAINS
    SUBROUTINE dbcsr_mm_csr_init(this, left, right, product, &
       !! Initializes a multiplication cycle for new set of C-blocks.
                                 m_sizes, n_sizes, block_estimate, right_row_blk_size, &
-                                nlayers)
+                                nlayers, keep_product_data)
       TYPE(dbcsr_mm_csr_type), INTENT(INOUT)             :: this
       TYPE(dbcsr_type), INTENT(IN), OPTIONAL             :: left, right
       TYPE(dbcsr_type), INTENT(INOUT)                    :: product
@@ -368,6 +369,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: block_estimate
       INTEGER, DIMENSION(:), INTENT(IN)                  :: right_row_blk_size
       INTEGER, OPTIONAL                                  :: nlayers
+      LOGICAL, INTENT(IN)                                :: keep_product_data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_init'
 
@@ -523,10 +525,13 @@ CONTAINS
       END DO
       DEALLOCATE (flop_list, flop_index, tmp_descr)
 
+      this%keep_product_data = keep_product_data
+
       this%product_wm => product%wms(ithread + 1)
       CALL dbcsr_mm_sched_init(this%sched, &
                                product_wm=this%product_wm, &
-                               nlayers=nlayers)
+                               nlayers=nlayers, &
+                               keep_product_data=keep_product_data)
 
       CALL timestop(handle)
 

@@ -57,7 +57,7 @@ MODULE dbcsr_mm_multrec
       !! its own private copy.
 
       PRIVATE
-      LOGICAL :: c_has_symmetry, keep_sparsity, use_eps
+      LOGICAL :: c_has_symmetry, keep_sparsity, keep_product_data, use_eps
          !! The product matrix has symmetry
          !! Sparsity of C matrix should be kept
          !! Use on-the-fly filtering
@@ -112,7 +112,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_mm_multrec_init(this, left, right, product, &
                                     keep_sparsity, eps, row_max_epss, block_estimate, right_row_blk_size, &
-                                    m_sizes, n_sizes, nlayers)
+                                    m_sizes, n_sizes, nlayers, keep_product_data)
       !! Sets up recursive multiplication
 
       TYPE(dbcsr_mm_multrec_type), INTENT(out)           :: this
@@ -123,6 +123,8 @@ CONTAINS
          !! resulting DBCSR product matrix
       LOGICAL, INTENT(IN)                                :: keep_sparsity
          !! retain the sparsity of the existing product matrix, default is no
+      LOGICAL, INTENT(IN), OPTIONAL                      :: keep_product_data
+         !! Perform final reduction on C data, default is yes
       REAL(kind=real_8), INTENT(in), OPTIONAL            :: eps
          !! on-the-fly filtering epsilon
       REAL(kind=sp), DIMENSION(:), INTENT(IN), TARGET    :: row_max_epss
@@ -171,6 +173,10 @@ CONTAINS
       ! Fill result data structure.
       this%keep_sparsity = keep_sparsity
       this%c_has_symmetry = product%symmetry
+      this%keep_product_data = .TRUE.
+      IF (PRESENT(keep_product_data)) THEN
+         this%keep_product_data = keep_product_data
+      END IF
       this%use_eps = PRESENT(eps)
       this%original_lastblk = product%wms(ithread + 1)%lastblk
       this%flop = INT(0, int_8)
@@ -247,7 +253,8 @@ CONTAINS
                              m_sizes=this%m_sizes, n_sizes=this%n_sizes, &
                              block_estimate=block_estimate, &
                              right_row_blk_size=right_row_blk_size, &
-                             nlayers=nlayers)
+                             nlayers=nlayers, &
+                             keep_product_data=this%keep_product_data)
 
       this%initialized = .TRUE.
       CALL timestop(handle)
