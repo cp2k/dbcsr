@@ -7,10 +7,9 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-import re
 import numpy as np
 
-from kernels.smm_acc import *
+from kernels.smm_acc import kernel_algorithm
 
 # ===============================================================================
 # Lists of derived parameters to use as training data for the predictive modelling
