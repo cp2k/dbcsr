@@ -58,7 +58,7 @@ MODULE dbcsr_mm_multrec
       !! its own private copy.
 
       PRIVATE
-      LOGICAL :: c_has_symmetry, keep_sparsity, use_eps
+      LOGICAL :: c_has_symmetry, keep_sparsity, keep_product_data, use_eps
          !! The product matrix has symmetry
          !! Sparsity of C matrix should be kept
          !! Use on-the-fly filtering
@@ -113,7 +113,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_mm_multrec_init(this, left, right, product, &
                                     keep_sparsity, eps, row_max_epss, block_estimate, right_row_blk_size, &
-                                    m_sizes, n_sizes, nlayers)
+                                    m_sizes, n_sizes, nlayers, keep_product_data)
       !! Sets up recursive multiplication
 
       TYPE(dbcsr_mm_multrec_type), INTENT(out)           :: this
@@ -124,6 +124,8 @@ CONTAINS
          !! resulting DBCSR product matrix
       LOGICAL, INTENT(IN)                                :: keep_sparsity
          !! retain the sparsity of the existing product matrix, default is no
+      LOGICAL, INTENT(IN), OPTIONAL                      :: keep_product_data
+         !! Perform final reduction on C data, default is yes
       REAL(kind=real_8), INTENT(in), OPTIONAL            :: eps
          !! on-the-fly filtering epsilon
       REAL(kind=sp), DIMENSION(:), INTENT(IN), TARGET    :: row_max_epss
@@ -172,6 +174,10 @@ CONTAINS
       ! Fill result data structure.
       this%keep_sparsity = keep_sparsity
       this%c_has_symmetry = product%symmetry
+      this%keep_product_data = .TRUE.
+      IF (PRESENT(keep_product_data)) THEN
+         this%keep_product_data = keep_product_data
+      END IF
       this%use_eps = PRESENT(eps)
       this%original_lastblk = product%wms(ithread + 1)%lastblk
       this%flop = INT(0, int_8)
@@ -248,7 +254,8 @@ CONTAINS
                              m_sizes=this%m_sizes, n_sizes=this%n_sizes, &
                              block_estimate=block_estimate, &
                              right_row_blk_size=right_row_blk_size, &
-                             nlayers=nlayers)
+                             nlayers=nlayers, &
+                             keep_product_data=this%keep_product_data)
 
       this%initialized = .TRUE.
       CALL timestop(handle)
@@ -688,8 +695,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 685 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F" 2
-# 686 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 692 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F" 2
+# 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       SUBROUTINE multrec_filtering_d (filter_eps, nblks, rowi, coli, blkp, &
                                                   rbs, cbs, nze, DATA)
@@ -715,10 +722,10 @@ CONTAINS
 
          REAL(kind=real_8)                          :: filter_eps_opt
 
-# 712 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 719 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             ! Avoid square root
             filter_eps_opt = filter_eps**2
-# 717 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 724 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
          lastblk = 0
          nze = 0
@@ -744,7 +751,7 @@ CONTAINS
          nblks = lastblk
 
       END SUBROUTINE multrec_filtering_d
-# 686 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       SUBROUTINE multrec_filtering_s (filter_eps, nblks, rowi, coli, blkp, &
                                                   rbs, cbs, nze, DATA)
@@ -770,10 +777,10 @@ CONTAINS
 
          REAL(kind=real_8)                          :: filter_eps_opt
 
-# 712 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 719 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             ! Avoid square root
             filter_eps_opt = filter_eps**2
-# 717 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 724 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
          lastblk = 0
          nze = 0
@@ -799,7 +806,7 @@ CONTAINS
          nblks = lastblk
 
       END SUBROUTINE multrec_filtering_s
-# 686 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       SUBROUTINE multrec_filtering_z (filter_eps, nblks, rowi, coli, blkp, &
                                                   rbs, cbs, nze, DATA)
@@ -825,9 +832,9 @@ CONTAINS
 
          REAL(kind=real_8)                          :: filter_eps_opt
 
-# 715 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 722 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             filter_eps_opt = filter_eps
-# 717 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 724 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
          lastblk = 0
          nze = 0
@@ -853,7 +860,7 @@ CONTAINS
          nblks = lastblk
 
       END SUBROUTINE multrec_filtering_z
-# 686 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       SUBROUTINE multrec_filtering_c (filter_eps, nblks, rowi, coli, blkp, &
                                                   rbs, cbs, nze, DATA)
@@ -879,9 +886,9 @@ CONTAINS
 
          REAL(kind=real_8)                          :: filter_eps_opt
 
-# 715 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 722 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             filter_eps_opt = filter_eps
-# 717 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 724 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
          lastblk = 0
          nze = 0
@@ -907,6 +914,6 @@ CONTAINS
          nblks = lastblk
 
       END SUBROUTINE multrec_filtering_c
-# 743 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 750 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
 END MODULE dbcsr_mm_multrec

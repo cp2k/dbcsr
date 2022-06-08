@@ -882,7 +882,7 @@ CONTAINS
          CALL multiply_cannon(m2s_left, m2s_right, product_matrix, &
                               retain_sparsity=retain_sparsity, &
                               filter_eps=filter_eps, &
-                              flop=my_flop)
+                              flop=my_flop, keep_product_data=keep_product_data)
          CALL dbcsr_finalize(product_matrix, reshuffle=PRESENT(filter_eps) .AND. .NOT. keep_sparsity)
       END IF
       !

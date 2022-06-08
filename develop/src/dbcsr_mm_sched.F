@@ -76,6 +76,7 @@ MODULE dbcsr_mm_sched
       TYPE(dbcsr_mm_hostdrv_type)     :: hostdrv
       LOGICAL                         :: avoid_accdrv = .FALSE.
       LOGICAL                         :: product_wm_cleared = .FALSE.
+      LOGICAL                         :: keep_product_data = .TRUE.
       INTEGER                         :: product_wm_orig_datasize = -1
    END TYPE dbcsr_mm_sched_type
 
@@ -169,17 +170,20 @@ CONTAINS
       this%product_wm_cleared = .TRUE.
    END SUBROUTINE ensure_product_wm_cleared
 
-   SUBROUTINE dbcsr_mm_sched_init(this, product_wm, nlayers)
+   SUBROUTINE dbcsr_mm_sched_init(this, product_wm, nlayers, keep_product_data)
       !! Initializes a multiplication cycle for new set of C-blocks.
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
       INTEGER, OPTIONAL                                  :: nlayers
+      LOGICAL, INTENT(IN)                                :: keep_product_data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_init'
 
       INTEGER                                            :: handle
 
       CALL timeset(routineN, handle)
+
+      this%keep_product_data = keep_product_data
 
       this%product_wm => product_wm
 
@@ -191,7 +195,7 @@ CONTAINS
       CALL dbcsr_mm_hostdrv_init(this%hostdrv, product_wm)
 
       IF (has_acc) &
-         CALL dbcsr_mm_accdrv_init(this%accdrv, product_wm, nlayers)
+         CALL dbcsr_mm_accdrv_init(this%accdrv, product_wm, nlayers, keep_product_data)
 
       CALL timestop(handle)
 

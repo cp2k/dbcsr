@@ -748,7 +748,7 @@
 <a id="ln-597" name="ln-597" href="#ln-597"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
 <a id="ln-598" name="ln-598" href="#ln-598"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
 <a id="ln-599" name="ln-599" href="#ln-599"></a><span class="c">!$OMP              private(row, col, blk, bp, bpe)</span>
-<a id="ln-600" name="ln-600" href="#ln-600"></a><span class="c">!$OMP     do schedule(static)</span>
+<a id="ln-600" name="ln-600" href="#ln-600"></a><span class="c">!$OMP     do schedule(dynamic)</span>
 <a id="ln-601" name="ln-601" href="#ln-601"></a><span class="w">         </span><span class="k">DO </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="w"></span>
 <a id="ln-602" name="ln-602" href="#ln-602"></a><span class="w">            </span><span class="n">bp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>
 <a id="ln-603" name="ln-603" href="#ln-603"></a><span class="w">            </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>
@@ -786,7 +786,7 @@
 <a id="ln-635" name="ln-635" href="#ln-635"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
 <a id="ln-636" name="ln-636" href="#ln-636"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
 <a id="ln-637" name="ln-637" href="#ln-637"></a><span class="c">!$OMP              private(row, col, blk, bp, bpe)</span>
-<a id="ln-638" name="ln-638" href="#ln-638"></a><span class="c">!$OMP     do schedule(static)</span>
+<a id="ln-638" name="ln-638" href="#ln-638"></a><span class="c">!$OMP     do schedule(dynamic)</span>
 <a id="ln-639" name="ln-639" href="#ln-639"></a><span class="w">         </span><span class="k">DO </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="w"></span>
 <a id="ln-640" name="ln-640" href="#ln-640"></a><span class="w">            </span><span class="n">bp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>
 <a id="ln-641" name="ln-641" href="#ln-641"></a><span class="w">            </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>
@@ -824,7 +824,7 @@
 <a id="ln-673" name="ln-673" href="#ln-673"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
 <a id="ln-674" name="ln-674" href="#ln-674"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
 <a id="ln-675" name="ln-675" href="#ln-675"></a><span class="c">!$OMP              private(row, col, blk, bp, bpe)</span>
-<a id="ln-676" name="ln-676" href="#ln-676"></a><span class="c">!$OMP     do schedule(static)</span>
+<a id="ln-676" name="ln-676" href="#ln-676"></a><span class="c">!$OMP     do schedule(dynamic)</span>
 <a id="ln-677" name="ln-677" href="#ln-677"></a><span class="w">         </span><span class="k">DO </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="w"></span>
 <a id="ln-678" name="ln-678" href="#ln-678"></a><span class="w">            </span><span class="n">bp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>
 <a id="ln-679" name="ln-679" href="#ln-679"></a><span class="w">            </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>
@@ -862,7 +862,7 @@
 <a id="ln-711" name="ln-711" href="#ln-711"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
 <a id="ln-712" name="ln-712" href="#ln-712"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
 <a id="ln-713" name="ln-713" href="#ln-713"></a><span class="c">!$OMP              private(row, col, blk, bp, bpe)</span>
-<a id="ln-714" name="ln-714" href="#ln-714"></a><span class="c">!$OMP     do schedule(static)</span>
+<a id="ln-714" name="ln-714" href="#ln-714"></a><span class="c">!$OMP     do schedule(dynamic)</span>
 <a id="ln-715" name="ln-715" href="#ln-715"></a><span class="w">         </span><span class="k">DO </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="w"></span>
 <a id="ln-716" name="ln-716" href="#ln-716"></a><span class="w">            </span><span class="n">bp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>
 <a id="ln-717" name="ln-717" href="#ln-717"></a><span class="w">            </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>

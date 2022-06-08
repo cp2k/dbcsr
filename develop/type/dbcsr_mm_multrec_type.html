@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 1.5% of total for derived types.</p>Including implementation: 15 statements,  1.2% of total for derived types.">15 statements</a>
+    title="<p> 1.4% of total for derived types.</p>Including implementation: 15 statements,  1.2% of total for derived types.">15 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_multrec.F"> Source File</a></li>
   </ul>
@@ -113,6 +113,7 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-c_has_symmetry">c_has_symmetry</a>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-keep_sparsity">keep_sparsity</a>
+      <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-keep_product_data">keep_product_data</a>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-use_eps">use_eps</a>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-m_sizes">m_sizes</a>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-n_sizes">n_sizes</a>
@@ -163,6 +164,7 @@ its own private copy.</p>
     <div class="list-group">
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-c_has_symmetry">c_has_symmetry</a>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-keep_sparsity">keep_sparsity</a>
+      <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-keep_product_data">keep_product_data</a>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-use_eps">use_eps</a>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-m_sizes">m_sizes</a>
       <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-n_sizes">n_sizes</a>
@@ -213,6 +215,13 @@ Use on-the-fly filtering</p></td>
   <td><span class="anchor" id="variable-keep_sparsity"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td></td><td></td><td><p>The product matrix has symmetry
+Sparsity of C matrix should be kept
+Use on-the-fly filtering</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-keep_product_data"></span>logical,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>keep_product_data</strong></td><td></td><td></td><td><p>The product matrix has symmetry
 Sparsity of C matrix should be kept
 Use on-the-fly filtering</p></td>
 </tr>
@@ -371,7 +380,7 @@ Norms of B matrix blocks.</p></td>
 <span class="w">      </span><span class="c">!! its own private copy.</span>
 
 <span class="w">      </span><span class="k">PRIVATE</span>
-<span class="k">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c_has_symmetry</span><span class="p">,</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">use_eps</span><span class="w"></span>
+<span class="k">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c_has_symmetry</span><span class="p">,</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="p">,</span><span class="w"> </span><span class="n">use_eps</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! The product matrix has symmetry</span>
 <span class="w">         </span><span class="c">!! Sparsity of C matrix should be kept</span>
 <span class="w">         </span><span class="c">!! Use on-the-fly filtering</span>

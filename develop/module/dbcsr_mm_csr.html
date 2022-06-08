@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.9% of total for modules and submodules.">594 statements</a>
+    title=" 0.9% of total for modules and submodules.">597 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_csr.F"> Source File</a></li>
   </ul>
@@ -185,14 +185,14 @@ dbcsr_mm_methods.
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    <li><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></li>
     <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
     <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+    <li><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></li>
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
   </ul>
       </li>
@@ -400,6 +400,11 @@ dbcsr_mm_methods.
   <td><span class="anchor" id="variable-sched"></span>type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>sched</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-keep_product_data~4"></span>logical,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>keep_product_data</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
 </table>
@@ -1034,7 +1039,7 @@ The absolute matrix column.</p></td>
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_mm_csr_init"></span><h3>public subroutine <a href='../proc/dbcsr_mm_csr_init.html'>dbcsr_mm_csr_init</a>(this, left, right, product, m_sizes, n_sizes, block_estimate, right_row_blk_size, nlayers)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_mm_csr_init"></span><h3>public subroutine <a href='../proc/dbcsr_mm_csr_init.html'>dbcsr_mm_csr_init</a>(this, left, right, product, m_sizes, n_sizes, block_estimate, right_row_blk_size, nlayers, keep_product_data)</h3></div>
   <div class="panel-body">
        
 <p>Initializes a multiplication cycle for new set of C-blocks.</p>
@@ -1095,6 +1100,12 @@ The absolute matrix column.</p></td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nlayers</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>keep_product_data</strong></td><td></td>
 </tr>
 </tbody>
 </table>

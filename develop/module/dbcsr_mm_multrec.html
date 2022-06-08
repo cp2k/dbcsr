@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.8% of total for modules and submodules.">493 statements</a>
+    title=" 0.8% of total for modules and submodules.">498 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_multrec.F"> Source File</a></li>
   </ul>
@@ -181,9 +181,9 @@ dbcsr_mm_methods.
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_mm_csr.html'>dbcsr_mm_csr</a></li>
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-    <li><a href='../module/dbcsr_mm_csr.html'>dbcsr_mm_csr</a></li>
   </ul>
       </li>
       </ul>
@@ -296,6 +296,13 @@ Use on-the-fly filtering</p></td>
   <td><span class="anchor" id="variable-keep_sparsity"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td></td><td></td><td><p>The product matrix has symmetry
+Sparsity of C matrix should be kept
+Use on-the-fly filtering</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-keep_product_data"></span>logical,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>keep_product_data</strong></td><td></td><td></td><td><p>The product matrix has symmetry
 Sparsity of C matrix should be kept
 Use on-the-fly filtering</p></td>
 </tr>
@@ -603,7 +610,7 @@ Norms of B matrix blocks.</p></td>
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_mm_multrec_init"></span><h3>public subroutine <a href='../proc/dbcsr_mm_multrec_init.html'>dbcsr_mm_multrec_init</a>(this, left, right, product, keep_sparsity, eps, row_max_epss, block_estimate, right_row_blk_size, m_sizes, n_sizes, nlayers)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_mm_multrec_init"></span><h3>public subroutine <a href='../proc/dbcsr_mm_multrec_init.html'>dbcsr_mm_multrec_init</a>(this, left, right, product, keep_sparsity, eps, row_max_epss, block_estimate, right_row_blk_size, m_sizes, n_sizes, nlayers, keep_product_data)</h3></div>
   <div class="panel-body">
        
 <p>Sets up recursive multiplication</p>
@@ -684,6 +691,12 @@ right DBCSR matrix</p></td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nlayers</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>keep_product_data</strong></td><td><p>Perform final reduction on C data, default is yes</p></td>
 </tr>
 </tbody>
 </table>

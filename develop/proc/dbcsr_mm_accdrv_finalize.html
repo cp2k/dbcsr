@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">11 statements</a>
+    title=" 0.0% of total for procedures.">16 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_accdrv.F"> Source File</a></li>
   </ul>
@@ -177,10 +177,15 @@
 <span class="k">      CALL </span><span class="n">acc_stream_synchronize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">      </span><span class="n">c_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span><span class="w"></span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">block_add</span><span class="p">(</span><span class="n">c_area</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">keep_product_data</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">do_gpu_c_redux</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">block_add</span><span class="p">(</span><span class="n">c_area</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
 
-<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_finalize</span><span class="w"></span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_finalize</span><span class="w"></span>
 </pre></div>
 
     </section>

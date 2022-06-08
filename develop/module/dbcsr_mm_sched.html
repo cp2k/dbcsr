@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for modules and submodules.">331 statements</a>
+    title=" 0.5% of total for modules and submodules.">334 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_sched.F"> Source File</a></li>
   </ul>
@@ -172,13 +172,13 @@ dbcsr_mm_methods.
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-    <li><a href='../module/dbcsr_mm_accdrv.html'>dbcsr_mm_accdrv</a></li>
-    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     <li><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></li>
     <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_mm_accdrv.html'>dbcsr_mm_accdrv</a></li>
+    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
     <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
   </ul>
       </li>
@@ -295,6 +295,11 @@ dbcsr_mm_methods.
   <td><span class="anchor" id="variable-product_wm_cleared"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>product_wm_cleared</strong></td><td> =</td><td>.FALSE.</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-keep_product_data~2"></span>logical,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>keep_product_data</strong></td><td> =</td><td>.TRUE.</td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-product_wm_orig_datasize"></span>integer,</td>
@@ -478,7 +483,7 @@ dbcsr_mm_methods.
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_mm_sched_init"></span><h3>public subroutine <a href='../proc/dbcsr_mm_sched_init.html'>dbcsr_mm_sched_init</a>(this, product_wm, nlayers)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_mm_sched_init"></span><h3>public subroutine <a href='../proc/dbcsr_mm_sched_init.html'>dbcsr_mm_sched_init</a>(this, product_wm, nlayers, keep_product_data)</h3></div>
   <div class="panel-body">
        
 <p>Initializes a multiplication cycle for new set of C-blocks.</p>
@@ -503,6 +508,12 @@ dbcsr_mm_methods.
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nlayers</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>keep_product_data</strong></td><td></td>
 </tr>
 </tbody>
 </table>

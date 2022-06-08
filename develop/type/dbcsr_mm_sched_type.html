@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.9% of total for derived types.</p>Including implementation: 9 statements,  0.7% of total for derived types.">9 statements</a>
+    title="<p> 1.0% of total for derived types.</p>Including implementation: 10 statements,  0.8% of total for derived types.">10 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_sched.F"> Source File</a></li>
   </ul>
@@ -116,6 +116,7 @@
       <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-hostdrv">hostdrv</a>
       <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-avoid_accdrv">avoid_accdrv</a>
       <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-product_wm_cleared">product_wm_cleared</a>
+      <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-keep_product_data~2">keep_product_data</a>
       <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-product_wm_orig_datasize">product_wm_orig_datasize</a>
     </div>
   </div>
@@ -148,6 +149,7 @@
       <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-hostdrv">hostdrv</a>
       <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-avoid_accdrv">avoid_accdrv</a>
       <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-product_wm_cleared">product_wm_cleared</a>
+      <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-keep_product_data~2">keep_product_data</a>
       <a class="list-group-item" href="../type/dbcsr_mm_sched_type.html#variable-product_wm_orig_datasize">product_wm_orig_datasize</a>
     </div>
   </div>
@@ -193,6 +195,11 @@
   <td><strong>product_wm_cleared</strong></td><td> =</td><td>.FALSE.</td><td></td>
 </tr>
 <tr>
+  <td><span class="anchor" id="variable-keep_product_data~2"></span>logical,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>keep_product_data</strong></td><td> =</td><td>.TRUE.</td><td></td>
+</tr>
+<tr>
   <td><span class="anchor" id="variable-product_wm_orig_datasize"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>product_wm_orig_datasize</strong></td><td> =</td><td>-1</td><td></td>
@@ -215,6 +222,7 @@
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_hostdrv_type</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">hostdrv</span><span class="w"></span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">avoid_accdrv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">product_wm_cleared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">keep_product_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">product_wm_orig_datasize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_mm_sched_type</span><span class="w"></span>
 </pre></div>

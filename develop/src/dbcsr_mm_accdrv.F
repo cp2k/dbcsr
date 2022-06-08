@@ -82,6 +82,8 @@ MODULE dbcsr_mm_accdrv
       TYPE(dbcsr_work_type), POINTER           :: product_wm => Null()
       TYPE(dbcsr_data_obj)                     :: c_buffer
       LOGICAL                                  :: c_area_copy = .TRUE.
+      LOGICAL                                  :: keep_product_data = .TRUE.
+      LOGICAL                                  :: do_gpu_c_redux = .FALSE.
    END TYPE dbcsr_mm_accdrv_type
 
 ! **************************************************************************************************
@@ -165,11 +167,12 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_accdrv_lib_finalize
 
-   SUBROUTINE dbcsr_mm_accdrv_init(this, product_wm, nlayers)
+   SUBROUTINE dbcsr_mm_accdrv_init(this, product_wm, nlayers, keep_product_data)
       !! Initializes a multiplication cycle for new set of C-blocks.
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
       INTEGER, OPTIONAL                                  :: nlayers
+      LOGICAL, INTENT(IN)                                :: keep_product_data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_init'
 
@@ -197,6 +200,8 @@ CONTAINS
 
       ! Setup things for this particular multiplication
       !------------------------------------------------------------------------
+      this%keep_product_data = keep_product_data
+      this%do_gpu_c_redux = .FALSE.
       this%product_wm => product_wm
       c_area = this%product_wm%data_area
 
@@ -345,8 +350,13 @@ CONTAINS
       CALL acc_stream_synchronize(this%c_buffer%d%memory_type%acc_stream)
 
       c_area = this%product_wm%data_area
-      CALL block_add(c_area, this%c_buffer)
-      CALL dbcsr_data_release(this%c_buffer)
+      IF (this%keep_product_data .OR. this%do_gpu_c_redux) THEN
+         CALL block_add(c_area, this%c_buffer)
+         CALL dbcsr_data_release(this%c_buffer)
+      ELSE
+         CALL dbcsr_data_release(this%product_wm%data_area)
+         this%product_wm%data_area = this%c_buffer
+      END IF
 
    END SUBROUTINE dbcsr_mm_accdrv_finalize
 
@@ -446,6 +456,8 @@ CONTAINS
 !$    ithread = OMP_GET_THREAD_NUM()
       stack_buffers => all_thread_privates(ithread)%stack_buffers
 
+      CALL timeset(routineN, error_handle)
+
       DO WHILE (.NOT. ASSOCIATED(stackbuf))
          DO i = 1, SIZE(stack_buffers)
             IF (acc_event_query(stack_buffers(i)%calculated)) THEN
@@ -455,7 +467,6 @@ CONTAINS
          END DO
       END DO
 
-      CALL timeset(routineN, error_handle)
       stacked_datasize = this%product_wm%datasize
       CALL dbcsr_data_ensure_size(this%c_buffer, stacked_datasize, &
                                   factor=default_resize_factor, zero_pad=.TRUE.)
@@ -517,6 +528,8 @@ CONTAINS
 
       IF (success) THEN
          CALL acc_event_record(stackbuf%calculated, stream=stackbuf%stream)
+      ELSE
+         this%do_gpu_c_redux = .TRUE.
       END IF
 
       CALL timestop(error_handle)

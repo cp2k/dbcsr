@@ -217,7 +217,7 @@
 <span class="c">!$OMP     parallel default(none) &amp;</span>
 <span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
 <span class="c">!$OMP              private(row, col, blk, bp, bpe)</span>
-<span class="c">!$OMP     do schedule(static)</span>
+<span class="c">!$OMP     do schedule(dynamic)</span>
 <span class="w">         </span><span class="k">DO </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="w"></span>
 <span class="w">            </span><span class="n">bp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>
 <span class="w">            </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span><span class="w"></span>

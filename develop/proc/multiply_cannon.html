@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.8% of total for procedures.">474 statements</a>
+    title=" 0.8% of total for procedures.">475 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_cannon.F"> Source File</a></li>
   </ul>
@@ -119,7 +119,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sparsity, filter_eps, flop)</h2>
+    <h2>public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sparsity, filter_eps, flop, keep_product_data)</h2>
     
 
     <p>Multiplies two DBCSR matrices</p>
@@ -166,6 +166,12 @@ set of imaged right matrices</p></td>
   <td></td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td><p>effective flop</p></td>
 </tr>
+<tr>
+  <td><span class="anchor" id="variable-keep_product_data~8"></span>logical,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>keep_product_data</strong></td><td></td>
+</tr>
 </tbody>
 </table>
 
@@ -197,7 +203,7 @@ set of imaged right matrices</p></td>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">multiply_cannon</span><span class="p">(</span><span class="n">left_set</span><span class="p">,</span><span class="w"> </span><span class="n">right_set</span><span class="p">,</span><span class="w"> </span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                              </span><span class="n">retain_sparsity</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                              </span><span class="n">filter_eps</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">)</span><span class="w"></span>
+<span class="w">                              </span><span class="n">filter_eps</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="c">!! Multiplies two DBCSR matrices</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">left_set</span><span class="p">,</span><span class="w"> </span><span class="n">right_set</span><span class="w"></span>
@@ -210,6 +216,7 @@ set of imaged right matrices</p></td>
 <span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">filter_eps</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! effective flop</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">keep_product_data</span><span class="w"></span>
 
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;multiply_cannon&#39;</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">idata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ileft</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">imeta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
@@ -645,7 +652,7 @@ set of imaged right matrices</p></td>
 <span class="c">!$OMP         keep_sparsity, filter_eps, row_max_epss, multrec, nthreads, &amp;</span>
 <span class="c">!$OMP         right_data_sr, right_data_rr, left_data_sr, left_data_rr,&amp;</span>
 <span class="c">!$OMP         right_index_sr, right_index_rr, left_index_sr, left_index_rr,&amp;</span>
-<span class="c">!$OMP         m_sizes, n_sizes), &amp;</span>
+<span class="c">!$OMP         m_sizes, n_sizes, keep_product_data), &amp;</span>
 <span class="c">!$OMP PRIVATE(ithread)</span>
 <span class="w">      </span><span class="n">ithread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
@@ -659,7 +666,8 @@ set of imaged right matrices</p></td>
 <span class="w">                                                    </span><span class="n">left_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)%</span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                                    </span><span class="n">right_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)%</span><span class="n">nblks</span><span class="p">)</span><span class="o">/</span><span class="n">nthreads</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                 </span><span class="n">right_row_blk_size</span><span class="o">=</span><span class="n">array_data</span><span class="p">(</span><span class="n">right_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)%</span><span class="n">row_blk_size</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                 </span><span class="n">m_sizes</span><span class="o">=</span><span class="n">m_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="o">=</span><span class="n">n_sizes</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                 </span><span class="n">m_sizes</span><span class="o">=</span><span class="n">m_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="o">=</span><span class="n">n_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                 </span><span class="n">keep_product_data</span><span class="o">=</span><span class="n">keep_product_data</span><span class="p">)</span><span class="w"></span>
 <span class="c">!$OMP END PARALLEL</span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="c">! Setup indexing</span>

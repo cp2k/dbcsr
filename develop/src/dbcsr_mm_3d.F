@@ -1876,7 +1876,8 @@ CONTAINS
                                        block_estimate=0, &
                                        right_row_blk_size=dbcsr_row_block_sizes(matrix_right), &
                                        m_sizes=m_sizes(irow3D)%sizes, n_sizes=n_sizes(icol3D)%sizes, &
-                                       nlayers=nranks3D)
+                                       nlayers=nranks3D, &
+                                       keep_product_data=keep_product_data)
 !$OMP END PARALLEL
             !
             product_matrix3D%mats(irow3D, icol3D)%matrix%nblks = 0
