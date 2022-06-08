@@ -821,7 +821,7 @@ CONTAINS
 
    SUBROUTINE multiply_cannon(left_set, right_set, product_matrix, &
                               retain_sparsity, &
-                              filter_eps, flop, keep_product)
+                              filter_eps, flop, keep_product_data)
       !! Multiplies two DBCSR matrices
 
       TYPE(dbcsr_2d_array_type), POINTER                 :: left_set, right_set
@@ -1270,7 +1270,7 @@ CONTAINS
 !$OMP         keep_sparsity, filter_eps, row_max_epss, multrec, nthreads, &
 !$OMP         right_data_sr, right_data_rr, left_data_sr, left_data_rr,&
 !$OMP         right_index_sr, right_index_rr, left_index_sr, left_index_rr,&
-!$OMP         m_sizes, n_sizes), &
+!$OMP         m_sizes, n_sizes, keep_product_data), &
 !$OMP PRIVATE(ithread)
       ithread = 0
 !$    ithread = OMP_GET_THREAD_NUM()
