@@ -125,13 +125,13 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-transa~13"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transa~12"></span>character(len=1),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>transa</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-transb~13"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transb~12"></span>character(len=1),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>transb</strong></td><td></td>
@@ -143,31 +143,31 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   <td><strong>transc</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-alpha~47"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~35"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>alpha</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_a~83"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~38"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>matrix_a</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_b~51"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~25"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>matrix_b</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-beta~18"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta~16"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>beta</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_c~15"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_c~13"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>matrix_c</strong></td><td></td>
@@ -193,7 +193,7 @@ grids for subsequent matrix multiplications with matrices of similar shape and s
   <td><strong>filter_eps</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~21"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~20"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td></td>
@@ -215,7 +215,7 @@ memory optimization: move data to matrix_c such that matrix_b is empty on return
 for internal use only</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-retain_sparsity~16"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~14"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
@@ -237,7 +237,7 @@ for internal use only</p></td>
   <td><strong>result_index</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~33"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~26"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>unit number for logging output</p></td>

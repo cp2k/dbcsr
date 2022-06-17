@@ -171,7 +171,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
 't',  op( B ) = transpose(B). transb = 'C' or 'c',  op( B ) = transpose(conjg(B)).</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-alpha~19"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~30"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>alpha</strong></td><td><p>scaling of product</p></td>
@@ -191,7 +191,7 @@ right BCSR matrix</p></td>
 right BCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-beta~11"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta~15"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>beta</strong></td><td><p>scaling of existing data</p></td>
@@ -269,19 +269,19 @@ first full column of limiting inner product
 last full column of limiting inner product</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-retain_sparsity~9"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~13"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td><p>enforce the sparsity pattern of the existing product matrix; default is no</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-filter_eps~9"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps~18"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>filter_eps</strong></td><td><p>Filtering of the matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~10"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~19"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td><p>effective flop</p></td>

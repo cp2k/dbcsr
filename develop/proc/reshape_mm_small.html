@@ -125,7 +125,7 @@ matrix multiplication. This routine reshapes the smallest of the three tensors.<
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-tensor_in~14"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_in~8"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_in</strong></td><td><p>tensor in</p></td>
@@ -145,7 +145,7 @@ index that should be mapped to second matrix dimension</p></td>
 index that should be mapped to second matrix dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_out~14"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_out~8"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(out),</td>
   <td></td>  <td>POINTER</td><td>::</td>
   <td><strong>tensor_out</strong></td><td><p>tensor out</p></td>
@@ -163,14 +163,14 @@ index that should be mapped to second matrix dimension</p></td>
   <td><strong>new</strong></td><td><p>whether a new tensor was created for tensor_out</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata~2"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nodata</strong></td><td><p>don't copy tensor data
 memory optimization: transfer data s.t. tensor_in may be empty on return</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~8"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~5"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>don't copy tensor data

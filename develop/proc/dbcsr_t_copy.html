@@ -132,39 +132,39 @@ OR
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-tensor_in~9"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_in~3"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_in</strong></td><td><p>Source
 Target</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_out~9"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_out~3"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_out</strong></td><td><p>Source
 Target</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-order~39"></span>integer,</td>
+  <td><span class="anchor" id="variable-order"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
   <td><strong>order</strong></td><td><p>Permutation of target tensor index. Exact same convention as order argument of RESHAPE intrinsic</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-summation~29"></span>logical,</td>
+  <td><span class="anchor" id="variable-summation~27"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>summation</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-bounds~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-bounds"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(2, ndims_tensor(tensor_in))</td><td>::</td>
   <td><strong>bounds</strong></td><td><p>crop tensor data: start and end index for each tensor dimension</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td></td>
