@@ -224,7 +224,9 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
 #    endif
       clReleaseMemObject(buffer);
 #    if defined(CL_VERSION_2_0)
-      /*if (NULL != ptr)*/ clSVMFree(context, ptr);
+      if (0 != c_dbcsr_acc_opencl_config.device[tid].svm_interop /*&& (NULL != ptr)*/) {
+        clSVMFree(context, ptr);
+      }
 #    endif
       result = EXIT_FAILURE;
     }
@@ -271,8 +273,10 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
     }
 #  endif
 #  if defined(CL_VERSION_2_0)
-    assert(NULL != c_dbcsr_acc_opencl_config.device[tid].context);
-    clSVMFree(c_dbcsr_acc_opencl_config.device[tid].context, ptr); /*if (NULL != ptr)*/
+    if (0 != c_dbcsr_acc_opencl_config.device[tid].svm_interop /*&& (NULL != ptr)*/) {
+      assert(NULL != c_dbcsr_acc_opencl_config.device[tid].context);
+      clSVMFree(c_dbcsr_acc_opencl_config.device[tid].context, ptr);
+    }
 #  endif
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
@@ -363,8 +367,10 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
 #  endif
   assert((NULL != devmem_src || 0 == nbytes) && (NULL != devmem_dst || 0 == nbytes) && NULL != stream);
   if (NULL != devmem_src && NULL != devmem_dst && 0 != nbytes) {
-    result = clEnqueueCopyBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(devmem_src), *ACC_OPENCL_MEM(devmem_dst),
-      0 /*src_offset*/, 0 /*dst_offset*/, nbytes, 0, NULL, NULL);
+    const cl_mem src = *ACC_OPENCL_MEM(devmem_src), dst = *ACC_OPENCL_MEM(devmem_dst);
+    if (src != dst) {
+      result = clEnqueueCopyBuffer(*ACC_OPENCL_STREAM(stream), src, dst, 0 /*src_offset*/, 0 /*dst_offset*/, nbytes, 0, NULL, NULL);
+    }
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
