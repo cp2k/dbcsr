@@ -217,7 +217,7 @@ int c_dbcsr_acc_init(void) {
     char buffer[ACC_OPENCL_BUFFERSIZE];
     const char *const env_devmatch = getenv("ACC_OPENCL_DEVMATCH"), *const env_devtype = getenv("ACC_OPENCL_DEVTYPE");
     const char *const env_priority = getenv("ACC_OPENCL_PRIORITY"), *const env_xhints = getenv("ACC_OPENCL_XHINTS");
-    const char *const env_nullify = getenv("ACC_OPENCL_NULLIFY"), *const env_dump_acc = getenv("ACC_OPENCL_DUMP");
+    const char *const env_devcopy = getenv("ACC_OPENCL_DEVCOPY"), *const env_dump_acc = getenv("ACC_OPENCL_DUMP");
     const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE"), *const env_flush = getenv("ACC_OPENCL_FLUSH");
     const char *const env_device = getenv("ACC_OPENCL_DEVICE"), *const env_timer = getenv("ACC_OPENCL_TIMER");
     const char *const env_share = getenv("ACC_OPENCL_SHARE"), *const env_async = getenv("ACC_OPENCL_ASYNC");
@@ -233,7 +233,7 @@ int c_dbcsr_acc_init(void) {
 #  endif
     c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
     c_dbcsr_acc_opencl_config.priority = (NULL == env_priority ? /*default*/ 3 : atoi(env_priority));
-    c_dbcsr_acc_opencl_config.nullify = (NULL == env_nullify ? /*default*/ 0 : atoi(env_nullify));
+    c_dbcsr_acc_opencl_config.devcopy = (NULL == env_devcopy ? /*default*/ 0 : atoi(env_devcopy));
     c_dbcsr_acc_opencl_config.xhints = (NULL == env_xhints ? /*default*/ 1 : atoi(env_xhints));
     c_dbcsr_acc_opencl_config.share = (NULL == env_share ? /*default*/ 0 : atoi(env_share));
     c_dbcsr_acc_opencl_config.async = (NULL == env_async ? /*default*/ 3 : atoi(env_async));

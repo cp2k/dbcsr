@@ -367,9 +367,35 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
 #  endif
   assert((NULL != devmem_src || 0 == nbytes) && (NULL != devmem_dst || 0 == nbytes) && NULL != stream);
   if (NULL != devmem_src && NULL != devmem_dst && 0 != nbytes) {
-    const cl_mem src = *ACC_OPENCL_MEM(devmem_src), dst = *ACC_OPENCL_MEM(devmem_dst);
-    if (src != dst) {
-      result = clEnqueueCopyBuffer(*ACC_OPENCL_STREAM(stream), src, dst, 0 /*src_offset*/, 0 /*dst_offset*/, nbytes, 0, NULL, NULL);
+    const cl_mem *const src = ACC_OPENCL_MEM(devmem_src), *const dst = ACC_OPENCL_MEM(devmem_dst);
+    assert(NULL != *src && NULL != *dst);
+    if (*src != *dst) {
+      const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+      if (0 == (2 & c_dbcsr_acc_opencl_config.devcopy)) {
+        result = clEnqueueCopyBuffer(queue, *src, *dst, 0 /*src_offset*/, 0 /*dst_offset*/, nbytes, 0, NULL, NULL);
+      }
+      else {
+        static volatile int lock; /* creating cl_kernel and clSetKernelArg must be synchronized */
+        static cl_kernel kernel = NULL;
+        LIBXSMM_ATOMIC_ACQUIRE(&lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
+        if (NULL == kernel) { /* generate kernel */
+          const char source[] = "kernel void memcpy_d2d(global uchar *restrict src, global uchar *restrict dst) {\n"
+                                "  const size_t i = get_global_id(0);\n"
+                                "  dst[i] = src[i];\n"
+                                "}\n";
+          result = c_dbcsr_acc_opencl_kernel(source, "memcpy_d2d" /*kernel_name*/, NULL /*build_params*/, NULL /*build_options*/,
+            NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
+        }
+        if (EXIT_SUCCESS == result) {
+          assert(NULL != kernel);
+          ACC_OPENCL_CHECK(clSetKernelArg(kernel, 0, sizeof(cl_mem), src), "set src argument of memcpy_d2d kernel", result);
+          ACC_OPENCL_CHECK(clSetKernelArg(kernel, 1, sizeof(cl_mem), dst), "set dst argument of memcpy_d2d kernel", result);
+          ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(
+                             queue, kernel, 1 /*work_dim*/, NULL /*offset*/, &nbytes, NULL /*local_work_size*/, 0, NULL, NULL),
+            "launch memcpy_d2d kernel", result);
+        }
+        LIBXSMM_ATOMIC_RELEASE(&lock, LIBXSMM_ATOMIC_RELAXED);
+      }
     }
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
@@ -391,7 +417,7 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
   if (0 != nbytes) {
     const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
     const cl_mem* const buffer = ACC_OPENCL_MEM(dev_mem);
-    if (0 == c_dbcsr_acc_opencl_config.nullify) {
+    if (0 == (1 & c_dbcsr_acc_opencl_config.devcopy)) {
       static const cl_uchar pattern = 0; /* fill with zeros */
       result = clEnqueueFillBuffer(queue, *buffer, &pattern, sizeof(pattern), offset, nbytes, 0, NULL, NULL);
     }
