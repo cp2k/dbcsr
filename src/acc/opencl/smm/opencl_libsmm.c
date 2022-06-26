@@ -891,8 +891,8 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
           clSetKernelArg(config->kernel, 1, sizeof(int), &offset), "set offset argument of transpose kernel", result);
         ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 2, sizeof(cl_mem), ACC_OPENCL_MEM(dev_data)),
           "set matrix-data argument of transpose kernel", result);
-        ACC_OPENCL_CHECK(
-          clEnqueueNDRangeKernel(queue, config->kernel, 1 /*work_dim*/, NULL, &work_size, &config->wgsize, 0, NULL, perf_event),
+        ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(queue, config->kernel, 1 /*work_dim*/, NULL /*offset*/, &work_size, &config->wgsize,
+                           0, NULL, perf_event),
           "launch transpose kernel", result);
         /* eventually update performance counters inside of locked region */
 #    if !defined(OPENCL_LIBSMM_VALIDATE_TRANS)
@@ -1635,7 +1635,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           ACC_OPENCL_CHECK(
             clSetKernelArg(config->kernel[kernel_idx], 5, sizeof(int), &bs), "set minibatch argument of SMM-kernel", result);
         }
-        ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(queue, config->kernel[kernel_idx], 1 /*work_dim*/, NULL, &work_size,
+        ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(queue, config->kernel[kernel_idx], 1 /*work_dim*/, NULL /*offset*/, &work_size,
                            config->wgsize + kernel_idx, 0, NULL, perf_event),
           "launch SMM-kernel", result);
         /* eventually update performance counters inside of locked region */

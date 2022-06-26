@@ -223,8 +223,8 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_int nthreads;
   /** How to apply/use stream priorities. */
   cl_int priority;
-  /** How to zero device-side buffers. */
-  cl_int nullify;
+  /** How to zero/copy device-side buffers. */
+  cl_int devcopy;
   /** Execution-hints (command stream). */
   cl_int xhints;
   /** Share streams across threads. */
