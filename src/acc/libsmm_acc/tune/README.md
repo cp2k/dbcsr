@@ -225,7 +225,7 @@ The file `parameters.json` in `dbcsr/src/acc/libsmm_acc/parameters` now contains
 
 #### 7. Merge new parameters with original parameter-file
 
-Run `tune_merge.py` to merge the new parameters with the original ones:
+Run `tune_merge.py` to merge the new parameters with the original ones, within the directory `parameters`.
 
 ```bash
 $ ./tune_merge.py

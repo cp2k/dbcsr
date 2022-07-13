@@ -17,7 +17,7 @@ import json
 import argparse
 
 sys.path.append("../")
-from kernels.smm_acc_predict import descr_to_kernel  # noqa: E402
+from kernels.smm_acc import descr_to_kernel  # noqa: E402
 
 re_mnk = re.compile(r"tune_(\d+)x(\d+)x(\d+)")
 re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")
@@ -110,7 +110,10 @@ def process_log(log_fn, mnk, winners):
     if m:
         old_gflops = float(m.group(1))
 
-    new_winner = re_winner.search(content).group(1).strip().replace("GFlops", "GFlop/s")
+    new_winner = re_winner.search(content)
+    if not new_winner:
+        return 0
+    new_winner = new_winner.group(1).strip().replace("GFlops", "GFlop/s")
     new_gflops = float(re_gflops.search(new_winner).group(1))
 
     if new_gflops > old_gflops:

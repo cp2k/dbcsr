@@ -276,6 +276,7 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task=12, max_num_nodes=0):
 
     output = "#!/bin/bash -l\n"
     output += "#SBATCH --nodes=%d\n" % num_nodes
+    output += "#SBATCH --exclusive\n"
     output += "#SBATCH --ntasks-per-core=1\n"
     output += "#SBATCH --ntasks-per-node=1\n"
     output += "#SBATCH --cpus-per-task=" + "%d\n" % cpus_per_task
