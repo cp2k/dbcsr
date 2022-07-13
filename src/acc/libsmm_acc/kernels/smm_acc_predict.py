@@ -9,7 +9,12 @@
 
 import numpy as np
 
-from kernels.smm_acc import kernel_algorithm, gpu_architectures, params_dict_to_kernel, compatible_mnk
+from kernels.smm_acc import (  # noqa: F401
+    kernel_algorithm,
+    gpu_architectures,
+    params_dict_to_kernel,
+    compatible_mnk,
+)
 
 # ===============================================================================
 # Lists of derived parameters to use as training data for the predictive modelling
