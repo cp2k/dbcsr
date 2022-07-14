@@ -83,6 +83,7 @@ MODULE dbcsr_mm_accdrv
       LOGICAL                                  :: c_area_copy = .TRUE.
       LOGICAL                                  :: keep_product_data = .TRUE.
       LOGICAL                                  :: do_gpu_c_redux = .FALSE.
+      INTEGER                                  :: nlayers = 1
    END TYPE dbcsr_mm_accdrv_type
 
 ! **************************************************************************************************
@@ -195,6 +196,7 @@ CONTAINS
                                acc_devalloc=.TRUE., acc_stream=thread_streams(ithread + 1))
       my_nlayers = 1
       IF (PRESENT(nlayers)) my_nlayers = nlayers
+      this%nlayers = my_nlayers
       CALL dbcsr_mempool_limit_capacity(thread_privates%memtype_cbuffer%pool, capacity=my_nlayers)
 
       ! Setup things for this particular multiplication
@@ -349,7 +351,7 @@ CONTAINS
       CALL acc_stream_synchronize(this%c_buffer%d%memory_type%acc_stream)
 
       c_area = this%product_wm%data_area
-      IF (this%keep_product_data .OR. this%do_gpu_c_redux) THEN
+      IF (this%keep_product_data .OR. this%do_gpu_c_redux .OR. this%nlayers .GT. 1) THEN
          CALL block_add(c_area, this%c_buffer)
          CALL dbcsr_data_release(this%c_buffer)
       ELSE
