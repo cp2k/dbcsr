@@ -82,7 +82,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">27 statements</a>
+    title=" 0.0% of total for procedures.">28 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_accdrv.F"> Source File</a></li>
   </ul>
@@ -141,7 +141,7 @@
   <td><strong>product_wm</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nlayers~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-nlayers~3"></span>integer,</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nlayers</strong></td><td></td>
@@ -210,6 +210,7 @@
 <span class="w">                               </span><span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_stream</span><span class="o">=</span><span class="n">thread_streams</span><span class="p">(</span><span class="n">ithread</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
 <span class="w">      </span><span class="n">my_nlayers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nlayers</span><span class="p">))</span><span class="w"> </span><span class="n">my_nlayers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nlayers</span><span class="w"></span>
+<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">nlayers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_nlayers</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">memtype_cbuffer</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="o">=</span><span class="n">my_nlayers</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">      </span><span class="c">! Setup things for this particular multiplication</span>
