@@ -30,22 +30,22 @@ def main(submit_jobs, num_jobs):
         if not path.isdir(d):
             continue
 
-        if len(glob(d + "/slurm-*.out")) > 0:
-            print("%20s: Found slurm file(s)" % d)
+        if len(glob(f"{d}/slurm-*.out")) > 0:
+            print(f"{d:20}: Found slurm file(s)")
             continue
 
         if d in submitted:
-            print("%20s: Found submitted job" % d)
+            print(f"{d:20}: Found submitted job")
             continue
 
         n_submits += 1
         if submit_jobs:
-            print("%20s: Submitting" % d)
-            assert os.system("cd %s; sbatch *.job" % d) == 0
+            print(f"{d:20}: Submitting")
+            assert os.system(f"cd {d}; sbatch *.job") == 0
         else:
-            if len(glob(d + "/*.job")) == 1:
-                print('%20s: Would submit, run with "doit!"' % d)
-            elif len(glob(d + "/*.job")) == 0:
+            if len(glob(f"{d}/*.job")) == 1:
+                print(f'{d:20}: Would submit, run with "doit!"')
+            elif len(glob(f"{d}/*.job")) == 0:
                 print(
                     '%20s: Cannot find jobfile, delete this folder and re-create with tune_setup.py"'
                     % d
@@ -60,7 +60,7 @@ def main(submit_jobs, num_jobs):
             if n_submits >= num_jobs:
                 break
 
-    print("Number of jobs submitted: %d" % n_submits)
+    print(f"Number of jobs submitted: {int(n_submits)}")
 
 
 # ===============================================================================

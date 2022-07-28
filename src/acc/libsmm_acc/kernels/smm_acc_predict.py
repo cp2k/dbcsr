@@ -247,7 +247,7 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
                 & (data.v == baseline_pars["v"])
             ].index.tolist()
         else:
-            assert False, "Cannot recognize algorithm: " + algorithm
+            assert False, f"Cannot recognize algorithm: {algorithm}"
 
         if len(idx_baseline) == 1:
             idx_baseline = idx_baseline[0]
@@ -332,9 +332,9 @@ class PredictiveParameters:
 
         if feature_name not in self.params.columns.values:
             if feature_name != "perf_scaled":  # not vectorizable
-                vget = getattr(self, "get_" + feature_name)
+                vget = getattr(self, f"get_{feature_name}")
             else:
-                vget = np.vectorize(getattr(self, "get_" + feature_name))
+                vget = np.vectorize(getattr(self, f"get_{feature_name}"))
             feature_val = vget()
         else:
             feature_val = self.params[feature_name].values
@@ -384,7 +384,7 @@ class PredictiveParameters:
     def get_mnk_string(self):
         """Return (m, n, k) as a descriptive string"""
         return [
-            "{}x{}x{}".format(m, n, k)
+            f"{m}x{n}x{k}"
             for m, n, k in zip(self.get("m"), self.get("n"), self.get("k"))
         ]  # str
 
