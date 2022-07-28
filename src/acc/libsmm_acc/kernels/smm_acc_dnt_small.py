@@ -49,7 +49,6 @@ class Kernel_dnt_small(Kernel):
             )
         )
 
-    @property
     @staticmethod
     def promising_parameters(
         m,
