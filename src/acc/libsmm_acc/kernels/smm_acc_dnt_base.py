@@ -37,14 +37,14 @@ class Kernel:
     """
 
     def __repr__(self):
-        return "<%s>" % self.name
+        return f"<{self.name}>"
 
     def can_handle(self, m, n, k):
         return self.m == m and self.n == n and self.k == k
 
     @property
     def include(self):
-        return "smm_acc_dnt_" + self.algorithm + ".h"
+        return f"smm_acc_dnt_{self.algorithm}.h"
 
     @property
     def name(self):
@@ -132,20 +132,20 @@ class Kernel:
         Compiler: either "nvcc" or "hipcc": determines the C++ dialect to use for kernel launching: either CUDA or HIP
         """
         indent = "  "
-        output = "int launch_" + self.name + "(const int *param_stack, int stack_size, "
+        output = f"int launch_{self.name}(const int *param_stack, int stack_size, "
         if compiler == "nvcc":
             output += "cudaStream_t stream, "
         else:  # i.e. compiler == "hipcc"
             output += "hipStream_t stream, "
         output += "int m_max, int n_max, int k_max, "
         output += "const double *a_data, const double *b_data, double *c_data) {\n"
-        output += indent + "int shared_size = 0;\n"
-        output += indent + "//%s\n" % str(self.__dict__)
+        output += f"{indent}int shared_size = 0;\n"
+        output += f"{indent}//{str(self.__dict__)}\n"
         output += (
             indent
             + "typedef void (*kernel)(const int*, int, const double*, const double*, double*);\n"
         )
-        output += indent + "static kernel kern_func = " + self.func_signature
+        output += f"{indent}static kernel kern_func = {self.func_signature}"
 
         # The syntax for kernel launching is different in CUDA and HIP
         if compiler == "nvcc":
@@ -161,8 +161,8 @@ class Kernel:
                 + "(kern_func, (stack_size + %(grouping)d - 1) / %(grouping)d, %(threads)d, shared_size, stream, \n"
                 % self.__dict__
             )
-        output += indent + "param_stack, stack_size, a_data, b_data, c_data);\n"
-        output += indent + "return 0;\n"
+        output += f"{indent}param_stack, stack_size, a_data, b_data, c_data);\n"
+        output += f"{indent}return 0;\n"
         output += "}\n"
         return output
 

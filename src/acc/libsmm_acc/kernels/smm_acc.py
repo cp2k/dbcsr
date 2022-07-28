@@ -58,6 +58,7 @@ gpu_architectures = {
     "parameters_K80.json": "sm_37",
     "parameters_P100.json": "sm_60",
     "parameters_V100.json": "sm_70",
+    "parameters_A100.json": "sm_80",
     "parameters_Vega10.json": "gfx900",
     "parameters_Mi50.json": "gfx906",
     "parameters_Mi100.json": "gfx908",
@@ -82,7 +83,7 @@ def compatible_mnk(algo, m, n, k):
             compatible = False
     else:
         if algo != "medium":
-            assert False, "Cannot identify algorithm:" + str(algo)
+            assert False, f"Cannot identify algorithm:{str(algo)}"
 
     return compatible
 
@@ -122,15 +123,18 @@ def descr_to_kernel(kernel_descr, source="autotuned"):
         r"Kernel_dnt_(\w+)(\(.*\)) , # (\d+(?:\.\d+)?) GFlop/s"
     )
     kernel_descr_matched = re_kernel_descr.search(kernel_descr)
-    assert kernel_descr_matched is not None, (
-        'Could not match kernel description in "' + kernel_descr + '"'
-    )
+    assert (
+        kernel_descr_matched is not None
+    ), f'Could not match kernel description in "{kernel_descr}"'
     match = kernel_descr_matched.groups()
     algo = match[0]
-    m = match[1].replace("=", "':")
-    m = m.replace(", ", ", '")
-    m = m.replace("(", "{'")
-    m = m.replace(")", "}")
+    m = (
+        match[1]
+        .replace("=", "':")
+        .replace(", ", ", '")
+        .replace("(", "{'")
+        .replace(")", "}")
+    )
     params = dict(literal_eval(m))
     params["perf"] = float(match[2])
     params["source"] = source
