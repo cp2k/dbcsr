@@ -112,7 +112,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-serial_number">serial_number</a>
-      <a class="list-group-item" href="../type/dbcsr_type.html#variable-valid~2">valid</a>
+      <a class="list-group-item" href="../type/dbcsr_type.html#variable-valid">valid</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-name">name</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-data_area~4">data_area</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-index">index</a>
@@ -147,7 +147,7 @@
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-nblkcols_local">nblkcols_local</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-nfullrows_local">nfullrows_local</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-nfullcols_local">nfullcols_local</a>
-      <a class="list-group-item" href="../type/dbcsr_type.html#variable-data_type~6">data_type</a>
+      <a class="list-group-item" href="../type/dbcsr_type.html#variable-data_type~3">data_type</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-replication_type">replication_type</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-symmetry">symmetry</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-negate_real">negate_real</a>
@@ -160,7 +160,7 @@
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-buffers~2">buffers</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-wms">wms</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-dist">dist</a>
-      <a class="list-group-item" href="../type/dbcsr_type.html#variable-refcount~7">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_type.html#variable-refcount~6">refcount</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-work_mutable">work_mutable</a>
     </div>
   </div>
@@ -193,7 +193,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-serial_number">serial_number</a>
-      <a class="list-group-item" href="../type/dbcsr_type.html#variable-valid~2">valid</a>
+      <a class="list-group-item" href="../type/dbcsr_type.html#variable-valid">valid</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-name">name</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-data_area~4">data_area</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-index">index</a>
@@ -228,7 +228,7 @@
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-nblkcols_local">nblkcols_local</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-nfullrows_local">nfullrows_local</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-nfullcols_local">nfullcols_local</a>
-      <a class="list-group-item" href="../type/dbcsr_type.html#variable-data_type~6">data_type</a>
+      <a class="list-group-item" href="../type/dbcsr_type.html#variable-data_type~3">data_type</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-replication_type">replication_type</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-symmetry">symmetry</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-negate_real">negate_real</a>
@@ -241,7 +241,7 @@
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-buffers~2">buffers</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-wms">wms</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-dist">dist</a>
-      <a class="list-group-item" href="../type/dbcsr_type.html#variable-refcount~7">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_type.html#variable-refcount~6">refcount</a>
       <a class="list-group-item" href="../type/dbcsr_type.html#variable-work_mutable">work_mutable</a>
     </div>
   </div>
@@ -267,7 +267,7 @@
   <td><strong>serial_number</strong></td><td> =</td><td>-1</td><td><p>a unique number of each created matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-valid~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-valid"></span>logical,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>valid</strong></td><td> =</td><td>.FALSE.</td><td><p>whether the matrix is valid (consistent)</p></td>
 </tr>
@@ -443,7 +443,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p></td>
   <td><strong>nfullcols_local</strong></td><td> =</td><td>-1</td><td><p>size of local part of matrix in full columns</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~3"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>'r'/'R' for single/double precision real or 'c'/'C' for single/double precision complex data</p></td>
 </tr>
@@ -508,7 +508,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p></td>
   <td><strong>dist</strong></td><td> =</td><td>dbcsr_distribution_obj()</td><td><p>distribution used by this matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~6"></span>integer,</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>reference count</p></td>
 </tr>

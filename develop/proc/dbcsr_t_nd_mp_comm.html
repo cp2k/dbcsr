@@ -128,27 +128,27 @@ This is needed to enable contraction of 2 tensors (must have the same 2d process
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-comm_2d~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-comm_2d"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>comm_2d</strong></td><td><p>communicator with 2-dimensional topology</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map1_2d~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-map1_2d~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map1_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
 which nd-indices map to second matrix index and in which order</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map2_2d~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-map2_2d~2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map2_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
 which nd-indices map to second matrix index and in which order</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dims_nd~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-dims_nd~2"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(SIZE(map1_2d) + SIZE(map2_2d))</td><td>::</td>
   <td><strong>dims_nd</strong></td><td><p>nd dimensions</p></td>
@@ -180,13 +180,13 @@ load balancing is ensured even if some of the tensor dimensions are small (i.e. 
 or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nsplit~11"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~9"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dimsplit~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-dimsplit"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>dimsplit</strong></td><td></td>
