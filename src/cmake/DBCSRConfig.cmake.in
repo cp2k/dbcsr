@@ -14,7 +14,15 @@ endif ()
 
 if ("@USE_ACCEL@" MATCHES "cuda")
   enable_language(CUDA)
+  find_dependency(CUDAToolkit)
 endif ()
+
+if ("@USE_ACCEL@" MATCHES "hip")
+  enable_language(HIP)
+  find_dependency(hip)
+  find_dependency(hipblas)
+endif ()
+
 
 if (("@USE_SMM@" MATCHES "libxsmm") OR ("@USE_ACCEL@" MATCHES "opencl"))
   find_package(PkgConfig)
