@@ -25,6 +25,19 @@
 #  else
 #    define ACC_BENCH_USEOMP(FUNC) (FUNC)
 #  endif
+#  if LIBXSMM_VERSION4(1, 17, 0, 2776) <= LIBXSMM_VERSION_NUMBER
+#    define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
+      STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
+      ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
+      (IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, STRIDE_C, INDEX_STRIDE, \
+        INDEX_BASE, BATCHSIZE, 0 /*batchcheck*/)
+#  else
+#    define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
+      STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
+      ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
+      ((libxsmm_gemm_precision)(IPREC), (libxsmm_gemm_precision)(OPREC), TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, \
+        LDC, INDEX_BASE, INDEX_STRIDE, STRIDE_A, STRIDE_B, STRIDE_C, BATCHSIZE)
+#  endif
 #  define PRINTF(...) \
     do { \
       const size_t print_buffer_size = sizeof(print_buffer) - print_offset; \
@@ -73,20 +86,6 @@
 #define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
 #define ACC_BENCH_SMM_EPSILON_double 3E-3
 #define ACC_BENCH_SMM_EPSILON_float 3E-3
-
-#if LIBXSMM_VERSION4(1, 17, 0, 2776) <= LIBXSMM_VERSION_NUMBER
-#  define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
-    STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
-    ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
-    (IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, STRIDE_C, INDEX_STRIDE, \
-      INDEX_BASE, BATCHSIZE, 0 /*batchcheck*/)
-#else
-#  define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
-    STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
-    ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
-    ((libxsmm_gemm_precision)(IPREC), (libxsmm_gemm_precision)(OPREC), TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, \
-      LDC, INDEX_BASE, INDEX_STRIDE, STRIDE_A, STRIDE_B, STRIDE_C, BATCHSIZE)
-#endif
 
 #define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT)-1)) & ~((NPOT)-1))
 #define CHECK(EXPR, RPTR) \
