@@ -25,6 +25,19 @@
 #  else
 #    define ACC_BENCH_USEOMP(FUNC) (FUNC)
 #  endif
+#  if LIBXSMM_VERSION4(1, 17, 0, 2776) <= LIBXSMM_VERSION_NUMBER
+#    define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
+      STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
+      ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
+      (IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, STRIDE_C, INDEX_STRIDE, \
+        INDEX_BASE, BATCHSIZE, 0 /*batchcheck*/)
+#  else
+#    define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
+      STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
+      ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
+      ((libxsmm_gemm_precision)(IPREC), (libxsmm_gemm_precision)(OPREC), TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, \
+        LDC, INDEX_BASE, INDEX_STRIDE, STRIDE_A, STRIDE_B, STRIDE_C, BATCHSIZE)
+#  endif
 #  define PRINTF(...) \
     do { \
       const size_t print_buffer_size = sizeof(print_buffer) - print_offset; \
@@ -420,19 +433,17 @@ int main(int argc, char* argv[]) {
 #    endif
         memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
         for (r = 0; r < warmup; ++r) {
-          ACC_BENCH_USEOMP(libxsmm_gemm_batch)
-          (LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE), &transa, &transb, m, n, k, &alpha, amat_hst, &m /*lda*/,
-            bmat_hst, &k /*ldb*/, &beta, gold_hst, &m /*ldc*/, 1 /*index_base*/, sizeof(int) * 3, stack_hst + 0, stack_hst + 1,
-            stack_hst + 2, stack_size);
+          ACC_BENCH_GEMM_BATCH(LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE), &transa, &transb, m, n, k, &alpha,
+            amat_hst, &m /*lda*/, stack_hst + 0 /*stride_a*/, bmat_hst, &k /*ldb*/, stack_hst + 1 /*stride_b*/, &beta, gold_hst,
+            &m /*ldc*/, stack_hst + 2 /*stride_c*/, sizeof(int) * 3, 1 /*index_base*/, stack_size);
         }
         memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
         start = libxsmm_timer_tick();
         /* CPU-kernel operates on data that is not initialized in NUMA-aware fashion */
         for (r = 0; r < (nrepeat * smm_nrepeat); ++r) {
-          ACC_BENCH_USEOMP(libxsmm_gemm_batch)
-          (LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE), &transa, &transb, m, n, k, &alpha, amat_hst, &m /*lda*/,
-            bmat_hst, &k /*ldb*/, &beta, gold_hst, &m /*ldc*/, 1 /*index_base*/, sizeof(int) * 3, stack_hst + 0, stack_hst + 1,
-            stack_hst + 2, stack_size);
+          ACC_BENCH_GEMM_BATCH(LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE), &transa, &transb, m, n, k, &alpha,
+            amat_hst, &m /*lda*/, stack_hst + 0 /*stride_a*/, bmat_hst, &k /*ldb*/, stack_hst + 1 /*stride_b*/, &beta, gold_hst,
+            &m /*ldc*/, stack_hst + 2 /*stride_c*/, sizeof(int) * 3, 1 /*index_base*/, stack_size);
         }
         duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
         PRINTF("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
