@@ -84,8 +84,8 @@
 #  define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
     STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
     ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
-    (IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, LDC, INDEX_BASE, INDEX_STRIDE, STRIDE_A, STRIDE_B, \
-      STRIDE_C, BATCHSIZE)
+    ((libxsmm_gemm_precision)(IPREC), (libxsmm_gemm_precision)(OPREC), TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, \
+      LDC, INDEX_BASE, INDEX_STRIDE, STRIDE_A, STRIDE_B, STRIDE_C, BATCHSIZE)
 #endif
 
 #define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT)-1)) & ~((NPOT)-1))
