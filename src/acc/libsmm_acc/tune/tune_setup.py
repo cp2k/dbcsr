@@ -180,7 +180,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
         chunk_b = min((i + 1) * launchers_per_exe, len(launcher_codes))
         n_obj_files = math.ceil((chunk_b - chunk_a) / launchers_per_obj)
 
-        if n_obj_files==0:
+        if n_obj_files == 0:
             continue
         jdigits = int(math.log10(n_obj_files)) + 1
 
@@ -513,5 +513,5 @@ if __name__ == "__main__":
         args.nodes,
         args.blocksizes,
         blocksizes_from_param_file,
-        Path(".")
+        Path("."),
     )
