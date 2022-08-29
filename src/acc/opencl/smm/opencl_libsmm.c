@@ -22,6 +22,20 @@
 #    define OPENCL_LIBSMM_DISPATCH(KEY, KEY_SIZE) libxsmm_xdispatch(KEY, KEY_SIZE)
 #  endif
 
+#  if LIBXSMM_VERSION4(1, 17, 0, 2776) <= LIBXSMM_VERSION_NUMBER
+#    define OPENCL_LIBSMM_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, \
+      LDC, STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
+      OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch) \
+      (IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, STRIDE_C, INDEX_STRIDE, \
+        INDEX_BASE, BATCHSIZE, 0 /*batchcheck*/)
+#  else
+#    define OPENCL_LIBSMM_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, \
+      LDC, STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
+      OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch) \
+      ((libxsmm_gemm_precision)(IPREC), (libxsmm_gemm_precision)(OPREC), TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, \
+        LDC, INDEX_BASE, INDEX_STRIDE, STRIDE_A, STRIDE_B, STRIDE_C, BATCHSIZE)
+#  endif
+
 #  if defined(_OPENMP) && !defined(__DBCSR_ACC)
 #    define OPENCL_LIBSMM_USEOMP(FUNC) LIBXSMM_USEOMP(FUNC)
 #  else
@@ -589,9 +603,9 @@ int libsmm_acc_init(void) {
             memset(c, 0, sizeof(float) * nc * mn);
             start = libxsmm_timer_tick();
             for (i = 0; i < nrepeat; ++i) {
-              OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch)
-              (LIBXSMM_DATATYPE_F32, LIBXSMM_DATATYPE_F32, &notrans, &notrans, m, n, k, &alpha, a, &m /*lda*/, b, &k /*ldb*/, &beta,
-                c, &m /*ldc*/, 1 /*index_base*/, sizeof(int) * 3, s + 0, s + 1, s + 2, stack_size);
+              OPENCL_LIBSMM_GEMM_BATCH(LIBXSMM_DATATYPE_F32, LIBXSMM_DATATYPE_F32, &notrans, &notrans, m, n, k, &alpha, a,
+                &m /*lda*/, s + 0 /*stride_a*/, b, &k /*ldb*/, s + 1 /*stride_b*/, &beta, c, &m /*ldc*/, s + 2 /*stride_c*/,
+                sizeof(int) * 3, 1 /*index_base*/, stack_size);
             }
             opencl_libsmm_shst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) /
                                  (libxsmm_timer_duration(start, libxsmm_timer_tick()) * OPENCL_LIBSMM_AI(m, n, k, sizeof(float)));
@@ -622,9 +636,9 @@ int libsmm_acc_init(void) {
             memset(c, 0, sizeof(double) * nc * mn);
             start = libxsmm_timer_tick();
             for (i = 0; i < nrepeat; ++i) {
-              OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch)
-              (LIBXSMM_DATATYPE_F64, LIBXSMM_DATATYPE_F64, &notrans, &notrans, m, n, k, &alpha, a, &m /*lda*/, b, &k /*ldb*/, &beta,
-                c, &m /*ldc*/, 1 /*index_base*/, sizeof(int) * 3, s + 0, s + 1, s + 2, stack_size);
+              OPENCL_LIBSMM_GEMM_BATCH(LIBXSMM_DATATYPE_F64, LIBXSMM_DATATYPE_F64, &notrans, &notrans, m, n, k, &alpha, a,
+                &m /*lda*/, s + 0 /*stride_a*/, b, &k /*ldb*/, s + 1 /*stride_b*/, &beta, c, &m /*ldc*/, s + 2 /*stride_c*/,
+                sizeof(int) * 3, 1 /*index_base*/, stack_size);
             }
             opencl_libsmm_dhst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) /
                                  (libxsmm_timer_duration(start, libxsmm_timer_tick()) * OPENCL_LIBSMM_AI(m, n, k, sizeof(double)));

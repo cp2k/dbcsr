@@ -17,7 +17,7 @@ import json
 import argparse
 
 sys.path.append("../")
-from kernels.smm_acc_predict import descr_to_kernel  # noqa: E402
+from kernels.smm_acc import descr_to_kernel  # noqa: E402
 
 re_mnk = re.compile(r"tune_(\d+)x(\d+)x(\d+)")
 re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")
@@ -44,13 +44,13 @@ def main():
         if not os.path.isdir(d):
             continue
 
-        for exe_fn in glob(d + "/tune_*main.c*"):
+        for exe_fn in glob(f"{d}/tune_*main.c*"):
             mnk = tuple([int(i) for i in re_mnk.search(exe_fn).groups()])
             if mnk not in winners:
                 winners[mnk] = awinner()
             log_fn = exe_fn.replace("_main.cu", ".log").replace("_main.cpp", ".log")
             if not os.path.exists(log_fn):
-                winners[mnk] = "log missing: " + log_fn
+                winners[mnk] = f"log missing: {log_fn}"
                 print(
                     "WARNINGL: Missing log:",
                     log_fn,
@@ -61,7 +61,7 @@ def main():
                 n_errors += process_log(log_fn, mnk, winners)
 
     if n_errors > 0:
-        print("WARNING: Found %d issues, check above messages." % n_errors)
+        print(f"WARNING: Found {int(n_errors)} issues, check above messages.")
 
     # Get kernel objects from list of strings
     kernels = [descr_to_kernel(kernel_descr.value) for kernel_descr in winners.values()]
@@ -85,7 +85,7 @@ def main():
 
 # ===============================================================================
 def process_log(log_fn, mnk, winners):
-    print("Reading: " + log_fn)
+    print(f"Reading: {log_fn}")
 
     with open(log_fn) as f:
         content = f.read()
@@ -110,7 +110,10 @@ def process_log(log_fn, mnk, winners):
     if m:
         old_gflops = float(m.group(1))
 
-    new_winner = re_winner.search(content).group(1).strip().replace("GFlops", "GFlop/s")
+    new_winner = re_winner.search(content)
+    if not new_winner:
+        return 0
+    new_winner = new_winner.group(1).strip().replace("GFlops", "GFlop/s")
     new_gflops = float(re_gflops.search(new_winner).group(1))
 
     if new_gflops > old_gflops:

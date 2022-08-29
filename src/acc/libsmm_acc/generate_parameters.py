@@ -9,49 +9,47 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-from __future__ import print_function
-
 import json
 import argparse
-from os import path
+from pathlib import Path
 
 from kernels.smm_acc import params_dict_to_kernel, gpu_architectures
 
 
 # ===============================================================================
-def main(gpu_version, base_dir):
+def main(gpu_version: str, base_dir: Path):
+    param_fn = base_dir / f"parameters_{gpu_version}.json"
+
     try:  # Read existing parameters
-        param_fn = path.join(base_dir, "parameters_{}.json".format(gpu_version))
-        with open(param_fn) as f:
-            print("GPU version: {}".format(gpu_version))
-            all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
-        print(
-            "About to process {:,} kernels from file {}".format(
-                len(all_kernels), param_fn
-            )
-        )
+        with param_fn.open("r") as fhandle:
+            print(f"GPU version: {gpu_version}")
+            all_kernels = [
+                params_dict_to_kernel(**params) for params in json.load(fhandle)
+            ]
+        print(f"About to process {len(all_kernels):,} kernels from file {param_fn}")
     except:  # noqa: E722
         all_kernels = []
         pass
 
     try:  # Read GPU properties (warp size)
-        gpu_props_fn = path.join(base_dir, "../kernels/gpu_properties.json")
-        arch_code = gpu_architectures[path.basename(param_fn)]
-        with open(gpu_props_fn) as f:
-            gpu_warp_size = json.load(f)[arch_code]["Threads_/_Warp"]
+        gpu_props_fn = base_dir / "../kernels/gpu_properties.json"
+        arch_code = gpu_architectures[param_fn.name]
+        with gpu_props_fn.open("r") as fhandle:
+            gpu_warp_size = json.load(fhandle)[arch_code]["Threads_/_Warp"]
     except:  # noqa: E722
         gpu_warp_size = 32
         pass
-    print("GPU warp size: {}".format(gpu_warp_size))
+
+    print(f"GPU warp size: {gpu_warp_size}")
 
     # Construct output
-    out, all_pars = write_parameters_file(all_kernels, gpu_warp_size)
+    out = write_parameters_file(all_kernels, gpu_warp_size)
 
     # Write to c++ header-file
     file_h = "parameters.h"
     if all_kernels:
-        print("Found {:,} kernels in file {}".format(len(all_kernels), param_fn))
-    print("Printing them to file {}".format(file_h))
+        print(f"Found {len(all_kernels):,} kernels in file {param_fn}")
+    print(f"Printing them to file {file_h}")
     with open(file_h, "w") as f:
         f.write(out)
 
@@ -103,7 +101,7 @@ def write_parameters_file(all_pars, gpu_warp_size):
 """
 
     # Warp size
-    out += "extern const int warp_size = {};\n\n".format(gpu_warp_size)
+    out += f"extern const int warp_size = {gpu_warp_size};\n\n"
 
     # Map of kernel parameters
     out += """\
@@ -125,10 +123,9 @@ extern const std::unordered_map<Triplet, KernelParameters> ht = {
 
 #endif
 //EOF
-\n\n
 """
 
-    return out, all_pars
+    return out
 
 
 # ===============================================================================
@@ -149,6 +146,7 @@ if __name__ == "__main__":
         "--base_dir",
         metavar="BASE_DIR",
         default="parameters/",
+        type=Path,
         help="Set the base directory to look for the parameter files. Default: %(default)s",
     )
     args = parser.parse_args()

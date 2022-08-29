@@ -5,13 +5,13 @@ exclude: '^tools/(build_utils/fypp)'
 fail_fast: false
 repos:
 - repo: https://github.com/ambv/black
-  rev: 22.3.0
+  rev: 22.6.0
   hooks:
   - id: black
     name: Reformat Python files with the black code formatter
     files: '^.*(/PACKAGE)|(\.py)$'
-- repo: https://gitlab.com/pycqa/flake8
-  rev: 4.0.1
+- repo: https://github.com/pycqa/flake8
+  rev: 5.0.4
   hooks:
   - id: flake8
     exclude: >-
@@ -19,7 +19,7 @@ repos:
         .cp2k/.*|
       )$
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.1.0
+  rev: v4.3.0
   hooks:
   - id: check-ast
   - id: check-yaml
