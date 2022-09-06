@@ -7,7 +7,6 @@ set(SMM_ACC_KERNELS
     kernels/smm_acc_dnt_tiny.h
     kernels/smm_acc_transpose.h)
 
-set(WITH_GPU_PARAMS $<IF:$<STREQUAL:${WITH_GPU},"A100">,"V100",${WITH_GPU}>)
 add_custom_target(
   parameters ALL
   COMMAND

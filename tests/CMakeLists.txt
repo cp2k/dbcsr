@@ -200,7 +200,7 @@ add_custom_target(
     ${Python_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_acc_unittest_multiply.py
     --base_dir ${CMAKE_CURRENT_SOURCE_DIR}/.. --out_dir
-    ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU}
+    ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU_PARAMS}
   DEPENDS libsmm_acc_unittest_multiply.cpp.template
           generate_libsmm_acc_unittest_multiply.py
   BYPRODUCTS libsmm_acc_unittest_multiply.cpp
@@ -213,7 +213,7 @@ add_custom_target(
     ${Python_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_acc_timer_multiply.py --base_dir
     ${CMAKE_CURRENT_SOURCE_DIR}/.. --out_dir ${CURRENT_BINARY_DIR_RELATIVE}
-    --gpu_version=${WITH_GPU}
+    --gpu_version=${WITH_GPU_PARAMS}
   DEPENDS libsmm_acc_timer_multiply.cpp.template
           generate_libsmm_acc_timer_multiply.py
   BYPRODUCTS libsmm_acc_timer_multiply.cpp
