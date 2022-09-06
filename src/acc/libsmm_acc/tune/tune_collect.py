@@ -10,11 +10,10 @@
 ####################################################################################################
 
 import sys
-import os
-from glob import glob
 import re
 import json
 import argparse
+from pathlib import Path
 
 sys.path.append("../")
 from kernels.smm_acc import descr_to_kernel  # noqa: E402
@@ -35,36 +34,52 @@ class awinner:
     n_errors: int = 0
 
 
+def tune_sort_key(path: Path):
+    try:
+        _, triple = path.name.split("_")
+        m, n, k = triple.split("x")
+    except ValueError:
+        return (0, 0, 0)  # sort non-matching dirs as they come at the beginning
+
+    return (int(m), int(n), int(k))
+
+
 # ===============================================================================
-def main():
+def main(tune_dir=Path(".")):
     winners = dict()
 
     n_errors = 0
-    for d in glob("tune_*"):
-        if not os.path.isdir(d):
+    for dir in sorted(tune_dir.glob("tune_*"), key=tune_sort_key):
+        if not dir.is_dir():
             continue
 
-        for exe_fn in glob(f"{d}/tune_*main.c*"):
-            mnk = tuple([int(i) for i in re_mnk.search(exe_fn).groups()])
+        for exe_fpath in sorted(dir.glob("tune_*main.c*")):
+            mnk = tuple(int(i) for i in re_mnk.search(exe_fpath.name).groups())
             if mnk not in winners:
                 winners[mnk] = awinner()
-            log_fn = exe_fn.replace("_main.cu", ".log").replace("_main.cpp", ".log")
-            if not os.path.exists(log_fn):
-                winners[mnk] = f"log missing: {log_fn}"
+            log_fpath = exe_fpath.parent / exe_fpath.name.replace(
+                "_main.cu", ".log"
+            ).replace("_main.cpp", ".log")
+            if not log_fpath.exists():
+                winners[mnk] = awinner(value=f"log missing: {log_fpath}", missing=1)
                 print(
-                    "WARNINGL: Missing log:",
-                    log_fn,
+                    "WARNING: Missing log:",
+                    log_fpath,
                     ", please re-run (cd tune_mxnxk; sbatch tune_mxnxk.job)",
                 )
                 n_errors += 1
             else:
-                n_errors += process_log(log_fn, mnk, winners)
+                n_errors += process_log(log_fpath, mnk, winners)
 
     if n_errors > 0:
         print(f"WARNING: Found {int(n_errors)} issues, check above messages.")
 
     # Get kernel objects from list of strings
-    kernels = [descr_to_kernel(kernel_descr.value) for kernel_descr in winners.values()]
+    kernels = [
+        descr_to_kernel(kernel_descr.value)
+        for kernel_descr in winners.values()
+        if not (kernel_descr.missing or kernel_descr.incomplete)
+    ]
     kernels_dict = dict(zip([(k.m, k.n, k.k) for k in kernels], kernels))
     new_file = "../parameters/parameters.json"
     with open(new_file, "w") as f:
@@ -84,12 +99,10 @@ def main():
 
 
 # ===============================================================================
-def process_log(log_fn, mnk, winners):
+def process_log(log_fn: Path, mnk, winners):
     print(f"Reading: {log_fn}")
 
-    with open(log_fn) as f:
-        content = f.read()
-
+    content = log_fn.read_text()
     m = re_errors.search(content)
     if not m:
         winners[mnk].incomplete += 1
