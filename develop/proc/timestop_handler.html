@@ -181,7 +181,6 @@
 <span class="w">      </span><span class="n">routine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handle</span><span class="w"></span>
 
 <span class="c">!$OMP MASTER</span>
-<span class="c">!$OMP CRITICAL(time_setstop)</span>
 
 <span class="cp">#if defined( __CUDA_PROFILING )</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">cuda_nvtx_range_pop</span><span class="p">()</span><span class="w"></span>
@@ -261,7 +260,6 @@
 <span class="w">         </span><span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">END IF</span><span class="w"></span>
 
-<span class="c">!$OMP END CRITICAL(time_setstop)</span>
 <span class="c">!$OMP END MASTER</span>
 
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">timestop_handler</span><span class="w"></span>
