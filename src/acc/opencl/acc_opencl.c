@@ -15,8 +15,6 @@
 #    include <windows.h>
 #    include <process.h>
 #  else
-LIBXSMM_EXTERN int mkstemp(char*) LIBXSMM_NOTHROW;
-LIBXSMM_EXTERN int putenv(char*) LIBXSMM_THROW;
 #    include <unistd.h>
 #    include <errno.h>
 #    include <glob.h>

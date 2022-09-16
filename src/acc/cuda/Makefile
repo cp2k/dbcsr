@@ -65,9 +65,11 @@ else ifeq ($(WITH_GPU),P100)
 else ifeq ($(WITH_GPU),V100)
   ARCH_NUMBER = 70
 else ifeq ($(WITH_GPU),A100)
-  # TODO: update for A100 tuned parameters
-  override WITH_GPU := V100
   ARCH_NUMBER = 80
+else ifeq ($(WITH_GPU),H100)
+  # TODO: update for H100 tuned parameters
+  override WITH_GPU := A100
+  ARCH_NUMBER = 90
 else ifeq (,$(ARCH_NUMBER))
   $(error Unknown ARCH_NUMBER since WITH_GPU="$(WITH_GPU)" is not recognized)
 endif

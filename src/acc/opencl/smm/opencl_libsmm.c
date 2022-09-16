@@ -1043,8 +1043,8 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
     }
   }
   if ((/*false*/ 0 == result) && (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity)) {
-    opencl_libsmm_smm_t dummy = {0};
     opencl_libsmm_smmkey_t key;
+    opencl_libsmm_smm_t dummy;
     key.type = datatype;
     key.m = m_max;
     key.n = n_max;

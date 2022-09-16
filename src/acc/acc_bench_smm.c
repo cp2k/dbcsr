@@ -129,14 +129,14 @@ static void parse_params(int argc, char* argv[], FILE** file, const char** snr, 
   if (i < argc) {
     const char* x1 = strchr(args[i], 'x');
     const char* x2 = (NULL == x1 ? NULL : strchr(x1 + 1, 'x'));
-    if (NULL == x1 || NULL == x2) { /* accept "M N K"*/
+    if (NULL == x1 || NULL == x2) { /* accept "M N K" */
       *snr = args[i++];
       *sss = (i < argc ? args[i++] : NULL);
       if (i < argc) {
         x1 = strchr(args[i], 'x');
         x2 = (NULL == x1 ? NULL : strchr(x1 + 1, 'x'));
         *ssm = args[i++];
-        if (NULL == x1 || NULL == x2) { /* accept "M N K"*/
+        if (NULL == x1 || NULL == x2) { /* accept "M N K" */
           *ssn = (i < argc ? args[i++] : NULL);
           *ssk = (i < argc ? args[i++] : NULL);
         }
