@@ -198,11 +198,8 @@ static size_t parse_nbytes(const char* nbytes, size_t* nelems) {
 
 
 int main(int argc, char* argv[]) {
-#if defined(USE_LIBXSMM) && defined(VALIDATE)
   const char* const env_check = getenv("CHECK");
   const double check = (NULL == env_check ? -1 : fabs(atof(env_check) * ACC_BENCH_SMM_EPSILON(ELEM_TYPE)));
-  double maxerror = 0;
-#endif
 #if defined(WARMUP) && (0 < WARMUP) && !defined(_DEBUG)
   const int warmup = MAX(WARMUP, 2) / 2 * 2;
 #else
@@ -213,6 +210,11 @@ int main(int argc, char* argv[]) {
   const char *ssm = NULL, *ssn = NULL, *ssk = NULL;
   const char *snc = NULL, *sna = NULL, *snb = NULL;
   FILE* file = NULL;
+#if defined(USE_LIBXSMM) && defined(VALIDATE)
+  double maxerror = 0;
+#else
+  DBCSR_MARK_USED(check);
+#endif
   CHECK(libsmm_acc_init(), &result, check); /* note: libsmm_acc_init() may imply acc_init() */
   if (EXIT_SUCCESS == result) {
     const char* const env_device = getenv("DEVICE");
@@ -429,7 +431,7 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
       duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
       if (0 < duration && EXIT_SUCCESS == result) {
-#  if defined(TRANSPOSE)
+#  if defined(TRANSPOSE) && defined(VALIDATE)
         PRINTF("transpose: %.2g ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * smm_nrepeat),
           1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / (duration + transpose));
 #  endif
