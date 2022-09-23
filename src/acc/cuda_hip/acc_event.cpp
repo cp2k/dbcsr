@@ -55,7 +55,8 @@ extern "C" int c_dbcsr_acc_event_record(void* event, void* stream) {
   ACC(Stream_t)* acc_stream = (ACC(Stream_t)*)stream;
 
   if (verbose_print)
-    printf("EventRecord): %p -> %ld,  %p -> %ld\n", acc_event, (long int)*acc_event, acc_stream, (long int)*acc_stream);
+    printf("EventRecord): %p -> %ld,  %p -> %ld\n", (const void*)acc_event, (long int)*acc_event, (const void*)acc_stream,
+      (long int)*acc_stream);
   ACC_API_CALL(EventRecord, (*acc_event, *acc_stream));
   return 0;
 }
