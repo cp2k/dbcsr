@@ -444,12 +444,10 @@ int libsmm_acc_init(void) {
         char buffer[ACC_OPENCL_BUFFERSIZE], bufname[ACC_OPENCL_BUFFERSIZE], control = '0';
 #  if defined(OPENCL_LIBSMM_DEVICES)
         const int ndevices = (int)(sizeof(OPENCL_LIBSMM_DEVICES) / sizeof(*OPENCL_LIBSMM_DEVICES));
-#  else
-        const int ndevices = 0;
+        unsigned int ntuned = 0;
 #  endif
         opencl_libsmm_smm_t config;
         opencl_libsmm_smmkey_t key;
-        unsigned int ntuned = 0;
         LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data (alignment gaps) */
         if (NULL != env_params && '\0' != *env_params) { /* filename */
           FILE* const file = fopen(env_params, "r");
@@ -470,7 +468,9 @@ int libsmm_acc_init(void) {
                       result = EXIT_FAILURE;
                       break;
                     }
+#  if defined(OPENCL_LIBSMM_DEVICES)
                     else ++ntuned;
+#  endif
                   }
                   else if (config_init->gflops < config.gflops) { /* update */
                     memcpy(config_init, &config, sizeof(config));
@@ -542,7 +542,9 @@ int libsmm_acc_init(void) {
               key.devuid = 0;
               if (NULL != OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
                 c_dbcsr_acc_opencl_config.devmatch = 0; /* disable device-match */
+#  if defined(OPENCL_LIBSMM_DEVICES)
                 ntuned = MAX(ntuned, 1); /* no destinction of overridden or new */
+#  endif
               }
               else result = EXIT_FAILURE;
             }
