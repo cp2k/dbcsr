@@ -153,7 +153,7 @@ as well with the same epsilon value.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-transa~5"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transa~13"></span>character(len=1),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>transa</strong></td><td><p>specifies the form of op( A ) to be used in the matrix multiplication transa = 'N' or 'n',  op( A ) = A. transa = 'T' or
@@ -162,7 +162,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
 't',  op( B ) = transpose(B). transb = 'C' or 'c',  op( B ) = transpose(conjg(B)).</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-transb~5"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transb~13"></span>character(len=1),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>transb</strong></td><td><p>specifies the form of op( A ) to be used in the matrix multiplication transa = 'N' or 'n',  op( A ) = A. transa = 'T' or
@@ -171,39 +171,39 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
 't',  op( B ) = transpose(B). transb = 'C' or 'c',  op( B ) = transpose(conjg(B)).</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-alpha~15"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~27"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>alpha</strong></td><td><p>scaling of product</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_a~30"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~39"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>left BCSR matrix
 right BCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_b~17"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~26"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>left BCSR matrix
 right BCSR matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-beta~7"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta~12"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>beta</strong></td><td><p>scaling of existing data</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_c~6"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_c~14"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_c</strong></td><td><p>resulting BCSR product matrix.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-first_row~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-first_row~9"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>first_row</strong></td><td><p>first full row of limiting submatrix
@@ -214,7 +214,7 @@ first full column of limiting inner product
 last full column of limiting inner product</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-last_row~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-last_row~9"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>last_row</strong></td><td><p>first full row of limiting submatrix
@@ -225,7 +225,7 @@ first full column of limiting inner product
 last full column of limiting inner product</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-first_column~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-first_column~9"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>first_column</strong></td><td><p>first full row of limiting submatrix
@@ -236,7 +236,7 @@ first full column of limiting inner product
 last full column of limiting inner product</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-last_column~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-last_column~13"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>last_column</strong></td><td><p>first full row of limiting submatrix
@@ -247,7 +247,7 @@ first full column of limiting inner product
 last full column of limiting inner product</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-first_k~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-first_k~9"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>first_k</strong></td><td><p>first full row of limiting submatrix
@@ -258,7 +258,7 @@ first full column of limiting inner product
 last full column of limiting inner product</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-last_k~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-last_k~11"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>last_k</strong></td><td><p>first full row of limiting submatrix
@@ -269,19 +269,19 @@ first full column of limiting inner product
 last full column of limiting inner product</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-retain_sparsity~5"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~13"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td><p>enforce the sparsity pattern of the existing product matrix; default is no</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-filter_eps~5"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps~19"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>filter_eps</strong></td><td><p>Filtering of the matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~6"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~15"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td><p>effective flop</p></td>

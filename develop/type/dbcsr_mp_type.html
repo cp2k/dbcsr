@@ -115,9 +115,9 @@
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-numnodes">numnodes</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-myprow">myprow</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mypcol">mypcol</a>
-      <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mp_group">mp_group</a>
+      <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mp_group~2">mp_group</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-pgrid">pgrid</a>
-      <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-refcount">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-refcount~2">refcount</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-subgroups_defined">subgroups_defined</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-prow_group">prow_group</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-pcol_group">pcol_group</a>
@@ -152,9 +152,9 @@
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-numnodes">numnodes</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-myprow">myprow</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mypcol">mypcol</a>
-      <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mp_group">mp_group</a>
+      <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mp_group~2">mp_group</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-pgrid">pgrid</a>
-      <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-refcount">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-refcount~2">refcount</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-subgroups_defined">subgroups_defined</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-prow_group">prow_group</a>
       <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-pcol_group">pcol_group</a>
@@ -179,57 +179,57 @@
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-mynode"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>mynode</strong></td><td> =</td><td>-1</td><td><p>my processor/node (process) number</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-numnodes"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>numnodes</strong></td><td> =</td><td>-1</td><td><p>number of processors/nodes (processes)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-myprow"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>myprow</strong></td><td> =</td><td>-1</td><td><p>my process grid row</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-mypcol"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>mypcol</strong></td><td> =</td><td>-1</td><td><p>my process grid column</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mp_group"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-mp_group~2"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td> =</td><td>-1</td><td><p>message-passing group ID</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-pgrid"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:, :), POINTER, CONTIGUOUS</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:, :), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>pgrid</strong></td><td>=> </td><td>Null()</td><td><p>processor grid</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-refcount~2"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>reference counter</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-subgroups_defined"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>subgroups_defined</strong></td><td> =</td><td>.FALSE.</td><td><p>whether the subgroups are defined</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-prow_group"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>prow_group</strong></td><td> =</td><td>-1</td><td><p>per-process-row communicator</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-pcol_group"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>pcol_group</strong></td><td> =</td><td>-1</td><td><p>pre-process-column communicator</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-source"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>source</strong></td><td> =</td><td>-1</td><td></td>
 </tr>
 </tbody>

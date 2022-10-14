@@ -111,6 +111,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
+      <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-nmrowcol~2">nmrowcol</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-nfullrowcol">nfullrowcol</a>
       <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-blk_size_vec~2">blk_size_vec</a>
       <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-nmrowcol_local~2">nmrowcol_local</a>
     </div>
@@ -128,7 +130,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~4">DATA</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~3">DATA</a>
     </div>
   </div>
 </div>
@@ -149,6 +151,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
+      <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-nmrowcol~2">nmrowcol</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-nfullrowcol">nfullrowcol</a>
       <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-blk_size_vec~2">blk_size_vec</a>
       <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-nmrowcol_local~2">nmrowcol_local</a>
     </div>
@@ -166,7 +170,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~4">DATA</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~3">DATA</a>
     </div>
   </div>
 </div>
@@ -180,13 +184,23 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
+  <td><span class="anchor" id="variable-nmrowcol~2"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nfullrowcol"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nfullrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
   <td><span class="anchor" id="variable-blk_size_vec~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>blk_size_vec</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nmrowcol_local~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nmrowcol_local</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
@@ -234,11 +248,18 @@
     <section>
     <h2>Type-Bound Procedures</h2>
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-data~4"></span><h3>procedure, public :: <strong>DATA</strong>  => <a href='../proc/blk_size_repl.html'>blk_size_repl</a>   </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-data~3"></span><h3>procedure, public :: <strong>DATA</strong>  => <a href='../proc/blk_size_repl.html'>blk_size_repl</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private function <a href='../proc/blk_size_repl.html'>blk_size_repl</a>(t, rowcol)</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private function <a href='../proc/blk_size_repl.html'>blk_size_repl</a>(t, rowcol)</h3>
+      
+    
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -256,7 +277,11 @@
 </tbody>
 </table>
 
-<h4>Return Value <small>integer</small></h4>  
+      <h4>
+        Return Value <small>integer      
+      </small>
+      </h4>
+      
 
       </li>
   </ul>

@@ -113,7 +113,7 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/thread_private_type.html#variable-stack_buffers">stack_buffers</a>
       <a class="list-group-item" href="../type/thread_private_type.html#variable-memtype_cbuffer">memtype_cbuffer</a>
-      <a class="list-group-item" href="../type/thread_private_type.html#variable-padding~2">padding</a>
+      <a class="list-group-item" href="../type/thread_private_type.html#variable-padding~4">padding</a>
     </div>
   </div>
 </div>
@@ -142,7 +142,7 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/thread_private_type.html#variable-stack_buffers">stack_buffers</a>
       <a class="list-group-item" href="../type/thread_private_type.html#variable-memtype_cbuffer">memtype_cbuffer</a>
-      <a class="list-group-item" href="../type/thread_private_type.html#variable-padding~2">padding</a>
+      <a class="list-group-item" href="../type/thread_private_type.html#variable-padding~4">padding</a>
     </div>
   </div>
 </div>
@@ -163,17 +163,17 @@
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-stack_buffers"></span>type(<a href='../type/stack_buffer_type.html'>stack_buffer_type</a>),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>stack_buffers</strong></td><td>=> </td><td>Null()</td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-memtype_cbuffer"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>memtype_cbuffer</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-padding~2"></span>integer(kind=int_4),</td>
-<td>private,</td>  <td>DIMENSION(64)</td><td>::</td>
+  <td><span class="anchor" id="variable-padding~4"></span>integer(kind=int_4),</td>
+<td>public,</td>  <td>DIMENSION(64)</td><td>::</td>
   <td><strong>padding</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>

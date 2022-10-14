@@ -114,7 +114,7 @@
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-dist~6">dist</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-row_blk_size~2">row_blk_size</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-col_blk_size~2">col_blk_size</a>
-      <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-matrix~5">matrix</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-matrix~4">matrix</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-nblkrows">nblkrows</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-nblkcols">nblkcols</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-nblkrowscols_split">nblkrowscols_split</a>
@@ -147,7 +147,7 @@
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-dist~6">dist</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-row_blk_size~2">row_blk_size</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-col_blk_size~2">col_blk_size</a>
-      <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-matrix~5">matrix</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-matrix~4">matrix</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-nblkrows">nblkrows</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-nblkcols">nblkcols</a>
       <a class="list-group-item" href="../type/dbcsr_tas_type.html#variable-nblkrowscols_split">nblkrowscols_split</a>
@@ -171,67 +171,67 @@
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-dist~6"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>dist</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-row_blk_size~2"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
-<td>private,</td>  <td>ALLOCATABLE</td><td>::</td>
+<td>public,</td>  <td>ALLOCATABLE</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-col_blk_size~2"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
-<td>private,</td>  <td>ALLOCATABLE</td><td>::</td>
+<td>public,</td>  <td>ALLOCATABLE</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix~5"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-matrix~4"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>matrix</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nblkrows"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nblkrows</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nblkcols"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nblkcols</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nblkrowscols_split"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nblkrowscols_split</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nfullrows"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nfullrows</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nfullcols"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nfullcols</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-valid~3"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>valid</strong></td><td> =</td><td>.FALSE.</td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-do_batched"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>do_batched</strong></td><td> =</td><td>0</td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-mm_storage"></span>type(<a href='../type/dbcsr_tas_mm_storage.html'>dbcsr_tas_mm_storage</a>),</td>
-<td>private,</td>  <td>ALLOCATABLE</td><td>::</td>
+<td>public,</td>  <td>ALLOCATABLE</td><td>::</td>
   <td><strong>mm_storage</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-has_opt_pgrid"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>has_opt_pgrid</strong></td><td> =</td><td>.FALSE.</td><td></td>
 </tr>
 </tbody>

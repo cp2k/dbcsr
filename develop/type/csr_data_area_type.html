@@ -115,7 +115,7 @@
       <a class="list-group-item" href="../type/csr_data_area_type.html#variable-r_dp~3">r_dp</a>
       <a class="list-group-item" href="../type/csr_data_area_type.html#variable-c_sp~3">c_sp</a>
       <a class="list-group-item" href="../type/csr_data_area_type.html#variable-c_dp~4">c_dp</a>
-      <a class="list-group-item" href="../type/csr_data_area_type.html#variable-data_type~6">data_type</a>
+      <a class="list-group-item" href="../type/csr_data_area_type.html#variable-data_type~3">data_type</a>
     </div>
   </div>
 </div>
@@ -140,7 +140,7 @@
       <a class="list-group-item" href="../type/csr_data_area_type.html#variable-r_dp~3">r_dp</a>
       <a class="list-group-item" href="../type/csr_data_area_type.html#variable-c_sp~3">c_sp</a>
       <a class="list-group-item" href="../type/csr_data_area_type.html#variable-c_dp~4">c_dp</a>
-      <a class="list-group-item" href="../type/csr_data_area_type.html#variable-data_type~6">data_type</a>
+      <a class="list-group-item" href="../type/csr_data_area_type.html#variable-data_type~3">data_type</a>
     </div>
   </div>
 </div>
@@ -155,27 +155,27 @@
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-r_sp~3"></span>real(kind=real_4),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>r_sp</strong></td><td>=> </td><td>Null()</td><td><p>real, single precision data array</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-r_dp~3"></span>real(kind=real_8),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>r_dp</strong></td><td>=> </td><td>Null()</td><td><p>real, double precision data array</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-c_sp~3"></span>complex(kind=real_4),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_sp</strong></td><td>=> </td><td>Null()</td><td><p>complex, double precision data array</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-c_dp~4"></span>complex(kind=real_8),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_dp</strong></td><td>=> </td><td>Null()</td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-data_type~6"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+  <td><span class="anchor" id="variable-data_type~3"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>data type of CSR matrix</p></td>
 </tr>
 </tbody>

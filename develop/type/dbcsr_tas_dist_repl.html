@@ -111,6 +111,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
+      <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-nprowcol">nprowcol</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-nmrowcol">nmrowcol</a>
       <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-dist_vec~2">dist_vec</a>
       <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-nmrowcol_local">nmrowcol_local</a>
       <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-n_repl">n_repl</a>
@@ -152,6 +154,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
+      <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-nprowcol">nprowcol</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-nmrowcol">nmrowcol</a>
       <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-dist_vec~2">dist_vec</a>
       <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-nmrowcol_local">nmrowcol_local</a>
       <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-n_repl">n_repl</a>
@@ -186,23 +190,33 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
+  <td><span class="anchor" id="variable-nprowcol"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nmrowcol"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
   <td><span class="anchor" id="variable-dist_vec~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>dist_vec</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nmrowcol_local"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nmrowcol_local</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-n_repl"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>n_repl</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-dist_size"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>dist_size</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
@@ -271,8 +285,15 @@
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-dist~5"></span><h3>procedure, public :: <strong>dist</strong>  => <a href='../proc/repl_dist.html'>repl_dist</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private function <a href='../proc/repl_dist.html'>repl_dist</a>(t, rowcol)</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private function <a href='../proc/repl_dist.html'>repl_dist</a>(t, rowcol)</h3>
+      
+    
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -290,7 +311,11 @@
 </tbody>
 </table>
 
-<h4>Return Value <small>integer</small></h4>  
+      <h4>
+        Return Value <small>integer      
+      </small>
+      </h4>
+      
 
       </li>
   </ul>
@@ -300,8 +325,15 @@
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-rowcols~4"></span><h3>procedure, public :: <strong>rowcols</strong>  => <a href='../proc/repl_rowcols.html'>repl_rowcols</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private function <a href='../proc/repl_rowcols.html'>repl_rowcols</a>(t, dist)</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private function <a href='../proc/repl_rowcols.html'>repl_rowcols</a>(t, dist)</h3>
+      
+    
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -319,7 +351,11 @@
 </tbody>
 </table>
 
-<h4>Return Value <small>integer(kind=int_8),DIMENSION(:), ALLOCATABLE</small></h4>  
+      <h4>
+        Return Value <small>integer(kind=int_8),DIMENSION(:), ALLOCATABLE      
+      </small>
+      </h4>
+      
 
       </li>
   </ul>

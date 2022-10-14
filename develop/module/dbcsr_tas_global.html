@@ -110,7 +110,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~25">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~8">moduleN</a>
     </div>
   </div>
 </div>
@@ -220,7 +220,7 @@ function objects, leaving up to the caller how to efficiently store global data.
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~25">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~8">moduleN</a>
     </div>
   </div>
 </div>
@@ -305,7 +305,7 @@ function objects, leaving up to the caller how to efficiently store global data.
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-modulen~25"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~8"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_tas_global'</td><td></td>
 </tr>
@@ -622,12 +622,12 @@ function objects, leaving up to the caller how to efficiently store global data.
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-nprowcol"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nprowcol</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nmrowcol"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
@@ -654,8 +654,18 @@ function objects, leaving up to the caller how to efficiently store global data.
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
+  <td><span class="anchor" id="variable-nprowcol"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nmrowcol"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
   <td><span class="anchor" id="variable-split_size"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>split_size</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
@@ -689,8 +699,18 @@ function objects, leaving up to the caller how to efficiently store global data.
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
+  <td><span class="anchor" id="variable-nprowcol"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nmrowcol"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
   <td><span class="anchor" id="variable-dist_vec"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>dist_vec</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
@@ -724,23 +744,33 @@ function objects, leaving up to the caller how to efficiently store global data.
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
+  <td><span class="anchor" id="variable-nprowcol"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nmrowcol"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
   <td><span class="anchor" id="variable-dist_vec~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>dist_vec</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nmrowcol_local"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nmrowcol_local</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-n_repl"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>n_repl</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-dist_size"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>dist_size</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
@@ -775,12 +805,12 @@ function objects, leaving up to the caller how to efficiently store global data.
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-nmrowcol~2"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nfullrowcol"></span>integer(kind=int_8),</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nfullrowcol</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
@@ -790,7 +820,7 @@ function objects, leaving up to the caller how to efficiently store global data.
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
       <tbody>
-       <tr><td>procedure(rowcol_data), public :: <strong><a href='../type/dbcsr_tas_rowcol_data.html#boundprocedure-data~2'>DATA</a></strong>  </td>
+       <tr><td>procedure(rowcol_data), public :: <strong><a href='../type/dbcsr_tas_rowcol_data.html#boundprocedure-data'>DATA</a></strong>  </td>
        <td></td></tr>
        </tbody>
        </table>
@@ -805,8 +835,18 @@ function objects, leaving up to the caller how to efficiently store global data.
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
+  <td><span class="anchor" id="variable-nmrowcol~2"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nfullrowcol"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nfullrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
   <td><span class="anchor" id="variable-blk_size_vec"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>blk_size_vec</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
@@ -823,7 +863,7 @@ function objects, leaving up to the caller how to efficiently store global data.
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
       <tbody>
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_arb.html#boundprocedure-data~3'>DATA</a></strong>  => blk_size_arb </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_arb.html#boundprocedure-data~2'>DATA</a></strong>  => blk_size_arb </td>
        <td></td></tr>
        </tbody>
        </table>
@@ -838,13 +878,23 @@ function objects, leaving up to the caller how to efficiently store global data.
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
+  <td><span class="anchor" id="variable-nmrowcol~2"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nfullrowcol"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nfullrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
   <td><span class="anchor" id="variable-blk_size_vec~2"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+<td>public,</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>blk_size_vec</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-nmrowcol_local~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
+<td>public</td>  <td></td><td>::</td>
   <td><strong>nmrowcol_local</strong></td><td></td><td></td><td></td>
 </tr>
 </tbody>
@@ -861,7 +911,7 @@ function objects, leaving up to the caller how to efficiently store global data.
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
       <tbody>
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~4'>DATA</a></strong>  => blk_size_repl </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~3'>DATA</a></strong>  => blk_size_repl </td>
        <td></td></tr>
        </tbody>
        </table>
@@ -871,6 +921,23 @@ function objects, leaving up to the caller how to efficiently store global data.
      <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_blk_size_one"></span><h3>type, public, extends(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>) :: <a href='../type/dbcsr_tas_blk_size_one.html'>dbcsr_tas_blk_size_one</a>  </h3></div>
   <div class="panel-body">
+     <h4>Components</h4>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-nmrowcol~2"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nfullrowcol"></span>integer(kind=int_8),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nfullrowcol</strong></td><td></td><td></td><td></td>
+</tr>
+</tbody>
+</table>
+
      <h4>Constructor</h4>
          
        <table class="table table-striped varlist">
@@ -882,7 +949,7 @@ function objects, leaving up to the caller how to efficiently store global data.
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
       <tbody>
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_one.html#boundprocedure-data~5'>DATA</a></strong>  => blk_size_one </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_one.html#boundprocedure-data~4'>DATA</a></strong>  => blk_size_one </td>
        <td></td></tr>
        </tbody>
        </table>
