@@ -11,56 +11,62 @@
 
 import os
 import argparse
-from os import path
-from glob import glob
 
-from subprocess import Popen, PIPE
+from subprocess import check_call, check_output
+from pathlib import Path
+
+
+def tune_sort_key(path: Path):
+    try:
+        _, triple = path.name.split("_")
+        m, n, k = triple.split("x")
+    except ValueError:
+        return (0, 0, 0)  # sort non-matching dirs as they come at the beginning
+
+    return (int(m), int(n), int(k))
 
 
 # ===============================================================================
-def main(submit_jobs, num_jobs):
+def main(submit_jobs, num_jobs, tune_dir: Path, sbatch_args):
 
     cmd = ["squeue", "--user", os.environ["USER"], "--format=%j", "--nohead"]
-    p = Popen(cmd, stdout=PIPE)
-    submitted = p.stdout.read()
-    submitted = submitted.decode("utf-8")
+    submitted = check_output(cmd, encoding="utf-8")
 
     n_submits = 0
-    for d in glob("tune_*"):
-        if not path.isdir(d):
+    for dir in sorted(tune_dir.glob("tune_*"), key=tune_sort_key):
+        if not dir.is_dir():
             continue
 
-        if len(glob(f"{d}/slurm-*.out")) > 0:
-            print(f"{d:20}: Found slurm file(s)")
+        if list(dir.glob("slurm-*.out")):
+            print(f"{dir.name:20}: Found slurm file(s)")
             continue
 
-        if d in submitted:
-            print(f"{d:20}: Found submitted job")
+        if dir.name in submitted:
+            print(f"{dir.name:20}: Found submitted job")
             continue
 
         n_submits += 1
         if submit_jobs:
-            print(f"{d:20}: Submitting")
-            assert os.system(f"cd {d}; sbatch *.job") == 0
+            print(f"{dir.name:20}: Submitting")
+            check_call(f"cd {dir}; sbatch {sbatch_args} *.job", shell=True)
         else:
-            if len(glob(f"{d}/*.job")) == 1:
-                print(f'{d:20}: Would submit, run with "doit!"')
-            elif len(glob(f"{d}/*.job")) == 0:
+            jobfiles = list(dir.glob("*.job"))
+            if len(jobfiles) == 1:
+                print(f'{dir.name:20}: Would submit, run with "doit!"')
+            elif len(jobfiles) == 0:
                 print(
-                    '%20s: Cannot find jobfile, delete this folder and re-create with tune_setup.py"'
-                    % d
+                    f"{dir.name:20}: Cannot find jobfile, delete this folder and re-create with tune_setup.py"
                 )
             else:
                 print(
-                    '%20s: Found multiple jobfiles, delete this folder and re-create with tune_setup.py"'
-                    % d
+                    f"{dir.name:20}: Found multiple jobfiles, delete this folder and re-create with tune_setup.py"
                 )
 
         if num_jobs > 0:
             if n_submits >= num_jobs:
                 break
 
-    print(f"Number of jobs submitted: {int(n_submits)}")
+    print(f"Number of jobs submitted: {n_submits}")
 
 
 # ===============================================================================
@@ -86,7 +92,22 @@ if __name__ == "__main__":
         type=int,
         help="Maximum number of jobs to submit. 0: submit all",
     )
+    parser.add_argument(
+        "-d",
+        "--dir",
+        metavar="tune_directory",
+        default=".",
+        type=Path,
+        help="Path from which to read already-existing tune-folders and write new tune-folders",
+    )
+    parser.add_argument(
+        "--sbatch-args",
+        metavar="sbatch_args",
+        default="",
+        type=str,
+        help="Additional arguments passed to sbatch",
+    )
 
     args = parser.parse_args()
     submit_jobs = True if args.doit == "doit!" else False
-    main(submit_jobs, args.num_jobs)
+    main(submit_jobs, args.num_jobs, args.dir, args.sbatch_args)

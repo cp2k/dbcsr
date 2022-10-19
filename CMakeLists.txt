@@ -103,6 +103,7 @@ set(WITH_GPU
       STRING
       "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
 )
+set(WITH_GPU_PARAMS "${WITH_GPU}")
 set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
                                      ${SUPPORTED_HIP_ARCHITECTURES})
 
@@ -233,6 +234,7 @@ if (USE_ACCEL MATCHES "cuda")
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
 
   message(STATUS "GPU target architecture: " ${WITH_GPU})
+  message(STATUS "Kernel parameters: " ${WITH_GPU_PARAMS})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "GPU profiling enabled: " ${WITH_CUDA_PROFILING})
 endif ()
@@ -271,6 +273,7 @@ if (USE_ACCEL MATCHES "hip")
 
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
   message(STATUS "GPU target architecture: " ${WITH_GPU})
+  message(STATUS "Kernel parameters: " ${WITH_GPU_PARAMS})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "GPU profiling enabled: " ${WITH_HIP_PROFILING})
 

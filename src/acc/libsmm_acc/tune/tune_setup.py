@@ -169,9 +169,8 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
     # - each executable is made of n_obj_files object files
     # - each object file is made up of launchers_per_obj launchers
     # - each launcher launches 1 GPU kernel with a certain set of kernel parameters
-    # the hipcc compiler is very slow -> make a larger number of smaller executables
-    max_launchers_per_exe = 10000 if compiler == "nvcc" else 100
-    launchers_per_obj = 100 if compiler == "nvcc" else 10
+    max_launchers_per_exe = 10000
+    launchers_per_obj = 100
     n_exe_files = int(len(launcher_codes) / max_launchers_per_exe) + 1
     launchers_per_exe = int(len(launcher_codes) / n_exe_files) + 1
 
@@ -181,6 +180,8 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
         chunk_b = min((i + 1) * launchers_per_exe, len(launcher_codes))
         n_obj_files = math.ceil((chunk_b - chunk_a) / launchers_per_obj)
 
+        if n_obj_files == 0:
+            continue
         jdigits = int(math.log10(n_obj_files)) + 1
 
         # Compose source code for each object file
@@ -264,7 +265,7 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task=12, max_num_nodes=0):
     else:
         num_nodes = len(all_exe)
     if num_nodes < 3:
-        time = "1:30:00"
+        time = "4:00:00"
     else:
         time = "0:30:00"
 
@@ -276,7 +277,7 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task=12, max_num_nodes=0):
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task={int(cpus_per_task)}
 #SBATCH --time={time}
-#SBATCH --partition=bp11
+#SBATCH --partition=bardpeak
 
 source ${{MODULESHOME}}/init/sh; module use /global/opt/modulefiles;
 module unload PrgEnv-cray
@@ -288,7 +289,7 @@ module load PrgEnv-gnu
         output += "module load rocm/5.1.0; module load craype-accel-amd-gfx90a;\n"
 
     output += """\
-export ROCR_VISIBLE_DEVICES=0
+export ROCR_VISIBLE_DEVICES=4 # GPU corresponding to Numa node 0
 module list
 cd $SLURM_SUBMIT_DIR
 
@@ -300,7 +301,7 @@ date
     for exe in all_exe:
         output += (
             f"srun --nodes=1 --bcast=/tmp/${{USER}} --ntasks=1 --ntasks-per-node=1"
-            f" --cpus-per-task={cpus_per_task} make -j {2 * cpus_per_task} {exe} &\n"
+            f" --cpus-per-task={cpus_per_task} --exact make -j {cpus_per_task} {exe} &\n"
         )
         num_nodes_busy += 1
         if num_nodes_busy == num_nodes:
@@ -315,7 +316,7 @@ date
     for exe in all_exe:
         output += (
             f"srun --nodes=1 --bcast=/tmp/${{USER}} --ntasks=1 --ntasks-per-node=1"
-            f" --cpus-per-task=1 ./{exe} > {exe}.log 2>&1 & \n"
+            f" --cpus-per-task=1 --exact ./{exe} > {exe}.log 2>&1 & \n"
         )
         num_nodes_busy += 1
         if num_nodes_busy == num_nodes:
@@ -328,7 +329,7 @@ date
 
     # Winner
     output += "echo Over all winner:\n"
-    output += "grep WINNER {tprefix}_exe*.log  |  sort -n --field-separator='#' -k 2 | tail -n 1\n"
+    output += f"grep WINNER {tprefix}_exe*.log  |  sort -n --field-separator='#' -k 2 | tail -n 1\n"
     output += "\n"
     output += "#EOF\n"
 
@@ -445,14 +446,6 @@ if __name__ == "__main__":
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
-        "-d",
-        "--dir",
-        metavar="tune_directory",
-        default=".",
-        type=Path,
-        help="Path from which to read already-existing tune-folders and write new tune-folders",
-    )
-    parser.add_argument(
         "-p",
         "--params",
         metavar="parameters_GPU.json",
@@ -520,5 +513,5 @@ if __name__ == "__main__":
         args.nodes,
         args.blocksizes,
         blocksizes_from_param_file,
-        args.dir,
+        Path("."),
     )

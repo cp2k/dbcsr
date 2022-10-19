@@ -22,6 +22,20 @@
 #    define OPENCL_LIBSMM_DISPATCH(KEY, KEY_SIZE) libxsmm_xdispatch(KEY, KEY_SIZE)
 #  endif
 
+#  if LIBXSMM_VERSION4(1, 17, 0, 2776) <= LIBXSMM_VERSION_NUMBER
+#    define OPENCL_LIBSMM_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, \
+      LDC, STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
+      OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch) \
+      (IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, STRIDE_C, INDEX_STRIDE, \
+        INDEX_BASE, BATCHSIZE, 0 /*batchcheck*/)
+#  else
+#    define OPENCL_LIBSMM_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, \
+      LDC, STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
+      OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch) \
+      ((libxsmm_gemm_precision)(IPREC), (libxsmm_gemm_precision)(OPREC), TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, \
+        LDC, INDEX_BASE, INDEX_STRIDE, STRIDE_A, STRIDE_B, STRIDE_C, BATCHSIZE)
+#  endif
+
 #  if defined(_OPENMP) && !defined(__DBCSR_ACC)
 #    define OPENCL_LIBSMM_USEOMP(FUNC) LIBXSMM_USEOMP(FUNC)
 #  else
@@ -221,7 +235,7 @@ int opencl_libsmm_write_smm_params(FILE* stream, int only_key, const opencl_libs
 
 int opencl_libsmm_read_smm_params(
   char* parambuf, opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value, opencl_libsmm_perfest_t* perfest, char* device) {
-  const char* const end = parambuf + strlen(parambuf);
+  const char* const end = parambuf + strlen(parambuf); /* before strtok */
   char* s = strtok(parambuf, ACC_OPENCL_DELIMS);
   int result = EXIT_SUCCESS, i = 0, ivalue, consumed = 0, c = 0;
   const int opt_consumed = (NULL != perfest ? 2 : 0) + (NULL != device ? 1 : 0);
@@ -430,12 +444,10 @@ int libsmm_acc_init(void) {
         char buffer[ACC_OPENCL_BUFFERSIZE], bufname[ACC_OPENCL_BUFFERSIZE], control = '0';
 #  if defined(OPENCL_LIBSMM_DEVICES)
         const int ndevices = (int)(sizeof(OPENCL_LIBSMM_DEVICES) / sizeof(*OPENCL_LIBSMM_DEVICES));
-#  else
-        const int ndevices = 0;
+        unsigned int ntuned = 0;
 #  endif
         opencl_libsmm_smm_t config;
         opencl_libsmm_smmkey_t key;
-        unsigned int ntuned = 0;
         LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data (alignment gaps) */
         if (NULL != env_params && '\0' != *env_params) { /* filename */
           FILE* const file = fopen(env_params, "r");
@@ -456,7 +468,9 @@ int libsmm_acc_init(void) {
                       result = EXIT_FAILURE;
                       break;
                     }
+#  if defined(OPENCL_LIBSMM_DEVICES)
                     else ++ntuned;
+#  endif
                   }
                   else if (config_init->gflops < config.gflops) { /* update */
                     memcpy(config_init, &config, sizeof(config));
@@ -528,7 +542,9 @@ int libsmm_acc_init(void) {
               key.devuid = 0;
               if (NULL != OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
                 c_dbcsr_acc_opencl_config.devmatch = 0; /* disable device-match */
+#  if defined(OPENCL_LIBSMM_DEVICES)
                 ntuned = MAX(ntuned, 1); /* no destinction of overridden or new */
+#  endif
               }
               else result = EXIT_FAILURE;
             }
@@ -589,9 +605,9 @@ int libsmm_acc_init(void) {
             memset(c, 0, sizeof(float) * nc * mn);
             start = libxsmm_timer_tick();
             for (i = 0; i < nrepeat; ++i) {
-              OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch)
-              (LIBXSMM_DATATYPE_F32, LIBXSMM_DATATYPE_F32, &notrans, &notrans, m, n, k, &alpha, a, &m /*lda*/, b, &k /*ldb*/, &beta,
-                c, &m /*ldc*/, 1 /*index_base*/, sizeof(int) * 3, s + 0, s + 1, s + 2, stack_size);
+              OPENCL_LIBSMM_GEMM_BATCH(LIBXSMM_DATATYPE_F32, LIBXSMM_DATATYPE_F32, &notrans, &notrans, m, n, k, &alpha, a,
+                &m /*lda*/, s + 0 /*stride_a*/, b, &k /*ldb*/, s + 1 /*stride_b*/, &beta, c, &m /*ldc*/, s + 2 /*stride_c*/,
+                sizeof(int) * 3, 1 /*index_base*/, stack_size);
             }
             opencl_libsmm_shst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) /
                                  (libxsmm_timer_duration(start, libxsmm_timer_tick()) * OPENCL_LIBSMM_AI(m, n, k, sizeof(float)));
@@ -622,9 +638,9 @@ int libsmm_acc_init(void) {
             memset(c, 0, sizeof(double) * nc * mn);
             start = libxsmm_timer_tick();
             for (i = 0; i < nrepeat; ++i) {
-              OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch)
-              (LIBXSMM_DATATYPE_F64, LIBXSMM_DATATYPE_F64, &notrans, &notrans, m, n, k, &alpha, a, &m /*lda*/, b, &k /*ldb*/, &beta,
-                c, &m /*ldc*/, 1 /*index_base*/, sizeof(int) * 3, s + 0, s + 1, s + 2, stack_size);
+              OPENCL_LIBSMM_GEMM_BATCH(LIBXSMM_DATATYPE_F64, LIBXSMM_DATATYPE_F64, &notrans, &notrans, m, n, k, &alpha, a,
+                &m /*lda*/, s + 0 /*stride_a*/, b, &k /*ldb*/, s + 1 /*stride_b*/, &beta, c, &m /*ldc*/, s + 2 /*stride_c*/,
+                sizeof(int) * 3, 1 /*index_base*/, stack_size);
             }
             opencl_libsmm_dhst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) /
                                  (libxsmm_timer_duration(start, libxsmm_timer_tick()) * OPENCL_LIBSMM_AI(m, n, k, sizeof(double)));
@@ -1029,8 +1045,8 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
     }
   }
   if ((/*false*/ 0 == result) && (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity)) {
-    opencl_libsmm_smm_t dummy = {0};
     opencl_libsmm_smmkey_t key;
+    opencl_libsmm_smm_t dummy;
     key.type = datatype;
     key.m = m_max;
     key.n = n_max;
@@ -1384,13 +1400,13 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                           atomic_ops = "-Dcl_intel_global_float_atomics";
                         }
                         else {
-                          atomic_ops = (2 > atomics_force
+                          atomic_ops = ((0 == std_c11 && 2 > atomics_force)
                                           ? "-DATOMIC_PROTOTYPES=1"
                                           : (3 > atomics_force ? "-DATOMIC_PROTOTYPES=2" : "-DATOMIC_PROTOTYPES=3"));
                         }
-                        atomic_exp = ((0 != std_c11 && 1 < atomics_force) ? "atomic_fetch_add_explicit((GLOBAL_VOLATILE(TF)*)A,B,"
-                                                                            "memory_order_relaxed,memory_scope_work_group)"
-                                                                          : "atomic_add(A,B)");
+                        atomic_exp = ((0 == std_c11 && 2 > atomics_force) ? "atomic_add(A,B)"
+                                                                          : "atomic_fetch_add_explicit((GLOBAL_VOLATILE(TF)*)A,B,"
+                                                                            "memory_order_relaxed,memory_scope_work_group)");
                       }
                       else {
                         atomic_exp = "atomic_add_global_cmpxchg(A,B)";

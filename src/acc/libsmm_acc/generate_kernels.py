@@ -57,7 +57,7 @@ def main(kernels_folder: Path):
     kernel_files = list()
     for kfile in kernels_folder_files:
         if kfile.name.startswith("smm_acc_") and kfile.suffix == ".h":
-            kernel_files.append(kernels_folder / kfile)
+            kernel_files.append(kfile)
     print(f"Found {len(kernel_files)} kernel files:")
     print(*(f"<- {kf}" for kf in kernel_files), sep="\n")
 

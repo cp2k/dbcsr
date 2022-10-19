@@ -234,20 +234,22 @@ endif
 	@ldd $(ACCDIR)/acc_bench_smm
 	@echo "hostname: $$(hostname)"
 	@echo
-	@echo "$(SHAPES)" | xargs -n1 | \
-		($(GPUENV) CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L $(ACC_BENCH_SMM) /dev/stdin \
-			2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
-	@if [ -s $(MAKDIR)/test-smm.err ]; then cat $(MAKDIR)/test-smm.err && exit 1; fi
+	@echo "$(SHAPES)" | xargs -n1 | ($(GPUENV) CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L \
+		$(ACC_BENCH_SMM) /dev/stdin 2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 
 .PHONY: test-smm
 test-smm: $(MAKDIR)/test-smm.log
 ifneq (,$(call which,datamash))
 ifeq (,$(shell datamash geomean 2>&1 | grep invalid))
-	@echo "geomean: $$(sed -n "/device:/p" $< | datamash -W -R 1 geomean 4) GFLOPS/s"
+	@echo "geomean: $$(sed -n "/device:/p" $< 2>/dev/null | datamash -W -R 1 geomean 4) GFLOPS/s"
 endif
-	@echo "median: $$(sed -n "/device:/p" $< | datamash -W -R 1 median 4) GFLOPS/s"
-	@echo "mean: $$(sed -n "/device:/p" $< | datamash -W -R 1 mean 4) GFLOPS/s"
+	@echo "median: $$(sed -n "/device:/p" $< 2>/dev/null | datamash -W -R 1 median 4) GFLOPS/s"
+	@echo "mean: $$(sed -n "/device:/p" $< 2>/dev/null | datamash -W -R 1 mean 4) GFLOPS/s"
 endif
+	@if [ -s $(MAKDIR)/test-smm.err ]; then \
+		echo && cat $(MAKDIR)/test-smm.err; \
+		if [ "0" != "$(if $(CHECK),$(CHECK),1)" ]; then exit 1; fi; \
+	fi
 
 $(MAKDIR)/smm/opencl_kernels.h: $(MAKDIR)/acc_opencl.sh $(KERNEL) $(PARAMS)
 	@CPPFLAGS=$(CPP_OPENCL_FLAGS) $(MAKDIR)/acc_opencl.sh $(KERNEL) $(PARAMS) $@
