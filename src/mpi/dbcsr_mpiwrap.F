@@ -5107,9 +5107,13 @@ CONTAINS
          END IF
          IF (len > 0) THEN
             do_local_copy = .FALSE.
+#if !defined(__DBCSR_DISABLE_RMA_LOCAL_COPY)
             IF (PRESENT(myproc) .AND. .NOT. PRESENT(origin_datatype) .AND. .NOT. PRESENT(target_datatype)) THEN
                IF (myproc .EQ. source) do_local_copy = .TRUE.
             END IF
+#else
+            MARK_USED(myproc)
+#endif
             IF (do_local_copy) THEN
 #if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)
