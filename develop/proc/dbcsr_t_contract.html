@@ -146,87 +146,87 @@ bounds_2, bounds_3 give the index ranges of the batches.
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-alpha~34"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~49"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>alpha</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_1~2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_1"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_1</strong></td><td><p>first tensor (in)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_2~2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_2</strong></td><td><p>second tensor (in)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-beta~14"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta~15"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>beta</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tensor_3~2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor_3"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
 <td>intent(inout),</td>
   <td></td>  <td>TARGET</td><td>::</td>
   <td><strong>tensor_3</strong></td><td><p>contracted tensor (out)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-contract_1~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-contract_1"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>contract_1</strong></td><td><p>indices of tensor_1 to contract</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-notcontract_1~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-notcontract_1"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>notcontract_1</strong></td><td><p>indices of tensor_1 not to contract</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-contract_2~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-contract_2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>contract_2</strong></td><td><p>indices of tensor_2 to contract (1:1 with contract_1)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-notcontract_2~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-notcontract_2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>notcontract_2</strong></td><td><p>indices of tensor_2 not to contract</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map_1~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-map_1"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map_1</strong></td><td><p>which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-map_2~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-map_2"></span>integer,</td>
 <td>intent(in),</td>
   <td></td>  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map_2</strong></td><td><p>which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-bounds_1~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-bounds_1"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(2, SIZE(contract_1))</td><td>::</td>
   <td><strong>bounds_1</strong></td><td><p>bounds corresponding to contract_1 AKA contract_2: start and end index of an index range over
 which to contract. For use in batched contraction.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-bounds_2~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-bounds_2"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(2, SIZE(notcontract_1))</td><td>::</td>
   <td><strong>bounds_2</strong></td><td><p>bounds corresponding to notcontract_1: start and end index of an index range.
 For use in batched contraction.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-bounds_3~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-bounds_3"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td>DIMENSION(2, SIZE(notcontract_2))</td><td>::</td>
   <td><strong>bounds_3</strong></td><td><p>bounds corresponding to notcontract_2: start and end index of an index range.
@@ -266,25 +266,25 @@ in this case the pointer is not associated.</p></td>
   <td><strong>filter_eps</strong></td><td><p>As in DBCSR mm</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~19"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~29"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td><p>As in DBCSR mm</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~13"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~12"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>memory optimization: transfer data such that tensor_1 and tensor_2 are empty on return</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-retain_sparsity~14"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~16"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td><p>enforce the sparsity pattern of the existing tensor_3; default is no</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~21"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>output unit for logging
@@ -292,7 +292,7 @@ set it to -1 on ranks that should not write (and any valid unit number on ranks 
 if 0 on ALL ranks, no output is written</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-log_verbose~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-log_verbose~3"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>log_verbose</strong></td><td><p>verbose logging (for testing only)</p></td>

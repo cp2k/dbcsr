@@ -125,25 +125,25 @@ the same process grid as the other 2 matrices.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-mp_comm~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm~14"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mp_comm</strong></td><td><p>communicator that defines Cartesian topology</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_in~2"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_in~8"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_in</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-matrix_out~2"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_out~6"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>matrix_out</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-transposed~15"></span>logical,</td>
+  <td><span class="anchor" id="variable-transposed~62"></span>logical,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>transposed</strong></td><td><p>Whether matrix_out should be transposed</p></td>
@@ -155,14 +155,14 @@ the same process grid as the other 2 matrices.</p>
   <td><strong>trans</strong></td><td><p>update transpose flag for DBCSR mm according to 'transposed' argument</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nodata~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata~4"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>nodata</strong></td><td><p>Data of matrix_in should not be copied to matrix_out
 memory optimization: move data such that matrix_in is empty on return.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~4"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>Data of matrix_in should not be copied to matrix_out

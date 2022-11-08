@@ -130,55 +130,55 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-base~13"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-base~18"></span>complex(kind=real_4),</td>
 <td></td>
   <td></td>  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
   <td><strong>base</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-source~92"></span>integer,</td>
+  <td><span class="anchor" id="variable-source~100"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>source</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-win~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-win~18"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>win</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-win_data~6"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-win_data~7"></span>complex(kind=real_4),</td>
 <td></td>
   <td></td>  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
   <td><strong>win_data</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-myproc~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-myproc~8"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>myproc</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-disp~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-disp~7"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>disp</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-request~122"></span>integer,</td>
+  <td><span class="anchor" id="variable-request~128"></span>integer,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>request</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-origin_datatype~6"></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
+  <td><span class="anchor" id="variable-origin_datatype~7"></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>origin_datatype</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-target_datatype~6"></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
+  <td><span class="anchor" id="variable-target_datatype~7"></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>target_datatype</strong></td><td></td>
@@ -261,10 +261,14 @@
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            </span><span class="n">do_local_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
+<span class="cp">#if !defined(__DBCSR_DISABLE_RMA_LOCAL_COPY)</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">myproc</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">source</span><span class="p">)</span><span class="w"> </span><span class="n">do_local_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"></span>
-<span class="w">            </span><span class="k">END IF</span>
-<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
+<span class="w">            </span><span class="k">END IF</span><span class="w"></span>
+<span class="cp">#else</span>
+<span class="w">            </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"></span>
 <span class="cp">#if !defined(__DBCSR_DISABLE_WORKSHARE)</span>
 <span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
 <span class="cp">#endif</span>
