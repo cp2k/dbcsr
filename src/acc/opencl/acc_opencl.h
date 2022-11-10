@@ -146,9 +146,18 @@
     do { \
       const int acc_opencl_return_cause_result_ = (RESULT); \
       if (EXIT_SUCCESS != acc_opencl_return_cause_result_) { \
-        fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", \
-          (NULL != (CAUSE) && '\0' != *(const char*)(CAUSE)) ? ((const char*)CAUSE) : (LIBXSMM_FUNCNAME)); \
-        assert(!"SUCCESS"); \
+        if (NULL != (CAUSE) && '\0' != *(const char*)(CAUSE)) { \
+          fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", (const char*)CAUSE); \
+          assert(!"SUCCESS"); \
+        } \
+        else if (NULL != (LIBXSMM_FUNCNAME) && '\0' != *(LIBXSMM_FUNCNAME)) { \
+          fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", LIBXSMM_FUNCNAME); \
+          assert(!"SUCCESS"); \
+        } \
+        else { \
+          fprintf(stderr, "ERROR ACC/OpenCL: failure!\n"); \
+          assert(!"SUCCESS"); \
+        } \
       } \
       return acc_opencl_return_cause_result_; \
     } while (0)
