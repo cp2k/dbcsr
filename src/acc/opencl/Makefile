@@ -101,6 +101,7 @@ ifneq (0,$(DEV))
     else
       CC := $(CXX)
     endif
+    $(info CC: $(shell $(CC) --version | head -n1))
     OMP := 0
   endif
   CFLAGS += -pedantic

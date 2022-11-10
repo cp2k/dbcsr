@@ -22,11 +22,11 @@ export PATH=/project/cray/alazzaro/cmake/bin:$PATH
 # Checkout and build LIBXSMM
 if [ ! -d "${HOME}/libxsmm" ]; then
   cd "${HOME}"
-  git clone https://github.com/hfp/libxsmm.git
+  git clone https://github.com/libxsmm/libxsmm.git
 fi
 cd "${HOME}/libxsmm"
 git fetch
-git checkout dda3ff24b87da891a2d159f1132a33ac5590ba68
+git checkout ad5efd24eb0055c395ead6a4f2d4ef033c96694c
 make -j
 cd ..
 
