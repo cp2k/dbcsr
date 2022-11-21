@@ -146,7 +146,7 @@ bounds_2, bounds_3 give the index ranges of the batches.
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-alpha~49"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~38"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>alpha</strong></td><td></td>
@@ -164,7 +164,7 @@ bounds_2, bounds_3 give the index ranges of the batches.
   <td><strong>tensor_2</strong></td><td><p>second tensor (in)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-beta~15"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta~14"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>beta</strong></td><td></td>
@@ -233,7 +233,7 @@ For use in batched contraction.</p></td>
 For use in batched contraction.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-optimize_dist~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-optimize_dist"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>optimize_dist</strong></td><td><p>Whether distribution should be optimized internally. In the current implementation this guarantees optimal parameters
@@ -260,31 +260,31 @@ in this case the pointer is not associated.</p></td>
   <td><strong>pgrid_opt_3</strong></td><td><p>Optionally return optimal process grid for tensor_3.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-filter_eps~20"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps~16"></span>real(kind=real_8),</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>filter_eps</strong></td><td><p>As in DBCSR mm</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-flop~29"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~28"></span>integer(kind=int_8),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>flop</strong></td><td><p>As in DBCSR mm</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-move_data~12"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~5"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>memory optimization: transfer data such that tensor_1 and tensor_2 are empty on return</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-retain_sparsity~16"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~14"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td><p>enforce the sparsity pattern of the existing tensor_3; default is no</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-unit_nr~21"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~12"></span>integer,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>output unit for logging
@@ -292,7 +292,7 @@ set it to -1 on ranks that should not write (and any valid unit number on ranks 
 if 0 on ALL ranks, no output is written</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-log_verbose~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-log_verbose"></span>logical,</td>
 <td>intent(in),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>log_verbose</strong></td><td><p>verbose logging (for testing only)</p></td>

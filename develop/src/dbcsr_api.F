@@ -87,7 +87,7 @@ MODULE dbcsr_api
       dbcsr_add_prv => dbcsr_add, &
       dbcsr_copy_into_existing_prv => dbcsr_copy_into_existing, &
       dbcsr_copy_prv => dbcsr_copy, &
-      dbcsr_filter_prv => dbcsr_filter, &
+      dbcsr_filter_anytype, &
       dbcsr_frobenius_norm_prv => dbcsr_frobenius_norm, &
       dbcsr_function_of_elements_prv => dbcsr_function_of_elements, &
       dbcsr_gershgorin_norm_prv => dbcsr_gershgorin_norm, &
@@ -311,16 +311,16 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_test_binary_io
 
    ! -----------------------------------------------------------------------------------------------
+   TYPE dbcsr_type
+      TYPE(dbcsr_prv_type), PRIVATE        :: prv
+   END TYPE dbcsr_type
+
    TYPE dbcsr_p_type
       TYPE(dbcsr_type), POINTER :: matrix => Null()
    END TYPE dbcsr_p_type
 
    ! the components of this type must remain private to encapsulate better the internals
    ! of the dbcsr library.
-   TYPE dbcsr_type
-      TYPE(dbcsr_prv_type), PRIVATE        :: prv
-   END TYPE dbcsr_type
-
    TYPE dbcsr_distribution_type
       TYPE(dbcsr_dist_prv_obj), PRIVATE        :: prv
    END TYPE dbcsr_distribution_type
@@ -1008,8 +1008,8 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: method
       LOGICAL, INTENT(in), OPTIONAL                      :: use_absolute, filter_diag
 
-      CALL dbcsr_filter_prv(matrix%prv, dbcsr_conform_scalar_prv(eps, matrix%prv), &
-                            method, use_absolute, filter_diag)
+      CALL dbcsr_filter_anytype(matrix%prv, dbcsr_conform_scalar_prv(eps, matrix%prv), &
+                                method, use_absolute, filter_diag)
    END SUBROUTINE dbcsr_filter
 
    SUBROUTINE dbcsr_get_block_diag(matrix, diag)

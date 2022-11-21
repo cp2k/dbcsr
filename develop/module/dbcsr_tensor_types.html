@@ -110,7 +110,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#variable-modulen~67">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#variable-modulen~54">moduleN</a>
     </div>
   </div>
 </div>
@@ -151,6 +151,8 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nd_mp_comm">dbcsr_t_nd_mp_comm</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-accept_pdims_loadbalancing">accept_pdims_loadbalancing</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_distribution">dbcsr_t_distribution</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_total">dbcsr_t_nblks_total</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_local">dbcsr_t_nblks_local</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_tensor">ndims_tensor</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_data_type">dbcsr_t_get_data_type</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_num_blocks">dbcsr_t_get_num_blocks</a>
@@ -158,8 +160,6 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_data_size">dbcsr_t_get_data_size</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_nze">dbcsr_t_get_nze</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_nze_total">dbcsr_t_get_nze_total</a>
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_local">dbcsr_t_nblks_local</a>
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_total">dbcsr_t_nblks_total</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_blk_size">dbcsr_t_blk_size</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_row">ndims_matrix_row</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_column">ndims_matrix_column</a>
@@ -227,21 +227,21 @@ routines.</p>
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
-    <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
-    <li><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
-    <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
-    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-    <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
+    <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+    <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     <li><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+    <li><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
+    <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
     <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+    <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
   </ul>
       </li>
       </ul>
@@ -257,7 +257,7 @@ routines.</p>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#variable-modulen~67">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#variable-modulen~54">moduleN</a>
     </div>
   </div>
 </div>
@@ -298,6 +298,8 @@ routines.</p>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nd_mp_comm">dbcsr_t_nd_mp_comm</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-accept_pdims_loadbalancing">accept_pdims_loadbalancing</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_distribution">dbcsr_t_distribution</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_total">dbcsr_t_nblks_total</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_local">dbcsr_t_nblks_local</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_tensor">ndims_tensor</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_data_type">dbcsr_t_get_data_type</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_num_blocks">dbcsr_t_get_num_blocks</a>
@@ -305,8 +307,6 @@ routines.</p>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_data_size">dbcsr_t_get_data_size</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_nze">dbcsr_t_get_nze</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_nze_total">dbcsr_t_get_nze_total</a>
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_local">dbcsr_t_nblks_local</a>
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_total">dbcsr_t_nblks_total</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_blk_size">dbcsr_t_blk_size</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_row">ndims_matrix_row</a>
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_column">ndims_matrix_column</a>
@@ -370,7 +370,7 @@ routines.</p>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-modulen~67"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~54"></span>character(len=*),</td>
 <td>private,</td>  <td>parameter</td><td>::</td>
   <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_tensor_types'</td><td></td>
 </tr>
@@ -1021,7 +1021,7 @@ tensor to matrix mapping object for process grid</p></td>
   <td><strong>nfull_local</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-valid~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-valid~3"></span>logical,</td>
 <td>public</td>  <td></td><td>::</td>
   <td><strong>valid</strong></td><td> =</td><td>.FALSE.</td><td></td>
 </tr>
@@ -1036,7 +1036,7 @@ tensor to matrix mapping object for process grid</p></td>
   <td><strong>name</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~13"></span>integer,</td>
 <td>public,</td>  <td>POINTER</td><td>::</td>
   <td><strong>refcount</strong></td><td>=> </td><td>NULL()</td><td></td>
 </tr>
@@ -1060,7 +1060,7 @@ tensor to matrix mapping object for process grid</p></td>
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-dist~8"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-dist~2"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
 <td>public</td>  <td></td><td>::</td>
   <td><strong>dist</strong></td><td></td><td></td><td></td>
 </tr>
@@ -1075,7 +1075,7 @@ tensor to matrix mapping object for process grid</p></td>
   <td><strong>nd_dist</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-refcount~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~14"></span>integer,</td>
 <td>public,</td>  <td>POINTER</td><td>::</td>
   <td><strong>refcount</strong></td><td>=> </td><td>NULL()</td><td></td>
 </tr>
@@ -1133,9 +1133,9 @@ tensor to matrix mapping object for process grid</p></td>
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
       <tbody>
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_t.html#boundprocedure-dist~9'>dist</a></strong>  => tas_dist_t </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_t.html#boundprocedure-dist~3'>dist</a></strong>  => tas_dist_t </td>
        <td></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_t.html#boundprocedure-rowcols~5'>rowcols</a></strong>  => tas_rowcols_t </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_t.html#boundprocedure-rowcols'>rowcols</a></strong>  => tas_rowcols_t </td>
        <td></td></tr>
        </tbody>
        </table>
@@ -1510,6 +1510,64 @@ cores and tensor dimension</p>
   </div>
 
       <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_nblks_total"></span><h3>public pure function <a href='../proc/dbcsr_t_nblks_total.html'>dbcsr_t_nblks_total</a>(tensor, idim)</h3></div>
+  <div class="panel-body">
+       
+<p>total numbers of blocks along dimension idim</p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>idim</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>integer</small></h4>  
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_nblks_local"></span><h3>public pure function <a href='../proc/dbcsr_t_nblks_local.html'>dbcsr_t_nblks_local</a>(tensor, idim)</h3></div>
+  <div class="panel-body">
+       
+<p>local number of blocks along dimension idim</p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>idim</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>integer</small></h4>  
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-ndims_tensor"></span><h3>public pure function <a href='../proc/ndims_tensor.html'>ndims_tensor</a>(tensor)</h3></div>
   <div class="panel-body">
        
@@ -1662,64 +1720,6 @@ cores and tensor dimension</p>
 </table>
 
 <h4>Return Value <small>integer(kind=int_8)</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_nblks_local"></span><h3>public pure function <a href='../proc/dbcsr_t_nblks_local.html'>dbcsr_t_nblks_local</a>(tensor, idim)</h3></div>
-  <div class="panel-body">
-       
-<p>local number of blocks along dimension idim</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>tensor</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>idim</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>integer</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_nblks_total"></span><h3>public pure function <a href='../proc/dbcsr_t_nblks_total.html'>dbcsr_t_nblks_total</a>(tensor, idim)</h3></div>
-  <div class="panel-body">
-       
-<p>total numbers of blocks along dimension idim</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>tensor</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>idim</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>integer</small></h4>  
 
   </div>
   </div>
