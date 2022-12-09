@@ -74,110 +74,216 @@
   <div class="row">
     <h1>timings_report_print
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">18 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_timings_report.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_timings_report.f.html'>dbcsr_timings_report.F</a></li>
-     <li><a href='../module/dbcsr_timings_report.html'>dbcsr_timings_report</a></li>
-     <li class="active">timings_report_print</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">18 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_timings_report.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_timings_report.f.html'>dbcsr_timings_report.F</a></li>
+              <li><a href='../module/dbcsr_timings_report.html'>dbcsr_timings_report</a></li>
+          <li class="active">timings_report_print</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/timings_report_print.html#src">timings_report_print</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/timings_report_print.html#src">timings_report_print</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine timings_report_print(iw, r_timings, sort_by_self_time, cost_type, report_maxloc, mp_env)</h2>
+    <h2>public  subroutine timings_report_print(iw, r_timings, sort_by_self_time, cost_type, report_maxloc, mp_env)  
+</h2>
     
 
     <p>Print accumulated information on timers</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-iw~11"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iw~10"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>iw</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-r_timings"></span>real(kind=dp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iw</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_timings"></span>
+              real(kind=dp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>r_timings</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sort_by_self_time"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r_timings</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sort_by_self_time"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>sort_by_self_time</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cost_type"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sort_by_self_time</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cost_type"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>cost_type</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-report_maxloc"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cost_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-report_maxloc"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>report_maxloc</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mp_env~29"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>report_maxloc</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_env~5"></span>
+              type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>mp_env</strong></td><td><p>is needed to collect statistics from other nodes.</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_env</strong></td>
+            <td>
+                <p>is needed to collect statistics from other nodes.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/timings_report_print.html#src">timings_report_print</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/timings_report_print.html#src">timings_report_print</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

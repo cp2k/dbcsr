@@ -74,93 +74,177 @@
   <div class="row">
     <h1>mp_type_make_struct
       <small>Function</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">24 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mpiwrap.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
-     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-     <li class="active">mp_type_make_struct</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">24 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mpiwrap.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
+              <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+          <li class="active">mp_type_make_struct</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/mp_type_make_struct.html#src">mp_type_make_struct</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/mp_type_make_struct.html#src">mp_type_make_struct</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private function mp_type_make_struct(subtypes, vector_descriptor, index_descriptor) result(type_descriptor)</h2>
+    <h2>private  function mp_type_make_struct(subtypes, vector_descriptor, index_descriptor) result(type_descriptor)  
+</h2>
     
 
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-subtypes"></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-subtypes"></span>
+              type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>subtypes</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-vector_descriptor~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>subtypes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vector_descriptor~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>vector_descriptor</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-index_descriptor~2"></span>type(<a href='../type/mp_indexing_meta_type.html'>mp_indexing_meta_type</a>),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>vector_descriptor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index_descriptor~2"></span>
+              type(<a href='../type/mp_indexing_meta_type.html'>mp_indexing_meta_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>index_descriptor</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>index_descriptor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-type_descriptor"></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>)</small></h3>
-    
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-type_descriptor~2"></span>
+          type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>)
+        </small>
+      </h3>
+      
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/mp_type_make_struct.html#src">mp_type_make_struct</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/mp_type_make_struct.html#src">mp_type_make_struct</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

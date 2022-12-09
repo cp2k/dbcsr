@@ -74,130 +74,279 @@
   <div class="row">
     <h1>dbcsr_tas_setup_test_matrix
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">73 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_test.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tas_test.f.html'>dbcsr_tas_test.F</a></li>
-     <li><a href='../module/dbcsr_tas_test.html'>dbcsr_tas_test</a></li>
-     <li class="active">dbcsr_tas_setup_test_matrix</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">73 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tas_test.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tas_test.f.html'>dbcsr_tas_test.F</a></li>
+              <li><a href='../module/dbcsr_tas_test.html'>dbcsr_tas_test</a></li>
+          <li class="active">dbcsr_tas_setup_test_matrix</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_tas_setup_test_matrix(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, dist_splitsize, name, sparsity, reuse_comm)</h2>
+    <h2>public  subroutine dbcsr_tas_setup_test_matrix(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, dist_splitsize, name, sparsity, reuse_comm)  
+</h2>
     
 
     <p>Setup tall-and-skinny matrix for testing</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix~325"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~258"></span>
+              type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mp_comm_out"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_comm_out"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>mp_comm_out</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mp_comm~21"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_comm_out</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_comm~14"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>mp_comm</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nrows~12"></span>integer(kind=int_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_comm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nrows~9"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nrows</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ncols~4"></span>integer(kind=int_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nrows</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ncols~2"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>ncols</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rbsizes"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncols</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rbsizes"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(nrows)</td><td>::</td>
-  <td><strong>rbsizes</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cbsizes"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(nrows)
+            </td>
+            <td>::</td>
+            <td><strong>rbsizes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cbsizes"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(ncols)</td><td>::</td>
-  <td><strong>cbsizes</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist_splitsize"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(ncols)
+            </td>
+            <td>::</td>
+            <td><strong>cbsizes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist_splitsize"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>dist_splitsize</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-name~26"></span>character(len=*),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>dist_splitsize</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~16"></span>
+              character(len=*),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>name</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sparsity~2"></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sparsity~2"></span>
+              real(kind=real_8),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>sparsity</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-reuse_comm"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sparsity</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-reuse_comm"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>reuse_comm</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>reuse_comm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

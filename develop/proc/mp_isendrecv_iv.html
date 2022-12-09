@@ -74,52 +74,78 @@
   <div class="row">
     <h1>mp_isendrecv_iv
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">36 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mpiwrap.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
-     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-     <li class="active">mp_isendrecv_iv</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">36 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mpiwrap.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
+              <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+          <li class="active">mp_isendrecv_iv</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/mp_isendrecv_iv.html#src">mp_isendrecv_iv</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/mp_isendrecv_iv.html#src">mp_isendrecv_iv</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine mp_isendrecv_iv(msgin, dest, msgout, source, comm, send_request, recv_request, tag)</h2>
+    <h2>private  subroutine mp_isendrecv_iv(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+</h2>
     
 
     <p>Non-blocking send and receive of a vector</p>
@@ -128,75 +154,173 @@ Calls mpi_isend and mpi_irecv.
 </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>arrays can be pointers or assumed shape, but they must be contiguous!</p></div>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-msgin~24"></span>integer(kind=int_4),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~11"></span>
+              integer(kind=int_4),
+            </td>
 <td></td>
-  <td></td>  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
-  <td><strong>msgin</strong></td><td><p>Vector data to send</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dest~10"></span>integer,</td>
+              <td></td>            <td>
+              CONTIGUOUS, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong></td>
+            <td>
+                <p>Vector data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dest~5"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dest</strong></td><td><p>Which process to send to</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-msgout~22"></span>integer(kind=int_4),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dest</strong></td>
+            <td>
+                <p>Which process to send to</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~19"></span>
+              integer(kind=int_4),
+            </td>
 <td></td>
-  <td></td>  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
-  <td><strong>msgout</strong></td><td><p>Receive data into this pointer</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-source~26"></span>integer,</td>
+              <td></td>            <td>
+              CONTIGUOUS, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+                <p>Receive data into this pointer</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-source~44"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>source</strong></td><td><p>Process to receive from
-Message passing environment identifier</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-comm~19"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>source</strong></td>
+            <td>
+                <p>Process to receive from
+Message passing environment identifier</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comm~8"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>comm</strong></td><td><p>Process to receive from
-Message passing environment identifier</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-send_request~3"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>comm</strong></td>
+            <td>
+                <p>Process to receive from
+Message passing environment identifier</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-send_request~2"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>send_request</strong></td><td><p>Request handle for the send
-Request handle for the receive</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-recv_request~3"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>send_request</strong></td>
+            <td>
+                <p>Request handle for the send
+Request handle for the receive</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-recv_request~2"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>recv_request</strong></td><td><p>Request handle for the send
-Request handle for the receive</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tag~13"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>recv_request</strong></td>
+            <td>
+                <p>Request handle for the send
+Request handle for the receive</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tag~7"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>tag</strong></td><td><p>tag to differentiate requests</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tag</strong></td>
+            <td>
+                <p>tag to differentiate requests</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/mp_isendrecv_iv.html#src">mp_isendrecv_iv</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/mp_isendrecv_iv.html#src">mp_isendrecv_iv</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

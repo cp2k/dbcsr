@@ -74,86 +74,156 @@
   <div class="row">
     <h1>dbcsr_scalar_get_value_z
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">5 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_data_methods_low.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_data_methods_low.f.html'>dbcsr_data_methods_low.F</a></li>
-     <li><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
-     <li class="active">dbcsr_scalar_get_value_z</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">5 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_data_methods_low.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_data_methods_low.f.html'>dbcsr_data_methods_low.F</a></li>
+              <li><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
+          <li class="active">dbcsr_scalar_get_value_z</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_scalar_get_value_z.html#src">dbcsr_scalar_get_value_z</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_scalar_get_value_z.html#src">dbcsr_scalar_get_value_z</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private elemental subroutine dbcsr_scalar_get_value_z(encapsulated_scalar, value)</h2>
+    <h2>private elemental subroutine dbcsr_scalar_get_value_z(encapsulated_scalar, value)  
+</h2>
     
 
     <p>Sets a scalar in an encapsulated data structure</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-encapsulated_scalar~7"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-encapsulated_scalar~7"></span>
+              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>encapsulated_scalar</strong></td><td><p>encapsulated scalar</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-value~12"></span>complex(kind=real_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>encapsulated_scalar</strong></td>
+            <td>
+                <p>encapsulated scalar</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-value~4"></span>
+              complex(kind=real_8),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>value</strong></td><td><p>value of the scalar</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>value</strong></td>
+            <td>
+                <p>value of the scalar</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_scalar_get_value_z.html#src">dbcsr_scalar_get_value_z</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_scalar_get_value_z.html#src">dbcsr_scalar_get_value_z</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

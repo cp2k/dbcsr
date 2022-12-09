@@ -74,52 +74,78 @@
   <div class="row">
     <h1>dbcsr_datablock_redistribute
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.3% of total for procedures.">199 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_transformations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_transformations.f.html'>dbcsr_transformations.F</a></li>
-     <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-     <li class="active">dbcsr_datablock_redistribute</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.3% of total for procedures.">199 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_transformations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_transformations.f.html'>dbcsr_transformations.F</a></li>
+              <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
+          <li class="active">dbcsr_datablock_redistribute</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_datablock_redistribute.html#src">dbcsr_datablock_redistribute</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_datablock_redistribute.html#src">dbcsr_datablock_redistribute</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_datablock_redistribute(dblk, row_p, col_i, blk_p, proc_nblks, proc_darea_sizes, new_matrix)</h2>
+    <h2>public  subroutine dbcsr_datablock_redistribute(dblk, row_p, col_i, blk_p, proc_nblks, proc_darea_sizes, new_matrix)  
+</h2>
     
 
     <p>Redistributes data blocks of a DBCSR matrix read from a file.
@@ -127,95 +153,184 @@ This routine should be used with dbcsr_binary_read in the module
 dbcsr_io.F</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-dblk"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dblk"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dblk</strong></td><td><p>data blocks of the DBCSR matrix that the current node possesses after reading the data file</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_p~3"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dblk</strong></td>
+            <td>
+                <p>data blocks of the DBCSR matrix that the current node possesses after reading the data file</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_p~5"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>row_p</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_p</strong></td>
+            <td>
+                <p>row_p of the DBCSR matrix that the current node possesses after reading the data file
 col_i of the DBCSR matrix that the current node possesses after reading the data file
 blk_p of the DBCSR matrix that the current node possesses after reading the data file
 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
 current node of the present mp environment
 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
-read by the current node of the present mp environment</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_i~4"></span>integer,</td>
+read by the current node of the present mp environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_i~4"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>col_i</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_i</strong></td>
+            <td>
+                <p>row_p of the DBCSR matrix that the current node possesses after reading the data file
 col_i of the DBCSR matrix that the current node possesses after reading the data file
 blk_p of the DBCSR matrix that the current node possesses after reading the data file
 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
 current node of the present mp environment
 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
-read by the current node of the present mp environment</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_p~5"></span>integer,</td>
+read by the current node of the present mp environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_p~8"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>blk_p</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>blk_p</strong></td>
+            <td>
+                <p>row_p of the DBCSR matrix that the current node possesses after reading the data file
 col_i of the DBCSR matrix that the current node possesses after reading the data file
 blk_p of the DBCSR matrix that the current node possesses after reading the data file
 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
 current node of the present mp environment
 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
-read by the current node of the present mp environment</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-proc_nblks"></span>integer,</td>
+read by the current node of the present mp environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-proc_nblks"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>proc_nblks</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>proc_nblks</strong></td>
+            <td>
+                <p>row_p of the DBCSR matrix that the current node possesses after reading the data file
 col_i of the DBCSR matrix that the current node possesses after reading the data file
 blk_p of the DBCSR matrix that the current node possesses after reading the data file
 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
 current node of the present mp environment
 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
-read by the current node of the present mp environment</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-proc_darea_sizes"></span>integer,</td>
+read by the current node of the present mp environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-proc_darea_sizes"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>proc_darea_sizes</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>proc_darea_sizes</strong></td>
+            <td>
+                <p>row_p of the DBCSR matrix that the current node possesses after reading the data file
 col_i of the DBCSR matrix that the current node possesses after reading the data file
 blk_p of the DBCSR matrix that the current node possesses after reading the data file
 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
 current node of the present mp environment
 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
-read by the current node of the present mp environment</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_matrix"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+read by the current node of the present mp environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_matrix"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>new_matrix</strong></td><td><p>redistributed matrix</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_matrix</strong></td>
+            <td>
+                <p>redistributed matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_datablock_redistribute.html#src">dbcsr_datablock_redistribute</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_datablock_redistribute.html#src">dbcsr_datablock_redistribute</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

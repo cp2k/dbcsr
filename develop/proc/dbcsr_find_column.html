@@ -74,52 +74,78 @@
   <div class="row">
     <h1>dbcsr_find_column
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">10 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_dist_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
-     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
-     <li class="active">dbcsr_find_column</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">10 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_dist_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
+              <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+          <li class="active">dbcsr_find_column</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_find_column.html#src">dbcsr_find_column</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_find_column.html#src">dbcsr_find_column</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure subroutine dbcsr_find_column(find_col, frst_blk, last_blk, col_i, blk_p, blk, found)</h2>
+    <h2>public pure subroutine dbcsr_find_column(find_col, frst_blk, last_blk, col_i, blk_p, blk, found)  
+</h2>
     
 
     <p>Finds the block that has the given column.
@@ -131,73 +157,162 @@ The blk_p array of block pointers is a required parameter to enable
 the detection of deleted blocks.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-find_col"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-find_col"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>find_col</strong></td><td><p>column to find
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>find_col</strong></td>
+            <td>
+                <p>column to find
 first block number in row
-last block number in row</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-frst_blk"></span>integer,</td>
+last block number in row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-frst_blk"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>frst_blk</strong></td><td><p>column to find
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>frst_blk</strong></td>
+            <td>
+                <p>column to find
 first block number in row
-last block number in row</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-last_blk"></span>integer,</td>
+last block number in row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last_blk"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>last_blk</strong></td><td><p>column to find
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last_blk</strong></td>
+            <td>
+                <p>column to find
 first block number in row
-last block number in row</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_i~11"></span>integer,</td>
+last block number in row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_i~7"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>col_i</strong></td><td><p>col indices
-block pointers</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_p~20"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>col_i</strong></td>
+            <td>
+                <p>col indices
+block pointers</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_p~12"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>blk_p</strong></td><td><p>col indices
-block pointers</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk~14"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>blk_p</strong></td>
+            <td>
+                <p>col indices
+block pointers</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk~3"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>blk</strong></td><td><p>block number with searched-for column</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-found~64"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>blk</strong></td>
+            <td>
+                <p>block number with searched-for column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-found~12"></span>
+              logical,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>found</strong></td><td><p>flag specified whether a block that has the correct column was found</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>found</strong></td>
+            <td>
+                <p>flag specified whether a block that has the correct column was found</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_find_column.html#src">dbcsr_find_column</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_find_column.html#src">dbcsr_find_column</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

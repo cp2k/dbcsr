@@ -74,121 +74,236 @@
   <div class="row">
     <h1>dbcsr_make_images_dense
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">51 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_cannon.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mm_cannon.f.html'>dbcsr_mm_cannon.F</a></li>
-     <li><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></li>
-     <li class="active">dbcsr_make_images_dense</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">51 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mm_cannon.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mm_cannon.f.html'>dbcsr_mm_cannon.F</a></li>
+              <li><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></li>
+          <li class="active">dbcsr_make_images_dense</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_make_images_dense.html#src">dbcsr_make_images_dense</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_make_images_dense.html#src">dbcsr_make_images_dense</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine dbcsr_make_images_dense(images, new_rdist, row_map, col_map, join_cols, join_rows, new_template)</h2>
+    <h2>private  subroutine dbcsr_make_images_dense(images, new_rdist, row_map, col_map, join_cols, join_rows, new_template)  
+</h2>
     
 
     <p>Makes dense matrices for the image matrices.
 </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>Used for making matrices dense/undense</p></div>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-images"></span>type(<a href='../type/dbcsr_2d_array_type.html'>dbcsr_2d_array_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-images~2"></span>
+              type(<a href='../type/dbcsr_2d_array_type.html'>dbcsr_2d_array_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>images</strong></td><td><p>current (undense) matrix images, output is the dense matrix images</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_rdist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>images</strong></td>
+            <td>
+                <p>current (undense) matrix images, output is the dense matrix images</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_rdist"></span>
+              type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>new_rdist</strong></td><td><p>the new image distribution for dense matrices</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_map~8"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_rdist</strong></td>
+            <td>
+                <p>the new image distribution for dense matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_map~5"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>row_map</strong></td><td><p>mapping of current (undense) rows to dense rows
-mapping of current (undense) columns to dense columns</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_map~8"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_map</strong></td>
+            <td>
+                <p>mapping of current (undense) rows to dense rows
+mapping of current (undense) columns to dense columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_map~5"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>col_map</strong></td><td><p>mapping of current (undense) rows to dense rows
-mapping of current (undense) columns to dense columns</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-join_cols~3"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_map</strong></td>
+            <td>
+                <p>mapping of current (undense) rows to dense rows
+mapping of current (undense) columns to dense columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-join_cols~3"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>join_cols</strong></td><td><p>make columns dense, default is yes
-make rows dense, default is yes</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-join_rows~3"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>join_cols</strong></td>
+            <td>
+                <p>make columns dense, default is yes
+make rows dense, default is yes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-join_rows~3"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>join_rows</strong></td><td><p>make columns dense, default is yes
-make rows dense, default is yes</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_template"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>join_rows</strong></td>
+            <td>
+                <p>make columns dense, default is yes
+make rows dense, default is yes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_template"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>new_template</strong></td><td><p>template dense matrix for creating image matrices</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_template</strong></td>
+            <td>
+                <p>template dense matrix for creating image matrices</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_make_images_dense.html#src">dbcsr_make_images_dense</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_make_images_dense.html#src">dbcsr_make_images_dense</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

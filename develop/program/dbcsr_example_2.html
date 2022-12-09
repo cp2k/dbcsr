@@ -72,101 +72,134 @@
 
     <div class="container">
   <div class="row">
-    <h1>dbcsr_example_2    <small>Program</small>
+    <h1>dbcsr_example_2      <small>Program</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 4.3% of total for programs.">73 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_example_2.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_example_2.f.html'>dbcsr_example_2.F</a></li>
-     <li class="active">dbcsr_example_2</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 4.3% of total for programs.">73 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_example_2.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_example_2.f.html'>dbcsr_example_2.F</a></li>
+          <li class="active">dbcsr_example_2</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-matrix_a~90">matrix_a</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_blk_sizes~10">col_blk_sizes</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_blk_sizes~10">row_blk_sizes</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-group~49">group</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-numnodes~21">numnodes</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-mynode~17">mynode</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-ierr~5">ierr</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nblkrows_total~13">nblkrows_total</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nblkcols_total~12">nblkcols_total</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-node_holds_blk~3">node_holds_blk</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_nze~2">max_nze</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nze~23">nze</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row~126">row</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col~76">col</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_s~2">row_s</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_s~2">col_s</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_row_size~3">max_row_size</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_col_size~3">max_col_size</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-npdims~11">npdims</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_dist~18">col_dist</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_dist~18">row_dist</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-dist~75">dist</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-values~15">values</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-period~4">period</a>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-0">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-matrix_a~90">matrix_a</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_blk_sizes~10">col_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_blk_sizes~10">row_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-group~48">group</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-numnodes~20">numnodes</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-mynode~16">mynode</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-ierr~4">ierr</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nblkrows_total~13">nblkrows_total</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nblkcols_total~12">nblkcols_total</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-node_holds_blk~2">node_holds_blk</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_nze~2">max_nze</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nze~23">nze</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row~125">row</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col~75">col</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_s~2">row_s</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_s~2">col_s</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_row_size~3">max_row_size</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_col_size~3">max_col_size</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-npdims~11">npdims</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_dist~17">col_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_dist~17">row_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-dist~75">dist</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-values~15">values</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-period~3">period</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
-  <div class="list-group">
-    <div id="subs-0" class="panel-collapse collapse">
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#proc-random_dist~3">random_dist</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../program/dbcsr_example_2.html#src">dbcsr_example_2</a>
-  </div>
-</div>
 
-</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#subs-0">Subroutines</a>
+        </h3>
+      </div>
+      <div id="subs-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#proc-random_dist~3">random_dist</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../program/dbcsr_example_2.html#src">dbcsr_example_2</a>
+      </div>
+    </div>
+
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
         <div class="panel panel-default">
       <div class="panel-heading">
-  <h3 class="panel-title">Uses</h3>
+        <h3 class="panel-title">Uses</h3>
       </div>
       <ul class="list-group">
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
-    <li><a href="http://www.mpi-forum.org/docs/mpi-3.1/mpi31-report/node410.htm">mpi</a></li>
-  </ul>
-      </li>
+          <li class="list-group-item">
+            <ul class="list-inline">
+                <li><a href="http://www.mpi-forum.org/docs/mpi-3.1/mpi31-report/node410.htm">mpi</a></li>
+                <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+            </ul>
+          </li>
       </ul>
     </div>
 
@@ -174,53 +207,80 @@
 This example shows how to set a DBCSR matrix</p>
 <br>
      <section class="visible-xs visible-sm hidden-md">
-       <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-matrix_a~90">matrix_a</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_blk_sizes~10">col_blk_sizes</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_blk_sizes~10">row_blk_sizes</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-group~49">group</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-numnodes~21">numnodes</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-mynode~17">mynode</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-ierr~5">ierr</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nblkrows_total~13">nblkrows_total</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nblkcols_total~12">nblkcols_total</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-node_holds_blk~3">node_holds_blk</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_nze~2">max_nze</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nze~23">nze</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row~126">row</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col~76">col</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_s~2">row_s</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_s~2">col_s</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_row_size~3">max_row_size</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_col_size~3">max_col_size</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-npdims~11">npdims</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_dist~18">col_dist</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_dist~18">row_dist</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-dist~75">dist</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-values~15">values</a>
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-period~4">period</a>
+         <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-1">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-matrix_a~90">matrix_a</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_blk_sizes~10">col_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_blk_sizes~10">row_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-group~48">group</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-numnodes~20">numnodes</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-mynode~16">mynode</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-ierr~4">ierr</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nblkrows_total~13">nblkrows_total</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nblkcols_total~12">nblkcols_total</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-node_holds_blk~2">node_holds_blk</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_nze~2">max_nze</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-nze~23">nze</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row~125">row</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col~75">col</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_s~2">row_s</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_s~2">col_s</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_row_size~3">max_row_size</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-max_col_size~3">max_col_size</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-npdims~11">npdims</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-col_dist~17">col_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-row_dist~17">row_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-dist~75">dist</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-values~15">values</a>
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#variable-period~3">period</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
-  <div class="list-group">
-    <div id="subs-1" class="panel-collapse collapse">
-      <a class="list-group-item" href="../program/dbcsr_example_2.html#proc-random_dist~3">random_dist</a>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#subs-1">Subroutines</a>
+        </h3>
+      </div>
+      <div id="subs-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../program/dbcsr_example_2.html#proc-random_dist~3">random_dist</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../program/dbcsr_example_2.html#src">dbcsr_example_2</a>
-  </div>
-</div>
+
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../program/dbcsr_example_2.html#src">dbcsr_example_2</a>
+      </div>
+    </div>
+
 
      </section>
      <br class="visible-xs visible-sm hidden-md">
@@ -228,131 +288,402 @@ This example shows how to set a DBCSR matrix</p>
 
     <section>
     <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix_a~90"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>)</td>
-  <td></td><td>::</td>
-  <td><strong>matrix_a</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_blk_sizes~10"></span>integer,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>col_blk_sizes</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_blk_sizes~10"></span>integer,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>row_blk_sizes</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-group~49"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>group</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numnodes~21"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>numnodes</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mynode~17"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>mynode</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ierr~5"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>ierr</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblkrows_total~13"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>nblkrows_total</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblkcols_total~12"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>nblkcols_total</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-node_holds_blk~3"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>node_holds_blk</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_nze~2"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>max_nze</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze~23"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>nze</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row~126"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>row</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col~76"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>col</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_s~2"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>row_s</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_s~2"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>col_s</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_row_size~3"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>max_row_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_col_size~3"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>max_col_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-npdims~11"></span>integer,</td>
-  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>npdims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_dist~18"></span>integer,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>col_dist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_dist~18"></span>integer,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>row_dist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist~75"></span>type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>)</td>
-  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-values~15"></span>real(kind=KIND),</td>
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>values</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-period~4"></span>logical,</td>
-  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>period</strong></td><td> =</td><td>.TRUE.</td><td></td>
-</tr>
-</tbody>
-</table>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+<th></th><th>Initial</th>        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_a~90"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_sizes~10"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_sizes</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_sizes~10"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_sizes</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~48"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numnodes~20"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>numnodes</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mynode~16"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mynode</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierr~4"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkrows_total~13"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkrows_total</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkcols_total~12"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkcols_total</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-node_holds_blk~2"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>node_holds_blk</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_nze~2"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_nze</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze~23"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nze</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~125"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col~75"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_s~2"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_s</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_s~2"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_s</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_row_size~3"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_row_size</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_col_size~3"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_col_size</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-npdims~11"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>npdims</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_dist~17"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_dist</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_dist~17"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_dist</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist~75"></span>
+              type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-values~15"></span>
+              real(kind=KIND(0.0D0)),
+            </td>
+            <td>
+              DIMENSION(:), ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>values</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-period~3"></span>
+              logical,
+            </td>
+            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>period</strong></td>
+<td> =</td>
+                <td>.TRUE.</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     </section>
     <br>
@@ -366,35 +697,73 @@ This example shows how to set a DBCSR matrix</p>
     <section>
     <h2>Subroutines</h2>
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-random_dist~3"></span><h3>subroutine <a href='../proc/random_dist~3.html'>random_dist</a>(dist_array, dist_size, nbins)</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+    <div class="panel-heading codesum"><span class="anchor" id="proc-random_dist~3"></span><h3> subroutine <a href='../proc/random_dist~3.html'>random_dist</a>(dist_array, dist_size, nbins)  
+</h3></div>
+    <div class="panel-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>dist_array</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>dist_array</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dist_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nbins</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nbins</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-  </div>
+    </div>
   </div>
 
     </section>    

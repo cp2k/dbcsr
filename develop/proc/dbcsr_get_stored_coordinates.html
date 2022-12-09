@@ -74,52 +74,78 @@
   <div class="row">
     <h1>dbcsr_get_stored_coordinates
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">12 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_dist_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
-     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
-     <li class="active">dbcsr_get_stored_coordinates</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">12 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_dist_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
+              <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+          <li class="active">dbcsr_get_stored_coordinates</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_get_stored_coordinates.html#src">dbcsr_get_stored_coordinates</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_get_stored_coordinates.html#src">dbcsr_get_stored_coordinates</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure subroutine dbcsr_get_stored_coordinates(matrix, row, column, processor)</h2>
+    <h2>public pure subroutine dbcsr_get_stored_coordinates(matrix, row, column, processor)  
+</h2>
     
 
     <p>Sets the correct source matrix, row, column and possible data
@@ -127,49 +153,111 @@ transposition for a given matrix and matrix logical row and
 column.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix~277"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~92"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row~99"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+                <p>DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~45"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>row</strong></td><td><p>input is logical row
-input is logical column</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-column~33"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+                <p>input is logical row
+input is logical column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-column~18"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>column</strong></td><td><p>input is logical row
-input is logical column</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-processor~5"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>column</strong></td>
+            <td>
+                <p>input is logical row
+input is logical column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-processor~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>processor</strong></td><td><p>returns the processor on which this block resides</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>processor</strong></td>
+            <td>
+                <p>returns the processor on which this block resides</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_get_stored_coordinates.html#src">dbcsr_get_stored_coordinates</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_get_stored_coordinates.html#src">dbcsr_get_stored_coordinates</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

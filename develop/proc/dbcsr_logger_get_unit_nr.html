@@ -74,89 +74,164 @@
   <div class="row">
     <h1>dbcsr_logger_get_unit_nr
       <small>Function</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">6 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_log_handling.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_log_handling.f.html'>dbcsr_log_handling.F</a></li>
-     <li><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></li>
-     <li class="active">dbcsr_logger_get_unit_nr</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">6 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_log_handling.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_log_handling.f.html'>dbcsr_log_handling.F</a></li>
+              <li><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></li>
+          <li class="active">dbcsr_logger_get_unit_nr</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_logger_get_unit_nr.html#src">dbcsr_logger_get_unit_nr</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_logger_get_unit_nr.html#src">dbcsr_logger_get_unit_nr</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public function dbcsr_logger_get_unit_nr(logger, local) result(res)</h2>
+    <h2>public  function dbcsr_logger_get_unit_nr(logger, local) result(res)  
+</h2>
     
 
     <p>returns the unit nr for the requested kind of log.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-logger~2"></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-logger~2"></span>
+              type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),
+            </td>
 <td></td>
-  <td></td>  <td>POINTER</td><td>::</td>
-  <td><strong>logger</strong></td><td><p>the logger you want to log in</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-local~5"></span>logical,</td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>logger</strong></td>
+            <td>
+                <p>the logger you want to log in</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>local</strong></td><td><p>if true returns a local logger (one per task), otherwise returns a global logger (only the process with
-mp_env%mp%mynode== mp_env%mp%source should write to the global logger). Defaults to false</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local</strong></td>
+            <td>
+                <p>if true returns a local logger (one per task), otherwise returns a global logger (only the process with
+mp_env%mp%mynode== mp_env%mp%source should write to the global logger). Defaults to false</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-res~21"></span>integer</small></h3>
-    
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-res~22"></span>
+          integer
+        </small>
+      </h3>
+      
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_logger_get_unit_nr.html#src">dbcsr_logger_get_unit_nr</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_logger_get_unit_nr.html#src">dbcsr_logger_get_unit_nr</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

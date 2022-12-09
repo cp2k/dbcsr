@@ -74,207 +74,473 @@
   <div class="row">
     <h1>dbcsr_tas_get_info
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">46 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_base.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tas_base.f.html'>dbcsr_tas_base.F</a></li>
-     <li><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
-     <li class="active">dbcsr_tas_get_info</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">46 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tas_base.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tas_base.f.html'>dbcsr_tas_base.F</a></li>
+              <li><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+          <li class="active">dbcsr_tas_get_info</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_tas_get_info(matrix, nblkrows_total, nblkcols_total, nfullrows_total, nfullcols_total, nblkrows_local, nblkcols_local, nfullrows_local, nfullcols_local, nprow, npcol, my_prow, my_pcol, local_rows, local_cols, proc_row_dist, proc_col_dist, row_blk_size, col_blk_size, distribution, name, data_area, matrix_type, data_type)</h2>
+    <h2>public  subroutine dbcsr_tas_get_info(matrix, nblkrows_total, nblkcols_total, nfullrows_total, nfullcols_total, nblkrows_local, nblkcols_local, nfullrows_local, nfullcols_local, nprow, npcol, my_prow, my_pcol, local_rows, local_cols, proc_row_dist, proc_col_dist, row_blk_size, col_blk_size, distribution, name, data_area, matrix_type, data_type)  
+</h2>
     
 
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix~305"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~240"></span>
+              type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblkrows_total~9"></span>integer(kind=int_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkrows_total~7"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nblkrows_total</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblkcols_total~8"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkrows_total</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkcols_total~6"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nblkcols_total</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nfullrows_total~7"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkcols_total</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfullrows_total~5"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nfullrows_total</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nfullcols_total~7"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfullrows_total</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfullcols_total~5"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nfullcols_total</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblkrows_local~7"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfullcols_total</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkrows_local~5"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nblkrows_local</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblkcols_local~7"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkrows_local</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkcols_local~5"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nblkcols_local</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nfullrows_local~5"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkcols_local</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfullrows_local~3"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nfullrows_local</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nfullcols_local~5"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfullrows_local</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfullcols_local~3"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nfullcols_local</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nprow"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfullcols_local</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nprow"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nprow</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-npcol"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nprow</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-npcol"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>npcol</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-my_prow~3"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>npcol</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-my_prow~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>my_prow</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-my_pcol~3"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>my_prow</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-my_pcol~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>my_pcol</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-local_rows~12"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>my_pcol</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_rows~6"></span>
+              integer(kind=int_8),
+            </td>
 <td></td>
-  <td>optional</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>local_rows</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-local_cols~11"></span>integer(kind=int_8),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>local_rows</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_cols~5"></span>
+              integer(kind=int_8),
+            </td>
 <td></td>
-  <td>optional</td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>local_cols</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-proc_row_dist~3"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>local_cols</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-proc_row_dist~2"></span>
+              class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_row_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-proc_col_dist~3"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
+              <td>optional,</td>            <td>
+              ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>proc_row_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-proc_col_dist~2"></span>
+              class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_col_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_blk_size~12"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
+              <td>optional,</td>            <td>
+              ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>proc_col_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_size~8"></span>
+              class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>ALLOCATABLE</td><td>::</td>
-  <td><strong>row_blk_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_blk_size~12"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
+              <td>optional,</td>            <td>
+              ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_size~8"></span>
+              class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>ALLOCATABLE</td><td>::</td>
-  <td><strong>col_blk_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-distribution~10"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
+              <td>optional,</td>            <td>
+              ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-distribution~8"></span>
+              type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>distribution</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-name~24"></span>character(len=*),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>distribution</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~15"></span>
+              character(len=*),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>name</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_area~14"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_area~10"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>data_area</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-matrix_type~12"></span>character,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_area</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_type~10"></span>
+              character,
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>matrix_type</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_type~49"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_type~32"></span>
+              integer,
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>data_type</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

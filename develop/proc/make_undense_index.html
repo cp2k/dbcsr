@@ -74,123 +74,238 @@
   <div class="row">
     <h1>make_undense_index
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">35 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_index_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_index_operations.f.html'>dbcsr_index_operations.F</a></li>
-     <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
-     <li class="active">make_undense_index</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">35 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_index_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_index_operations.f.html'>dbcsr_index_operations.F</a></li>
+              <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
+          <li class="active">make_undense_index</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/make_undense_index.html#src">make_undense_index</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/make_undense_index.html#src">make_undense_index</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine make_undense_index(row_p, col_i, blk_p, distribution, local_row_offsets, local_col_offsets, meta)</h2>
+    <h2>public  subroutine make_undense_index(row_p, col_i, blk_p, distribution, local_row_offsets, local_col_offsets, meta)  
+</h2>
     
 
     <p>Makes a blocked index from a dense matrix
 </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>Used for making matrices dense/undense</p></div>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-row_p~10"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_p~4"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>row_p</strong></td><td><p>Storage for new index
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>row_p</strong></td>
+            <td>
+                <p>Storage for new index
 Storage for new index
-Storage for new index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_i~9"></span>integer,</td>
+Storage for new index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_i~3"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>col_i</strong></td><td><p>Storage for new index
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>col_i</strong></td>
+            <td>
+                <p>Storage for new index
 Storage for new index
-Storage for new index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_p~14"></span>integer,</td>
+Storage for new index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_p~7"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>blk_p</strong></td><td><p>Storage for new index
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>blk_p</strong></td>
+            <td>
+                <p>Storage for new index
 Storage for new index
-Storage for new index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-distribution~8"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>)</td>
+Storage for new index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-distribution"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>distribution</strong></td><td><p>Blocked distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-local_row_offsets"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>distribution</strong></td>
+            <td>
+                <p>Blocked distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_row_offsets"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>local_row_offsets</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-local_col_offsets"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>local_row_offsets</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_col_offsets"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>local_col_offsets</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-meta~3"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>local_col_offsets</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-meta~2"></span>
+              integer,
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>DIMENSION(dbcsr_meta_size)</td><td>::</td>
-  <td><strong>meta</strong></td><td><p>Metadata updates for new index</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              DIMENSION(dbcsr_meta_size)
+            </td>
+            <td>::</td>
+            <td><strong>meta</strong></td>
+            <td>
+                <p>Metadata updates for new index</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/make_undense_index.html#src">make_undense_index</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/make_undense_index.html#src">make_undense_index</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -74,205 +74,455 @@
   <div class="row">
     <h1>dbcsr_create_template
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">118 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_work_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_work_operations.f.html'>dbcsr_work_operations.F</a></li>
-     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-     <li class="active">dbcsr_create_template</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.2% of total for procedures.">118 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_work_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_work_operations.f.html'>dbcsr_work_operations.F</a></li>
+              <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+          <li class="active">dbcsr_create_template</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#src">dbcsr_create_template</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#src">dbcsr_create_template</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine dbcsr_create_template(matrix, template, name, dist, matrix_type, row_blk_size, col_blk_size, row_blk_size_obj, col_blk_size_obj, nze, data_type, data_buffer, data_memory_type, index_memory_type, max_rbs, max_cbs, row_blk_offset, col_blk_offset, reuse_arrays, mutable_work, make_index, replication_type)</h2>
+    <h2>private  subroutine dbcsr_create_template(matrix, template, name, dist, matrix_type, row_blk_size, col_blk_size, row_blk_size_obj, col_blk_size_obj, nze, data_type, data_buffer, data_memory_type, index_memory_type, max_rbs, max_cbs, row_blk_offset, col_blk_offset, reuse_arrays, mutable_work, make_index, replication_type)  
+</h2>
     
 
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix~264"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~329"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-template~4"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-template~6"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>template</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-name~20"></span>character(len=*),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>template</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~26"></span>
+              character(len=*),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>name</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist~34"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist~72"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-matrix_type~11"></span>character,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_type~12"></span>
+              character,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>matrix_type</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_blk_size~9"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_size~12"></span>
+              integer,
+            </td>
 <td>intent(inout),</td>
-  <td>optional</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
-  <td><strong>row_blk_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_blk_size~9"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_size~12"></span>
+              integer,
+            </td>
 <td>intent(inout),</td>
-  <td>optional</td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
-  <td><strong>col_blk_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_blk_size_obj~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_size_obj~2"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>row_blk_size_obj</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_blk_size_obj~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_size_obj</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_size_obj~2"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>col_blk_size_obj</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze~20"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_size_obj</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze~21"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nze</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_type~43"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nze</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_type~48"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>data_type</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_buffer~6"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_buffer~6"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>data_buffer</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_memory_type~5"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_buffer</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_memory_type~5"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>data_memory_type</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-index_memory_type~3"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_memory_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index_memory_type~3"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>index_memory_type</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_rbs~3"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>index_memory_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_rbs~3"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>max_rbs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_cbs~3"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_rbs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_cbs~3"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>max_cbs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_blk_offset~5"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_cbs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_offset~5"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>row_blk_offset</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_blk_offset~5"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_offset</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_offset~5"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>col_blk_offset</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-reuse_arrays~5"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_offset</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-reuse_arrays~7"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>reuse_arrays</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mutable_work~4"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>reuse_arrays</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mutable_work~4"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>mutable_work</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-make_index~2"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mutable_work</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-make_index~2"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>make_index</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-replication_type~5"></span>character,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>make_index</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-replication_type~5"></span>
+              character,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>replication_type</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>replication_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#src">dbcsr_create_template</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_create_template~2.html#src">dbcsr_create_template</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

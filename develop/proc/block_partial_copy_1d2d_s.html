@@ -74,153 +74,322 @@
   <div class="row">
     <h1>block_partial_copy_1d2d_s
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">36 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_block_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_block_operations.f.html'>dbcsr_block_operations.F</a></li>
-     <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-     <li class="active">block_partial_copy_1d2d_s</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">36 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_block_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_block_operations.f.html'>dbcsr_block_operations.F</a></li>
+              <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+          <li class="active">block_partial_copy_1d2d_s</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/block_partial_copy_1d2d_s.html#src">block_partial_copy_1d2d_s</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/block_partial_copy_1d2d_s.html#src">block_partial_copy_1d2d_s</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine block_partial_copy_1d2d_s(dst, dst_rs, dst_cs, dst_tr, src, src_tr, dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, dst_offset)</h2>
+    <h2>private  subroutine block_partial_copy_1d2d_s(dst, dst_rs, dst_cs, dst_tr, src, src_tr, dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, dst_offset)  
+</h2>
     
 
     <p>Copies a block subset
 </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>see block_partial_copy_a</p></div>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-dst~28"></span>real(kind=real_4),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst~31"></span>
+              real(kind=real_4),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>dst</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dst_rs~5"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>dst</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst_rs~5"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dst_rs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dst_cs~5"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dst_rs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst_cs~5"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dst_cs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dst_tr~7"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dst_cs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst_tr~7"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dst_tr</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-src~20"></span>real(kind=real_4),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dst_tr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-src~23"></span>
+              real(kind=real_4),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:, :)</td><td>::</td>
-  <td><strong>src</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-src_tr~7"></span>logical,</td>
+              <td></td>            <td>
+              DIMENSION(:, :)
+            </td>
+            <td>::</td>
+            <td><strong>src</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-src_tr~7"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>src_tr</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dst_r_lb~7"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>src_tr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst_r_lb~7"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dst_r_lb</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dst_c_lb~7"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dst_r_lb</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst_c_lb~7"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dst_c_lb</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-src_r_lb~7"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dst_c_lb</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-src_r_lb~7"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>src_r_lb</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-src_c_lb~7"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>src_r_lb</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-src_c_lb~7"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>src_c_lb</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nrow~8"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>src_c_lb</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nrow~8"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nrow</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ncol~8"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nrow</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ncol~8"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>ncol</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dst_offset~5"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncol</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst_offset~5"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dst_offset</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dst_offset</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/block_partial_copy_1d2d_s.html#src">block_partial_copy_1d2d_s</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/block_partial_copy_1d2d_s.html#src">block_partial_copy_1d2d_s</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

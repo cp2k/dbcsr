@@ -74,175 +74,380 @@
   <div class="row">
     <h1>dbcsr_distribution_get
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">11 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
-     <li class="active">dbcsr_distribution_get</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">11 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_api.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+              <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+          <li class="active">dbcsr_distribution_get</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_distribution_get~2.html#src">dbcsr_distribution_get</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_distribution_get~2.html#src">dbcsr_distribution_get</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols, has_threads, group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, subgroups_defined, prow_group, pcol_group)</h2>
+    <h2>public  subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols, has_threads, group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, subgroups_defined, prow_group, pcol_group)  
+</h2>
     
 
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-dist~12"></span>type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist~31"></span>
+              type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_dist~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_dist~3"></span>
+              integer,
+            </td>
 <td></td>
-  <td>optional</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>row_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_dist~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_dist~3"></span>
+              integer,
+            </td>
 <td></td>
-  <td>optional</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>col_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nrows"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nrows~5"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nrows</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ncols"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nrows</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ncols"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>ncols</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-has_threads"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncols</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_threads"></span>
+              logical,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>has_threads</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-group~2"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_threads</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~16"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>group</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mynode~2"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mynode~3"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>mynode</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numnodes~2"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mynode</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numnodes~6"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>numnodes</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nprows"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>numnodes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nprows~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nprows</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-npcols"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nprows</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-npcols~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>npcols</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-myprow~2"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>npcols</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-myprow~3"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>myprow</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mypcol~2"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>myprow</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mypcol~3"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>mypcol</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pgrid~4"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mypcol</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pgrid~11"></span>
+              integer,
+            </td>
 <td></td>
-  <td>optional</td>  <td>DIMENSION(:, :), POINTER</td><td>::</td>
-  <td><strong>pgrid</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-subgroups_defined~2"></span>logical,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>pgrid</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-subgroups_defined~2"></span>
+              logical,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>subgroups_defined</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-prow_group~2"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>subgroups_defined</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-prow_group~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>prow_group</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pcol_group~2"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prow_group</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pcol_group~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>pcol_group</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pcol_group</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_distribution_get~2.html#src">dbcsr_distribution_get</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_distribution_get~2.html#src">dbcsr_distribution_get</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

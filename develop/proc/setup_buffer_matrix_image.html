@@ -74,103 +74,200 @@
   <div class="row">
     <h1>setup_buffer_matrix_image
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">14 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_3d.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mm_3d.f.html'>dbcsr_mm_3d.F</a></li>
-     <li><a href='../module/dbcsr_mm_3d.html'>dbcsr_mm_3d</a></li>
-     <li class="active">setup_buffer_matrix_image</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">14 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mm_3d.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mm_3d.f.html'>dbcsr_mm_3d.F</a></li>
+              <li><a href='../module/dbcsr_mm_3d.html'>dbcsr_mm_3d</a></li>
+          <li class="active">setup_buffer_matrix_image</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/setup_buffer_matrix_image.html#src">setup_buffer_matrix_image</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/setup_buffer_matrix_image.html#src">setup_buffer_matrix_image</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine setup_buffer_matrix_image(matrix, imgdist, template_matrix, data_buffer, meta_buffer)</h2>
+    <h2>private  subroutine setup_buffer_matrix_image(matrix, imgdist, template_matrix, data_buffer, meta_buffer)  
+</h2>
     
 
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix~181"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~328"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-imgdist~11"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-imgdist~15"></span>
+              type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>imgdist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-template_matrix"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>imgdist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-template_matrix"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>template_matrix</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_buffer~4"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>template_matrix</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_buffer~4"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>data_buffer</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-meta_buffer~4"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_buffer</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-meta_buffer~4"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), TARGET, CONTIGUOUS</td><td>::</td>
-  <td><strong>meta_buffer</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              DIMENSION(:), TARGET, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>meta_buffer</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/setup_buffer_matrix_image.html#src">setup_buffer_matrix_image</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/setup_buffer_matrix_image.html#src">setup_buffer_matrix_image</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

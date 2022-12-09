@@ -74,106 +74,203 @@
   <div class="row">
     <h1>dbcsr_addto_index_array
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">46 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_index_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_index_operations.f.html'>dbcsr_index_operations.F</a></li>
-     <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
-     <li class="active">dbcsr_addto_index_array</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">46 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_index_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_index_operations.f.html'>dbcsr_index_operations.F</a></li>
+              <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
+          <li class="active">dbcsr_addto_index_array</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#src">dbcsr_addto_index_array</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#src">dbcsr_addto_index_array</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_addto_index_array(matrix, slot, DATA, reservation, extra)</h2>
+    <h2>public  subroutine dbcsr_addto_index_array(matrix, slot, DATA, reservation, extra)  
+</h2>
     
 
     <p>Adds data to the index. Increases the index size when necessary.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix~222"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~34"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td><p>bcsr matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-slot"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+                <p>bcsr matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-slot"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>slot</strong></td><td><p>which index array to add (e.g., dbcsr_slot_row_blk_sizes)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data~58"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>slot</strong></td>
+            <td>
+                <p>which index array to add (e.g., dbcsr_slot_row_blk_sizes)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>DATA</strong></td><td><p>array holding the index data to add to the index array</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-reservation"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>DATA</strong></td>
+            <td>
+                <p>array holding the index data to add to the index array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-reservation"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>reservation</strong></td><td><p>only reserve space for subsequent array
-reserve extra space for later additions</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-extra"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>reservation</strong></td>
+            <td>
+                <p>only reserve space for subsequent array
+reserve extra space for later additions</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-extra"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>extra</strong></td><td><p>only reserve space for subsequent array
-reserve extra space for later additions</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>extra</strong></td>
+            <td>
+                <p>only reserve space for subsequent array
+reserve extra space for later additions</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#src">dbcsr_addto_index_array</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_addto_index_array.html#src">dbcsr_addto_index_array</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -74,91 +74,182 @@
   <div class="row">
     <h1>accept_pdims_loadbalancing
       <small>Function</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">15 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_types.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tensor_types.f.html'>dbcsr_tensor_types.F</a></li>
-     <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
-     <li class="active">accept_pdims_loadbalancing</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">15 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tensor_types.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tensor_types.f.html'>dbcsr_tensor_types.F</a></li>
+              <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+          <li class="active">accept_pdims_loadbalancing</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private pure function accept_pdims_loadbalancing(pdims_avail, pdim, tdim, lb_ratio)</h2>
+    <h2>private pure function accept_pdims_loadbalancing(pdims_avail, pdim, tdim, lb_ratio)  
+</h2>
     
 
     <p>load balancing criterion whether to accept process grid dimension based on total number of
 cores and tensor dimension</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-pdims_avail"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pdims_avail"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pdims_avail</strong></td><td><p>available process grid dimensions (total number of cores)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pdim"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pdims_avail</strong></td>
+            <td>
+                <p>available process grid dimensions (total number of cores)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pdim"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pdim</strong></td><td><p>process grid dimension to test</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tdim"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pdim</strong></td>
+            <td>
+                <p>process grid dimension to test</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tdim"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>tdim</strong></td><td><p>tensor dimension corresponding to pdim</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lb_ratio"></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tdim</strong></td>
+            <td>
+                <p>tensor dimension corresponding to pdim</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb_ratio"></span>
+              real(kind=real_8),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>lb_ratio</strong></td><td><p>load imbalance acceptance factor</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb_ratio</strong></td>
+            <td>
+                <p>load imbalance acceptance factor</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-accept_pdims_loadbalancing"></span>logical</small></h3>
-    
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-accept_pdims_loadbalancing"></span>
+          logical
+        </small>
+      </h3>
+      
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -74,52 +74,78 @@
   <div class="row">
     <h1>mp_send_z
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">31 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mpiwrap.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
-     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-     <li class="active">mp_send_z</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">31 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mpiwrap.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
+              <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+          <li class="active">mp_send_z</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/mp_send_z.html#src">mp_send_z</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/mp_send_z.html#src">mp_send_z</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine mp_send_z(msg, dest, tag, gid)</h2>
+    <h2>private  subroutine mp_send_z(msg, dest, tag, gid)  
+</h2>
     
 
     <p>Send one datum to another process</p>
@@ -127,53 +153,115 @@
 mpi_send</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-msg~159"></span>complex(kind=real_8)</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~118"></span>
+              complex(kind=real_8)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>msg</strong></td><td><p>Scalar to send</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dest~34"></span>integer</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+                <p>Scalar to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dest~18"></span>
+              integer
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dest</strong></td><td><p>Destination process
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dest</strong></td>
+            <td>
+                <p>Destination process
 Transfer identifier
-Message passing environment identifier</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tag~48"></span>integer</td>
+Message passing environment identifier</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tag~20"></span>
+              integer
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>tag</strong></td><td><p>Destination process
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tag</strong></td>
+            <td>
+                <p>Destination process
 Transfer identifier
-Message passing environment identifier</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-gid~191"></span>integer</td>
+Message passing environment identifier</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~90"></span>
+              integer
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>gid</strong></td><td><p>Destination process
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+                <p>Destination process
 Transfer identifier
-Message passing environment identifier</p></td>
-</tr>
-</tbody>
-</table>
+Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/mp_send_z.html#src">mp_send_z</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/mp_send_z.html#src">mp_send_z</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -74,92 +74,171 @@
   <div class="row">
     <h1>convert_sizes_to_offsets
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">27 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_dist_util.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_dist_util.f.html'>dbcsr_dist_util.F</a></li>
-     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-     <li class="active">convert_sizes_to_offsets</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">27 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_dist_util.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_dist_util.f.html'>dbcsr_dist_util.F</a></li>
+              <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+          <li class="active">convert_sizes_to_offsets</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/convert_sizes_to_offsets.html#src">convert_sizes_to_offsets</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/convert_sizes_to_offsets.html#src">convert_sizes_to_offsets</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure subroutine convert_sizes_to_offsets(sizes, offsets_start, offsets_stop)</h2>
+    <h2>public pure subroutine convert_sizes_to_offsets(sizes, offsets_start, offsets_stop)  
+</h2>
     
 
     <p>Converts sizes to offsets</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-sizes~48"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizes"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>sizes</strong></td><td><p>array with sizes</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-offsets_start"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+                <p>array with sizes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-offsets_start"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>offsets_start</strong></td><td><p>offsets of starts</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-offsets_stop"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>offsets_start</strong></td>
+            <td>
+                <p>offsets of starts</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-offsets_stop"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>offsets_stop</strong></td><td><p>offsets of ends</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>offsets_stop</strong></td>
+            <td>
+                <p>offsets of ends</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/convert_sizes_to_offsets.html#src">convert_sizes_to_offsets</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/convert_sizes_to_offsets.html#src">convert_sizes_to_offsets</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

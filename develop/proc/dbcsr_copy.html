@@ -74,125 +74,240 @@
   <div class="row">
     <h1>dbcsr_copy
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">62 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
-     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-     <li class="active">dbcsr_copy</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">62 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+              <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+          <li class="active">dbcsr_copy</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_copy.html#src">dbcsr_copy</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_copy.html#src">dbcsr_copy</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_data, keep_imaginary, matrix_type)</h2>
+    <h2>public  subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_data, keep_imaginary, matrix_type)  
+</h2>
     
 
     <p>copy a matrix</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix_b~26"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_b~5"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix_b</strong></td><td><p>target DBCSR matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-matrix_a~44"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_b</strong></td>
+            <td>
+                <p>target DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_a~9"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix_a</strong></td><td><p>source DBCSR matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-name~9"></span>character(len=*),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+            <td>
+                <p>source DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name"></span>
+              character(len=*),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>name</strong></td><td><p>name of the new matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-keep_sparsity~7"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+                <p>name of the new matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-keep_sparsity~2"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>keep_sparsity</strong></td><td><p>keep the target matrix sparsity; default is False.
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>keep_sparsity</strong></td>
+            <td>
+                <p>keep the target matrix sparsity; default is False.
 shallow data copy
 when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
-used</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-shallow_data~2"></span>logical,</td>
+used</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-shallow_data"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>shallow_data</strong></td><td><p>keep the target matrix sparsity; default is False.
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>shallow_data</strong></td>
+            <td>
+                <p>keep the target matrix sparsity; default is False.
 shallow data copy
 when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
-used</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-keep_imaginary~2"></span>logical,</td>
+used</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-keep_imaginary"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>keep_imaginary</strong></td><td><p>keep the target matrix sparsity; default is False.
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>keep_imaginary</strong></td>
+            <td>
+                <p>keep the target matrix sparsity; default is False.
 shallow data copy
 when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
-used</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-matrix_type~7"></span>character,</td>
+used</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_type"></span>
+              character,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>matrix_type</strong></td><td><p>'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_type</strong></td>
+            <td>
+                <p>'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_copy.html#src">dbcsr_copy</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_copy.html#src">dbcsr_copy</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

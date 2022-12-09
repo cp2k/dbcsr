@@ -74,112 +74,234 @@
   <div class="row">
     <h1>align_tensor
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">14 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tensor.f.html'>dbcsr_tensor.F</a></li>
-     <li><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
-     <li class="active">align_tensor</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">14 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tensor.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tensor.f.html'>dbcsr_tensor.F</a></li>
+              <li><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
+          <li class="active">align_tensor</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine align_tensor(tensor_in, contract_in, notcontract_in, tensor_out, contract_out, notcontract_out, indp_in, indp_out)</h2>
+    <h2>private  subroutine align_tensor(tensor_in, contract_in, notcontract_in, tensor_out, contract_out, notcontract_out, indp_in, indp_out)  
+</h2>
     
 
     <p>align tensor index with data</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-tensor_in~8"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor_in~11"></span>
+              type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>tensor_in</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-contract_in"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-contract_in"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>contract_in</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-notcontract_in"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>contract_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-notcontract_in"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>notcontract_in</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tensor_out~9"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>notcontract_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor_out~10"></span>
+              type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>tensor_out</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-contract_out"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor_out</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-contract_out"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(SIZE(contract_in))</td><td>::</td>
-  <td><strong>contract_out</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-notcontract_out"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(SIZE(contract_in))
+            </td>
+            <td>::</td>
+            <td><strong>contract_out</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-notcontract_out"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(SIZE(notcontract_in))</td><td>::</td>
-  <td><strong>notcontract_out</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-indp_in"></span>character(len=1),</td>
+              <td></td>            <td>
+              DIMENSION(SIZE(notcontract_in))
+            </td>
+            <td>::</td>
+            <td><strong>notcontract_out</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indp_in"></span>
+              character(len=1),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
-  <td><strong>indp_in</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-indp_out"></span>character(len=1),</td>
+              <td></td>            <td>
+              DIMENSION(ndims_tensor(tensor_in))
+            </td>
+            <td>::</td>
+            <td><strong>indp_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indp_out"></span>
+              character(len=1),
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
-  <td><strong>indp_out</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              DIMENSION(ndims_tensor(tensor_in))
+            </td>
+            <td>::</td>
+            <td><strong>indp_out</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -74,87 +74,173 @@
   <div class="row">
     <h1>c_dbcsr_t_filter_c_dp
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">15 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_api_c.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tensor_api_c.f.html'>dbcsr_tensor_api_c.F</a></li>
-     <li><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></li>
-     <li class="active">c_dbcsr_t_filter_c_dp</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">15 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tensor_api_c.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tensor_api_c.f.html'>dbcsr_tensor_api_c.F</a></li>
+              <li><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></li>
+          <li class="active">c_dbcsr_t_filter_c_dp</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine c_dbcsr_t_filter_c_dp(c_tensor, c_eps, c_method, c_use_absolute) bind(C, name="0")</h2>
+    <h2>private  subroutine c_dbcsr_t_filter_c_dp(c_tensor, c_eps, c_method, c_use_absolute) bind(C, name="0")  
+</h2>
     
 
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-c_tensor~57"></span>type(c_ptr),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_tensor~58"></span>
+              type(c_ptr),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>c_tensor</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_eps~4"></span>complex(kind=c_double_complex),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>c_tensor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_eps~4"></span>
+              complex(kind=c_double_complex),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>c_eps</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_method~4"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>c_eps</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_method~4"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_method</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_use_absolute~4"></span>logical(kind=c_bool),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_method</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_use_absolute~4"></span>
+              logical(kind=c_bool),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_use_absolute</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_use_absolute</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -74,52 +74,78 @@
   <div class="row">
     <h1>merge_index_arrays
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">115 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_index_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_index_operations.f.html'>dbcsr_index_operations.F</a></li>
-     <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
-     <li class="active">merge_index_arrays</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.2% of total for procedures.">115 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_index_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_index_operations.f.html'>dbcsr_index_operations.F</a></li>
+              <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
+          <li class="active">merge_index_arrays</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/merge_index_arrays.html#src">merge_index_arrays</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/merge_index_arrays.html#src">merge_index_arrays</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, old_row_i, old_col_i, old_blk_p, old_size, add_ip, add_size, new_blk_d, old_blk_d, added_size_offset, added_sizes, added_size, added_nblks)</h2>
+    <h2>public  subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, old_row_i, old_col_i, old_blk_p, old_size, add_ip, add_size, new_blk_d, old_blk_d, added_size_offset, added_sizes, added_size, added_nblks)  
+</h2>
     
 
     <p>Merges two indices</p>
@@ -132,133 +158,303 @@ to recalculate new block pointers to avoid wasted space.
 Assumes they are both pre-sorted</p></div>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-new_row_i~2"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_row_i~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(new_size)</td><td>::</td>
-  <td><strong>new_row_i</strong></td><td><p>merged result
+              <td></td>            <td>
+              DIMENSION(new_size)
+            </td>
+            <td>::</td>
+            <td><strong>new_row_i</strong></td>
+            <td>
+                <p>merged result
 merged result
-merged result</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_col_i~3"></span>integer,</td>
+merged result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_col_i"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(new_size)</td><td>::</td>
-  <td><strong>new_col_i</strong></td><td><p>merged result
+              <td></td>            <td>
+              DIMENSION(new_size)
+            </td>
+            <td>::</td>
+            <td><strong>new_col_i</strong></td>
+            <td>
+                <p>merged result
 merged result
-merged result</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_blk_p~4"></span>integer,</td>
+merged result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_blk_p~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(new_size)</td><td>::</td>
-  <td><strong>new_blk_p</strong></td><td><p>merged result
+              <td></td>            <td>
+              DIMENSION(new_size)
+            </td>
+            <td>::</td>
+            <td><strong>new_blk_p</strong></td>
+            <td>
+                <p>merged result
 merged result
-merged result</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_size"></span>integer,</td>
+merged result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_size"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>new_size</strong></td><td><p>size of merged index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_row_i"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_size</strong></td>
+            <td>
+                <p>size of merged index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_row_i"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(old_size)</td><td>::</td>
-  <td><strong>old_row_i</strong></td><td><p>current index
+              <td></td>            <td>
+              DIMENSION(old_size)
+            </td>
+            <td>::</td>
+            <td><strong>old_row_i</strong></td>
+            <td>
+                <p>current index
 current index
-current index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_col_i~4"></span>integer,</td>
+current index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_col_i~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(old_size)</td><td>::</td>
-  <td><strong>old_col_i</strong></td><td><p>current index
+              <td></td>            <td>
+              DIMENSION(old_size)
+            </td>
+            <td>::</td>
+            <td><strong>old_col_i</strong></td>
+            <td>
+                <p>current index
 current index
-current index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_blk_p~6"></span>integer,</td>
+current index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_blk_p~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(old_size)</td><td>::</td>
-  <td><strong>old_blk_p</strong></td><td><p>current index
+              <td></td>            <td>
+              DIMENSION(old_size)
+            </td>
+            <td>::</td>
+            <td><strong>old_blk_p</strong></td>
+            <td>
+                <p>current index
 current index
-current index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_size"></span>integer,</td>
+current index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_size"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>old_size</strong></td><td><p>size of current index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-add_ip"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_size</strong></td>
+            <td>
+                <p>size of current index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-add_ip"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(3, add_size)</td><td>::</td>
-  <td><strong>add_ip</strong></td><td><p>index to add into the current index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-add_size"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(3, add_size)
+            </td>
+            <td>::</td>
+            <td><strong>add_ip</strong></td>
+            <td>
+                <p>index to add into the current index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-add_size"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>add_size</strong></td><td><p>size of index to add into the current index</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_blk_d"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>add_size</strong></td>
+            <td>
+                <p>size of index to add into the current index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_blk_d"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>DIMENSION(new_size)</td><td>::</td>
-  <td><strong>new_blk_d</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_blk_d~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(new_size)
+            </td>
+            <td>::</td>
+            <td><strong>new_blk_d</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_blk_d"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(old_size)</td><td>::</td>
-  <td><strong>old_blk_d</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-added_size_offset"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(old_size)
+            </td>
+            <td>::</td>
+            <td><strong>old_blk_d</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-added_size_offset"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>added_size_offset</strong></td><td><p>specify base of added sizes</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-added_sizes"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>added_size_offset</strong></td>
+            <td>
+                <p>specify base of added sizes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-added_sizes"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>added_sizes</strong></td><td><p>specify sizes of added blocks</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-added_size"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>added_sizes</strong></td>
+            <td>
+                <p>specify sizes of added blocks</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-added_size"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>added_size</strong></td><td><p>counts number of sizes of added blocks
-actual number of new elements</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-added_nblks"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>added_size</strong></td>
+            <td>
+                <p>counts number of sizes of added blocks
+actual number of new elements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-added_nblks"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>added_nblks</strong></td><td><p>counts number of sizes of added blocks
-actual number of new elements</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>added_nblks</strong></td>
+            <td>
+                <p>counts number of sizes of added blocks
+actual number of new elements</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/merge_index_arrays.html#src">merge_index_arrays</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/merge_index_arrays.html#src">merge_index_arrays</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

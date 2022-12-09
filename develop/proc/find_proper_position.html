@@ -74,52 +74,78 @@
   <div class="row">
     <h1>find_proper_position
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">42 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_iterator_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_iterator_operations.f.html'>dbcsr_iterator_operations.F</a></li>
-     <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
-     <li class="active">find_proper_position</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">42 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_iterator_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_iterator_operations.f.html'>dbcsr_iterator_operations.F</a></li>
+              <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+          <li class="active">find_proper_position</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/find_proper_position.html#src">find_proper_position</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/find_proper_position.html#src">find_proper_position</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private pure subroutine find_proper_position(pos, row, maxpos, maxrows, blk_p, row_p, tdist, tid, local2global)</h2>
+    <h2>private pure subroutine find_proper_position(pos, row, maxpos, maxrows, blk_p, row_p, tdist, tid, local2global)  
+</h2>
     
 
     <p>Finds the next proper position accounting for threads
@@ -127,83 +153,190 @@ First time: pos and row are set to 0.
 If there is no valid block, pos is set to 0</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-pos~29"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~3"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pos</strong></td><td><p>current position and updated position
-input: current row; output: the row corresponding to the next proper position</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row~59"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                <p>current position and updated position
+input: current row; output: the row corresponding to the next proper position</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~3"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>row</strong></td><td><p>current position and updated position
-input: current row; output: the row corresponding to the next proper position</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-maxpos~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+                <p>current position and updated position
+input: current row; output: the row corresponding to the next proper position</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-maxpos~2"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>maxpos</strong></td><td><p>maximum allowable position
-maxmimum row</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-maxrows~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>maxpos</strong></td>
+            <td>
+                <p>maximum allowable position
+maxmimum row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-maxrows~2"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>maxrows</strong></td><td><p>maximum allowable position
-maxmimum row</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_p~16"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>maxrows</strong></td>
+            <td>
+                <p>maximum allowable position
+maxmimum row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_p~3"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>blk_p</strong></td><td><p>block pointercs
-row pointers</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_p~12"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>blk_p</strong></td>
+            <td>
+                <p>block pointercs
+row pointers</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_p~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>row_p</strong></td><td><p>block pointercs
-row pointers</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tdist~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>row_p</strong></td>
+            <td>
+                <p>block pointercs
+row pointers</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tdist"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(1:maxrows)</td><td>::</td>
-  <td><strong>tdist</strong></td><td><p>thread distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tid"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(1:maxrows)
+            </td>
+            <td>::</td>
+            <td><strong>tdist</strong></td>
+            <td>
+                <p>thread distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tid"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>tid</strong></td><td><p>my thread number</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-local2global"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tid</strong></td>
+            <td>
+                <p>my thread number</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local2global"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(1:*)</td><td>::</td>
-  <td><strong>local2global</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional,</td>            <td>
+              DIMENSION(1:*)
+            </td>
+            <td>::</td>
+            <td><strong>local2global</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/find_proper_position.html#src">find_proper_position</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/find_proper_position.html#src">find_proper_position</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

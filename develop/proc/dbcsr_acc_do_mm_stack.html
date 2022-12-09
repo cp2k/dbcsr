@@ -74,158 +74,336 @@
   <div class="row">
     <h1>dbcsr_acc_do_mm_stack
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">83 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_acc_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_acc_operations.f.html'>dbcsr_acc_operations.F</a></li>
-     <li><a href='../module/dbcsr_acc_operations.html'>dbcsr_acc_operations</a></li>
-     <li class="active">dbcsr_acc_do_mm_stack</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">83 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_acc_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_acc_operations.f.html'>dbcsr_acc_operations.F</a></li>
+              <li><a href='../module/dbcsr_acc_operations.html'>dbcsr_acc_operations</a></li>
+          <li class="active">dbcsr_acc_do_mm_stack</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_acc_do_mm_stack.html#src">dbcsr_acc_do_mm_stack</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_acc_do_mm_stack.html#src">dbcsr_acc_do_mm_stack</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, data_type, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success)</h2>
+    <h2>public  subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, data_type, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success)  
+</h2>
     
 
     <p>Launch an accelerated kernel for processing a stack.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-param_stack_host"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-param_stack_host"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:, :), TARGET</td><td>::</td>
-  <td><strong>param_stack_host</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-param_stack_dev"></span>type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),</td>
+              <td></td>            <td>
+              DIMENSION(:, :), TARGET
+            </td>
+            <td>::</td>
+            <td><strong>param_stack_host</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-param_stack_dev"></span>
+              type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>param_stack_dev</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stack_size"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>param_stack_dev</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stack_size~13"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>stack_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_type~30"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stack_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_type~45"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>data_type</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a_data"></span>type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a_data~13"></span>
+              type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a_data</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b_data"></span>type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a_data</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b_data~13"></span>
+              type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>b_data</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_data~5"></span>type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b_data</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_data~21"></span>
+              type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>c_data</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-m_max"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_data</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m_max"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>m_max</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-n_max"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m_max</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_max"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>n_max</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-k_max"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_max</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k_max"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>k_max</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-def_mnk"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k_max</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-def_mnk"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>def_mnk</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stack_stream"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>def_mnk</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stack_stream"></span>
+              type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>stack_stream</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_stream"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stack_stream</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_stream"></span>
+              type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>c_stream</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-success"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_stream</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-success"></span>
+              logical,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>success</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>success</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_acc_do_mm_stack.html#src">dbcsr_acc_do_mm_stack</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_acc_do_mm_stack.html#src">dbcsr_acc_do_mm_stack</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -74,52 +74,78 @@
   <div class="row">
     <h1>rebin_distribution
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">25 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_dist_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
-     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
-     <li class="active">rebin_distribution</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">25 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_dist_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
+              <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+          <li class="active">rebin_distribution</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/rebin_distribution.html#src">rebin_distribution</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/rebin_distribution.html#src">rebin_distribution</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multiplicity, nimages)</h2>
+    <h2>public  subroutine rebin_distribution(new_bins, images, source_bins, nbins, multiplicity, nimages)  
+</h2>
     
 
     <p>Makes new distribution with decimation and multiplicity</p>
@@ -149,67 +175,147 @@ virtual columns. Other (non-even, block-size aware) mappings
 could be better.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-new_bins~2"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_bins"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>new_bins</strong></td><td><p>new real distribution
-new image distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-images~5"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>new_bins</strong></td>
+            <td>
+                <p>new real distribution
+new image distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-images"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>images</strong></td><td><p>new real distribution
-new image distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-source_bins~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>images</strong></td>
+            <td>
+                <p>new real distribution
+new image distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-source_bins"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
-  <td><strong>source_bins</strong></td><td><p>Basis for the new distribution and images</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nbins~7"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>source_bins</strong></td>
+            <td>
+                <p>Basis for the new distribution and images</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nbins"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nbins</strong></td><td><p>number of bins in the new real distribution
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nbins</strong></td>
+            <td>
+                <p>number of bins in the new real distribution
 multiplicity
-number of images in the new distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-multiplicity~2"></span>integer,</td>
+number of images in the new distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-multiplicity"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>multiplicity</strong></td><td><p>number of bins in the new real distribution
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>multiplicity</strong></td>
+            <td>
+                <p>number of bins in the new real distribution
 multiplicity
-number of images in the new distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nimages~5"></span>integer,</td>
+number of images in the new distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nimages"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nimages</strong></td><td><p>number of bins in the new real distribution
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nimages</strong></td>
+            <td>
+                <p>number of bins in the new real distribution
 multiplicity
-number of images in the new distribution</p></td>
-</tr>
-</tbody>
-</table>
+number of images in the new distribution</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/rebin_distribution.html#src">rebin_distribution</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/rebin_distribution.html#src">rebin_distribution</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

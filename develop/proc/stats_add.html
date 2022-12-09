@@ -74,134 +74,276 @@
   <div class="row">
     <h1>stats_add
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">47 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_sched.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mm_sched.f.html'>dbcsr_mm_sched.F</a></li>
-     <li><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></li>
-     <li class="active">stats_add</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">47 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mm_sched.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mm_sched.f.html'>dbcsr_mm_sched.F</a></li>
+              <li><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></li>
+          <li class="active">stats_add</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/stats_add.html#src">stats_add</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/stats_add.html#src">stats_add</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine stats_add(stats, m, n, k, stacksize_cpu, stacksize_smm, stacksize_acc, nstacks_cpu, nstacks_smm, nstacks_acc)</h2>
+    <h2>private  subroutine stats_add(stats, m, n, k, stacksize_cpu, stacksize_smm, stacksize_acc, nstacks_cpu, nstacks_smm, nstacks_acc)  
+</h2>
     
 
     <p>Helper-routine used by dbcsr_mm_sched_process to supply statistics.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-stats~2"></span>type(<a href='../type/stats_type.html'>stats_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stats~2"></span>
+              type(<a href='../type/stats_type.html'>stats_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>stats</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-m~5"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stats</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~8"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-n~28"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~49"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-k~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~2"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>k</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stacksize_cpu"></span>integer(kind=int_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stacksize_cpu"></span>
+              integer(kind=int_8),
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>stacksize_cpu</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stacksize_smm"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stacksize_cpu</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stacksize_smm"></span>
+              integer(kind=int_8),
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>stacksize_smm</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stacksize_acc"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stacksize_smm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stacksize_acc"></span>
+              integer(kind=int_8),
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>stacksize_acc</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nstacks_cpu"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stacksize_acc</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nstacks_cpu"></span>
+              integer(kind=int_8),
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nstacks_cpu</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nstacks_smm"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nstacks_cpu</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nstacks_smm"></span>
+              integer(kind=int_8),
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nstacks_smm</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nstacks_acc"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nstacks_smm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nstacks_acc"></span>
+              integer(kind=int_8),
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nstacks_acc</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nstacks_acc</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/stats_add.html#src">stats_add</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/stats_add.html#src">stats_add</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

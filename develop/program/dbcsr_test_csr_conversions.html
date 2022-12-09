@@ -72,167 +72,227 @@
 
     <div class="container">
   <div class="row">
-    <h1>dbcsr_test_csr_conversions    <small>Program</small>
+    <h1>dbcsr_test_csr_conversions      <small>Program</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 7.9% of total for programs.">134 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_test_csr_conversions.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_test_csr_conversions.f.html'>dbcsr_test_csr_conversions.F</a></li>
-     <li class="active">dbcsr_test_csr_conversions</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 7.9% of total for programs.">134 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_test_csr_conversions.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_test_csr_conversions.f.html'>dbcsr_test_csr_conversions.F</a></li>
+          <li class="active">dbcsr_test_csr_conversions</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-matrix_a~87">matrix_a</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-matrix_b~54">matrix_b</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-col_blk_sizes~7">col_blk_sizes</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-row_blk_sizes~7">row_blk_sizes</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-nblkrows_total~10">nblkrows_total</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-nblkcols_total~9">nblkcols_total</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-col_dist~14">col_dist</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-row_dist~14">row_dist</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mp_comm~29">mp_comm</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-group~43">group</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-numnodes~15">numnodes</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mynode~11">mynode</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-io_unit~17">io_unit</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-npdims~6">npdims</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-myploc~4">myploc</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-max_blks_total">max_blks_total</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-max_blk_size">max_blk_size</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-k~4">k</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-seedsz">seedsz</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-seed">seed</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-rn">rn</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-rn_array">rn_array</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-norm~8">norm</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-norm_eps">norm_eps</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-sparsity~6">sparsity</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-eps~22">eps</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-k_str">k_str</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mynode_str">mynode_str</a>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-0">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-matrix_a~87">matrix_a</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-matrix_b~54">matrix_b</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-col_blk_sizes~7">col_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-row_blk_sizes~7">row_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-nblkrows_total~10">nblkrows_total</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-nblkcols_total~9">nblkcols_total</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-col_dist~14">col_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-row_dist~14">row_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mp_comm~24">mp_comm</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-group~40">group</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-numnodes~10">numnodes</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mynode~6">mynode</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-io_unit~12">io_unit</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-npdims~3">npdims</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-myploc">myploc</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-max_blks_total">max_blks_total</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-max_blk_size">max_blk_size</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-k~3">k</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-seedsz">seedsz</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-seed">seed</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-rn">rn</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-rn_array">rn_array</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-norm~8">norm</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-norm_eps">norm_eps</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-sparsity~5">sparsity</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-eps~22">eps</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-k_str">k_str</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mynode_str">mynode_str</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
-  <div class="list-group">
-    <div id="subs-0" class="panel-collapse collapse">
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#proc-csr_conversion_test">csr_conversion_test</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#proc-make_random_dbcsr_matrix">make_random_dbcsr_matrix</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#src">dbcsr_test_csr_conversions</a>
-  </div>
-</div>
 
-</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#subs-0">Subroutines</a>
+        </h3>
+      </div>
+      <div id="subs-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#proc-csr_conversion_test">csr_conversion_test</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#proc-make_random_dbcsr_matrix">make_random_dbcsr_matrix</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#src">dbcsr_test_csr_conversions</a>
+      </div>
+    </div>
+
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
         <div class="panel panel-default">
       <div class="panel-heading">
-  <h3 class="panel-title">Uses</h3>
+        <h3 class="panel-title">Uses</h3>
       </div>
       <ul class="list-group">
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-  </ul>
-      </li>
+          <li class="list-group-item">
+            <ul class="list-inline">
+                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
+                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+            </ul>
+          </li>
       </ul>
     </div>
 
     <p>Testing DBCSR to CSR conversion with random matrices</p>
 <br>
      <section class="visible-xs visible-sm hidden-md">
-       <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-matrix_a~87">matrix_a</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-matrix_b~54">matrix_b</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-col_blk_sizes~7">col_blk_sizes</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-row_blk_sizes~7">row_blk_sizes</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-nblkrows_total~10">nblkrows_total</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-nblkcols_total~9">nblkcols_total</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-col_dist~14">col_dist</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-row_dist~14">row_dist</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mp_comm~29">mp_comm</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-group~43">group</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-numnodes~15">numnodes</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mynode~11">mynode</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-io_unit~17">io_unit</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-npdims~6">npdims</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-myploc~4">myploc</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-max_blks_total">max_blks_total</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-max_blk_size">max_blk_size</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-k~4">k</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-seedsz">seedsz</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-seed">seed</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-rn">rn</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-rn_array">rn_array</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-norm~8">norm</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-norm_eps">norm_eps</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-sparsity~6">sparsity</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-eps~22">eps</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-k_str">k_str</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mynode_str">mynode_str</a>
+         <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-1">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-matrix_a~87">matrix_a</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-matrix_b~54">matrix_b</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-col_blk_sizes~7">col_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-row_blk_sizes~7">row_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-nblkrows_total~10">nblkrows_total</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-nblkcols_total~9">nblkcols_total</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-col_dist~14">col_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-row_dist~14">row_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mp_comm~24">mp_comm</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-group~40">group</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-numnodes~10">numnodes</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mynode~6">mynode</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-io_unit~12">io_unit</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-npdims~3">npdims</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-myploc">myploc</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-max_blks_total">max_blks_total</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-max_blk_size">max_blk_size</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-k~3">k</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-seedsz">seedsz</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-seed">seed</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-rn">rn</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-rn_array">rn_array</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-norm~8">norm</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-norm_eps">norm_eps</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-sparsity~5">sparsity</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-eps~22">eps</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-k_str">k_str</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#variable-mynode_str">mynode_str</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
-  <div class="list-group">
-    <div id="subs-1" class="panel-collapse collapse">
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#proc-csr_conversion_test">csr_conversion_test</a>
-      <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#proc-make_random_dbcsr_matrix">make_random_dbcsr_matrix</a>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#subs-1">Subroutines</a>
+        </h3>
+      </div>
+      <div id="subs-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#proc-csr_conversion_test">csr_conversion_test</a>
+            <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#proc-make_random_dbcsr_matrix">make_random_dbcsr_matrix</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#src">dbcsr_test_csr_conversions</a>
-  </div>
-</div>
+
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../program/dbcsr_test_csr_conversions.html#src">dbcsr_test_csr_conversions</a>
+      </div>
+    </div>
+
 
      </section>
      <br class="visible-xs visible-sm hidden-md">
@@ -240,151 +300,466 @@
 
     <section>
     <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix_a~87"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>)</td>
-  <td></td><td>::</td>
-  <td><strong>matrix_a</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-matrix_b~54"></span>type(<a href='../type/csr_type.html'>csr_type</a>)</td>
-  <td></td><td>::</td>
-  <td><strong>matrix_b</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_blk_sizes~7"></span>integer,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>col_blk_sizes</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_blk_sizes~7"></span>integer,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>row_blk_sizes</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblkrows_total~10"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>nblkrows_total</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblkcols_total~9"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>nblkcols_total</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_dist~14"></span>integer,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>col_dist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_dist~14"></span>integer,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>row_dist</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mp_comm~29"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>mp_comm</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-group~43"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>group</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numnodes~15"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>numnodes</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mynode~11"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>mynode</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-io_unit~17"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>io_unit</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-npdims~6"></span>integer,</td>
-  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>npdims</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-myploc~4"></span>integer,</td>
-  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>myploc</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_blks_total"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>max_blks_total</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_blk_size"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>max_blk_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-k~4"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>k</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-seedsz"></span>integer</td>
-  <td></td><td>::</td>
-  <td><strong>seedsz</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-seed"></span>integer,</td>
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>seed</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rn"></span>real</td>
-  <td></td><td>::</td>
-  <td><strong>rn</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rn_array"></span>real,</td>
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>rn_array</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-norm~8"></span>real(kind=real_8)</td>
-  <td></td><td>::</td>
-  <td><strong>norm</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-norm_eps"></span>real(kind=real_8)</td>
-  <td></td><td>::</td>
-  <td><strong>norm_eps</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sparsity~6"></span>real(kind=real_8)</td>
-  <td></td><td>::</td>
-  <td><strong>sparsity</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-eps~22"></span>real(kind=real_8)</td>
-  <td></td><td>::</td>
-  <td><strong>eps</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-k_str"></span>character(len=10)</td>
-  <td></td><td>::</td>
-  <td><strong>k_str</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mynode_str"></span>character(len=10)</td>
-  <td></td><td>::</td>
-  <td><strong>mynode_str</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+<th></th><th>Initial</th>        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_a~87"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_b~54"></span>
+              type(<a href='../type/csr_type.html'>csr_type</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_b</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_sizes~7"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_sizes</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_sizes~7"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_sizes</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkrows_total~10"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkrows_total</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkcols_total~9"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkcols_total</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_dist~14"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_dist</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_dist~14"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_dist</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_comm~24"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_comm</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~40"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numnodes~10"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>numnodes</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mynode~6"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mynode</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-io_unit~12"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>io_unit</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-npdims~3"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>npdims</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-myploc"></span>
+              integer,
+            </td>
+            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>myploc</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_blks_total"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_blks_total</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_blk_size"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_blk_size</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~3"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-seedsz"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>seedsz</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-seed"></span>
+              integer,
+            </td>
+            <td>
+              ALLOCATABLE, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>seed</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rn"></span>
+              real
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rn</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rn_array"></span>
+              real,
+            </td>
+            <td>
+              ALLOCATABLE, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>rn_array</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-norm~8"></span>
+              real(kind=real_8)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>norm</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-norm_eps"></span>
+              real(kind=real_8)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>norm_eps</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sparsity~5"></span>
+              real(kind=real_8)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sparsity</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eps~22"></span>
+              real(kind=real_8)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eps</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k_str"></span>
+              character(len=10)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k_str</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mynode_str"></span>
+              character(len=10)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mynode_str</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     </section>
     <br>
@@ -398,104 +773,221 @@
     <section>
     <h2>Subroutines</h2>
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_conversion_test"></span><h3>subroutine <a href='../proc/csr_conversion_test.html'>csr_conversion_test</a>(dbcsr_mat, csr_mat, norm, eps)</h3></div>
-  <div class="panel-body">
-       
-<p>Test the conversion by converting to CSR format and converting back,
+    <div class="panel-heading codesum"><span class="anchor" id="proc-csr_conversion_test"></span><h3> subroutine <a href='../proc/csr_conversion_test.html'>csr_conversion_test</a>(dbcsr_mat, csr_mat, norm, eps)  
+</h3></div>
+    <div class="panel-body">
+          
+  <p>Test the conversion by converting to CSR format and converting back,
 where the CSR sparsity is defined by some filtering threshold eps.
 The maximum norm of the differences between the original and the
 back-converted matrix is calculated.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dbcsr_mat</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_mat</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='../type/csr_type.html'>csr_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>csr_mat</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>csr_mat</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real_8),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>norm</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>norm</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real_8),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>eps</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-  </div>
+    </div>
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-make_random_dbcsr_matrix"></span><h3>subroutine <a href='../proc/make_random_dbcsr_matrix.html'>make_random_dbcsr_matrix</a>(matrix_a, group, col_blk_sizes, row_blk_sizes, col_dist, row_dist, sparsity)</h3></div>
-  <div class="panel-body">
-       
-<p>Create a DBCSR matrix with random values and random blocks</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+    <div class="panel-heading codesum"><span class="anchor" id="proc-make_random_dbcsr_matrix"></span><h3> subroutine <a href='../proc/make_random_dbcsr_matrix.html'>make_random_dbcsr_matrix</a>(matrix_a, group, col_blk_sizes, row_blk_sizes, col_dist, row_dist, sparsity)  
+</h3></div>
+    <div class="panel-body">
+          
+  <p>Create a DBCSR matrix with random values and random blocks</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix_a</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>group</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td></td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>col_blk_sizes</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_sizes</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td></td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>row_blk_sizes</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_sizes</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td></td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>col_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_dist</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td></td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>row_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_dist</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real_8),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>sparsity</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sparsity</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-  </div>
+    </div>
   </div>
 
     </section>    

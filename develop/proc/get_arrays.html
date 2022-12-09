@@ -74,110 +74,216 @@
   <div class="row">
     <h1>get_arrays
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">29 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_array_list_methods.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_array_list_methods.f.html'>dbcsr_array_list_methods.F</a></li>
-     <li><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
-     <li class="active">get_arrays</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">29 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_array_list_methods.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_array_list_methods.f.html'>dbcsr_array_list_methods.F</a></li>
+              <li><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
+          <li class="active">get_arrays</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/get_arrays.html#src">get_arrays</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/get_arrays.html#src">get_arrays</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine get_arrays(list, data_1, data_2, data_3, data_4, i_selected)</h2>
+    <h2>public  subroutine get_arrays(list, data_1, data_2, data_3, data_4, i_selected)  
+</h2>
     
 
     <p>Get all arrays contained in list</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-list~60"></span>type(<a href='../type/array_list.html'>array_list</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-list~60"></span>
+              type(<a href='../type/array_list.html'>array_list</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>list</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_1~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>list</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_1~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>data_1</strong></td><td><p>arrays 1 and 2</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_2~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              ALLOCATABLE, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>data_1</strong></td>
+            <td>
+                <p>arrays 1 and 2</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_2~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>data_2</strong></td><td><p>arrays 1 and 2</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_3~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              ALLOCATABLE, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>data_2</strong></td>
+            <td>
+                <p>arrays 1 and 2</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_3~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>data_3</strong></td><td><p>arrays 1 and 2</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_4~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              ALLOCATABLE, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>data_3</strong></td>
+            <td>
+                <p>arrays 1 and 2</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_4~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>data_4</strong></td><td><p>arrays 1 and 2</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-i_selected~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              ALLOCATABLE, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>data_4</strong></td>
+            <td>
+                <p>arrays 1 and 2</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i_selected~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>i_selected</strong></td><td><p>array numbers to retrieve (if not present, all arrays are returned)</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>i_selected</strong></td>
+            <td>
+                <p>array numbers to retrieve (if not present, all arrays are returned)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/get_arrays.html#src">get_arrays</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/get_arrays.html#src">get_arrays</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

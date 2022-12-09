@@ -74,116 +74,222 @@
   <div class="row">
     <h1>dbcsr_work_create
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">45 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_work_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_work_operations.f.html'>dbcsr_work_operations.F</a></li>
-     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-     <li class="active">dbcsr_work_create</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">45 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_work_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_work_operations.f.html'>dbcsr_work_operations.F</a></li>
+              <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+          <li class="active">dbcsr_work_create</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_work_create.html#src">dbcsr_work_create</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_work_create.html#src">dbcsr_work_create</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work_mutable, memory_type)</h2>
+    <h2>public  subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work_mutable, memory_type)  
+</h2>
     
 
     <p>Creates a the working matrix(es) for a DBCSR matrix.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-matrix~265"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~102"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td><p>new matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblks_guess~3"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+                <p>new matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblks_guess~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nblks_guess</strong></td><td><p>estimated number of blocks
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblks_guess</strong></td>
+            <td>
+                <p>estimated number of blocks
 estimated size of data
-number work matrices to create, default is 1</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sizedata_guess~3"></span>integer,</td>
+number work matrices to create, default is 1</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizedata_guess~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>sizedata_guess</strong></td><td><p>estimated number of blocks
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sizedata_guess</strong></td>
+            <td>
+                <p>estimated number of blocks
 estimated size of data
-number work matrices to create, default is 1</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-n~46"></span>integer,</td>
+number work matrices to create, default is 1</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~31"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td><p>estimated number of blocks
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                <p>estimated number of blocks
 estimated size of data
-number work matrices to create, default is 1</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-work_mutable~3"></span>logical,</td>
+number work matrices to create, default is 1</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-work_mutable~2"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>work_mutable</strong></td><td><p>use mutable work type, default is what was specified in create</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-memory_type~13"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>work_mutable</strong></td>
+            <td>
+                <p>use mutable work type, default is what was specified in create</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-memory_type~13"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>memory_type</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>memory_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_work_create.html#src">dbcsr_work_create</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_work_create.html#src">dbcsr_work_create</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

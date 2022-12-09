@@ -74,93 +74,184 @@
   <div class="row">
     <h1>get_opt_nsplit
       <small>Function</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">55 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_split.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tas_split.f.html'>dbcsr_tas_split.F</a></li>
-     <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
-     <li class="active">get_opt_nsplit</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">55 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tas_split.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tas_split.f.html'>dbcsr_tas_split.F</a></li>
+              <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
+          <li class="active">get_opt_nsplit</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private function get_opt_nsplit(numproc, nsplit, split_pgrid, pdim_nonsplit)</h2>
+    <h2>private  function get_opt_nsplit(numproc, nsplit, split_pgrid, pdim_nonsplit)  
+</h2>
     
 
     <p>Heuristic to get good split factor for a given process grid OR a given number of processes
 \return split factor consistent with process grid or number of processes</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-numproc~2"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numproc"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>numproc</strong></td><td><p>total number of processes or (if split_pgrid) process grid dimension to split
-Desired split factor</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nsplit~7"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>numproc</strong></td>
+            <td>
+                <p>total number of processes or (if split_pgrid) process grid dimension to split
+Desired split factor</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nsplit"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nsplit</strong></td><td><p>total number of processes or (if split_pgrid) process grid dimension to split
-Desired split factor</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-split_pgrid"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nsplit</strong></td>
+            <td>
+                <p>total number of processes or (if split_pgrid) process grid dimension to split
+Desired split factor</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-split_pgrid"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>split_pgrid</strong></td><td><p>whether to split process grid</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pdim_nonsplit"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>split_pgrid</strong></td>
+            <td>
+                <p>whether to split process grid</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pdim_nonsplit"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>pdim_nonsplit</strong></td><td><p>if split_pgrid: other process grid dimension</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pdim_nonsplit</strong></td>
+            <td>
+                <p>if split_pgrid: other process grid dimension</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-get_opt_nsplit"></span>integer</small></h3>
-    
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-get_opt_nsplit"></span>
+          integer
+        </small>
+      </h3>
+      
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

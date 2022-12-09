@@ -74,52 +74,78 @@
   <div class="row">
     <h1>map_most_common
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">37 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_dist_util.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_dist_util.f.html'>dbcsr_dist_util.F</a></li>
-     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-     <li class="active">map_most_common</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">37 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_dist_util.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_dist_util.f.html'>dbcsr_dist_util.F</a></li>
+              <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+          <li class="active">map_most_common</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/map_most_common.html#src">map_most_common</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/map_most_common.html#src">map_most_common</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine map_most_common(array, most_common_map, nmost_common, most_common_elements, size_limit, max_val)</h2>
+    <h2>public  subroutine map_most_common(array, most_common_map, nmost_common, most_common_elements, size_limit, max_val)  
+</h2>
     
 
     <p>Makes a lookup table from the most common elements.</p>
@@ -128,59 +154,139 @@ The lookup table is indexed by the most common array values
 (i.e., block sizes).  Its values are the order of their frequency.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-array~62"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>array</strong></td><td><p>Array for which to find the most common elements.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-most_common_map"></span>integer(kind=int_4),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+                <p>Array for which to find the most common elements.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-most_common_map"></span>
+              integer(kind=int_4),
+            </td>
 <td></td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>most_common_map</strong></td><td><p>Ranking of the most common elements in array</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nmost_common"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>most_common_map</strong></td>
+            <td>
+                <p>Ranking of the most common elements in array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nmost_common"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nmost_common</strong></td><td><p>The number of most common elements</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-most_common_elements"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nmost_common</strong></td>
+            <td>
+                <p>The number of most common elements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-most_common_elements"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>most_common_elements</strong></td><td><p>The most common elements in array</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-size_limit"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>most_common_elements</strong></td>
+            <td>
+                <p>The most common elements in array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-size_limit"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>size_limit</strong></td><td><p>Limit maximum size to this value</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_val"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>size_limit</strong></td>
+            <td>
+                <p>Limit maximum size to this value</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_val"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>max_val</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_val</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/map_most_common.html#src">map_most_common</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/map_most_common.html#src">map_most_common</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -74,221 +74,505 @@
   <div class="row">
     <h1>dbcsr_t_contract_expert
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.7% of total for procedures.">437 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tensor.f.html'>dbcsr_tensor.F</a></li>
-     <li><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
-     <li class="active">dbcsr_t_contract_expert</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.7% of total for procedures.">437 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tensor.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tensor.f.html'>dbcsr_tensor.F</a></li>
+              <li><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
+          <li class="active">dbcsr_t_contract_expert</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, nblks_local, result_index, unit_nr, log_verbose)</h2>
+    <h2>private  subroutine dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, nblks_local, result_index, unit_nr, log_verbose)  
+</h2>
     
 
     <p>expert routine for tensor contraction. For internal use only.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-alpha~39"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~44"></span>
+              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>alpha</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tensor_1~2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor_1~2"></span>
+              type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>tensor_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tensor_2~2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>tensor_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor_2~2"></span>
+              type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>tensor_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-beta~15"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>tensor_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~12"></span>
+              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>beta</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tensor_3~2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor_3~2"></span>
+              type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>tensor_3</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-contract_1~2"></span>integer,</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>tensor_3</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-contract_1~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>contract_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-notcontract_1~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>contract_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-notcontract_1~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>notcontract_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-contract_2~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>notcontract_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-contract_2~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>contract_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-notcontract_2~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>contract_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-notcontract_2~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>notcontract_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map_1~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>notcontract_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-map_1~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>map_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map_2~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>map_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-map_2~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>map_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-bounds_1~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>map_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bounds_1~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(2, SIZE(contract_1))</td><td>::</td>
-  <td><strong>bounds_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-bounds_2~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2, SIZE(contract_1))
+            </td>
+            <td>::</td>
+            <td><strong>bounds_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bounds_2~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(2, SIZE(notcontract_1))</td><td>::</td>
-  <td><strong>bounds_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-bounds_3~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2, SIZE(notcontract_1))
+            </td>
+            <td>::</td>
+            <td><strong>bounds_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bounds_3~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(2, SIZE(notcontract_2))</td><td>::</td>
-  <td><strong>bounds_3</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-optimize_dist~2"></span>logical,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2, SIZE(notcontract_2))
+            </td>
+            <td>::</td>
+            <td><strong>bounds_3</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-optimize_dist~5"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>optimize_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pgrid_opt_1~2"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>optimize_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pgrid_opt_1~2"></span>
+              type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>POINTER</td><td>::</td>
-  <td><strong>pgrid_opt_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pgrid_opt_2~2"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+              <td>optional,</td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>pgrid_opt_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pgrid_opt_2~2"></span>
+              type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>POINTER</td><td>::</td>
-  <td><strong>pgrid_opt_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pgrid_opt_3~2"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+              <td>optional,</td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>pgrid_opt_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pgrid_opt_3~2"></span>
+              type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>POINTER</td><td>::</td>
-  <td><strong>pgrid_opt_3</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-filter_eps~17"></span>real(kind=real_8),</td>
+              <td>optional,</td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>pgrid_opt_3</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-filter_eps~11"></span>
+              real(kind=real_8),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>filter_eps</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-flop~29"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>filter_eps</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-flop~22"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>flop</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-move_data~6"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>flop</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-move_data~13"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>move_data</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-retain_sparsity~15"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>move_data</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-retain_sparsity~13"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>retain_sparsity</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nblks_local~2"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>retain_sparsity</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblks_local~2"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nblks_local</strong></td><td><p>number of local blocks on this MPI rank</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-result_index"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblks_local</strong></td>
+            <td>
+                <p>number of local blocks on this MPI rank</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result_index"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3))</td><td>::</td>
-  <td><strong>result_index</strong></td><td><p>get indices of non-zero tensor blocks for tensor_3 without actually performing contraction
-this is an estimate based on block norm multiplication</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-unit_nr~13"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3))
+            </td>
+            <td>::</td>
+            <td><strong>result_index</strong></td>
+            <td>
+                <p>get indices of non-zero tensor blocks for tensor_3 without actually performing contraction
+this is an estimate based on block norm multiplication</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-unit_nr~31"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>unit_nr</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-log_verbose~2"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>unit_nr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-log_verbose~4"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>log_verbose</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>log_verbose</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -73,75 +73,104 @@
     <div class="container">
   <div class="row">
     <h1>dbcsr_mm_csr_type
-    <small>Derived Type</small>
+      <small>Derived Type</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title="<p> 1.6% of total for derived types.</p>Including implementation: 17 statements,  1.3% of total for derived types.">17 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_csr.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mm_csr.f.html'>dbcsr_mm_csr.F</a></li>
-     <li><a href='../module/dbcsr_mm_csr.html'>dbcsr_mm_csr</a></li>
-     <li class="active">dbcsr_mm_csr_type</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title="<p> 1.6% of total for derived types.</p>Including implementation: 17 statements,  1.3% of total for derived types.">17 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mm_csr.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mm_csr.f.html'>dbcsr_mm_csr.F</a></li>
+              <li><a href='../module/dbcsr_mm_csr.html'>dbcsr_mm_csr</a></li>
+          <li class="active">dbcsr_mm_csr_type</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-c_hashes">c_hashes</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nm_stacks">nm_stacks</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nn_stacks">nn_stacks</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nk_stacks">nk_stacks</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps">m_size_maps</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps">n_size_maps</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps">k_size_maps</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_m">max_m</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_n">max_n</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_k">max_k</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps_size">m_size_maps_size</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps_size">n_size_maps_size</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps_size">k_size_maps_size</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stack_map">stack_map</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_descr">stacks_descr</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-product_wm">product_wm</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_data">stacks_data</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_fillcount">stacks_fillcount</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-sched">sched</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-keep_product_data~2">keep_product_data</a>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-0">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-c_hashes">c_hashes</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nm_stacks~2">nm_stacks</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nn_stacks~2">nn_stacks</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nk_stacks~2">nk_stacks</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps">m_size_maps</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps">n_size_maps</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps">k_size_maps</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_m">max_m</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_n">max_n</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_k">max_k</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps_size">m_size_maps_size</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps_size">n_size_maps_size</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps_size">k_size_maps_size</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stack_map">stack_map</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_descr">stacks_descr</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-product_wm~2">product_wm</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_data">stacks_data</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_fillcount">stacks_fillcount</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-sched">sched</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-keep_product_data~4">keep_product_data</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#src">dbcsr_mm_csr_type</a>
-  </div>
-</div>
 
-</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#src">dbcsr_mm_csr_type</a>
+      </div>
+    </div>
+
+
+  </div>
 
     </div>
     
@@ -151,159 +180,429 @@
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-c_hashes">c_hashes</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nm_stacks">nm_stacks</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nn_stacks">nn_stacks</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nk_stacks">nk_stacks</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps">m_size_maps</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps">n_size_maps</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps">k_size_maps</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_m">max_m</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_n">max_n</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_k">max_k</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps_size">m_size_maps_size</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps_size">n_size_maps_size</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps_size">k_size_maps_size</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stack_map">stack_map</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_descr">stacks_descr</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-product_wm">product_wm</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_data">stacks_data</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_fillcount">stacks_fillcount</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-sched">sched</a>
-      <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-keep_product_data~2">keep_product_data</a>
+        <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-1">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-c_hashes">c_hashes</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nm_stacks~2">nm_stacks</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nn_stacks~2">nn_stacks</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-nk_stacks~2">nk_stacks</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps">m_size_maps</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps">n_size_maps</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps">k_size_maps</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_m">max_m</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_n">max_n</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_k">max_k</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps_size">m_size_maps_size</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps_size">n_size_maps_size</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps_size">k_size_maps_size</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stack_map">stack_map</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_descr">stacks_descr</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-product_wm~2">product_wm</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_data">stacks_data</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_fillcount">stacks_fillcount</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-sched">sched</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-keep_product_data~4">keep_product_data</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#src">dbcsr_mm_csr_type</a>
-  </div>
-</div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#src">dbcsr_mm_csr_type</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
     <section>
     <h2>Components</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-c_hashes"></span>type(<a href='../type/hash_table_type.html'>hash_table_type</a>),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>c_hashes</strong></td><td>=> </td><td>Null()</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nm_stacks"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nm_stacks</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nn_stacks"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nn_stacks</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nk_stacks"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nk_stacks</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-m_size_maps"></span>integer(kind=int_4),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>m_size_maps</strong></td><td>=> </td><td>Null()</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-n_size_maps"></span>integer(kind=int_4),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>n_size_maps</strong></td><td>=> </td><td>Null()</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-k_size_maps"></span>integer(kind=int_4),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>k_size_maps</strong></td><td>=> </td><td>Null()</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_m"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>max_m</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_n"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>max_n</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-max_k"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>max_k</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-m_size_maps_size"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>m_size_maps_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-n_size_maps_size"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>n_size_maps_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-k_size_maps_size"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>k_size_maps_size</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stack_map"></span>integer(kind=int_1),</td>
-<td>private,</td>  <td>DIMENSION(:, :, :), POINTER</td><td>::</td>
-  <td><strong>stack_map</strong></td><td>=> </td><td>Null()</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stacks_descr"></span>type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>stacks_descr</strong></td><td>=> </td><td>Null()</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-product_wm"></span>type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),</td>
-<td>private,</td>  <td>POINTER</td><td>::</td>
-  <td><strong>product_wm</strong></td><td>=> </td><td>Null()</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stacks_data"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:, :, :), POINTER</td><td>::</td>
-  <td><strong>stacks_data</strong></td><td>=> </td><td>Null()</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stacks_fillcount"></span>integer,</td>
-<td>private,</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>stacks_fillcount</strong></td><td>=> </td><td>Null()</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sched"></span>type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>sched</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-keep_product_data~2"></span>logical,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>keep_product_data</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Visibility</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+<th></th><th>Initial</th>        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_hashes"></span>
+              type(<a href='../type/hash_table_type.html'>hash_table_type</a>),
+            </td>
+              <td>private,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>c_hashes</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nm_stacks~2"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nm_stacks</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nn_stacks~2"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nn_stacks</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nk_stacks~2"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nk_stacks</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m_size_maps"></span>
+              integer(kind=int_4),
+            </td>
+              <td>private,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>m_size_maps</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_size_maps"></span>
+              integer(kind=int_4),
+            </td>
+              <td>private,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>n_size_maps</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k_size_maps"></span>
+              integer(kind=int_4),
+            </td>
+              <td>private,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>k_size_maps</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_m"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_m</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_n"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_n</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_k"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_k</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m_size_maps_size"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m_size_maps_size</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_size_maps_size"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_size_maps_size</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k_size_maps_size"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k_size_maps_size</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stack_map"></span>
+              integer(kind=int_1),
+            </td>
+              <td>private,</td>
+            <td>
+              DIMENSION(:, :, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>stack_map</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stacks_descr"></span>
+              type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
+            </td>
+              <td>private,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>stacks_descr</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-product_wm~2"></span>
+              type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
+            </td>
+              <td>private,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>product_wm</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stacks_data"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+              DIMENSION(:, :, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>stacks_data</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stacks_fillcount"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>stacks_fillcount</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sched"></span>
+              type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sched</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-keep_product_data~4"></span>
+              logical,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>keep_product_data</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     </section>
     <br>
     
-    
-    
-    
+
+
+
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_mm_csr_type</span><span class="w"></span>

@@ -74,47 +74,72 @@
   <div class="row">
     <h1>dbcsr_t_pgrid_create_expert
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">32 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_types.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tensor_types.f.html'>dbcsr_tensor_types.F</a></li>
-     <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
-     <li class="active">dbcsr_t_pgrid_create_expert</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">32 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tensor_types.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tensor_types.f.html'>dbcsr_tensor_types.F</a></li>
+              <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+          <li class="active">dbcsr_t_pgrid_create_expert</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_t_pgrid_create_expert(mp_comm, dims, pgrid, map1_2d, map2_2d, tensor_dims, nsplit, dimsplit)</h2>
+    <h2>public  subroutine dbcsr_t_pgrid_create_expert(mp_comm, dims, pgrid, map1_2d, map2_2d, tensor_dims, nsplit, dimsplit)  
+</h2>
     
 
     <p>Create an n-dimensional process grid.
@@ -130,72 +155,169 @@ coordinates to processes depends on the ordering of the indices and is not equiv
 cartesian grid.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-mp_comm~12"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_comm~5"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>mp_comm</strong></td><td><p>simple MPI Communicator</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dims~16"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_comm</strong></td>
+            <td>
+                <p>simple MPI Communicator</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dims~2"></span>
+              integer,
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>dims</strong></td><td><p>grid dimensions - if entries are 0, dimensions are chosen automatically.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pgrid~13"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>dims</strong></td>
+            <td>
+                <p>grid dimensions - if entries are 0, dimensions are chosen automatically.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pgrid~5"></span>
+              type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pgrid</strong></td><td><p>n-dimensional grid object</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map1_2d~9"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pgrid</strong></td>
+            <td>
+                <p>n-dimensional grid object</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-map1_2d~4"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>map1_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
-which nd-indices map to first matrix index and in which order</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map2_2d~9"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>map1_2d</strong></td>
+            <td>
+                <p>which nd-indices map to first matrix index and in which order
+which nd-indices map to first matrix index and in which order</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-map2_2d~4"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>map2_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
-which nd-indices map to first matrix index and in which order</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tensor_dims~3"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>map2_2d</strong></td>
+            <td>
+                <p>which nd-indices map to first matrix index and in which order
+which nd-indices map to first matrix index and in which order</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor_dims~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>tensor_dims</strong></td><td><p>tensor block dimensions. If present, process grid dimensions are created such that good
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>tensor_dims</strong></td>
+            <td>
+                <p>tensor block dimensions. If present, process grid dimensions are created such that good
 load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
-or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nsplit~3"></span>integer,</td>
+or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nsplit~6"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nsplit</strong></td><td><p>impose a constant split factor
-which matrix dimension to split</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dimsplit~3"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nsplit</strong></td>
+            <td>
+                <p>impose a constant split factor
+which matrix dimension to split</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dimsplit"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>dimsplit</strong></td><td><p>impose a constant split factor
-which matrix dimension to split</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dimsplit</strong></td>
+            <td>
+                <p>impose a constant split factor
+which matrix dimension to split</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

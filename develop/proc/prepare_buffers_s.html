@@ -74,344 +74,801 @@
   <div class="row">
     <h1>prepare_buffers_s
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">73 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_cannon.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mm_cannon.f.html'>dbcsr_mm_cannon.F</a></li>
-     <li><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></li>
-     <li class="active">prepare_buffers_s</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">73 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mm_cannon.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mm_cannon.f.html'>dbcsr_mm_cannon.F</a></li>
+              <li><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></li>
+          <li class="active">prepare_buffers_s</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/prepare_buffers_s.html#src">prepare_buffers_s</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/prepare_buffers_s.html#src">prepare_buffers_s</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine prepare_buffers_s(negate_real, negate_imaginary, iter, row, col, blk, blk_p, bp, row_size, col_size, nze, nsymmetries, symmetry_i, stored_row, stored_col, tr_row_size, tr_col_size, tr, row_img, col_img, nrow_images, ncol_images, row_img_dist, col_img_dist, predist_type_fwd, blacs2mpi, target_imgdist, prow, pcol, rowi, coli, row_dist, col_dist, dst_p, sm_pos, myt_smp, metalen, sd_pos, myt_sdp, send_meta, sd_disp, data_area, send_data_area, scale_neg_one, scale_value)</h2>
+    <h2>private  subroutine prepare_buffers_s(negate_real, negate_imaginary, iter, row, col, blk, blk_p, bp, row_size, col_size, nze, nsymmetries, symmetry_i, stored_row, stored_col, tr_row_size, tr_col_size, tr, row_img, col_img, nrow_images, ncol_images, row_img_dist, col_img_dist, predist_type_fwd, blacs2mpi, target_imgdist, prow, pcol, rowi, coli, row_dist, col_dist, dst_p, sm_pos, myt_smp, metalen, sd_pos, myt_sdp, send_meta, sd_disp, data_area, send_data_area, scale_neg_one, scale_value)  
+</h2>
     
 
     <p>Prepare buffers for multiplications</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-negate_real~3"></span>logical,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-negate_real~3"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>negate_real</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-negate_imaginary~3"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>negate_real</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-negate_imaginary~3"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>negate_imaginary</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iter~8"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>negate_imaginary</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iter~11"></span>
+              type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>iter</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row~53"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iter</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~121"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>row</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col~33"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col~71"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>col</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk~8"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk~12"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>blk</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_p~9"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>blk</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_p~19"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>blk_p</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-bp~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>blk_p</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bp~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>bp</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_size~36"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bp</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_size~74"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>row_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_size~35"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_size~72"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>col_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze~11"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze~13"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nze</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nsymmetries~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nze</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nsymmetries~2"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nsymmetries</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-symmetry_i~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nsymmetries</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-symmetry_i~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>symmetry_i</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stored_row~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>symmetry_i</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stored_row~3"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>stored_row</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stored_col~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stored_row</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stored_col~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>stored_col</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr_row_size~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stored_col</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tr_row_size~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>tr_row_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr_col_size~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tr_row_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tr_col_size~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>tr_col_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tr~24"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tr_col_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tr~35"></span>
+              logical,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>tr</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_img~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_img~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>row_img</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_img~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_img</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_img~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>col_img</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nrow_images~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_img</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nrow_images~2"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nrow_images</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ncol_images~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nrow_images</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ncol_images~2"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>ncol_images</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_img_dist~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncol_images</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_img_dist~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
-  <td><strong>row_img_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_img_dist~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_img_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_img_dist~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
-  <td><strong>col_img_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-predist_type_fwd~2"></span>character,</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_img_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-predist_type_fwd~2"></span>
+              character,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>predist_type_fwd</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blacs2mpi~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>predist_type_fwd</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blacs2mpi~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:, :), CONTIGUOUS, POINTER</td><td>::</td>
-  <td><strong>blacs2mpi</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-target_imgdist~3"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+              <td></td>            <td>
+              DIMENSION(:, :), CONTIGUOUS, POINTER
+            </td>
+            <td>::</td>
+            <td><strong>blacs2mpi</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-target_imgdist~3"></span>
+              type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>target_imgdist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-prow~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>target_imgdist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-prow~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>prow</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pcol~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prow</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pcol~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pcol</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rowi~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pcol</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rowi~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>rowi</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-coli~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rowi</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coli~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>coli</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_dist~5"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>coli</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_dist~10"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
-  <td><strong>row_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_dist~5"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_dist~10"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
-  <td><strong>col_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dst_p~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst_p~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dst_p</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sm_pos~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dst_p</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sm_pos~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>sm_pos</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-myt_smp~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sm_pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-myt_smp~2"></span>
+              integer,
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>myt_smp</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-metalen~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>myt_smp</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-metalen~2"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>metalen</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sd_pos~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>metalen</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sd_pos~2"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>sd_pos</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-myt_sdp~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sd_pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-myt_sdp~2"></span>
+              integer,
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>myt_sdp</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-send_meta~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>myt_sdp</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-send_meta~2"></span>
+              integer,
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>send_meta</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sd_disp~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>send_meta</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sd_disp~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>sd_disp</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-data_area~9"></span>real(kind=real_4),</td>
+              <td></td>            <td>
+              DIMENSION(:), ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>sd_disp</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_area~12"></span>
+              real(kind=real_4),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
-  <td><strong>data_area</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-send_data_area~2"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>data_area</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-send_data_area~2"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>send_data_area</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-scale_neg_one~2"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>send_data_area</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale_neg_one~2"></span>
+              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>scale_neg_one</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-scale_value~4"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale_neg_one</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale_value~4"></span>
+              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>scale_value</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale_value</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/prepare_buffers_s.html#src">prepare_buffers_s</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/prepare_buffers_s.html#src">prepare_buffers_s</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

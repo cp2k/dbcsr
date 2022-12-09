@@ -74,118 +74,249 @@
   <div class="row">
     <h1>dbcsr_t_distribution_new_expert
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">69 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_types.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tensor_types.f.html'>dbcsr_tensor_types.F</a></li>
-     <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
-     <li class="active">dbcsr_t_distribution_new_expert</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">69 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tensor_types.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tensor_types.f.html'>dbcsr_tensor_types.F</a></li>
+              <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+          <li class="active">dbcsr_t_distribution_new_expert</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_t_distribution_new_expert(dist, pgrid, map1_2d, map2_2d, nd_dist_1, nd_dist_2, nd_dist_3, nd_dist_4, own_comm)</h2>
+    <h2>public  subroutine dbcsr_t_distribution_new_expert(dist, pgrid, map1_2d, map2_2d, nd_dist_1, nd_dist_2, nd_dist_3, nd_dist_4, own_comm)  
+</h2>
     
 
     <p>Create a tensor distribution.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-dist~27"></span>type(<a href='../type/dbcsr_t_distribution_type.html'>dbcsr_t_distribution_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist~66"></span>
+              type(<a href='../type/dbcsr_t_distribution_type.html'>dbcsr_t_distribution_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-pgrid~11"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pgrid~4"></span>
+              type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pgrid</strong></td><td><p>process grid</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map1_2d~6"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pgrid</strong></td>
+            <td>
+                <p>process grid</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-map1_2d~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>map1_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map2_2d~6"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>map1_2d</strong></td>
+            <td>
+                <p>which nd-indices map to first matrix index and in which order</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-map2_2d~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>map2_2d</strong></td><td><p>which nd-indices map to second matrix index and in which order</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nd_dist_1~2"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>map2_2d</strong></td>
+            <td>
+                <p>which nd-indices map to second matrix index and in which order</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nd_dist_1~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nd_dist_2~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>nd_dist_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nd_dist_2~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nd_dist_3~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>nd_dist_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nd_dist_3~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_3</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nd_dist_4~2"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>nd_dist_3</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nd_dist_4~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_4</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-own_comm"></span>logical,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>nd_dist_4</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-own_comm~3"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>own_comm</strong></td><td><p>whether distribution should own communicator</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>own_comm</strong></td>
+            <td>
+                <p>whether distribution should own communicator</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

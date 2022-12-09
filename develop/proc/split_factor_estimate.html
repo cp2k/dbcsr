@@ -74,47 +74,72 @@
   <div class="row">
     <h1>split_factor_estimate
       <small>Function</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">24 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_mm.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tas_mm.f.html'>dbcsr_tas_mm.F</a></li>
-     <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
-     <li class="active">split_factor_estimate</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">24 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tas_mm.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tas_mm.f.html'>dbcsr_tas_mm.F</a></li>
+              <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
+          <li class="active">split_factor_estimate</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private function split_factor_estimate(max_mm_dim, nze_a, nze_b, nze_c, numnodes) result(nsplit)</h2>
+    <h2>private  function split_factor_estimate(max_mm_dim, nze_a, nze_b, nze_c, numnodes) result(nsplit)  
+</h2>
     
 
     <p>Estimate optimal split factor for AxB=C from occupancies (number of non-zero elements)
@@ -124,56 +149,131 @@ considered.
 \result estimated split factor</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-max_mm_dim"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_mm_dim"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>max_mm_dim</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze_a"></span>integer(kind=int_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_mm_dim</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze_a"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nze_a</strong></td><td><p>number of non-zeroes in A
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nze_a</strong></td>
+            <td>
+                <p>number of non-zeroes in A
 number of non-zeroes in B
-number of non-zeroes in C</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze_b"></span>integer(kind=int_8),</td>
+number of non-zeroes in C</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze_b"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nze_b</strong></td><td><p>number of non-zeroes in A
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nze_b</strong></td>
+            <td>
+                <p>number of non-zeroes in A
 number of non-zeroes in B
-number of non-zeroes in C</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze_c"></span>integer(kind=int_8),</td>
+number of non-zeroes in C</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze_c"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nze_c</strong></td><td><p>number of non-zeroes in A
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nze_c</strong></td>
+            <td>
+                <p>number of non-zeroes in A
 number of non-zeroes in B
-number of non-zeroes in C</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numnodes~9"></span>integer,</td>
+number of non-zeroes in C</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numnodes"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>numnodes</strong></td><td><p>number of MPI ranks</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>numnodes</strong></td>
+            <td>
+                <p>number of MPI ranks</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-nsplit~10"></span>integer</small></h3>
-    
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-nsplit~9"></span>
+          integer
+        </small>
+      </h3>
+      
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

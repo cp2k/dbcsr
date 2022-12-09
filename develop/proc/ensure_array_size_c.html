@@ -74,124 +74,248 @@
   <div class="row">
     <h1>ensure_array_size_c
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">94 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_ptr_util.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_ptr_util.f.html'>dbcsr_ptr_util.F</a></li>
-     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
-     <li class="active">ensure_array_size_c</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.2% of total for procedures.">94 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_ptr_util.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_ptr_util.f.html'>dbcsr_ptr_util.F</a></li>
+              <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+          <li class="active">ensure_array_size_c</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/ensure_array_size_c.html#src">ensure_array_size_c</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/ensure_array_size_c.html#src">ensure_array_size_c</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine ensure_array_size_c(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)</h2>
+    <h2>private  subroutine ensure_array_size_c(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+</h2>
     
 
     <p>Ensures that an array is appropriately large.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-array~4"></span>complex(kind=real_4),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~40"></span>
+              complex(kind=real_4),
+            </td>
 <td></td>
-  <td></td>  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
-  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-array_resize~4"></span>complex(kind=real_4),</td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+                <p>array to verify and possibly resize</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array_resize~4"></span>
+              complex(kind=real_4),
+            </td>
 <td></td>
-  <td>optional</td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>array_resize</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lb~18"></span>integer,</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>array_resize</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~21"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ub~18"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+                <p>desired array lower bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~11"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-factor~4"></span>real(kind=dp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+                <p>desired array upper bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factor~4"></span>
+              real(kind=dp),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nocopy~4"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+                <p>factor by which to exaggerate enlargements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nocopy~5"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-memory_type~5"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nocopy</strong></td>
+            <td>
+                <p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-memory_type~6"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-zero_pad~4"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>memory_type</strong></td>
+            <td>
+                <p>use special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-zero_pad~5"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zero_pad</strong></td>
+            <td>
+                <p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/ensure_array_size_c.html#src">ensure_array_size_c</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/ensure_array_size_c.html#src">ensure_array_size_c</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

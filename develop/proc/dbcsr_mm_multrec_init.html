@@ -74,154 +74,323 @@
   <div class="row">
     <h1>dbcsr_mm_multrec_init
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">88 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_multrec.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mm_multrec.f.html'>dbcsr_mm_multrec.F</a></li>
-     <li><a href='../module/dbcsr_mm_multrec.html'>dbcsr_mm_multrec</a></li>
-     <li class="active">dbcsr_mm_multrec_init</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">88 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mm_multrec.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mm_multrec.f.html'>dbcsr_mm_multrec.F</a></li>
+              <li><a href='../module/dbcsr_mm_multrec.html'>dbcsr_mm_multrec</a></li>
+          <li class="active">dbcsr_mm_multrec_init</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_mm_multrec_init.html#src">dbcsr_mm_multrec_init</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_mm_multrec_init.html#src">dbcsr_mm_multrec_init</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsity, eps, row_max_epss, block_estimate, right_row_blk_size, m_sizes, n_sizes, nlayers, keep_product_data)</h2>
+    <h2>public  subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsity, eps, row_max_epss, block_estimate, right_row_blk_size, m_sizes, n_sizes, nlayers, keep_product_data)  
+</h2>
     
 
     <p>Sets up recursive multiplication</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-this~20"></span>type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~54"></span>
+              type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>this</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-left~9"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~2"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>left</strong></td><td><p>left DBCSR matrix
-right DBCSR matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-right~9"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>left DBCSR matrix
+right DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~2"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>right</strong></td><td><p>left DBCSR matrix
-right DBCSR matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-product~2"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>left DBCSR matrix
+right DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-product"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>product</strong></td><td><p>resulting DBCSR product matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-keep_sparsity~11"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>product</strong></td>
+            <td>
+                <p>resulting DBCSR product matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-keep_sparsity~3"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>keep_sparsity</strong></td><td><p>retain the sparsity of the existing product matrix, default is no</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-eps~12"></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>keep_sparsity</strong></td>
+            <td>
+                <p>retain the sparsity of the existing product matrix, default is no</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eps~3"></span>
+              real(kind=real_8),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>eps</strong></td><td><p>on-the-fly filtering epsilon</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_max_epss~4"></span>real(kind=sp),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eps</strong></td>
+            <td>
+                <p>on-the-fly filtering epsilon</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_max_epss~4"></span>
+              real(kind=sp),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), TARGET</td><td>::</td>
-  <td><strong>row_max_epss</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-block_estimate~3"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), TARGET
+            </td>
+            <td>::</td>
+            <td><strong>row_max_epss</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block_estimate~3"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>block_estimate</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-right_row_blk_size~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>block_estimate</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right_row_blk_size~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>right_row_blk_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-m_sizes~6"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>right_row_blk_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m_sizes~6"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>m_sizes</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-n_sizes~6"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>m_sizes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_sizes~6"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>n_sizes</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nlayers~4"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>n_sizes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nlayers~4"></span>
+              integer,
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nlayers</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-keep_product_data~8"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nlayers</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-keep_product_data"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>keep_product_data</strong></td><td><p>Perform final reduction on C data, default is yes</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>keep_product_data</strong></td>
+            <td>
+                <p>Perform final reduction on C data, default is yes</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_mm_multrec_init.html#src">dbcsr_mm_multrec_init</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_mm_multrec_init.html#src">dbcsr_mm_multrec_init</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

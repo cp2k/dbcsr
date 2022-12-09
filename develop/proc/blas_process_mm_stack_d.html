@@ -74,106 +74,203 @@
   <div class="row">
     <h1>blas_process_mm_stack_d
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">10 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_hostdrv.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mm_hostdrv.f.html'>dbcsr_mm_hostdrv.F</a></li>
-     <li><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></li>
-     <li class="active">blas_process_mm_stack_d</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">10 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mm_hostdrv.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mm_hostdrv.f.html'>dbcsr_mm_hostdrv.F</a></li>
+              <li><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></li>
+          <li class="active">blas_process_mm_stack_d</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/blas_process_mm_stack_d.html#src">blas_process_mm_stack_d</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/blas_process_mm_stack_d.html#src">blas_process_mm_stack_d</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine blas_process_mm_stack_d(params, stack_size, a_data, b_data, c_data)</h2>
+    <h2>private  subroutine blas_process_mm_stack_d(params, stack_size, a_data, b_data, c_data)  
+</h2>
     
 
     <p>Processes MM stack and issues BLAS xGEMM calls</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-params~3"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-params~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(dbcsr_ps_width, 1:stack_size)</td><td>::</td>
-  <td><strong>params</strong></td><td><p>Stack of MM parameters</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stack_size~3"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(dbcsr_ps_width, 1:stack_size)
+            </td>
+            <td>::</td>
+            <td><strong>params</strong></td>
+            <td>
+                <p>Stack of MM parameters</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stack_size"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>stack_size</strong></td><td><p>Number of parameters</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a_data~2"></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stack_size</strong></td>
+            <td>
+                <p>Number of parameters</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a_data"></span>
+              real(kind=real_8),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(*)</td><td>::</td>
-  <td><strong>a_data</strong></td><td><p>Left-matrix data
-Right-matrix data</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b_data~2"></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              DIMENSION(*)
+            </td>
+            <td>::</td>
+            <td><strong>a_data</strong></td>
+            <td>
+                <p>Left-matrix data
+Right-matrix data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b_data"></span>
+              real(kind=real_8),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(*)</td><td>::</td>
-  <td><strong>b_data</strong></td><td><p>Left-matrix data
-Right-matrix data</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_data~6"></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              DIMENSION(*)
+            </td>
+            <td>::</td>
+            <td><strong>b_data</strong></td>
+            <td>
+                <p>Left-matrix data
+Right-matrix data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_data"></span>
+              real(kind=real_8),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>DIMENSION(*)</td><td>::</td>
-  <td><strong>c_data</strong></td><td><p>Product data</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              DIMENSION(*)
+            </td>
+            <td>::</td>
+            <td><strong>c_data</strong></td>
+            <td>
+                <p>Product data</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/blas_process_mm_stack_d.html#src">blas_process_mm_stack_d</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/blas_process_mm_stack_d.html#src">blas_process_mm_stack_d</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

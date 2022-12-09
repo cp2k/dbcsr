@@ -74,110 +74,207 @@
   <div class="row">
     <h1>dbcsr_calc_block_sizes
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">13 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_dist_util.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_dist_util.f.html'>dbcsr_dist_util.F</a></li>
-     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-     <li class="active">dbcsr_calc_block_sizes</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">13 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_dist_util.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_dist_util.f.html'>dbcsr_dist_util.F</a></li>
+              <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+          <li class="active">dbcsr_calc_block_sizes</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_calc_block_sizes.html#src">dbcsr_calc_block_sizes</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_calc_block_sizes.html#src">dbcsr_calc_block_sizes</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_calc_block_sizes(sizes, row_p, col_i, rbs, cbs)</h2>
+    <h2>public  subroutine dbcsr_calc_block_sizes(sizes, row_p, col_i, rbs, cbs)  
+</h2>
     
 
     <p>Calculates explicit sizes for all data blocks.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-sizes~50"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizes~3"></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>DIMENSION(*)</td><td>::</td>
-  <td><strong>sizes</strong></td><td><p>sizes of all data blocks</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-row_p~13"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(*)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+                <p>sizes of all data blocks</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_p~7"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>row_p</strong></td><td><p>index structure</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-col_i~10"></span>integer,</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>row_p</strong></td>
+            <td>
+                <p>index structure</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_i~8"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(*)</td><td>::</td>
-  <td><strong>col_i</strong></td><td><p>index structure
+              <td></td>            <td>
+              DIMENSION(*)
+            </td>
+            <td>::</td>
+            <td><strong>col_i</strong></td>
+            <td>
+                <p>index structure
 row block sizes
-column block sizes</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rbs~11"></span>integer,</td>
+column block sizes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rbs~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(*)</td><td>::</td>
-  <td><strong>rbs</strong></td><td><p>index structure
+              <td></td>            <td>
+              DIMENSION(*)
+            </td>
+            <td>::</td>
+            <td><strong>rbs</strong></td>
+            <td>
+                <p>index structure
 row block sizes
-column block sizes</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cbs~11"></span>integer,</td>
+column block sizes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cbs~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>DIMENSION(*)</td><td>::</td>
-  <td><strong>cbs</strong></td><td><p>index structure
+              <td></td>            <td>
+              DIMENSION(*)
+            </td>
+            <td>::</td>
+            <td><strong>cbs</strong></td>
+            <td>
+                <p>index structure
 row block sizes
-column block sizes</p></td>
-</tr>
-</tbody>
-</table>
+column block sizes</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_calc_block_sizes.html#src">dbcsr_calc_block_sizes</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_calc_block_sizes.html#src">dbcsr_calc_block_sizes</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

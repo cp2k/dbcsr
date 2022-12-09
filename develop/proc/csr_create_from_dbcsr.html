@@ -74,108 +74,205 @@
   <div class="row">
     <h1>csr_create_from_dbcsr
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">70 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_csr_conversions.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_csr_conversions.f.html'>dbcsr_csr_conversions.F</a></li>
-     <li><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></li>
-     <li class="active">csr_create_from_dbcsr</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">70 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_csr_conversions.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_csr_conversions.f.html'>dbcsr_csr_conversions.F</a></li>
+              <li><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></li>
+          <li class="active">csr_create_from_dbcsr</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/csr_create_from_dbcsr.html#src">csr_create_from_dbcsr</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/csr_create_from_dbcsr.html#src">csr_create_from_dbcsr</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_sparsity, numnodes)</h2>
+    <h2>public  subroutine csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_sparsity, numnodes)  
+</h2>
     
 
     <p>create CSR matrix including dbcsr_mapping from arbitrary DBCSR matrix
 in order to prepare conversion.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-dbcsr_mat~6"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_mat~9"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dbcsr_mat</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-csr_mat~11"></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_mat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-csr_mat~13"></span>
+              type(<a href='../type/csr_type.html'>csr_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>csr_mat</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist_format~2"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>csr_mat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist_format"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dist_format</strong></td><td><p>how to distribute CSR rows over processes: csr_dbcsr_blkrow_dist: the number of rows per process is adapted to the row
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist_format</strong></td>
+            <td>
+                <p>how to distribute CSR rows over processes: csr_dbcsr_blkrow_dist: the number of rows per process is adapted to the row
 block sizes in the DBCSR format such that blocks are not split over different processes. csr_eqrow_ceil_dist: each
-process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-csr_sparsity~3"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-csr_sparsity"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>csr_sparsity</strong></td><td><p>DBCSR matrix containing 0 and 1, representing CSR sparsity pattern 1: non-zero element 0: zero element (not present in
-CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_real_8 (integer types not supported)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-numnodes~4"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>csr_sparsity</strong></td>
+            <td>
+                <p>DBCSR matrix containing 0 and 1, representing CSR sparsity pattern 1: non-zero element 0: zero element (not present in
+CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_real_8 (integer types not supported)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numnodes~2"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>numnodes</strong></td><td><p>number of nodes to use for distributing CSR matrix (optional, default is number of nodes used for DBCSR matrix)</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>numnodes</strong></td>
+            <td>
+                <p>number of nodes to use for distributing CSR matrix (optional, default is number of nodes used for DBCSR matrix)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/csr_create_from_dbcsr.html#src">csr_create_from_dbcsr</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/csr_create_from_dbcsr.html#src">csr_create_from_dbcsr</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

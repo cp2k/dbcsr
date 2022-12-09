@@ -74,52 +74,78 @@
   <div class="row">
     <h1>dbcsr_logger_create
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">92 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_log_handling.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_log_handling.f.html'>dbcsr_log_handling.F</a></li>
-     <li><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></li>
-     <li class="active">dbcsr_logger_create</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.2% of total for procedures.">92 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_log_handling.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_log_handling.f.html'>dbcsr_log_handling.F</a></li>
+              <li><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></li>
+          <li class="active">dbcsr_logger_create</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_logger_create.html#src">dbcsr_logger_create</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_logger_create.html#src">dbcsr_logger_create</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_logger_create(logger, mp_env, print_level, default_global_unit_nr, default_local_unit_nr, global_filename, local_filename, close_global_unit_on_dealloc, iter_info, close_local_unit_on_dealloc, suffix, template_logger)</h2>
+    <h2>public  subroutine dbcsr_logger_create(logger, mp_env, print_level, default_global_unit_nr, default_local_unit_nr, global_filename, local_filename, close_global_unit_on_dealloc, iter_info, close_local_unit_on_dealloc, suffix, template_logger)  
+</h2>
     
 
     <p>initializes a logger
@@ -128,106 +154,240 @@ tries to take the right decision with different inputs, and thus is a
 little complex.</p></div>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-logger~6"></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-logger~5"></span>
+              type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),
+            </td>
 <td></td>
-  <td></td>  <td>POINTER</td><td>::</td>
-  <td><strong>logger</strong></td><td><p>the logger to initialize</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mp_env~32"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>logger</strong></td>
+            <td>
+                <p>the logger to initialize</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_env"></span>
+              type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
+            </td>
 <td></td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>mp_env</strong></td><td><p>the parallel environment (this is most likely the global parallel environment</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-print_level~3"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_env</strong></td>
+            <td>
+                <p>the parallel environment (this is most likely the global parallel environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-print_level"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>print_level</strong></td><td><p>the level starting with which something is written (defaults to dbcsr_note_level)
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>print_level</strong></td>
+            <td>
+                <p>the level starting with which something is written (defaults to dbcsr_note_level)
 the default unit_nr for output (if not given, and no file is given defaults to the standard output)
-the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-default_global_unit_nr~2"></span>integer,</td>
+the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-default_global_unit_nr"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>default_global_unit_nr</strong></td><td><p>the level starting with which something is written (defaults to dbcsr_note_level)
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>default_global_unit_nr</strong></td>
+            <td>
+                <p>the level starting with which something is written (defaults to dbcsr_note_level)
 the default unit_nr for output (if not given, and no file is given defaults to the standard output)
-the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-default_local_unit_nr~2"></span>integer,</td>
+the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-default_local_unit_nr"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>default_local_unit_nr</strong></td><td><p>the level starting with which something is written (defaults to dbcsr_note_level)
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>default_local_unit_nr</strong></td>
+            <td>
+                <p>the level starting with which something is written (defaults to dbcsr_note_level)
 the default unit_nr for output (if not given, and no file is given defaults to the standard output)
-the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-global_filename~2"></span>character(len=*),</td>
+the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-global_filename"></span>
+              character(len=*),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>global_filename</strong></td><td><p>a new file to open (can be given instead of the global_unit_nr)
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>global_filename</strong></td>
+            <td>
+                <p>a new file to open (can be given instead of the global_unit_nr)
 a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the
-file is created only upon the first local logging request</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-local_filename~2"></span>character(len=*),</td>
+file is created only upon the first local logging request</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_filename"></span>
+              character(len=*),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>local_filename</strong></td><td><p>a new file to open (can be given instead of the global_unit_nr)
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local_filename</strong></td>
+            <td>
+                <p>a new file to open (can be given instead of the global_unit_nr)
 a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the
-file is created only upon the first local logging request</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-close_global_unit_on_dealloc~2"></span>logical,</td>
+file is created only upon the first local logging request</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-close_global_unit_on_dealloc"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>close_global_unit_on_dealloc</strong></td><td><p>if the unit should be closed when the logger is deallocated (defaults to true if a local_filename is given, to false
-otherwise)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iter_info~2"></span>type(<a href='../type/dbcsr_iteration_info_type.html'>dbcsr_iteration_info_type</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>close_global_unit_on_dealloc</strong></td>
+            <td>
+                <p>if the unit should be closed when the logger is deallocated (defaults to true if a local_filename is given, to false
+otherwise)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iter_info~2"></span>
+              type(<a href='../type/dbcsr_iteration_info_type.html'>dbcsr_iteration_info_type</a>),
+            </td>
 <td></td>
-  <td>optional</td>  <td>POINTER</td><td>::</td>
-  <td><strong>iter_info</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-close_local_unit_on_dealloc~2"></span>logical,</td>
+              <td>optional,</td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>iter_info</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-close_local_unit_on_dealloc"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>close_local_unit_on_dealloc</strong></td><td><p>if the unit should be closed when the logger is deallocated (defaults to true)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-suffix~2"></span>character(len=*),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>close_local_unit_on_dealloc</strong></td>
+            <td>
+                <p>if the unit should be closed when the logger is deallocated (defaults to true)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-suffix"></span>
+              character(len=*),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>suffix</strong></td><td><p>the suffix that should be added to all the generated filenames</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-template_logger"></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>suffix</strong></td>
+            <td>
+                <p>the suffix that should be added to all the generated filenames</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-template_logger"></span>
+              type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),
+            </td>
 <td></td>
-  <td>optional</td>  <td>POINTER</td><td>::</td>
-  <td><strong>template_logger</strong></td><td><p>a logger from where to take the unspecified things</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional,</td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>template_logger</strong></td>
+            <td>
+                <p>a logger from where to take the unspecified things</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_logger_create.html#src">dbcsr_logger_create</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_logger_create.html#src">dbcsr_logger_create</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

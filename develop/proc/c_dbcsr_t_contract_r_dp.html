@@ -74,243 +74,563 @@
   <div class="row">
     <h1>c_dbcsr_t_contract_r_dp
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">102 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_api_c.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tensor_api_c.f.html'>dbcsr_tensor_api_c.F</a></li>
-     <li><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></li>
-     <li class="active">c_dbcsr_t_contract_r_dp</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.2% of total for procedures.">102 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tensor_api_c.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tensor_api_c.f.html'>dbcsr_tensor_api_c.F</a></li>
+              <li><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></li>
+          <li class="active">c_dbcsr_t_contract_r_dp</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine c_dbcsr_t_contract_r_dp(c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, c_contract_1, contract_1_size, c_notcontract_1, notcontract_1_size, c_contract_2, contract_2_size, c_notcontract_2, notcontract_2_size, c_map_1, map_1_size, c_map_2, map_2_size, c_bounds_1, c_bounds_2, c_bounds_3, c_optimize_dist, c_pgrid_opt_1, c_pgrid_opt_2, c_pgrid_opt_3, c_filter_eps, c_flop, c_move_data, c_retain_sparsity, c_unit_nr, c_log_verbose) bind(C, name="0")</h2>
+    <h2>private  subroutine c_dbcsr_t_contract_r_dp(c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, c_contract_1, contract_1_size, c_notcontract_1, notcontract_1_size, c_contract_2, contract_2_size, c_notcontract_2, notcontract_2_size, c_map_1, map_1_size, c_map_2, map_2_size, c_bounds_1, c_bounds_2, c_bounds_3, c_optimize_dist, c_pgrid_opt_1, c_pgrid_opt_2, c_pgrid_opt_3, c_filter_eps, c_flop, c_move_data, c_retain_sparsity, c_unit_nr, c_log_verbose) bind(C, name="0")  
+</h2>
     
 
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-c_alpha~13"></span>real(kind=c_double),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_alpha~13"></span>
+              real(kind=c_double),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>c_alpha</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_tensor_1"></span>type(c_ptr),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>c_alpha</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_tensor_1"></span>
+              type(c_ptr),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>c_tensor_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_tensor_2"></span>type(c_ptr),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>c_tensor_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_tensor_2"></span>
+              type(c_ptr),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>c_tensor_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_beta~5"></span>real(kind=c_double),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>c_tensor_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_beta~5"></span>
+              real(kind=c_double),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>c_beta</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_tensor_3"></span>type(c_ptr),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>c_beta</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_tensor_3"></span>
+              type(c_ptr),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>c_tensor_3</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_contract_1"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>c_tensor_3</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_contract_1"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>c_contract_1</strong>(contract_1_size)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-contract_1_size"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>c_contract_1</strong>(contract_1_size)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-contract_1_size"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>contract_1_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_notcontract_1"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>contract_1_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_notcontract_1"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>c_notcontract_1</strong>(notcontract_1_size)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-notcontract_1_size"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>c_notcontract_1</strong>(notcontract_1_size)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-notcontract_1_size"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>notcontract_1_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_contract_2"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>notcontract_1_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_contract_2"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>c_contract_2</strong>(contract_2_size)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-contract_2_size"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>c_contract_2</strong>(contract_2_size)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-contract_2_size"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>contract_2_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_notcontract_2"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>contract_2_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_notcontract_2"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>c_notcontract_2</strong>(notcontract_2_size)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-notcontract_2_size"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>c_notcontract_2</strong>(notcontract_2_size)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-notcontract_2_size"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>notcontract_2_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_map_1"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>notcontract_2_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_map_1"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>c_map_1</strong>(map_1_size)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map_1_size"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>c_map_1</strong>(map_1_size)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-map_1_size"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>map_1_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_map_2"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>map_1_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_map_2"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>c_map_2</strong>(map_2_size)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-map_2_size"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>c_map_2</strong>(map_2_size)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-map_2_size"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>map_2_size</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_bounds_1"></span>integer(kind=c_int),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>map_2_size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_bounds_1"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(2, contract_1_size)</td><td>::</td>
-  <td><strong>c_bounds_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_bounds_2"></span>integer(kind=c_int),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2, contract_1_size)
+            </td>
+            <td>::</td>
+            <td><strong>c_bounds_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_bounds_2"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(2, notcontract_1_size)</td><td>::</td>
-  <td><strong>c_bounds_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_bounds_3"></span>integer(kind=c_int),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2, notcontract_1_size)
+            </td>
+            <td>::</td>
+            <td><strong>c_bounds_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_bounds_3"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(2, notcontract_2_size)</td><td>::</td>
-  <td><strong>c_bounds_3</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_optimize_dist"></span>logical(kind=c_bool),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2, notcontract_2_size)
+            </td>
+            <td>::</td>
+            <td><strong>c_bounds_3</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_optimize_dist"></span>
+              logical(kind=c_bool),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_optimize_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_pgrid_opt_1"></span>type(c_ptr),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_optimize_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_pgrid_opt_1"></span>
+              type(c_ptr),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_pgrid_opt_1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_pgrid_opt_2"></span>type(c_ptr),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_pgrid_opt_1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_pgrid_opt_2"></span>
+              type(c_ptr),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_pgrid_opt_2</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_pgrid_opt_3"></span>type(c_ptr),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_pgrid_opt_2</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_pgrid_opt_3"></span>
+              type(c_ptr),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_pgrid_opt_3</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_filter_eps~5"></span>real(kind=c_double),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_pgrid_opt_3</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_filter_eps~5"></span>
+              real(kind=c_double),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_filter_eps</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_flop~5"></span>integer(kind=c_long_long),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_filter_eps</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_flop~5"></span>
+              integer(kind=c_long_long),
+            </td>
 <td>intent(inout),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_flop</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_move_data"></span>logical(kind=c_bool),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_flop</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_move_data"></span>
+              logical(kind=c_bool),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_move_data</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_retain_sparsity~5"></span>logical(kind=c_bool),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_move_data</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_retain_sparsity~5"></span>
+              logical(kind=c_bool),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_retain_sparsity</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_unit_nr~2"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_retain_sparsity</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_unit_nr~2"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_unit_nr</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_log_verbose"></span>logical(kind=c_bool),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_unit_nr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_log_verbose"></span>
+              logical(kind=c_bool),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_log_verbose</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_log_verbose</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

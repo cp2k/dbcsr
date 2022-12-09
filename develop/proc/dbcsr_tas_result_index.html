@@ -74,131 +74,280 @@
   <div class="row">
     <h1>dbcsr_tas_result_index
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">54 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_mm.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_tas_mm.f.html'>dbcsr_tas_mm.F</a></li>
-     <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
-     <li class="active">dbcsr_tas_result_index</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">54 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_tas_mm.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_tas_mm.f.html'>dbcsr_tas_mm.F</a></li>
+              <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
+          <li class="active">dbcsr_tas_result_index</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_tas_result_index(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, blk_ind, nze, retain_sparsity)</h2>
+    <h2>public  subroutine dbcsr_tas_result_index(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, blk_ind, nze, retain_sparsity)  
+</h2>
     
 
     <p>Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
 Same dummy arguments as dbcsr_tas_multiply</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-transa~14"></span>character(len=1),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transa~9"></span>
+              character(len=1),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>transa</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-transb~14"></span>character(len=1),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transa</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transb~9"></span>
+              character(len=1),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>transb</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-transc~4"></span>character(len=1),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transb</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transc~4"></span>
+              character(len=1),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>transc</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-matrix_a~85"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transc</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_a~67"></span>
+              type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>matrix_a</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-matrix_b~53"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_b~44"></span>
+              type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>matrix_b</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-matrix_c~16"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>matrix_b</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_c~12"></span>
+              type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>TARGET</td><td>::</td>
-  <td><strong>matrix_c</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-filter_eps~22"></span>real(kind=real_8),</td>
+              <td></td>            <td>
+              TARGET
+            </td>
+            <td>::</td>
+            <td><strong>matrix_c</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-filter_eps~10"></span>
+              real(kind=real_8),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>filter_eps</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-unit_nr~35"></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>filter_eps</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-unit_nr~15"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>unit_nr</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blk_ind~3"></span>integer(kind=int_8),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>unit_nr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_ind"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td>DIMENSION(:, :), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_ind</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nze~21"></span>integer(kind=int_8),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(:, :), ALLOCATABLE
+            </td>
+            <td>::</td>
+            <td><strong>blk_ind</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze~7"></span>
+              integer(kind=int_8),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>nze</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-retain_sparsity~17"></span>logical,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nze</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-retain_sparsity~11"></span>
+              logical,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>retain_sparsity</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>retain_sparsity</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

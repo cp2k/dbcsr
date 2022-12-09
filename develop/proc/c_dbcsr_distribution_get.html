@@ -74,165 +74,368 @@
   <div class="row">
     <h1>c_dbcsr_distribution_get
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">58 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api_c.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_api_c.f.html'>dbcsr_api_c.F</a></li>
-     <li><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></li>
-     <li class="active">c_dbcsr_distribution_get</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">58 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_api_c.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_api_c.f.html'>dbcsr_api_c.F</a></li>
+              <li><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></li>
+          <li class="active">c_dbcsr_distribution_get</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine c_dbcsr_distribution_get(c_dist, c_row_dist, c_col_dist, c_nrows, c_ncols, c_has_threads, c_group, c_mynode, c_numnodes, c_nprows, c_npcols, c_myprow, c_mypcol, c_pgrid, c_subgroups_defined, c_prow_group, c_pcol_group) bind(C, name="0")</h2>
+    <h2>private  subroutine c_dbcsr_distribution_get(c_dist, c_row_dist, c_col_dist, c_nrows, c_ncols, c_has_threads, c_group, c_mynode, c_numnodes, c_nprows, c_npcols, c_myprow, c_mypcol, c_pgrid, c_subgroups_defined, c_prow_group, c_pcol_group) bind(C, name="0")  
+</h2>
     
 
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-c_dist~8"></span>type(c_ptr),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_dist~8"></span>
+              type(c_ptr),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>VALUE</td><td>::</td>
-  <td><strong>c_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_row_dist~2"></span>type(c_ptr),</td>
+              <td></td>            <td>
+              VALUE
+            </td>
+            <td>::</td>
+            <td><strong>c_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_row_dist~2"></span>
+              type(c_ptr),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_row_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_col_dist~2"></span>type(c_ptr),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_row_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_col_dist~2"></span>
+              type(c_ptr),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_col_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_nrows"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_col_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_nrows"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_nrows</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_ncols"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_nrows</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_ncols"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_ncols</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_has_threads"></span>logical(kind=c_bool),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_ncols</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_has_threads"></span>
+              logical(kind=c_bool),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_has_threads</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_group~3"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_has_threads</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_group~3"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_group</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_mynode"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_group</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_mynode"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_mynode</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_numnodes"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_mynode</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_numnodes"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_numnodes</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_nprows"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_numnodes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_nprows"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_nprows</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_npcols"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_nprows</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_npcols"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_npcols</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_myprow"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_npcols</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_myprow"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_myprow</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_mypcol"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_myprow</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_mypcol"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_mypcol</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_pgrid"></span>type(c_ptr),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_mypcol</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_pgrid"></span>
+              type(c_ptr),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_pgrid</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_subgroups_defined"></span>logical(kind=c_bool),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_pgrid</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_subgroups_defined"></span>
+              logical(kind=c_bool),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_subgroups_defined</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_prow_group"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_subgroups_defined</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_prow_group"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_prow_group</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c_pcol_group"></span>integer(kind=c_int),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_prow_group</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c_pcol_group"></span>
+              integer(kind=c_int),
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>c_pcol_group</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c_pcol_group</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<em>None</em>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

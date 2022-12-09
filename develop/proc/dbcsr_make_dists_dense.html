@@ -74,140 +74,291 @@
   <div class="row">
     <h1>dbcsr_make_dists_dense
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">81 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_dist_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mm_dist_operations.f.html'>dbcsr_mm_dist_operations.F</a></li>
-     <li><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></li>
-     <li class="active">dbcsr_make_dists_dense</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.1% of total for procedures.">81 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mm_dist_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mm_dist_operations.f.html'>dbcsr_mm_dist_operations.F</a></li>
+              <li><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></li>
+          <li class="active">dbcsr_make_dists_dense</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_make_dists_dense.html#src">dbcsr_make_dists_dense</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_make_dists_dense.html#src">dbcsr_make_dists_dense</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, dense_product_dist, dense_left_rdist, dense_right_rdist, partial, m_map, k_vmap, n_map, old_m_sizes)</h2>
+    <h2>public  subroutine dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, dense_product_dist, dense_left_rdist, dense_right_rdist, partial, m_map, k_vmap, n_map, old_m_sizes)  
+</h2>
     
 
     <p>Prepares distributions for making dense matrices.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-product_dist"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-product_dist"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>product_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-left_rdist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>product_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left_rdist"></span>
+              type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>left_rdist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-right_rdist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left_rdist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right_rdist"></span>
+              type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>right_rdist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_product_dist"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right_rdist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dense_product_dist"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dense_product_dist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_left_rdist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dense_product_dist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dense_left_rdist"></span>
+              type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dense_left_rdist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_right_rdist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dense_left_rdist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dense_right_rdist"></span>
+              type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dense_right_rdist</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-partial"></span>logical,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dense_right_rdist</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-partial"></span>
+              logical,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>partial</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-m_map~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>partial</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m_map~2"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>m_map</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-k_vmap~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m_map</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k_vmap~2"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>k_vmap</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-n_map~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k_vmap</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_map~2"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>n_map</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_m_sizes"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_map</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_m_sizes"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>old_m_sizes</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_m_sizes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_make_dists_dense.html#src">dbcsr_make_dists_dense</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_make_dists_dense.html#src">dbcsr_make_dists_dense</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

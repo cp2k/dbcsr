@@ -74,112 +74,218 @@
   <div class="row">
     <h1>dbcsr_make_1dist_dense
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">28 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_dist_operations.F"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/dbcsr_mm_dist_operations.f.html'>dbcsr_mm_dist_operations.F</a></li>
-     <li><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></li>
-     <li class="active">dbcsr_make_1dist_dense</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.0% of total for procedures.">28 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mm_dist_operations.F"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/dbcsr_mm_dist_operations.f.html'>dbcsr_mm_dist_operations.F</a></li>
+              <li><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></li>
+          <li class="active">dbcsr_make_1dist_dense</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_make_1dist_dense.html#src">dbcsr_make_1dist_dense</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_make_1dist_dense.html#src">dbcsr_make_1dist_dense</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine dbcsr_make_1dist_dense(nbins, old_dist, dense_dist, dist_map, nsubdist, subdist)</h2>
+    <h2>private  subroutine dbcsr_make_1dist_dense(nbins, old_dist, dense_dist, dist_map, nsubdist, subdist)  
+</h2>
     
 
     <p>Makes a 1-D distribution dense.</p>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-nbins~2"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nbins~4"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nbins</strong></td><td><p>Number of bins in the main distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-old_dist"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nbins</strong></td>
+            <td>
+                <p>Number of bins in the main distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_dist"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>old_dist</strong></td><td><p>Current distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dense_dist~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_dist</strong></td>
+            <td>
+                <p>Current distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dense_dist"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dense_dist</strong></td><td><p>Dense distribution
-Map from current to dense distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dist_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dense_dist</strong></td>
+            <td>
+                <p>Dense distribution
+Map from current to dense distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist_map"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>dist_map</strong></td><td><p>Dense distribution
-Map from current to dense distribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-nsubdist"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist_map</strong></td>
+            <td>
+                <p>Dense distribution
+Map from current to dense distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nsubdist"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>nsubdist</strong></td><td><p>Number of bins in the subdistribution</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-subdist"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nsubdist</strong></td>
+            <td>
+                <p>Number of bins in the subdistribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-subdist"></span>
+              integer,
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>subdist</strong></td><td><p>Subdistribution</p></td>
-</tr>
-</tbody>
-</table>
+              <td>optional,</td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>subdist</strong></td>
+            <td>
+                <p>Subdistribution</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_make_1dist_dense.html#src">dbcsr_make_1dist_dense</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_make_1dist_dense.html#src">dbcsr_make_1dist_dense</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
