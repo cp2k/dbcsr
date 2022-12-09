@@ -27,6 +27,7 @@ ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
 UNAME := $(shell uname)
+STATIC ?= 1
 INTEL ?= 0
 DEV ?= 0
 
@@ -149,21 +150,29 @@ ifneq (0,$(OMP))
     CFLAGS += -Xpreprocessor -fopenmp
     LDFLAGS += -lomp
   endif
-  ifneq (,$(LIBXSMMROOT))
-    LDFLAGS += -lxsmmext -lxsmm -lxsmmnoblas -ldl -lm
-  endif
-else
-  ifneq (,$(LIBXSMMROOT))
-    LDFLAGS += -lxsmm -lxsmmnoblas -ldl -lm
-  endif
 endif
+
 ifneq (,$(LIBXSMMROOT))
-  CFLAGS_XSMM += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
-  LDFLAGS := -pthread $(LDFLAGS)
-  LDFLAGS += -L$(LIBXSMMROOT)/lib
-  ifneq (Darwin,$(UNAME))
-    LDFLAGS += -Wl,-rpath=$(LIBXSMMROOT)/lib $(LDFLAGS)
+  ifneq (0,$(STATIC))
+    ifneq (0,$(OMP))
+      LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmext.a
+    endif
+    LDFLAGS += \
+      $(LIBXSMMROOT)/lib/libxsmm.a \
+      $(LIBXSMMROOT)/lib/libxsmmnoblas.a \
+      $(NULL)
+  else
+    LDFLAGS += -L$(LIBXSMMROOT)/lib
+    ifneq (Darwin,$(UNAME))
+      LDFLAGS += -Wl,-rpath=$(LIBXSMMROOT)/lib
+    endif
+    ifneq (0,$(OMP))
+      LDFLAGS += -lxsmmext
+    endif
+    LDFLAGS += -lxsmm -lxsmmnoblas
   endif
+  CFLAGS_XSMM += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
+  LDFLAGS += -pthread -ldl -lm
 endif
 
 ifneq (,$(CUDA_PATH))
