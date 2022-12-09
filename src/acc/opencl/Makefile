@@ -20,6 +20,7 @@ ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
 UNAME := $(shell uname)
+STATIC ?= 1
 INTEL ?= 0
 DEV ?= 0
 
@@ -138,29 +139,37 @@ ifneq (0,$(OMP))
     CFLAGS += -Xpreprocessor -fopenmp
     LDFLAGS += -lomp
   endif
-  ifneq (,$(LIBXSMMROOT))
-    LDFLAGS += -lxsmmext -lxsmm -lxsmmnoblas -ldl -lm
-  endif
-else
-  ifneq (,$(LIBXSMMROOT))
-    LDFLAGS += -lxsmm -lxsmmnoblas -ldl -lm
-  endif
 endif
+
 ifneq (,$(LIBXSMMROOT))
-  ifneq (Darwin,$(UNAME))
-    LDFLAGS += -Wl,-rpath=$(LIBXSMMROOT)/lib
+  ifneq (0,$(STATIC))
+    ifneq (0,$(OMP))
+      LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmext.a
+    endif
+    LDFLAGS += \
+      $(LIBXSMMROOT)/lib/libxsmm.a \
+      $(LIBXSMMROOT)/lib/libxsmmnoblas.a \
+      $(NULL)
+  else
+    LDFLAGS += -L$(LIBXSMMROOT)/lib
+    ifneq (Darwin,$(UNAME))
+      LDFLAGS += -Wl,-rpath=$(LIBXSMMROOT)/lib
+    endif
+    ifneq (0,$(OMP))
+      LDFLAGS += -lxsmmext
+    endif
+    LDFLAGS += -lxsmm -lxsmmnoblas
   endif
   CFLAGS_XSMM += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
-  LDFLAGS += -L$(LIBXSMMROOT)/lib
-  LDFLAGS += -pthread
+  LDFLAGS += -pthread -ldl -lm
 endif
 
 ifeq (Darwin,$(UNAME))
   LDFLAGS += -framework OpenCL
 else
-  LIBOPENCL := $(shell ldconfig -p 2>/dev/null | grep -m1 OpenCL | rev | cut -d' ' -f1 | rev)
-  ifeq (,$(LIBOPENCL))
-    LIBOPENCL := $(wildcard /usr/lib/x86_64-linux-gnu/libOpenCL.so.1)
+  OPENCL_LIB := $(shell ldconfig -p 2>/dev/null | grep -m1 OpenCL | rev | cut -d' ' -f1 | rev)
+  ifeq (,$(OPENCL_LIB))
+    OPENCL_LIB := $(wildcard /usr/lib/x86_64-linux-gnu/libOpenCL.so.1)
   endif
   ifeq (,$(CUDATOOLKIT_HOME))
     CUDATOOLKIT_HOME := $(NVSDKCOMPUTE_ROOT)
@@ -171,13 +180,18 @@ else
   endif
   ifneq (,$(CUDATOOLKIT_HOME))
     CFLAGS += -I$(CUDATOOLKIT_HOME)/include
-    ifeq (,$(wildcard $(LIBOPENCL)))
+    ifeq (,$(wildcard $(OPENCL_LIB)))
       LDFLAGS += -L$(CUDATOOLKIT_HOME)/lib64
       LDFLAGS += -Wl,-rpath=$(CUDATOOLKIT_HOME)/lib64
     endif
   endif
-  ifneq (,$(wildcard $(LIBOPENCL)))
-    LDFLAGS += $(LIBOPENCL)
+  # OPENCL_INC: directory containing CL/cl.h.
+  ifneq (,$(wildcard $(OPENCL_INC)))
+    CFLAGS += -I$(OPENCL_INC)
+  endif
+  # OPENCL_LIB: file/library to be linked
+  ifneq (,$(wildcard $(OPENCL_LIB)))
+    LDFLAGS += $(OPENCL_LIB)
   else
     LDFLAGS += -lOpenCL
   endif
