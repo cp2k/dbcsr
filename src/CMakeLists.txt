@@ -201,7 +201,7 @@ if (MPI_FOUND)
   # once built, a user of the dbcsr library can not influence anything anymore
   # by setting those flags:
   target_compile_definitions(
-    dbcsr PRIVATE __parallel __MPI_VERSION=${MPI_Fortran_VERSION_MAJOR})
+    dbcsr PRIVATE __parallel)
 
   # Instead of resetting the compiler for MPI, we are adding the compiler flags
   # otherwise added by the mpifort-wrapper directly; based on hints from:
