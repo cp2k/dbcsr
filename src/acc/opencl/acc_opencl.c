@@ -309,7 +309,8 @@ int c_dbcsr_acc_init(void) {
                 CL_DEVICE_PARTITION_BY_AFFINITY_DOMAIN, CL_DEVICE_AFFINITY_DOMAIN_NUMA, /*terminator*/ 0};
               cl_uint nunits = 0;
               if (1 < devsplit &&
-                  CL_SUCCESS == clGetDeviceInfo(devices[j], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(cl_uint), &nunits, NULL)) {
+                  CL_SUCCESS == clGetDeviceInfo(devices[j], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(cl_uint), &nunits, NULL))
+              {
                 properties[0] = CL_DEVICE_PARTITION_EQUALLY;
                 properties[1] = nunits / devsplit;
               }
@@ -350,7 +351,8 @@ int c_dbcsr_acc_init(void) {
       if (NULL != env_vendor && '\0' != *env_vendor) {
         for (i = 0; (int)i < c_dbcsr_acc_opencl_config.ndevices;) {
           if (CL_SUCCESS ==
-              clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL)) {
+              clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
+          {
             if (NULL == c_dbcsr_acc_opencl_stristr(buffer, env_vendor)) {
 #  if defined(CL_VERSION_1_2)
               ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseDevice(c_dbcsr_acc_opencl_config.devices[i]));
