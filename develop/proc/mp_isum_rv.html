@@ -194,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-request~69"></span>
+              <span class="anchor" id="variable-request~68"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -275,7 +275,6 @@
 <span class="w">         </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
 
 <span class="cp">#if defined(__parallel)</span>
-<span class="cp">#if __MPI_VERSION &gt; 2</span>
 <span class="w">         </span><span class="n">msglen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w"></span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">msglen</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">mpi_iallreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_REAL</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_SUM</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
@@ -284,13 +283,6 @@
 <span class="k">            </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_request_null</span><span class="w"></span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">)</span><span class="w"></span>
-<span class="cp">#else</span>
-<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">msglen</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_request_null</span><span class="w"></span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mp_isum requires MPI-3 standard&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="cp">#endif</span>
 <span class="cp">#else</span>
 <span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w"></span>
 <span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span><span class="w"></span>

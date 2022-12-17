@@ -237,12 +237,7 @@
 
 <span class="cp">#if defined(__parallel)</span>
 
-<span class="cp">#if __MPI_VERSION &gt; 2</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">mpi_win_unlock_all</span><span class="p">(</span><span class="n">win</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
-<span class="cp">#else</span>
-<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mp_win_unlock_all requires MPI-3 standard&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="cp">#endif</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_win_unlock_all @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
 <span class="cp">#else</span>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span><span class="w"></span>
