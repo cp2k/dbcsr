@@ -223,6 +223,9 @@ int c_dbcsr_acc_init(void) {
     const char *const env_device = getenv("ACC_OPENCL_DEVICE"), *const env_async = getenv("ACC_OPENCL_ASYNC");
     const char *const env_flush = getenv("ACC_OPENCL_FLUSH"), *const env_timer = getenv("ACC_OPENCL_TIMER");
     const char* const env_dump = (NULL != env_dump_acc ? env_dump_acc : getenv("IGC_ShaderDumpEnable"));
+#  if defined(ACC_OPENCL_ZEX_NCCS) && (0 < ACC_OPENCL_ZEX_NCCS)
+    const char* const env_nccs = getenv("ZEX_NUMBER_OF_CCS");
+#  endif
     char* const env_devids = getenv("ACC_OPENCL_DEVIDS");
     int device_id = (NULL == env_device ? 0 : atoi(env_device));
     cl_uint nplatforms = 0, ndevices = 0, i;
@@ -254,7 +257,7 @@ int c_dbcsr_acc_init(void) {
       c_dbcsr_acc_opencl_config.timer = c_dbcsr_acc_opencl_timer_host;
     }
 #  if defined(ACC_OPENCL_ZEX_NCCS) && (0 < ACC_OPENCL_ZEX_NCCS)
-    {
+    if (NULL == env_nccs && 0 == (4 & c_dbcsr_acc_opencl_config.xhints)) {
       static char zex_number_of_ccs[ACC_OPENCL_DEVICES_MAXCOUNT * 8] = "ZEX_NUMBER_OF_CCS=";
       int j = 0;
       for (i = 0; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
@@ -369,7 +372,8 @@ int c_dbcsr_acc_init(void) {
       if (NULL != env_vendor && '\0' != *env_vendor) {
         for (i = 0; (int)i < c_dbcsr_acc_opencl_config.ndevices;) {
           if (CL_SUCCESS ==
-              clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL)) {
+              clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
+          {
             if (NULL == c_dbcsr_acc_opencl_stristr(buffer, env_vendor)) {
 #  if defined(CL_VERSION_1_2)
               ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseDevice(c_dbcsr_acc_opencl_config.devices[i]));
