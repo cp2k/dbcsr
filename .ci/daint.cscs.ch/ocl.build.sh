@@ -26,7 +26,7 @@ if [ ! -d "${HOME}/libxsmm" ]; then
 fi
 cd "${HOME}/libxsmm"
 git fetch
-git checkout ad5efd24eb0055c395ead6a4f2d4ef033c96694c
+git checkout 94b124e908c430cf17a5e93439c7c66964dda635
 make -j
 cd ..
 

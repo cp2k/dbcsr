@@ -37,6 +37,9 @@
 #  if !defined(ACC_OPENCL_SEDBIN) && 1
 #    define ACC_OPENCL_SEDBIN "/usr/bin/sed"
 #  endif
+#  if !defined(ACC_OPENCL_ZEX_NCCS) && 1
+#    define ACC_OPENCL_ZEX_NCCS 4
+#  endif
 
 
 #  if defined(__cplusplus)
@@ -250,6 +253,21 @@ int c_dbcsr_acc_init(void) {
     {
       c_dbcsr_acc_opencl_config.timer = c_dbcsr_acc_opencl_timer_host;
     }
+#  if defined(ACC_OPENCL_ZEX_NCCS) && (0 < ACC_OPENCL_ZEX_NCCS)
+    {
+      static char zex_number_of_ccs[ACC_OPENCL_DEVICES_MAXCOUNT * 8] = "ZEX_NUMBER_OF_CCS=";
+      int j = 0;
+      for (i = 0; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
+        const int n = LIBXSMM_SNPRINTF(zex_number_of_ccs + j, 8, 0 < i ? ",%u:%i" : "%u:%i", i, ACC_OPENCL_ZEX_NCCS);
+        if (0 < n) j += n;
+        else {
+          j = 0;
+          break;
+        }
+      }
+      if (0 < j) ACC_OPENCL_EXPECT(0, LIBXSMM_PUTENV(zex_number_of_ccs)); /* soft-error */
+    }
+#  endif
 #  if defined(ACC_OPENCL_CACHEDIR)
     {
       const char* const env_cache = getenv("ACC_OPENCL_CACHE");
@@ -257,14 +275,14 @@ int c_dbcsr_acc_init(void) {
       struct stat cachedir;
       if (0 != cache || (stat(ACC_OPENCL_CACHEDIR, &cachedir) == 0 && S_ISDIR(cachedir.st_mode))) {
 #    if !defined(_WIN32)
-        char cl_cache_dir[] = "cl_cache_dir=" ACC_OPENCL_CACHEDIR;
+        static char cl_cache_dir[] = "cl_cache_dir=" ACC_OPENCL_CACHEDIR;
 #      if defined(S_IRWXU) && defined(S_IRGRP) && defined(S_IXGRP) && defined(S_IROTH) && defined(S_IXOTH)
         const int mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
 #      else
         const int mode = 0xFFFFFFFF;
 #      endif
         if (0 == mkdir(ACC_OPENCL_CACHEDIR, mode) || EEXIST == errno) { /* putenv before entering OpenCL */
-          ACC_OPENCL_EXPECT(0, putenv(cl_cache_dir)); /* soft-error */
+          ACC_OPENCL_EXPECT(0, LIBXSMM_PUTENV(cl_cache_dir)); /* soft-error */
         }
 #    endif
       }
@@ -351,8 +369,7 @@ int c_dbcsr_acc_init(void) {
       if (NULL != env_vendor && '\0' != *env_vendor) {
         for (i = 0; (int)i < c_dbcsr_acc_opencl_config.ndevices;) {
           if (CL_SUCCESS ==
-              clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
-          {
+              clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL)) {
             if (NULL == c_dbcsr_acc_opencl_stristr(buffer, env_vendor)) {
 #  if defined(CL_VERSION_1_2)
               ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseDevice(c_dbcsr_acc_opencl_config.devices[i]));
