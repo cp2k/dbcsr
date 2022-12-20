@@ -165,18 +165,20 @@ endif ()
 
 # =================================== BACKEND TESTS (ACC interface)
 
-foreach (dbcsr_test_backend ${DBCSR_TESTS_BACKEND})
-  add_executable(${dbcsr_test_backend} ${${dbcsr_test_backend}_SRCS})
-  # tests may not need to link dbcsr but there is no separate dbcsr_acc
-  target_link_libraries(${dbcsr_test_backend} PRIVATE dbcsr)
-  # register unittest executable with CMake
-  add_test(NAME ${dbcsr_test_backend} COMMAND ./${dbcsr_test_backend})
-  if (OpenMP_FOUND)
-    set_tests_properties(
-      ${dbcsr_test_backend} PROPERTIES ENVIRONMENT
-                                       OMP_NUM_THREADS=${TEST_OMP_THREADS})
-  endif ()
-endforeach ()
+if (NOT USE_MPI)
+  foreach (dbcsr_test_backend ${DBCSR_TESTS_BACKEND})
+    add_executable(${dbcsr_test_backend} ${${dbcsr_test_backend}_SRCS})
+    # tests may not need to link dbcsr but there is no separate dbcsr_acc
+    target_link_libraries(${dbcsr_test_backend} PRIVATE dbcsr)
+    # register unittest executable with CMake
+    add_test(NAME ${dbcsr_test_backend} COMMAND ./${dbcsr_test_backend})
+    if (OpenMP_FOUND)
+      set_tests_properties(
+        ${dbcsr_test_backend} PROPERTIES ENVIRONMENT
+                                         OMP_NUM_THREADS=${TEST_OMP_THREADS})
+    endif ()
+  endforeach ()
+endif ()
 
 # =================================== GPU BACKEND TESTS (CUDA/HIP)
 
