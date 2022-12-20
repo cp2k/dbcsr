@@ -11,6 +11,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+source /opt/intel/oneapi/mkl/latest/env/vars.sh
 module swap PrgEnv-cray PrgEnv-gnu
 module load daint-gpu cudatoolkit cdt-cuda
 module unload cray-libsci_acc
