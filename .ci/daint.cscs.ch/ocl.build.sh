@@ -8,14 +8,14 @@
 #SBATCH --cpus-per-task=12
 #SBATCH --hint=nomultithread
 
+#set -o nounset
 set -o errexit
-set -o nounset
 set -o pipefail
 
 source /opt/intel/oneapi/mkl/latest/env/vars.sh
 module swap PrgEnv-cray PrgEnv-gnu
 module load daint-gpu cudatoolkit cdt-cuda
-module unload cray-libsci_acc
+module unload cray-libsci_acc cray-libsci
 module list
 
 export PATH=/project/cray/alazzaro/cmake/bin:${PATH}
