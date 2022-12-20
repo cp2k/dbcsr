@@ -17,7 +17,7 @@ module load daint-gpu cudatoolkit cdt-cuda
 module unload cray-libsci_acc
 module list
 
-export PATH=/project/cray/alazzaro/cmake/bin:$PATH
+export PATH=/project/cray/alazzaro/cmake/bin:${PATH}
 
 # Checkout and build LIBXSMM
 if [ ! -d "${HOME}/libxsmm" ]; then
@@ -46,7 +46,7 @@ export PKG_CONFIG_PATH=${HOME}/libxsmm/lib:${PKG_CONFIG_PATH}
 cmake \
     -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment \
     -DCMAKE_CROSSCOMPILING_EMULATOR="" \
-    -DUSE_ACCEL=opencl -DWITH_GPU=P100 -DUSE_SMM=libxsmm \
+    -DUSE_ACCEL=opencl -DWITH_GPU=P100 -DUSE_SMM=libxsmm-shared \
     -DOpenCL_LIBRARY="${CUDATOOLKIT_HOME}/lib64/libOpenCL.so" \
     -DBLAS_FOUND=ON -DBLAS_LIBRARIES="-lsci_gnu_mpi_mp" \
     -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES="-lsci_gnu_mpi_mp" \
