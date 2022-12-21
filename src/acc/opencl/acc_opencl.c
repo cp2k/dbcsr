@@ -199,6 +199,18 @@ int c_dbcsr_acc_opencl_order_streams(const void* a, const void* b) { /* NULL-poi
 }
 
 
+LIBXSMM_ATTRIBUTE_CTOR void c_dbcsr_acc_opencl_init(void) {
+  /* attempt to  automatically initialize backend */
+  ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_init());
+}
+
+
+LIBXSMM_ATTRIBUTE_DTOR void c_dbcsr_acc_opencl_finalize(void) {
+  /* attempt to automatically finalize backend */
+  ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_finalize());
+}
+
+
 int c_dbcsr_acc_init(void) {
 #  if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
