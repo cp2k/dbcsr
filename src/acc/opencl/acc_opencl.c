@@ -199,6 +199,18 @@ int c_dbcsr_acc_opencl_order_streams(const void* a, const void* b) { /* NULL-poi
 }
 
 
+LIBXSMM_ATTRIBUTE_CTOR void c_dbcsr_acc_opencl_init(void) {
+  /* attempt to  automatically initialize backend */
+  ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_init());
+}
+
+
+LIBXSMM_ATTRIBUTE_DTOR void c_dbcsr_acc_opencl_finalize(void) {
+  /* attempt to automatically finalize backend */
+  ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_finalize());
+}
+
+
 int c_dbcsr_acc_init(void) {
 #  if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
@@ -372,8 +384,7 @@ int c_dbcsr_acc_init(void) {
       if (NULL != env_vendor && '\0' != *env_vendor) {
         for (i = 0; (int)i < c_dbcsr_acc_opencl_config.ndevices;) {
           if (CL_SUCCESS ==
-              clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
-          {
+              clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL)) {
             if (NULL == c_dbcsr_acc_opencl_stristr(buffer, env_vendor)) {
 #  if defined(CL_VERSION_1_2)
               ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseDevice(c_dbcsr_acc_opencl_config.devices[i]));
