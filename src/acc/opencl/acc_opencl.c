@@ -270,10 +270,11 @@ int c_dbcsr_acc_init(void) {
     }
 #  if defined(ACC_OPENCL_ZEX_NCCS) && (0 < ACC_OPENCL_ZEX_NCCS)
     if (NULL == env_nccs && 0 == (4 & c_dbcsr_acc_opencl_config.xhints)) {
-      static char zex_number_of_ccs[ACC_OPENCL_DEVICES_MAXCOUNT * 8] = "ZEX_NUMBER_OF_CCS=";
-      int j = 0;
+      static char zex_number_of_ccs[ACC_OPENCL_DEVICES_MAXCOUNT * 8 + 32] = "ZEX_NUMBER_OF_CCS=";
+      int j = strlen(zex_number_of_ccs);
       for (i = 0; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
-        const int n = LIBXSMM_SNPRINTF(zex_number_of_ccs + j, 8, 0 < i ? ",%u:%i" : "%u:%i", i, ACC_OPENCL_ZEX_NCCS);
+        const int n = LIBXSMM_SNPRINTF(
+          zex_number_of_ccs + j, sizeof(zex_number_of_ccs) - j, 0 < i ? ",%u:%i" : "%u:%i", i, ACC_OPENCL_ZEX_NCCS);
         if (0 < n) j += n;
         else {
           j = 0;
