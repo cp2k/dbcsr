@@ -265,7 +265,7 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      IF (dbcsr_cfg%use_mpi_rma) &
+      IF (dbcsr_cfg%use_mpi_rma%val) &
          DBCSR_ABORT("RMA algo not supported here!")
       IF (.NOT. dbcsr_valid_index(source)) &
          DBCSR_ABORT("Matrix not initialized.")

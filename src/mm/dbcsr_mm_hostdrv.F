@@ -134,7 +134,7 @@ CONTAINS
          END DO
       END IF
 
-      SELECT CASE (dbcsr_cfg%mm_driver)
+      SELECT CASE (dbcsr_cfg%mm_driver%val)
       CASE (mm_driver_matmul)
          SELECT CASE (this%data_area%d%data_type)
          CASE (dbcsr_type_real_4)

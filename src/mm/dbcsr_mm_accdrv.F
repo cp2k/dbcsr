@@ -296,10 +296,10 @@ CONTAINS
          ALLOCATE (thread_privates%stack_buffers(my_thread_buffers))
          DO i = 1, my_thread_buffers
             CALL acc_devmem_allocate_bytes(thread_privates%stack_buffers(i)%devmem, &
-                                           int_4_size*dbcsr_ps_acc_width*dbcsr_cfg%mm_stack_size)
+                                           int_4_size*dbcsr_ps_acc_width*dbcsr_cfg%mm_stack_size%val)
             thread_privates%stack_buffers(i)%stream = thread_streams(ithread + 1)
             CALL acc_hostmem_allocate(thread_privates%stack_buffers(i)%hostmem, &
-                                      dbcsr_ps_acc_width, dbcsr_cfg%mm_stack_size, thread_privates%stack_buffers(i)%stream)
+                                      dbcsr_ps_acc_width, dbcsr_cfg%mm_stack_size%val, thread_privates%stack_buffers(i)%stream)
             CALL acc_event_create(thread_privates%stack_buffers(i)%ready)
             CALL acc_event_create(thread_privates%stack_buffers(i)%calculated)
          END DO
@@ -479,7 +479,7 @@ CONTAINS
       flop_per_entry = 2*stack_descr%max_m*stack_descr%max_n*stack_descr%max_k
 
       IF (dbcsr_cfg%accdrv_stack_sort) THEN
-         IF (flop_per_entry > dbcsr_cfg%accdrv_min_flop_sort) THEN
+         IF (flop_per_entry > dbcsr_cfg%accdrv_min_flop_sort%val) THEN
             CALL stack_sort(params, stackbuf%hostmem, stack_size)
          ELSE
             CALL stack_binning(params, stackbuf%hostmem, stack_size)
