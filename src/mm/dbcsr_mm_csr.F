@@ -403,31 +403,31 @@ CONTAINS
                             col_map=array_data(product%global_cols))
 
       ! Setup the MM stack
-      this%nm_stacks = dbcsr_cfg%nm_stacks
-      this%nn_stacks = dbcsr_cfg%nn_stacks
-      this%nk_stacks = dbcsr_cfg%nk_stacks
-      nstacks = dbcsr_cfg%nm_stacks*dbcsr_cfg%nn_stacks*dbcsr_cfg%nk_stacks + 1
+      this%nm_stacks = dbcsr_cfg%n_stacks%val
+      this%nn_stacks = dbcsr_cfg%n_stacks%val
+      this%nk_stacks = dbcsr_cfg%n_stacks%val
+      nstacks = this%nm_stacks*this%nn_stacks*this%nk_stacks + 1
       IF (nstacks > INT(HUGE(this%stack_map))) &
          DBCSR_ABORT("Too many stacks requested (global/dbcsr/n_size_*_stacks in input)")
 
       ALLOCATE (this%stacks_descr(nstacks))
-      ALLOCATE (this%stacks_data(dbcsr_ps_width, dbcsr_cfg%mm_stack_size, nstacks))
+      ALLOCATE (this%stacks_data(dbcsr_ps_width, dbcsr_cfg%mm_stack_size%val, nstacks))
       ALLOCATE (this%stacks_fillcount(nstacks))
       this%stacks_fillcount(:) = 0
 
-      ALLOCATE (most_common_m(dbcsr_cfg%nm_stacks))
-      ALLOCATE (most_common_n(dbcsr_cfg%nn_stacks))
-      ALLOCATE (most_common_k(dbcsr_cfg%nk_stacks))
-      CALL map_most_common(m_sizes, this%m_size_maps, dbcsr_cfg%nm_stacks, &
+      ALLOCATE (most_common_m(this%nm_stacks))
+      ALLOCATE (most_common_n(this%nn_stacks))
+      ALLOCATE (most_common_k(this%nk_stacks))
+      CALL map_most_common(m_sizes, this%m_size_maps, this%nm_stacks, &
                            most_common_m, &
                            max_stack_block_size, this%max_m)
       this%m_size_maps_size = SIZE(this%m_size_maps)
-      CALL map_most_common(n_sizes, this%n_size_maps, dbcsr_cfg%nn_stacks, &
+      CALL map_most_common(n_sizes, this%n_size_maps, this%nn_stacks, &
                            most_common_n, &
                            max_stack_block_size, this%max_n)
       this%n_size_maps_size = SIZE(this%n_size_maps)
       CALL map_most_common(right_row_blk_size, &
-                           this%k_size_maps, dbcsr_cfg%nk_stacks, &
+                           this%k_size_maps, this%nk_stacks, &
                            most_common_k, &
                            max_stack_block_size, this%max_k)
       this%k_size_maps_size = SIZE(this%k_size_maps)
@@ -436,33 +436,33 @@ CONTAINS
       ! (carrier%*_sizes) to a stack number.  Triples with even one
       ! uncommon size will be mapped to a general, non-size-specific
       ! stack.
-      ALLOCATE (this%stack_map(dbcsr_cfg%nn_stacks + 1, dbcsr_cfg%nk_stacks + 1, dbcsr_cfg%nm_stacks + 1))
+      ALLOCATE (this%stack_map(this%nn_stacks + 1, this%nk_stacks + 1, this%nm_stacks + 1))
       default_stack = nstacks
 
-      DO m_map = 1, dbcsr_cfg%nm_stacks + 1
-         IF (m_map .LE. dbcsr_cfg%nm_stacks) THEN
+      DO m_map = 1, this%nm_stacks + 1
+         IF (m_map .LE. this%nm_stacks) THEN
             m_size = most_common_m(m_map)
          ELSE
             m_size = 777
          END IF
-         DO k_map = 1, dbcsr_cfg%nk_stacks + 1
-            IF (k_map .LE. dbcsr_cfg%nk_stacks) THEN
+         DO k_map = 1, this%nk_stacks + 1
+            IF (k_map .LE. this%nk_stacks) THEN
                k_size = most_common_k(k_map)
             ELSE
                k_size = 888
             END IF
-            DO n_map = 1, dbcsr_cfg%nn_stacks + 1
-               IF (n_map .LE. dbcsr_cfg%nn_stacks) THEN
+            DO n_map = 1, this%nn_stacks + 1
+               IF (n_map .LE. this%nn_stacks) THEN
                   n_size = most_common_n(n_map)
                ELSE
                   n_size = 999
                END IF
-               IF (m_map .LE. dbcsr_cfg%nm_stacks &
-                   .AND. k_map .LE. dbcsr_cfg%nk_stacks &
-                   .AND. n_map .LE. dbcsr_cfg%nn_stacks) THEN
+               IF (m_map .LE. this%nm_stacks &
+                   .AND. k_map .LE. this%nk_stacks &
+                   .AND. n_map .LE. this%nn_stacks) THEN
                   ! This is the case when m, n, and k are all defined.
-                  ps_g = (m_map - 1)*dbcsr_cfg%nn_stacks*dbcsr_cfg%nk_stacks + &
-                         (k_map - 1)*dbcsr_cfg%nn_stacks + n_map
+                  ps_g = (m_map - 1)*this%nn_stacks*this%nk_stacks + &
+                         (k_map - 1)*this%nn_stacks + n_map
                   ps_g = nstacks - ps_g
                   this%stack_map(n_map, k_map, m_map) = INT(ps_g, kind=int_1)
                   ! Also take care of the stack m, n, k descriptors

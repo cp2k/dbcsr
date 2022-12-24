@@ -11,6 +11,7 @@ MODULE dbcsr_ptr_util
    !! DBCSR pointer and unmanaged array utilities
    USE dbcsr_acc_hostmem, ONLY: acc_hostmem_allocate, &
                                 acc_hostmem_deallocate
+   USE dbcsr_config, ONLY: dbcsr_cfg
    USE dbcsr_data_types, ONLY: dbcsr_data_obj, &
                                dbcsr_memtype_default, &
                                dbcsr_memtype_type, &
@@ -83,13 +84,6 @@ MODULE dbcsr_ptr_util
       MODULE PROCEDURE mem_dealloc_i, mem_dealloc_l, mem_dealloc_s, mem_dealloc_d, mem_dealloc_c, mem_dealloc_z
       MODULE PROCEDURE mem_dealloc_i_2d, mem_dealloc_l_2d, mem_dealloc_s_2d, mem_dealloc_d_2d, mem_dealloc_c_2d, mem_dealloc_z_2d
    END INTERFACE
-
-   TYPE dbcsr_data_allocation_type
-      LOGICAL :: use_mpi_allocator = .FALSE.
-   END TYPE dbcsr_data_allocation_type
-
-   PUBLIC :: dbcsr_data_allocation_type
-   TYPE(dbcsr_data_allocation_type), PUBLIC, SAVE :: dbcsr_data_allocation = dbcsr_data_allocation_type() ! defaults
 
 CONTAINS
 
@@ -345,7 +339,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. n > 1) THEN
             CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_allocate(mem, n)
          ELSE
             ALLOCATE (mem(n))
@@ -401,7 +395,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. SIZE(mem) > 1) THEN
             CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_deallocate(mem)
          ELSE
             DEALLOCATE (mem)

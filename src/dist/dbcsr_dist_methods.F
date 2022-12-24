@@ -434,16 +434,16 @@ CONTAINS
 
       lcmv = lcm(nprows, npcols)
       num_images_1d = lcmv
-      IF (dbcsr_cfg%num_mult_images .GT. 1) THEN
-         num_images_1d = num_images_1d*dbcsr_cfg%num_mult_images
+      IF (dbcsr_cfg%num_mult_images%val .GT. 1) THEN
+         num_images_1d = num_images_1d*dbcsr_cfg%num_mult_images%val
          RETURN
       END IF
       IF (matrix_dense_size_1d .EQ. 0) RETURN
       !
-      IF (dbcsr_cfg%avg_elements_images .GT. 0) THEN
+      IF (dbcsr_cfg%avg_elements_images%val .GT. 0) THEN
          num_images_1d = num_images_1d* &
                          CEILING((REAL(matrix_dense_size_1d, KIND=dp)/num_images_1d)/ &
-                                 SQRT(REAL(dbcsr_cfg%avg_elements_images, KIND=dp)))
+                                 SQRT(REAL(dbcsr_cfg%avg_elements_images%val, KIND=dp)))
       END IF
       ! limiting # clusters to be close to # atoms
       IF (num_images_1d .GT. nblocks .AND. nblocks .GT. 0) THEN
