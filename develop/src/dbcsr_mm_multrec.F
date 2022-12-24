@@ -513,7 +513,7 @@ CONTAINS
          END IF
       END IF
 
-      IF (af - ai + 1 <= dbcsr_cfg%multrec_limit .AND. bf - bi + 1 <= dbcsr_cfg%multrec_limit) THEN
+      IF (af - ai + 1 <= dbcsr_cfg%multrec_limit%val .AND. bf - bi + 1 <= dbcsr_cfg%multrec_limit%val) THEN
          IF (af - ai + 1 .GT. 0 .AND. bf - bi + 1 .GT. 0) &
             CALL dbcsr_mm_csr_multiply(this%csr, left, right, &
                                        mi=mi, mf=mf, ni=ni, nf=nf, ki=ki, kf=kf, &

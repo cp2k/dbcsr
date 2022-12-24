@@ -730,6 +730,7 @@ Optionally, keep the file and unit preconnected.</p></td></tr>
 			   <tr><td><a href='../proc/compress.html'>compress</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td><p>Eliminate multiple space characters in a string.
 If full is .TRUE., then all spaces are eliminated.</p></td></tr>
 			   <tr><td><a href='../proc/compx_to_dbcsr_scalar.html'>compx_to_dbcsr_scalar</a></td><td><a href='../module/dbcsr_test_methods.html'>dbcsr_test_methods</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/conf_par_env_value.html'>conf_par_env_value</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/convert_brd_to_csr.html'>convert_brd_to_csr</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Convert a block-row distributed DBCSR matrix to a CSR matrix
 The DBCSR matrix must have a block structure consistent with the CSR matrix.</p></td></tr>
 			   <tr><td><a href='../proc/convert_csr_to_brd.html'>convert_csr_to_brd</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Copies data from a CSR matrix to a block-row distributed DBCSR matrix.
@@ -3311,6 +3312,7 @@ optionally decorated with a frame of stars as defined by declev.
 </p><a href="../proc/print_message.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/print_preconnection_list.html'>print_preconnection_list</a></td><td><a href='../module/dbcsr_files.html'>dbcsr_files</a></td><td>Subroutine</td><td><p>Print the list of preconnected units</p></td></tr>
 			   <tr><td><a href='../proc/print_reports.html'>print_reports</a></td><td><a href='../module/dbcsr_timings_report.html'>dbcsr_timings_report</a></td><td>Subroutine</td><td><p>Print the collected reports</p></td></tr>
+			   <tr><td><a href='../proc/print_source.html'>print_source</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/print_stack.html'>print_stack</a></td><td><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></td><td>Subroutine</td><td><p>Print current routine stack</p></td></tr>
 			   <tr><td><a href='../proc/printmat_c.html'>printmat_c</a></td><td><a href='../module/dbcsr_io.html'>dbcsr_io</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/printmat_d.html'>printmat_d</a></td><td><a href='../module/dbcsr_io.html'>dbcsr_io</a></td><td>Subroutine</td><td></td></tr>
@@ -3361,6 +3363,9 @@ then a new entry is created.</p></td></tr>
 			   <tr><td><a href='../proc/row_col_3d_reflected.html'>row_col_3D_reflected</a></td><td><a href='../module/dbcsr_mm_3d.html'>dbcsr_mm_3d</a></td><td>Subroutine</td><td><p>Apply reflected order, i.e. row increasing value for odd col value,
 row decreasing value for even col value</p></td></tr>
 			   <tr><td><a href='../proc/set_accdrv_active_device_id.html'>set_accdrv_active_device_id</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/set_conf_par_int.html'>set_conf_par_int</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/set_conf_par_logical.html'>set_conf_par_logical</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/set_conf_par_mm_driver.html'>set_conf_par_mm_driver</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/set_data_area_area.html'>set_data_area_area</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Subroutine</td><td><p>Points data area data pointers to another data area
 Assumes that no memory will be lost when repointing the pointer in the data
 area and that the area is initialized.</p></td></tr>
@@ -3410,6 +3415,7 @@ considered.
 			   <tr><td><a href='../proc/stats_collect_from_threads.html'>stats_collect_from_threads</a></td><td><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></td><td>Subroutine</td><td><p>Collects statistics from all OpenMP-threads into report</p></td></tr>
 			   <tr><td><a href='../proc/stats_init.html'>stats_init</a></td><td><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></td><td>Subroutine</td><td><p>Initialize a stats_type</p></td></tr>
 			   <tr><td><a href='../proc/stats_print_report.html'>stats_print_report</a></td><td><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></td><td>Subroutine</td><td><p>Prints collected statistics</p></td></tr>
+			   <tr><td><a href='../proc/str2int.html'>str2int</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td><p>Convert a string to integer</p></td></tr>
 			   <tr><td><a href='../proc/stream_array_force_size.html'>stream_array_force_size</a></td><td><a href='../module/dbcsr_mm_accdrv.html'>dbcsr_mm_accdrv</a></td><td>Subroutine</td><td><p>Helper routine</p></td></tr>
 			   <tr><td><a href='../interface/stringify.html'>stringify</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/sum_of_arrays.html'>sum_of_arrays</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>sum of all elements for each array stored in list</p></td></tr>

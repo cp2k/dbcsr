@@ -1062,7 +1062,7 @@ CONTAINS
       numnodes = dbcsr_mp_numnodes(mp_obj)
       nprows = dbcsr_mp_nprows(mp_obj)
       npcols = dbcsr_mp_npcols(mp_obj)
-      IF (dbcsr_cfg%use_mpi_rma) THEN
+      IF (dbcsr_cfg%use_mpi_rma%val) THEN
          IF (nprows .NE. npcols) THEN
             ! No square topology, scale the maximum coordinate
             do_layers_3D = MAX(nprows, npcols) .EQ. (my_num_layers_3D*MIN(nprows, npcols)) .AND. &

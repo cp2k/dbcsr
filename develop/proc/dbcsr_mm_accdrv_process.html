@@ -163,7 +163,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~59"></span>
+              <span class="anchor" id="variable-this~64"></span>
               type(<a href='../type/dbcsr_mm_accdrv_type.html'>dbcsr_mm_accdrv_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -363,7 +363,7 @@
 <span class="w">      </span><span class="n">flop_per_entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_m</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_n</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_k</span><span class="w"></span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">flop_per_entry</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">flop_per_entry</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">stack_sort</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">)</span><span class="w"></span>
 <span class="w">         </span><span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">stack_binning</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">)</span><span class="w"></span>

@@ -12,6 +12,7 @@ MODULE dbcsr_ptr_util
    !! DBCSR pointer and unmanaged array utilities
    USE dbcsr_acc_hostmem, ONLY: acc_hostmem_allocate, &
                                 acc_hostmem_deallocate
+   USE dbcsr_config, ONLY: dbcsr_cfg
    USE dbcsr_data_types, ONLY: dbcsr_data_obj, &
                                dbcsr_memtype_default, &
                                dbcsr_memtype_type, &
@@ -85,13 +86,6 @@ MODULE dbcsr_ptr_util
       MODULE PROCEDURE mem_dealloc_i_2d, mem_dealloc_l_2d, mem_dealloc_s_2d, mem_dealloc_d_2d, mem_dealloc_c_2d, mem_dealloc_z_2d
    END INTERFACE
 
-   TYPE dbcsr_data_allocation_type
-      LOGICAL :: use_mpi_allocator = .FALSE.
-   END TYPE dbcsr_data_allocation_type
-
-   PUBLIC :: dbcsr_data_allocation_type
-   TYPE(dbcsr_data_allocation_type), PUBLIC, SAVE :: dbcsr_data_allocation = dbcsr_data_allocation_type() ! defaults
-
 CONTAINS
 
    FUNCTION pointer_view_a(new_area, area, offset, len) RESULT(narea2)
@@ -146,8 +140,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 143 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F" 2
-# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 137 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F" 2
+# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_d (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -352,7 +346,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. n > 1) THEN
             CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_allocate(mem, n)
          ELSE
             ALLOCATE (mem(n))
@@ -408,7 +402,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. SIZE(mem) > 1) THEN
             CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_deallocate(mem)
          ELSE
             DEALLOCATE (mem)
@@ -458,7 +452,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_d_rank_remap2
-# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_s (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -663,7 +657,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. n > 1) THEN
             CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_allocate(mem, n)
          ELSE
             ALLOCATE (mem(n))
@@ -719,7 +713,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. SIZE(mem) > 1) THEN
             CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_deallocate(mem)
          ELSE
             DEALLOCATE (mem)
@@ -769,7 +763,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_s_rank_remap2
-# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_z (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -974,7 +968,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. n > 1) THEN
             CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_allocate(mem, n)
          ELSE
             ALLOCATE (mem(n))
@@ -1030,7 +1024,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. SIZE(mem) > 1) THEN
             CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_deallocate(mem)
          ELSE
             DEALLOCATE (mem)
@@ -1080,7 +1074,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_z_rank_remap2
-# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_c (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1285,7 +1279,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. n > 1) THEN
             CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_allocate(mem, n)
          ELSE
             ALLOCATE (mem(n))
@@ -1341,7 +1335,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. SIZE(mem) > 1) THEN
             CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_deallocate(mem)
          ELSE
             DEALLOCATE (mem)
@@ -1391,7 +1385,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_c_rank_remap2
-# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_i (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1596,7 +1590,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. n > 1) THEN
             CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_allocate(mem, n)
          ELSE
             ALLOCATE (mem(n))
@@ -1652,7 +1646,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. SIZE(mem) > 1) THEN
             CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_deallocate(mem)
          ELSE
             DEALLOCATE (mem)
@@ -1702,7 +1696,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_i_rank_remap2
-# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_l (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1907,7 +1901,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. n > 1) THEN
             CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_allocate(mem, n)
          ELSE
             ALLOCATE (mem(n))
@@ -1963,7 +1957,7 @@ CONTAINS
 
          IF (mem_type%acc_hostalloc .AND. SIZE(mem) > 1) THEN
             CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)
-         ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
+         ELSE IF (mem_type%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) THEN
             CALL mp_deallocate(mem)
          ELSE
             DEALLOCATE (mem)
@@ -2013,6 +2007,6 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_l_rank_remap2
-# 455 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 449 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
 
 END MODULE dbcsr_ptr_util

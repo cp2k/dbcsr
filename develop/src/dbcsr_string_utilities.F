@@ -19,7 +19,8 @@ MODULE dbcsr_string_utilities
 
    PUBLIC :: compress, &
              stringify, &
-             uppercase
+             uppercase, &
+             str2int
 
    INTERFACE stringify
       MODULE PROCEDURE integer_to_string
@@ -93,4 +94,13 @@ CONTAINS
       END DO
 
    END SUBROUTINE uppercase
+
+   ELEMENTAL SUBROUTINE str2int(str, int, stat)
+    !! Convert a string to integer
+      CHARACTER(LEN=*), INTENT(in) :: str
+      INTEGER, INTENT(OUT)         :: int, stat
+
+      read (str, *, iostat=stat) int
+   END SUBROUTINE str2int
+
 END MODULE dbcsr_string_utilities
