@@ -545,10 +545,10 @@ CONTAINS
          BLOCK
             INTEGER :: numnodes, mynode
             CALL mp_environ(numnodes, mynode, mp_comm_world)
-            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-               "DBCSR| MPI: My node id", mynode
-            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-               "DBCSR| MPI: Number of nodes", numnodes
+            WRITE (UNIT=unit_nr, FMT='(1X,A,T67,I11)') &
+               "DBCSR| MPI: My process id", mynode
+            WRITE (UNIT=unit_nr, FMT='(1X,A,T66,I11)') &
+               "DBCSR| MPI: Number of processes", numnodes
          END BLOCK
       END IF
 
