@@ -1438,7 +1438,7 @@ CONTAINS
       INTEGER(KIND=int_8)                         :: max_nze, min_nze
       REAL(real_8) :: s_opt_factor
 
-      s_opt_factor = dbcsr_cfg%tas_split_factor
+      s_opt_factor = dbcsr_cfg%tas_split_factor%val
 
       SELECT CASE (max_mm_dim)
       CASE (1)

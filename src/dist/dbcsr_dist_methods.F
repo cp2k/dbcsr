@@ -512,7 +512,7 @@ CONTAINS
 !$OMP     BARRIER
 !$OMP     MASTER
 
-      load_fraction = REAL(dbcsr_cfg%comm_thread_load)/100.0
+      load_fraction = REAL(dbcsr_cfg%comm_thread_load%val)/100.0
       IF (nthreads == 1) load_fraction = 1.0
 
       IF (.NOT. dist%d%has_thread_dist) THEN
