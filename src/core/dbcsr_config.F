@@ -126,6 +126,15 @@ MODULE dbcsr_config
 
    END TYPE CONF_PAR_LOGICAL
 
+   TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_REAL
+      REAL(KIND=real_8) :: val, defval
+
+   CONTAINS
+
+      PROCEDURE :: set => set_conf_par_real
+
+   END TYPE CONF_PAR_REAL
+
 ! Convenient macro to define a configuration parameter
 #define SET_PARAMETER_DEFAULT(parameter_name, parameter_type, default_val) \
    TYPE(parameter_type) :: parameter_name = parameter_type(name="parameter_name", val=default_val, defval=default_val)
@@ -141,7 +150,7 @@ MODULE dbcsr_config
       SET_PARAMETER_DEFAULT(USE_MPI_RMA, CONF_PAR_LOGICAL, .FALSE.)
       SET_PARAMETER_DEFAULT(NUM_LAYERS_3D, CONF_PAR_INT, 1)
       SET_PARAMETER_DEFAULT(USE_COMM_THREAD, CONF_PAR_LOGICAL, .TRUE.)
-      INTEGER  :: comm_thread_load = 100
+      SET_PARAMETER_DEFAULT(COMM_THREAD_LOAD, CONF_PAR_INT, 100)
       SET_PARAMETER_DEFAULT(MM_DENSE, CONF_PAR_LOGICAL,.NOT. has_acc)
       SET_PARAMETER_DEFAULT(MULTREC_LIMIT, CONF_PAR_INT, 512)
       SET_PARAMETER_DEFAULT(ACCDRV_THREAD_BUFFERS, CONF_PAR_INT, 8)
@@ -156,7 +165,7 @@ MODULE dbcsr_config
       SET_PARAMETER_DEFAULT(ACCDRV_BINNING_BINSIZE, CONF_PAR_INT, 16)
       SET_PARAMETER_DEFAULT(USE_MEMPOOLS_CPU, CONF_PAR_LOGICAL, .FALSE.)
       SET_PARAMETER_DEFAULT(USE_MPI_ALLOCATOR, CONF_PAR_LOGICAL, .FALSE.)
-      REAL(KIND=real_8) :: tas_split_factor = 1.0_real_8
+      SET_PARAMETER_DEFAULT(TAS_SPLIT_FACTOR, CONF_PAR_REAL, 1.0_real_8)
    END TYPE dbcsr_config_type
 
    TYPE(dbcsr_config_type), PROTECTED, SAVE :: dbcsr_cfg = dbcsr_config_type() ! defaults
@@ -304,6 +313,17 @@ CONTAINS
 
    END SUBROUTINE set_conf_par_logical
 
+   SUBROUTINE set_conf_par_real(this, real_val)
+      CLASS(CONF_PAR_REAL), INTENT(INOUT) :: this
+      REAL(KIND=real_8), INTENT(IN), OPTIONAL :: real_val
+
+      IF (PRESENT(real_val)) THEN
+         this%val = real_val
+         this%source = 'U'
+      END IF
+
+   END SUBROUTINE set_conf_par_real
+
    SUBROUTINE dbcsr_set_config( &
       mm_driver, &
       use_mpi_allocator, &
@@ -357,11 +377,6 @@ CONTAINS
 
       INTEGER, SAVE                                      :: nthreads = 0
 
-      IF (0 == nthreads) THEN
-         nthreads = 1
-!$       nthreads = OMP_GET_MAX_THREADS()
-      END IF
-
       CALL dbcsr_cfg%use_mpi_allocator%set(use_mpi_allocator)
       CALL dbcsr_cfg%avg_elements_images%set(avg_elements_images)
       CALL dbcsr_cfg%num_mult_images%set(num_mult_images)
@@ -379,18 +394,19 @@ CONTAINS
       CALL dbcsr_cfg%accdrv_binning_nbins%set(accdrv_binning_nbins)
       CALL dbcsr_cfg%accdrv_binning_binsize%set(accdrv_binning_binsize)
       CALL dbcsr_cfg%use_mempools_cpu%set(use_mempools_cpu)
-      IF (PRESENT(tas_split_factor)) dbcsr_cfg%tas_split_factor = tas_split_factor
+      CALL dbcsr_cfg%tas_split_factor%set(tas_split_factor)
 
-      IF (PRESENT(comm_thread_load)) THEN
-         dbcsr_cfg%comm_thread_load = comm_thread_load
-         IF (comm_thread_load < 0) THEN
-            IF (dbcsr_cfg%use_mpi_rma%val) THEN
-               dbcsr_cfg%comm_thread_load = 100
-            ELSE
-               dbcsr_cfg%comm_thread_load = MAX(0, 90 - (30*nthreads)/8)
-            END IF
-         END IF
+      IF (0 == nthreads) THEN
+         nthreads = 1
+!$       nthreads = OMP_GET_MAX_THREADS()
       END IF
+      ! Change default values
+      IF (dbcsr_cfg%use_mpi_rma%val) THEN
+         dbcsr_cfg%comm_thread_load%defval = 100
+      ELSE
+         dbcsr_cfg%comm_thread_load%defval = MAX(0, 90 - (30*nthreads)/8)
+      END IF
+      CALL dbcsr_cfg%comm_thread_load%set(comm_thread_load)
 
       CALL dbcsr_cfg%n_stacks%set(nstacks)
       CALL dbcsr_cfg%mm_stack_size%set(mm_stack_size)
@@ -440,12 +456,6 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_mempools_cpu
       REAL(KIND=real_8), INTENT(OUT), OPTIONAL           :: tas_split_factor
 
-      TYPE(dbcsr_config_type)                            :: default_cfg
-
-      ! construct defaults which were unknown at compile-time (dbcsr_config_type)
-      ! assume dbcsr_cfg was initialized at runtime; copy dbcsr_cfg to default_cfg
-      default_cfg = dbcsr_cfg
-
       IF (PRESENT(use_mpi_allocator)) use_mpi_allocator = dbcsr_cfg%use_mpi_allocator%defval
       IF (PRESENT(mm_stack_size)) mm_stack_size = dbcsr_cfg%mm_stack_size%defval
       IF (PRESENT(avg_elements_images)) avg_elements_images = dbcsr_cfg%avg_elements_images%defval
@@ -453,7 +463,7 @@ CONTAINS
       IF (PRESENT(use_mpi_rma)) use_mpi_rma = dbcsr_cfg%use_mpi_rma%defval
       IF (PRESENT(num_layers_3D)) num_layers_3D = dbcsr_cfg%num_layers_3D%defval
       IF (PRESENT(use_comm_thread)) use_comm_thread = dbcsr_cfg%use_comm_thread%defval
-      IF (PRESENT(comm_thread_load)) comm_thread_load = default_cfg%comm_thread_load
+      IF (PRESENT(comm_thread_load)) comm_thread_load = dbcsr_cfg%comm_thread_load%defval
       IF (PRESENT(mm_dense)) mm_dense = dbcsr_cfg%mm_dense%defval
       IF (PRESENT(multrec_limit)) multrec_limit = dbcsr_cfg%multrec_limit%defval
       IF (PRESENT(accdrv_thread_buffers)) accdrv_thread_buffers = dbcsr_cfg%accdrv_thread_buffers%defval
@@ -466,7 +476,7 @@ CONTAINS
       IF (PRESENT(accdrv_binning_binsize)) accdrv_binning_binsize = dbcsr_cfg%accdrv_binning_binsize%defval
       IF (PRESENT(use_mempools_cpu)) use_mempools_cpu = dbcsr_cfg%use_mempools_cpu%defval
       IF (PRESENT(nstacks)) nstacks = dbcsr_cfg%n_stacks%defval
-      IF (PRESENT(tas_split_factor)) tas_split_factor = default_cfg%tas_split_factor
+      IF (PRESENT(tas_split_factor)) tas_split_factor = dbcsr_cfg%tas_split_factor%defval
 
    END SUBROUTINE dbcsr_get_default_config
 
@@ -543,8 +553,9 @@ CONTAINS
          WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1,A4)') &
             "DBCSR| Use Communication thread", dbcsr_cfg%use_comm_thread%val, &
             dbcsr_cfg%use_comm_thread%print_source()
-         WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-            "DBCSR| Communication thread load", dbcsr_cfg%comm_thread_load
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
+            "DBCSR| Communication thread load", dbcsr_cfg%comm_thread_load%val, &
+            dbcsr_cfg%comm_thread_load%print_source()
 
          BLOCK
             INTEGER :: numnodes, mynode
@@ -607,8 +618,9 @@ CONTAINS
          END IF
       END IF
 
-      WRITE (UNIT=unit_nr, FMT='(1X,A,T74,ES7.1)') &
-         "DBCSR| Split modifier for TAS multiplication algorithm", dbcsr_cfg%tas_split_factor
+      WRITE (UNIT=unit_nr, FMT='(1X,A,T74,ES7.1,A4)') &
+         "DBCSR| Split modifier for TAS multiplication algorithm", dbcsr_cfg%tas_split_factor%val, &
+         dbcsr_cfg%tas_split_factor%print_source()
 
    END SUBROUTINE dbcsr_print_config
 
