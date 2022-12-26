@@ -324,9 +324,9 @@ CONTAINS
       total_flop = stack_fillcount*flop_per_entry
 
       IF (has_acc .AND. &
-          flop_per_entry > dbcsr_cfg%accdrv_min_flop_process .AND. &
+          flop_per_entry > dbcsr_cfg%accdrv_min_flop_process%val .AND. &
           (.NOT. this%avoid_accdrv) .AND. &
-          (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogenous)) THEN
+          (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogenous%val)) THEN
          CALL dbcsr_mm_accdrv_process( &
             this%accdrv, &
             left, right, &
@@ -344,7 +344,7 @@ CONTAINS
                            stacksize_acc=INT(stack_fillcount, kind=int_8))
             RETURN
          ELSE
-            this%avoid_accdrv = dbcsr_cfg%accdrv_avoid_after_busy
+            this%avoid_accdrv = dbcsr_cfg%accdrv_avoid_after_busy%val
          END IF
       END IF
 

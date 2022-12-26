@@ -150,7 +150,7 @@ CONTAINS
       ! Each thread has its own working-matrix and its own mempool
       ALLOCATE (memtype_product_wm(ithread)%p)
       CALL dbcsr_memtype_setup(memtype_product_wm(ithread)%p, has_pool=dbcsr_cfg%use_mempools_cpu%val .OR. has_acc)
-      CALL dbcsr_mempool_limit_capacity(memtype_product_wm(ithread)%p%pool, capacity=MAX(1, dbcsr_cfg%num_layers_3D))
+      CALL dbcsr_mempool_limit_capacity(memtype_product_wm(ithread)%p%pool, capacity=MAX(1, dbcsr_cfg%num_layers_3D%val))
    END SUBROUTINE dbcsr_multiply_lib_init
 
    SUBROUTINE dbcsr_multiply_lib_finalize()
@@ -571,7 +571,7 @@ CONTAINS
       npcols = dbcsr_mp_npcols(mp_obj)
       !
       ! 3D layers
-      CALL make_layers_3D_C_reduction(dbcsr_cfg%num_layers_3D, mp_obj)
+      CALL make_layers_3D_C_reduction(dbcsr_cfg%num_layers_3D%val, mp_obj)
       !
       ! No dense multiplication when RMA is used.
       IF (dbcsr_cfg%use_mpi_rma%val) THEN

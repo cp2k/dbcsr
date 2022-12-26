@@ -1662,7 +1662,7 @@ CONTAINS
 
 !$OMP ATOMIC
          threads_finished = threads_finished + 1
-         IF (dbcsr_cfg%use_comm_thread .AND. (ithread .EQ. 0)) THEN
+         IF (dbcsr_cfg%use_comm_thread%val .AND. (ithread .EQ. 0)) THEN
             DO
 ! requires OMP 3.1 (e.g. gcc >=4.7), for correctness, otherwise we keep fingers crossed
 #if defined _OPENMP && _OPENMP >= 200711
