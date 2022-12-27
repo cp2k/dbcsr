@@ -766,7 +766,7 @@ last full column of limiting inner product</p>
 <span class="w">      </span><span class="n">npcols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="c">! 3D layers</span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">make_layers_3D_C_reduction</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="p">,</span><span class="w"> </span><span class="n">mp_obj</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">make_layers_3D_C_reduction</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="p">%</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">mp_obj</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="c">! No dense multiplication when RMA is used.</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>

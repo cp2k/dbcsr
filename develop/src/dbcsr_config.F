@@ -100,7 +100,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_INT
-      INTEGER :: val, dval
+      INTEGER :: val, defval
       LOGICAL :: ensure_positive = .TRUE.
 
    CONTAINS
@@ -110,7 +110,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR_INT
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_MM_DRIVER
-      INTEGER :: val, dval
+      INTEGER :: val, defval
 
    CONTAINS
 
@@ -119,7 +119,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR_MM_DRIVER
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_LOGICAL
-      LOGICAL :: val, dval
+      LOGICAL :: val, defval
 
    CONTAINS
 
@@ -127,35 +127,46 @@ MODULE dbcsr_config
 
    END TYPE CONF_PAR_LOGICAL
 
+   TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_REAL
+      REAL(KIND=real_8) :: val, defval
+
+   CONTAINS
+
+      PROCEDURE :: set => set_conf_par_real
+
+   END TYPE CONF_PAR_REAL
+
 ! Convenient macro to define a configuration parameter
 #define SET_PARAMETER_DEFAULT(parameter_name, parameter_type, default_val) \
-   TYPE(parameter_type) :: parameter_name = parameter_type(name="parameter_name", val=default_val, dval=default_val)
+   TYPE(parameter_type) :: parameter_name = parameter_type(name="parameter_name", val=default_val, defval=default_val)
 
    TYPE dbcsr_config_type
-      TYPE(CONF_PAR_MM_DRIVER) :: MM_DRIVER = CONF_PAR_MM_DRIVER(name="MM_DRIVER", &
-                                                                 val=mm_default_driver, dval=mm_default_driver)
-      TYPE(CONF_PAR_INT) :: MM_STACK_SIZE = CONF_PAR_INT(name="MM_STACK_SIZE", &
-                                                         val=mm_stack_default_size, dval=mm_stack_default_size)
+      TYPE(CONF_PAR_MM_DRIVER) :: MM_DRIVER = &
+                                  CONF_PAR_MM_DRIVER(name="MM_DRIVER", val=mm_default_driver, defval=mm_default_driver)
+      TYPE(CONF_PAR_INT) :: MM_STACK_SIZE = &
+                            CONF_PAR_INT(name="MM_STACK_SIZE", val=mm_stack_default_size, defval=mm_stack_default_size)
       SET_PARAMETER_DEFAULT(AVG_ELEMENTS_IMAGES, CONF_PAR_INT, 0)
       SET_PARAMETER_DEFAULT(NUM_MULT_IMAGES, CONF_PAR_INT, 1)
       SET_PARAMETER_DEFAULT(N_STACKS, CONF_PAR_INT, 3)
       SET_PARAMETER_DEFAULT(USE_MPI_RMA, CONF_PAR_LOGICAL, .FALSE.)
-      INTEGER  :: num_layers_3D = 1
-      LOGICAL  :: use_comm_thread = .TRUE.
-      INTEGER  :: comm_thread_load = 100
+      SET_PARAMETER_DEFAULT(NUM_LAYERS_3D, CONF_PAR_INT, 1)
+      SET_PARAMETER_DEFAULT(USE_COMM_THREAD, CONF_PAR_LOGICAL, .TRUE.)
+      SET_PARAMETER_DEFAULT(COMM_THREAD_LOAD, CONF_PAR_INT, 100)
       SET_PARAMETER_DEFAULT(MM_DENSE, CONF_PAR_LOGICAL,.NOT. has_acc)
       SET_PARAMETER_DEFAULT(MULTREC_LIMIT, CONF_PAR_INT, 512)
-      INTEGER  :: accdrv_thread_buffers = 8
-      LOGICAL  :: accdrv_avoid_after_busy = .FALSE.
-      INTEGER  :: accdrv_min_flop_process = 0
-      LOGICAL  :: accdrv_stack_sort = .TRUE.
+      SET_PARAMETER_DEFAULT(ACCDRV_THREAD_BUFFERS, CONF_PAR_INT, 8)
+      TYPE(CONF_PAR_LOGICAL) :: ACCDRV_AVOID_AFTER_BUSY = &
+                                CONF_PAR_LOGICAL(name="ACCDRV_AVOID_AFTER_BUSY", val=.FALSE., defval=.FALSE.)
+      SET_PARAMETER_DEFAULT(ACCDRV_MIN_FLOP_PROCESS, CONF_PAR_INT, 0)
+      SET_PARAMETER_DEFAULT(ACCDRV_STACK_SORT, CONF_PAR_LOGICAL, .TRUE.)
       SET_PARAMETER_DEFAULT(ACCDRV_MIN_FLOP_SORT, CONF_PAR_INT, 4000)
-      LOGICAL  :: accdrv_do_inhomogenous = .TRUE.
-      INTEGER  :: accdrv_binning_nbins = 4096
-      INTEGER  :: accdrv_binning_binsize = 16
+      TYPE(CONF_PAR_LOGICAL) :: ACCDRV_DO_INHOMOGENOUS = &
+                                CONF_PAR_LOGICAL(name="ACCDRV_DO_INHOMOGENOUS", val=.TRUE., defval=.TRUE.)
+      SET_PARAMETER_DEFAULT(ACCDRV_BINNING_NBINS, CONF_PAR_INT, 4096)
+      SET_PARAMETER_DEFAULT(ACCDRV_BINNING_BINSIZE, CONF_PAR_INT, 16)
       SET_PARAMETER_DEFAULT(USE_MEMPOOLS_CPU, CONF_PAR_LOGICAL, .FALSE.)
       SET_PARAMETER_DEFAULT(USE_MPI_ALLOCATOR, CONF_PAR_LOGICAL, .FALSE.)
-      REAL(KIND=real_8) :: tas_split_factor = 1.0_real_8
+      SET_PARAMETER_DEFAULT(TAS_SPLIT_FACTOR, CONF_PAR_REAL, 1.0_real_8)
    END TYPE dbcsr_config_type
 
    TYPE(dbcsr_config_type), PROTECTED, SAVE :: dbcsr_cfg = dbcsr_config_type() ! defaults
@@ -237,7 +248,7 @@ CONTAINS
       IF (PRESENT(integer_val) .OR. this%source .EQ. 'E') THEN
          ! Set default if the number is negative
          IF (this%ensure_positive .AND. my_integer_val < 0) THEN
-            this%val = this%dval
+            this%val = this%defval
             this%source = 'D'
          ELSE
             this%val = my_integer_val
@@ -264,7 +275,7 @@ CONTAINS
       IF (PRESENT(mm_driver) .OR. this%source .EQ. 'E') THEN
          CALL uppercase(my_mm_driver)
          IF (my_mm_driver .EQ. mm_name_auto) THEN
-            this%val = this%dval
+            this%val = this%defval
          ELSE IF (my_mm_driver .EQ. mm_name_blas) THEN
             this%val = mm_driver_blas ! always available
          ELSE IF (my_mm_driver .EQ. mm_name_matmul) THEN
@@ -302,6 +313,17 @@ CONTAINS
       END IF
 
    END SUBROUTINE set_conf_par_logical
+
+   SUBROUTINE set_conf_par_real(this, real_val)
+      CLASS(CONF_PAR_REAL), INTENT(INOUT) :: this
+      REAL(KIND=real_8), INTENT(IN), OPTIONAL :: real_val
+
+      IF (PRESENT(real_val)) THEN
+         this%val = real_val
+         this%source = 'U'
+      END IF
+
+   END SUBROUTINE set_conf_par_real
 
    SUBROUTINE dbcsr_set_config( &
       mm_driver, &
@@ -356,40 +378,36 @@ CONTAINS
 
       INTEGER, SAVE                                      :: nthreads = 0
 
-      IF (0 == nthreads) THEN
-         nthreads = 1
-!$       nthreads = OMP_GET_MAX_THREADS()
-      END IF
-
       CALL dbcsr_cfg%use_mpi_allocator%set(use_mpi_allocator)
       CALL dbcsr_cfg%avg_elements_images%set(avg_elements_images)
       CALL dbcsr_cfg%num_mult_images%set(num_mult_images)
       CALL dbcsr_cfg%use_mpi_rma%set(use_mpi_rma)
-      IF (PRESENT(num_layers_3D)) dbcsr_cfg%num_layers_3D = num_layers_3D
-      IF (PRESENT(use_comm_thread)) dbcsr_cfg%use_comm_thread = use_comm_thread
+      CALL dbcsr_cfg%num_layers_3D%set(num_layers_3D)
+      CALL dbcsr_cfg%use_comm_thread%set(use_comm_thread)
       CALL dbcsr_cfg%multrec_limit%set(multrec_limit)
       CALL dbcsr_cfg%mm_dense%set(mm_dense)
-      IF (PRESENT(accdrv_thread_buffers)) dbcsr_cfg%accdrv_thread_buffers = accdrv_thread_buffers
-      IF (PRESENT(accdrv_avoid_after_busy)) dbcsr_cfg%accdrv_avoid_after_busy = accdrv_avoid_after_busy
-      IF (PRESENT(accdrv_min_flop_process)) dbcsr_cfg%accdrv_min_flop_process = accdrv_min_flop_process
-      IF (PRESENT(accdrv_stack_sort)) dbcsr_cfg%accdrv_stack_sort = accdrv_stack_sort
+      CALL dbcsr_cfg%accdrv_thread_buffers%set(accdrv_thread_buffers)
+      CALL dbcsr_cfg%accdrv_avoid_after_busy%set(accdrv_avoid_after_busy)
+      CALL dbcsr_cfg%accdrv_min_flop_process%set(accdrv_min_flop_process)
+      CALL dbcsr_cfg%accdrv_stack_sort%set(accdrv_stack_sort)
       CALL dbcsr_cfg%accdrv_min_flop_sort%set(accdrv_min_flop_sort)
-      IF (PRESENT(accdrv_do_inhomogenous)) dbcsr_cfg%accdrv_do_inhomogenous = accdrv_do_inhomogenous
-      IF (PRESENT(accdrv_binning_nbins)) dbcsr_cfg%accdrv_binning_nbins = accdrv_binning_nbins
-      IF (PRESENT(accdrv_binning_binsize)) dbcsr_cfg%accdrv_binning_binsize = accdrv_binning_binsize
+      CALL dbcsr_cfg%accdrv_do_inhomogenous%set(accdrv_do_inhomogenous)
+      CALL dbcsr_cfg%accdrv_binning_nbins%set(accdrv_binning_nbins)
+      CALL dbcsr_cfg%accdrv_binning_binsize%set(accdrv_binning_binsize)
       CALL dbcsr_cfg%use_mempools_cpu%set(use_mempools_cpu)
-      IF (PRESENT(tas_split_factor)) dbcsr_cfg%tas_split_factor = tas_split_factor
+      CALL dbcsr_cfg%tas_split_factor%set(tas_split_factor)
 
-      IF (PRESENT(comm_thread_load)) THEN
-         dbcsr_cfg%comm_thread_load = comm_thread_load
-         IF (comm_thread_load < 0) THEN
-            IF (dbcsr_cfg%use_mpi_rma%val) THEN
-               dbcsr_cfg%comm_thread_load = 100
-            ELSE
-               dbcsr_cfg%comm_thread_load = MAX(0, 90 - (30*nthreads)/8)
-            END IF
-         END IF
+      IF (0 == nthreads) THEN
+         nthreads = 1
+!$       nthreads = OMP_GET_MAX_THREADS()
       END IF
+      ! Change default values
+      IF (dbcsr_cfg%use_mpi_rma%val) THEN
+         dbcsr_cfg%comm_thread_load%defval = 100
+      ELSE
+         dbcsr_cfg%comm_thread_load%defval = MAX(0, 90 - (30*nthreads)/8)
+      END IF
+      CALL dbcsr_cfg%comm_thread_load%set(comm_thread_load)
 
       CALL dbcsr_cfg%n_stacks%set(nstacks)
       CALL dbcsr_cfg%mm_stack_size%set(mm_stack_size)
@@ -439,34 +457,27 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_mempools_cpu
       REAL(KIND=real_8), INTENT(OUT), OPTIONAL           :: tas_split_factor
 
-      TYPE(dbcsr_config_type)                            :: default_cfg
-
-      ! construct defaults which were unknown at compile-time (dbcsr_config_type)
-      ! assume dbcsr_cfg was initialized at runtime; copy dbcsr_cfg to default_cfg
-      default_cfg = dbcsr_cfg
-
-      IF (PRESENT(use_mpi_allocator)) use_mpi_allocator = dbcsr_cfg%use_mpi_allocator%dval
-      IF (PRESENT(mm_stack_size)) mm_stack_size = dbcsr_cfg%mm_stack_size%dval
-      IF (PRESENT(avg_elements_images)) avg_elements_images = dbcsr_cfg%avg_elements_images%dval
-      IF (PRESENT(num_mult_images)) num_mult_images = dbcsr_cfg%num_mult_images%dval
-      IF (PRESENT(use_mpi_rma)) use_mpi_rma = dbcsr_cfg%use_mpi_rma%dval
-      IF (PRESENT(num_layers_3D)) num_layers_3D = default_cfg%num_layers_3D
-      IF (PRESENT(use_comm_thread)) use_comm_thread = default_cfg%use_comm_thread
-      IF (PRESENT(comm_thread_load)) comm_thread_load = default_cfg%comm_thread_load
-      IF (PRESENT(mm_dense)) mm_dense = dbcsr_cfg%mm_dense%dval
-      IF (PRESENT(multrec_limit)) multrec_limit = dbcsr_cfg%multrec_limit%dval
-      IF (PRESENT(accdrv_thread_buffers)) accdrv_thread_buffers = default_cfg%accdrv_thread_buffers
-      IF (PRESENT(accdrv_avoid_after_busy)) accdrv_avoid_after_busy = default_cfg%accdrv_avoid_after_busy
-      IF (PRESENT(accdrv_min_flop_process)) accdrv_min_flop_process = default_cfg%accdrv_min_flop_process
-      IF (PRESENT(accdrv_stack_sort)) accdrv_stack_sort = default_cfg%accdrv_stack_sort
-      IF (PRESENT(accdrv_min_flop_sort)) accdrv_min_flop_sort = dbcsr_cfg%accdrv_min_flop_sort%dval
-      IF (PRESENT(accdrv_do_inhomogenous)) accdrv_do_inhomogenous = default_cfg%accdrv_do_inhomogenous
-      IF (PRESENT(accdrv_binning_nbins)) accdrv_binning_nbins = default_cfg%accdrv_binning_nbins
-      IF (PRESENT(accdrv_binning_binsize)) accdrv_binning_binsize = default_cfg%accdrv_binning_binsize
-      IF (PRESENT(use_mempools_cpu)) use_mempools_cpu = dbcsr_cfg%use_mempools_cpu%dval
-      IF (PRESENT(tas_split_factor)) tas_split_factor = default_cfg%tas_split_factor
-
-      IF (PRESENT(nstacks)) nstacks = dbcsr_cfg%n_stacks%dval
+      IF (PRESENT(use_mpi_allocator)) use_mpi_allocator = dbcsr_cfg%use_mpi_allocator%defval
+      IF (PRESENT(mm_stack_size)) mm_stack_size = dbcsr_cfg%mm_stack_size%defval
+      IF (PRESENT(avg_elements_images)) avg_elements_images = dbcsr_cfg%avg_elements_images%defval
+      IF (PRESENT(num_mult_images)) num_mult_images = dbcsr_cfg%num_mult_images%defval
+      IF (PRESENT(use_mpi_rma)) use_mpi_rma = dbcsr_cfg%use_mpi_rma%defval
+      IF (PRESENT(num_layers_3D)) num_layers_3D = dbcsr_cfg%num_layers_3D%defval
+      IF (PRESENT(use_comm_thread)) use_comm_thread = dbcsr_cfg%use_comm_thread%defval
+      IF (PRESENT(comm_thread_load)) comm_thread_load = dbcsr_cfg%comm_thread_load%defval
+      IF (PRESENT(mm_dense)) mm_dense = dbcsr_cfg%mm_dense%defval
+      IF (PRESENT(multrec_limit)) multrec_limit = dbcsr_cfg%multrec_limit%defval
+      IF (PRESENT(accdrv_thread_buffers)) accdrv_thread_buffers = dbcsr_cfg%accdrv_thread_buffers%defval
+      IF (PRESENT(accdrv_avoid_after_busy)) accdrv_avoid_after_busy = dbcsr_cfg%accdrv_avoid_after_busy%defval
+      IF (PRESENT(accdrv_min_flop_process)) accdrv_min_flop_process = dbcsr_cfg%accdrv_min_flop_process%defval
+      IF (PRESENT(accdrv_stack_sort)) accdrv_stack_sort = dbcsr_cfg%accdrv_stack_sort%defval
+      IF (PRESENT(accdrv_min_flop_sort)) accdrv_min_flop_sort = dbcsr_cfg%accdrv_min_flop_sort%defval
+      IF (PRESENT(accdrv_do_inhomogenous)) accdrv_do_inhomogenous = dbcsr_cfg%accdrv_do_inhomogenous%defval
+      IF (PRESENT(accdrv_binning_nbins)) accdrv_binning_nbins = dbcsr_cfg%accdrv_binning_nbins%defval
+      IF (PRESENT(accdrv_binning_binsize)) accdrv_binning_binsize = dbcsr_cfg%accdrv_binning_binsize%defval
+      IF (PRESENT(use_mempools_cpu)) use_mempools_cpu = dbcsr_cfg%use_mempools_cpu%defval
+      IF (PRESENT(nstacks)) nstacks = dbcsr_cfg%n_stacks%defval
+      IF (PRESENT(tas_split_factor)) tas_split_factor = dbcsr_cfg%tas_split_factor%defval
 
    END SUBROUTINE dbcsr_get_default_config
 
@@ -525,12 +536,14 @@ CONTAINS
          dbcsr_cfg%use_mempools_cpu%print_source()
 
       IF (has_mpi) THEN
-         IF (dbcsr_cfg%num_layers_3D < 2) THEN
-            WRITE (UNIT=unit_nr, FMT='(1X,A,T75,A)') &
-               "DBCSR| Number of 3D layers", "SINGLE"
+         IF (dbcsr_cfg%num_layers_3D%val < 2) THEN
+            WRITE (UNIT=unit_nr, FMT='(1X,A,T75,A,A4)') &
+               "DBCSR| Number of 3D layers", "SINGLE", &
+               dbcsr_cfg%use_mempools_cpu%print_source()
          ELSE
-            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-               "DBCSR| Number of 3D layers", dbcsr_cfg%num_layers_3D
+            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
+               "DBCSR| Number of 3D layers", dbcsr_cfg%num_layers_3D%val, &
+               dbcsr_cfg%use_mempools_cpu%print_source()
          END IF
          WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1,A4)') &
             "DBCSR| Use MPI memory allocation", dbcsr_cfg%use_mpi_allocator%val, &
@@ -538,17 +551,19 @@ CONTAINS
          WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1,A4)') &
             "DBCSR| Use RMA algorithm", dbcsr_cfg%use_mpi_rma%val, &
             dbcsr_cfg%use_mpi_rma%print_source()
-         WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
-            "DBCSR| Use Communication thread", dbcsr_cfg%use_comm_thread
-         WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-            "DBCSR| Communication thread load", dbcsr_cfg%comm_thread_load
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1,A4)') &
+            "DBCSR| Use Communication thread", dbcsr_cfg%use_comm_thread%val, &
+            dbcsr_cfg%use_comm_thread%print_source()
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
+            "DBCSR| Communication thread load", dbcsr_cfg%comm_thread_load%val, &
+            dbcsr_cfg%comm_thread_load%print_source()
 
          BLOCK
             INTEGER :: numnodes, mynode
             CALL mp_environ(numnodes, mynode, mp_comm_world)
-            WRITE (UNIT=unit_nr, FMT='(1X,A,T67,I11)') &
+            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
                "DBCSR| MPI: My process id", mynode
-            WRITE (UNIT=unit_nr, FMT='(1X,A,T66,I11)') &
+            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
                "DBCSR| MPI: Number of processes", numnodes
          END BLOCK
       END IF
@@ -579,27 +594,34 @@ CONTAINS
       IF (has_acc) THEN
          WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
             "DBCSR| ACC: Number of devices/node", dbcsr_acc_get_ndevices()
-         WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-            "DBCSR| ACC: Number of stack-buffers per thread", dbcsr_cfg%accdrv_thread_buffers
-         WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
-            "DBCSR| ACC: Avoid driver after busy ", dbcsr_cfg%accdrv_avoid_after_busy
-         WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
-            "DBCSR| ACC: Process inhomogeneous stacks", dbcsr_cfg%accdrv_do_inhomogenous
-         WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-            "DBCSR| ACC: Min. flop for processing", dbcsr_cfg%accdrv_min_flop_process
-         IF (dbcsr_cfg%accdrv_stack_sort) THEN
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
+            "DBCSR| ACC: Number of stack-buffers per thread", dbcsr_cfg%accdrv_thread_buffers%val, &
+            dbcsr_cfg%accdrv_thread_buffers%print_source()
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1,A4)') &
+            "DBCSR| ACC: Avoid driver after busy ", dbcsr_cfg%accdrv_avoid_after_busy%val, &
+            dbcsr_cfg%accdrv_avoid_after_busy%print_source()
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1,A4)') &
+            "DBCSR| ACC: Process inhomogeneous stacks", dbcsr_cfg%accdrv_do_inhomogenous%val, &
+            dbcsr_cfg%accdrv_do_inhomogenous%print_source()
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
+            "DBCSR| ACC: Min. flop for processing", dbcsr_cfg%accdrv_min_flop_process%val, &
+            dbcsr_cfg%accdrv_min_flop_process%print_source()
+         IF (dbcsr_cfg%accdrv_stack_sort%val) THEN
             WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
                "DBCSR| ACC: Min. flop for sorting", dbcsr_cfg%accdrv_min_flop_sort%val, &
                dbcsr_cfg%accdrv_min_flop_sort%print_source()
-            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-               "DBCSR| ACC: Number of binning bins", dbcsr_cfg%accdrv_binning_nbins
-            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
-               "DBCSR| ACC: Size of binning bins", dbcsr_cfg%accdrv_binning_binsize
+            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
+               "DBCSR| ACC: Number of binning bins", dbcsr_cfg%accdrv_binning_nbins%val, &
+               dbcsr_cfg%accdrv_binning_nbins%print_source()
+            WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
+               "DBCSR| ACC: Size of binning bins", dbcsr_cfg%accdrv_binning_binsize%val, &
+               dbcsr_cfg%accdrv_binning_binsize%print_source()
          END IF
       END IF
 
-      WRITE (UNIT=unit_nr, FMT='(1X,A,T74,ES7.1)') &
-         "DBCSR| Split modifier for TAS multiplication algorithm", dbcsr_cfg%tas_split_factor
+      WRITE (UNIT=unit_nr, FMT='(1X,A,T74,ES7.1,A4)') &
+         "DBCSR| Split modifier for TAS multiplication algorithm", dbcsr_cfg%tas_split_factor%val, &
+         dbcsr_cfg%tas_split_factor%print_source()
 
    END SUBROUTINE dbcsr_print_config
 

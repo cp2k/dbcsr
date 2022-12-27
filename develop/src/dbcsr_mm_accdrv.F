@@ -286,7 +286,7 @@ CONTAINS
       ithread = 0
 !$    ithread = OMP_GET_THREAD_NUM()
       thread_privates => all_thread_privates(ithread)
-      my_thread_buffers = dbcsr_cfg%accdrv_thread_buffers
+      my_thread_buffers = dbcsr_cfg%accdrv_thread_buffers%val
 
       IF (ASSOCIATED(thread_privates%stack_buffers)) THEN
          IF (SIZE(thread_privates%stack_buffers) /= my_thread_buffers) &
@@ -394,19 +394,19 @@ CONTAINS
          INTENT(IN)                                      :: params_in
 
       INTEGER                                            :: bin_id, i, top
-      INTEGER, DIMENSION(dbcsr_cfg%accdrv_binning_nbins) :: bin_top
+      INTEGER, DIMENSION(dbcsr_cfg%accdrv_binning_nbins%val) :: bin_top
       INTEGER, DIMENSION(dbcsr_ps_acc_width)             :: val
       INTEGER, DIMENSION(dbcsr_ps_acc_width, dbcsr_cfg% &
-                         accdrv_binning_binsize, dbcsr_cfg% &
-                         accdrv_binning_nbins)                           :: bin_arr
+                         accdrv_binning_binsize%val, dbcsr_cfg% &
+                         accdrv_binning_nbins%val)                           :: bin_arr
 
       bin_top = 1
       top = 1
       DO i = 1, stack_size
          val(1:3) = params_in(4:6, i)
          bin_id = 1 + INT(MODULO(INT(val(3)*(val(3) + 3), KIND=int_8), &
-                                 INT(dbcsr_cfg%accdrv_binning_nbins, KIND=int_8)))
-         IF (bin_top(bin_id) > dbcsr_cfg%accdrv_binning_binsize) THEN
+                                 INT(dbcsr_cfg%accdrv_binning_nbins%val, KIND=int_8)))
+         IF (bin_top(bin_id) > dbcsr_cfg%accdrv_binning_binsize%val) THEN
             params_out(1:3, top:top + bin_top(bin_id) - 2) = bin_arr(1:3, 1:bin_top(bin_id) - 1, bin_id)
             top = top + bin_top(bin_id) - 1
             bin_top(bin_id) = 1
@@ -414,7 +414,7 @@ CONTAINS
          bin_arr(1:3, bin_top(bin_id), bin_id) = val(1:3)
          bin_top(bin_id) = bin_top(bin_id) + 1
       END DO
-      DO i = 1, dbcsr_cfg%accdrv_binning_nbins
+      DO i = 1, dbcsr_cfg%accdrv_binning_nbins%val
          IF (bin_top(i) > 1) THEN
             params_out(1:3, top:top + bin_top(i) - 2) = bin_arr(1:3, 1:bin_top(i) - 1, i)
             top = top + bin_top(i) - 1
@@ -479,7 +479,7 @@ CONTAINS
       CALL timeset(routineN//"_sort", error_handle2)
       flop_per_entry = 2*stack_descr%max_m*stack_descr%max_n*stack_descr%max_k
 
-      IF (dbcsr_cfg%accdrv_stack_sort) THEN
+      IF (dbcsr_cfg%accdrv_stack_sort%val) THEN
          IF (flop_per_entry > dbcsr_cfg%accdrv_min_flop_sort%val) THEN
             CALL stack_sort(params, stackbuf%hostmem, stack_size)
          ELSE

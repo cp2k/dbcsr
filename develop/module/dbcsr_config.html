@@ -84,7 +84,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.6% of total for modules and submodules.">362 statements</a>
+               title=" 0.6% of total for modules and submodules.">369 statements</a>
           </li>
 
             <li id="source-file">
@@ -169,6 +169,7 @@
             <a class="list-group-item" href="../module/dbcsr_config.html#type-conf_par_int">CONF_PAR_INT</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#type-conf_par_mm_driver">CONF_PAR_MM_DRIVER</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#type-conf_par_logical">CONF_PAR_LOGICAL</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#type-conf_par_real">CONF_PAR_REAL</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#type-dbcsr_config_type">dbcsr_config_type</a>
         </div>
       </div>
@@ -200,6 +201,7 @@
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-set_conf_par_int">set_conf_par_int</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-set_conf_par_mm_driver">set_conf_par_mm_driver</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-set_conf_par_logical">set_conf_par_logical</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#proc-set_conf_par_real">set_conf_par_real</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-dbcsr_set_config">dbcsr_set_config</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-dbcsr_get_default_config">dbcsr_get_default_config</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-dbcsr_print_config">dbcsr_print_config</a>
@@ -230,11 +232,11 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
+                <li><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
                 <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                <li><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
                 <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
                 <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
             </ul>
           </li>
       </ul>
@@ -303,6 +305,7 @@
             <a class="list-group-item" href="../module/dbcsr_config.html#type-conf_par_int">CONF_PAR_INT</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#type-conf_par_mm_driver">CONF_PAR_MM_DRIVER</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#type-conf_par_logical">CONF_PAR_LOGICAL</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#type-conf_par_real">CONF_PAR_REAL</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#type-dbcsr_config_type">dbcsr_config_type</a>
         </div>
       </div>
@@ -334,6 +337,7 @@
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-set_conf_par_int">set_conf_par_int</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-set_conf_par_mm_driver">set_conf_par_mm_driver</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-set_conf_par_logical">set_conf_par_logical</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#proc-set_conf_par_real">set_conf_par_real</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-dbcsr_set_config">dbcsr_set_config</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-dbcsr_get_default_config">dbcsr_get_default_config</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-dbcsr_print_config">dbcsr_print_config</a>
@@ -968,7 +972,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dval"></span>
+              <span class="anchor" id="variable-defval"></span>
               integer,
             </td>
               <td>public</td>
@@ -976,7 +980,7 @@ parameter
               
             </td>
             <td>::</td>
-            <td><strong>dval</strong></td>
+            <td><strong>defval</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -1118,7 +1122,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dval~2"></span>
+              <span class="anchor" id="variable-defval~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -1126,7 +1130,7 @@ parameter
               
             </td>
             <td>::</td>
-            <td><strong>dval</strong></td>
+            <td><strong>defval</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -1251,7 +1255,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dval~3"></span>
+              <span class="anchor" id="variable-defval~3"></span>
               logical,
             </td>
               <td>public</td>
@@ -1259,7 +1263,7 @@ parameter
               
             </td>
             <td>::</td>
-            <td><strong>dval</strong></td>
+            <td><strong>defval</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -1310,6 +1314,139 @@ parameter
 
        <div class="panel panel-default">
     <div class="panel-heading codesum">
+      <span class="anchor" id="type-conf_par_real"></span>
+      <h3>
+        type, private, extends(<a href='../type/conf_par.html'>CONF_PAR</a>)&nbsp;::&nbsp;
+        <a href='../type/conf_par_real.html'>CONF_PAR_REAL</a>
+        
+      </h3>
+    </div>
+    <div class="panel-body">
+      
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Visibility</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+<th></th><th>Initial</th>        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-source~77"></span>
+              character,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>source</strong></td>
+<td> =</td>
+                <td>'D'</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~9"></span>
+              character(len=max_paramter_name_len),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-val~6"></span>
+              real(kind=real_8),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>val</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-defval~4"></span>
+              real(kind=real_8),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>defval</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+, NON_OVERRIDABLE                  :: <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong>
+ =>
+                    <a href='../proc/conf_par_env_value.html'>conf_par_env_value</a>
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+, NON_OVERRIDABLE                  :: <strong><a href='../type/conf_par.html#boundprocedure-print_source'>print_source</a></strong>
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/conf_par_real.html#boundprocedure-set~4'>set</a></strong>
+ =>
+                    <a href='../proc/set_conf_par_real.html'>set_conf_par_real</a>
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+       <div class="panel panel-default">
+    <div class="panel-heading codesum">
       <span class="anchor" id="type-dbcsr_config_type"></span>
       <h3>
         type, private&nbsp;::&nbsp;
@@ -1343,7 +1480,7 @@ parameter
             <td>::</td>
             <td><strong>MM_DRIVER</strong></td>
 <td> =</td>
-                <td>CONF_PAR_MM_DRIVER(name="MM_DRIVER", val=mm_default_driver, dval=mm_default_driver)</td>
+                <td>CONF_PAR_MM_DRIVER(name="MM_DRIVER", val=mm_default_driver, defval=mm_default_driver)</td>
             <td>
 
             </td>
@@ -1360,7 +1497,7 @@ parameter
             <td>::</td>
             <td><strong>MM_STACK_SIZE</strong></td>
 <td> =</td>
-                <td>CONF_PAR_INT(name="MM_STACK_SIZE", val=mm_stack_default_size, dval=mm_stack_default_size)</td>
+                <td>CONF_PAR_INT(name="MM_STACK_SIZE", val=mm_stack_default_size, defval=mm_stack_default_size)</td>
             <td>
 
             </td>
@@ -1377,7 +1514,7 @@ parameter
             <td>::</td>
             <td><strong>AVG_ELEMENTS_IMAGES</strong></td>
 <td> =</td>
-                <td>CONF_PAR_INT(name="AVG_ELEMENTS_IMAGES", val=0, dval=0)</td>
+                <td>CONF_PAR_INT(name="AVG_ELEMENTS_IMAGES", val=0, defval=0)</td>
             <td>
 
             </td>
@@ -1394,7 +1531,7 @@ parameter
             <td>::</td>
             <td><strong>NUM_MULT_IMAGES</strong></td>
 <td> =</td>
-                <td>CONF_PAR_INT(name="NUM_MULT_IMAGES", val=1, dval=1)</td>
+                <td>CONF_PAR_INT(name="NUM_MULT_IMAGES", val=1, defval=1)</td>
             <td>
 
             </td>
@@ -1411,7 +1548,7 @@ parameter
             <td>::</td>
             <td><strong>N_STACKS</strong></td>
 <td> =</td>
-                <td>CONF_PAR_INT(name="N_STACKS", val=3, dval=3)</td>
+                <td>CONF_PAR_INT(name="N_STACKS", val=3, defval=3)</td>
             <td>
 
             </td>
@@ -1428,24 +1565,24 @@ parameter
             <td>::</td>
             <td><strong>USE_MPI_RMA</strong></td>
 <td> =</td>
-                <td>CONF_PAR_LOGICAL(name="USE_MPI_RMA", val=.FALSE., dval=.FALSE.)</td>
+                <td>CONF_PAR_LOGICAL(name="USE_MPI_RMA", val=.FALSE., defval=.FALSE.)</td>
             <td>
 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-num_layers_3d~4"></span>
-              integer,
+              <span class="anchor" id="variable-num_layers_3d"></span>
+              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>num_layers_3D</strong></td>
+            <td><strong>NUM_LAYERS_3D</strong></td>
 <td> =</td>
-                <td>1</td>
+                <td>CONF_PAR_INT(name="NUM_LAYERS_3D", val=1, defval=1)</td>
             <td>
 
             </td>
@@ -1453,16 +1590,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-use_comm_thread"></span>
-              logical,
+              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>use_comm_thread</strong></td>
+            <td><strong>USE_COMM_THREAD</strong></td>
 <td> =</td>
-                <td>.TRUE.</td>
+                <td>CONF_PAR_LOGICAL(name="USE_COMM_THREAD", val=.TRUE., defval=.TRUE.)</td>
             <td>
 
             </td>
@@ -1470,16 +1607,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-comm_thread_load"></span>
-              integer,
+              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>comm_thread_load</strong></td>
+            <td><strong>COMM_THREAD_LOAD</strong></td>
 <td> =</td>
-                <td>100</td>
+                <td>CONF_PAR_INT(name="COMM_THREAD_LOAD", val=100, defval=100)</td>
             <td>
 
             </td>
@@ -1496,7 +1633,7 @@ parameter
             <td>::</td>
             <td><strong>MM_DENSE</strong></td>
 <td> =</td>
-                <td>CONF_PAR_LOGICAL(name="MM_DENSE", val=.NOT.has_acc, dval=.NOT.has_acc)</td>
+                <td>CONF_PAR_LOGICAL(name="MM_DENSE", val=.NOT.has_acc, defval=.NOT.has_acc)</td>
             <td>
 
             </td>
@@ -1513,7 +1650,7 @@ parameter
             <td>::</td>
             <td><strong>MULTREC_LIMIT</strong></td>
 <td> =</td>
-                <td>CONF_PAR_INT(name="MULTREC_LIMIT", val=512, dval=512)</td>
+                <td>CONF_PAR_INT(name="MULTREC_LIMIT", val=512, defval=512)</td>
             <td>
 
             </td>
@@ -1521,16 +1658,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_thread_buffers"></span>
-              integer,
+              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>accdrv_thread_buffers</strong></td>
+            <td><strong>ACCDRV_THREAD_BUFFERS</strong></td>
 <td> =</td>
-                <td>8</td>
+                <td>CONF_PAR_INT(name="ACCDRV_THREAD_BUFFERS", val=8, defval=8)</td>
             <td>
 
             </td>
@@ -1538,16 +1675,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_avoid_after_busy"></span>
-              logical,
+              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>accdrv_avoid_after_busy</strong></td>
+            <td><strong>ACCDRV_AVOID_AFTER_BUSY</strong></td>
 <td> =</td>
-                <td>.FALSE.</td>
+                <td>CONF_PAR_LOGICAL(name="ACCDRV_AVOID_AFTER_BUSY", val=.FALSE., defval=.FALSE.)</td>
             <td>
 
             </td>
@@ -1555,16 +1692,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_min_flop_process"></span>
-              integer,
+              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>accdrv_min_flop_process</strong></td>
+            <td><strong>ACCDRV_MIN_FLOP_PROCESS</strong></td>
 <td> =</td>
-                <td>0</td>
+                <td>CONF_PAR_INT(name="ACCDRV_MIN_FLOP_PROCESS", val=0, defval=0)</td>
             <td>
 
             </td>
@@ -1572,16 +1709,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_stack_sort"></span>
-              logical,
+              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>accdrv_stack_sort</strong></td>
+            <td><strong>ACCDRV_STACK_SORT</strong></td>
 <td> =</td>
-                <td>.TRUE.</td>
+                <td>CONF_PAR_LOGICAL(name="ACCDRV_STACK_SORT", val=.TRUE., defval=.TRUE.)</td>
             <td>
 
             </td>
@@ -1598,7 +1735,7 @@ parameter
             <td>::</td>
             <td><strong>ACCDRV_MIN_FLOP_SORT</strong></td>
 <td> =</td>
-                <td>CONF_PAR_INT(name="ACCDRV_MIN_FLOP_SORT", val=4000, dval=4000)</td>
+                <td>CONF_PAR_INT(name="ACCDRV_MIN_FLOP_SORT", val=4000, defval=4000)</td>
             <td>
 
             </td>
@@ -1606,16 +1743,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_do_inhomogenous"></span>
-              logical,
+              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>accdrv_do_inhomogenous</strong></td>
+            <td><strong>ACCDRV_DO_INHOMOGENOUS</strong></td>
 <td> =</td>
-                <td>.TRUE.</td>
+                <td>CONF_PAR_LOGICAL(name="ACCDRV_DO_INHOMOGENOUS", val=.TRUE., defval=.TRUE.)</td>
             <td>
 
             </td>
@@ -1623,16 +1760,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_binning_nbins"></span>
-              integer,
+              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>accdrv_binning_nbins</strong></td>
+            <td><strong>ACCDRV_BINNING_NBINS</strong></td>
 <td> =</td>
-                <td>4096</td>
+                <td>CONF_PAR_INT(name="ACCDRV_BINNING_NBINS", val=4096, defval=4096)</td>
             <td>
 
             </td>
@@ -1640,16 +1777,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_binning_binsize"></span>
-              integer,
+              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>accdrv_binning_binsize</strong></td>
+            <td><strong>ACCDRV_BINNING_BINSIZE</strong></td>
 <td> =</td>
-                <td>16</td>
+                <td>CONF_PAR_INT(name="ACCDRV_BINNING_BINSIZE", val=16, defval=16)</td>
             <td>
 
             </td>
@@ -1666,7 +1803,7 @@ parameter
             <td>::</td>
             <td><strong>USE_MEMPOOLS_CPU</strong></td>
 <td> =</td>
-                <td>CONF_PAR_LOGICAL(name="USE_MEMPOOLS_CPU", val=.FALSE., dval=.FALSE.)</td>
+                <td>CONF_PAR_LOGICAL(name="USE_MEMPOOLS_CPU", val=.FALSE., defval=.FALSE.)</td>
             <td>
 
             </td>
@@ -1683,7 +1820,7 @@ parameter
             <td>::</td>
             <td><strong>USE_MPI_ALLOCATOR</strong></td>
 <td> =</td>
-                <td>CONF_PAR_LOGICAL(name="USE_MPI_ALLOCATOR", val=.FALSE., dval=.FALSE.)</td>
+                <td>CONF_PAR_LOGICAL(name="USE_MPI_ALLOCATOR", val=.FALSE., defval=.FALSE.)</td>
             <td>
 
             </td>
@@ -1691,16 +1828,16 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-tas_split_factor"></span>
-              real(kind=real_8),
+              type(<a href='../type/conf_par_real.html'>CONF_PAR_REAL</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>tas_split_factor</strong></td>
+            <td><strong>TAS_SPLIT_FACTOR</strong></td>
 <td> =</td>
-                <td>1.0_real_8</td>
+                <td>CONF_PAR_REAL(name="TAS_SPLIT_FACTOR", val=1.0_real_8, defval=1.0_real_8)</td>
             <td>
 
             </td>
@@ -2002,6 +2139,61 @@ parameter
             </td>
             <td>::</td>
             <td><strong>logical_val</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+      <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="proc-set_conf_par_real"></span><h3>private  subroutine <a href='../proc/set_conf_par_real.html'>set_conf_par_real</a>(this, real_val)  
+</h3></div>
+    <div class="panel-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/conf_par_real.html'>CONF_PAR_REAL</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>real_val</strong></td>
             <td>
 
             </td>

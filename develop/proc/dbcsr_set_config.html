@@ -84,7 +84,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.1% of total for procedures.">57 statements</a>
+               title=" 0.1% of total for procedures.">53 statements</a>
           </li>
 
             <li id="source-file">
@@ -282,7 +282,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_comm_thread~2"></span>
+              <span class="anchor" id="variable-use_comm_thread"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -297,7 +297,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm_thread_load~2"></span>
+              <span class="anchor" id="variable-comm_thread_load"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -342,7 +342,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_thread_buffers~2"></span>
+              <span class="anchor" id="variable-accdrv_thread_buffers"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -357,7 +357,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_avoid_after_busy~2"></span>
+              <span class="anchor" id="variable-accdrv_avoid_after_busy"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -372,7 +372,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_min_flop_process~2"></span>
+              <span class="anchor" id="variable-accdrv_min_flop_process"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -387,7 +387,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_stack_sort~2"></span>
+              <span class="anchor" id="variable-accdrv_stack_sort"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -417,7 +417,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_do_inhomogenous~2"></span>
+              <span class="anchor" id="variable-accdrv_do_inhomogenous"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -432,7 +432,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_binning_nbins~2"></span>
+              <span class="anchor" id="variable-accdrv_binning_nbins"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -447,7 +447,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_binning_binsize~2"></span>
+              <span class="anchor" id="variable-accdrv_binning_binsize"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -477,7 +477,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tas_split_factor~2"></span>
+              <span class="anchor" id="variable-tas_split_factor"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -591,42 +591,38 @@
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">SAVE</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nthreads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nthreads</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">nthreads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="c">!$       nthreads = OMP_GET_MAX_THREADS()</span>
-<span class="w">      </span><span class="k">END IF</span>
-
-<span class="k">      CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_allocator</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_allocator</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">avg_elements_images</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">num_mult_images</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">use_mpi_rma</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_layers_3D</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num_layers_3D</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_comm_thread</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">use_comm_thread</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">num_layers_3D</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">use_comm_thread</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">multrec_limit</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_dense</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">mm_dense</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_thread_buffers</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_thread_buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accdrv_thread_buffers</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_avoid_after_busy</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accdrv_avoid_after_busy</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_process</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accdrv_min_flop_process</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_stack_sort</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accdrv_stack_sort</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_thread_buffers</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">accdrv_thread_buffers</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">accdrv_avoid_after_busy</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">accdrv_min_flop_process</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">accdrv_stack_sort</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">accdrv_min_flop_sort</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_do_inhomogenous</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accdrv_do_inhomogenous</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_nbins</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accdrv_binning_nbins</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_binsize</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accdrv_binning_binsize</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">accdrv_do_inhomogenous</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">accdrv_binning_nbins</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">accdrv_binning_binsize</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">use_mempools_cpu</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">tas_split_factor</span><span class="p">))</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">tas_split_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tas_split_factor</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">tas_split_factor</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">tas_split_factor</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">comm_thread_load</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">comm_thread_load</span><span class="w"></span>
-<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">comm_thread_load</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">               </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
-<span class="w">            </span><span class="k">ELSE</span>
-<span class="k">               </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">END IF</span>
-<span class="k">         END IF</span>
-<span class="k">      END IF</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nthreads</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">nthreads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="c">!$       nthreads = OMP_GET_MAX_THREADS()</span>
+<span class="w">      </span><span class="k">END IF</span><span class="w"></span>
+<span class="w">      </span><span class="c">! Change default values</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="p">%</span><span class="n">defval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="p">%</span><span class="n">defval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">comm_thread_load</span><span class="p">)</span><span class="w"></span>
 
-<span class="k">      CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">n_stacks</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">nstacks</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">n_stacks</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">nstacks</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span><span class="w"></span>
 

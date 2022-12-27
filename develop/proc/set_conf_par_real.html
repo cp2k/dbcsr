@@ -8,7 +8,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>host2dev_i8_1D &ndash; DBCSR</title>
+    <title>set_conf_par_real &ndash; DBCSR</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -72,7 +72,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>host2dev_i8_1D
+    <h1>set_conf_par_real
       <small>Subroutine</small>
       
     </h1>
@@ -84,18 +84,18 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.0% of total for procedures.">21 statements</a>
+               title=" 0.0% of total for procedures.">8 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_acc_devmem.F"> Source File</a>
+              <a href="../src/dbcsr_config.F"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/dbcsr_acc_devmem.f.html'>dbcsr_acc_devmem.F</a></li>
-              <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
-          <li class="active">host2dev_i8_1D</li>
+              <li><a href='../sourcefile/dbcsr_config.f.html'>dbcsr_config.F</a></li>
+              <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+          <li class="active">set_conf_par_real</li>
         </ol>
       </div>
     </div>
@@ -134,7 +134,7 @@
     <div class="panel panel-primary">
       <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/host2dev_i8_1d.html#src">host2dev_i8_1D</a>
+        <a class="list-group-item" href="../proc/set_conf_par_real.html#src">set_conf_par_real</a>
       </div>
     </div>
 
@@ -144,11 +144,10 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private  subroutine host2dev_i8_1D(this, hostmem, stream)  
+    <h2>private  subroutine set_conf_par_real(this, real_val)  
 </h2>
     
 
-    <p>Transfers 1D fortran-array from host to GPU devmem.</p>
 
     <h3>Arguments</h3>
         <table class="table table-striped varlist">
@@ -163,10 +162,10 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~24"></span>
-              type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
+              <span class="anchor" id="variable-this~9"></span>
+              class(<a href='../type/conf_par_real.html'>CONF_PAR_REAL</a>),
             </td>
-<td>intent(in)</td>
+<td>intent(inout)</td>
               <td></td>            <td>
               
             </td>
@@ -178,30 +177,15 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmem~5"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-real_val"></span>
+              real(kind=real_8),
             </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>hostmem</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-stream~33"></span>
-              type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>stream</strong></td>
+            <td><strong>real_val</strong></td>
             <td>
                 
             </td>
@@ -235,7 +219,7 @@
     <div class="panel panel-primary">
       <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/host2dev_i8_1d.html#src">host2dev_i8_1D</a>
+        <a class="list-group-item" href="../proc/set_conf_par_real.html#src">set_conf_par_real</a>
       </div>
     </div>
 
@@ -254,22 +238,16 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">host2dev_i8_1D</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="c">!! Transfers 1D fortran-array from host to GPU devmem.</span>
+    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">set_conf_par_real</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">real_val</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CLASS</span><span class="p">(</span><span class="n">CONF_PAR_REAL</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">real_val</span><span class="w"></span>
 
-<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
-<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">hostmem</span><span class="w"></span>
-<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">stream</span><span class="w"></span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">real_val</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">real_val</span><span class="w"></span>
+<span class="w">         </span><span class="n">this</span><span class="p">%</span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;U&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="k">END IF</span>
 
-<span class="cp">#if ! defined (__DBCSR_ACC)</span>
-<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">hostmem</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="cp">#else</span>
-<span class="w">         </span><span class="k">CALL </span><span class="n">host2dev_raw</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">hostmem</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span><span class="w"> </span><span class="n">int_8_size</span><span class="o">*</span><span class="n">SIZE</span><span class="p">(</span><span class="n">hostmem</span><span class="p">),</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span><span class="w"></span>
-<span class="cp">#endif</span>
-<span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">host2dev_i8_1D</span><span class="w"></span>
+<span class="k">   END SUBROUTINE </span><span class="n">set_conf_par_real</span><span class="w"></span>
 </pre></div>
 
     </section>
