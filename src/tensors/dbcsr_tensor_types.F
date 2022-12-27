@@ -1072,6 +1072,33 @@ CONTAINS
             CALL timestop(handle)
          END SUBROUTINE
 
+         PURE FUNCTION dbcsr_t_nblks_total(tensor, idim)
+      !! total numbers of blocks along dimension idim
+            TYPE(dbcsr_t_type), INTENT(IN) :: tensor
+            INTEGER, INTENT(IN) :: idim
+            INTEGER :: dbcsr_t_nblks_total
+
+            IF (idim > ndims_tensor(tensor)) THEN
+               dbcsr_t_nblks_total = 0
+            ELSE
+               dbcsr_t_nblks_total = tensor%nd_index_blk%dims_nd(idim)
+            END IF
+         END FUNCTION
+
+         PURE FUNCTION dbcsr_t_nblks_local(tensor, idim)
+      !! local number of blocks along dimension idim
+            TYPE(dbcsr_t_type), INTENT(IN) :: tensor
+            INTEGER, INTENT(IN) :: idim
+            INTEGER :: dbcsr_t_nblks_local
+
+            IF (idim > ndims_tensor(tensor)) THEN
+               dbcsr_t_nblks_local = 0
+            ELSE
+               dbcsr_t_nblks_local = tensor%nblks_local(idim)
+            END IF
+
+         END FUNCTION
+
          PURE FUNCTION ndims_tensor(tensor)
       !! tensor rank
             TYPE(dbcsr_t_type), INTENT(IN) :: tensor
@@ -1489,33 +1516,6 @@ CONTAINS
             TYPE(dbcsr_t_type), INTENT(IN) :: tensor
             INTEGER(KIND=int_8)            :: dbcsr_t_get_nze_total
             dbcsr_t_get_nze_total = dbcsr_tas_get_nze_total(tensor%matrix_rep)
-         END FUNCTION
-
-         PURE FUNCTION dbcsr_t_nblks_local(tensor, idim)
-      !! local number of blocks along dimension idim
-            TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-            INTEGER, INTENT(IN) :: idim
-            INTEGER :: dbcsr_t_nblks_local
-
-            IF (idim > ndims_tensor(tensor)) THEN
-               dbcsr_t_nblks_local = 0
-            ELSE
-               dbcsr_t_nblks_local = tensor%nblks_local(idim)
-            END IF
-
-         END FUNCTION
-
-         PURE FUNCTION dbcsr_t_nblks_total(tensor, idim)
-      !! total numbers of blocks along dimension idim
-            TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-            INTEGER, INTENT(IN) :: idim
-            INTEGER :: dbcsr_t_nblks_total
-
-            IF (idim > ndims_tensor(tensor)) THEN
-               dbcsr_t_nblks_total = 0
-            ELSE
-               dbcsr_t_nblks_total = tensor%nd_index_blk%dims_nd(idim)
-            END IF
          END FUNCTION
 
          PURE FUNCTION dbcsr_t_blk_size(tensor, ind, idim)

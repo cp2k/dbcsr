@@ -149,8 +149,8 @@ CONTAINS
 
       ! Each thread has its own working-matrix and its own mempool
       ALLOCATE (memtype_product_wm(ithread)%p)
-      CALL dbcsr_memtype_setup(memtype_product_wm(ithread)%p, has_pool=dbcsr_cfg%use_mempools_cpu .OR. has_acc)
-      CALL dbcsr_mempool_limit_capacity(memtype_product_wm(ithread)%p%pool, capacity=MAX(1, dbcsr_cfg%num_layers_3D))
+      CALL dbcsr_memtype_setup(memtype_product_wm(ithread)%p, has_pool=dbcsr_cfg%use_mempools_cpu%val .OR. has_acc)
+      CALL dbcsr_mempool_limit_capacity(memtype_product_wm(ithread)%p%pool, capacity=MAX(1, dbcsr_cfg%num_layers_3D%val))
    END SUBROUTINE dbcsr_multiply_lib_init
 
    SUBROUTINE dbcsr_multiply_lib_finalize()
@@ -429,7 +429,7 @@ CONTAINS
       ! give any performance benefit)
       CALL check_openmpi_rma()
 
-      use_mempools = dbcsr_cfg%use_mempools_cpu .OR. has_acc
+      use_mempools = dbcsr_cfg%use_mempools_cpu%val .OR. has_acc
 
       ! setup driver-dependent memory-types and their memory-pools ---------------
 
@@ -563,7 +563,7 @@ CONTAINS
          DBCSR_ABORT("A cols/B rows not equal")
       !
       ! No dense multiplication when filtering is used.
-      use_dense_mult = dbcsr_cfg%mm_densification .AND. (.NOT. PRESENT(filter_eps))
+      use_dense_mult = dbcsr_cfg%mm_dense%val .AND. (.NOT. PRESENT(filter_eps))
       !
       mp_obj = dbcsr_distribution_mp(matrix_c%dist)
       numnodes = dbcsr_mp_numnodes(mp_obj)
@@ -571,10 +571,10 @@ CONTAINS
       npcols = dbcsr_mp_npcols(mp_obj)
       !
       ! 3D layers
-      CALL make_layers_3D_C_reduction(dbcsr_cfg%num_layers_3D, mp_obj)
+      CALL make_layers_3D_C_reduction(dbcsr_cfg%num_layers_3D%val, mp_obj)
       !
       ! No dense multiplication when RMA is used.
-      IF (dbcsr_cfg%use_mpi_rma) THEN
+      IF (dbcsr_cfg%use_mpi_rma%val) THEN
          use_dense_mult = .FALSE.
       END IF
       ! we skip dense multiply for (anti)symmetric matrices (slowdown for S/H * C)
@@ -816,7 +816,7 @@ CONTAINS
 !$OMP END PARALLEL
       END IF
       !
-      IF (dbcsr_cfg%use_mpi_rma) THEN
+      IF (dbcsr_cfg%use_mpi_rma%val) THEN
          ! Check for previous multiplication completeness
          IF (request_sync_mult .NE. mp_request_null) THEN
             CALL timeset(routineN//"_sync_mult", handle2)
@@ -871,7 +871,7 @@ CONTAINS
       f_k = 0; l_k = 0
       !
       my_flop = 0
-      IF (dbcsr_cfg%use_mpi_rma) THEN
+      IF (dbcsr_cfg%use_mpi_rma%val) THEN
          CALL multiply_3D(rdist_left, rdist_right, &
                           matrix_left, matrix_right, product_matrix, &
                           retain_sparsity=retain_sparsity, &
@@ -897,7 +897,7 @@ CONTAINS
             flop = (my_flop + numnodes - 1)/numnodes
          END IF
          CALL timestop(handle2)
-      ELSEIF (dbcsr_cfg%use_mpi_rma) THEN
+      ELSEIF (dbcsr_cfg%use_mpi_rma%val) THEN
          CALL mp_isync(comm, request_sync_mult)
       END IF
       !
@@ -939,7 +939,7 @@ CONTAINS
          CALL dbcsr_release(product_matrix)
       END IF
       !
-      IF (.NOT. dbcsr_cfg%use_mpi_rma) THEN
+      IF (.NOT. dbcsr_cfg%use_mpi_rma%val) THEN
          CALL dbcsr_destroy_array(m2s_left)
          DEALLOCATE (m2s_left)
          CALL dbcsr_destroy_array(m2s_right)
@@ -991,7 +991,7 @@ CONTAINS
       CHARACTER(LEN=mp_max_library_version_string)       :: mpi_library_version
       INTEGER                                            :: ipos, resultlen
 
-      IF (.NOT. dbcsr_cfg%use_mpi_rma) &
+      IF (.NOT. dbcsr_cfg%use_mpi_rma%val) &
          RETURN
 
 #if defined(__DBCSR_OPENMPI_RMA)

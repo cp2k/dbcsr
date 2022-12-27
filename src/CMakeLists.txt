@@ -161,6 +161,7 @@ set_target_properties(dbcsr PROPERTIES VERSION ${dbcsr_VERSION}
 
 if (USE_SMM MATCHES "libxsmm")
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
+  target_link_directories(dbcsr PUBLIC ${LIBXSMM_LIBRARY_DIRS})
   if (USE_OPENMP)
     target_link_libraries(dbcsr PRIVATE PkgConfig::LIBXSMMEXT)
   endif ()
@@ -200,8 +201,7 @@ set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 if (MPI_FOUND)
   # once built, a user of the dbcsr library can not influence anything anymore
   # by setting those flags:
-  target_compile_definitions(
-    dbcsr PRIVATE __parallel __MPI_VERSION=${MPI_Fortran_VERSION_MAJOR})
+  target_compile_definitions(dbcsr PRIVATE __parallel)
 
   # Instead of resetting the compiler for MPI, we are adding the compiler flags
   # otherwise added by the mpifort-wrapper directly; based on hints from:

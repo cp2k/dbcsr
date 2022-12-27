@@ -41,7 +41,6 @@ Assumed square matrix with 20x20 matrix with 5x5 blocks and a 2x2 processor grid
 | Macro | Explanation | Language |
 |-|-|-|
 | `__parallel` | Enable MPI runs | Fortran |
-| `__MPI_VERSION=N` | DBCSR assumes that the MPI library implements MPI version 3. If you have an older version of MPI (e.g. MPI 2.0) available you must define `-D__MPI_VERSION=2` | Fortran |
 | `__NO_MPI_THREAD_SUPPORT_CHECK` | Workaround for MPI libraries that do not declare they are thread safe (funneled) but you want to use them with OpenMP code anyways | Fortran |
 | `__MKL` | Enable use of optimized Intel MKL functions | Fortran
 | `__NO_STATM_ACCESS`, `__STATM_RESIDENT` or `__STATM_TOTAL` | Toggle memory usage reporting between resident memory and total memory. In particular, macOS users must use `-D__NO_STATM_ACCESS` | Fortran |

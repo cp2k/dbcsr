@@ -27,7 +27,7 @@ ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
 UNAME := $(shell uname)
-WITH_GPU := $(if $(WITH_GPU),$(WITH_GPU),$(if $(GPUVER),$(GPUVER),P100))
+STATIC ?= 1
 INTEL ?= 0
 DEV ?= 0
 
@@ -51,6 +51,17 @@ ifeq (,$(PYTHON))
   PYTHON := $(call which,python)
 endif
 
+WITH_GPU := $(if $(WITH_GPU),$(WITH_GPU),$(GPUVER))
+ifeq (,$(WITH_GPU))
+  ifneq (,$(call which,nvidia-smi))
+    GPU_NAME := $(shell nvidia-smi --query-gpu=gpu_name --format=csv,noheader -i 0 2>/dev/null | tr -c [:alnum:] " ")
+    WITH_GPU := $(filter K20X K40 K80 P100 V100 A100 H100,$(GPU_NAME))
+  endif
+endif
+ifeq (,$(WITH_GPU))
+  WITH_GPU := P100
+endif
+
 NVCC ?= $(call which,nvcc)
 CUDA_PATH ?= $(if $(NVCC),$(abspath $(dir $(NVCC))/..))
 
@@ -65,9 +76,11 @@ else ifeq ($(WITH_GPU),P100)
 else ifeq ($(WITH_GPU),V100)
   ARCH_NUMBER = 70
 else ifeq ($(WITH_GPU),A100)
-  # TODO: update for A100 tuned parameters
-  override WITH_GPU := V100
   ARCH_NUMBER = 80
+else ifeq ($(WITH_GPU),H100)
+  # TODO: update for H100 tuned parameters
+  override WITH_GPU := A100
+  ARCH_NUMBER = 90
 else ifeq (,$(ARCH_NUMBER))
   $(error Unknown ARCH_NUMBER since WITH_GPU="$(WITH_GPU)" is not recognized)
 endif
@@ -137,21 +150,29 @@ ifneq (0,$(OMP))
     CFLAGS += -Xpreprocessor -fopenmp
     LDFLAGS += -lomp
   endif
-  ifneq (,$(LIBXSMMROOT))
-    LDFLAGS += -lxsmmext -lxsmm -lxsmmnoblas -ldl -lm
-  endif
-else
-  ifneq (,$(LIBXSMMROOT))
-    LDFLAGS += -lxsmm -lxsmmnoblas -ldl -lm
-  endif
 endif
+
 ifneq (,$(LIBXSMMROOT))
-  CFLAGS_XSMM += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
-  LDFLAGS := -pthread $(LDFLAGS)
-  LDFLAGS += -L$(LIBXSMMROOT)/lib
-  ifneq (Darwin,$(UNAME))
-    LDFLAGS += -Wl,-rpath=$(LIBXSMMROOT)/lib $(LDFLAGS)
+  ifneq (0,$(STATIC))
+    ifneq (0,$(OMP))
+      LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmext.a
+    endif
+    LDFLAGS += \
+      $(LIBXSMMROOT)/lib/libxsmm.a \
+      $(LIBXSMMROOT)/lib/libxsmmnoblas.a \
+      $(NULL)
+  else
+    LDFLAGS += -L$(LIBXSMMROOT)/lib
+    ifneq (Darwin,$(UNAME))
+      LDFLAGS += -Wl,-rpath=$(LIBXSMMROOT)/lib
+    endif
+    ifneq (0,$(OMP))
+      LDFLAGS += -lxsmmext
+    endif
+    LDFLAGS += -lxsmm -lxsmmnoblas
   endif
+  CFLAGS_XSMM += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
+  LDFLAGS += -pthread -ldl -lm
 endif
 
 ifneq (,$(CUDA_PATH))
@@ -209,20 +230,22 @@ endif
 	@ldd $(ACCDIR)/acc_bench_smm
 	@echo "hostname: $$(hostname)"
 	@echo
-	@echo "$(SHAPES)" | xargs -n1 | \
-		(CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L $(ACCDIR)/acc_bench_smm /dev/stdin \
-			2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
-	@if [ -s $(MAKDIR)/test-smm.err ]; then cat $(MAKDIR)/test-smm.err && exit 1; fi
+	@echo "$(SHAPES)" | xargs -n1 | (CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L \
+		$(ACCDIR)/acc_bench_smm /dev/stdin 2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 
 .PHONY: test-smm
 test-smm: $(MAKDIR)/test-smm.log
 ifneq (,$(call which,datamash))
 ifeq (,$(shell datamash geomean 2>&1 | grep invalid))
-	@echo "geomean: $$(sed -n "/device:/p" $< | datamash -W -R 1 geomean 4) GFLOPS/s"
+	@echo "geomean: $$(sed -n "/device:/p" $< 2>/dev/null | datamash -W -R 1 geomean 4) GFLOPS/s"
 endif
-	@echo "median: $$(sed -n "/device:/p" $< | datamash -W -R 1 median 4) GFLOPS/s"
-	@echo "mean: $$(sed -n "/device:/p" $< | datamash -W -R 1 mean 4) GFLOPS/s"
+	@echo "median: $$(sed -n "/device:/p" $< 2>/dev/null | datamash -W -R 1 median 4) GFLOPS/s"
+	@echo "mean: $$(sed -n "/device:/p" $< 2>/dev/null | datamash -W -R 1 mean 4) GFLOPS/s"
 endif
+	@if [ -s $(MAKDIR)/test-smm.err ]; then \
+		echo && cat $(MAKDIR)/test-smm.err; \
+		if [ "0" != "$(if $(CHECK),$(CHECK),1)" ]; then exit 1; fi; \
+	fi
 
 PARDIR := $(DIRSMM)/parameters
 PARAMS := $(wildcard $(PARDIR)/parameters_$(WITH_GPU).json)

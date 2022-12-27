@@ -301,7 +301,7 @@ date
     for exe in all_exe:
         output += (
             f"srun --nodes=1 --bcast=/tmp/${{USER}} --ntasks=1 --ntasks-per-node=1"
-            f" --cpus-per-task={cpus_per_task} make -j {cpus_per_task} {exe} &\n"
+            f" --cpus-per-task={cpus_per_task} --exact make -j {cpus_per_task} {exe} &\n"
         )
         num_nodes_busy += 1
         if num_nodes_busy == num_nodes:
@@ -316,7 +316,7 @@ date
     for exe in all_exe:
         output += (
             f"srun --nodes=1 --bcast=/tmp/${{USER}} --ntasks=1 --ntasks-per-node=1"
-            f" --cpus-per-task=1 ./{exe} > {exe}.log 2>&1 & \n"
+            f" --cpus-per-task=1 --exact ./{exe} > {exe}.log 2>&1 & \n"
         )
         num_nodes_busy += 1
         if num_nodes_busy == num_nodes:

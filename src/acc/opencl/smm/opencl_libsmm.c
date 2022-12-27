@@ -235,7 +235,7 @@ int opencl_libsmm_write_smm_params(FILE* stream, int only_key, const opencl_libs
 
 int opencl_libsmm_read_smm_params(
   char* parambuf, opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value, opencl_libsmm_perfest_t* perfest, char* device) {
-  const char* const end = parambuf + strlen(parambuf);
+  const char* const end = parambuf + strlen(parambuf); /* before strtok */
   char* s = strtok(parambuf, ACC_OPENCL_DELIMS);
   int result = EXIT_SUCCESS, i = 0, ivalue, consumed = 0, c = 0;
   const int opt_consumed = (NULL != perfest ? 2 : 0) + (NULL != device ? 1 : 0);
@@ -444,12 +444,10 @@ int libsmm_acc_init(void) {
         char buffer[ACC_OPENCL_BUFFERSIZE], bufname[ACC_OPENCL_BUFFERSIZE], control = '0';
 #  if defined(OPENCL_LIBSMM_DEVICES)
         const int ndevices = (int)(sizeof(OPENCL_LIBSMM_DEVICES) / sizeof(*OPENCL_LIBSMM_DEVICES));
-#  else
-        const int ndevices = 0;
+        unsigned int ntuned = 0;
 #  endif
         opencl_libsmm_smm_t config;
         opencl_libsmm_smmkey_t key;
-        unsigned int ntuned = 0;
         LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data (alignment gaps) */
         if (NULL != env_params && '\0' != *env_params) { /* filename */
           FILE* const file = fopen(env_params, "r");
@@ -470,7 +468,9 @@ int libsmm_acc_init(void) {
                       result = EXIT_FAILURE;
                       break;
                     }
+#  if defined(OPENCL_LIBSMM_DEVICES)
                     else ++ntuned;
+#  endif
                   }
                   else if (config_init->gflops < config.gflops) { /* update */
                     memcpy(config_init, &config, sizeof(config));
@@ -542,7 +542,9 @@ int libsmm_acc_init(void) {
               key.devuid = 0;
               if (NULL != OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) {
                 c_dbcsr_acc_opencl_config.devmatch = 0; /* disable device-match */
+#  if defined(OPENCL_LIBSMM_DEVICES)
                 ntuned = MAX(ntuned, 1); /* no destinction of overridden or new */
+#  endif
               }
               else result = EXIT_FAILURE;
             }
@@ -1043,8 +1045,8 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
     }
   }
   if ((/*false*/ 0 == result) && (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity)) {
-    opencl_libsmm_smm_t dummy = {0};
     opencl_libsmm_smmkey_t key;
+    opencl_libsmm_smm_t dummy;
     key.type = datatype;
     key.m = m_max;
     key.n = n_max;
@@ -1398,13 +1400,13 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                           atomic_ops = "-Dcl_intel_global_float_atomics";
                         }
                         else {
-                          atomic_ops = (2 > atomics_force
+                          atomic_ops = ((0 == std_c11 && 2 > atomics_force)
                                           ? "-DATOMIC_PROTOTYPES=1"
                                           : (3 > atomics_force ? "-DATOMIC_PROTOTYPES=2" : "-DATOMIC_PROTOTYPES=3"));
                         }
-                        atomic_exp = ((0 != std_c11 && 1 < atomics_force) ? "atomic_fetch_add_explicit((GLOBAL_VOLATILE(TF)*)A,B,"
-                                                                            "memory_order_relaxed,memory_scope_work_group)"
-                                                                          : "atomic_add(A,B)");
+                        atomic_exp = ((0 == std_c11 && 2 > atomics_force) ? "atomic_add(A,B)"
+                                                                          : "atomic_fetch_add_explicit((GLOBAL_VOLATILE(TF)*)A,B,"
+                                                                            "memory_order_relaxed,memory_scope_work_group)");
                       }
                       else {
                         atomic_exp = "atomic_add_global_cmpxchg(A,B)";

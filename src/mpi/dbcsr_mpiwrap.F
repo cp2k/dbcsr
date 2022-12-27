@@ -19,10 +19,6 @@ MODULE dbcsr_mpiwrap
 #include "base/dbcsr_base_uses.f90"
    #:include 'dbcsr_mpiwrap.fypp'
 
-#if defined(__parallel) && !defined(__MPI_VERSION)
-#define __MPI_VERSION 3
-#endif
-
 #if defined(__parallel)
    USE mpi
 ! subroutines: unfortunately, mpi implementations do not provide interfaces for all subroutines (problems with types and ranks explosion),
@@ -70,11 +66,7 @@ MODULE dbcsr_mpiwrap
    ! Set max allocatable memory by MPI to 2 GiByte
    INTEGER(KIND=MPI_ADDRESS_KIND), PARAMETER, PRIVATE :: mp_max_memory_size = HUGE(INT(1, KIND=int_4))
 
-#if __MPI_VERSION > 2
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = MPI_MAX_LIBRARY_VERSION_STRING
-#else
-   INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = 1
-#endif
    INTEGER, PARAMETER, PUBLIC :: mp_max_processor_name = MPI_MAX_PROCESSOR_NAME
 
    INTEGER, PARAMETER, PUBLIC :: file_offset = MPI_OFFSET_KIND
@@ -465,11 +457,7 @@ CONTAINS
 !$       END IF
 !$OMP END MASTER
 !$    END IF
-#if __MPI_VERSION > 2
       CALL mpi_comm_set_errhandler(MPI_COMM_WORLD, MPI_ERRORS_RETURN, ierr)
-#else
-      CALL mpi_errhandler_set(MPI_COMM_WORLD, MPI_ERRORS_RETURN, ierr)
-#endif
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_set_errhandler @ mp_world_init")
       mp_comm = MPI_COMM_WORLD
       debug_comm_count = 1
@@ -814,14 +802,8 @@ CONTAINS
       CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
       CALL mpi_ibarrier(group, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibarrier @ "//routineN)
-#else
-      MARK_USED(group)
-      MARK_USED(request)
-      DBCSR_ABORT("mp_isum requires MPI-3 standard")
-#endif
 #else
       MARK_USED(group)
       request = mp_request_null
@@ -2081,19 +2063,12 @@ CONTAINS
       ierr = 0
       msglen = SIZE(msg)
 #if defined(__parallel)
-#if __MPI_VERSION > 2
       IF (msglen .GT. 0) THEN
          CALL mpi_iallreduce(MPI_IN_PLACE, msg, msglen, MPI_LOGICAL, MPI_LOR, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallreduce @ "//routineN)
       ELSE
          request = mp_request_null
       END IF
-#else
-      MARK_USED(msg)
-      MARK_USED(gid)
-      MARK_USED(request)
-      DBCSR_ABORT("mp_isum requires MPI-3 standard")
-#endif
 #else
       MARK_USED(msg)
       MARK_USED(gid)
@@ -2111,7 +2086,6 @@ CONTAINS
          !! Length (in printable characters) of the result returned in version (integer)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_library_version'
 
       INTEGER                                            :: ierr
@@ -2119,11 +2093,6 @@ CONTAINS
       ierr = 0
       CALL mpi_get_library_version(version, resultlen, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_get_library_version @ "//routineN)
-#else
-      MARK_USED(version)
-      MARK_USED(resultlen)
-      DBCSR_ABORT("mp_get_library_version requires MPI-3 standard")
-#endif
 #else
       version = ''
       resultlen = 0
@@ -2583,13 +2552,8 @@ CONTAINS
       CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
       CALL mpi_win_flush_all(win, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_flush_all @ "//routineN)
-#else
-      MARK_USED(win)
-      DBCSR_ABORT("mp_win_flush_all requires MPI-3 standard")
-#endif
 #else
       MARK_USED(win)
 #endif
@@ -2609,12 +2573,7 @@ CONTAINS
 
 #if defined(__parallel)
 
-#if __MPI_VERSION > 2
       CALL mpi_win_lock_all(MPI_MODE_NOCHECK, win, ierr)
-#else
-      MARK_USED(win)
-      DBCSR_ABORT("mp_win_lock_all requires MPI-3 standard")
-#endif
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_lock_all @ "//routineN)
 #else
       MARK_USED(win)
@@ -2635,12 +2594,7 @@ CONTAINS
 
 #if defined(__parallel)
 
-#if __MPI_VERSION > 2
       CALL mpi_win_unlock_all(win, ierr)
-#else
-      MARK_USED(win)
-      DBCSR_ABORT("mp_win_unlock_all requires MPI-3 standard")
-#endif
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_unlock_all @ "//routineN)
 #else
       MARK_USED(win)
@@ -3031,17 +2985,9 @@ CONTAINS
 
          msglen = 1
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          CALL mpi_ibcast(msg, msglen, ${mpi_type1}$, source, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*${bytes1}$)
-#else
-         MARK_USED(msg)
-         MARK_USED(source)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_ibcast requires MPI-3 standard")
-#endif
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -3096,16 +3042,9 @@ CONTAINS
 
          msglen = SIZE(msg)
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          CALL mpi_ibcast(msg, msglen, ${mpi_type1}$, source, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*${bytes1}$)
-#else
-         MARK_USED(source)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_ibcast requires MPI-3 standard")
-#endif
 #else
          MARK_USED(source)
          MARK_USED(gid)
@@ -3250,7 +3189,6 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_iallreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_SUM, gid, request, ierr)
@@ -3259,13 +3197,6 @@ CONTAINS
             request = mp_request_null
          END IF
          CALL add_perf(perf_id=23, msg_size=msglen*${bytes1}$)
-#else
-         MARK_USED(msg)
-         MARK_USED(msglen)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_isum requires MPI-3 standard")
-#endif
 #else
          MARK_USED(msg)
          MARK_USED(gid)
@@ -3667,19 +3598,10 @@ CONTAINS
 
          msglen = 1
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          CALL mpi_iscatter(msg_scatter, msglen, ${mpi_type1}$, msg, &
                            msglen, ${mpi_type1}$, root, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*${bytes1}$)
-#else
-         MARK_USED(msg_scatter)
-         MARK_USED(msg)
-         MARK_USED(root)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iscatter requires MPI-3 standard")
-#endif
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -3712,19 +3634,10 @@ CONTAINS
 
          msglen = SIZE(msg)
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          CALL mpi_iscatter(msg_scatter, msglen, ${mpi_type1}$, msg, &
                            msglen, ${mpi_type1}$, root, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*${bytes1}$)
-#else
-         MARK_USED(msg_scatter)
-         MARK_USED(msg)
-         MARK_USED(root)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iscatter requires MPI-3 standard")
-#endif
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -3757,22 +3670,10 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          CALL mpi_iscatterv(msg_scatter, sendcounts, displs, ${mpi_type1}$, msg, &
                             recvcount, ${mpi_type1}$, root, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatterv @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*${bytes1}$)
-#else
-         MARK_USED(msg_scatter)
-         MARK_USED(sendcounts)
-         MARK_USED(displs)
-         MARK_USED(msg)
-         MARK_USED(recvcount)
-         MARK_USED(root)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iscatterv requires MPI-3 standard")
-#endif
 #else
          MARK_USED(sendcounts)
          MARK_USED(displs)
@@ -4055,18 +3956,10 @@ CONTAINS
 #if defined(__parallel)
          scount = 1
          rcount = 1
-#if __MPI_VERSION > 2
          CALL MPI_IALLGATHER(msgout, scount, ${mpi_type1}$, &
                              msgin, rcount, ${mpi_type1}$, &
                              gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
-#else
-         MARK_USED(gid)
-         MARK_USED(msgin)
-         MARK_USED(msgout)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
-#endif
 #else
          MARK_USED(gid)
          msgin = msgout
@@ -4243,22 +4136,12 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, ${mpi_type1}$, &
                              msgin, rcount, ${mpi_type1}$, &
                              gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
-#else
-         MARK_USED(msgout)
-         MARK_USED(msgin)
-         MARK_USED(rcount)
-         MARK_USED(scount)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
-#endif
 #else
          MARK_USED(gid)
          msgin = msgout
@@ -4289,22 +4172,12 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, ${mpi_type1}$, &
                              msgin, rcount, ${mpi_type1}$, &
                              gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
-#else
-         MARK_USED(msgout)
-         MARK_USED(msgin)
-         MARK_USED(rcount)
-         MARK_USED(scount)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
-#endif
 #else
          MARK_USED(gid)
          msgin(:, 1, 1) = msgout(:)
@@ -4335,22 +4208,12 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, ${mpi_type1}$, &
                              msgin, rcount, ${mpi_type1}$, &
                              gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
-#else
-         MARK_USED(msgout)
-         MARK_USED(msgin)
-         MARK_USED(rcount)
-         MARK_USED(scount)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
-#endif
 #else
          MARK_USED(gid)
          msgin(:, :) = msgout(:, :)
@@ -4381,22 +4244,12 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, ${mpi_type1}$, &
                              msgin, rcount, ${mpi_type1}$, &
                              gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
-#else
-         MARK_USED(msgout)
-         MARK_USED(msgin)
-         MARK_USED(rcount)
-         MARK_USED(scount)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
-#endif
 #else
          MARK_USED(gid)
          msgin(:, :, 1, 1) = msgout(:, :)
@@ -4427,21 +4280,11 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, ${mpi_type1}$, &
                              msgin, rcount, ${mpi_type1}$, &
                              gid, request, ierr)
-#else
-         MARK_USED(msgout)
-         MARK_USED(msgin)
-         MARK_USED(rcount)
-         MARK_USED(scount)
-         MARK_USED(gid)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
-#endif
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
          MARK_USED(gid)
@@ -4541,18 +4384,9 @@ CONTAINS
 #if defined(__parallel)
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
-#if __MPI_VERSION > 2
          CALL mp_iallgatherv_${nametype1}$v_internal(msgout, scount, msgin, rsize, rcount, &
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
-#else
-         MARK_USED(rcount)
-         MARK_USED(rdispl)
-         MARK_USED(gid)
-         MARK_USED(msgin)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iallgatherv requires MPI-3 standard")
-#endif
 #else
          MARK_USED(rcount)
          MARK_USED(rdispl)
@@ -4603,18 +4437,9 @@ CONTAINS
 #if defined(__parallel)
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
-#if __MPI_VERSION > 2
          CALL mp_iallgatherv_${nametype1}$v_internal(msgout, scount, msgin, rsize, rcount, &
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
-#else
-         MARK_USED(rcount)
-         MARK_USED(rdispl)
-         MARK_USED(gid)
-         MARK_USED(msgin)
-         request = mp_request_null
-         DBCSR_ABORT("mp_iallgatherv requires MPI-3 standard")
-#endif
 #else
          MARK_USED(rcount)
          MARK_USED(rdispl)
@@ -4625,7 +4450,7 @@ CONTAINS
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_${nametype1}$v2
 
-#if defined(__parallel) && (__MPI_VERSION > 2)
+#if defined(__parallel)
       SUBROUTINE mp_iallgatherv_${nametype1}$v_internal(msgout, scount, msgin, rsize, rcount, rdispl, gid, request, ierr)
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
@@ -5074,7 +4899,7 @@ CONTAINS
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rget_${nametype1}$v'
 
          INTEGER                                  :: ierr, handle
-#if defined(__parallel) && (__MPI_VERSION > 2)
+#if defined(__parallel)
          INTEGER                                  :: len, &
                                                      handle_origin_datatype, &
                                                      handle_target_datatype, &
@@ -5087,7 +4912,6 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-#if __MPI_VERSION > 2
          len = SIZE(base)
          disp_aint = 0
          IF (PRESENT(disp)) THEN
@@ -5107,9 +4931,13 @@ CONTAINS
          END IF
          IF (len > 0) THEN
             do_local_copy = .FALSE.
+#if !defined(__DBCSR_DISABLE_RMA_LOCAL_COPY)
             IF (PRESENT(myproc) .AND. .NOT. PRESENT(origin_datatype) .AND. .NOT. PRESENT(target_datatype)) THEN
                IF (myproc .EQ. source) do_local_copy = .TRUE.
             END IF
+#else
+            MARK_USED(myproc)
+#endif
             IF (do_local_copy) THEN
 #if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)
@@ -5128,18 +4956,6 @@ CONTAINS
             request = mp_request_null
             ierr = 0
          END IF
-#else
-         MARK_USED(source)
-         MARK_USED(win)
-         MARK_USED(disp)
-         MARK_USED(myproc)
-         MARK_USED(origin_datatype)
-         MARK_USED(target_datatype)
-         MARK_USED(win_data)
-
-         request = mp_request_null
-         DBCSR_ABORT("mp_rget requires MPI-3 standard")
-#endif
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_rget @ "//routineN)
 
          CALL add_perf(perf_id=25, msg_size=SIZE(base)*${bytes1}$)

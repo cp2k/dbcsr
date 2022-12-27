@@ -8,25 +8,26 @@
 #SBATCH --cpus-per-task=12
 #SBATCH --hint=nomultithread
 
+#set -o nounset
 set -o errexit
-set -o nounset
 set -o pipefail
 
+source /opt/intel/oneapi/mkl/latest/env/vars.sh
 module swap PrgEnv-cray PrgEnv-gnu
 module load daint-gpu cudatoolkit cdt-cuda
-module unload cray-libsci_acc
+module unload cray-libsci_acc cray-libsci
 module list
 
-export PATH=/project/cray/alazzaro/cmake/bin:$PATH
+export PATH=/project/cray/alazzaro/cmake/bin:${PATH}
 
 # Checkout and build LIBXSMM
 if [ ! -d "${HOME}/libxsmm" ]; then
   cd "${HOME}"
-  git clone https://github.com/hfp/libxsmm.git
+  git clone https://github.com/libxsmm/libxsmm.git
 fi
 cd "${HOME}/libxsmm"
 git fetch
-git checkout 1a10386117eb0d6771bcd512c1cd00860424477f
+git checkout 593a64cb87a0643f9b275b1081c096878b190a0e
 make -j
 cd ..
 
@@ -43,13 +44,17 @@ cd "${SCRATCH}/${BUILD_TAG}.ocl"
 # CMake: find LIBXSMM (pkg-config)
 export PKG_CONFIG_PATH=${HOME}/libxsmm/lib:${PKG_CONFIG_PATH}
 
+#BLAS="-DBLAS_FOUND=ON -DBLAS_LIBRARIES='-lsci_gnu_mpi_mp' -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES='-lsci_gnu_mpi_mp'"
+BLAS="-DBLA_VENDOR=Intel10_64lp"
+#LIBXSMM=libxsmm-shared
+LIBXSMM=libxsmm
+
 cmake \
     -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment \
     -DCMAKE_CROSSCOMPILING_EMULATOR="" \
-    -DUSE_ACCEL=opencl -DWITH_GPU=P100 -DUSE_SMM=libxsmm \
+    -DUSE_ACCEL=opencl -DWITH_GPU=P100 \
+    -DUSE_SMM=${LIBXSMM} ${BLAS} \
     -DOpenCL_LIBRARY="${CUDATOOLKIT_HOME}/lib64/libOpenCL.so" \
-    -DBLAS_FOUND=ON -DBLAS_LIBRARIES="-lsci_gnu_mpi_mp" \
-    -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES="-lsci_gnu_mpi_mp" \
     -DMPIEXEC_EXECUTABLE="$(command -v srun)" \
     -DTEST_MPI_RANKS="${SLURM_NTASKS}" \
     -DTEST_OMP_THREADS="${SLURM_CPUS_PER_TASK}" \

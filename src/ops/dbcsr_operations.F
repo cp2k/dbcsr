@@ -110,7 +110,7 @@ MODULE dbcsr_operations
              dbcsr_copy_into_existing, &
              dbcsr_get_diag, dbcsr_set_diag, &
              dbcsr_get_block_diag, dbcsr_hadamard_product, &
-             dbcsr_filter, dbcsr_scale_by_vector, &
+             dbcsr_filter, dbcsr_filter_anytype, dbcsr_scale_by_vector, &
              dbcsr_function_of_elements, &
              dbcsr_triu, &
              dbcsr_init_random
