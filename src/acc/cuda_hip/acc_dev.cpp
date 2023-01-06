@@ -1,5 +1,6 @@
 /*------------------------------------------------------------------------------------------------*/
 /* Copyright (C) by the DBCSR developers group - All rights reserved                              */
+/* Copyright (C) 2022 Advanced Micro Devices, Inc. - All rights reserved                          */
 /* This file is part of the DBCSR library.                                                        */
 /*                                                                                                */
 /* For information on the license, see the LICENSE file.                                          */
@@ -20,7 +21,9 @@
 #include <math.h>
 
 // for debug purpose
+#if defined(__HIP_PLATFORM_NVCC__)
 static const int verbose_print = 1;
+#endif
 
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_get_ndevices(int* n_devices) {
