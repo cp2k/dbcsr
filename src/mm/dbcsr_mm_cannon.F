@@ -1810,7 +1810,7 @@ CONTAINS
                  right_src_vcol, right_src_vrow, row, size_guess, size_guess_init, stat, threads_finished, &
                  threads_finished_read, v_ki, v_ki_left, v_ki_right, max_nblks
       INTEGER :: left_grp, right_grp, left_numnodes, right_numnodes, left_mynode, right_mynode
-      INTEGER :: ierr, msglen
+      INTEGER :: msglen
       INTEGER(KIND=int_8)                                :: flop_single, flop_total, mem
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: row_counts, total_row_counts
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :)           :: left_sizes, my_sizes, right_sizes
