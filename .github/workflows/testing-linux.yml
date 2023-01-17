@@ -107,6 +107,7 @@ jobs:
           -DUSE_ACCEL=cuda \
           -DWITH_GPU=V100 \
           -DWITH_EXAMPLES=ON \
+          -DWITH_CUDA_PROFILING=ON \
           ..
     - name: Build
       run: cmake --build build -- --verbose
