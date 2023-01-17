@@ -135,7 +135,7 @@ jobs:
         mkdir -p build
         cd build
         cmake -G Ninja \
-          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_BUILD_TYPE=Debug \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_${{ matrix.use_smm }} \
           -DUSE_ACCEL=opencl \
