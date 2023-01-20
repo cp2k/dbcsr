@@ -1,5 +1,6 @@
 !--------------------------------------------------------------------------------------------------!
 ! Copyright (C) by the DBCSR developers group - All rights reserved                                !
+! Copyright (C) 2022 Advanced Micro Devices, Inc. - All rights reserved                            !
 ! This file is part of the DBCSR library.                                                          !
 !                                                                                                  !
 ! For information on the license, see the LICENSE file.                                            !
@@ -64,6 +65,7 @@ MODULE dbcsr_mm
    USE dbcsr_mm_common, ONLY: &
       dbcsr_mpi_statistics, max_memory, memtype_abpanel_1, memtype_abpanel_2, &
       memtype_mpi_buffer, memtype_mpi_product, memtype_product_wm, memtype_trsbuffer_1, &
+      memtype_normsbuf, memtype_offsetsbuf, memtype_nelemsbuf, &
       memtype_trsbuffer_2, num_multiplications, stream_1, stream_2
    USE dbcsr_mm_dist_operations, ONLY: dbcsr_create_image_dist, &
                                        dbcsr_make_dists_dense, &
@@ -185,6 +187,12 @@ CONTAINS
          CALL dbcsr_mempool_destruct(memtype_trsbuffer_1%pool)
       IF (ASSOCIATED(memtype_trsbuffer_2%pool)) &
          CALL dbcsr_mempool_destruct(memtype_trsbuffer_2%pool)
+      IF (ASSOCIATED(memtype_normsbuf%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_normsbuf%pool)
+      IF (ASSOCIATED(memtype_offsetsbuf%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_offsetsbuf%pool)
+      IF (ASSOCIATED(memtype_nelemsbuf%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_nelemsbuf%pool)
       IF (ASSOCIATED(memtype_abpanel_1%pool)) &
          CALL dbcsr_mempool_destruct(memtype_abpanel_1%pool)
       IF (ASSOCIATED(memtype_abpanel_2%pool)) &
@@ -309,6 +317,12 @@ CONTAINS
          CALL dbcsr_mempool_clear(memtype_trsbuffer_1%pool)
       IF (ASSOCIATED(memtype_trsbuffer_2%pool)) &
          CALL dbcsr_mempool_clear(memtype_trsbuffer_2%pool)
+      IF (ASSOCIATED(memtype_normsbuf%pool)) &
+         CALL dbcsr_mempool_clear(memtype_normsbuf%pool)
+      IF (ASSOCIATED(memtype_offsetsbuf%pool)) &
+         CALL dbcsr_mempool_clear(memtype_offsetsbuf%pool)
+      IF (ASSOCIATED(memtype_nelemsbuf%pool)) &
+         CALL dbcsr_mempool_clear(memtype_nelemsbuf%pool)
       IF (ASSOCIATED(memtype_abpanel_1%pool)) &
          CALL dbcsr_mempool_clear(memtype_abpanel_1%pool)
       IF (ASSOCIATED(memtype_abpanel_2%pool)) &
@@ -453,8 +467,17 @@ CONTAINS
                                   acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_1)
          CALL dbcsr_memtype_setup(memtype_trsbuffer_2, has_pool=.TRUE., &
                                   acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_2)
+         CALL dbcsr_memtype_setup(memtype_normsbuf, has_pool=.TRUE., &
+                                  acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_1)
+         CALL dbcsr_memtype_setup(memtype_offsetsbuf, has_pool=.TRUE., &
+                                  acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_1)
+         CALL dbcsr_memtype_setup(memtype_nelemsbuf, has_pool=.TRUE., &
+                                  acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_1)
          CALL dbcsr_mempool_limit_capacity(memtype_trsbuffer_1%pool, capacity=1)
          CALL dbcsr_mempool_limit_capacity(memtype_trsbuffer_2%pool, capacity=1)
+         CALL dbcsr_mempool_limit_capacity(memtype_normsbuf%pool, capacity=1)
+         CALL dbcsr_mempool_limit_capacity(memtype_offsetsbuf%pool, capacity=1)
+         CALL dbcsr_mempool_limit_capacity(memtype_nelemsbuf%pool, capacity=1)
       END IF
 
       CALL dbcsr_memtype_setup(memtype_mpi_buffer, mpi=.TRUE.)
