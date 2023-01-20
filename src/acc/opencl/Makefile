@@ -97,10 +97,14 @@ ifneq (0,$(DEV))
     # DEV=2 (and higher): linking is not intended
     CFLAGS += -D__DBCSR_ACC
     CFLAGS += -Wno-deprecated -Werror
-    ifneq (,$(findstring clang,$(CC) $(CXX)))
-      override CC := clang++ --analyze
+    ifneq (2,$(DEV))
+      ifneq (,$(findstring clang,$(CC) $(CXX)))
+        override CC := clang++ --analyze
+      else
+        CC := $(CXX) -xc++
+      endif
     else
-      CC := $(CXX)
+      CC := $(CXX) -xc++
     endif
     $(info CC: $(shell $(CC) --version | head -n1))
     OMP := 0

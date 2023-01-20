@@ -89,12 +89,15 @@ CFLAGS := -fPIC \
   -Wall -Wextra -pedantic \
   -Wno-variadic-macros \
   -Wno-long-long \
+  $(NULL)
+
+DFLAGS := \
   -DARCH_NUMBER=$(ARCH_NUMBER) \
   -D__CUDA \
   $(NULL)
 
 ifneq (,$(ELEM_TYPE))
-  CFLAGS += -DELEM_TYPE=$(ELEM_TYPE)
+  DFLAGS += -DELEM_TYPE=$(ELEM_TYPE)
 endif
 
 ifeq (1,$(INTEL))
@@ -124,15 +127,17 @@ endif
 
 ifneq (0,$(DBG))
   ifeq (,$(DBG))
-    CFLAGS += -O2 -DNDEBUG
+    DFLAGS += -DNDEBUG
+    CFLAGS += -O2
   else
     ifneq (1,$(DBG))
-      CFLAGS += -D_DEBUG
+      DFLAGS += -D_DEBUG
     endif
     CFLAGS += -O0
   endif
 else
-  CFLAGS += -O2 -DNDEBUG -DNDBGDEV
+  DFLAGS += -DNDEBUG -DNDBGDEV
+  CFLAGS += -O2
   SYM := 0
 endif
 ifneq (0,$(SYM))
@@ -206,6 +211,7 @@ test-trans: bench
 ifneq (,$(LD_PRELOAD))
 	@echo "LD_PRELOAD=${LD_PRELOAD}"
 endif
+	@echo "NVCC: $$($(NVCC) --version | head -n1)"
 	@echo "CXX: $$($(CXX) --version | head -n1)"
 	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
@@ -224,6 +230,7 @@ $(MAKDIR)/test-smm.log: bench
 ifneq (,$(LD_PRELOAD))
 	@echo "LD_PRELOAD=${LD_PRELOAD}"
 endif
+	@echo "NVCC: $$($(NVCC) --version | head -n1)"
 	@echo "CXX: $$($(CXX) --version | head -n1)"
 	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
@@ -265,29 +272,36 @@ libsmm: $(ACCDIR)/dbcsr_acc_smm.a
 $(ACCDIR)/dbcsr_acc_smm.a: $(OBJSMM)
 	$(AR) -rs $@ $^
 
+%.o: %.cu $(INCALL) $(MAKDIR)/Makefile
+	$(NVCC) $(DFLAGS) -allow-unsupported-compiler --compiler-options="$(CXXFLAGS) $(CFLAGS_XSMM)" -c $< -o $@
+
 %.o: %.cpp $(INCALL) $(MAKDIR)/Makefile
-	$(CXX) $(CXXFLAGS) $(CFLAGS_XSMM) -c $< -o $@
+	$(CXX) $(DFLAGS) $(CXXFLAGS) $(CFLAGS_XSMM) -c $< -o $@
+
+$(DIRSMM)/calculate_norms.o: $(DIRSMM)/calculate_norms.cpp $(INCALL) $(MAKDIR)/Makefile
+	$(NVCC) $(DFLAGS) -x cu -allow-unsupported-compiler \
+		--compiler-options="$(filter-out -pedantic,$(CXXFLAGS)) $(CFLAGS_XSMM)" -c $< -o $@
 
 $(MAKDIR)/acc_bench_smm.o: $(ACCDIR)/acc_bench_smm.c $(MAKDIR)/Makefile
 ifneq (0,$(LIBXSMM))
-	$(CC) $(CFLAGS) $(CFLAGS_XSMM) -c $< -o $@
+	$(CC) $(DFLAGS) $(CFLAGS) $(CFLAGS_XSMM) -c $< -o $@
 else
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(DFLAGS) $(CFLAGS) -c $< -o $@
 endif
 $(ACCDIR)/acc_bench_smm: $(MAKDIR)/acc_bench_smm.o $(ACCDIR)/dbcsr_acc.a $(ACCDIR)/dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 $(MAKDIR)/acc_bench_trans.o: $(ACCDIR)/acc_bench_trans.c $(MAKDIR)/Makefile
 ifneq (0,$(LIBXSMM))
-	$(CC) $(CFLAGS) $(CFLAGS_XSMM) -c $< -o $@
+	$(CC) $(DFLAGS) $(CFLAGS) $(CFLAGS_XSMM) -c $< -o $@
 else
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(DFLAGS) $(CFLAGS) -c $< -o $@
 endif
 $(ACCDIR)/acc_bench_trans: $(MAKDIR)/acc_bench_trans.o $(ACCDIR)/dbcsr_acc.a $(ACCDIR)/dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 $(MAKDIR)/dbcsr_acc_test.o: $(ACCDIR)/../../tests/dbcsr_acc_test.c $(MAKDIR)/Makefile
-	$(CC) $(CFLAGS) -I$(ACCDIR)/.. -c $< -o $@
+	$(CC) $(DFLAGS) $(CFLAGS) -I$(ACCDIR)/.. -c $< -o $@
 $(ACCDIR)/dbcsr_acc_test: $(MAKDIR)/dbcsr_acc_test.o $(ACCDIR)/dbcsr_acc.a $(ACCDIR)/dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
