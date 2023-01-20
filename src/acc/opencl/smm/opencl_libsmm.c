@@ -1766,6 +1766,17 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
   ACC_OPENCL_RETURN(result);
 }
 
+
+int c_calculate_norms(double* mat, int nblks, int* offsets, int* nelems, float* norms, void* stream_ptr) {
+  LIBXSMM_UNUSED(mat);
+  LIBXSMM_UNUSED(nblks);
+  LIBXSMM_UNUSED(offsets);
+  LIBXSMM_UNUSED(nelems);
+  LIBXSMM_UNUSED(norms);
+  LIBXSMM_UNUSED(stream_ptr);
+  return -1;
+}
+
 #  if defined(__cplusplus)
 }
 #  endif

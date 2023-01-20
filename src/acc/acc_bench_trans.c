@@ -152,8 +152,8 @@ int main(int argc, char* argv[]) {
 #else
   CHECK(c_dbcsr_acc_stream_create(&stream, "stream", -1 /*default priority*/), &result);
 #endif
-  CHECK(c_dbcsr_acc_host_mem_allocate((void**)&mat_hst, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
-  CHECK(c_dbcsr_acc_host_mem_allocate((void**)&stack_hst, sizeof(int) * offset_stack_size, stream), &result);
+  CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&mat_hst, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
+  CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&stack_hst, sizeof(int) * offset_stack_size, stream), &result);
   CHECK(c_dbcsr_acc_stream_sync(stream), &result); /* ensure host-data is allocated */
   if (NULL != mat_hst && NULL != stack_hst) {
 #if defined(_OPENMP)
@@ -169,8 +169,8 @@ int main(int argc, char* argv[]) {
       stack_hst[i] = j;
     }
   }
-  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size), &result);
-  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&stack_dev, sizeof(int) * offset_stack_size), &result);
+  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size), &result);
+  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&stack_dev, sizeof(int) * offset_stack_size), &result);
 #if defined(USE_LIBXSMM)
   CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   start = libxsmm_timer_tick();
