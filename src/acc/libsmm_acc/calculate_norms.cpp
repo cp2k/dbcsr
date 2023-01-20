@@ -38,9 +38,9 @@
  */
 
 #if defined(__CUDA)
-#  include "acc/cuda/acc_cuda.h"
+#  include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
-#  include "acc/hip/acc_hip.h"
+#  include "../hip/acc_hip.h"
 #endif
 #include "libsmm_acc_init.h"
 
