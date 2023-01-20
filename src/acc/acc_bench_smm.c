@@ -342,11 +342,11 @@ int main(int argc, char* argv[]) {
         result = EXIT_FAILURE;
       }
       CHECK(c_dbcsr_acc_stream_create(&stream, "stream", -1 /*default priority*/), &result, check);
-      CHECK(c_dbcsr_acc_host_mem_allocate((void**)&amat_hst, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
-      CHECK(c_dbcsr_acc_host_mem_allocate((void**)&bmat_hst, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
-      CHECK(c_dbcsr_acc_host_mem_allocate((void**)&cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
-      CHECK(c_dbcsr_acc_host_mem_allocate((void**)&stack_hst, sizeof(int) * 3 * stack_size, stream), &result, check);
-      CHECK(c_dbcsr_acc_host_mem_allocate((void**)&trans_hst, sizeof(int) * nb, stream), &result, check);
+      CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&amat_hst, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
+      CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&bmat_hst, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
+      CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
+      CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&stack_hst, sizeof(int) * 3 * stack_size, stream), &result, check);
+      CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&trans_hst, sizeof(int) * nb, stream), &result, check);
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check); /* ensure host-data is allocated */
       if (NULL != amat_hst && NULL != bmat_hst && NULL != trans_hst && NULL != stack_hst) {
         init_stack(stack_hst, stack_size, NRAND, rnd, mn, mk, kn, nc, na, nb);
@@ -367,11 +367,11 @@ int main(int argc, char* argv[]) {
           }
         }
       }
-      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&amat_dev, sizeof(ELEM_TYPE) * mk * na), &result, check);
-      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&bmat_dev, sizeof(ELEM_TYPE) * kn * nb), &result, check);
-      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&cmat_dev, sizeof(ELEM_TYPE) * mn * nc), &result, check);
-      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&stack_dev, sizeof(int) * 3 * stack_size), &result, check);
-      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&trans_dev, sizeof(int) * nb), &result, check);
+      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&amat_dev, sizeof(ELEM_TYPE) * mk * na), &result, check);
+      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&bmat_dev, sizeof(ELEM_TYPE) * kn * nb), &result, check);
+      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&cmat_dev, sizeof(ELEM_TYPE) * mn * nc), &result, check);
+      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&stack_dev, sizeof(int) * 3 * stack_size), &result, check);
+      CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&trans_dev, sizeof(int) * nb), &result, check);
       CHECK(c_dbcsr_acc_memset_zero(cmat_dev, 0 /*offset*/, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(trans_hst, trans_dev, sizeof(int) * nb, stream), &result, check);
 #if defined(USE_LIBXSMM)
