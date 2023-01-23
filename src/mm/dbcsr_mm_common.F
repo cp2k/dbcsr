@@ -579,11 +579,7 @@ CONTAINS
          INTEGER                                  :: blk, bp, bpe, row, col
 
          REAL(KIND=real_8), EXTERNAL              :: DDOT
-#if defined (__ACCELERATE)
-         REAL(KIND=real_8), EXTERNAL              :: SDOT
-#else
          REAL(KIND=real_4), EXTERNAL              :: SDOT
-#endif
 
 !   ---------------------------------------------------------------------------
 

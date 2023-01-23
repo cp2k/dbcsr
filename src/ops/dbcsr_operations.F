@@ -1910,11 +1910,7 @@ CONTAINS
       TYPE(dbcsr_iterator)                               :: iter
 
       REAL(KIND=real_8), EXTERNAL                        :: DZNRM2
-#if defined (__ACCELERATE)
-      REAL(KIND=real_8), EXTERNAL                        :: SCNRM2
-#else
       REAL(KIND=real_4), EXTERNAL                        :: SCNRM2
-#endif
 
 !   ---------------------------------------------------------------------------
 

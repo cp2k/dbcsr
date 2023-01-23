@@ -1,0 +1,7 @@
+add_library(vecLibFort STATIC vecLibFort.c)
+
+install(
+  TARGETS vecLibFort
+  EXPORT DBCSRTargets
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
