@@ -109,7 +109,7 @@ set(DBCSR_HIP_AND_CUDA_SRCS
     acc/libsmm_acc/libsmm_acc_benchmark.cpp
     acc/libsmm_acc/libsmm_acc_init.cpp
     acc/libsmm_acc/libsmm_acc.cpp
-    acc/libsmm_acc/calculate_norms.cpp
+    acc/cuda_hip/calculate_norms.cpp
     acc/cuda_hip/acc_blas.cpp
     acc/cuda_hip/acc_dev.cpp
     acc/cuda_hip/acc_error.cpp
@@ -124,14 +124,14 @@ set(DBCSR_CUDA_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/cuda/acc_cuda.cpp
 set(DBCSR_HIP_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/hip/acc_hip.cpp)
 
 if (USE_ACCEL MATCHES "hip")
-  set_source_files_properties(acc/libsmm_acc/calculate_norms.cpp
+  set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                               PROPERTIES LANGUAGE HIP)
-  set_source_files_properties(acc/libsmm_acc/calculate_norms.cpp
+  set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                               PROPERTIES COMPILE_FLAGS "-fPIE")
 elseif (USE_ACCEL MATCHES "cuda")
-  set_source_files_properties(acc/libsmm_acc/calculate_norms.cpp
+  set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                               PROPERTIES LANGUAGE CUDA)
-  set_source_files_properties(acc/libsmm_acc/calculate_norms.cpp
+  set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                               PROPERTIES COMPILE_FLAGS "--x cu")
 endif ()
 
