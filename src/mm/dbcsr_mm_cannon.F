@@ -138,7 +138,8 @@ MODULE dbcsr_mm_cannon
       MODULE PROCEDURE dbcsr_switch_d_ptrs
    END INTERFACE
 
-   PUBLIC :: multiply_cannon, make_m2s
+   PUBLIC :: multiply_cannon, make_m2s, &
+             multiply_cannon_g2g
 
 CONTAINS
 
@@ -833,7 +834,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_make_images_dense
 
-#if !defined (__DBCSR_ACC_G2G)
    SUBROUTINE multiply_cannon(left_set, right_set, product_matrix, &
                               retain_sparsity, &
                               filter_eps, flop, keep_product_data)
@@ -1767,11 +1767,23 @@ CONTAINS
       !
       CALL timestop(handle)
    END SUBROUTINE multiply_cannon
-#else
-   SUBROUTINE multiply_cannon(left_set, right_set, product_matrix, &
+
+   SUBROUTINE multiply_cannon_g2g(left_set, right_set, product_matrix, &
                               retain_sparsity, &
                               filter_eps, flop, keep_product_data)
       !! Multiplies two DBCSR matrices
+      !!
+      !! This function is expected to be called only if __DBCSR_ACC_G2G
+      !! is enabled and the data type is FP64.
+      !!
+      !! If __DBCSR_ACC is enabled, norms are calculated on the GPU and
+      !! MPI calls reference buffers on the GPU device. Input matrices
+      !! are copied from host to device only once. For the right matrix,
+      !! transpose kernel is also called only once and the transposed
+      !! matrix is transferred over MPI to neighbors.
+      !!
+      !! If __DBCSR_ACC is not enabled, all calculations are performed on
+      !! the CPU and MPI calls reference host buffers.
 
       TYPE(dbcsr_2d_array_type), POINTER                 :: left_set, right_set
          !! set of imaged left matrices
@@ -2819,8 +2831,7 @@ CONTAINS
       IF (ASSOCIATED(k_sizes)) DEALLOCATE (k_sizes)
       !
       CALL timestop(handle)
-   END SUBROUTINE multiply_cannon
-#endif
+   END SUBROUTINE multiply_cannon_g2g
 
    SUBROUTINE setup_buffer_matrices(buffer_set, buff_nrows, buff_ncols, &
                                     source_matrix, index_size, data_size)
