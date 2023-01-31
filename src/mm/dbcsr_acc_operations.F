@@ -33,7 +33,8 @@ MODULE dbcsr_acc_operations
 
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
-   PUBLIC :: dbcsr_acc_do_mm_stack, dbcsr_acc_transpose
+   PUBLIC :: dbcsr_acc_do_mm_stack, dbcsr_acc_transpose, &
+             acc_interface_calculate_norms
 
 #if defined (__DBCSR_ACC)
    INTERFACE
@@ -67,6 +68,20 @@ MODULE dbcsr_acc_operations
          TYPE(C_PTR), VALUE                       :: stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
       END FUNCTION libsmm_acc_transpose_cu
+
+      FUNCTION acc_interface_calculate_norms(mat, nblks, offsets, nelems, norms, stream_ptr) RESULT(istat) &
+         BIND(C, name="c_calculate_norms")
+         IMPORT
+         TYPE(C_PTR), INTENT(IN), VALUE           :: mat
+         TYPE(C_PTR), INTENT(IN), VALUE           :: offsets
+         TYPE(C_PTR), INTENT(IN), VALUE           :: nelems
+         TYPE(C_PTR), VALUE                       :: norms
+         INTEGER(KIND=C_INT), INTENT(IN), &
+            VALUE                                  :: nblks
+         TYPE(C_PTR), VALUE                       :: stream_ptr
+         INTEGER(KIND=C_INT)                      :: istat
+
+      END FUNCTION acc_interface_calculate_norms
    END INTERFACE
 #endif
 
