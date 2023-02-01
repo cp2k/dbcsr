@@ -1366,7 +1366,14 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
           build_params, build_options, NULL /*try_build_options*/, cl_std, buffer, sizeof(buffer));
         if (EXIT_SUCCESS == result) {
           ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseProgram(program)); /* recreate below (to avoid unclean state) */
-          program = clCreateProgramWithIL(context, source, size_src, &result);
+#  if defined(CL_VERSION_2_1)
+          if (0 != c_dbcsr_acc_opencl_config.dump) program = clCreateProgramWithIL(context, source, size_src, &result);
+          else
+#  endif
+          {
+            program = clCreateProgramWithBinary(
+              context, 1, &active_id, &size_src, (const unsigned char**)(const void*)&source, NULL /*binary_status*/, &result);
+          }
           assert(CL_SUCCESS != result || NULL != program);
           if (CL_SUCCESS == result) {
             result = clBuildProgram(program, 1 /*num_devices*/, &active_id, buffer, NULL /*callback*/, NULL /*user_data*/);
