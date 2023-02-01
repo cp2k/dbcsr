@@ -236,8 +236,8 @@ int c_dbcsr_acc_init(void) {
     if (1 == c_dbcsr_acc_opencl_config.share) c_dbcsr_acc_opencl_config.share = 2;
     else if (0 > c_dbcsr_acc_opencl_config.share) c_dbcsr_acc_opencl_config.share = 0;
     if (NULL != env_timer && (c_dbcsr_acc_opencl_timer_host == atoi(env_timer) ||
-                               (env_timer == libxsmm_stristr(env_timer, "host") && 4 == strlen(env_timer)) ||
-                               (env_timer == libxsmm_stristr(env_timer, "cpu") && 3 == strlen(env_timer))))
+                               (env_timer == LIBXSMM_STRISTR(env_timer, "host") && 4 == strlen(env_timer)) ||
+                               (env_timer == LIBXSMM_STRISTR(env_timer, "cpu") && 3 == strlen(env_timer))))
     {
       c_dbcsr_acc_opencl_config.timer = c_dbcsr_acc_opencl_timer_host;
     }
@@ -284,13 +284,13 @@ int c_dbcsr_acc_init(void) {
     }
     if (EXIT_SUCCESS == result) {
       if (NULL != env_devtype && '\0' != *env_devtype) {
-        if (NULL != libxsmm_stristr(env_devtype, "gpu")) {
+        if (NULL != LIBXSMM_STRISTR(env_devtype, "gpu")) {
           type = CL_DEVICE_TYPE_GPU;
         }
-        else if (NULL != libxsmm_stristr(env_devtype, "cpu")) {
+        else if (NULL != LIBXSMM_STRISTR(env_devtype, "cpu")) {
           type = CL_DEVICE_TYPE_CPU;
         }
-        else if (NULL != libxsmm_stristr(env_devtype, "acc") || NULL != libxsmm_stristr(env_devtype, "other")) {
+        else if (NULL != LIBXSMM_STRISTR(env_devtype, "acc") || NULL != LIBXSMM_STRISTR(env_devtype, "other")) {
           type = CL_DEVICE_TYPE_ACCELERATOR;
         }
         else {
@@ -359,7 +359,7 @@ int c_dbcsr_acc_init(void) {
           if (CL_SUCCESS ==
               clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
           {
-            if (NULL == libxsmm_stristr(buffer, env_vendor)) {
+            if (NULL == LIBXSMM_STRISTR(buffer, env_vendor)) {
 #  if defined(CL_VERSION_1_2)
               ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseDevice(c_dbcsr_acc_opencl_config.devices[i]));
 #  endif
@@ -720,7 +720,7 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]) {
   ACC_OPENCL_CHECK(
     clGetDeviceInfo(device, CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL), "retrieve device vendor", result);
   if (EXIT_SUCCESS == result) {
-    result = (NULL != libxsmm_stristr(buffer, vendor) ? EXIT_SUCCESS : EXIT_FAILURE);
+    result = (NULL != LIBXSMM_STRISTR(buffer, vendor) ? EXIT_SUCCESS : EXIT_FAILURE);
   }
   return result;
 }
@@ -1120,7 +1120,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
     if (EXIT_SUCCESS == result) {
       const char* const file_ext = strrchr(source, '.');
       char* src = NULL;
-      source_is_cl = ((NULL != file_ext && NULL != libxsmm_stristr(file_ext + 1, "cl")) ? 1 : 0);
+      source_is_cl = ((NULL != file_ext && NULL != LIBXSMM_STRISTR(file_ext + 1, "cl")) ? 1 : 0);
       size_src = (EXIT_SUCCESS == fseek(file_src, 0 /*offset*/, SEEK_END) ? ftell(file_src) : 0);
       src = (char*)((0 != size_src && EXIT_SUCCESS == fseek(file_src, 0 /*offset*/, SEEK_SET))
                       ? libxsmm_aligned_scratch(size_src + source_is_cl /*terminator?*/, 0 /*auto-align*/)

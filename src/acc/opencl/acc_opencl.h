@@ -45,6 +45,12 @@
     LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
 #endif
 
+#if LIBXSMM_VERSION4(1, 17, 0, 2030) <= LIBXSMM_VERSION_NUMBER
+#  define LIBXSMM_STRISTR libxsmm_stristr
+#else
+#  define LIBXSMM_STRISTR strstr
+#endif
+
 #include "../acc.h"
 #if !defined(NDEBUG)
 #  include <assert.h>

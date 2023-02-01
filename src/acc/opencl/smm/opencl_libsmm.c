@@ -454,8 +454,8 @@ int libsmm_acc_init(void) {
           if (NULL != file) {
             /* consume first line, check for device entry, and skip CSV header */
             if (NULL != fgets(buffer, ACC_OPENCL_BUFFERSIZE, file)) {
-              char* const device = (NULL != libxsmm_stristr(buffer, "device") ? bufname : NULL);
-              opencl_libsmm_perfest_t* const gflops = (NULL != libxsmm_stristr(buffer, "gflops") ? &perfest : NULL);
+              char* const device = (NULL != LIBXSMM_STRISTR(buffer, "device") ? bufname : NULL);
+              opencl_libsmm_perfest_t* const gflops = (NULL != LIBXSMM_STRISTR(buffer, "gflops") ? &perfest : NULL);
               while (NULL != fgets(buffer, ACC_OPENCL_BUFFERSIZE, file)) { /* read params from CSV-file */
                 memset(&config, 0, sizeof(config));
                 if (EXIT_SUCCESS == opencl_libsmm_read_smm_params(buffer, &key, &config, gflops, device)) {
@@ -1433,7 +1433,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       atomic_exp = "atomic_add_global_xchg(A,B)";
                     }
                   }
-                  else if (NULL != libxsmm_stristr(env_atomics, "cmpxchg")) {
+                  else if (NULL != LIBXSMM_STRISTR(env_atomics, "cmpxchg")) {
                     if (NULL != extensions[1] && 1 < bs && 1 == new_config.bn && new_config.bm >= m_max && 0 == new_config.al &&
                         (0 == (m_max & 1) || (0 == devinfo->intel && cl_nonv)) /* TODO */
                         && '2' == env_atomics[strlen(env_atomics) - 1] &&
