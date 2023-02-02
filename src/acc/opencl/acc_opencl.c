@@ -102,33 +102,6 @@ cl_context c_dbcsr_acc_opencl_device_context(cl_device_id device, const int* thr
 }
 
 
-const char* c_dbcsr_acc_opencl_stristr(const char a[], const char b[]) {
-  const char* result = NULL;
-  if (NULL != a && NULL != b && '\0' != *a && '\0' != *b) {
-    do {
-      if (tolower(*a) != tolower(*b)) {
-        ++a;
-      }
-      else {
-        const char* c = b;
-        result = a;
-        while ('\0' != *++a && '\0' != *++c) {
-          if (tolower(*a) != tolower(*c)) {
-            result = NULL;
-            break;
-          }
-        }
-        if ('\0' != c[0] && '\0' != c[1]) {
-          result = NULL;
-        }
-        else break;
-      }
-    } while ('\0' != *a);
-  }
-  return result;
-}
-
-
 /**
  * Comparator used with qsort; stabilized by tail condition (a < b ? -1 : 1).
  * Brings GPUs with local memory in front, followed by (potentially) integrated GPUs,
@@ -263,8 +236,8 @@ int c_dbcsr_acc_init(void) {
     if (1 == c_dbcsr_acc_opencl_config.share) c_dbcsr_acc_opencl_config.share = 2;
     else if (0 > c_dbcsr_acc_opencl_config.share) c_dbcsr_acc_opencl_config.share = 0;
     if (NULL != env_timer && (c_dbcsr_acc_opencl_timer_host == atoi(env_timer) ||
-                               (env_timer == c_dbcsr_acc_opencl_stristr(env_timer, "host") && 4 == strlen(env_timer)) ||
-                               (env_timer == c_dbcsr_acc_opencl_stristr(env_timer, "cpu") && 3 == strlen(env_timer))))
+                               (env_timer == LIBXSMM_STRISTR(env_timer, "host") && 4 == strlen(env_timer)) ||
+                               (env_timer == LIBXSMM_STRISTR(env_timer, "cpu") && 3 == strlen(env_timer))))
     {
       c_dbcsr_acc_opencl_config.timer = c_dbcsr_acc_opencl_timer_host;
     }
@@ -311,14 +284,13 @@ int c_dbcsr_acc_init(void) {
     }
     if (EXIT_SUCCESS == result) {
       if (NULL != env_devtype && '\0' != *env_devtype) {
-        if (NULL != c_dbcsr_acc_opencl_stristr(env_devtype, "gpu")) {
+        if (NULL != LIBXSMM_STRISTR(env_devtype, "gpu")) {
           type = CL_DEVICE_TYPE_GPU;
         }
-        else if (NULL != c_dbcsr_acc_opencl_stristr(env_devtype, "cpu")) {
+        else if (NULL != LIBXSMM_STRISTR(env_devtype, "cpu")) {
           type = CL_DEVICE_TYPE_CPU;
         }
-        else if (NULL != c_dbcsr_acc_opencl_stristr(env_devtype, "acc") || NULL != c_dbcsr_acc_opencl_stristr(env_devtype, "other"))
-        {
+        else if (NULL != LIBXSMM_STRISTR(env_devtype, "acc") || NULL != LIBXSMM_STRISTR(env_devtype, "other")) {
           type = CL_DEVICE_TYPE_ACCELERATOR;
         }
         else {
@@ -387,7 +359,7 @@ int c_dbcsr_acc_init(void) {
           if (CL_SUCCESS ==
               clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
           {
-            if (NULL == c_dbcsr_acc_opencl_stristr(buffer, env_vendor)) {
+            if (NULL == LIBXSMM_STRISTR(buffer, env_vendor)) {
 #  if defined(CL_VERSION_1_2)
               ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseDevice(c_dbcsr_acc_opencl_config.devices[i]));
 #  endif
@@ -748,7 +720,7 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]) {
   ACC_OPENCL_CHECK(
     clGetDeviceInfo(device, CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL), "retrieve device vendor", result);
   if (EXIT_SUCCESS == result) {
-    result = (NULL != c_dbcsr_acc_opencl_stristr(buffer, vendor) ? EXIT_SUCCESS : EXIT_FAILURE);
+    result = (NULL != LIBXSMM_STRISTR(buffer, vendor) ? EXIT_SUCCESS : EXIT_FAILURE);
   }
   return result;
 }
@@ -1104,24 +1076,72 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max
 }
 
 
-int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], const char build_params[], const char build_options[],
-  const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts, cl_kernel* kernel) {
+int c_dbcsr_acc_opencl_build_flags(const char build_params[], const char build_options[], const char try_build_options[],
+  const char cl_std[], char buffer[], size_t buffer_size) {
+  int result;
+  if (NULL != buffer) {
+    const int nchar = LIBXSMM_SNPRINTF(buffer, buffer_size, "%s %s %s %s", NULL != cl_std ? cl_std : "",
+      NULL != build_options ? build_options : "", NULL != build_params ? build_params : "",
+      NULL != try_build_options ? try_build_options : "");
+    if (0 < nchar && (int)buffer_size > nchar) {
+      char* replace = strpbrk(buffer, "\""); /* more portable (system/cpp needs quotes to protect braces) */
+      for (; NULL != replace; replace = strpbrk(replace + 1, "\"")) *replace = ' ';
+      result = EXIT_SUCCESS;
+    }
+    else {
+      result = EXIT_FAILURE;
+      *buffer = '\0';
+    }
+  }
+  else result = EXIT_FAILURE;
+  return result;
+}
+
+
+int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
+  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts,
+  cl_kernel* kernel) {
   char buffer[ACC_OPENCL_BUFFERSIZE] = "", cl_std[16];
   char buffer_name[ACC_OPENCL_MAXSTRLEN * 2];
-  int tid = 0;
+  int tid = 0, ok = EXIT_SUCCESS, source_is_cl = 1, nchar, level_major, level_minor;
   const cl_context context = c_dbcsr_acc_opencl_context(&tid);
   cl_device_id active_id = NULL;
-  cl_int result = c_dbcsr_acc_opencl_device(tid, &active_id);
-  int level_major, level_minor, ok = EXIT_SUCCESS;
-  assert(NULL != source && NULL != kernel);
-  assert(NULL != kernel_name && '\0' != *kernel_name);
+  cl_int result = ((NULL != source && NULL != kernel_name && '\0' != *kernel_name && NULL != kernel)
+                     ? c_dbcsr_acc_opencl_device(tid, &active_id)
+                     : EXIT_FAILURE);
+  cl_program program = NULL;
+  FILE* file_src = NULL;
+  size_t size_src = 0;
   if (EXIT_SUCCESS == result) {
     result = c_dbcsr_acc_opencl_device_level(active_id, &level_major, &level_minor, cl_std, NULL /*type*/);
+    if (0 != source_is_file) file_src = fopen(source, "rb");
   }
-  if (EXIT_SUCCESS == result) {
+  if (NULL != file_src) {
+    if (EXIT_SUCCESS == result) {
+      const char* const file_ext = strrchr(source, '.');
+      char* src = NULL;
+      source_is_cl = ((NULL != file_ext && NULL != LIBXSMM_STRISTR(file_ext + 1, "cl")) ? 1 : 0);
+      size_src = (EXIT_SUCCESS == fseek(file_src, 0 /*offset*/, SEEK_END) ? ftell(file_src) : 0);
+      src = (char*)((0 != size_src && EXIT_SUCCESS == fseek(file_src, 0 /*offset*/, SEEK_SET))
+                      ? libxsmm_aligned_scratch(size_src + source_is_cl /*terminator?*/, 0 /*auto-align*/)
+                      : NULL);
+      if (NULL != src) {
+        if (size_src == fread(src, 1 /*sizeof(char)*/, size_src /*count*/, file_src)) {
+          if (0 != source_is_cl) src[size_src] = '\0'; /* terminator */
+          source = src;
+        }
+        else {
+          result = EXIT_FAILURE;
+          libxsmm_free(src);
+        }
+      }
+      else result = EXIT_FAILURE;
+    }
+    fclose(file_src);
+  }
+  if (EXIT_SUCCESS == result && 0 != source_is_cl) {
     const char* ext_source = source;
-    size_t size_src = strlen(source);
-    cl_program program = NULL;
+    size_src = strlen(ext_source);
     if (NULL != extnames) {
       int n = num_exts, nflat = 0;
       size_t size_ext = 0;
@@ -1190,8 +1210,8 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], con
     }
     /* consider preprocessing kernel for analysis (cpp); failure does not matter (result) */
 #  if defined(ACC_OPENCL_CPPBIN)
-    if (0 != c_dbcsr_acc_opencl_config.dump) {
-      int nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), "/tmp/.%s.XXXXXX", kernel_name);
+    if (0 != c_dbcsr_acc_opencl_config.dump && NULL == file_src) {
+      nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), "/tmp/.%s.XXXXXX", kernel_name);
       if (0 < nchar && (int)sizeof(buffer_name) > nchar) {
         FILE* const file_cpp = fopen(ACC_OPENCL_CPPBIN, "rb");
         const char* sed_pattern = "";
@@ -1203,42 +1223,44 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], con
         }
 #    endif
         if (NULL != file_cpp) {
-          const int file_src = mkstemp(buffer_name);
+          const int file_tmp = mkstemp(buffer_name);
           fclose(file_cpp); /* existence-check */
-          if (0 <= file_src) {
-            if (size_src == (size_t)write(file_src, ext_source, size_src)) {
-              nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer),
-                ACC_OPENCL_CPPBIN " -P -C -nostdinc -D__OPENCL_VERSION__=%u %s %s %s %s >%s.cl",
-                100 * level_major + 10 * level_minor,
-                EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
-                NULL != build_params ? build_params : "", buffer_name, sed_pattern, kernel_name);
-              if (0 < nchar && (int)sizeof(buffer) > nchar) {
-                if (EXIT_SUCCESS == system(buffer)) {
-                  nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s.cl", kernel_name);
-                  if (0 < nchar && (int)sizeof(buffer) > nchar) {
-                    FILE* const file = fopen(buffer, "r");
-                    if (NULL != file) {
-                      const long int size = (EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_END) ? ftell(file) : 0);
-                      char* const src = (char*)(EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_SET)
-                                                  ? libxsmm_aligned_scratch(size + 1 /*terminator*/, 0 /*auto-align*/)
-                                                  : NULL);
-                      if (NULL != src) {
-                        if ((size_t)size == fread(src, 1 /*sizeof(char)*/, size /*count*/, file)) {
-                          if (source != ext_source) libxsmm_free((void*)ext_source);
-                          src[size] = '\0';
-                          ext_source = src;
-                        }
-                        else libxsmm_free(src);
+          if (0 <= file_tmp) {
+            const int cl_std_len = (int)strlen(cl_std);
+            nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer),
+              ACC_OPENCL_CPPBIN " -P -C -nostdinc -D__OPENCL_VERSION__=%u %s %s %s %s >%s.cl", 100 * level_major + 10 * level_minor,
+              EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
+              NULL != build_params ? build_params : "", buffer_name, sed_pattern, kernel_name);
+            if (0 < nchar && (int)sizeof(buffer) > nchar &&
+                (0 == cl_std_len || (3 == write(file_tmp, "/*\n", 3) && cl_std_len == write(file_tmp, cl_std, cl_std_len) &&
+                                      4 == write(file_tmp, "\n*/\n", 4))) &&
+                size_src == (size_t)write(file_tmp, ext_source, size_src))
+            {
+              if (EXIT_SUCCESS == system(buffer)) {
+                nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s.cl", kernel_name);
+                if (0 < nchar && (int)sizeof(buffer) > nchar) {
+                  FILE* const file = fopen(buffer, "r");
+                  if (NULL != file) {
+                    const long int size = (EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_END) ? ftell(file) : 0);
+                    char* const src = (char*)(EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_SET)
+                                                ? libxsmm_aligned_scratch(size + 1 /*terminator*/, 0 /*auto-align*/)
+                                                : NULL);
+                    if (NULL != src) {
+                      if ((size_t)size == fread(src, 1 /*sizeof(char)*/, size /*count*/, file)) {
+                        if (source != ext_source) libxsmm_free((void*)ext_source);
+                        src[size] = '\0';
+                        ext_source = src;
                       }
-                      ACC_OPENCL_EXPECT(EXIT_SUCCESS, fclose(file));
+                      else libxsmm_free(src);
                     }
+                    ACC_OPENCL_EXPECT(EXIT_SUCCESS, fclose(file));
                   }
                 }
               }
-              buffer[0] = '\0'; /* reset to empty */
             }
+            buffer[0] = '\0'; /* reset to empty */
             ACC_OPENCL_EXPECT(EXIT_SUCCESS, unlink(buffer_name));
-            ACC_OPENCL_EXPECT(EXIT_SUCCESS, close(file_src));
+            ACC_OPENCL_EXPECT(EXIT_SUCCESS, close(file_tmp));
           }
         }
       }
@@ -1246,29 +1268,22 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], con
 #  endif
     program = clCreateProgramWithSource(context, 1 /*nlines*/, &ext_source, NULL, &result);
     if (CL_SUCCESS == result) {
-      int nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s %s %s %s", cl_std, NULL != build_options ? build_options : "",
-        NULL != try_build_options ? try_build_options : "", NULL != build_params ? build_params : "");
       assert(NULL != program);
-      if (0 < nchar && (int)sizeof(buffer) > nchar) {
-        char* replace = strpbrk(buffer, "\""); /* more portable (system/cpp needs quotes to protect braces) */
-        for (; NULL != replace; replace = strpbrk(replace + 1, "\"")) *replace = ' ';
+      result = c_dbcsr_acc_opencl_build_flags(build_params, build_options, try_build_options, cl_std, buffer, sizeof(buffer));
+      if (EXIT_SUCCESS == result) {
         result = clBuildProgram(program, 1 /*num_devices*/, &active_id, buffer, NULL /*callback*/, NULL /*user_data*/);
       }
-      else result = EXIT_FAILURE;
       if (CL_SUCCESS != result && NULL != try_build_options && '\0' != *try_build_options) {
-        nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s %s %s", cl_std, NULL != build_options ? build_options : "",
-          NULL != build_params ? build_params : "");
-        ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseProgram(program)); /* recreate below (to avoid unclean state) */
-        if (0 < nchar && (int)sizeof(buffer) > nchar) {
+        result = c_dbcsr_acc_opencl_build_flags(
+          build_params, build_options, NULL /*try_build_options*/, cl_std, buffer, sizeof(buffer));
+        if (EXIT_SUCCESS == result) {
+          ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseProgram(program)); /* recreate below (to avoid unclean state) */
           program = clCreateProgramWithSource(context, 1 /*nlines*/, &ext_source, NULL, &result);
           assert(CL_SUCCESS != result || NULL != program);
           if (CL_SUCCESS == result) {
-            char* replace = strpbrk(buffer, "\""); /* more portable (system/cpp needs quotes to protect braces) */
-            for (; NULL != replace; replace = strpbrk(replace + 1, "\"")) *replace = ' ';
             result = clBuildProgram(program, 1 /*num_devices*/, &active_id, buffer, NULL /*callback*/, NULL /*user_data*/);
           }
         }
-        else result = EXIT_FAILURE;
         ok = EXIT_FAILURE;
       }
       if (source != ext_source) libxsmm_free((void*)ext_source);
@@ -1277,7 +1292,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], con
         *kernel = clCreateKernel(program, kernel_name, &result);
         if (CL_SUCCESS == result) {
           assert(NULL != *kernel);
-          if (2 <= c_dbcsr_acc_opencl_config.dump || 0 > c_dbcsr_acc_opencl_config.dump) {
+          if (NULL == file_src && (2 <= c_dbcsr_acc_opencl_config.dump || 0 > c_dbcsr_acc_opencl_config.dump)) {
             unsigned char* binary = NULL;
             size_t size;
             binary = (unsigned char*)(CL_SUCCESS == clGetProgramInfo(program, CL_PROGRAM_BINARY_SIZES, sizeof(size_t), &size, NULL)
@@ -1331,8 +1346,73 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], con
       libxsmm_free((void*)ext_source);
     }
   }
+  else if (EXIT_SUCCESS == result) { /* binary representation */
+#  if defined(CL_VERSION_2_1)
+    if (0 != c_dbcsr_acc_opencl_config.dump) program = clCreateProgramWithIL(context, source, size_src, &result);
+    else
+#  endif
+    {
+      program = clCreateProgramWithBinary(
+        context, 1, &active_id, &size_src, (const unsigned char**)(const void*)&source, NULL /*binary_status*/, &result);
+    }
+    if (CL_SUCCESS == result) {
+      assert(NULL != program);
+      result = c_dbcsr_acc_opencl_build_flags(build_params, build_options, try_build_options, cl_std, buffer, sizeof(buffer));
+      if (EXIT_SUCCESS == result) {
+        result = clBuildProgram(program, 1 /*num_devices*/, &active_id, buffer, NULL /*callback*/, NULL /*user_data*/);
+      }
+      if (CL_SUCCESS != result && NULL != try_build_options && '\0' != *try_build_options) {
+        result = c_dbcsr_acc_opencl_build_flags(
+          build_params, build_options, NULL /*try_build_options*/, cl_std, buffer, sizeof(buffer));
+        if (EXIT_SUCCESS == result) {
+          ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseProgram(program)); /* recreate below (to avoid unclean state) */
+#  if defined(CL_VERSION_2_1)
+          if (0 != c_dbcsr_acc_opencl_config.dump) program = clCreateProgramWithIL(context, source, size_src, &result);
+          else
+#  endif
+          {
+            program = clCreateProgramWithBinary(
+              context, 1, &active_id, &size_src, (const unsigned char**)(const void*)&source, NULL /*binary_status*/, &result);
+          }
+          assert(CL_SUCCESS != result || NULL != program);
+          if (CL_SUCCESS == result) {
+            result = clBuildProgram(program, 1 /*num_devices*/, &active_id, buffer, NULL /*callback*/, NULL /*user_data*/);
+          }
+        }
+        ok = EXIT_FAILURE;
+      }
+      if (CL_SUCCESS == result) {
+        *kernel = clCreateKernel(program, kernel_name, &result);
+        assert(CL_SUCCESS != result || NULL != *kernel);
+        if (CL_SUCCESS != result) { /* error: creating kernel */
+#  if defined(CL_VERSION_1_2)
+          /* discover available kernels in program, and adopt the last kernel listed */
+          if (CL_SUCCESS == clGetProgramInfo(program, CL_PROGRAM_KERNEL_NAMES, sizeof(char*), buffer, NULL) && '\0' != *buffer) {
+            const char *const semicolon = strrchr(buffer, ';'), *const name = (NULL == semicolon ? buffer : (semicolon + 1));
+            *kernel = clCreateKernel(program, name, &result);
+            assert(CL_SUCCESS != result || NULL != *kernel);
+            if (CL_SUCCESS != result) ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseProgram(program));
+          }
+          else
+#  endif
+          {
+            ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseProgram(program));
+          }
+        }
+      }
+      else {
+        ACC_OPENCL_EXPECT(
+          CL_SUCCESS, clGetProgramBuildInfo(program, active_id, CL_PROGRAM_BUILD_LOG, ACC_OPENCL_BUFFERSIZE, buffer, NULL));
+        ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseProgram(program));
+      }
+    }
+  }
+  if (NULL != file_src) {
+    assert(0 != source_is_file);
+    libxsmm_free((void*)source);
+  }
 #  if !defined(NDEBUG)
-  if (EXIT_SUCCESS != result) *kernel = NULL;
+  if (EXIT_SUCCESS != result && NULL != kernel) *kernel = NULL;
 #  endif
   if (NULL != try_ok) *try_ok = result | ok;
   ACC_OPENCL_RETURN_CAUSE(result, buffer);

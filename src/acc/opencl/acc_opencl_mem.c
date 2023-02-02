@@ -383,8 +383,8 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
                                 "  const size_t i = get_global_id(0);\n"
                                 "  dst[i] = src[i];\n"
                                 "}\n";
-          result = c_dbcsr_acc_opencl_kernel(source, "memcpy_d2d" /*kernel_name*/, NULL /*build_params*/, NULL /*build_options*/,
-            NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
+          result = c_dbcsr_acc_opencl_kernel(0 /*source_is_file*/, source, "memcpy_d2d" /*kernel_name*/, NULL /*build_params*/,
+            NULL /*build_options*/, NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
         }
         if (EXIT_SUCCESS == result) {
           assert(NULL != kernel);
@@ -431,8 +431,8 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
                               "  const uchar pattern = 0;\n"
                               "  buffer[i] = pattern;\n"
                               "}\n";
-        result = c_dbcsr_acc_opencl_kernel(source, "memset_zero" /*kernel_name*/, NULL /*build_params*/, NULL /*build_options*/,
-          NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
+        result = c_dbcsr_acc_opencl_kernel(0 /*source_is_file*/, source, "memset_zero" /*kernel_name*/, NULL /*build_params*/,
+          NULL /*build_options*/, NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
       }
       if (EXIT_SUCCESS == result) {
         assert(NULL != kernel);

@@ -45,6 +45,12 @@
     LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
 #endif
 
+#if LIBXSMM_VERSION4(1, 17, 0, 2030) <= LIBXSMM_VERSION_NUMBER
+#  define LIBXSMM_STRISTR libxsmm_stristr
+#else
+#  define LIBXSMM_STRISTR strstr
+#endif
+
 #include "../acc.h"
 #if !defined(NDEBUG)
 #  include <assert.h>
@@ -272,8 +278,6 @@ const int* c_dbcsr_acc_opencl_stream_priority(const void* stream);
 
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
-/** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
-const char* c_dbcsr_acc_opencl_stristr(const char a[], const char b[]);
 /** Amount of device memory; local memory is only non-zero if separate from global. */
 int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t* mem_total, size_t* mem_local, int* mem_unified);
 /** Get device associated with thread-ID. */
@@ -297,13 +301,17 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id device_id);
 int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id);
 /** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
 int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max_value, size_t* preferred_multiple);
+/** Assemble various flags for calling clBuildProgram into the given buffer.*/
+int c_dbcsr_acc_opencl_build_flags(const char build_params[], const char build_options[], const char try_build_options[],
+  const char cl_std[], char buffer[], size_t buffer_size);
 /**
  * Build kernel from source with given kernel_name, build_params and build_options.
  * The build_params are meant to instantiate the kernel (-D) whereas build_options
  * are are meant to be compiler-flags.
  */
-int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], const char build_params[], const char build_options[],
-  const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts, cl_kernel* kernel);
+int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
+  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts,
+  cl_kernel* kernel);
 /** Per-thread variant of c_dbcsr_acc_device_synchronize. */
 int c_dbcsr_acc_opencl_device_synchronize(int thread_id);
 /** Create user-event if not created and sets initial state. */

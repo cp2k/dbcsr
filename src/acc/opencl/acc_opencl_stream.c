@@ -78,7 +78,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
         least != greatest)
     {
       properties[3] = (0 != (2 & c_dbcsr_acc_opencl_config.priority) &&
-                        (NULL != c_dbcsr_acc_opencl_stristr(name, "calc") || (NULL != strstr(name, "priority"))))
+                        (NULL != LIBXSMM_STRISTR(name, "calc") || (NULL != strstr(name, "priority"))))
                         ? CL_QUEUE_PRIORITY_HIGH_KHR
                         : CL_QUEUE_PRIORITY_MED_KHR;
     }
