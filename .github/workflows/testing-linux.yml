@@ -78,6 +78,15 @@ jobs:
         name: coverage-data
         path: build/coverage-*.info
 
+    - name: Upload coverage data (generated files)
+      uses: actions/upload-artifact@v3
+      if: matrix.use_mpi == 'MPI=ON' && matrix.use_openmp == 'OPENMP=ON' && matrix.use_smm == 'SMM=blas' && matrix.mpi_suffix == 'openmpi'
+      with:
+        name: coverage-data
+        path: |
+          build/src/dbcsr.h
+          build/src/tensors/dbcsr_tensor.h
+
   ##################################################################################
   # Build on CUDA
   ##################################################################################
