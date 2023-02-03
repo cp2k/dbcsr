@@ -31,7 +31,6 @@ jobs:
       run: |
         env HOMEBREW_NO_AUTO_UPDATE=1 brew install \
           ninja \
-          lcov \
           openmpi
 
     - name: Unlink OpenMPI
@@ -49,7 +48,7 @@ jobs:
         env \
           CC=gcc-11 CXX=g++-11 FC=gfortran-11 \
           cmake -G Ninja \
-          -DCMAKE_BUILD_TYPE=Coverage \
+          -DCMAKE_BUILD_TYPE=Debug \
           -DUSE_${{ matrix.use_mpi }} \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_${{ matrix.use_smm }} \
@@ -66,16 +65,5 @@ jobs:
       run: |
         cd build
         ctest --output-on-failure
-
-    - name: Generate coverage info
-      run: |
-        cmake --build build -- cov-info
-        mv build/coverage.info build/coverage-macOS-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu.info
-
-    - name: Upload coverage data
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-data
-        path: build/coverage-*.info
 
 #  vim: set ts=2 sw=2 tw=0 :
