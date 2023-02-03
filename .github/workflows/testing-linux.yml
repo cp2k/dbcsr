@@ -203,8 +203,8 @@ jobs:
 
       - name: Combine coverage
         run: |
-          mkdir -p build
-          mv dbcsr.h tensors build/
+          mkdir -p build/src
+          mv dbcsr.h tensors build/src/
           echo *.info | xargs printf -- '-a %s\n' | xargs lcov -o merged.info
           genhtml merged.info -o htmlcov
           lcov --summary merged.info
