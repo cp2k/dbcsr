@@ -531,17 +531,20 @@ CONTAINS
 !$OMP MASTER
       ! Allocate data structures needed for data exchange.
       CALL dbcsr_data_init(recv_data_area)
+      CALL dbcsr_data_init(send_data_area)
       IF (nrow_images .EQ. 1 .AND. ncol_images .EQ. 1 .OR. nocopy) THEN
          ! For some cases the faster dbcsr_special_finalize(reshuffle=.FALSE.) can be used.
          ! This basically makes this working matrix the actual data-area.
          ! Hence, for those cases we have to use data_memory_type already here.
          CALL dbcsr_data_new(recv_data_area, data_type, SUM(total_recv_count(2, :)), memory_type=memtype_abpanel_1)
+         ! Some MPI implementations have high overhead when encountering a new buffer.
+         ! Therefore we also use the memory pool for the send buffer.
+         CALL dbcsr_data_new(send_data_area, data_type, SUM(total_send_count(2, :)), memory_type=memtype_abpanel_1)
       ELSE
          CALL dbcsr_data_new(recv_data_area, data_type, SUM(total_recv_count(2, :)))
+         CALL dbcsr_data_new(send_data_area, data_type, SUM(total_send_count(2, :)))
       END IF
       ALLOCATE (recv_meta(metalen*SUM(total_recv_count(1, :))))
-      CALL dbcsr_data_init(send_data_area)
-      CALL dbcsr_data_new(send_data_area, data_type, SUM(total_send_count(2, :)))
       ALLOCATE (send_meta(metalen*SUM(total_send_count(1, :))))
       ! Calculate displacements for processors needed for the exchanges.
       DO dst_p = 1, numproc - 1
