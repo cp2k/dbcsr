@@ -15,6 +15,7 @@ on:
 jobs:
   docker-build-env:
     runs-on: ubuntu-latest
+    if: github.repository == 'cp2k/dbcsr' # Only run from main repo
     strategy:
       matrix:
         include:
