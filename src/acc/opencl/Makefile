@@ -183,7 +183,14 @@ else
     CUDATOOLKIT_HOME := $(if $(NVCC),$(abspath $(dir $(NVCC))/..))
   endif
   ifneq (,$(CUDATOOLKIT_HOME))
-    CFLAGS += -I$(CUDATOOLKIT_HOME)/include
+    ifeq (,$(wildcard $(OPENCL_INC)))
+      CLINC := $(strip $(lastword $(sort $(wildcard $(CUDATOOLKIT_HOME)/../cuda/*/targets/x86_64-linux/include/CL/cl.h))))
+      ifneq (,$(CLINC))
+        OPENCL_INC := $(abspath $(dir $(CLINC))/..)
+      else
+        CFLAGS += -I$(CUDATOOLKIT_HOME)/include
+      endif
+    endif
     ifeq (,$(wildcard $(OPENCL_LIB)))
       LDFLAGS += -L$(CUDATOOLKIT_HOME)/lib64
       LDFLAGS += -Wl,-rpath=$(CUDATOOLKIT_HOME)/lib64
@@ -200,6 +207,13 @@ else
     LDFLAGS += -lOpenCL
   endif
 endif
+
+# Collect all paths in LD_LIBRARY_PATH and LD_LIBRARY_PATH/stubs, and append to LDFLAGS
+LD_LIBRARY_PATH := $(wildcard $(subst :, ,$(LD_LIBRARY_PATH)))
+LD_LIBSTUB_PATH := $(wildcard $(patsubst %,%/stubs,$(LD_LIBRARY_PATH)))
+LIBPATHS := $(foreach DIR,$(LD_LIBRARY_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
+LIBSTUBS := $(foreach DIR,$(LD_LIBSTUB_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
+LDFLAGS += $(LIBPATHS) $(LIBSTUBS)
 
 .PHONY: bench
 bench: $(ACCDIR)/acc_bench_smm $(ACCDIR)/acc_bench_trans

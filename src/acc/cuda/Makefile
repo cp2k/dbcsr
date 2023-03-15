@@ -183,10 +183,20 @@ endif
 ifneq (,$(CUDA_PATH))
   LDFLAGS += -L$(CUDA_PATH)/lib64/stubs -Wl,-rpath=$(CUDA_PATH)/lib64/stubs
   LDFLAGS += -L$(CUDA_PATH)/lib64 -Wl,-rpath=$(CUDA_PATH)/lib64
-  CFLAGS += -I$(CUDA_PATH)/include
+  CUDAINC := $(strip $(lastword $(sort $(wildcard $(CUDA_PATH)/../cuda/*/targets/x86_64-linux/include/cuda.h))))
+  ifneq (,$(CUDAINC))
+    CFLAGS += -I$(abspath $(dir $(CUDAINC)))
+  else
+    CFLAGS += -I$(CUDA_PATH)/include
+  endif
 endif
 
-LDFLAGS += -lcudart -lcublas -lnvrtc -lcuda
+# Collect all paths in LD_LIBRARY_PATH and LD_LIBRARY_PATH/stubs, and append to LDFLAGS
+LD_LIBRARY_PATH := $(wildcard $(subst :, ,$(LD_LIBRARY_PATH)))
+LD_LIBSTUB_PATH := $(wildcard $(patsubst %,%/stubs,$(LD_LIBRARY_PATH)))
+LIBPATHS := $(foreach DIR,$(LD_LIBRARY_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
+LIBSTUBS := $(foreach DIR,$(LD_LIBSTUB_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
+LDFLAGS += $(LIBPATHS) $(LIBSTUBS) -lcudart -lcublas -lnvrtc -lcuda
 CXXFLAGS += -std=c++11 $(CFLAGS)
 
 .PHONY: bench
