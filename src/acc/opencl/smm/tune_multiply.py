@@ -100,7 +100,7 @@ class SmmTuner(MeasurementInterface):
                 int(typename.group(1)) if typename and typename.group(1) else 0
             )
             device = re.search(
-                'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="(.+)"\\s+uid=',
+                'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="(.+)"',
                 str(run_result["stderr"]),
             )
             self.device = device.group(1) if device and device.group(1) else ""
@@ -626,9 +626,9 @@ if __name__ == "__main__":
         "-lu",
         "--initial-lu",
         type=int,
-        default=env_value("OPENCL_LIBSMM_SMM_LU", "0"),
+        default=env_value("OPENCL_LIBSMM_SMM_LU", "-1"),
         dest="lu",
-        help="Loop unroll (-2) full, (-1) no hints, (0) default, (1) limited, (2) literal",
+        help="Loop unroll (-2) full, (-1) no hints (default), (0) inner, (1) outer-dehint, (2) literal",
     )
     argparser.add_argument(
         "-nz",
@@ -674,7 +674,7 @@ if __name__ == "__main__":
         "-aa",
         "--initial-aa",
         type=int,
-        default=env_value("OPENCL_LIBSMM_SMM_AA", "1"),
+        default=env_value("OPENCL_LIBSMM_SMM_AA", "0"),
         dest="aa",
         help="Matrix A: global (0), shared (1), shared-bc (2), register (3)",
     )
@@ -682,7 +682,7 @@ if __name__ == "__main__":
         "-ab",
         "--initial-ab",
         type=int,
-        default=env_value("OPENCL_LIBSMM_SMM_AB", "3"),
+        default=env_value("OPENCL_LIBSMM_SMM_AB", "0"),
         dest="ab",
         help="Matrix B: global (0), shared (1), shared-bc (2), register (3)",
     )

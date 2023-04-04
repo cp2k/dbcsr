@@ -46,7 +46,7 @@ int c_dbcsr_acc_opencl_memalignment(size_t size) {
 
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory) {
   void* result = NULL;
-  ACC_OPENCL_EXPECT(CL_SUCCESS, clGetMemObjectInfo(memory, CL_MEM_HOST_PTR, sizeof(void*), &result, NULL));
+  ACC_OPENCL_EXPECT(CL_SUCCESS == clGetMemObjectInfo(memory, CL_MEM_HOST_PTR, sizeof(void*), &result, NULL));
   return result;
 }
 
@@ -105,7 +105,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
       }
     }
     else { /* error: mapping host buffer */
-      ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseMemObject(memory));
+      ACC_OPENCL_EXPECT(CL_SUCCESS == clReleaseMemObject(memory));
       *host_mem = NULL;
     }
   }
@@ -481,7 +481,7 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t
 #      endif
 #    elif defined(__APPLE__) && defined(__MACH__)
   /*const*/ size_t size_pages_free = sizeof(const long), size_pages_total = sizeof(const long);
-  ACC_OPENCL_EXPECT(0, sysctlbyname("hw.memsize", &pages_total, &size_pages_total, NULL, 0));
+  ACC_OPENCL_EXPECT(0 == sysctlbyname("hw.memsize", &pages_total, &size_pages_total, NULL, 0));
   if (0 < page_size) pages_total /= page_size;
   if (0 != sysctlbyname("vm.page_free_count", &pages_free, &size_pages_free, NULL, 0)) {
     pages_free = pages_total;

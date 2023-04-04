@@ -41,7 +41,7 @@ int c_dbcsr_acc_opencl_event_create(cl_event* event_p) {
      */
     result = clSetUserEventStatus(*event_p, CL_COMPLETE);
     if (CL_SUCCESS != result) { /* error: setting initial event state */
-      ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseEvent(*event_p));
+      ACC_OPENCL_EXPECT(CL_SUCCESS == clReleaseEvent(*event_p));
       *event_p = NULL;
     }
   }
@@ -81,7 +81,7 @@ int c_dbcsr_acc_event_create(void** event_p) {
       *(cl_event*)*event_p = event;
     }
     else {
-      if (NULL != event) ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseEvent(event));
+      if (NULL != event) ACC_OPENCL_EXPECT(CL_SUCCESS == clReleaseEvent(event));
       result = EXIT_FAILURE;
     }
   }
