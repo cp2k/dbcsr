@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="">
+      <meta name="description" content="">
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -17,12 +17,12 @@
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
 
   </head>
 
@@ -42,29 +42,41 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href='../page/index.html'>Guide</a></li>
+              <li><a href='../page/index.html'>Guide</a></li>
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-            <li><a href="../lists/programs.html">Programs</a></li>
-       
-            </ul>
-        
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+                  <li><a href="../lists/programs.html">Programs</a></li>
+              </ul>
             </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/absint.html">Abstract Interfaces</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/programs.html">Programs</a>
+              </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -72,9 +84,9 @@
 
     <div class="container">
   <div class="row">
-    <h1>dbcsr_tensor 
-    <small>Module</small>
-    
+    <h1>dbcsr_tensor
+      <small>Module</small>
+      
     </h1>
       <div class="row" id="info-bar">
     <div class="col-lg-12">
@@ -106,10 +118,10 @@
   </script>
 
   </div>
-  
+
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-      <div id="sidebar">
+        <div id="sidebar">
       <h3>Contents</h3>
   
       <div class="panel panel-primary">
@@ -194,49 +206,49 @@
   </div>
 
     </div>
-    
+
     <div class="col-md-9" id='text'>
-    <p>DBCSR tensor framework for block-sparse tensor contraction.
+      <p>DBCSR tensor framework for block-sparse tensor contraction.
 Representation of n-rank tensors as DBCSR tall-and-skinny matrices.
 Support for arbitrary redistribution between different representations.
 Support for arbitrary tensor contractions
 \todo implement checks and error messages</p>
-<br>        <div class="panel panel-default">
+<br>          <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Uses</h3>
       </div>
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
-                <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
+                <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
                 <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
-                <li><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></li>
-                <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+                <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
                 <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+                <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                <li><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></li>
+                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
                 <li><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+                <li><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
                 <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
                 <li><a href='../module/dbcsr_tensor_split.html'>dbcsr_tensor_split</a></li>
-                <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
-                <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
-                <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
-                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-                <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                <li><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
+                <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+                <li><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
                 <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+                <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
+                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
             </ul>
           </li>
       </ul>
     </div>
 
-    
-    <br>
+      
+      <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-        <h3>Contents</h3>
+      <section class="visible-xs visible-sm hidden-md">
+          <h3>Contents</h3>
   
       <div class="panel panel-primary">
       <div class="panel-heading text-left">
@@ -317,13 +329,13 @@ Support for arbitrary tensor contractions
   
 
 
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
+      </section>
+      <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>
-    <h2>Variables</h2>
-      <table class="table table-striped varlist">
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
     <thead>
       <tr>
         <th>Type</th>
@@ -353,17 +365,16 @@ parameter
     </tbody>
   </table>
 
-    </section>
-    <br>
-    
-    
+        </section>
+        <br>
 
-    
-    
- 
-    <section>
-    <h2>Functions</h2>
-      <div class="panel panel-default">
+
+
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-update_contraction_storage"></span><h3>private  function <a href='../proc/update_contraction_storage.html'>update_contraction_storage</a>(storage, split_opt, split) result(do_change_pgrid)  
 </h3></div>
     <div class="panel-body">
@@ -439,7 +450,7 @@ and decide if tensor process grid needs to be optimized</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-compat_map"></span><h3>private  function <a href='../proc/compat_map.html'>compat_map</a>(nd_index, compat_ind)  
 </h3></div>
     <div class="panel-body">
@@ -499,7 +510,7 @@ and decide if tensor process grid needs to be optimized</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-opt_pgrid"></span><h3>private  function <a href='../proc/opt_pgrid.html'>opt_pgrid</a>(tensor, tas_split_info)  
 </h3></div>
     <div class="panel-body">
@@ -559,12 +570,12 @@ and decide if tensor process grid needs to be optimized</p>
     </div>
   </div>
 
-    </section>
-    <br>
+        </section>
+        <br>
 
-    <section>
-    <h2>Subroutines</h2>
-      <div class="panel panel-default">
+        <section>
+          <h2>Subroutines</h2>
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy"></span><h3>public  subroutine <a href='../proc/dbcsr_t_copy.html'>dbcsr_t_copy</a>(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)  
 </h3></div>
     <div class="panel-body">
@@ -704,7 +715,7 @@ Target</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_expert"></span><h3>private  subroutine <a href='../proc/dbcsr_t_copy_expert.html'>dbcsr_t_copy_expert</a>(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)  
 </h3></div>
     <div class="panel-body">
@@ -834,7 +845,7 @@ Target</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_nocomm"></span><h3>private  subroutine <a href='../proc/dbcsr_t_copy_nocomm.html'>dbcsr_t_copy_nocomm</a>(tensor_in, tensor_out, summation)  
 </h3></div>
     <div class="panel-body">
@@ -904,7 +915,7 @@ Target</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_matrix_to_tensor"></span><h3>public  subroutine <a href='../proc/dbcsr_t_copy_matrix_to_tensor.html'>dbcsr_t_copy_matrix_to_tensor</a>(matrix_in, tensor_out, summation)  
 </h3></div>
     <div class="panel-body">
@@ -974,7 +985,7 @@ Target</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_tensor_to_matrix"></span><h3>public  subroutine <a href='../proc/dbcsr_t_copy_tensor_to_matrix.html'>dbcsr_t_copy_tensor_to_matrix</a>(tensor_in, matrix_out, summation)  
 </h3></div>
     <div class="panel-body">
@@ -1044,7 +1055,7 @@ Target</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract"></span><h3>public  subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, unit_nr, log_verbose)  
 </h3></div>
     <div class="panel-body">
@@ -1440,7 +1451,7 @@ if 0 on ALL ranks, no output is written</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract_expert"></span><h3>private  subroutine <a href='../proc/dbcsr_t_contract_expert.html'>dbcsr_t_contract_expert</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, nblks_local, result_index, unit_nr, log_verbose)  
 </h3></div>
     <div class="panel-body">
@@ -1856,7 +1867,7 @@ this is an estimate based on block norm multiplication</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-align_tensor"></span><h3>private  subroutine <a href='../proc/align_tensor.html'>align_tensor</a>(tensor_in, contract_in, notcontract_in, tensor_out, contract_out, notcontract_out, indp_in, indp_out)  
 </h3></div>
     <div class="panel-body">
@@ -2001,7 +2012,7 @@ this is an estimate based on block norm multiplication</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_compatible"></span><h3>private  subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a>(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, ref_tensor, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)  
 </h3></div>
     <div class="panel-body">
@@ -2325,7 +2336,7 @@ memory optimization: transfer data s.t. tensor2 may be empty on return</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_small"></span><h3>private  subroutine <a href='../proc/reshape_mm_small.html'>reshape_mm_small</a>(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)  
 </h3></div>
     <div class="panel-body">
@@ -2490,7 +2501,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-invert_transpose_flag"></span><h3>private  subroutine <a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a>(trans_flag)  
 </h3></div>
     <div class="panel-body">
@@ -2530,7 +2541,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-index_linked_sort"></span><h3>private  subroutine <a href='../proc/index_linked_sort.html'>index_linked_sort</a>(ind_ref, ind_dep)  
 </h3></div>
     <div class="panel-body">
@@ -2585,7 +2596,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_remap"></span><h3>private  subroutine <a href='../proc/dbcsr_t_remap.html'>dbcsr_t_remap</a>(tensor_in, map1_2d, map2_2d, tensor_out, comm_2d, dist1, dist2, mp_dims_1, mp_dims_2, name, nodata, move_data)  
 </h3></div>
     <div class="panel-body">
@@ -2792,7 +2803,7 @@ new index mapping</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_align_index"></span><h3>private  subroutine <a href='../proc/dbcsr_t_align_index.html'>dbcsr_t_align_index</a>(tensor_in, tensor_out, order)  
 </h3></div>
     <div class="panel-body">
@@ -2862,7 +2873,7 @@ new index mapping</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_permute_index"></span><h3>private  subroutine <a href='../proc/dbcsr_t_permute_index.html'>dbcsr_t_permute_index</a>(tensor_in, tensor_out, order)  
 </h3></div>
     <div class="panel-body">
@@ -2932,7 +2943,7 @@ new index mapping</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract_index"></span><h3>public  subroutine <a href='../proc/dbcsr_t_contract_index.html'>dbcsr_t_contract_index</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, filter_eps, nblks_local, result_index)  
 </h3></div>
     <div class="panel-body">
@@ -3216,7 +3227,7 @@ only the elements result_index(:nblks_local, :) are relevant (all others are set
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_map_bounds_to_tensors"></span><h3>private  subroutine <a href='../proc/dbcsr_t_map_bounds_to_tensors.html'>dbcsr_t_map_bounds_to_tensors</a>(tensor_1, tensor_2, contract_1, notcontract_1, contract_2, notcontract_2, bounds_t1, bounds_t2, bounds_1, bounds_2, bounds_3, do_crop_1, do_crop_2)  
 </h3></div>
     <div class="panel-body">
@@ -3439,7 +3450,7 @@ whether tensor 2 should be cropped</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_print_contraction_index"></span><h3>private  subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_t_print_contraction_index</a>(tensor_1, indchar1, tensor_2, indchar2, tensor_3, indchar3, unit_nr)  
 </h3></div>
     <div class="panel-body">
@@ -3569,7 +3580,7 @@ whether tensor 2 should be cropped</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_batched_contract_init"></span><h3>public  subroutine <a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_batched_contract_init</a>(tensor, batch_range_1, batch_range_2, batch_range_3, batch_range_4)  
 </h3></div>
     <div class="panel-body">
@@ -3685,7 +3696,7 @@ block index plus one of the last block in the last range.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_batched_contract_finalize"></span><h3>public  subroutine <a href='../proc/dbcsr_t_batched_contract_finalize.html'>dbcsr_t_batched_contract_finalize</a>(tensor, unit_nr)  
 </h3></div>
     <div class="panel-body">
@@ -3741,7 +3752,7 @@ contraction calls.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_change_pgrid"></span><h3>private  subroutine <a href='../proc/dbcsr_t_change_pgrid.html'>dbcsr_t_change_pgrid</a>(tensor, pgrid, batch_range_1, batch_range_2, batch_range_3, batch_range_4, nodata, pgrid_changed, unit_nr)  
 </h3></div>
     <div class="panel-body">
@@ -3917,7 +3928,7 @@ block index plus one of the last block in the last range.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_change_pgrid_2d"></span><h3>private  subroutine <a href='../proc/dbcsr_t_change_pgrid_2d.html'>dbcsr_t_change_pgrid_2d</a>(tensor, mp_comm, pdims, nodata, nsplit, dimsplit, pgrid_changed, unit_nr)  
 </h3></div>
     <div class="panel-body">
@@ -4062,55 +4073,55 @@ block index plus one of the last block in the last range.</p>
     </div>
   </div>
 
-    </section>
-    <br>
+        </section>
+        <br>
 
 
 
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
     <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
 
-    <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    
+        <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
   </body>
 </html>

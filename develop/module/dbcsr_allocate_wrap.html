@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="">
+      <meta name="description" content="">
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -17,12 +17,12 @@
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
 
   </head>
 
@@ -42,29 +42,41 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href='../page/index.html'>Guide</a></li>
+              <li><a href='../page/index.html'>Guide</a></li>
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-            <li><a href="../lists/programs.html">Programs</a></li>
-       
-            </ul>
-        
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+                  <li><a href="../lists/programs.html">Programs</a></li>
+              </ul>
             </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/absint.html">Abstract Interfaces</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/programs.html">Programs</a>
+              </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -72,9 +84,9 @@
 
     <div class="container">
   <div class="row">
-    <h1>dbcsr_allocate_wrap 
-    <small>Module</small>
-    
+    <h1>dbcsr_allocate_wrap
+      <small>Module</small>
+      
     </h1>
       <div class="row" id="info-bar">
     <div class="col-lg-12">
@@ -106,10 +118,10 @@
   </script>
 
   </div>
-  
+
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-      <div id="sidebar">
+        <div id="sidebar">
       <h3>Contents</h3>
   
   
@@ -193,30 +205,30 @@
   </div>
 
     </div>
-    
+
     <div class="col-md-9" id='text'>
-    <p>Wrapper for allocating, copying and reshaping arrays.
+      <p>Wrapper for allocating, copying and reshaping arrays.
 </p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>: with fortran 2008 support, this should be replaced by plain ALLOCATE</p></div><div class="alert alert-info" role="alert"><h4>Note</h4><p>in particular ALLOCATE(..., SOURCE=...) does not work in gcc 5.4.0, see also
 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=44672</p></div>
-<br>        <div class="panel panel-default">
+<br>          <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Uses</h3>
       </div>
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
                 <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
             </ul>
           </li>
       </ul>
     </div>
 
-    
-    <br>
+      
+      <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-        <h3>Contents</h3>
+      <section class="visible-xs visible-sm hidden-md">
+          <h3>Contents</h3>
   
   
   
@@ -296,15 +308,15 @@ https://gcc.gnu.org/bugzilla/show_bug.cgi?id=44672</p></div>
   
 
 
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
+      </section>
+      <br class="visible-xs visible-sm hidden-md">
 
 
-    
-    
-    <section>
-   <h2>Interfaces</h2>
-       <div class="panel panel-default">
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-allocate_any"></span>
       <h3>public        interface <a href='../interface/allocate_any.html'>allocate_any</a> 
@@ -3324,15 +3336,15 @@ have same rank.</p></div>
     </ul>
   </div>
 
-    </section>
-  <br>
+        </section>
+        <br>
 
-    
-    
 
-    <section>
-    <h2>Subroutines</h2>
-      <div class="panel panel-default">
+
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_r_dp"></span><h3>private  subroutine <a href='../proc/allocate_1d_r_dp.html'>allocate_1d_r_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -3418,7 +3430,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_r_dp"></span><h3>private  subroutine <a href='../proc/allocate_2d_r_dp.html'>allocate_2d_r_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -3504,7 +3516,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_r_dp"></span><h3>private  subroutine <a href='../proc/allocate_3d_r_dp.html'>allocate_3d_r_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -3590,7 +3602,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_r_dp"></span><h3>private  subroutine <a href='../proc/allocate_4d_r_dp.html'>allocate_4d_r_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -3676,7 +3688,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_r_dp"></span><h3>private  subroutine <a href='../proc/allocate_5d_r_dp.html'>allocate_5d_r_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -3762,7 +3774,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_r_dp"></span><h3>private  subroutine <a href='../proc/allocate_6d_r_dp.html'>allocate_6d_r_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -3848,7 +3860,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_r_dp"></span><h3>private  subroutine <a href='../proc/allocate_7d_r_dp.html'>allocate_7d_r_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -3934,7 +3946,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_r_sp"></span><h3>private  subroutine <a href='../proc/allocate_1d_r_sp.html'>allocate_1d_r_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4020,7 +4032,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_r_sp"></span><h3>private  subroutine <a href='../proc/allocate_2d_r_sp.html'>allocate_2d_r_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4106,7 +4118,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_r_sp"></span><h3>private  subroutine <a href='../proc/allocate_3d_r_sp.html'>allocate_3d_r_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4192,7 +4204,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_r_sp"></span><h3>private  subroutine <a href='../proc/allocate_4d_r_sp.html'>allocate_4d_r_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4278,7 +4290,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_r_sp"></span><h3>private  subroutine <a href='../proc/allocate_5d_r_sp.html'>allocate_5d_r_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4364,7 +4376,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_r_sp"></span><h3>private  subroutine <a href='../proc/allocate_6d_r_sp.html'>allocate_6d_r_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4450,7 +4462,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_r_sp"></span><h3>private  subroutine <a href='../proc/allocate_7d_r_sp.html'>allocate_7d_r_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4536,7 +4548,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_c_dp"></span><h3>private  subroutine <a href='../proc/allocate_1d_c_dp.html'>allocate_1d_c_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4622,7 +4634,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_c_dp"></span><h3>private  subroutine <a href='../proc/allocate_2d_c_dp.html'>allocate_2d_c_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4708,7 +4720,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_c_dp"></span><h3>private  subroutine <a href='../proc/allocate_3d_c_dp.html'>allocate_3d_c_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4794,7 +4806,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_c_dp"></span><h3>private  subroutine <a href='../proc/allocate_4d_c_dp.html'>allocate_4d_c_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4880,7 +4892,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_c_dp"></span><h3>private  subroutine <a href='../proc/allocate_5d_c_dp.html'>allocate_5d_c_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -4966,7 +4978,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_c_dp"></span><h3>private  subroutine <a href='../proc/allocate_6d_c_dp.html'>allocate_6d_c_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5052,7 +5064,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_c_dp"></span><h3>private  subroutine <a href='../proc/allocate_7d_c_dp.html'>allocate_7d_c_dp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5138,7 +5150,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_c_sp"></span><h3>private  subroutine <a href='../proc/allocate_1d_c_sp.html'>allocate_1d_c_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5224,7 +5236,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_c_sp"></span><h3>private  subroutine <a href='../proc/allocate_2d_c_sp.html'>allocate_2d_c_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5310,7 +5322,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_c_sp"></span><h3>private  subroutine <a href='../proc/allocate_3d_c_sp.html'>allocate_3d_c_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5396,7 +5408,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_c_sp"></span><h3>private  subroutine <a href='../proc/allocate_4d_c_sp.html'>allocate_4d_c_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5482,7 +5494,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_c_sp"></span><h3>private  subroutine <a href='../proc/allocate_5d_c_sp.html'>allocate_5d_c_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5568,7 +5580,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_c_sp"></span><h3>private  subroutine <a href='../proc/allocate_6d_c_sp.html'>allocate_6d_c_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5654,7 +5666,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_c_sp"></span><h3>private  subroutine <a href='../proc/allocate_7d_c_sp.html'>allocate_7d_c_sp</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5740,7 +5752,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_i"></span><h3>private  subroutine <a href='../proc/allocate_1d_i.html'>allocate_1d_i</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5826,7 +5838,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_i"></span><h3>private  subroutine <a href='../proc/allocate_2d_i.html'>allocate_2d_i</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5912,7 +5924,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_i"></span><h3>private  subroutine <a href='../proc/allocate_3d_i.html'>allocate_3d_i</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -5998,7 +6010,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_i"></span><h3>private  subroutine <a href='../proc/allocate_4d_i.html'>allocate_4d_i</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -6084,7 +6096,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_i"></span><h3>private  subroutine <a href='../proc/allocate_5d_i.html'>allocate_5d_i</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -6170,7 +6182,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_i"></span><h3>private  subroutine <a href='../proc/allocate_6d_i.html'>allocate_6d_i</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -6256,7 +6268,7 @@ have same rank.</p></div>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_i"></span><h3>private  subroutine <a href='../proc/allocate_7d_i.html'>allocate_7d_i</a>(array, shape_spec, source, order)  
 </h3></div>
     <div class="panel-body">
@@ -6342,55 +6354,55 @@ have same rank.</p></div>
     </div>
   </div>
 
-    </section>
-    <br>
+        </section>
+        <br>
 
 
 
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
     <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
 
-    <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    
+        <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
   </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="">
+      <meta name="description" content="">
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -17,12 +17,12 @@
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
 
   </head>
 
@@ -42,29 +42,41 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href='../page/index.html'>Guide</a></li>
+              <li><a href='../page/index.html'>Guide</a></li>
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-            <li><a href="../lists/programs.html">Programs</a></li>
-       
-            </ul>
-        
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+                  <li><a href="../lists/programs.html">Programs</a></li>
+              </ul>
             </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/absint.html">Abstract Interfaces</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/programs.html">Programs</a>
+              </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -72,9 +84,9 @@
 
     <div class="container">
   <div class="row">
-    <h1>dbcsr_tas_base 
-    <small>Module</small>
-    
+    <h1>dbcsr_tas_base
+      <small>Module</small>
+      
     </h1>
       <div class="row" id="info-bar">
     <div class="col-lg-12">
@@ -106,10 +118,10 @@
   </script>
 
   </div>
-  
+
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-      <div id="sidebar">
+        <div id="sidebar">
       <h3>Contents</h3>
   
       <div class="panel panel-primary">
@@ -247,48 +259,48 @@
   </div>
 
     </div>
-    
+
     <div class="col-md-9" id='text'>
-    <p>Tall-and-skinny matrices: base routines similar to DBCSR API, mostly wrappers around existing
+      <p>Tall-and-skinny matrices: base routines similar to DBCSR API, mostly wrappers around existing
 DBCSR routines.</p>
 <p>As dbcsr_put_block
 As dbcsr_put_block
 As dbcsr_put_block
 As dbcsr_put_block</p>
-<br>        <div class="panel panel-default">
+<br>          <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Uses</h3>
       </div>
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-                <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
-                <li><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
-                <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-                <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
-                <li><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
-                <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
                 <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+                <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
+                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+                <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+                <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+                <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
                 <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
                 <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
                 <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                <li><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
+                <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+                <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                <li><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
+                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
             </ul>
           </li>
       </ul>
     </div>
 
-    
-    <br>
+      
+      <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-        <h3>Contents</h3>
+      <section class="visible-xs visible-sm hidden-md">
+          <h3>Contents</h3>
   
       <div class="panel panel-primary">
       <div class="panel-heading text-left">
@@ -422,13 +434,13 @@ As dbcsr_put_block</p>
   
 
 
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
+      </section>
+      <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>
-    <h2>Variables</h2>
-      <table class="table table-striped varlist">
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
     <thead>
       <tr>
         <th>Type</th>
@@ -458,13 +470,13 @@ parameter
     </tbody>
   </table>
 
-    </section>
-    <br>
-    
-    
-    <section>
-   <h2>Interfaces</h2>
-       <div class="panel panel-default">
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_create"></span>
       <h3>public        interface <a href='../interface/dbcsr_tas_create.html'>dbcsr_tas_create</a> 
@@ -689,7 +701,7 @@ arrays.</p>
     </ul>
   </div>
 
-       <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_get_block_p"></span>
       <h3>public        interface <a href='../interface/dbcsr_tas_get_block_p.html'>dbcsr_tas_get_block_p</a> 
@@ -843,7 +855,7 @@ arrays.</p>
     </ul>
   </div>
 
-       <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_put_block"></span>
       <h3>public        interface <a href='../interface/dbcsr_tas_put_block.html'>dbcsr_tas_put_block</a> 
@@ -982,7 +994,7 @@ arrays.</p>
     </ul>
   </div>
 
-       <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_reserve_blocks"></span>
       <h3>public        interface <a href='../interface/dbcsr_tas_reserve_blocks.html'>dbcsr_tas_reserve_blocks</a> 
@@ -1116,7 +1128,7 @@ matrices have same number of block rows and block columns.</p>
     </ul>
   </div>
 
-       <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_iterator_next_block"></span>
       <h3>public        interface <a href='../interface/dbcsr_tas_iterator_next_block.html'>dbcsr_tas_iterator_next_block</a> 
@@ -1416,7 +1428,7 @@ global block column</p>
     </ul>
   </div>
 
-       <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_iterator_next_block~2"></span>
       <h3>private        interface <a href='../interface/dbcsr_tas_iterator_next_block~2.html'>dbcsr_tas_iterator_next_block</a> 
@@ -2002,7 +2014,7 @@ global block column</p>
     </ul>
   </div>
 
-       <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_put_block~2"></span>
       <h3>private        interface <a href='../interface/dbcsr_tas_put_block~2.html'>dbcsr_tas_put_block</a> 
@@ -2528,7 +2540,7 @@ global block column</p>
     </ul>
   </div>
 
-       <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_get_block_p~2"></span>
       <h3>private        interface <a href='../interface/dbcsr_tas_get_block_p~2.html'>dbcsr_tas_get_block_p</a> 
@@ -3114,7 +3126,7 @@ global block column</p>
     </ul>
   </div>
 
-       <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_set"></span>
       <h3>public        interface <a href='../interface/dbcsr_tas_set.html'>dbcsr_tas_set</a> 
@@ -3340,7 +3352,7 @@ global block column</p>
     </ul>
   </div>
 
-       <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum">
       <span class="anchor" id="interface-dbcsr_tas_filter"></span>
       <h3>public        interface <a href='../interface/dbcsr_tas_filter.html'>dbcsr_tas_filter</a> 
@@ -3686,15 +3698,14 @@ global block column</p>
     </ul>
   </div>
 
-    </section>
-  <br>
+        </section>
+        <br>
 
-    
-    
- 
-    <section>
-    <h2>Functions</h2>
-      <div class="panel panel-default">
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_blocks_left"></span><h3>public  function <a href='../proc/dbcsr_tas_iterator_blocks_left.html'>dbcsr_tas_iterator_blocks_left</a>(iter)  
 </h3></div>
     <div class="panel-body">
@@ -3739,7 +3750,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_info"></span><h3>public  function <a href='../proc/dbcsr_tas_info.html'>dbcsr_tas_info</a>(matrix)  
 </h3></div>
     <div class="panel-body">
@@ -3784,7 +3795,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_nblkrows_total"></span><h3>public  function <a href='../proc/dbcsr_tas_nblkrows_total.html'>dbcsr_tas_nblkrows_total</a>(matrix) result(nblkrows_total)  
 </h3></div>
     <div class="panel-body">
@@ -3829,7 +3840,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_nfullrows_total"></span><h3>public  function <a href='../proc/dbcsr_tas_nfullrows_total.html'>dbcsr_tas_nfullrows_total</a>(matrix) result(nfullrows_total)  
 </h3></div>
     <div class="panel-body">
@@ -3874,7 +3885,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_nblkcols_total"></span><h3>public  function <a href='../proc/dbcsr_tas_nblkcols_total.html'>dbcsr_tas_nblkcols_total</a>(matrix) result(nblkcols_total)  
 </h3></div>
     <div class="panel-body">
@@ -3919,7 +3930,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_nfullcols_total"></span><h3>public  function <a href='../proc/dbcsr_tas_nfullcols_total.html'>dbcsr_tas_nfullcols_total</a>(matrix) result(nfullcols_total)  
 </h3></div>
     <div class="panel-body">
@@ -3964,7 +3975,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_nblkcols_local"></span><h3>public  function <a href='../proc/dbcsr_tas_nblkcols_local.html'>dbcsr_tas_nblkcols_local</a>(matrix) result(nblkcols_local)  
 </h3></div>
     <div class="panel-body">
@@ -4009,7 +4020,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_nblkrows_local"></span><h3>public  function <a href='../proc/dbcsr_tas_nblkrows_local.html'>dbcsr_tas_nblkrows_local</a>(matrix) result(nblkrows_local)  
 </h3></div>
     <div class="panel-body">
@@ -4054,7 +4065,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_num_blocks"></span><h3>public pure function <a href='../proc/dbcsr_tas_get_num_blocks.html'>dbcsr_tas_get_num_blocks</a>(matrix) result(num_blocks)  
 </h3></div>
     <div class="panel-body">
@@ -4099,7 +4110,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_num_blocks_total"></span><h3>public  function <a href='../proc/dbcsr_tas_get_num_blocks_total.html'>dbcsr_tas_get_num_blocks_total</a>(matrix) result(num_blocks)  
 </h3></div>
     <div class="panel-body">
@@ -4144,7 +4155,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_nze"></span><h3>public pure function <a href='../proc/dbcsr_tas_get_nze.html'>dbcsr_tas_get_nze</a>(matrix)  
 </h3></div>
     <div class="panel-body">
@@ -4189,7 +4200,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_nze_total"></span><h3>public  function <a href='../proc/dbcsr_tas_get_nze_total.html'>dbcsr_tas_get_nze_total</a>(matrix)  
 </h3></div>
     <div class="panel-body">
@@ -4234,7 +4245,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_data_type"></span><h3>public  function <a href='../proc/dbcsr_tas_get_data_type.html'>dbcsr_tas_get_data_type</a>(matrix) result(data_type)  
 </h3></div>
     <div class="panel-body">
@@ -4279,7 +4290,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_data_size"></span><h3>public  function <a href='../proc/dbcsr_tas_get_data_size.html'>dbcsr_tas_get_data_size</a>(matrix) result(data_size)  
 </h3></div>
     <div class="panel-body">
@@ -4324,12 +4335,12 @@ global block column</p>
     </div>
   </div>
 
-    </section>
-    <br>
+        </section>
+        <br>
 
-    <section>
-    <h2>Subroutines</h2>
-      <div class="panel panel-default">
+        <section>
+          <h2>Subroutines</h2>
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_create_new"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_create_new.html'>dbcsr_tas_create_new</a>(matrix, name, dist, data_type, row_blk_size, col_blk_size, own_dist)  
 </h3></div>
     <div class="panel-body">
@@ -4461,7 +4472,7 @@ arrays.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_create_template"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_create_template.html'>dbcsr_tas_create_template</a>(matrix_in, matrix, name, data_type)  
 </h3></div>
     <div class="panel-body">
@@ -4546,7 +4557,7 @@ arrays.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_destroy"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_destroy.html'>dbcsr_tas_destroy</a>(matrix)  
 </h3></div>
     <div class="panel-body">
@@ -4586,7 +4597,7 @@ arrays.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_copy"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_copy.html'>dbcsr_tas_copy</a>(matrix_b, matrix_a, summation)  
 </h3></div>
     <div class="panel-body">
@@ -4656,7 +4667,7 @@ arrays.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_reserve_blocks_template"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_reserve_blocks_template.html'>dbcsr_tas_reserve_blocks_template</a>(matrix_in, matrix_out)  
 </h3></div>
     <div class="panel-body">
@@ -4712,7 +4723,7 @@ matrices have same number of block rows and block columns.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_finalize"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_finalize.html'>dbcsr_tas_finalize</a>(matrix)  
 </h3></div>
     <div class="panel-body">
@@ -4752,7 +4763,7 @@ matrices have same number of block rows and block columns.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_distribution_new"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_distribution_new.html'>dbcsr_tas_distribution_new</a>(dist, mp_comm, row_dist, col_dist, split_info, nosplit)  
 </h3></div>
     <div class="panel-body">
@@ -4869,7 +4880,7 @@ arrays.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_distribution_destroy"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_distribution_destroy.html'>dbcsr_tas_distribution_destroy</a>(dist)  
 </h3></div>
     <div class="panel-body">
@@ -4909,7 +4920,7 @@ arrays.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_stored_coordinates"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_get_stored_coordinates.html'>dbcsr_tas_get_stored_coordinates</a>(matrix, row, column, processor)  
 </h3></div>
     <div class="panel-body">
@@ -4996,7 +5007,7 @@ global matrix blocked column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_repl_get_stored_coordinates"></span><h3>public  subroutine <a href='../proc/dbcsr_repl_get_stored_coordinates.html'>dbcsr_repl_get_stored_coordinates</a>(matrix, row, column, processors)  
 </h3></div>
     <div class="panel-body">
@@ -5084,7 +5095,7 @@ column of a submatrix</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_convert_to_dbcsr"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_convert_to_dbcsr.html'>dbcsr_tas_convert_to_dbcsr</a>(matrix_rect, matrix_dbcsr)  
 </h3></div>
     <div class="panel-body">
@@ -5140,7 +5151,7 @@ This is not recommended for matrices with a very large dimension.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_convert_to_tas"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_convert_to_tas.html'>dbcsr_tas_convert_to_tas</a>(info, matrix_rect, matrix_dbcsr)  
 </h3></div>
     <div class="panel-body">
@@ -5210,7 +5221,7 @@ This is not recommended for matrices with a very large dimension.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_start"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_iterator_start.html'>dbcsr_tas_iterator_start</a>(iter, matrix_in)  
 </h3></div>
     <div class="panel-body">
@@ -5265,7 +5276,7 @@ This is not recommended for matrices with a very large dimension.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_stop"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_iterator_stop.html'>dbcsr_tas_iterator_stop</a>(iter)  
 </h3></div>
     <div class="panel-body">
@@ -5305,7 +5316,7 @@ This is not recommended for matrices with a very large dimension.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_area_block"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_area_block.html'>dbcsr_tas_iterator_next_area_block</a>(iterator, row, column, block, transposed, block_number, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -5450,7 +5461,7 @@ This is not recommended for matrices with a very large dimension.</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_block_index"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_block_index.html'>dbcsr_tas_iterator_next_block_index</a>(iterator, row, column, block_number, transposed, blk_p, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -5597,7 +5608,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_reserve_blocks_index"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_reserve_blocks_index.html'>dbcsr_tas_reserve_blocks_index</a>(matrix, rows, columns)  
 </h3></div>
     <div class="panel-body">
@@ -5667,7 +5678,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_area"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_area.html'>dbcsr_tas_put_block_area</a>(matrix, row, col, block, transposed, summation, scale)  
 </h3></div>
     <div class="panel-body">
@@ -5797,7 +5808,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_block_p_area"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_get_block_p_area.html'>dbcsr_tas_get_block_p_area</a>(matrix, row, col, block, transposed, found, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -5942,7 +5953,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_copy_distribution"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_copy_distribution.html'>dbcsr_tas_copy_distribution</a>(dist_in, dist_out, own_dist)  
 </h3></div>
     <div class="panel-body">
@@ -6012,7 +6023,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_blk_sizes"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_blk_sizes.html'>dbcsr_tas_blk_sizes</a>(matrix, row, col, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -6112,7 +6123,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_clear"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_clear.html'>dbcsr_tas_clear</a>(matrix)  
 </h3></div>
     <div class="panel-body">
@@ -6152,7 +6163,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_info"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_get_info.html'>dbcsr_tas_get_info</a>(matrix, nblkrows_total, nblkcols_total, nfullrows_total, nfullcols_total, nblkrows_local, nblkcols_local, nfullrows_local, nfullcols_local, nprow, npcol, my_prow, my_pcol, local_rows, local_cols, proc_row_dist, proc_col_dist, row_blk_size, col_blk_size, distribution, name, data_area, matrix_type, data_type)  
 </h3></div>
     <div class="panel-body">
@@ -6503,7 +6514,7 @@ global block column</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              character,
+              character(len=1),
             </td>
 <td></td>
               <td>optional</td>            <td>
@@ -6537,7 +6548,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_block_r_dp.html'>dbcsr_tas_iterator_next_block_r_dp</a>(iterator, row, column, block, transposed, block_number, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -6682,7 +6693,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_block_r_sp.html'>dbcsr_tas_iterator_next_block_r_sp</a>(iterator, row, column, block, transposed, block_number, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -6827,7 +6838,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_block_c_dp.html'>dbcsr_tas_iterator_next_block_c_dp</a>(iterator, row, column, block, transposed, block_number, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -6972,7 +6983,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_block_c_sp.html'>dbcsr_tas_iterator_next_block_c_sp</a>(iterator, row, column, block, transposed, block_number, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -7117,7 +7128,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_r_dp.html'>dbcsr_tas_put_block_r_dp</a>(matrix, row, col, block, transposed, summation, scale)  
 </h3></div>
     <div class="panel-body">
@@ -7247,7 +7258,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_r_sp.html'>dbcsr_tas_put_block_r_sp</a>(matrix, row, col, block, transposed, summation, scale)  
 </h3></div>
     <div class="panel-body">
@@ -7377,7 +7388,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_c_dp.html'>dbcsr_tas_put_block_c_dp</a>(matrix, row, col, block, transposed, summation, scale)  
 </h3></div>
     <div class="panel-body">
@@ -7507,7 +7518,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_c_sp.html'>dbcsr_tas_put_block_c_sp</a>(matrix, row, col, block, transposed, summation, scale)  
 </h3></div>
     <div class="panel-body">
@@ -7637,7 +7648,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_block_p_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_get_block_p_r_dp.html'>dbcsr_tas_get_block_p_r_dp</a>(matrix, row, col, block, transposed, found, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -7782,7 +7793,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_block_p_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_get_block_p_r_sp.html'>dbcsr_tas_get_block_p_r_sp</a>(matrix, row, col, block, transposed, found, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -7927,7 +7938,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_block_p_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_get_block_p_c_dp.html'>dbcsr_tas_get_block_p_c_dp</a>(matrix, row, col, block, transposed, found, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -8072,7 +8083,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_block_p_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_get_block_p_c_sp.html'>dbcsr_tas_get_block_p_c_sp</a>(matrix, row, col, block, transposed, found, row_size, col_size)  
 </h3></div>
     <div class="panel-body">
@@ -8217,7 +8228,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_set_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_set_r_dp.html'>dbcsr_tas_set_r_dp</a>(matrix, alpha)  
 </h3></div>
     <div class="panel-body">
@@ -8272,7 +8283,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_set_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_set_r_sp.html'>dbcsr_tas_set_r_sp</a>(matrix, alpha)  
 </h3></div>
     <div class="panel-body">
@@ -8327,7 +8338,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_set_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_set_c_dp.html'>dbcsr_tas_set_c_dp</a>(matrix, alpha)  
 </h3></div>
     <div class="panel-body">
@@ -8382,7 +8393,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_set_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_set_c_sp.html'>dbcsr_tas_set_c_sp</a>(matrix, alpha)  
 </h3></div>
     <div class="panel-body">
@@ -8437,7 +8448,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_filter_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_filter_r_dp.html'>dbcsr_tas_filter_r_dp</a>(matrix, eps, method, use_absolute)  
 </h3></div>
     <div class="panel-body">
@@ -8522,7 +8533,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_filter_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_filter_r_sp.html'>dbcsr_tas_filter_r_sp</a>(matrix, eps, method, use_absolute)  
 </h3></div>
     <div class="panel-body">
@@ -8607,7 +8618,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_filter_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_filter_c_dp.html'>dbcsr_tas_filter_c_dp</a>(matrix, eps, method, use_absolute)  
 </h3></div>
     <div class="panel-body">
@@ -8692,7 +8703,7 @@ global block column</p>
     </div>
   </div>
 
-      <div class="panel panel-default">
+              <div class="panel panel-default">
     <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_filter_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_filter_c_sp.html'>dbcsr_tas_filter_c_sp</a>(matrix, eps, method, use_absolute)  
 </h3></div>
     <div class="panel-body">
@@ -8777,55 +8788,55 @@ global block column</p>
     </div>
   </div>
 
-    </section>
-    <br>
+        </section>
+        <br>
 
 
 
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
     <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
 
-    <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    
+        <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
   </body>
 </html>
