@@ -104,7 +104,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
     tid = (i < c_dbcsr_acc_opencl_config.nthreads ? i : (i % c_dbcsr_acc_opencl_config.nthreads));
     if (NULL != c_dbcsr_acc_opencl_config.device) { /* inherit master's context if current context is NULL */
       LIBXSMM_ATOMIC_CMPSWP(&c_dbcsr_acc_opencl_config.device[tid].context, NULL,
-        c_dbcsr_acc_opencl_config.device[/*master*/ 0].context, LIBXSMM_ATOMIC_RELAXED);
+        c_dbcsr_acc_opencl_config.device[/*main*/ 0].context, LIBXSMM_ATOMIC_RELAXED);
     }
   }
   else offset = c_dbcsr_acc_opencl_stream_counter_base++;
