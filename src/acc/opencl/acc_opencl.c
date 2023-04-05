@@ -37,8 +37,8 @@
 #  if !defined(ACC_OPENCL_SEDBIN) && 1
 #    define ACC_OPENCL_SEDBIN "/usr/bin/sed"
 #  endif
-#  if !defined(ACC_OPENCL_ZEX_NCCS) && 1
-#    define ACC_OPENCL_ZEX_NCCS 4
+#  if !defined(ACC_OPENCL_NCCS) && 1
+#    define ACC_OPENCL_NCCS 4
 #  endif
 
 
@@ -208,8 +208,9 @@ int c_dbcsr_acc_init(void) {
     const char *const env_device = getenv("ACC_OPENCL_DEVICE"), *const env_async = getenv("ACC_OPENCL_ASYNC");
     const char *const env_flush = getenv("ACC_OPENCL_FLUSH"), *const env_timer = getenv("ACC_OPENCL_TIMER");
     const char* const env_dump = (NULL != env_dump_acc ? env_dump_acc : getenv("IGC_ShaderDumpEnable"));
-#  if defined(ACC_OPENCL_ZEX_NCCS) && (0 < ACC_OPENCL_ZEX_NCCS)
-    const char* const env_nccs = getenv("ZEX_NUMBER_OF_CCS");
+#  if defined(ACC_OPENCL_NCCS) && (0 < ACC_OPENCL_NCCS)
+    const char *const env_zex = getenv("ZEX_NUMBER_OF_CCS"), *const env_nccs = getenv("ACC_OPENCL_NCCS");
+    const int nccs = (NULL == env_nccs ? 0 : atoi(env_nccs));
 #  endif
     char* const env_devids = getenv("ACC_OPENCL_DEVIDS");
     int device_id = (NULL == env_device ? 0 : atoi(env_device));
@@ -241,13 +242,13 @@ int c_dbcsr_acc_init(void) {
     {
       c_dbcsr_acc_opencl_config.timer = c_dbcsr_acc_opencl_timer_host;
     }
-#  if defined(ACC_OPENCL_ZEX_NCCS) && (0 < ACC_OPENCL_ZEX_NCCS)
-    if (NULL == env_nccs && 0 == (4 & c_dbcsr_acc_opencl_config.xhints)) {
+#  if defined(ACC_OPENCL_NCCS) && (0 < ACC_OPENCL_NCCS)
+    if ((NULL == env_zex && 0 == (4 & c_dbcsr_acc_opencl_config.xhints)) || 0 != nccs) {
       static char zex_number_of_ccs[ACC_OPENCL_DEVICES_MAXCOUNT * 8 + 32] = "ZEX_NUMBER_OF_CCS=";
       int j = strlen(zex_number_of_ccs);
       for (i = 0; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
         const int n = LIBXSMM_SNPRINTF(
-          zex_number_of_ccs + j, sizeof(zex_number_of_ccs) - j, 0 < i ? ",%u:%i" : "%u:%i", i, ACC_OPENCL_ZEX_NCCS);
+          zex_number_of_ccs + j, sizeof(zex_number_of_ccs) - j, 0 < i ? ",%u:%i" : "%u:%i", i, 0 >= nccs ? ACC_OPENCL_NCCS : nccs);
         if (0 < n) j += n;
         else {
           j = 0;
