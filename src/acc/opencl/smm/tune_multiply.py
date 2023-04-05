@@ -67,9 +67,7 @@ class SmmTuner(MeasurementInterface):
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
         self.args.bk = [max(self.args.bk, 1), self.mnk[2]][0 == self.args.bk]
         self.args.ws = min(self.args.ws, self.mnk[0] * self.mnk[1])
-        self.bs = (
-            self.bm
-        ) = self.bn = self.bk = self.ws = self.wg = self.lu = None
+        self.bs = self.bm = self.bn = self.bk = self.ws = self.wg = self.lu = None
         self.nz = self.al = self.tb = self.tc = None
         self.ap = self.aa = self.ab = self.ac = None
         self.typename = self.typeid = None
@@ -96,12 +94,8 @@ class SmmTuner(MeasurementInterface):
                 self.size = int(size.group(1)) if size and size.group(1) else 0
             else:
                 self.size = self.args.size
-            typename = re.search(
-                "typename \\(id=([0-9]+)\\):\\s+(\\w+)", stdout
-            )
-            self.typename = (
-                typename.group(2) if typename and typename.group(2) else ""
-            )
+            typename = re.search("typename \\(id=([0-9]+)\\):\\s+(\\w+)", stdout)
+            self.typename = typename.group(2) if typename and typename.group(2) else ""
             self.typeid = (
                 int(typename.group(1)) if typename and typename.group(1) else 0
             )
@@ -140,9 +134,7 @@ class SmmTuner(MeasurementInterface):
             self.create_param(
                 "WS", params, paramt, seed, 5, 1, self.mnk[0] * self.mnk[1]
             )
-            self.create_param(
-                "WG", params, paramt, seed, 6, -2, 1
-            )  # avoid WG=2
+            self.create_param("WG", params, paramt, seed, 6, -2, 1)  # avoid WG=2
             self.create_param("LU", params, paramt, seed, 7, -2, 2)
             self.create_param("NZ", params, paramt, seed, 8, 0, 1)
             self.create_param("AL", params, paramt, seed, 9, 0, 1)
@@ -161,10 +153,7 @@ class SmmTuner(MeasurementInterface):
                 manipulator.add_parameter(param)
         # consider to update and/or merge JSONS (update first)
         if (
-            (
-                self.args.merge is not None
-                and (0 <= self.args.merge or self.typeid)
-            )
+            (self.args.merge is not None and (0 <= self.args.merge or self.typeid))
             or self.args.update is None
             or "" != self.args.update
         ):
@@ -199,18 +188,14 @@ class SmmTuner(MeasurementInterface):
         signal(SIGINT, self.handle_sigint)
         return manipulator
 
-    def create_param(
-        self, name, params, paramt, match, match_id, value0, value1
-    ):
+    def create_param(self, name, params, paramt, match, match_id, value0, value1):
         """Append integer-parameter to either params or paramt list"""
         if env_isfixed("OPENCL_LIBSMM_SMM_{}".format(name)):
             value_fix = getattr(self.args, name.lower())
             params.append(IntegerParameter(name, value_fix, value_fix))
         else:
             value = (
-                int(match.group(match_id))
-                if match and match.group(match_id)
-                else None
+                int(match.group(match_id)) if match and match.group(match_id) else None
             )
             setattr(self, name.lower(), value)
             paramt.append(IntegerParameter(name, value0, value1))
@@ -219,11 +204,7 @@ class SmmTuner(MeasurementInterface):
         """Launch executable supplying environment and arguments"""
         envstrs = " ".join(map(str, envs))
         if verbose is not None and 0 != int(verbose):
-            print(
-                envstrs.replace("OPENCL_LIBSMM_SMM_", "").replace(
-                    " CHECK=0", ""
-                )
-            )
+            print(envstrs.replace("OPENCL_LIBSMM_SMM_", "").replace(" CHECK=0", ""))
         return self.call_program(
             "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 {} {} {} {} {}".format(
                 envstrs,  # environment variables
@@ -295,9 +276,7 @@ class SmmTuner(MeasurementInterface):
                 str(run_result["stdout"]),
             )
         else:
-            failed = " ".join(map(str, cfgenv)).replace(
-                "OPENCL_LIBSMM_SMM_", ""
-            )
+            failed = " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
             print("FAILED: {}".format(failed))
             performance = None
         if performance and performance.group(1) and performance.group(2):
@@ -309,12 +288,9 @@ class SmmTuner(MeasurementInterface):
                 self.gflops = gflops
                 if 0 == self.gfbase:  # seed configuration
                     self.gfbase = gflops
-                self.save_final_config(
-                    desired_result.configuration, final=False
-                )
+                self.save_final_config(desired_result.configuration, final=False)
             kernelreq = round(
-                (100.0 * config["BM"] * config["BN"])
-                / (self.mnk[0] * self.mnk[1])
+                (100.0 * config["BM"] * config["BN"]) / (self.mnk[0] * self.mnk[1])
             )
             # gflops are reported as "accuracy" (console output)
             return Result(time=mseconds, accuracy=gflops, size=kernelreq)
@@ -331,11 +307,7 @@ class SmmTuner(MeasurementInterface):
                         data = json.load(file)
                         device = data["DEVICE"] if "DEVICE" in data else ""
                         if device != self.device:
-                            print(
-                                "Updated {} to {}.".format(
-                                    filename, self.device
-                                )
-                            )
+                            print("Updated {} to {}.".format(filename, self.device))
                             data.update({"DEVICE": self.device})
                             file.close()
                             updated = True
@@ -365,9 +337,7 @@ class SmmTuner(MeasurementInterface):
                         or (2 == self.args.merge and 3 != data["TYPEID"])
                     ):
                         continue
-                    device = (
-                        data["DEVICE"] if "DEVICE" in data else self.device
-                    )
+                    device = data["DEVICE"] if "DEVICE" in data else self.device
                     key = (
                         device,
                         data["TYPEID"],
@@ -376,9 +346,7 @@ class SmmTuner(MeasurementInterface):
                         data["K"],
                     )
                     value = (
-                        data["S"]
-                        if "S" in data
-                        else 0,  # pseudo key component
+                        data["S"] if "S" in data else 0,  # pseudo key component
                         data["GFLOPS"],
                         data["BS"],
                         data["BM"],
@@ -415,33 +383,21 @@ class SmmTuner(MeasurementInterface):
                 with open(self.args.csvfile, "w") as file:
                     file.write(  # CSV header line with termination/newline
                         "{}{}{}{}{}{}{}{}{}\n".format(  # key-part
-                            self.args.csvsep.join(
-                                ["DEVICE", "TYPEID", "M", "N", "K"]
-                            ),
+                            self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
                             self.args.csvsep,  # separator for value-part
                             "S",  # pseudo-key component
                             self.args.csvsep,
-                            self.args.csvsep.join(
-                                ["GFLOPS", "BS", "BM", "BN", "BK"]
-                            ),
+                            self.args.csvsep.join(["GFLOPS", "BS", "BM", "BN", "BK"]),
                             self.args.csvsep,
-                            self.args.csvsep.join(
-                                ["WS", "WG", "LU", "NZ", "AL"]
-                            ),
+                            self.args.csvsep.join(["WS", "WG", "LU", "NZ", "AL"]),
                             self.args.csvsep,
-                            self.args.csvsep.join(
-                                ["TB", "TC", "AP", "AA", "AB", "AC"]
-                            ),
+                            self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
                         )
                     )
                     for key, value in sorted(merged.items()):  # CSV data lines
                         strkey = self.args.csvsep.join([str(k) for k in key])
-                        strval = self.args.csvsep.join(
-                            [str(v) for v in value[:-1]]
-                        )
-                        file.write(
-                            "{}{}{}\n".format(strkey, self.args.csvsep, strval)
-                        )
+                        strval = self.args.csvsep.join([str(v) for v in value[:-1]])
+                        file.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
                     retain, delete = [], []
                     for key, value in worse.items():
                         mtime = os.path.getmtime(merged[key][-1])
@@ -451,17 +407,9 @@ class SmmTuner(MeasurementInterface):
                             else:
                                 delete.append(filename)
                     if retain:
-                        print(
-                            "Worse and newer (retain): {}".format(
-                                " ".join(retain)
-                            )
-                        )
+                        print("Worse and newer (retain): {}".format(" ".join(retain)))
                     if delete:
-                        print(
-                            "Worse and older (delete): {}".format(
-                                " ".join(delete)
-                            )
-                        )
+                        print("Worse and older (delete): {}".format(" ".join(delete)))
                 print(
                     "Merged {} of {} JSONs into {}".format(
                         len(merged), len(filenames), self.args.csvfile
@@ -487,18 +435,14 @@ class SmmTuner(MeasurementInterface):
             filepattern = "{}-*.json".format(default_basename)
             filenames = (
                 glob.glob(
-                    os.path.normpath(
-                        os.path.join(self.args.jsondir, filepattern)
-                    )
+                    os.path.normpath(os.path.join(self.args.jsondir, filepattern))
                 )
                 if final
                 else None
             )
             # self.manipulator().save_to_file(config, filename)
             with open(
-                os.path.join(
-                    self.args.jsondir, ".{}.json".format(self.args.label)
-                ),
+                os.path.join(self.args.jsondir, ".{}.json".format(self.args.label)),
                 "w",
             ) as file:
                 json.dump(config, file, sort_keys=True)
@@ -513,15 +457,11 @@ class SmmTuner(MeasurementInterface):
                 filename = os.path.normpath(
                     os.path.join(
                         self.args.jsondir,
-                        "{}-{}gflops.json".format(
-                            self.args.label, round(self.gflops)
-                        ),
+                        "{}-{}gflops.json".format(self.args.label, round(self.gflops)),
                     )
                 )
                 os.rename(
-                    os.path.join(
-                        self.args.jsondir, ".{}.json".format(self.args.label)
-                    ),
+                    os.path.join(self.args.jsondir, ".{}.json".format(self.args.label)),
                     filename,
                 )
                 if filename not in filenames:
@@ -532,19 +472,13 @@ class SmmTuner(MeasurementInterface):
                 )
                 print(
                     "Result{} was written to {}".format(
-                        " ({}x over seed)".format(speedup)
-                        if 1 < speedup
-                        else "",
+                        " ({}x over seed)".format(speedup) if 1 < speedup else "",
                         filename,
                     )
                 )
                 # no validation in SIGINT (user may fired signal due to apps misbehavior)
-                if 0 == self.args.check and self.handle_sigint != getsignal(
-                    SIGINT
-                ):
-                    run_result = self.launch(
-                        self.environment(config) + ["CHECK=1"]
-                    )
+                if 0 == self.args.check and self.handle_sigint != getsignal(SIGINT):
+                    run_result = self.launch(self.environment(config) + ["CHECK=1"])
                     if 0 != run_result["returncode"]:
                         print("WARNING: tuned result seems to be incorrect!")
 
