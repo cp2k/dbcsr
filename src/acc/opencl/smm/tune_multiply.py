@@ -100,7 +100,7 @@ class SmmTuner(MeasurementInterface):
                 int(typename.group(1)) if typename and typename.group(1) else 0
             )
             device = re.search(
-                'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="(.+)"',
+                'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="([^"]+)"',
                 str(run_result["stderr"]),
             )
             self.device = device.group(1) if device and device.group(1) else ""
@@ -267,7 +267,8 @@ class SmmTuner(MeasurementInterface):
         config = desired_result.configuration.data
         cfgenv = self.environment(config)
         run_result = self.launch(
-            cfgenv + ["CHECK={}".format(self.args.check)], verbose=self.args.verbose
+            cfgenv + ["CHECK={}".format(self.args.check)],
+            verbose=self.args.verbose,
         )
         if 0 == run_result["returncode"]:
             performance = re.search(
@@ -337,7 +338,13 @@ class SmmTuner(MeasurementInterface):
                     ):
                         continue
                     device = data["DEVICE"] if "DEVICE" in data else self.device
-                    key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
+                    key = (
+                        device,
+                        data["TYPEID"],
+                        data["M"],
+                        data["N"],
+                        data["K"],
+                    )
                     value = (
                         data["S"] if "S" in data else 0,  # pseudo key component
                         data["GFLOPS"],
@@ -435,7 +442,8 @@ class SmmTuner(MeasurementInterface):
             )
             # self.manipulator().save_to_file(config, filename)
             with open(
-                os.path.join(self.args.jsondir, ".{}.json".format(self.args.label)), "w"
+                os.path.join(self.args.jsondir, ".{}.json".format(self.args.label)),
+                "w",
             ) as file:
                 json.dump(config, file, sort_keys=True)
                 file.write("\n")  # append newline at EOF
