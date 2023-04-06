@@ -507,7 +507,12 @@ int libsmm_acc_init(void) {
             int i = 0, best = 0;
             for (; i < ndevices_params; ++i) {
               const int score = libxsmm_strimatch(bufname, OPENCL_LIBSMM_DEVICES[i], NULL);
-              if (best < score) {
+              unsigned int uid;
+              if (best < score ||
+                  ((best == score) &&
+                    EXIT_SUCCESS == c_dbcsr_acc_opencl_device_uid(NULL /*device*/, OPENCL_LIBSMM_DEVICES[i], &uid) &&
+                    uid == active_uid))
+              {
                 active_match = i;
                 best = score;
               }
