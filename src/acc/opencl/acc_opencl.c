@@ -479,7 +479,7 @@ int c_dbcsr_acc_init(void) {
               if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(c_dbcsr_acc_opencl_config.devices[i], buffer,
                                     ACC_OPENCL_BUFFERSIZE, platform_name, ACC_OPENCL_BUFFERSIZE))
               {
-                fprintf(stderr, "INFO ACC/OpenCL: DEVICE - \"%s : %s\"\n", platform_name, buffer);
+                fprintf(stderr, "INFO ACC/OpenCL: DEVICE -> \"%s : %s\"\n", platform_name, buffer);
               }
             }
           }
