@@ -347,7 +347,7 @@ class SmmTuner(MeasurementInterface):
                     )
                     value = (
                         data["S"] if "S" in data else 0,  # pseudo key component
-                        data["GFLOPS"],
+                        data["GFLOPS"] if not self.args.nogflops else 0,
                         data["BS"],
                         data["BM"],
                         data["BN"],
@@ -426,7 +426,7 @@ class SmmTuner(MeasurementInterface):
             # extend result for easier reuse later
             config = configuration.data
             config["DEVICE"] = self.device
-            config["GFLOPS"] = self.gflops
+            config["GFLOPS"] = self.gflops if not self.args.nogflops else 0
             config["TYPEID"] = self.typeid
             config["M"] = self.mnk[0]
             config["N"] = self.mnk[1]
@@ -541,6 +541,14 @@ if __name__ == "__main__":
         nargs="?",
         dest="merge",
         help="Merge JSONs into CSV (-1: auto, 0: all, 1: SP, 2: DP)",
+    )
+    argparser.add_argument(
+        "-x",
+        "--csv-nogflops",
+        action="store_true",
+        default=False,
+        dest="nogflops",
+        help="Exclude real GFLOPS",
     )
     argparser.add_argument(
         "-p",
