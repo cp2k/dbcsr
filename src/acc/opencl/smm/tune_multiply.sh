@@ -125,7 +125,6 @@ then
   elif [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
     if [ "${UPDATE}" ] && [ "0" != "${UPDATE}" ]; then
       if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=1; fi
-      if [ ! "${MAXTIME}" ]; then MAXTIME=160; fi
       MNKS=$(echo "${JSONS}" | ${SED} -n "s/.*tune_multiply-..*-\(..*x..*x.[^-]*\)-..*gflops\.json/\1/p" \
          | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3)
     elif [ "${SPECID}" ]; then
@@ -184,6 +183,13 @@ then
   else
     echo "Session ${PART} of ${NPARTS} part(s). The problem is over-decomposed!"
   fi
+  if [ ! "${MAXTIME}" ] && [[ (! "${CONTINUE}"  || \
+      "${CONTINUE}" = "false"                   || \
+      "${CONTINUE}" = "no"                      || \
+      "${CONTINUE}" = "0") ]];
+  then
+    MAXTIME=160
+  fi
   if [ "${MAXTIME}" ] && [ "0" != "$((0<MAXTIME))" ]; then
     HRS=$((MAXTIME*PARTSIZE/3600))
     MNS=$(((MAXTIME*PARTSIZE-HRS*3600+59)/60))
@@ -209,7 +215,7 @@ then
   fi
   N=0
   for MNK in ${MNKS}; do
-    if [ "0" != "$((PARTOFFS<=N))" ]; then
+    if [ "0" != "$(((N-PARTOFFS+1)<=PARTSIZE))" ]; then
       echo
       echo "[$((N-PARTOFFS+1))/${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
@@ -226,6 +232,8 @@ then
       then
         exit ${RESULT}
       fi
+    else
+      break
     fi
     N=$((N+1))
   done
