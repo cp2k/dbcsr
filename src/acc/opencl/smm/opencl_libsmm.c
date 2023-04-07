@@ -478,7 +478,7 @@ int libsmm_acc_init(void) {
                 }
                 else {
                   if (0 != c_dbcsr_acc_opencl_config.verbosity) {
-                    fprintf(stderr, "WARNING LIBSMM: failed to load tuned parameters!\n");
+                    fprintf(stderr, "WARN LIBSMM: failed to load tuned parameters!\n");
                   }
                   break; /* invalid entry */
                 }
@@ -566,7 +566,7 @@ int libsmm_acc_init(void) {
               }
               else {
                 if (0 != c_dbcsr_acc_opencl_config.verbosity) {
-                  fprintf(stderr, "WARNING LIBSMM: failed to load tuned parameters!\n");
+                  fprintf(stderr, "WARN LIBSMM: failed to load tuned parameters!\n");
                 }
                 break;
               }
@@ -589,7 +589,7 @@ int libsmm_acc_init(void) {
               else result = EXIT_FAILURE;
             }
             else if (0 != c_dbcsr_acc_opencl_config.verbosity) { /* soft-error */
-              fprintf(stderr, "WARNING LIBSMM: failed to open parameter file!\n");
+              fprintf(stderr, "WARN LIBSMM: failed to open parameter file!\n");
             }
           }
 #  if defined(OPENCL_LIBSMM_DEVICES)
