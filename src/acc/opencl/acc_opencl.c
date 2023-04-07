@@ -912,7 +912,7 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id active_id) {
       }
     }
     else if (CL_INVALID_DEVICE == result && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia")) {
-      fprintf(stderr, "WARNING ACC/OpenCL: if MPI-ranks target the same device in exclusive mode,\n"
+      fprintf(stderr, "WARN ACC/OpenCL: if MPI-ranks target the same device in exclusive mode,\n"
                       "                    SMI must be used to enable sharing the device.\n");
     }
   }
@@ -1203,7 +1203,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
                 }
 #  if !defined(NDEBUG)
                 else if (0 != strcmp("cl_intel_global_float_atomics", ext)) {
-                  fprintf(stderr, "WARNING ACC/OpenCL: extension \"%s\" is not supported.\n", ext);
+                  fprintf(stderr, "WARN ACC/OpenCL: extension \"%s\" is not supported.\n", ext);
                 }
 #  endif
               }

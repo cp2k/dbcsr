@@ -343,11 +343,13 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
     result = clEnqueueReadBuffer(
       queue, *ACC_OPENCL_MEM(dev_mem), 0 == (2 & c_dbcsr_acc_opencl_config.async), 0 /*offset*/, nbytes, host_mem, 0, NULL, NULL);
     if (CL_SUCCESS != result) {
-      result = clEnqueueReadBuffer(queue, *ACC_OPENCL_MEM(dev_mem), CL_TRUE, 0 /*offset*/, nbytes, host_mem, 0, NULL, NULL);
+      const int result_sync = clEnqueueReadBuffer(
+        queue, *ACC_OPENCL_MEM(dev_mem), CL_TRUE, 0 /*offset*/, nbytes, host_mem, 0, NULL, NULL);
       c_dbcsr_acc_opencl_config.async |= 2; /* retract feature */
       if (0 != c_dbcsr_acc_opencl_config.verbosity) {
-        fprintf(stderr, "WARNING ACC/OpenCL: falling back to synchronous readback.\n");
+        fprintf(stderr, "WARN ACC/OpenCL: falling back to synchronous readback (code=%i).\n", result);
       }
+      result = result_sync;
     }
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
