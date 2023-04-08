@@ -12,6 +12,7 @@ XARGS=$(command -v xargs)
 SORT=$(command -v sort)
 HEAD=$(command -v head)
 SED=$(command -v gsed)
+CUT=$(command -v cut)
 LS=$(command -v ls)
 RM=$(command -v rm)
 WC=$(command -v wc)
@@ -166,7 +167,9 @@ then
       MNKS=$(echo "${MNKS}" | tr ' ' '\n' | tac | tr '\n' ' '; echo)
     fi
     if [ "${MNKS}" ] && [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then
-      MNKS=$(echo "${MNKS}" | ${XARGS} -n1 | ${HEAD} -n"${MAXNUM}")
+      MNKS=$(echo "${MNKS}" | ${XARGS} -n1 | ${HEAD} -n"${MAXNUM}" | ${XARGS})
+    else
+      MNKS=$(echo "${MNKS}" | ${XARGS})
     fi
   fi
   NTRIPLETS=$(echo "${MNKS}" | ${WC} -w)
@@ -214,10 +217,11 @@ then
     sleep ${WAIT}
   fi
   N=0
-  for MNK in ${MNKS}; do
-    if [ "0" != "$(((N-PARTOFFS+1)<=PARTSIZE))" ]; then
+  MNKPART=$(echo "${MNKS}" | ${CUT} -d' ' -f $((PARTOFFS+1))-$((PARTOFFS+PARTSIZE)))
+  for MNK in ${MNKPART}; do
+    if [ "0" != "$(((N)<PARTSIZE))" ]; then
       echo
-      echo "[$((N-PARTOFFS+1))/${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
+      echo "[$((N+1))/${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf ./opentuner.db
       eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
