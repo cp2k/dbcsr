@@ -13,8 +13,11 @@
 #include <math.h>
 
 #if defined(__LIBXSMM)
-#  include <libxsmm.h>
-#  include <libxsmm_sync.h>
+#  if defined(LIBXSMM_DEFAULT_CONFIG)
+#    include <libxsmm_source.h>
+#  else
+#    include <libxsmm.h>
+#  endif
 #  define USE_LIBXSMM
 #  if !defined(LIBXSMM_VERSION_NUMBER)
 #    define LIBXSMM_VERSION_NUMBER \

@@ -743,21 +743,21 @@ if __name__ == "__main__":
     # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
     if not os.getenv("OPENCL_LIBSMM_SMM_WS") in {"tune", "enabled", "on"}:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
-    if not os.getenv("OPENCL_LIBSMM_SMM_AL") in {"tune", "enabled", "on"}:
-        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
+    # if not os.getenv("OPENCL_LIBSMM_SMM_AL") in {"tune", "enabled", "on"}:
+    # os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
         os.environ["OPENCL_LIBSMM_SMM_BN"] = "{}".format(args.bn)
     if 2 <= args.tlevel or 0 > args.tlevel:
-        os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
-        os.environ["OPENCL_LIBSMM_SMM_NZ"] = "{}".format(args.nz)
         os.environ["OPENCL_LIBSMM_SMM_TB"] = "{}".format(args.tb)
         os.environ["OPENCL_LIBSMM_SMM_TC"] = "{}".format(args.tc)
+        os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
+        os.environ["OPENCL_LIBSMM_SMM_AC"] = "{}".format(args.ac)
+        os.environ["OPENCL_LIBSMM_SMM_NZ"] = "{}".format(args.nz)
     if 3 <= args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BK"] = "{}".format(args.bk)
         os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
-        os.environ["OPENCL_LIBSMM_SMM_AC"] = "{}".format(args.ac)
     if 4 <= args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_LU"] = "{}".format(args.lu)
     if 0 == args.mb:
