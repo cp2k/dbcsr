@@ -12,7 +12,11 @@
 #include <stdio.h>
 
 #if defined(__LIBXSMM)
-#  include <libxsmm.h>
+#  if defined(LIBXSMM_DEFAULT_CONFIG)
+#    include <libxsmm_source.h>
+#  else
+#    include <libxsmm.h>
+#  endif
 #  if !defined(LIBXSMM_VERSION_NUMBER)
 #    define LIBXSMM_VERSION_NUMBER \
       LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)

@@ -27,6 +27,7 @@ ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
 UNAME := $(shell uname)
+HEADERONLY ?= 1
 STATIC ?= 1
 INTEL ?= 0
 DEV ?= 0
@@ -159,13 +160,15 @@ endif
 
 ifneq (,$(LIBXSMMROOT))
   ifneq (0,$(STATIC))
+    ifeq (0,$(HEADERONLY))
     ifneq (0,$(OMP))
       LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmext.a
     endif
-    LDFLAGS += \
-      $(LIBXSMMROOT)/lib/libxsmm.a \
-      $(LIBXSMMROOT)/lib/libxsmmnoblas.a \
-      $(NULL)
+      LDFLAGS += $(LIBXSMMROOT)/lib/libxsmm.a
+  else
+      CFLAGS_XSMM += -DLIBXSMM_DEFAULT_CONFIG
+    endif
+    LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmnoblas.a
   else
     LDFLAGS += -L$(LIBXSMMROOT)/lib
     ifneq (Darwin,$(UNAME))
