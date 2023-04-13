@@ -233,6 +233,7 @@ int c_dbcsr_acc_init(void) {
     if (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_uid(NULL /*device*/, env_devmatch, &c_dbcsr_acc_opencl_config.devmatch)) {
       c_dbcsr_acc_opencl_config.devmatch = 1;
     }
+    libxsmm_init();
     /* sanitize ACC_OPENCL_SHARE */
     if (1 == c_dbcsr_acc_opencl_config.share) c_dbcsr_acc_opencl_config.share = 2;
     else if (0 > c_dbcsr_acc_opencl_config.share) c_dbcsr_acc_opencl_config.share = 0;
@@ -555,14 +556,6 @@ int c_dbcsr_acc_finalize(void) {
   if (0 != c_dbcsr_acc_opencl_config.ndevices) {
     int i;
     assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_DEVICES_MAXCOUNT);
-#  if defined(__DBCSR_ACC)
-    /* DBCSR may call c_dbcsr_acc_init as well as libsmm_acc_init() since both interface are used.
-     * libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
-     * The implementation of c_dbcsr_acc_init should be safe against "over initialization".
-     * However, DBCSR only calls c_dbcsr_acc_init and expects an implicit libsmm_acc_init().
-     */
-    if (EXIT_SUCCESS == result) result = libsmm_acc_finalize();
-#  endif
     if (0 != c_dbcsr_acc_opencl_config.verbosity) {
       cl_device_id device;
       int d;
@@ -597,6 +590,15 @@ int c_dbcsr_acc_finalize(void) {
       }
       fprintf(stderr, "\n");
     }
+#  if defined(__DBCSR_ACC)
+    /* DBCSR may call c_dbcsr_acc_init as well as libsmm_acc_init() since both interface are used.
+     * libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
+     * The implementation of c_dbcsr_acc_init should be safe against "over initialization".
+     * However, DBCSR only calls c_dbcsr_acc_init and expects an implicit libsmm_acc_init().
+     */
+    if (EXIT_SUCCESS == result) result = libsmm_acc_finalize();
+#  endif
+    libxsmm_finalize();
     if (NULL != c_dbcsr_acc_opencl_config.device) {
       for (i = 0; i < c_dbcsr_acc_opencl_config.nthreads; ++i) {
         const cl_context context = c_dbcsr_acc_opencl_config.device[i].context;

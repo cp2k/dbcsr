@@ -7,7 +7,7 @@
 # For further information please visit https://dbcsr.cp2k.org                                      #
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
-# shellcheck disable=SC2129
+# shellcheck disable=SC2048,SC2129
 
 BASENAME=$(command -v basename)
 SORT=$(command -v sort)
@@ -43,6 +43,9 @@ then
     -c|-d|--debug|--comments)
       CPPFLAGS+=" -C"
       shift;;
+    -v|--verbose)
+      VERBOSE=1
+      shift;;
     *) break;;
     esac
   done
@@ -57,11 +60,20 @@ then
   if [ "$#" -gt 1 ]; then
     # allow for instance /dev/stdout
     if [ "${OFILE##*.}" = "h" ]; then
+      if [ "${VERBOSE}" ] && [ "0" != "${VERBOSE}" ]; then
+        echo "$0 $*" # stdout
+      fi
       truncate -s0 "${OFILE}"
       HFILE=${OFILE}
     elif [ "${OFILE##*.}" = "cl" ] || [ "${OFILE##*.}" = "csv" ]; then
       >&2 echo "ERROR: no output/header file given!"
       exit 1
+    elif [ "${VERBOSE}" ] && [ "0" != "${VERBOSE}" ]; then
+      if [[ ${OFILE} != /dev/stderr ]]; then
+        >&2 echo "$0 $*"
+      else # stdout
+        echo "$0 $*"
+      fi
     fi
     NFILES_OCL=0
     for CLFILE in ${*:1:${#@}-1}; do
@@ -190,6 +202,7 @@ then
     echo "       -p|--params P: directory-path to CSV-files (can be \"\")"
     echo "             default: ${PARAMDIR}"
     echo "       -c|-d|--debug|--comments: keep comments in source-code"
+    echo "       -v|--verbose: repeat command-line arguments"
   fi
 else
   >&2 echo "ERROR: missing prerequisites!"
