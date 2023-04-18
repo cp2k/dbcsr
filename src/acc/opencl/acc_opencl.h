@@ -35,7 +35,7 @@
 #  define LIBXSMM_SYNC_NPAUSE 0
 #endif
 
-#if defined(__LIBXSMM) && !defined(LIBXSMM_DEFAULT_CONFIG)
+#if defined(__LIBXSMM) && defined(LIBXSMM_LINKLIB)
 #  include <libxsmm.h>
 #  include <libxsmm_sync.h>
 #else

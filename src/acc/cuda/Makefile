@@ -161,12 +161,11 @@ endif
 ifneq (,$(LIBXSMMROOT))
   ifneq (0,$(STATIC))
     ifeq (0,$(HEADERONLY))
-    ifneq (0,$(OMP))
-      LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmext.a
-    endif
+      ifneq (0,$(OMP))
+        LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmext.a
+      endif
       LDFLAGS += $(LIBXSMMROOT)/lib/libxsmm.a
-  else
-      CFLAGS_XSMM += -DLIBXSMM_DEFAULT_CONFIG
+      CFLAGS_XSMM += -DLIBXSMM_LINKLIB
     endif
     LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmnoblas.a
   else

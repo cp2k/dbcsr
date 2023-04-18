@@ -13,7 +13,7 @@
 #include <math.h>
 
 #if defined(__LIBXSMM)
-#  if defined(LIBXSMM_DEFAULT_CONFIG)
+#  if !defined(LIBXSMM_LINKLIB)
 #    include <libxsmm_source.h>
 #  else
 #    include <libxsmm.h>
