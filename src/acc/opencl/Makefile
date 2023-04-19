@@ -20,7 +20,7 @@ ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
 UNAME := $(shell uname)
-HEADERONLY ?= 1
+HEADERONLY ?= 0
 STATIC ?= 1
 INTEL ?= 0
 DEV ?= 0

@@ -70,7 +70,7 @@ int c_dbcsr_acc_event_create(void** event_p) {
   {
     assert(NULL == c_dbcsr_acc_opencl_config.handles || sizeof(void*) >= sizeof(cl_event));
     *event_p = (
-#  if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
     (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
       NULL != c_dbcsr_acc_opencl_config.handles
         ? libxsmm_pmalloc(c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle)
@@ -108,7 +108,7 @@ int c_dbcsr_acc_event_destroy(void* event) {
   if (NULL != event) {
     const cl_event clevent = *ACC_OPENCL_EVENT(event);
     if (NULL != clevent) result = clReleaseEvent(clevent);
-#  if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
     (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
     if (NULL != c_dbcsr_acc_opencl_config.handles) {
       /**(cl_event*)event = NULL; assert(NULL == *ACC_OPENCL_EVENT(event));*/

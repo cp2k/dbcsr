@@ -17,30 +17,24 @@
 #    include <libxsmm_source.h>
 #  else
 #    include <libxsmm.h>
+#    include <libxsmm_sync.h>
 #  endif
-#  define USE_LIBXSMM
-#  if !defined(LIBXSMM_VERSION_NUMBER)
-#    define LIBXSMM_VERSION_NUMBER \
-      LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
+#  if defined(LIBXSMM_VERSION_NUMBER) && LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+#    define USE_LIBXSMM
 #  endif
+#endif
+
+#if defined(USE_LIBXSMM)
 #  if defined(_OPENMP)
 #    define ACC_BENCH_USEOMP(FUNC) LIBXSMM_USEOMP(FUNC)
 #  else
 #    define ACC_BENCH_USEOMP(FUNC) (FUNC)
 #  endif
-#  if LIBXSMM_VERSION4(1, 17, 0, 2776) <= LIBXSMM_VERSION_NUMBER
-#    define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
-      STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
-      ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
-      (IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, STRIDE_C, INDEX_STRIDE, \
-        INDEX_BASE, BATCHSIZE, 0 /*batchcheck*/)
-#  else
-#    define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
-      STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
-      ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
-      ((libxsmm_gemm_precision)(IPREC), (libxsmm_gemm_precision)(OPREC), TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, \
-        LDC, INDEX_BASE, INDEX_STRIDE, STRIDE_A, STRIDE_B, STRIDE_C, BATCHSIZE)
-#  endif
+#  define ACC_BENCH_GEMM_BATCH(IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, \
+    STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
+    ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
+    (IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, STRIDE_C, INDEX_STRIDE, \
+      INDEX_BASE, BATCHSIZE, 0 /*batchcheck*/)
 #  define PRINTF(...) \
     do { \
       const size_t print_buffer_size = sizeof(print_buffer) - print_offset; \
