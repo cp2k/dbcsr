@@ -17,13 +17,12 @@
 #  else
 #    include <libxsmm.h>
 #  endif
-#  if !defined(LIBXSMM_VERSION_NUMBER)
-#    define LIBXSMM_VERSION_NUMBER \
-      LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
-#  endif
-#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+#  if defined(LIBXSMM_VERSION_NUMBER) && LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
 #    define USE_LIBXSMM
 #  endif
+#endif
+
+#if defined(USE_LIBXSMM)
 #  if defined(_OPENMP)
 #    define ACC_BENCH_ITRANSBATCH(A, ...) libxsmm_itrans_batch_omp(A, __VA_ARGS__)
 #  else

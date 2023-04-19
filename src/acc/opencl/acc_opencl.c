@@ -491,7 +491,7 @@ int c_dbcsr_acc_init(void) {
         c_dbcsr_acc_opencl_config.handle = 0;
         c_dbcsr_acc_opencl_config.handles = NULL;
         c_dbcsr_acc_opencl_config.storage = NULL;
-#  if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
     (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
         if (EXIT_SUCCESS == result) {
           c_dbcsr_acc_opencl_config.handle = ACC_OPENCL_HANDLES_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads;
