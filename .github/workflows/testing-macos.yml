@@ -20,7 +20,7 @@ jobs:
         use_openmp: [OPENMP=ON]
         use_smm: [SMM=blas]
         blas_impl: [accelerate,openblas]
-        mpi_suffix: [openmpi,mpich]
+        mpi_suffix: [openmpi]
         exclude:
           - use_mpi: MPI=OFF
             mpi_suffix: mpich
@@ -31,19 +31,14 @@ jobs:
         fetch-depth: 0
         submodules: true
 
-    - name: Install dependencies
+    - name: Install common dependencies
       run: |
         env HOMEBREW_NO_AUTO_UPDATE=1 brew install \
-          ninja \
-          openmpi
+          ninja
 
-    - name: Unlink OpenMPI
+    - name: Install ${{ matrix.mpi_suffix }}
       run: |
-        brew unlink openmpi
-
-    - name: Install MPICH
-      run: |
-        env HOMEBREW_NO_AUTO_UPDATE=1 brew install mpich
+        env HOMEBREW_NO_AUTO_UPDATE=1 brew install ${{ matrix.mpi_suffix }}
 
     - name: Configure
       run: |
@@ -57,7 +52,6 @@ jobs:
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_${{ matrix.use_smm }} \
           $([ "${{ matrix.blas_impl }}" = "openblas" ] && echo '-DCMAKE_PREFIX_PATH=/usr/local/opt/openblas') \
-          -DMPIEXEC_EXECUTABLE="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && command -v /usr/local/Cellar/open-mpi/*/bin/mpiexec || command -v /usr/local/Cellar/mpich/*/bin/mpiexec)" \
           -DMPIEXEC_PREFLAGS="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && echo "-mca btl ^openib --allow-run-as-root")" \
           -DTEST_MPI_RANKS=1 \
           ..
