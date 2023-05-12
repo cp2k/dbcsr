@@ -6,6 +6,10 @@ on:
     - 'develop'
   pull_request:
 
+# Workaround issue in Xcode 14.1/2
+env:
+  DEVELOPER_DIR: /Applications/Xcode_14.0.1.app/Contents/Developer
+
 jobs:
   build-and-test:
     runs-on: macos-latest

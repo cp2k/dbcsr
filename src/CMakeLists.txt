@@ -243,6 +243,7 @@ if (USE_ACCEL)
   target_link_libraries(
     dbcsr
     PRIVATE $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cudart>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver>
             $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cublas>
             $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
             $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
