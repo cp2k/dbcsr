@@ -34,6 +34,7 @@ jobs:
 
     - name: Test
       run: |
+        export LSAN_OPTIONS=suppressions=$PWD/tools/docker/lsan.supp
         cd build
         ctest --output-on-failure
 
