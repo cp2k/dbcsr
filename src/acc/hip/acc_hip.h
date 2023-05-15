@@ -12,7 +12,11 @@
 
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
-#include <hipblas.h>
+#if __has_include(<hipblas/hipblas.h>)
+#  include <hipblas/hipblas.h>
+#else
+#  include <hipblas.h>
+#endif
 #include <hip/hiprtc.h>
 
 #define ACC(x) hip##x
