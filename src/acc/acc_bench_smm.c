@@ -17,7 +17,12 @@
 #    include <libxsmm_source.h>
 #  else
 #    include <libxsmm.h>
-#    include <libxsmm_sync.h>
+#    if !defined(LIBXSMM_TIMER_H)
+#      include <utils/libxsmm_timer.h>
+#    endif
+#    if !defined(LIBXSMM_SYNC_H)
+#      include <libxsmm_sync.h>
+#    endif
 #  endif
 #  if defined(LIBXSMM_VERSION_NUMBER) && LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
 #    define USE_LIBXSMM

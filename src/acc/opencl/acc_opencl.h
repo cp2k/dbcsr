@@ -37,7 +37,12 @@
 
 #if defined(__LIBXSMM) && !defined(LIBXSMM_DEFAULT_CONFIG)
 #  include <libxsmm.h>
-#  include <libxsmm_sync.h>
+#  if !defined(LIBXSMM_TIMER_H)
+#    include <utils/libxsmm_timer.h>
+#  endif
+#  if !defined(LIBXSMM_SYNC_H)
+#    include <libxsmm_sync.h>
+#  endif
 #else
 /* OpenCL backend depends on LIBXSMM */
 #  include <libxsmm_source.h>
