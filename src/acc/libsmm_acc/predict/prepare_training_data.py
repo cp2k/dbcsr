@@ -113,10 +113,11 @@ def get_performance_closest_to_baseline(
             if len(idx_baseline) > 0:
                 break
         else:
-            assert False, (
-                'Could not find closest baseline for mnk=({}x{}x{}) and for algorithm "{}".'
-                "\nLast baseline parameters searched:\n{}"
-                "\nParameter sets searched:\n".format(m, n, k, algorithm, baseline_pars)
+            raise AssertionError(
+                (
+                    'Could not find closest baseline for mnk=({}x{}x{}) and for algorithm "{}".\n'
+                    "Last baseline parameters searched:\n{}\nParameter sets searched:\n"
+                ).format(m, n, k, algorithm, baseline_pars)
             )
 
     idx_baseline = idx_baseline[0]
@@ -142,7 +143,7 @@ def process_chunk(data_chunk, algorithm, gpu_properties, autotuning_properties):
     # For each (mnk), ...
     baseline_performances = dict()
     max_performances = dict()
-    for i, mnk in enumerate(mnks):
+    for _i, mnk in enumerate(mnks):
 
         data_mnk = data_chunk[data_chunk["mnk"] == mnk]
         m, n, k = mnk_pattern.match(mnk).groups()
@@ -433,7 +434,7 @@ def plot_baseline(baseline_perfs_by_algo, data_path, algorithms):
 
     # Get all mnks
     mnk_sequences = list()
-    for algo, baseline_dic in baseline_perfs_by_algo.items():
+    for _algo, baseline_dic in baseline_perfs_by_algo.items():
         mnk_sequences += list(baseline_dic.keys())
     all_mnks = list(set.union(set(mnk_sequences)))
 
@@ -451,9 +452,9 @@ def plot_baseline(baseline_perfs_by_algo, data_path, algorithms):
                 baseline_perfs[mnk] = baseline_perfs_by_algo[algo][mnk]
                 break
         else:
-            assert (
-                False
-            ), "NOOOO this is actually impossible by def of all_mnks, isn't it?"
+            raise AssertionError(
+                "NOOOO this is actually impossible by def of all_mnks, isn't it?"
+            )
 
     # Sort
     mnks = list()

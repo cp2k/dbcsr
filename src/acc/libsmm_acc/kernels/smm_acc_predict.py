@@ -247,14 +247,14 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
                 & (data.v == baseline_pars["v"])
             ].index.tolist()
         else:
-            assert False, f"Cannot recognize algorithm: {algorithm}"
+            raise AssertionError(f"Cannot recognize algorithm: {algorithm}")
 
         if len(idx_baseline) == 1:
             idx_baseline = idx_baseline[0]
             baseline_perf[mnk] = data["perf (Gflop/s)"][idx_baseline]
         elif len(idx_baseline) > 1:
-            assert False, "Found more than one corresponding index: " + str(
-                idx_baseline
+            raise AssertionError(
+                "Found more than one corresponding index: " + str(idx_baseline)
             )
         else:
             pass  # if none were found, they're in another data chunk. Do nothing.

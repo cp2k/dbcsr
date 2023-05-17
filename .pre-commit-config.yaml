@@ -4,20 +4,21 @@ default_language_version:
 exclude: '^tools/(build_utils/fypp)'
 fail_fast: false
 repos:
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: 'v0.0.261'
+  hooks:
+  - id: ruff
+    args: [ --fix, --exit-non-zero-on-fix ]
+    exclude: >-
+      (?x)^(
+        .cp2k/.*|
+      )$
 - repo: https://github.com/ambv/black
   rev: 22.6.0
   hooks:
   - id: black
     name: Reformat Python files with the black code formatter
     files: '^.*(/PACKAGE)|(\.py)$'
-- repo: https://github.com/pycqa/flake8
-  rev: 5.0.4
-  hooks:
-  - id: flake8
-    exclude: >-
-      (?x)^(
-        .cp2k/.*|
-      )$
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.3.0
   hooks:

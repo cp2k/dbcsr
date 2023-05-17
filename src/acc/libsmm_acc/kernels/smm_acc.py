@@ -83,7 +83,7 @@ def compatible_mnk(algo, m, n, k):
             compatible = False
     else:
         if algo != "medium":
-            assert False, f"Cannot identify algorithm:{str(algo)}"
+            raise AssertionError(f"Cannot identify algorithm:{str(algo)}")
 
     return compatible
 

@@ -582,7 +582,7 @@ def get_hyperparameter_grid(algo, model_name, n_features):
             "n_estimators": list(n_estimators),
         }
     else:
-        assert False, "Cannot recognize model: " + model_name
+        raise AssertionError("Cannot recognize model: " + model_name)
 
     return param_grid
 
@@ -700,7 +700,9 @@ def get_model(model_to_train, algo, njobs, ntrees):
     elif model_to_train == "xgb-RF":
         model, model_name = get_xgb_RandomForest_model(algo, njobs, ntrees)
     else:
-        assert False, "Cannot recognize model: " + model_to_train + ". Options: DT, RF"
+        raise AssertionError(
+            "Cannot recognize model: " + model_to_train + ". Options: DT, RF"
+        )
     return model, model_name
 
 
@@ -849,7 +851,7 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
         # Hyperparameter Optimization
         param_grid = get_hyperparameter_grid(algo, model_name, n_features)
         if param_grid is None:
-            assert False, "param_grid object is None. Please implement!"
+            raise AssertionError("param_grid object is None. Please implement!")
 
         # At this point, we "cheat"/"take a shortcut" in 2 ways:
         # - we split into train/test partitions using the simple default splitter, not one that is aware of mnk-groups

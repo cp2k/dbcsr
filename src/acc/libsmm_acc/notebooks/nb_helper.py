@@ -57,7 +57,7 @@ def get_folders_to_read(to_read, autotuning_data_path):
             if to_read.match(f) is not None
         ]
     else:
-        assert False, "Cannot recognize option: " + to_read
+        raise AssertionError("Cannot recognize option: " + to_read)
 
     num_folders_to_read = len(folders_to_read)
     assert num_folders_to_read > 0

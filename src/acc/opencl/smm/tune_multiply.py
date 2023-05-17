@@ -741,7 +741,7 @@ if __name__ == "__main__":
     )
     args = argparser.parse_args()
     # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
-    if not os.getenv("OPENCL_LIBSMM_SMM_WS") in {"tune", "enabled", "on"}:
+    if os.getenv("OPENCL_LIBSMM_SMM_WS") not in {"tune", "enabled", "on"}:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
     # if not os.getenv("OPENCL_LIBSMM_SMM_AL") in {"tune", "enabled", "on"}:
     # os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
