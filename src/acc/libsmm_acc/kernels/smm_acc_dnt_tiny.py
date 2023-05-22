@@ -12,7 +12,6 @@ from kernels.smm_acc_dnt_base import Kernel
 
 
 class Kernel_dnt_tiny(Kernel):
-
     algorithm = "tiny"
     algorithm_num = 5
     launch_parameters = ["m", "n", "k", "threads", "grouping", "minblocks"]
@@ -72,7 +71,6 @@ class Kernel_dnt_tiny(Kernel):
         ):
             # heuristic: never seen optimal=1 hence start from 2
             for grouping_ in range(2, 32 + 1, 1) if grouping is None else [grouping]:
-
                 # Max work ("operations")  which can be run concurrently
                 max_concurrent_work = max(grouping_, m * k, k * n, m * n)
 
@@ -96,7 +94,6 @@ class Kernel_dnt_tiny(Kernel):
                     if threads is None
                     else [threads]
                 ):
-
                     if threads_ > round_up_to_nearest_multiple(
                         max_concurrent_work, gpu["Threads_/_Warp"]
                     ):

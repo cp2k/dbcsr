@@ -28,7 +28,6 @@ def tune_sort_key(path: Path):
 
 # ===============================================================================
 def main(submit_jobs, num_jobs, tune_dir: Path, sbatch_args):
-
     cmd = ["squeue", "--user", os.environ["USER"], "--format=%j", "--nohead"]
     submitted = check_output(cmd, encoding="utf-8")
 

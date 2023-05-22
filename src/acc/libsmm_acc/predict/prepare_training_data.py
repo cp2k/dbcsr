@@ -144,7 +144,6 @@ def process_chunk(data_chunk, algorithm, gpu_properties, autotuning_properties):
     baseline_performances = dict()
     max_performances = dict()
     for _i, mnk in enumerate(mnks):
-
         data_mnk = data_chunk[data_chunk["mnk"] == mnk]
         m, n, k = mnk_pattern.match(mnk).groups()
         m, n, k = int(m), int(n), int(k)
@@ -188,7 +187,6 @@ def write_to_parquet(data_path, algorithm):
         print("Found {:40}, skipping".format(parquet_file_done))
 
     else:
-
         print("Didn't find {:40}, generating".format(parquet_file_done))
 
         # [RAW] Read CSV files into Pandas dataframes
@@ -350,7 +348,6 @@ def write_baseline_and_max_records_per_algorithm(
         print("Found {:40}, skipping".format(max_performances_per_algo_file))
 
     else:
-
         print("Processing data of algorithm {}".format(algorithm))
         raw_pars_cols = kernel_algorithm[algorithm].launch_parameters
         if algorithm in ["largeDB1", "largeDB2"]:
@@ -660,7 +657,6 @@ def write_derived_data(data_path, algorithm, arch, n_jobs, chunk_size):
         print("Found {:40}, skipping".format(derived_training_data_filename))
 
     else:
-
         print("Didn't find {:40}, generating".format(derived_training_data_filename))
 
         # Read max performances, GPU properties and autotuning properties

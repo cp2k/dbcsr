@@ -93,7 +93,6 @@ def main(
     # Get or train partial model (i.e. trained on the "training" part of the data, not the entire dataset)
     log += print_and_log(visual_separator)
     if len(prefitted_model_folder) == 0:  # train a model
-
         log += print_and_log("\nPreparing to fit model...")
         (
             X_train,
@@ -107,7 +106,6 @@ def main(
         ) = train_model(X, X_mnk, Y, algo, model_args, folder, log)
 
     else:  # load pre-trained model
-
         log += print_and_log(
             "\nReading partial pre-fitted partial model from " + prefitted_model_folder
         )
@@ -247,7 +245,6 @@ optimized_hyperparameters = {
 def get_log_folder(prefitted_model_folder, destination_folder, algo):
     """Create a unique log folder for this run in which logs, plots etc. will be stored"""
     if len(prefitted_model_folder) == 0:
-
         # Create a new folder for this model
         file_signature = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M")
         folder_name = os.path.join(
@@ -274,7 +271,6 @@ def get_log_folder(prefitted_model_folder, destination_folder, algo):
                     folder = new_folder
 
     else:
-
         # If loading a pre-fitted model, use this pre-fitted model's folder as a log folder, but create a new log file
         folder = prefitted_model_folder
         log_file_signature = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M")
@@ -290,7 +286,6 @@ def get_log_folder(prefitted_model_folder, destination_folder, algo):
 
 
 def dump_or_load_options(algo, model_args, prefitted_model, nrows, folder, log):
-
     options_file_name = os.path.join(folder, "options.json")
     pgm_options = {"folder": folder, "algo": algo, "nrows": nrows}
     pgm_options.update(model_args)
@@ -361,7 +356,6 @@ def perf_loss(y_true, y_pred, top_k, X_mnk, scaled=True):
     perf_losses = list()
     mnks = np.unique(X_mnk["mnk"].values)
     for mnk in mnks:
-
         # Get performances per mnk
         idx_mnk = np.where(X_mnk == mnk)[0].tolist()
         assert len(idx_mnk) > 0, "idx_mnk is empty"
@@ -470,7 +464,6 @@ def get_reference_performances(folder, algo):
 
 
 def read_data(algo, read_from, nrows, folder, log):
-
     parquet_data_file = os.path.join(read_from, "training_data_" + algo + ".parquet")
     log += print_and_log("\nRead data from " + parquet_data_file)
 
@@ -739,7 +732,6 @@ def get_train_test_partition(to_partition, test, train=None):
 
 
 def train_model(X, X_mnk, Y, algo, model_options, folder, log):
-
     # ===============================================================================
     # Get options
     results_file = os.path.join(folder, "feature_tree.p")
@@ -847,7 +839,6 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
         X_train, Y_train = pandas_to_dask(X_train, Y_train)
 
     if model_options["hyperparameter_optimization"]:
-
         # Hyperparameter Optimization
         param_grid = get_hyperparameter_grid(algo, model_name, n_features)
         if param_grid is None:
@@ -890,7 +881,6 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
         model = gds.best_estimator_
 
     else:
-
         # Fit
         log += print_and_log(visual_separator)
         log += print_and_log("\nStart fitting model with predictors:\n")
@@ -930,7 +920,6 @@ def fetch_pre_trained_model(model_path_folder, X, log):
 
 
 def fetch_pre_trained_model_partial(X, X_mnk, Y, model_options, model_path_folder, log):
-
     # Load pre-trained model, selected features and indices of test-set
     model_path = os.path.join(model_path_folder, "feature_tree.p")
     print("fetched partial pre-trained model from: {}".format(model_path))
@@ -977,7 +966,6 @@ def fetch_pre_trained_model_partial(X, X_mnk, Y, model_options, model_path_folde
 # ===============================================================================
 # Describe and evaluate model
 def describe_hpo(gs, log, folder):
-
     # Scores obtained during hyperparameter optimization
     columns_to_print = list()
     for par in gs.param_grid.keys():
@@ -1062,7 +1050,6 @@ def scale_back(y_scaled, x_mnk, max_performances, mnk=None):
 
 
 def plot_train_test_partition(test_idx, train_idx, X_mnk, folder):
-
     import matplotlib.pyplot as plt
 
     mnks_string_train = X_mnk["mnk"].iloc[train_idx].unique()
@@ -1134,7 +1121,6 @@ def plot_train_test_partition(test_idx, train_idx, X_mnk, folder):
 
 
 def plot_feature_importance(importances, names, folder):
-
     plt.rcdefaults()
     fig, ax = plt.subplots()
 
@@ -1174,7 +1160,6 @@ def plot_loss_histogram(y_true, y_pred, X_mnk, folder):
 
 
 def plot_prediction_accuracy(m, n, k, y_true, y_pred, train, pp):
-
     plt.figure()
     if train:
         plt.plot(100 * y_true, 100 * y_pred, "b.", label="truth")
@@ -1190,11 +1175,9 @@ def plot_prediction_accuracy(m, n, k, y_true, y_pred, train, pp):
 def get_predive_model_performances(
     y_true, y_pred, x_mnk, max_performances_ref, max_performances_algo
 ):
-
     predictive_model_perf_scaled = dict()
 
     for mnk_string in x_mnk["mnk"].unique():
-
         idx_mnk = np.where(x_mnk == mnk_string)[0].tolist()
         assert len(idx_mnk) > 0, "idx_mnk is empty"
         m, n, k = to_tuple(mnk_string)
@@ -1317,7 +1300,6 @@ def evaluate_model(
         pp = PdfPages(plot_file_path)
 
         for mnk_string in mnks_to_plot:
-
             # Get performances per mnk
             idx_mnk = np.where(X_mnk_train == mnk_string)[0].tolist()
             assert len(idx_mnk) > 0, "idx_mnk is empty"
@@ -1349,7 +1331,6 @@ def evaluate_model(
         if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
             mnks_to_plot = random.sample(X_mnk_test["mnk"].values.tolist(), n_samples)
             for mnk_string in mnks_to_plot:
-
                 # Get performances per mnk
                 idx_mnk = np.where(X_mnk_test == mnk_string)[0].tolist()
                 assert len(idx_mnk) > 0, "idx_mnk is empty"
@@ -1595,7 +1576,6 @@ def evaluate_model(
 
 # ===============================================================================
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(
         description="""
         Train a Machine Learning model on autotuning data to predict a kernel's performance given
