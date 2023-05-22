@@ -89,7 +89,6 @@ def get_files_to_read(folders_to_read, algo_to_read):
         )
 
         for name_algo in algo_to_read:
-
             mnk_string = kernel_folder_pattern.search(kernel_folder).groups()[0]
             raw_file_base = "raw_training_data_" + mnk_string + "_" + name_algo + ".csv"
             raw_file = os.path.join(kernel_folder, raw_file_base)
@@ -97,7 +96,6 @@ def get_files_to_read(folders_to_read, algo_to_read):
             derived_file = os.path.join(kernel_folder, derived_file_base)
 
             if os.path.exists(raw_file) and os.path.exists(derived_file):
-
                 # Read raw parameters file
                 files_to_read.append(raw_file)
 
@@ -105,7 +103,6 @@ def get_files_to_read(folders_to_read, algo_to_read):
                 files_to_read.append(derived_file)
 
             else:
-
                 if not os.path.exists(raw_file):
                     print("\t...{:50} no file".format(raw_file_base))
                 if not os.path.exists(derived_file):

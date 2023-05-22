@@ -37,7 +37,6 @@ def main(
     blocks_from_param_file,
     tune_dir: Path,
 ):
-
     # Read existing parameters
     assert (
         param_fn.name in gpu_architectures.keys()
@@ -72,7 +71,7 @@ def main(
         triples = combinations(*blocksizes)
     print(f"Requested to autotune {len(triples)} triplets")
 
-    for (m, n, k) in triples:
+    for m, n, k in triples:
         existing = [kern for kern in autotuned_kernels if kern.can_handle(m, n, k)]
         if existing:
             print(
@@ -254,7 +253,6 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
 
 # ===============================================================================
 def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task=12, max_num_nodes=0):
-
     file_extension = get_file_extension_from_compiler(compiler)
 
     tprefix = f"tune_{int(m)}x{int(n)}x{int(k)}"
@@ -339,7 +337,6 @@ date
 
 # ===============================================================================
 def gen_makefile(outdir, compiler, arch):
-
     file_extension = get_file_extension_from_compiler(compiler)
 
     # header

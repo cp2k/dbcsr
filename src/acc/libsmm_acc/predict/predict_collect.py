@@ -79,15 +79,12 @@ def read_log_file(log_folder, m, n, k):
     # Parse the log files and collect data
     data = list()
     for log_file in log_files:
-
         print("Processing log file", log_file)
         with open(os.path.join(log_folder, log_file), "r") as f:
             log_file_content = f.read().splitlines()
 
         for line in log_file_content:
-
             if "OK" in line:  # this line contains autotuning data
-
                 # Parse the line
                 match = autotuning_line.match(line)
                 assert match is not None, "Found null match: " + line
@@ -133,7 +130,6 @@ def collect_training_data(kernel_folders, kernel_folder_pattern):
     # For each folder:
     n_kernels = len(kernel_folders)
     for i, kernel_folder in enumerate(kernel_folders):
-
         print("\nProcess folder {} ({}/{:,})".format(kernel_folder, i + 1, n_kernels))
 
         # Find (m, n, k)
@@ -150,10 +146,8 @@ def collect_training_data(kernel_folders, kernel_folder_pattern):
         # ===============================================================================
         # Write parameters to CSV
         for name_algo, kernel_algo in kernel_algorithm.items():
-
             # if applicable to this mnk
             if name_algo in data["algorithm"].values:
-
                 # Does collected csv file exist already?
                 raw_parameters_file_name = os.path.join(
                     kernel_folder,
@@ -170,7 +164,6 @@ def collect_training_data(kernel_folders, kernel_folder_pattern):
                     )
 
                 else:
-
                     # Get the data corresponding to this algorithm
                     data_algo = data[data["algorithm"] == name_algo]
 
@@ -186,7 +179,6 @@ def merge_data_files(tunedir):
     Merge CSV files
     """
     for algorithm in kernel_algorithm.keys():
-
         training_data_file = os.path.join(
             tunedir, "raw_training_data_{algorithm}.csv".format(algorithm=algorithm)
         )
@@ -195,7 +187,6 @@ def merge_data_files(tunedir):
             print("\nFound {}, skipping ... ".format(training_data_file))
 
         else:
-
             print("\nMerging partial CSV files into {} ... ".format(training_data_file))
 
             filenames_pattern = os.path.join(

@@ -18,7 +18,6 @@ from kernels.smm_acc_predict import params_dict_to_kernel  # noqa: E402
 
 
 def main(param_fn):
-
     # Read new kernel parameters
     param_new = "parameters.json"
     with open(param_new) as f:

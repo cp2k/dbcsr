@@ -97,13 +97,11 @@ class Kernel_dnt_largeDB2(Kernel):
                 if threads is None
                 else [threads]
             ):
-
                 if threads_ * minblocks_ > gpu["Threads_/_Multiprocessor"]:
                     continue
 
                 for tm in range(1, min(12, m + 1)) if tile_m is None else [tile_m]:
                     for tn in range(1, min(12, n + 1)) if tile_n is None else [tile_n]:
-
                         if tm * tn > 49:
                             continue  # heuristic: performance decreases for very large tiles
 

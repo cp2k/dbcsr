@@ -228,7 +228,6 @@ def plot_choice_goodness(
     pp,
     scaled=True,
 ):
-
     # Sort in ascending performances
     data_mnk = pd.DataFrame()
     if scaled:

@@ -12,7 +12,6 @@ from kernels.smm_acc_dnt_base import Kernel
 
 
 class Kernel_dnt_small(Kernel):
-
     algorithm = "small"
     algorithm_num = 4
     launch_parameters = [
@@ -86,7 +85,6 @@ class Kernel_dnt_small(Kernel):
                     for tn in (
                         range(1, min(12, n) + 1) if tile_n is None else [tile_n]
                     ):  # heuristic: the optimal tile_n is never above 12
-
                         if tm * tn > 16:
                             continue  # heuristic: performance decreases for very large tiles
 
@@ -126,7 +124,6 @@ class Kernel_dnt_small(Kernel):
                             if threads is None
                             else [threads]
                         ):
-
                             if threads_ > round_up_to_nearest_multiple(
                                 max_concurrent_work, gpu["Threads_/_Warp"]
                             ):

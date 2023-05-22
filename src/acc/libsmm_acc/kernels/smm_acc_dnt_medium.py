@@ -12,7 +12,6 @@ from kernels.smm_acc_dnt_base import Kernel
 
 
 class Kernel_dnt_medium(Kernel):
-
     algorithm = "medium"
     algorithm_num = 3
     launch_parameters = [
@@ -80,7 +79,6 @@ class Kernel_dnt_medium(Kernel):
             # for exhaustive search: range(1, gpu["Thread_Blocks_/_Multiprocessor"] + 1):
             # heuristic: the optimal minblocks is never > 28
             for grouping_ in range(1, 32 + 1, 1) if grouping is None else [grouping]:
-
                 if m >= 28 and grouping_ not in (3, 4, 5, 24, 26, 29, 32):
                     continue  # heuristic: investigate a smaller search space of grouping for large matrices
 
@@ -90,7 +88,6 @@ class Kernel_dnt_medium(Kernel):
                     for tn in (
                         range(1, min(12, n) + 1) if tile_n is None else [tile_n]
                     ):  # heuristic: the optimal tile_m is never above 12
-
                         if tm * tn > 16:
                             continue  # heuristic: performance decreases for very large tiles
 
@@ -131,7 +128,6 @@ class Kernel_dnt_medium(Kernel):
                             if threads is None
                             else [threads]
                         ):
-
                             if threads_ > round_up_to_nearest_multiple(
                                 max_concurrent_work, gpu["Threads_/_Warp"]
                             ):
@@ -172,7 +168,6 @@ class Kernel_dnt_medium(Kernel):
         min_threads = cmax * rmax
 
         while True:
-
             base = {
                 "threads": round_up_to_nearest_multiple(min_threads, 32),
                 "grouping": grp,
