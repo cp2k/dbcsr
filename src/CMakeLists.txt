@@ -270,7 +270,8 @@ if (WITH_C_API)
   set_target_properties(dbcsr_c PROPERTIES LINKER_LANGUAGE Fortran)
 
   set_target_properties(dbcsr_c PROPERTIES VERSION ${dbcsr_VERSION}
-                                           SOVERSION ${dbcsr_APIVERSION})
+                                           SOVERSION ${dbcsr_APIVERSION}
+                                           POSITION_INDEPENDENT_CODE ON)
 
   target_link_libraries(dbcsr_c PRIVATE dbcsr)
   target_link_libraries(dbcsr_c PUBLIC MPI::MPI_C) # the C API always needs MPI
