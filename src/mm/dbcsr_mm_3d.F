@@ -87,7 +87,7 @@ MODULE dbcsr_mm_3d
    USE dbcsr_mpiwrap, ONLY: &
       mp_allgather, mp_alltoall, mp_comm_free, mp_comm_null, mp_comm_split_direct, &
       mp_iallgather, mp_isendrecv, mp_isum, mp_request_null, mp_rget, mp_wait, mp_waitall, &
-      mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all, mp_environ
+      mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all, mp_environ, mp_comm_type
    USE dbcsr_ptr_util, ONLY: ensure_array_size, &
                              memory_deallocate
    USE dbcsr_types, ONLY: &
@@ -123,7 +123,7 @@ MODULE dbcsr_mm_3d
                                                      trs_stackbuf
       INTEGER                                     :: vprow, vpcol
       INTEGER                                     :: myproc = -1
-      INTEGER                                     :: grp = mp_comm_null, & ! Global communicator
+      TYPE(mp_comm_type)                          :: grp = mp_comm_null, & ! Global communicator
                                                      subgrp = mp_comm_null ! Communicator for A and B
       INTEGER                                     :: data_win, meta_win
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS  :: meta => Null(), &
@@ -148,7 +148,7 @@ MODULE dbcsr_mm_3d
    END TYPE mn_local_sizes
 
    TYPE dbcsr_layers_3D_C_reduction
-      INTEGER                            :: grp = mp_comm_null, &
+      TYPE(mp_comm_type)                 :: grp = mp_comm_null, &
                                             grp3D = mp_comm_null, &
                                             rowgrp3D = mp_comm_null
       INTEGER                            :: num_layers_3D = 1, &
@@ -245,7 +245,7 @@ CONTAINS
 
       CHARACTER(len=*), PARAMETER :: routineN = 'make_buffers'
       INTEGER :: blk, blk_p, bp, col, col_img, col_size, data_type, dst_proc, f_col_f, f_row_f, &
-                 grp, handle, handle2, irequests, it, ithread, l_col_l, l_row_l, mynode, myt, &
+                 handle, handle2, irequests, it, ithread, l_col_l, l_row_l, mynode, myt, &
                  nblkcols_local, nblkrows_local, ncols_images, nimages, nprocs, nprocs_total, &
                  nrows_images, nsymmetries, nthreads, nze, pcol, prow, row, row_img, row_size, size_index, &
                  stored_col, stored_row, symmetry_i, tr_col_size, tr_row_size
@@ -275,6 +275,7 @@ CONTAINS
       TYPE(dbcsr_mp_obj)                                 :: mp_obj
       TYPE(dbcsr_scalar_type)                            :: scale_neg_one
       TYPE(dbcsr_type)                                   :: sm
+      TYPE(mp_comm_type)                                 :: grp
 
 !$    INTEGER(kind=omp_lock_kind), ALLOCATABLE, DIMENSION(:) :: locks
 
@@ -640,7 +641,7 @@ CONTAINS
       ! Allocate data and meta buffers
       do_win_create(:) = .NOT. buffer%has_rma_win
       IF (buffer%has_rma_win) THEN
-         IF (buffer%grp .NE. grp .OR. dbcsr_data_get_type(buffer%data) .NE. data_type) THEN
+         IF (buffer%grp%handle .NE. grp%handle .OR. dbcsr_data_get_type(buffer%data) .NE. data_type) THEN
             do_win_create(:) = .TRUE.
          END IF
       END IF
@@ -985,11 +986,12 @@ CONTAINS
       LOGICAL, INTENT(IN)                                :: is_left
       TYPE(dbcsr_buffer), INTENT(INOUT)                  :: buffer
 
-      INTEGER                                            :: color, key, mygrp, mypcol, myprow
+      INTEGER                                            :: color, key, mypcol, myprow
+      TYPE(mp_comm_type)                                 :: mygrp
 
       ! Switch to single layer communicator
       IF (my_num_layers_3D .LE. 1) THEN
-         IF (buffer%num_layers_3D .GT. 1 .AND. buffer%subgrp .NE. mp_comm_null) &
+         IF (buffer%num_layers_3D .GT. 1 .AND. buffer%subgrp%handle .NE. mp_comm_null%handle) &
             CALL mp_comm_free(buffer%subgrp)
          buffer%num_layers_3D = 1
          IF (is_left) THEN
@@ -1002,10 +1004,10 @@ CONTAINS
       !
       ! Check if any existing 3D communicator can be reused
       mygrp = dbcsr_mp_group(mp_obj)
-      IF (buffer%grp .EQ. mygrp .AND. buffer%num_layers_3D .EQ. my_num_layers_3D) RETURN
+      IF (buffer%grp%handle .EQ. mygrp%handle .AND. buffer%num_layers_3D .EQ. my_num_layers_3D) RETURN
       !
       ! Reset previous 3D communicator
-      IF (buffer%num_layers_3D .GT. 1 .AND. buffer%subgrp .NE. mp_comm_null) &
+      IF (buffer%num_layers_3D .GT. 1 .AND. buffer%subgrp%handle .NE. mp_comm_null%handle) &
          CALL mp_comm_free(buffer%subgrp)
       !
       myprow = dbcsr_mp_myprow(mp_obj)
@@ -1037,10 +1039,11 @@ CONTAINS
       TYPE(dbcsr_mp_obj), INTENT(INOUT)                  :: mp_obj
 
       CHARACTER(len=100)                                 :: msg
-      INTEGER                                            :: color, key, mygrp, mypcol, myprow, &
+      INTEGER                                            :: color, key, mypcol, myprow, &
                                                             npcols, nprows, numnodes
       LOGICAL                                            :: do_layers_3D
       LOGICAL, SAVE                                      :: warning = .TRUE.
+      TYPE(mp_comm_type)                                 :: mygrp
 
       CALL dbcsr_mp_grid_setup(mp_obj)
       IF (my_num_layers_3D .LE. 1) THEN
@@ -1051,7 +1054,7 @@ CONTAINS
       !
       ! Check if any existing 3D communicator can be reused
       mygrp = dbcsr_mp_group(mp_obj)
-      IF (layers_3D_C_reduction%grp .EQ. mygrp .AND. &
+      IF (layers_3D_C_reduction%grp%handle .EQ. mygrp%handle .AND. &
           layers_3D_C_reduction%num_layers_3D .EQ. my_num_layers_3D) RETURN
       !
       ! Reset 3D communicator
@@ -1112,8 +1115,8 @@ CONTAINS
       INTEGER                                            :: ibuff
 
       layers_3D_C_reduction%grp = mp_comm_null
-      IF (layers_3D_C_reduction%rowgrp3D .NE. mp_comm_null) CALL mp_comm_free(layers_3D_C_reduction%rowgrp3D)
-      IF (layers_3D_C_reduction%grp3D .NE. mp_comm_null) CALL mp_comm_free(layers_3D_C_reduction%grp3D)
+      IF (layers_3D_C_reduction%rowgrp3D%handle .NE. mp_comm_null%handle) CALL mp_comm_free(layers_3D_C_reduction%rowgrp3D)
+      IF (layers_3D_C_reduction%grp3D%handle .NE. mp_comm_null%handle) CALL mp_comm_free(layers_3D_C_reduction%grp3D)
       layers_3D_C_reduction%rowgrp3D = mp_comm_null
       layers_3D_C_reduction%grp3D = mp_comm_null
       layers_3D_C_reduction%num_layers_3D = 1
@@ -1150,7 +1153,7 @@ CONTAINS
       LOGICAL, INTENT(IN)                                :: keep_product_data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'multiply_3D'
-      INTEGER :: blk, data_type, data_type_byte, final_step_k, grp_left, grp_right, handle, &
+      INTEGER :: blk, data_type, data_type_byte, final_step_k, handle, &
                  handle1, handle2, icol3D, icol3D_send, ileft_buffer_calc, ileft_buffer_comm, &
                  iright_buffer_calc, iright_buffer_comm, irow3D, irow3D_send, istep_k_ordered, ithread, &
                  ivirt_k, last_step_k, left_col_mult, left_col_nimages, left_col_total_nimages, &
@@ -1201,6 +1204,7 @@ CONTAINS
          DIMENSION(:, :, :)                              :: multrec
       TYPE(dbcsr_mp_obj)                                 :: left_mp_obj, product_mp_obj, right_mp_obj
       TYPE(mn_local_sizes), ALLOCATABLE, DIMENSION(:)    :: m_sizes, n_sizes
+      TYPE(mp_comm_type)                                 :: grp_left, grp_right
 
       CALL timeset(routineN, handle)
       !
@@ -2619,7 +2623,7 @@ CONTAINS
          CALL mp_win_free(buffer%meta_win)
          buffer%has_rma_win = .FALSE.
          buffer%grp = mp_comm_null
-         IF (buffer%subgrp .NE. mp_comm_null .AND. buffer%num_layers_3D .GT. 1) &
+         IF (buffer%subgrp%handle .NE. mp_comm_null%handle .AND. buffer%num_layers_3D .GT. 1) &
             CALL mp_comm_free(buffer%subgrp)
          buffer%subgrp = mp_comm_null
          buffer%num_layers_3D = 1

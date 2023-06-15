@@ -27,7 +27,7 @@ MODULE dbcsr_lib
                             mp_environ, mp_cart_rank, &
                             rm_mp_perf_env, &
                             mp_comm_free, &
-                            mp_get_comm_count
+                            mp_get_comm_count, mp_comm_type, mp_comm_null
    USE dbcsr_mm, ONLY: dbcsr_multiply_clear_mempools, &
                        dbcsr_multiply_lib_finalize, &
                        dbcsr_multiply_lib_init, &
@@ -75,7 +75,8 @@ MODULE dbcsr_lib
 
    TYPE(dbcsr_logger_type), POINTER :: logger => Null()
    TYPE(dbcsr_mp_obj), SAVE         :: mp_env
-   INTEGER, SAVE                    :: default_group, ext_io_unit
+   TYPE(mp_comm_type), SAVE         :: default_group = mp_comm_null
+   INTEGER, SAVE                    :: ext_io_unit
 
    INTERFACE dbcsr_init_lib
       MODULE PROCEDURE dbcsr_init_lib_def
@@ -106,6 +107,8 @@ CONTAINS
 
    SUBROUTINE dbcsr_init_lib_def(mp_comm, io_unit, accdrv_active_device_id)
       !! Initialize the DBCSR library using internal loggers and timer callbacks
+      !! We do not need this routine within the library, so we keep the communicator as a handle
+      !! and convert it here to a communicator type
       INTEGER, INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit, accdrv_active_device_id
 
@@ -114,7 +117,7 @@ CONTAINS
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
       END IF
-      CALL dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
+      CALL dbcsr_init_lib_pre(mp_comm_type(mp_comm), io_unit, accdrv_active_device_id)
       !
       ! Declare loggers
       CALL dbcsr_logger_create(logger, mp_env=mp_env, &
@@ -138,6 +141,8 @@ CONTAINS
                                    in_abort_hook, in_warn_hook, io_unit, &
                                    accdrv_active_device_id)
       !! Initialize the DBCSR library using external loggers and timer callbacks
+      !! We do not need this routine within the library, so we keep the communicator as a handle
+      !! and convert it here to a communicator type
       INTEGER, INTENT(IN)  :: mp_comm
       PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
       PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
@@ -150,7 +155,7 @@ CONTAINS
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
       END IF
-      CALL dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
+      CALL dbcsr_init_lib_pre(mp_comm_type(mp_comm), io_unit, accdrv_active_device_id)
       ! abort/warn hooks
       dbcsr_abort_hook => in_abort_hook
       dbcsr_warn_hook => in_warn_hook
@@ -169,7 +174,7 @@ CONTAINS
 #if defined(__LIBXSMM)
       USE libxsmm, ONLY: libxsmm_init
 #endif
-      INTEGER, INTENT(IN)  :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit, accdrv_active_device_id
 
       INTEGER :: numnodes, mynode

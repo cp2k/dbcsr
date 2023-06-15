@@ -37,7 +37,7 @@ MODULE dbcsr_tensor_test
                             mp_comm_free, &
                             mp_comm_free, &
                             mp_sum, &
-                            mp_cart_create
+                            mp_cart_create, mp_comm_type
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_tensor_index, ONLY: &
       combine_tensor_index, get_2d_indices_tensor, dbcsr_t_get_mapping_info
@@ -177,7 +177,7 @@ CONTAINS
          !! output unit, needs to be a valid unit number on all mpi ranks
       LOGICAL, INTENT(IN)                         :: verbose
          !! if .TRUE., print all tensor blocks
-      INTEGER, INTENT(IN)                         :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                         :: mp_comm
       TYPE(dbcsr_t_distribution_type)             :: dist1, dist2
       TYPE(dbcsr_t_type)                          :: tensor1, tensor2
       INTEGER                                     :: isep, iblk
@@ -359,7 +359,7 @@ CONTAINS
       !! Allocate and fill test tensor - entries are enumerated by their index s.t. they only depend
       !! on global properties of the tensor but not on distribution, matrix representation, etc.
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor
-      INTEGER, INTENT(IN)                                :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_comm
          !! communicator
       LOGICAL, INTENT(IN)                                :: enumerate
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: ${varlist("blk_ind")}$
@@ -560,11 +560,12 @@ CONTAINS
                OPTIONAL                          :: bounds_3
             LOGICAL, INTENT(IN), OPTIONAL        :: log_verbose
             LOGICAL, INTENT(IN), OPTIONAL        :: write_int
-            INTEGER                              :: io_unit, mynode, numnodes, mp_comm
+            INTEGER                              :: io_unit, mynode, numnodes
             INTEGER, DIMENSION(:), ALLOCATABLE   :: size_1, size_2, size_3, &
                                                     order_t1, order_t2, order_t3
             INTEGER, DIMENSION(2, ndims_tensor(tensor_1)) :: bounds_t1
             INTEGER, DIMENSION(2, ndims_tensor(tensor_2)) :: bounds_t2
+            TYPE(mp_comm_type)                   :: mp_comm
 
             #:for ndim in ndims
                REAL(KIND=real_8), ALLOCATABLE, &

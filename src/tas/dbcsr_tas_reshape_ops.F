@@ -51,7 +51,7 @@ MODULE dbcsr_tas_reshape_ops
    USE dbcsr_kinds, ONLY: &
       int_8, real_8, real_4
    USE dbcsr_mpiwrap, ONLY: &
-      mp_alltoall, mp_environ, mp_isend, mp_irecv, mp_waitall
+      mp_alltoall, mp_environ, mp_isend, mp_irecv, mp_waitall, mp_comm_type
    USE dbcsr_tas_util, ONLY: &
       swap, index_unique
 #include "base/dbcsr_base_uses.f90"
@@ -104,7 +104,7 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_reshape'
 
-      INTEGER                                            :: handle, handle2, iproc, mp_comm, mynode, nblock, &
+      INTEGER                                            :: handle, handle2, iproc, mynode, nblock, &
                                                             ndata, numnodes, bcount, nblk
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:, :)  :: index_recv, blks_to_allocate
       INTEGER(KIND=int_8), DIMENSION(2)                  :: blk_index
@@ -118,6 +118,7 @@ CONTAINS
       TYPE(dbcsr_data_obj)                               :: block
       TYPE(dbcsr_tas_iterator)                           :: iter
       TYPE(dbcsr_tas_split_info)                         :: info
+      TYPE(mp_comm_type)                                 :: mp_comm
 
       CALL timeset(routineN, handle)
 
@@ -288,7 +289,7 @@ CONTAINS
       TYPE(dbcsr_tas_blk_size_repl), TARGET :: repl_blksize
       TYPE(dbcsr_tas_blk_size_arb), TARGET :: dir_blksize
       TYPE(dbcsr_tas_distribution_type) :: dist
-      INTEGER :: mp_comm, numnodes, mynode
+      INTEGER :: numnodes, mynode
       TYPE(block_buffer_type), ALLOCATABLE, DIMENSION(:) :: buffer_recv, buffer_send
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: num_blocks_recv, num_blocks_send, &
                                                             num_entries_recv, num_entries_send, &
@@ -303,6 +304,7 @@ CONTAINS
       LOGICAL :: tr, nodata_prv, move_prv
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:, :) :: index_recv
       INTEGER :: ndata
+      TYPE(mp_comm_type) :: mp_comm
 
       TYPE(dbcsr_data_obj) :: block
 
@@ -481,7 +483,7 @@ CONTAINS
          !! memory optimization: move data to matrix_out such that matrix_in is empty on return
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_merge'
-      INTEGER                                            :: data_type, handle, handle2, iproc, mp_comm, &
+      INTEGER                                            :: data_type, handle, handle2, iproc, &
                                                             mynode, nblock, ndata, numnodes, nblk, bcount
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:, :)  :: index_recv
       INTEGER(KIND=int_8), DIMENSION(2)                  :: blk_index_i8
@@ -495,6 +497,7 @@ CONTAINS
       TYPE(dbcsr_data_obj)                               :: block
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_tas_split_info)                         :: info
+      TYPE(mp_comm_type)                                 :: mp_comm
 
       CALL timeset(routineN, handle)
 
@@ -831,7 +834,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_tas_communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
       !! communicate buffer
-      INTEGER, INTENT(IN)                    :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                    :: mp_comm
       TYPE(block_buffer_type), DIMENSION(0:), INTENT(INOUT) :: buffer_recv, buffer_send
       INTEGER, DIMENSION(:, :), INTENT(OUT)               :: req_array
 

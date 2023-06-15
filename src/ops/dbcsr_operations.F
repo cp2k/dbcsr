@@ -58,6 +58,7 @@ MODULE dbcsr_operations
       dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
       dbcsr_row_block_offsets, dbcsr_valid_index, dbcsr_get_nze, dbcsr_nfullcols_local, &
       dbcsr_nfullrows_local, dbcsr_get_num_blocks, dbcsr_release, dbcsr_wm_use_mutable
+   USE dbcsr_mpiwrap, ONLY: mp_comm_type
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_group, &
                                dbcsr_mp_mynode, &
                                dbcsr_mp_mypcol, &
@@ -2387,10 +2388,11 @@ CONTAINS
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sum_replicated'
 
-      INTEGER                                            :: comm, handle, index_checksum, mynode, &
+      INTEGER                                            :: handle, index_checksum, mynode, &
                                                             numnodes
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: all_checksums
       TYPE(dbcsr_mp_obj)                                 :: mp
+      TYPE(mp_comm_type)                                 :: comm
 
 !   ---------------------------------------------------------------------------
 
@@ -2468,7 +2470,7 @@ CONTAINS
          !! matrix type (regular, symmetric, see dbcsr_types.F for values)
       INTEGER, OPTIONAL                                  :: data_type
          !! data type (single/double precision real/complex)
-      INTEGER, INTENT(OUT), OPTIONAL                     :: group
+      TYPE(mp_comm_type), INTENT(OUT), OPTIONAL                     :: group
 
 !   ---------------------------------------------------------------------------
 

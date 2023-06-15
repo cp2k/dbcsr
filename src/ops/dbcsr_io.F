@@ -35,7 +35,7 @@ MODULE dbcsr_io
       file_amode_create, file_amode_rdonly, file_amode_wronly, file_offset, mp_allgather, &
       mp_environ, mp_file_close, mp_file_get_size, mp_file_open, mp_file_read_at_all, &
       mp_file_write_at, mp_file_write_at_all, mp_sum, mp_type_descriptor_type, mp_type_size, &
-      mpi_character_size, mpi_integer_size
+      mpi_character_size, mpi_integer_size, mp_comm_type
    USE dbcsr_transformations, ONLY: dbcsr_datablock_redistribute
    USE dbcsr_types, ONLY: dbcsr_data_obj, &
                           dbcsr_distribution_obj, &
@@ -606,7 +606,7 @@ CONTAINS
                                                nblks, size_of_pgrid, &
                                                thefile, i, sendbuf, data_area_size, &
                                                data_type, type_size, &
-                                               mp_group, mynode, numnodes, &
+                                               mynode, numnodes, &
                                                ginfo_size, linfo_size, handle
       INTEGER, DIMENSION(:), POINTER        :: row_p, col_i, blk_p, &
                                                row_blk_size, col_blk_size
@@ -622,6 +622,7 @@ CONTAINS
       CHARACTER                             :: matrix_type
       CHARACTER(LEN=80)                     :: matrix_name_v_1_0
       CHARACTER(LEN=default_string_length)  :: matrix_name
+      TYPE(mp_comm_type)                    :: mp_group
       INTEGER, PARAMETER                    :: version_len = 10
       CHARACTER(LEN=version_len), PARAMETER :: version = "DBCSRv_1.0"
       INTEGER, ALLOCATABLE, DIMENSION(:) :: linfo_sizes, da_sizes
@@ -777,13 +778,14 @@ CONTAINS
                                                share_size, order, cur_blks, &
                                                job_count, start_index, end_index, &
                                                localinfo_length, blockdata_length, &
-                                               group_id, worker_id, group_list_size, handle, linfo_length
+                                               worker_id, group_list_size, handle, linfo_length
       CHARACTER                             :: matrix_type
       CHARACTER(LEN=default_string_length)  :: matrix_name
       INTEGER, PARAMETER                    :: version_len = 10
       CHARACTER(LEN=version_len)            :: version
       CHARACTER(LEN=80)                     :: matrix_name_v_1_0
       CHARACTER(LEN=version_len), PARAMETER :: version_v_1_0 = "DBCSRv_1.0"
+      TYPE(mp_comm_type)                    :: group_id
 
       INTEGER, DIMENSION(:), POINTER        :: row_p, col_i, blk_p, &
                                                proc_nblks, proc_darea_sizes
@@ -814,7 +816,7 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (PRESENT(groupid)) THEN
-         group_id = groupid
+         group_id%handle = groupid
       ELSE
          mp_env = dbcsr_distribution_mp(distribution)
          group_id = dbcsr_mp_group(mp_env)

@@ -22,6 +22,7 @@ MODULE dbcsr_types
       dbcsr_type_real_8_2d, dbcsr_type_real_default
    USE dbcsr_kinds, ONLY: default_string_length, &
                           int_8
+   USE dbcsr_mpiwrap, ONLY: mp_comm_type, mp_comm_null
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -117,7 +118,7 @@ MODULE dbcsr_types
          !! my process grid row
       INTEGER                            :: mypcol = -1
          !! my process grid column
-      INTEGER                            :: mp_group = -1
+      TYPE(mp_comm_type)                 :: mp_group = mp_comm_null
          !! message-passing group ID
       INTEGER, DIMENSION(:, :), POINTER, CONTIGUOUS :: pgrid => Null()
          !! processor grid
@@ -125,9 +126,9 @@ MODULE dbcsr_types
          !! reference counter
       LOGICAL                            :: subgroups_defined = .FALSE.
          !! whether the subgroups are defined
-      INTEGER                            :: prow_group = -1
+      TYPE(mp_comm_type)                 :: prow_group = mp_comm_null
          !! per-process-row communicator
-      INTEGER                            :: pcol_group = -1
+      TYPE(mp_comm_type)                 :: pcol_group = mp_comm_null
          !! pre-process-column communicator
       INTEGER                            :: source = -1
    END TYPE dbcsr_mp_type

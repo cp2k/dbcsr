@@ -39,7 +39,7 @@ MODULE dbcsr_tests
                                dbcsr_mp_release, &
                                dbcsr_mp_make_env
    USE dbcsr_mpiwrap, ONLY: &
-      mp_comm_free, mp_environ, mp_max, mp_sum, mp_sync
+      mp_comm_free, mp_environ, mp_max, mp_sum, mp_sync, mp_comm_type
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply
    USE dbcsr_operations, ONLY: dbcsr_add, &
                                dbcsr_copy, &
@@ -77,7 +77,8 @@ CONTAINS
       !! Performs a variety of matrix multiplies of same matrices on different
       !! processor grids
 
-      INTEGER, INTENT(IN)                                :: mp_group, io_unit
+      TYPE(mp_comm_type), INTENT(IN)                     :: mp_group
+      INTEGER, INTENT(IN)                                :: io_unit
          !! MPI communicator
          !! which unit to write to, if not negative
       INTEGER, DIMENSION(:), POINTER                     :: nproc
@@ -107,7 +108,7 @@ CONTAINS
                                      routineN = 'dbcsr_run_tests'
 
       CHARACTER                                          :: t_a, t_b
-      INTEGER                                            :: bmax, bmin, cart_group, error_handle, &
+      INTEGER                                            :: bmax, bmin, error_handle, &
                                                             mynode, numnodes
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: group_sizes
       INTEGER, DIMENSION(2)                              :: npdims
@@ -118,6 +119,7 @@ CONTAINS
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
       TYPE(dbcsr_mp_obj)                                 :: mp_env
       TYPE(dbcsr_type), TARGET                           :: matrix_a, matrix_b, matrix_c
+      TYPE(mp_comm_type)                                 :: cart_group
 
 !   ---------------------------------------------------------------------------
 
@@ -311,7 +313,7 @@ CONTAINS
 
       CHARACTER(len=*), PARAMETER :: routineN = 'test_multiplies_multiproc'
 
-      INTEGER                                            :: cart_group, error_handle, group, &
+      INTEGER                                            :: error_handle, &
                                                             loop_iter, mynode, numnodes, test
       INTEGER(kind=int_8)                                :: flop, flop_sum
       INTEGER, DIMENSION(2)                              :: npdims
@@ -322,6 +324,7 @@ CONTAINS
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
       TYPE(dbcsr_mp_obj)                                 :: mp_env
       TYPE(dbcsr_type)                                   :: m_a, m_b, m_c, m_c_reserve
+      TYPE(mp_comm_type)                                 :: cart_group, group
 
 !   ---------------------------------------------------------------------------
 

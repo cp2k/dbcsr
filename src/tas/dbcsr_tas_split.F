@@ -22,7 +22,7 @@ MODULE dbcsr_tas_split
    USE dbcsr_kinds, ONLY: &
       int_8
    USE dbcsr_mpiwrap, ONLY: &
-      mp_bcast, mp_cart_create, mp_comm_dup, mp_comm_free, mp_comm_split_direct, mp_dims_create, mp_environ
+      mp_bcast, mp_cart_create, mp_comm_dup, mp_comm_free, mp_comm_split_direct, mp_dims_create, mp_environ, mp_comm_type
    USE dbcsr_kinds, ONLY: &
       real_8
 #include "base/dbcsr_base_uses.f90"
@@ -67,7 +67,7 @@ CONTAINS
       !! split mpi grid by rows or columns
 
       TYPE(dbcsr_tas_split_info), INTENT(OUT)            :: split_info
-      INTEGER, INTENT(IN)                                :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_comm
          !! global mpi communicator with a 2d cartesian grid
       INTEGER, INTENT(INOUT)                             :: ngroup
          !! number of groups
@@ -78,10 +78,11 @@ CONTAINS
          !! Whether split_info should own communicator
 
       INTEGER :: &
-         igroup_check, iproc, iproc_group, iproc_group_check, mp_comm_group, numproc, &
+         igroup_check, iproc, iproc_group, iproc_group_check, numproc, &
          numproc_group, numproc_group_check, handle
       INTEGER, DIMENSION(2)                              :: pcoord, pcoord_group, pdims, pdims_group
       LOGICAL                                            :: to_assert, own_comm_prv
+      TYPE(mp_comm_type)                                 :: mp_comm_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_create_split_rows_or_cols'
 
       CALL timeset(routineN, handle)
@@ -146,10 +147,10 @@ CONTAINS
       !! of dbcsr_tas_create_split
       !! \return new communicator
 
-      INTEGER, INTENT(IN)                                :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_comm
       INTEGER, INTENT(IN)                                :: split_rowcol
       INTEGER, INTENT(IN)                             :: nsplit
-      INTEGER                                            :: dbcsr_tas_mp_comm
+      TYPE(mp_comm_type)                                 :: dbcsr_tas_mp_comm
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_mp_comm'
 
@@ -281,12 +282,12 @@ CONTAINS
       !! Derive optimal cartesian process grid from matrix sizes. This ensures optimality for
       !! dense matrices only
 
-      INTEGER, INTENT(IN)                                :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_comm
       INTEGER(KIND=int_8), INTENT(IN)                    :: nblkrows, nblkcols
          !! total number of block rows
          !! total number of block columns
       INTEGER                                            :: nsplit, split_rowcol
-      INTEGER                                            :: mp_comm_new
+      TYPE(mp_comm_type)                                 :: mp_comm_new
          !! MPI communicator
 
       IF (nblkrows >= nblkcols) THEN
@@ -305,7 +306,7 @@ CONTAINS
 
       TYPE(dbcsr_tas_split_info), INTENT(OUT)            :: split_info
          !! object storing all data corresponding to split, submatrices and parallelization
-      INTEGER, INTENT(IN)                                :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_comm
          !! MPI communicator with associated cartesian grid
       INTEGER, INTENT(IN)                                :: split_rowcol
          !! split rows or columns
@@ -389,7 +390,8 @@ CONTAINS
       !! Get info on split
 
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
-      INTEGER, INTENT(OUT), OPTIONAL                     :: mp_comm, nsplit, igroup, mp_comm_group, &
+      TYPE(mp_comm_type), INTENT(OUT), OPTIONAL          :: mp_comm, mp_comm_group
+      INTEGER, INTENT(OUT), OPTIONAL                     :: nsplit, igroup, &
                                                             split_rowcol
          !! communicator (global process grid)
          !! split factor
