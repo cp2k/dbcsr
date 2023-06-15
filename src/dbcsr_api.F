@@ -703,7 +703,7 @@ CONTAINS
          distribution%prv = dist
       END IF
 
-      IF (PRESENT(group)) group = my_group%handle
+      IF (PRESENT(group)) group = my_group%get_handle()
 
    END SUBROUTINE dbcsr_get_info
 
@@ -728,9 +728,9 @@ CONTAINS
                                       my_group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
                                       subgroups_defined, my_prow_group, my_pcol_group)
 
-      IF (PRESENT(group)) group = my_group%handle
-      IF (PRESENT(prow_group)) prow_group = my_prow_group%handle
-      IF (PRESENT(pcol_group)) pcol_group = my_pcol_group%handle
+      IF (PRESENT(group)) group = my_group%get_handle()
+      IF (PRESENT(prow_group)) prow_group = my_prow_group%get_handle()
+      IF (PRESENT(pcol_group)) pcol_group = my_pcol_group%get_handle()
    END SUBROUTINE dbcsr_distribution_get
 
    SUBROUTINE dbcsr_distribution_hold(dist)
@@ -862,6 +862,8 @@ CONTAINS
 
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_dist, cont_col_dist
 
+      TYPE(mp_comm_type)                                 :: my_mp_group
+
       ! Make the arrays contiguous, avoid change in the API
       ALLOCATE (cont_row_dist(SIZE(row_dist)), cont_col_dist(SIZE(col_dist)))
       cont_row_dist(:) = row_dist(:)
@@ -874,13 +876,25 @@ CONTAINS
          END IF
       END IF
 
-      IF (PRESENT(template)) THEN
-         call dbcsr_distribution_new_prv(dist%prv, template%prv, mp_comm_type(group), pgrid, cont_row_dist, cont_col_dist, &
-                                         reuse_arrays=.TRUE.)
+      IF (PRESENT(group)) THEN
+         CALL my_mp_group%set_handle(group)
+         IF (PRESENT(template)) THEN
+            call dbcsr_distribution_new_prv(dist%prv, template%prv, my_mp_group, pgrid, cont_row_dist, cont_col_dist, &
+                                            reuse_arrays=.TRUE.)
+         ELSE
+            call dbcsr_distribution_new_prv(dist%prv, group=my_mp_group, pgrid=pgrid, &
+                                            row_dist=cont_row_dist, col_dist=cont_col_dist, &
+                                            reuse_arrays=.TRUE.)
+         END IF
       ELSE
-         call dbcsr_distribution_new_prv(dist%prv, group=mp_comm_type(group), pgrid=pgrid, &
-                                         row_dist=cont_row_dist, col_dist=cont_col_dist, &
-                                         reuse_arrays=.TRUE.)
+         IF (PRESENT(template)) THEN
+            call dbcsr_distribution_new_prv(dist%prv, template%prv, pgrid=pgrid, row_dist=cont_row_dist, col_dist=cont_col_dist, &
+                                            reuse_arrays=.TRUE.)
+         ELSE
+            call dbcsr_distribution_new_prv(dist%prv, pgrid=pgrid, &
+                                            row_dist=cont_row_dist, col_dist=cont_col_dist, &
+                                            reuse_arrays=.TRUE.)
+         END IF
       END IF
    END SUBROUTINE dbcsr_distribution_new
 
@@ -1038,7 +1052,11 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: groupid
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_new
 
-      CALL dbcsr_binary_read_prv(filepath, distribution%prv, groupid, matrix_new%prv)
+      TYPE(mp_comm_type)                                 :: my_comm
+
+      CALL my_comm%set_handle(groupid)
+
+      CALL dbcsr_binary_read_prv(filepath, distribution%prv, my_comm, matrix_new%prv)
    END SUBROUTINE dbcsr_binary_read
 
    SUBROUTINE dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, &
@@ -1134,8 +1152,12 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: mp_group
       INTEGER, INTENT(IN), OPTIONAL                      :: data_type
 
+      TYPE(mp_comm_type)                                 :: my_mp_group
+
+      CALL my_mp_group%set_handle(mp_group)
+
       CALL csr_create_new_prv(csr_mat, nrows_total, ncols_total, nze_total, &
-                              nze_local, nrows_local, mp_comm_type(mp_group), data_type)
+                              nze_local, nrows_local, my_mp_group, data_type)
 
    END SUBROUTINE csr_create_new
 
@@ -1219,7 +1241,11 @@ CONTAINS
       REAL(kind=dp), INTENT(in)                          :: eps
       LOGICAL, INTENT(in)                                :: retain_sparsity, always_checksum
 
-      CALL dbcsr_run_tests_prv(mp_comm_type(mp_group), io_unit, nproc, matrix_sizes, trs, &
+      TYPE(mp_comm_type)                                 :: my_mp_group
+
+      CALL my_mp_group%set_handle(mp_group)
+
+      CALL dbcsr_run_tests_prv(my_mp_group, io_unit, nproc, matrix_sizes, trs, &
                                bs_m, bs_n, bs_k, sparsities, alpha, beta, data_type, test_type, &
                                n_loops, eps, retain_sparsity, always_checksum)
 

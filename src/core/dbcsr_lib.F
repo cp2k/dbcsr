@@ -112,12 +112,15 @@ CONTAINS
       INTEGER, INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit, accdrv_active_device_id
 
+      TYPE(mp_comm_type) :: my_mp_comm
+
       IF (is_initialized) THEN
          ! Update ext_io_unit
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
       END IF
-      CALL dbcsr_init_lib_pre(mp_comm_type(mp_comm), io_unit, accdrv_active_device_id)
+      CALL my_mp_comm%set_handle(mp_comm)
+      CALL dbcsr_init_lib_pre(my_mp_comm, io_unit, accdrv_active_device_id)
       !
       ! Declare loggers
       CALL dbcsr_logger_create(logger, mp_env=mp_env, &
@@ -150,12 +153,15 @@ CONTAINS
       PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
       INTEGER, INTENT(IN), OPTIONAL :: io_unit, accdrv_active_device_id
 
+      TYPE(mp_comm_type) :: my_mp_comm
+
       IF (is_initialized) THEN
          ! Update ext_io_unit
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
       END IF
-      CALL dbcsr_init_lib_pre(mp_comm_type(mp_comm), io_unit, accdrv_active_device_id)
+      CALL my_mp_comm%set_handle(mp_comm)
+      CALL dbcsr_init_lib_pre(my_mp_comm, io_unit, accdrv_active_device_id)
       ! abort/warn hooks
       dbcsr_abort_hook => in_abort_hook
       dbcsr_warn_hook => in_warn_hook

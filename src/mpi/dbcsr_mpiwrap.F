@@ -101,9 +101,17 @@ MODULE dbcsr_mpiwrap
    INTEGER, PARAMETER, PUBLIC :: file_amode_append = 128
 #endif
 
-   ! MPI wrapper types
+   ! MPI wrapper types (keep the handles private for to switch between serial mode/old mpi module and mpi_f08!)
    TYPE mp_comm_type
+      PRIVATE
       INTEGER :: handle = mp_comm_null_handle
+   CONTAINS
+      PROCEDURE, PUBLIC, PASS(comm), NON_OVERRIDABLE :: get_handle => mp_get_comm_handle
+      PROCEDURE, PUBLIC, PASS(comm), NON_OVERRIDABLE :: set_handle => mp_set_comm_handle
+      PROCEDURE, PRIVATE, PASS(comm1), NON_OVERRIDABLE :: mp_comm_op_eq
+      GENERIC, PUBLIC :: OPERATOR(.EQ.) => mp_comm_op_eq
+      PROCEDURE, PRIVATE, PASS(comm1), NON_OVERRIDABLE :: mp_comm_op_ne
+      GENERIC, PUBLIC :: OPERATOR(.NE.) => mp_comm_op_ne
    END TYPE mp_comm_type
 
    ! The actual MPI wrapper constants
@@ -429,6 +437,35 @@ MODULE dbcsr_mpiwrap
    INTEGER, SAVE, PRIVATE :: last_mp_perf_env_id = 0
 
 CONTAINS
+
+   INTEGER FUNCTION mp_get_comm_handle(comm)
+      CLASS(mp_comm_type), INTENT(IN) :: comm
+
+      mp_get_comm_handle = comm%handle
+
+   END FUNCTION mp_get_comm_handle
+
+   SUBROUTINE mp_set_comm_handle(comm, handle)
+      CLASS(mp_comm_type), INTENT(OUT) :: comm
+      INTEGER, INTENT(IN) :: handle
+
+      comm%handle = handle
+
+   END SUBROUTINE mp_set_comm_handle
+
+   PURE LOGICAL FUNCTION mp_comm_op_eq(comm1, comm2)
+      CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
+
+      mp_comm_op_eq = (comm1%handle .EQ. comm2%handle)
+
+   END FUNCTION mp_comm_op_eq
+
+   PURE LOGICAL FUNCTION mp_comm_op_ne(comm1, comm2)
+      CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
+
+      mp_comm_op_ne = (comm1%handle .NE. comm2%handle)
+
+   END FUNCTION mp_comm_op_ne
 
    SUBROUTINE mp_world_init(mp_comm)
       !! initializes the system default communicator

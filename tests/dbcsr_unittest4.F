@@ -63,7 +63,7 @@ PROGRAM dbcsr_unittest
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
    ! initialize DBCSR
-   CALL dbcsr_init_lib(mp_comm%handle, io_unit)
+   CALL dbcsr_init_lib(mp_comm%get_handle(), io_unit)
 
    ! start measuring the complete test
    CALL timeset(routineN, handle)

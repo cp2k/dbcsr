@@ -969,7 +969,7 @@ CONTAINS
 
             CHARACTER(len=default_string_length)        :: name_in
             INTEGER, DIMENSION(2)                       :: order_in
-            INTEGER                                     :: data_type
+            INTEGER                                     :: comm_2d_handle, data_type
             TYPE(dbcsr_distribution_type)                :: matrix_dist
             TYPE(dbcsr_t_distribution_type)             :: dist
             INTEGER, DIMENSION(:), POINTER              :: row_blk_size, col_blk_size
@@ -996,8 +996,9 @@ CONTAINS
             END IF
 
             CALL dbcsr_get_info(matrix_in, distribution=matrix_dist)
-            CALL dbcsr_distribution_get(matrix_dist, group=comm_2d%handle, row_dist=row_dist, col_dist=col_dist, &
+            CALL dbcsr_distribution_get(matrix_dist, group=comm_2d_handle, row_dist=row_dist, col_dist=col_dist, &
                                         nprows=pdims_2d(1), npcols=pdims_2d(2))
+            CALL comm_2d%set_handle(comm_2d_handle)
             comm_nd = dbcsr_t_nd_mp_comm(comm_2d, [order_in(1)], [order_in(2)], pdims_2d=pdims_2d)
 
             CALL dbcsr_t_distribution_new_expert( &

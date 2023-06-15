@@ -641,7 +641,7 @@ CONTAINS
       ! Allocate data and meta buffers
       do_win_create(:) = .NOT. buffer%has_rma_win
       IF (buffer%has_rma_win) THEN
-         IF (buffer%grp%handle .NE. grp%handle .OR. dbcsr_data_get_type(buffer%data) .NE. data_type) THEN
+         IF (buffer%grp .NE. grp .OR. dbcsr_data_get_type(buffer%data) .NE. data_type) THEN
             do_win_create(:) = .TRUE.
          END IF
       END IF
@@ -991,7 +991,7 @@ CONTAINS
 
       ! Switch to single layer communicator
       IF (my_num_layers_3D .LE. 1) THEN
-         IF (buffer%num_layers_3D .GT. 1 .AND. buffer%subgrp%handle .NE. mp_comm_null%handle) &
+         IF (buffer%num_layers_3D .GT. 1 .AND. buffer%subgrp .NE. mp_comm_null) &
             CALL mp_comm_free(buffer%subgrp)
          buffer%num_layers_3D = 1
          IF (is_left) THEN
@@ -1004,10 +1004,10 @@ CONTAINS
       !
       ! Check if any existing 3D communicator can be reused
       mygrp = dbcsr_mp_group(mp_obj)
-      IF (buffer%grp%handle .EQ. mygrp%handle .AND. buffer%num_layers_3D .EQ. my_num_layers_3D) RETURN
+      IF (buffer%grp .EQ. mygrp .AND. buffer%num_layers_3D .EQ. my_num_layers_3D) RETURN
       !
       ! Reset previous 3D communicator
-      IF (buffer%num_layers_3D .GT. 1 .AND. buffer%subgrp%handle .NE. mp_comm_null%handle) &
+      IF (buffer%num_layers_3D .GT. 1 .AND. buffer%subgrp .NE. mp_comm_null) &
          CALL mp_comm_free(buffer%subgrp)
       !
       myprow = dbcsr_mp_myprow(mp_obj)
@@ -1054,7 +1054,7 @@ CONTAINS
       !
       ! Check if any existing 3D communicator can be reused
       mygrp = dbcsr_mp_group(mp_obj)
-      IF (layers_3D_C_reduction%grp%handle .EQ. mygrp%handle .AND. &
+      IF (layers_3D_C_reduction%grp .EQ. mygrp .AND. &
           layers_3D_C_reduction%num_layers_3D .EQ. my_num_layers_3D) RETURN
       !
       ! Reset 3D communicator
@@ -1115,8 +1115,8 @@ CONTAINS
       INTEGER                                            :: ibuff
 
       layers_3D_C_reduction%grp = mp_comm_null
-      IF (layers_3D_C_reduction%rowgrp3D%handle .NE. mp_comm_null%handle) CALL mp_comm_free(layers_3D_C_reduction%rowgrp3D)
-      IF (layers_3D_C_reduction%grp3D%handle .NE. mp_comm_null%handle) CALL mp_comm_free(layers_3D_C_reduction%grp3D)
+      IF (layers_3D_C_reduction%rowgrp3D .NE. mp_comm_null) CALL mp_comm_free(layers_3D_C_reduction%rowgrp3D)
+      IF (layers_3D_C_reduction%grp3D .NE. mp_comm_null) CALL mp_comm_free(layers_3D_C_reduction%grp3D)
       layers_3D_C_reduction%rowgrp3D = mp_comm_null
       layers_3D_C_reduction%grp3D = mp_comm_null
       layers_3D_C_reduction%num_layers_3D = 1
@@ -2623,7 +2623,7 @@ CONTAINS
          CALL mp_win_free(buffer%meta_win)
          buffer%has_rma_win = .FALSE.
          buffer%grp = mp_comm_null
-         IF (buffer%subgrp%handle .NE. mp_comm_null%handle .AND. buffer%num_layers_3D .GT. 1) &
+         IF (buffer%subgrp .NE. mp_comm_null .AND. buffer%num_layers_3D .GT. 1) &
             CALL mp_comm_free(buffer%subgrp)
          buffer%subgrp = mp_comm_null
          buffer%num_layers_3D = 1

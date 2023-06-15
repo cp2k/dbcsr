@@ -84,7 +84,7 @@ PROGRAM dbcsr_performance_driver
    IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
 
    ! initialize libdbcsr
-   CALL dbcsr_init_lib(mp_comm%handle, io_unit)
+   CALL dbcsr_init_lib(mp_comm%get_handle(), io_unit)
 
    ! initialize libdbcsr errors
    CALL timeset(routineN, handle)

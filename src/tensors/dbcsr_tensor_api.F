@@ -126,7 +126,11 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL :: nsplit, dimsplit
       TYPE(dbcsr_t_pgrid_type)                          :: dbcsr_t_nd_mp_comm
 
-      dbcsr_t_nd_mp_comm = dbcsr_t_nd_mp_comm_prv(mp_comm_type(comm_2d), map1_2d, map2_2d, &
+      TYPE(mp_comm_type)                                :: my_comm_2d
+
+      CALL my_comm_2d%set_handle(comm_2d)
+
+      dbcsr_t_nd_mp_comm = dbcsr_t_nd_mp_comm_prv(my_comm_2d, map1_2d, map2_2d, &
                                                   dims_nd, dims1_nd, dims2_nd, pdims_2d, tdims, &
                                                   nsplit, dimsplit)
 
@@ -140,7 +144,11 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: tensor_dims
       INTEGER, INTENT(IN), OPTIONAL :: nsplit, dimsplit
 
-      CALL dbcsr_t_pgrid_create_expert_prv(mp_comm_type(mp_comm), dims, pgrid, map1_2d, map2_2d, tensor_dims, nsplit, dimsplit)
+      TYPE(mp_comm_type)                                :: my_mp_comm
+
+      CALL my_mp_comm%set_handle(mp_comm)
+
+      CALL dbcsr_t_pgrid_create_expert_prv(my_mp_comm, dims, pgrid, map1_2d, map2_2d, tensor_dims, nsplit, dimsplit)
 
    END SUBROUTINE dbcsr_t_pgrid_create_expert
 
@@ -150,7 +158,11 @@ CONTAINS
       TYPE(dbcsr_t_pgrid_type), INTENT(OUT) :: pgrid
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: tensor_dims
 
-      CALL dbcsr_t_pgrid_create_prv(mp_comm_type(mp_comm), dims, pgrid, tensor_dims)
+      TYPE(mp_comm_type)                                :: my_mp_comm
+
+      CALL my_mp_comm%set_handle(mp_comm)
+
+      CALL dbcsr_t_pgrid_create_prv(my_mp_comm, dims, pgrid, tensor_dims)
 
    END SUBROUTINE dbcsr_t_pgrid_create
 

@@ -243,7 +243,7 @@ CONTAINS
          CALL mp_dims_create(numnodes, npdims)
       END IF
       CALL mp_cart_create(mp_group, 2, npdims, myploc, cart_group)
-      alive = cart_group%handle .NE. mp_comm_null%handle
+      alive = cart_group .NE. mp_comm_null
       IF (alive) THEN
          CALL mp_environ(numnodes, mynode, cart_group)
          ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))

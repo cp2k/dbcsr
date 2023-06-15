@@ -62,7 +62,7 @@ PROGRAM dbcsr_test_csr_conversions
    io_unit = 0
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
-   CALL dbcsr_init_lib(mp_comm%handle, io_unit)
+   CALL dbcsr_init_lib(mp_comm%get_handle(), io_unit)
 
    npdims(:) = 0
    CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
@@ -188,7 +188,7 @@ CONTAINS
       REAL(real_8), ALLOCATABLE, DIMENSION(:)            :: values
       TYPE(dbcsr_distribution_type)                      :: dist
 
-      CALL dbcsr_distribution_new(dist, group=group%handle, row_dist=row_dist, col_dist=col_dist, reuse_arrays=.TRUE.)
+      CALL dbcsr_distribution_new(dist, group=group%get_handle(), row_dist=row_dist, col_dist=col_dist, reuse_arrays=.TRUE.)
 
       CALL dbcsr_create(matrix=matrix_a, &
                         name="this is my matrix a", &
