@@ -42,7 +42,7 @@ MODULE dbcsr_tensor_types
       dbcsr_tas_create_split, dbcsr_tas_get_split_info, dbcsr_tas_set_strict_split
    USE dbcsr_kinds, ONLY: default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
-      mp_cart_create, mp_cart_rank, mp_environ, mp_dims_create, mp_comm_free, mp_comm_dup, mp_sum, mp_max, mp_comm_type
+      mp_cart_create, mp_environ, mp_dims_create, mp_comm_free, mp_comm_type
    USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution, dbcsr_tas_rowcol_data, dbcsr_tas_default_distvec
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type

@@ -15,7 +15,6 @@ MODULE dbcsr_tensor_test
    #:set ndims = range(2,maxdim+1)
 
    USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$
-   USE dbcsr_tas_base, ONLY: dbcsr_tas_info
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
       dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, &
@@ -24,7 +23,7 @@ MODULE dbcsr_tensor_test
    USE dbcsr_tensor_block, ONLY: block_nd
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_create, dbcsr_t_destroy, dbcsr_t_type, dbcsr_t_distribution_type, dbcsr_t_distribution_destroy, &
-      dims_tensor, ndims_tensor, dbcsr_t_distribution_new, dbcsr_t_nd_mp_comm, dbcsr_t_get_data_type, &
+      dims_tensor, ndims_tensor, dbcsr_t_distribution_new, dbcsr_t_get_data_type, &
       mp_environ_pgrid, dbcsr_t_pgrid_type, dbcsr_t_pgrid_create, dbcsr_t_pgrid_destroy, dbcsr_t_get_info, &
       dbcsr_t_default_distvec
    USE dbcsr_tensor_io, ONLY: &
@@ -33,18 +32,16 @@ MODULE dbcsr_tensor_test
                           default_string_length, &
                           int_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, &
-                            mp_bcast, &
-                            mp_comm_free, &
                             mp_comm_free, &
                             mp_sum, &
-                            mp_cart_create, mp_comm_type
+                            mp_comm_type
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_tensor_index, ONLY: &
       combine_tensor_index, get_2d_indices_tensor, dbcsr_t_get_mapping_info
    USE dbcsr_tas_test, ONLY: dbcsr_tas_checksum
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_blas_operations, ONLY: &
-      dbcsr_lapack_larnv, set_larnv_seed
+      set_larnv_seed
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -177,7 +174,7 @@ CONTAINS
          !! output unit, needs to be a valid unit number on all mpi ranks
       LOGICAL, INTENT(IN)                         :: verbose
          !! if .TRUE., print all tensor blocks
-      TYPE(mp_comm_type), INTENT(IN)                         :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)              :: mp_comm
       TYPE(dbcsr_t_distribution_type)             :: dist1, dist2
       TYPE(dbcsr_t_type)                          :: tensor1, tensor2
       INTEGER                                     :: isep, iblk
