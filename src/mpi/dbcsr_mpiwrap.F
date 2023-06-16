@@ -61,6 +61,7 @@ MODULE dbcsr_mpiwrap
    INTEGER, PARAMETER :: mp_comm_world_handle = MPI_COMM_WORLD
    INTEGER, PARAMETER :: mp_request_null_handle = MPI_REQUEST_NULL
    INTEGER, PARAMETER :: mp_win_null_handle = MPI_WIN_NULL
+   INTEGER, PARAMETER :: mp_file_null_handle = MPI_FILE_NULL
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = MPI_STATUS_SIZE
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = MPI_PROC_NULL
    ! Set max allocatable memory by MPI to 2 GiByte
@@ -86,8 +87,9 @@ MODULE dbcsr_mpiwrap
    INTEGER, PARAMETER :: mp_comm_world_handle = -12
    INTEGER, PARAMETER :: mp_request_null_handle = -4
    INTEGER, PARAMETER :: mp_win_null_handle = -5
-   INTEGER, PARAMETER, PUBLIC :: mp_status_size = -6
-   INTEGER, PARAMETER, PUBLIC :: mp_proc_null = -7
+   INTEGER, PARAMETER :: mp_file_null_handle = -6
+   INTEGER, PARAMETER, PUBLIC :: mp_status_size = -7
+   INTEGER, PARAMETER, PUBLIC :: mp_proc_null = -8
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = 1
    INTEGER, PARAMETER, PUBLIC :: mp_max_processor_name = 1
 
@@ -138,6 +140,18 @@ MODULE dbcsr_mpiwrap
       GENERIC, PUBLIC :: OPERATOR(.NE.) => mp_win_op_ne
    END TYPE mp_win_type
 
+   TYPE mp_file_type
+      PRIVATE
+      INTEGER :: handle = mp_file_null_handle
+   CONTAINS
+      PROCEDURE, PUBLIC, PASS(file), NON_OVERRIDABLE :: get_handle => mp_get_file_handle
+      PROCEDURE, PUBLIC, PASS(file), NON_OVERRIDABLE :: set_handle => mp_set_file_handle
+      PROCEDURE, PRIVATE, PASS(file1), NON_OVERRIDABLE :: mp_file_op_eq
+      GENERIC, PUBLIC :: OPERATOR(.EQ.) => mp_file_op_eq
+      PROCEDURE, PRIVATE, PASS(file1), NON_OVERRIDABLE :: mp_file_op_ne
+      GENERIC, PUBLIC :: OPERATOR(.NE.) => mp_file_op_ne
+   END TYPE mp_file_type
+
    ! The actual MPI wrapper constants
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_null = mp_comm_type(mp_comm_null_handle)
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_self = mp_comm_type(mp_comm_self_handle)
@@ -161,6 +175,7 @@ MODULE dbcsr_mpiwrap
    PUBLIC :: mp_comm_type
    PUBLIC :: mp_request_type
    PUBLIC :: mp_win_type
+   PUBLIC :: mp_file_type
 
    ! init and error
    PUBLIC :: mp_world_init, mp_world_finalize
@@ -552,6 +567,35 @@ CONTAINS
       mp_win_op_ne = (win1%handle .NE. win2%handle)
 
    END FUNCTION mp_win_op_ne
+
+   INTEGER FUNCTION mp_get_file_handle(file)
+      CLASS(mp_file_type), INTENT(IN) :: file
+
+      mp_get_file_handle = file%handle
+
+   END FUNCTION mp_get_file_handle
+
+   SUBROUTINE mp_set_file_handle(file, handle)
+      CLASS(mp_file_type), INTENT(OUT) :: file
+      INTEGER, INTENT(IN) :: handle
+
+      file%handle = handle
+
+   END SUBROUTINE mp_set_file_handle
+
+   PURE LOGICAL FUNCTION mp_file_op_eq(file1, file2)
+      CLASS(mp_file_type), INTENT(IN) :: file1, file2
+
+      mp_file_op_eq = (file1%handle .EQ. file2%handle)
+
+   END FUNCTION mp_file_op_eq
+
+   PURE LOGICAL FUNCTION mp_file_op_ne(file1, file2)
+      CLASS(mp_file_type), INTENT(IN) :: file1, file2
+
+      mp_file_op_ne = (file1%handle .NE. file2%handle)
+
+   END FUNCTION mp_file_op_ne
 
    SUBROUTINE mp_world_init(mp_comm)
       !! initializes the system default communicator
@@ -2306,9 +2350,9 @@ CONTAINS
       !!
       !! STREAM-I/O mapping  OPEN
 
-      TYPE(mp_comm_type), INTENT(IN)                      :: groupid
+      TYPE(mp_comm_type), INTENT(IN)           :: groupid
          !! message passing environment identifier
-      INTEGER, INTENT(OUT)                     :: fh
+      TYPE(mp_file_type), INTENT(OUT)          :: fh
          !! file handle (file storage unit)
       CHARACTER(LEN=*), INTENT(IN)             :: filepath
          !! path to the file
@@ -2331,8 +2375,8 @@ CONTAINS
 #if defined(__parallel)
       my_info = mpi_info_null
       IF (PRESENT(info)) my_info = info
-      CALL mpi_file_open(groupid%handle, filepath, amode_status, my_info, fh, ierr)
-      CALL mpi_file_set_errhandler(fh, MPI_ERRORS_RETURN, ierr)
+      CALL mpi_file_open(groupid%handle, filepath, amode_status, my_info, fh%handle, ierr)
+      CALL mpi_file_set_errhandler(fh%handle, MPI_ERRORS_RETURN, ierr)
       IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_file_set_errhandler @ mp_file_open")
 #else
       MARK_USED(groupid)
@@ -2352,11 +2396,11 @@ CONTAINS
          fstatus = "OLD"
       END IF
       ! Get a new unit number
-      DO fh = 1, 999
-         INQUIRE (UNIT=fh, EXIST=exists, OPENED=is_open, IOSTAT=istat)
+      DO fh%handle = 1, 999
+         INQUIRE (UNIT=fh%handle, EXIST=exists, OPENED=is_open, IOSTAT=istat)
          IF (exists .AND. (.NOT. is_open) .AND. (istat == 0)) EXIT
       END DO
-      OPEN (UNIT=fh, FILE=filepath, STATUS=fstatus, ACCESS="STREAM", POSITION=fposition)
+      OPEN (UNIT=fh%handle, FILE=filepath, STATUS=fstatus, ACCESS="STREAM", POSITION=fposition)
 #endif
    END SUBROUTINE mp_file_open
 
@@ -2397,18 +2441,18 @@ CONTAINS
       !!
       !! STREAM-I/O mapping   CLOSE
 
-      INTEGER, INTENT(INOUT)                             :: fh
+      TYPE(mp_file_type), INTENT(INOUT)                  :: fh
          !! file handle (file storage unit)
 
       INTEGER                                            :: ierr
 
       ierr = 0
 #if defined(__parallel)
-      CALL mpi_file_set_errhandler(fh, MPI_ERRORS_RETURN, ierr)
-      CALL mpi_file_close(fh, ierr)
+      CALL mpi_file_set_errhandler(fh%handle, MPI_ERRORS_RETURN, ierr)
+      CALL mpi_file_close(fh%handle, ierr)
       IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_file_set_errhandler @ mp_file_close")
 #else
-      CLOSE (fh)
+      CLOSE (fh%handle)
 #endif
    END SUBROUTINE mp_file_close
 
@@ -2419,7 +2463,7 @@ CONTAINS
       !!
       !! STREAM-I/O mapping   INQUIRE
 
-      INTEGER, INTENT(IN)                                :: fh
+      TYPE(mp_file_type), INTENT(IN)                     :: fh
          !! file handle (file storage unit)
       INTEGER(kind=file_offset), INTENT(OUT)             :: file_size
          !! the file size
@@ -2428,11 +2472,11 @@ CONTAINS
 
       ierr = 0
 #if defined(__parallel)
-      CALL mpi_file_set_errhandler(fh, MPI_ERRORS_RETURN, ierr)
-      CALL mpi_file_get_size(fh, file_size, ierr)
+      CALL mpi_file_set_errhandler(fh%handle, MPI_ERRORS_RETURN, ierr)
+      CALL mpi_file_get_size(fh%handle, file_size, ierr)
       IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_file_set_errhandler @ mp_file_get_size")
 #else
-      INQUIRE (UNIT=fh, SIZE=file_size)
+      INQUIRE (UNIT=fh%handle, SIZE=file_size)
 #endif
    END SUBROUTINE mp_file_get_size
 
@@ -2443,7 +2487,7 @@ CONTAINS
       !!
       !! STREAM-I/O mapping   INQUIRE
 
-      INTEGER, INTENT(IN)                                :: fh
+      TYPE(mp_file_type), INTENT(IN)                     :: fh
          !! file handle (file storage unit)
       INTEGER(kind=file_offset), INTENT(OUT)             :: pos
          !! the file position
@@ -2452,17 +2496,17 @@ CONTAINS
 
       ierr = 0
 #if defined(__parallel)
-      CALL mpi_file_set_errhandler(fh, MPI_ERRORS_RETURN, ierr)
-      CALL mpi_file_get_position(fh, pos, ierr)
+      CALL mpi_file_set_errhandler(fh%handle, MPI_ERRORS_RETURN, ierr)
+      CALL mpi_file_get_position(fh%handle, pos, ierr)
       IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_file_set_errhandler @ mp_file_get_position")
 #else
-      INQUIRE (UNIT=fh, POS=pos)
+      INQUIRE (UNIT=fh%handle, POS=pos)
 #endif
    END SUBROUTINE mp_file_get_position
 
    SUBROUTINE mp_file_write_at_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(IN)               :: msg
-      INTEGER, INTENT(IN)                        :: fh
+      TYPE(mp_file_type), INTENT(IN)             :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
@@ -2470,17 +2514,17 @@ CONTAINS
 
       INTEGER                                    :: ierr
 
-      CALL MPI_FILE_WRITE_AT(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
+      CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_ch @ "//routineN)
 #else
-      WRITE (UNIT=fh, POS=offset + 1) msg
+      WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_write_at_ch
 
    SUBROUTINE mp_file_write_at_all_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(IN)               :: msg
-      INTEGER, INTENT(IN)                        :: fh
+      TYPE(mp_file_type), INTENT(IN)             :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
@@ -2488,17 +2532,17 @@ CONTAINS
 
       INTEGER                                    :: ierr
 
-      CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
+      CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_all_ch @ "//routineN)
 #else
-      WRITE (UNIT=fh, POS=offset + 1) msg
+      WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_write_at_all_ch
 
    SUBROUTINE mp_file_read_at_all_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(OUT)              :: msg
-      INTEGER, INTENT(IN)                        :: fh
+      TYPE(mp_file_type), INTENT(IN)             :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
@@ -2506,11 +2550,11 @@ CONTAINS
 
       INTEGER                                    :: ierr
 
-      CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
+      CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_all_ch @ "//routineN)
 #else
-      READ (UNIT=fh, POS=offset + 1) msg
+      READ (UNIT=fh%handle, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_read_at_all_ch
 
@@ -5294,7 +5338,7 @@ CONTAINS
 
          ${type1}$, INTENT(IN)                      :: msg(:)
          !! data to be written to the file
-         INTEGER, INTENT(IN)                        :: fh
+         TYPE(mp_file_type), INTENT(IN)             :: fh
          !! file handle (file storage unit)
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          !! number of the elements of data
@@ -5311,12 +5355,12 @@ CONTAINS
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_${nametype1}$v'
             INTEGER :: ierr
             ierr = 0
-            CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
+            CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_${nametype1}$v @ "//routineN)
          END BLOCK
 #else
-         WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
+         WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_${nametype1}$v
 
@@ -5324,7 +5368,7 @@ CONTAINS
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_${nametype1}$ (fh, offset, msg)
          ${type1}$, INTENT(IN)                      :: msg
-         INTEGER, INTENT(IN)                        :: fh
+         TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
@@ -5333,11 +5377,11 @@ CONTAINS
          INTEGER                                    :: ierr
 
          ierr = 0
-         CALL MPI_FILE_WRITE_AT(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
+         CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_${nametype1}$ @ "//routineN)
 #else
-         WRITE (UNIT=fh, POS=offset + 1) msg
+         WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_${nametype1}$
 
@@ -5350,7 +5394,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          ${type1}$, INTENT(IN)                      :: msg(:)
-         INTEGER, INTENT(IN)                        :: fh
+         TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER                                    :: msg_len
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
@@ -5363,12 +5407,12 @@ CONTAINS
             INTEGER                                    :: ierr
             ierr = 0
 
-            CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
+            CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_all_${nametype1}$v @ "//routineN)
          END BLOCK
 #else
-         WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
+         WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_all_${nametype1}$v
 
@@ -5376,7 +5420,7 @@ CONTAINS
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_all_${nametype1}$ (fh, offset, msg)
          ${type1}$, INTENT(IN)                      :: msg
-         INTEGER, INTENT(IN)                        :: fh
+         TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
@@ -5385,11 +5429,11 @@ CONTAINS
          INTEGER                                    :: ierr
 
          ierr = 0
-         CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
+         CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_all_${nametype1}$ @ "//routineN)
 #else
-         WRITE (UNIT=fh, POS=offset + 1) msg
+         WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_all_${nametype1}$
 
@@ -5404,7 +5448,7 @@ CONTAINS
       !! STREAM-I/O mapping   READ
 
          ${type1}$, INTENT(OUT)                     :: msg(:)
-         INTEGER, INTENT(IN)                        :: fh
+         TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
@@ -5418,12 +5462,12 @@ CONTAINS
             INTEGER                                    :: ierr
             ierr = 0
 
-            CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
+            CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_read_at_all_${nametype1}$v @ "//routineN)
          END BLOCK
 #else
-         READ (UNIT=fh, POS=offset + 1) msg(1:msg_len)
+         READ (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_read_at_all_${nametype1}$v
 
@@ -5431,7 +5475,7 @@ CONTAINS
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_${nametype1}$ (fh, offset, msg)
          ${type1}$, INTENT(OUT)                     :: msg
-         INTEGER, INTENT(IN)                        :: fh
+         TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
@@ -5440,11 +5484,11 @@ CONTAINS
          INTEGER                                    :: ierr
 
          ierr = 0
-         CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
+         CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_read_at_all_${nametype1}$ @ "//routineN)
 #else
-         READ (UNIT=fh, POS=offset + 1) msg
+         READ (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_read_at_all_${nametype1}$
 
