@@ -60,7 +60,7 @@ MODULE dbcsr_mpiwrap
    INTEGER, PARAMETER :: mp_comm_self_handle = MPI_COMM_SELF
    INTEGER, PARAMETER :: mp_comm_world_handle = MPI_COMM_WORLD
    INTEGER, PARAMETER :: mp_request_null_handle = MPI_REQUEST_NULL
-   INTEGER, PARAMETER, PUBLIC :: mp_win_null = MPI_WIN_NULL
+   INTEGER, PARAMETER :: mp_win_null_handle = MPI_WIN_NULL
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = MPI_STATUS_SIZE
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = MPI_PROC_NULL
    ! Set max allocatable memory by MPI to 2 GiByte
@@ -85,7 +85,7 @@ MODULE dbcsr_mpiwrap
    INTEGER, PARAMETER :: mp_comm_self_handle = -11
    INTEGER, PARAMETER :: mp_comm_world_handle = -12
    INTEGER, PARAMETER :: mp_request_null_handle = -4
-   INTEGER, PARAMETER, PUBLIC :: mp_win_null = -5
+   INTEGER, PARAMETER :: mp_win_null_handle = -5
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = -6
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = -7
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = 1
@@ -126,11 +126,24 @@ MODULE dbcsr_mpiwrap
       GENERIC, PUBLIC :: OPERATOR(.NE.) => mp_request_op_ne
    END TYPE mp_request_type
 
+   TYPE mp_win_type
+      PRIVATE
+      INTEGER :: handle = mp_win_null_handle
+   CONTAINS
+      PROCEDURE, PUBLIC, PASS(win), NON_OVERRIDABLE :: get_handle => mp_get_win_handle
+      PROCEDURE, PUBLIC, PASS(win), NON_OVERRIDABLE :: set_handle => mp_set_win_handle
+      PROCEDURE, PRIVATE, PASS(win1), NON_OVERRIDABLE :: mp_win_op_eq
+      GENERIC, PUBLIC :: OPERATOR(.EQ.) => mp_win_op_eq
+      PROCEDURE, PRIVATE, PASS(win1), NON_OVERRIDABLE :: mp_win_op_ne
+      GENERIC, PUBLIC :: OPERATOR(.NE.) => mp_win_op_ne
+   END TYPE mp_win_type
+
    ! The actual MPI wrapper constants
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_null = mp_comm_type(mp_comm_null_handle)
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_self = mp_comm_type(mp_comm_self_handle)
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_world = mp_comm_type(mp_comm_world_handle)
    TYPE(mp_request_type), PARAMETER, PUBLIC :: mp_request_null = mp_request_type(mp_request_null_handle)
+   TYPE(mp_win_type), PARAMETER, PUBLIC :: mp_win_null = mp_win_type(mp_win_null_handle)
 
    ! we need to fix this to a given number (crossing fingers)
    ! so that the serial code using Fortran stream IO and the MPI have the same sizes.
@@ -147,6 +160,7 @@ MODULE dbcsr_mpiwrap
    ! types
    PUBLIC :: mp_comm_type
    PUBLIC :: mp_request_type
+   PUBLIC :: mp_win_type
 
    ! init and error
    PUBLIC :: mp_world_init, mp_world_finalize
@@ -509,6 +523,35 @@ CONTAINS
       mp_request_op_ne = (request1%handle .NE. request2%handle)
 
    END FUNCTION mp_request_op_ne
+
+   INTEGER FUNCTION mp_get_win_handle(win)
+      CLASS(mp_win_type), INTENT(IN) :: win
+
+      mp_get_win_handle = win%handle
+
+   END FUNCTION mp_get_win_handle
+
+   SUBROUTINE mp_set_win_handle(win, handle)
+      CLASS(mp_win_type), INTENT(OUT) :: win
+      INTEGER, INTENT(IN) :: handle
+
+      win%handle = handle
+
+   END SUBROUTINE mp_set_win_handle
+
+   PURE LOGICAL FUNCTION mp_win_op_eq(win1, win2)
+      CLASS(mp_win_type), INTENT(IN) :: win1, win2
+
+      mp_win_op_eq = (win1%handle .EQ. win2%handle)
+
+   END FUNCTION mp_win_op_eq
+
+   PURE LOGICAL FUNCTION mp_win_op_ne(win1, win2)
+      CLASS(mp_win_type), INTENT(IN) :: win1, win2
+
+      mp_win_op_ne = (win1%handle .NE. win2%handle)
+
+   END FUNCTION mp_win_op_ne
 
    SUBROUTINE mp_world_init(mp_comm)
       !! initializes the system default communicator
@@ -2656,7 +2699,7 @@ CONTAINS
 
    SUBROUTINE mp_win_free(win)
       !! Window free
-      INTEGER, INTENT(INOUT)                             :: win
+      TYPE(mp_win_type), INTENT(INOUT)                   :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_free'
 
@@ -2667,7 +2710,7 @@ CONTAINS
 
 #if defined(__parallel)
 
-      CALL mpi_win_free(win, ierr)
+      CALL mpi_win_free(win%handle, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_free @ "//routineN)
 #else
       MARK_USED(win)
@@ -2678,7 +2721,7 @@ CONTAINS
 
    SUBROUTINE mp_win_flush_all(win)
       !! Window flush
-      INTEGER, INTENT(IN)                                :: win
+      TYPE(mp_win_type), INTENT(IN)                      :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_flush_all'
 
@@ -2688,7 +2731,7 @@ CONTAINS
       CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-      CALL mpi_win_flush_all(win, ierr)
+      CALL mpi_win_flush_all(win%handle, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_flush_all @ "//routineN)
 #else
       MARK_USED(win)
@@ -2698,7 +2741,7 @@ CONTAINS
 
    SUBROUTINE mp_win_lock_all(win)
       !! Window lock
-      INTEGER, INTENT(INOUT)                             :: win
+      TYPE(mp_win_type), INTENT(INOUT)                   :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_lock_all'
 
@@ -2709,7 +2752,7 @@ CONTAINS
 
 #if defined(__parallel)
 
-      CALL mpi_win_lock_all(MPI_MODE_NOCHECK, win, ierr)
+      CALL mpi_win_lock_all(MPI_MODE_NOCHECK, win%handle, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_lock_all @ "//routineN)
 #else
       MARK_USED(win)
@@ -2719,7 +2762,7 @@ CONTAINS
 
    SUBROUTINE mp_win_unlock_all(win)
       !! Window lock
-      INTEGER, INTENT(INOUT)                             :: win
+      TYPE(mp_win_type), INTENT(INOUT)                   :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_unlock_all'
 
@@ -2730,7 +2773,7 @@ CONTAINS
 
 #if defined(__parallel)
 
-      CALL mpi_win_unlock_all(win, ierr)
+      CALL mpi_win_unlock_all(win%handle, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_unlock_all @ "//routineN)
 #else
       MARK_USED(win)
@@ -5017,8 +5060,8 @@ CONTAINS
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
          ${type1}$, CONTIGUOUS, DIMENSION(:) :: base
-         TYPE(mp_comm_type), INTENT(IN)            :: comm
-         INTEGER, INTENT(INOUT)         :: win
+         TYPE(mp_comm_type), INTENT(IN)      :: comm
+         TYPE(mp_win_type), INTENT(OUT)      :: win
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_create_${nametype1}$v'
 
@@ -5035,9 +5078,9 @@ CONTAINS
 
          len = SIZE(base)*${bytes1}$
          IF (len > 0) THEN
-            CALL mpi_win_create(base(1), len, ${bytes1}$, MPI_INFO_NULL, comm%handle, win, ierr)
+            CALL mpi_win_create(base(1), len, ${bytes1}$, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          ELSE
-            CALL mpi_win_create(foo, len, ${bytes1}$, MPI_INFO_NULL, comm%handle, win, ierr)
+            CALL mpi_win_create(foo, len, ${bytes1}$, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_create @ "//routineN)
 #else
@@ -5055,7 +5098,8 @@ CONTAINS
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
          ${type1}$, CONTIGUOUS, DIMENSION(:)                 :: base
-         INTEGER, INTENT(IN)                                 :: source, win
+         INTEGER, INTENT(IN)                                 :: source
+         TYPE(mp_win_type), INTENT(IN)                       :: win
          ${type1}$, CONTIGUOUS, DIMENSION(:)                 :: win_data
          INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
          TYPE(mp_request_type), INTENT(OUT)                  :: request
@@ -5115,7 +5159,7 @@ CONTAINS
                ierr = 0
             ELSE
                CALL mpi_rget(base(1), origin_len, handle_origin_datatype, source, disp_aint, &
-                             target_len, handle_target_datatype, win, request%handle, ierr)
+                             target_len, handle_target_datatype, win%handle, request%handle, ierr)
             END IF
          ELSE
             request = mp_request_null

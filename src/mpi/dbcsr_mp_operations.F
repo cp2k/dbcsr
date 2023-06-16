@@ -30,7 +30,7 @@ MODULE dbcsr_mp_operations
       mp_allgather, mp_alltoall, mp_gatherv, mp_ibcast, mp_irecv, mp_iscatter, mp_isend, &
       mp_isendrecv, mp_rget, mp_sendrecv, mp_type_descriptor_type, mp_type_indexed_make_c, &
       mp_type_indexed_make_d, mp_type_indexed_make_r, mp_type_indexed_make_z, mp_type_make, &
-      mp_waitall, mp_win_create, mp_comm_type, mp_request_type
+      mp_waitall, mp_win_create, mp_comm_type, mp_request_type, mp_win_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -412,7 +412,7 @@ CONTAINS
       !! Window initialization function of encapsulated data.
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
       TYPE(mp_comm_type), INTENT(IN)                     :: comm
-      INTEGER, INTENT(OUT)                               :: win
+      TYPE(mp_win_type), INTENT(OUT)                     :: win
 
       SELECT CASE (dbcsr_data_get_type(base))
       CASE (dbcsr_type_real_4)
@@ -432,7 +432,8 @@ CONTAINS
       !! Single-sided Get function of encapsulated data.
                              origin_datatype, target_datatype)
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
-      INTEGER, INTENT(IN)                                :: source, win
+      INTEGER, INTENT(IN)                                :: source
+      TYPE(mp_win_type), INTENT(IN)                      :: win
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: win_data
       INTEGER, INTENT(IN), OPTIONAL                      :: myproc, disp
       TYPE(mp_request_type), INTENT(OUT)                 :: request

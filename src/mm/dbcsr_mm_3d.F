@@ -87,7 +87,8 @@ MODULE dbcsr_mm_3d
    USE dbcsr_mpiwrap, ONLY: &
       mp_allgather, mp_alltoall, mp_comm_free, mp_comm_null, mp_comm_split_direct, &
       mp_iallgather, mp_isendrecv, mp_isum, mp_request_null, mp_rget, mp_wait, mp_waitall, &
-      mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all, mp_environ, mp_comm_type, mp_request_type
+      mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all, mp_environ, &
+      mp_comm_type, mp_request_type, mp_win_type
    USE dbcsr_ptr_util, ONLY: ensure_array_size, &
                              memory_deallocate
    USE dbcsr_types, ONLY: &
@@ -125,7 +126,7 @@ MODULE dbcsr_mm_3d
       INTEGER                                     :: myproc = -1
       TYPE(mp_comm_type)                          :: grp = mp_comm_null, & ! Global communicator
                                                      subgrp = mp_comm_null ! Communicator for A and B
-      INTEGER                                     :: data_win, meta_win
+      TYPE(mp_win_type)                           :: data_win, meta_win
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS  :: meta => Null(), &
                                                      meta_before_resize => Null(), &
                                                      meta_red3D => Null()
@@ -2419,7 +2420,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: recv_vproc, nimages
       INTEGER, DIMENSION(:), INTENT(IN)                  :: size_layers3D, displ_layers3D
       TYPE(dbcsr_buffer), INTENT(INOUT)                  :: buffer
-      INTEGER, INTENT(IN)                                :: meta_win, data_win
+      TYPE(mp_win_type), INTENT(IN)                      :: meta_win, data_win
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: data_get
       INTEGER, INTENT(IN)                                :: data_type_byte
       TYPE(dbcsr_buffer), INTENT(IN)                     :: buffer_win
