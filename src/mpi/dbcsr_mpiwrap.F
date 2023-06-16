@@ -1121,7 +1121,7 @@ CONTAINS
 #else
       pos(1:ndims) = 0
       dims = 1
-      comm_cart = 0
+      comm_cart = mp_comm_self
 #endif
       CALL timestop(handle)
 
@@ -1949,7 +1949,7 @@ CONTAINS
       MARK_USED(comm)
       MARK_USED(request)
       MARK_USED(tag)
-      request = 0
+      request = mp_request_null
 #endif
       CALL timestop(handle)
    END SUBROUTINE mp_isend_bv
@@ -2005,7 +2005,7 @@ CONTAINS
       MARK_USED(comm)
       MARK_USED(request)
       MARK_USED(tag)
-      request = 0
+      request = mp_request_null
 #endif
       CALL timestop(handle)
    END SUBROUTINE mp_irecv_bv
@@ -2366,7 +2366,7 @@ CONTAINS
       INTEGER                                  :: my_info
 #else
       CHARACTER(LEN=10)                        :: fstatus, fposition
-      INTEGER                                  :: amode
+      INTEGER                                  :: amode, file_handle
       LOGICAL                                  :: exists, is_open
 #endif
 
@@ -2396,10 +2396,11 @@ CONTAINS
          fstatus = "OLD"
       END IF
       ! Get a new unit number
-      DO fh%handle = 1, 999
-         INQUIRE (UNIT=fh%handle, EXIST=exists, OPENED=is_open, IOSTAT=istat)
+      DO file_handle = 1, 999
+         INQUIRE (UNIT=file_handle, EXIST=exists, OPENED=is_open, IOSTAT=istat)
          IF (exists .AND. (.NOT. is_open) .AND. (istat == 0)) EXIT
       END DO
+      fh%handle = file_handle
       OPEN (UNIT=fh%handle, FILE=filepath, STATUS=fstatus, ACCESS="STREAM", POSITION=fposition)
 #endif
    END SUBROUTINE mp_file_open
