@@ -55,7 +55,7 @@ MODULE dbcsr_tensor
    USE dbcsr_kinds, ONLY: &
       ${uselist(dtype_float_prec)}$, default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
-      mp_environ, mp_max, mp_sum, mp_comm_free, mp_cart_create, mp_sync, mp_comm_type
+      mp_environ, mp_max, mp_comm_free, mp_cart_create, mp_sync, mp_comm_type
    USE dbcsr_toollib, ONLY: &
       sort
    USE dbcsr_tensor_reshape, ONLY: &

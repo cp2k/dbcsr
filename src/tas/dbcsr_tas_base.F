@@ -48,7 +48,7 @@ MODULE dbcsr_tas_base
    USE dbcsr_kinds, ONLY: &
       default_string_length, int_8, real_8, real_4
    USE dbcsr_mpiwrap, ONLY: &
-      mp_cart_rank, mp_environ, mp_sum, mp_max, mp_comm_type
+      mp_cart_rank, mp_environ, mp_sum, mp_comm_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE

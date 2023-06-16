@@ -48,7 +48,7 @@ MODULE dbcsr_tas_mm
    USE dbcsr_kinds, ONLY: &
       int_8, real_8, real_4, default_string_length
    USE dbcsr_mpiwrap, ONLY: &
-      mp_comm_compare, mp_environ, mp_sum, mp_comm_free, mp_cart_create, mp_max, mp_sync, mp_comm_type
+      mp_environ, mp_sum, mp_comm_free, mp_cart_create, mp_max, mp_sync, mp_comm_type
    USE dbcsr_operations, ONLY: &
       dbcsr_scale, dbcsr_get_info, dbcsr_copy, dbcsr_clear, dbcsr_add, dbcsr_zero
    USE dbcsr_tas_io, ONLY: &

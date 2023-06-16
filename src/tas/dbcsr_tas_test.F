@@ -46,7 +46,7 @@ MODULE dbcsr_tas_test
                                dbcsr_add
    USE dbcsr_transformations, ONLY: dbcsr_complete_redistribute
    USE dbcsr_blas_operations, ONLY: &
-      dbcsr_lapack_larnv, set_larnv_seed
+      set_larnv_seed
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
