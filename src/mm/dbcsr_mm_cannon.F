@@ -894,7 +894,7 @@ CONTAINS
                                                   right_mp_obj
       TYPE(mp_comm_type)                       :: grp, mp_group
       TYPE(mp_request_type), DIMENSION(:), ALLOCATABLE :: left_data_rr, left_data_sr, left_index_rr, &
-         left_index_sr, right_data_rr, right_data_sr, right_index_rr, right_index_sr
+                                                         left_index_sr, right_data_rr, right_data_sr, right_index_rr, right_index_sr
 
 !   ---------------------------------------------------------------------------
 
