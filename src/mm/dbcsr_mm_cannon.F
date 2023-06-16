@@ -80,7 +80,6 @@ MODULE dbcsr_mm_cannon
                                   dbcsr_isend_any, &
                                   hybrid_alltoall_any, &
                                   hybrid_alltoall_i1
-   USE dbcsr_mpiwrap, ONLY: mp_comm_type
    USE dbcsr_operations, ONLY: dbcsr_copy, &
                                dbcsr_crop_matrix
    USE dbcsr_ptr_util, ONLY: ensure_array_size
@@ -111,7 +110,7 @@ MODULE dbcsr_mm_cannon
                             mp_request_null, &
                             mp_sum, &
                             mp_testany, &
-                            mp_waitall
+                            mp_waitall, mp_comm_type, mp_request_type
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -870,12 +869,10 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :)           :: left_sizes, my_sizes, right_sizes
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :, :)        :: all_sizes
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: col_blk_sizes2enum, enum2col_blk_sizes, &
-                                                    enum2row_blk_sizes, left_data_rr, left_data_sr, &
-                                                    left_index_rp, left_index_rr, &
-                                                    left_index_sp, left_index_sr, m_sizes, n_sizes, &
-                                                    right_data_rr, right_data_sr, &
-                                                    right_index_rp, right_index_rr, right_index_sp, &
-                                                    right_index_sr, row_blk_sizes2enum
+                                                    enum2row_blk_sizes, &
+                                                    left_index_rp, left_index_sp, m_sizes, n_sizes, &
+                                                    right_index_rp, right_index_sp, &
+                                                    row_blk_sizes2enum
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: k_sizes
       INTEGER, DIMENSION(:, :), POINTER, CONTIGUOUS      :: left_pgrid, product_pgrid, right_pgrid
       INTEGER, SAVE                                      :: mult_id = 0
@@ -896,6 +893,8 @@ CONTAINS
       TYPE(dbcsr_mp_obj)                       :: left_mp_obj, product_mp_obj, &
                                                   right_mp_obj
       TYPE(mp_comm_type)                       :: grp, mp_group
+      TYPE(mp_request_type), DIMENSION(:), ALLOCATABLE :: left_data_rr, left_data_sr, left_index_rr, &
+         left_index_sr, right_data_rr, right_data_sr, right_index_rr, right_index_sr
 
 !   ---------------------------------------------------------------------------
 

@@ -51,7 +51,7 @@ MODULE dbcsr_tas_reshape_ops
    USE dbcsr_kinds, ONLY: &
       int_8, real_8, real_4
    USE dbcsr_mpiwrap, ONLY: &
-      mp_alltoall, mp_environ, mp_isend, mp_irecv, mp_waitall, mp_comm_type
+      mp_alltoall, mp_environ, mp_isend, mp_irecv, mp_waitall, mp_comm_type, mp_request_type
    USE dbcsr_tas_util, ONLY: &
       swap, index_unique
 #include "base/dbcsr_base_uses.f90"
@@ -111,7 +111,7 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: num_blocks_recv, num_blocks_send, &
                                                             num_entries_recv, num_entries_send, &
                                                             num_rec, num_send
-      INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: req_array
+      TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:, :)              :: req_array
       INTEGER, DIMENSION(2)                              :: blk_size
       LOGICAL                                            :: tr, tr_in, move_prv
       TYPE(block_buffer_type), ALLOCATABLE, DIMENSION(:) :: buffer_recv, buffer_send
@@ -294,7 +294,7 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: num_blocks_recv, num_blocks_send, &
                                                             num_entries_recv, num_entries_send, &
                                                             num_rec, num_send
-      INTEGER, ALLOCATABLE, DIMENSION(:, :) :: req_array, blks_to_allocate
+      INTEGER, ALLOCATABLE, DIMENSION(:, :) :: blks_to_allocate
       INTEGER, DIMENSION(2) :: blk_size
       INTEGER, DIMENSION(2) :: blk_index
       INTEGER(KIND=int_8), DIMENSION(2) :: blk_index_i8
@@ -305,6 +305,7 @@ CONTAINS
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:, :) :: index_recv
       INTEGER :: ndata
       TYPE(mp_comm_type) :: mp_comm
+      TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:, :) :: req_array
 
       TYPE(dbcsr_data_obj) :: block
 
@@ -490,7 +491,7 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: iprocs, num_blocks_recv, &
                                                             num_blocks_send, num_entries_recv, &
                                                             num_entries_send, num_rec, num_send
-      INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: req_array, blks_to_allocate, blks_to_allocate_u
+      INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: blks_to_allocate, blks_to_allocate_u
       INTEGER, DIMENSION(2)                              :: blk_index, blk_size
       LOGICAL                                            :: tr, move_prv
       TYPE(block_buffer_type), ALLOCATABLE, DIMENSION(:) :: buffer_recv, buffer_send
@@ -498,6 +499,7 @@ CONTAINS
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_tas_split_info)                         :: info
       TYPE(mp_comm_type)                                 :: mp_comm
+      TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:, :) :: req_array
 
       CALL timeset(routineN, handle)
 
@@ -836,7 +838,7 @@ CONTAINS
       !! communicate buffer
       TYPE(mp_comm_type), INTENT(IN)                    :: mp_comm
       TYPE(block_buffer_type), DIMENSION(0:), INTENT(INOUT) :: buffer_recv, buffer_send
-      INTEGER, DIMENSION(:, :), INTENT(OUT)               :: req_array
+      TYPE(mp_request_type), DIMENSION(:, :), INTENT(OUT)               :: req_array
 
       INTEGER                                :: iproc, mynode, numnodes, rec_counter, &
                                                 send_counter

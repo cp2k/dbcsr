@@ -30,7 +30,7 @@ MODULE dbcsr_mp_operations
       mp_allgather, mp_alltoall, mp_gatherv, mp_ibcast, mp_irecv, mp_iscatter, mp_isend, &
       mp_isendrecv, mp_rget, mp_sendrecv, mp_type_descriptor_type, mp_type_indexed_make_c, &
       mp_type_indexed_make_d, mp_type_indexed_make_r, mp_type_indexed_make_z, mp_type_make, &
-      mp_waitall, mp_win_create, mp_comm_type
+      mp_waitall, mp_win_create, mp_comm_type, mp_request_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -130,14 +130,14 @@ CONTAINS
       INTEGER :: mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                  ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
                  prow, pcol, send_cnt, recv_cnt, tag, i
-      INTEGER, ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, &
-                                            new_rcount, new_rdispl, new_scount, new_sdispl, row_rr, row_sr
+      INTEGER, ALLOCATABLE, DIMENSION(:) :: new_rcount, new_rdispl, new_scount, new_sdispl
       INTEGER, DIMENSION(:, :), POINTER        :: pgrid
       LOGICAL                                  :: most_collective, &
                                                   remainder_collective, no_h
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: send_data_p, recv_data_p
       TYPE(dbcsr_mp_obj)                       :: mpe
       TYPE(mp_comm_type)                       :: all_group, grp
+      TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
 
       IF (.NOT. dbcsr_mp_has_subgroups(mp_env)) THEN
          mpe = mp_env
@@ -367,7 +367,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest
       TYPE(mp_comm_type), INTENT(IN)                     :: comm
-      INTEGER, INTENT(OUT)                               :: request
+      TYPE(mp_request_type), INTENT(OUT)                 :: request
       INTEGER, INTENT(IN), OPTIONAL                      :: tag
 
       SELECT CASE (dbcsr_data_get_type(msgin))
@@ -391,7 +391,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: source
       TYPE(mp_comm_type), INTENT(IN)                     :: comm
-      INTEGER, INTENT(OUT)                               :: request
+      TYPE(mp_request_type), INTENT(OUT)                 :: request
       INTEGER, INTENT(IN), OPTIONAL                      :: tag
 
       SELECT CASE (dbcsr_data_get_type(msgin))
@@ -411,7 +411,7 @@ CONTAINS
    SUBROUTINE dbcsr_win_create_any(base, comm, win)
       !! Window initialization function of encapsulated data.
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
-      TYPE(mp_comm_type), INTENT(IN)                                :: comm
+      TYPE(mp_comm_type), INTENT(IN)                     :: comm
       INTEGER, INTENT(OUT)                               :: win
 
       SELECT CASE (dbcsr_data_get_type(base))
@@ -435,7 +435,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: source, win
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: win_data
       INTEGER, INTENT(IN), OPTIONAL                      :: myproc, disp
-      INTEGER, INTENT(OUT)                               :: request
+      TYPE(mp_request_type), INTENT(OUT)                 :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), &
          OPTIONAL                                        :: origin_datatype, target_datatype
 
@@ -465,7 +465,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
       INTEGER, INTENT(IN)                                :: source
       TYPE(mp_comm_type), INTENT(IN)                     :: grp
-      INTEGER, INTENT(INOUT)                             :: request
+      TYPE(mp_request_type), INTENT(INOUT)               :: request
 
       SELECT CASE (dbcsr_data_get_type(base))
       CASE (dbcsr_type_real_4)
@@ -488,7 +488,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msg
       INTEGER, INTENT(IN)                                :: recvcount, root
       TYPE(mp_comm_type), INTENT(IN)                     :: grp
-      INTEGER, INTENT(INOUT)                             :: request
+      TYPE(mp_request_type), INTENT(INOUT)               :: request
 
       IF (dbcsr_data_get_type(base) .NE. dbcsr_data_get_type(msg)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
@@ -540,7 +540,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msgout
       INTEGER, INTENT(IN)                                :: source
       TYPE(mp_comm_type), INTENT(IN)                     :: grp
-      INTEGER, INTENT(OUT)                               :: send_request, recv_request
+      TYPE(mp_request_type), INTENT(OUT)                 :: send_request, recv_request
 
       IF (dbcsr_data_get_type(msgin) .NE. dbcsr_data_get_type(msgout)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
@@ -575,7 +575,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: scount
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: recv_data
       INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: recv_count, recv_displ
-      TYPE(mp_comm_type), INTENT(IN)                                :: gid
+      TYPE(mp_comm_type), INTENT(IN)                     :: gid
 
       IF (dbcsr_data_get_type(send_data) /= dbcsr_data_get_type(recv_data)) &
          DBCSR_ABORT("Data type mismatch")
@@ -627,14 +627,14 @@ CONTAINS
          INTEGER :: mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                     ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
                     prow, pcol, send_cnt, recv_cnt, tag, i
-         INTEGER, ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, &
-                                               new_rcount, new_rdispl, new_scount, new_sdispl, row_rr, row_sr
+         INTEGER, ALLOCATABLE, DIMENSION(:) :: new_rcount, new_rdispl, new_scount, new_sdispl
          INTEGER, DIMENSION(:, :), CONTIGUOUS, POINTER :: pgrid
          LOGICAL                                  :: most_collective, &
                                                      remainder_collective, no_h
          ${type1}$, DIMENSION(:), CONTIGUOUS, POINTER :: send_data_p, recv_data_p
          TYPE(dbcsr_mp_obj)                       :: mpe
          TYPE(mp_comm_type)                       :: all_group, grp
+         TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
 
          IF (.NOT. dbcsr_mp_has_subgroups(mp_env)) THEN
             mpe = mp_env

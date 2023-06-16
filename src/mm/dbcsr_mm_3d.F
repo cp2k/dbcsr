@@ -87,7 +87,7 @@ MODULE dbcsr_mm_3d
    USE dbcsr_mpiwrap, ONLY: &
       mp_allgather, mp_alltoall, mp_comm_free, mp_comm_null, mp_comm_split_direct, &
       mp_iallgather, mp_isendrecv, mp_isum, mp_request_null, mp_rget, mp_wait, mp_waitall, &
-      mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all, mp_environ, mp_comm_type
+      mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all, mp_environ, mp_comm_type, mp_request_type
    USE dbcsr_ptr_util, ONLY: ensure_array_size, &
                              memory_deallocate
    USE dbcsr_types, ONLY: &
@@ -129,7 +129,7 @@ MODULE dbcsr_mm_3d
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS  :: meta => Null(), &
                                                      meta_before_resize => Null(), &
                                                      meta_red3D => Null()
-      INTEGER, DIMENSION(2)                       :: get_requests
+      TYPE(mp_request_type), DIMENSION(2)         :: get_requests = mp_request_null
       INTEGER                                     :: meta_size
       INTEGER                                     :: num_layers_3D = 1
       INTEGER                                     :: coord3D = 1
@@ -182,11 +182,11 @@ MODULE dbcsr_mm_3d
 
    INTEGER, ALLOCATABLE, DIMENSION(:), TARGET, PRIVATE :: g2l_map_cols, g2l_map_rows
 
-   INTEGER, PRIVATE                :: request_count_rows
-   INTEGER, DIMENSION(2), PRIVATE  :: requests
-   INTEGER, DIMENSION(2), PRIVATE  :: requests_win_create
+   TYPE(mp_request_type), PRIVATE               :: request_count_rows
+   TYPE(mp_request_type), DIMENSION(2), PRIVATE :: requests
+   TYPE(mp_request_type), DIMENSION(2), PRIVATE :: requests_win_create
 
-   INTEGER :: request_sync_mult = mp_request_null
+   TYPE(mp_request_type) :: request_sync_mult = mp_request_null
 
    ! Buffers used in make_buffers
    TYPE(dbcsr_data_obj), TARGET, SAVE :: make_buffers_data_recv, make_buffers_data_send
@@ -1163,7 +1163,7 @@ CONTAINS
                  mycol3D, mypcol, myprow
       INTEGER :: myrank3D, myrow3D, myt, nblkrows_local, nbuffers, nbuffers_norms, ncols3D, &
                  nranks3D, nrows3D, nthreads, numnodes, nvirt_k, proc3D_recv, proc3D_send, recv_vcol, &
-                 recv_vrow, request_epss, request_keep_sparsity, right_col_mult, right_col_nimages, &
+                 recv_vrow, right_col_mult, right_col_nimages, &
                  right_max_data_size, right_max_meta_size, right_myfirstvcol, right_myfirstvrow, &
                  right_mypcol, right_myprow, right_npcols, right_nprows, right_row_mult, &
                  right_row_nimages, right_row_total_nimages, row, shift3D, shift3D_comm, shift3D_recv, &
@@ -1171,10 +1171,12 @@ CONTAINS
       INTEGER(KIND=int_8)                                :: mem
       INTEGER, ALLOCATABLE, DIMENSION(:) :: left_vrow, product_matrix_epss_displ, &
                                             product_matrix_epss_size, product_matrix_meta, product_matrix_size_recv, &
-                                            product_matrix_size_send, requests_reduction, right_vcol
+                                            product_matrix_size_send, right_vcol
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: product_matrix_meta_displ, &
                                                             product_matrix_meta_size
-      INTEGER, DIMENSION(2)                              :: requests_reduction_size
+      TYPE(mp_request_type)                              :: request_epss, request_keep_sparsity
+      TYPE(mp_request_type), DIMENSION(2)                :: requests_reduction_size
+      TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:)   :: requests_reduction
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: col_blk_sizes2enum, enum2col_blk_sizes, &
                                                     enum2row_blk_sizes, product_matrix_meta_recv, product_matrix_meta_send, &
                                                     row_blk_sizes2enum
@@ -2253,7 +2255,7 @@ CONTAINS
    SUBROUTINE win_setup(buffer, do_win_create, request)
       TYPE(dbcsr_buffer), INTENT(INOUT)                  :: buffer
       LOGICAL, DIMENSION(:), INTENT(INOUT)               :: do_win_create
-      INTEGER, INTENT(INOUT)                             :: request
+      TYPE(mp_request_type), INTENT(INOUT)               :: request
 
       CHARACTER(len=*), PARAMETER :: routineN = 'win_setup'
       INTEGER                                            :: handle, handle1, myproc
