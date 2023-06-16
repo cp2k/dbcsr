@@ -481,116 +481,116 @@ MODULE dbcsr_mpiwrap
 
 CONTAINS
 
-   INTEGER FUNCTION mp_get_comm_handle(comm)
+   ELEMENTAL INTEGER FUNCTION mp_get_comm_handle(comm)
       CLASS(mp_comm_type), INTENT(IN) :: comm
 
       mp_get_comm_handle = comm%handle
 
    END FUNCTION mp_get_comm_handle
 
-   SUBROUTINE mp_set_comm_handle(comm, handle)
-      CLASS(mp_comm_type), INTENT(OUT) :: comm
+   ELEMENTAL SUBROUTINE mp_set_comm_handle(comm, handle)
+      CLASS(mp_comm_type), INTENT(INOUT) :: comm
       INTEGER, INTENT(IN) :: handle
 
       comm%handle = handle
 
    END SUBROUTINE mp_set_comm_handle
 
-   PURE LOGICAL FUNCTION mp_comm_op_eq(comm1, comm2)
+   ELEMENTAL LOGICAL FUNCTION mp_comm_op_eq(comm1, comm2)
       CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
 
       mp_comm_op_eq = (comm1%handle .EQ. comm2%handle)
 
    END FUNCTION mp_comm_op_eq
 
-   PURE LOGICAL FUNCTION mp_comm_op_ne(comm1, comm2)
+   ELEMENTAL LOGICAL FUNCTION mp_comm_op_ne(comm1, comm2)
       CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
 
       mp_comm_op_ne = (comm1%handle .NE. comm2%handle)
 
    END FUNCTION mp_comm_op_ne
 
-   INTEGER FUNCTION mp_get_request_handle(request)
+   ELEMENTAL INTEGER FUNCTION mp_get_request_handle(request)
       CLASS(mp_request_type), INTENT(IN) :: request
 
       mp_get_request_handle = request%handle
 
    END FUNCTION mp_get_request_handle
 
-   SUBROUTINE mp_set_request_handle(request, handle)
-      CLASS(mp_request_type), INTENT(OUT) :: request
+   ELEMENTAL SUBROUTINE mp_set_request_handle(request, handle)
+      CLASS(mp_request_type), INTENT(INOUT) :: request
       INTEGER, INTENT(IN) :: handle
 
       request%handle = handle
 
    END SUBROUTINE mp_set_request_handle
 
-   PURE LOGICAL FUNCTION mp_request_op_eq(request1, request2)
+   ELEMENTAL LOGICAL FUNCTION mp_request_op_eq(request1, request2)
       CLASS(mp_request_type), INTENT(IN) :: request1, request2
 
       mp_request_op_eq = (request1%handle .EQ. request2%handle)
 
    END FUNCTION mp_request_op_eq
 
-   PURE LOGICAL FUNCTION mp_request_op_ne(request1, request2)
+   ELEMENTAL LOGICAL FUNCTION mp_request_op_ne(request1, request2)
       CLASS(mp_request_type), INTENT(IN) :: request1, request2
 
       mp_request_op_ne = (request1%handle .NE. request2%handle)
 
    END FUNCTION mp_request_op_ne
 
-   INTEGER FUNCTION mp_get_win_handle(win)
+   ELEMENTAL INTEGER FUNCTION mp_get_win_handle(win)
       CLASS(mp_win_type), INTENT(IN) :: win
 
       mp_get_win_handle = win%handle
 
    END FUNCTION mp_get_win_handle
 
-   SUBROUTINE mp_set_win_handle(win, handle)
-      CLASS(mp_win_type), INTENT(OUT) :: win
+   ELEMENTAL SUBROUTINE mp_set_win_handle(win, handle)
+      CLASS(mp_win_type), INTENT(INOUT) :: win
       INTEGER, INTENT(IN) :: handle
 
       win%handle = handle
 
    END SUBROUTINE mp_set_win_handle
 
-   PURE LOGICAL FUNCTION mp_win_op_eq(win1, win2)
+   ELEMENTAL LOGICAL FUNCTION mp_win_op_eq(win1, win2)
       CLASS(mp_win_type), INTENT(IN) :: win1, win2
 
       mp_win_op_eq = (win1%handle .EQ. win2%handle)
 
    END FUNCTION mp_win_op_eq
 
-   PURE LOGICAL FUNCTION mp_win_op_ne(win1, win2)
+   ELEMENTAL LOGICAL FUNCTION mp_win_op_ne(win1, win2)
       CLASS(mp_win_type), INTENT(IN) :: win1, win2
 
       mp_win_op_ne = (win1%handle .NE. win2%handle)
 
    END FUNCTION mp_win_op_ne
 
-   INTEGER FUNCTION mp_get_file_handle(file)
+   ELEMENTAL INTEGER FUNCTION mp_get_file_handle(file)
       CLASS(mp_file_type), INTENT(IN) :: file
 
       mp_get_file_handle = file%handle
 
    END FUNCTION mp_get_file_handle
 
-   SUBROUTINE mp_set_file_handle(file, handle)
-      CLASS(mp_file_type), INTENT(OUT) :: file
+   ELEMENTAL SUBROUTINE mp_set_file_handle(file, handle)
+      CLASS(mp_file_type), INTENT(INOUT) :: file
       INTEGER, INTENT(IN) :: handle
 
       file%handle = handle
 
    END SUBROUTINE mp_set_file_handle
 
-   PURE LOGICAL FUNCTION mp_file_op_eq(file1, file2)
+   ELEMENTAL LOGICAL FUNCTION mp_file_op_eq(file1, file2)
       CLASS(mp_file_type), INTENT(IN) :: file1, file2
 
       mp_file_op_eq = (file1%handle .EQ. file2%handle)
 
    END FUNCTION mp_file_op_eq
 
-   PURE LOGICAL FUNCTION mp_file_op_ne(file1, file2)
+   ELEMENTAL LOGICAL FUNCTION mp_file_op_ne(file1, file2)
       CLASS(mp_file_type), INTENT(IN) :: file1, file2
 
       mp_file_op_ne = (file1%handle .NE. file2%handle)
