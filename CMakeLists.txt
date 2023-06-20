@@ -69,6 +69,7 @@ set(dbcsr_APIVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
 # OPTIONS
 include(CMakeDependentOption)
 
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(USE_OPENMP "Build with OpenMP support" ON)
 option(USE_MPI "Build with MPI support" ON)
 cmake_dependent_option(

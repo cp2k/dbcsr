@@ -156,8 +156,13 @@ endif ()
 # DBCSR LIBRARY
 add_library(dbcsr ${DBCSR_SRCS})
 
-set_target_properties(dbcsr PROPERTIES VERSION ${dbcsr_VERSION}
-                                       SOVERSION ${dbcsr_APIVERSION})
+# -fPIC can also be used in the static case. Addresses are resolved during the
+# linking process
+set_target_properties(
+  dbcsr
+  PROPERTIES VERSION ${dbcsr_VERSION}
+             SOVERSION ${dbcsr_APIVERSION}
+             POSITION_INDEPENDENT_CODE ON)
 
 if (USE_SMM MATCHES "libxsmm")
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
@@ -264,8 +269,11 @@ if (WITH_C_API)
   add_library(dbcsr_c ${DBCSR_C_SRCS})
   set_target_properties(dbcsr_c PROPERTIES LINKER_LANGUAGE Fortran)
 
-  set_target_properties(dbcsr_c PROPERTIES VERSION ${dbcsr_VERSION}
-                                           SOVERSION ${dbcsr_APIVERSION})
+  set_target_properties(
+    dbcsr_c
+    PROPERTIES VERSION ${dbcsr_VERSION}
+               SOVERSION ${dbcsr_APIVERSION}
+               POSITION_INDEPENDENT_CODE ON)
 
   target_link_libraries(dbcsr_c PRIVATE dbcsr)
   target_link_libraries(dbcsr_c PUBLIC MPI::MPI_C) # the C API always needs MPI
