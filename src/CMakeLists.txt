@@ -208,6 +208,11 @@ if (MPI_FOUND)
   # by setting those flags:
   target_compile_definitions(dbcsr PRIVATE __parallel)
 
+  # If requested, use the MPI_F08 module
+  if (USE_MPI_F08)
+    target_compile_definitions(dbcsr PRIVATE __USE_MPI_F08)
+  endif ()
+
   # Instead of resetting the compiler for MPI, we are adding the compiler flags
   # otherwise added by the mpifort-wrapper directly; based on hints from:
   # https://cmake.org/pipermail/cmake/2012-June/050991.html Here we assume that

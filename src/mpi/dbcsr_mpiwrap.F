@@ -19,8 +19,28 @@ MODULE dbcsr_mpiwrap
 #include "base/dbcsr_base_uses.f90"
    #:include 'dbcsr_mpiwrap.fypp'
 
-#if defined(__parallel)
+#if defined(__parallel) && defined(__USE_MPI_F08)
+   USE mpi_f08, ONLY: mpi_datatype, mpi_comm, mpi_request, mpi_win, mpi_file, mpi_info, mpi_status, mpi_group, MPI_ANY_TAG, &
+                      MPI_ANY_SOURCE, MPI_COMM_NULL, MPI_COMM_SELF, MPI_COMM_WORLD, MPI_REQUEST_NULL, MPI_WIN_NULL, &
+                      MPI_FILE_NULL, MPI_INFO_NULL, MPI_DATATYPE_NULL, MPI_STATUS_SIZE, MPI_PROC_NULL, &
+                      MPI_MAX_LIBRARY_VERSION_STRING, MPI_OFFSET_KIND, MPI_ADDRESS_KIND, MPI_MODE_CREATE, &
+                      MPI_MODE_RDONLY, MPI_MODE_WRONLY, MPI_MODE_RDWR, MPI_MODE_EXCL, MPI_MODE_APPEND, &
+                      MPI_MAX_ERROR_STRING, MPI_IDENT, MPI_CONGRUENT, MPI_SIMILAR, MPI_UNEQUAL, MPI_COMPLEX, MPI_DOUBLE_COMPLEX, &
+                      MPI_INTEGER, MPI_LOGICAL, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, MPI_TYPE_SIZE, MPI_FILE_READ_AT_ALL, &
+                      MPI_FILE_READ_AT, mpi_type_indexed, mpi_irecv, mpi_recv, mpi_isend, mpi_send, mpi_sendrecv, mpi_allreduce, &
+                      mpi_reduce, mpi_barrier, mpi_ibarrier, mpi_iallreduce, mpi_test, mpi_probe, mpi_wait, mpi_iprobe, &
+                      mpi_testany, mpi_testall, mpi_waitany, mpi_waitall, mpi_allgather, mpi_allgatherv, mpi_iallgather, &
+                      mpi_iallgatherv, mpi_gather, mpi_gatherv, mpi_scatter, mpi_scatterv, mpi_iscatterv, mpi_iscatter, &
+                      mpi_scan, mpi_alltoall, mpi_alltoallv, mpi_type_indexed, mpi_bcast, mpi_ibcast, mpi_group_free, &
+                      mpi_comm_free, mpi_comm_create, mpi_win_create, mpi_rget, mpi_free_mem, mpi_get_address, &
+                      MPI_FILE_WRITE_AT, MPI_FILE_WRITE_AT_ALL, mpi_comm_group, mpi_init, mpi_init_thread, mpi_bottom, &
+                      MPI_IN_PLACE, MPI_MIN, MPI_MAX, MPI_SUM, MPI_PROD, MPI_SOURCE, MPI_TAG, MPI_REAL, MPI_INTEGER8, &
+                      MPI_MODE_NOCHECK, MPI_CHARACTER, MPI_ERRORS_RETURN, MPI_2DOUBLE_PRECISION, MPI_MAXLOC, MPI_LOR, &
+                      MPI_MINLOC, MPI_SUCCESS, MPI_THREAD_FUNNELED
+#endif
+#if defined(__parallel) && ! defined(__USE_MPI_F08)
    USE mpi
+#endif
 ! subroutines: unfortunately, mpi implementations do not provide interfaces for all subroutines (problems with types and ranks explosion),
 !              we do not quite know what is in the module, so we can not include any....
 !              to nevertheless get checking for what is included, we use the mpi module without use clause, getting all there is
@@ -41,6 +61,38 @@ MODULE dbcsr_mpiwrap
 !                MPI_UNEQUAL, MPI_MAX, MPI_SUM, MPI_INFO_NULL, MPI_IN_PLACE, MPI_CONGRUENT, MPI_SIMILAR, MPI_MIN, MPI_SOURCE,&
 !                MPI_TAG, MPI_INTEGER8, MPI_INTEGER, MPI_MAXLOC, MPI_2INTEGER, MPI_MINLOC, MPI_LOGICAL, MPI_2DOUBLE_PRECISION,&
 !                MPI_LOR, MPI_CHARACTER, MPI_BOTTOM, MPI_MODE_NOCHECK, MPI_2REAL
+
+! To simplify the transition between the old MPI module and the F08-style module, we introduce these macros to switch between the required handle types
+! Unfortunately, Fortran does not offer something like typedef in C/C++
+!
+! MPI_STATUS_ARRAY is a macro to provide the appropriate type of arrays of status variables because with mpi.
+!
+! MPI_STATUS_EXTRACT is a macro to provide an extraction method from the respective MPI_Status objects/ status arrays depending on the MPI library in use.
+! Use it as "<name of status variable> MPI_STATUS_EXTRACT(<name of component of interest>)".
+! The space before MPI_STATUS_EXTRACT is compulsory to allow the C-preprocessor to identify the macro.
+! In Fortran, this space is ignored according to the standards.
+#if defined(__parallel) && defined(__USE_MPI_F08)
+#define MPI_DATA_TYPE TYPE(MPI_Datatype)
+#define MPI_COMM_TYPE TYPE(MPI_Comm)
+#define MPI_REQUEST_TYPE TYPE(MPI_Request)
+#define MPI_WIN_TYPE TYPE(MPI_Win)
+#define MPI_FILE_TYPE TYPE(MPI_File)
+#define MPI_INFO_TYPE TYPE(MPI_Info)
+#define MPI_STATUS_TYPE TYPE(MPI_Status)
+#define MPI_STATUS_TYPE_ARRAY(X) TYPE(MPI_Status),DIMENSION(X)
+#define MPI_GROUP_TYPE TYPE(MPI_Group)
+#define MPI_STATUS_EXTRACT(X) %X
+#else
+#define MPI_DATA_TYPE INTEGER
+#define MPI_COMM_TYPE INTEGER
+#define MPI_REQUEST_TYPE INTEGER
+#define MPI_WIN_TYPE INTEGER
+#define MPI_FILE_TYPE INTEGER
+#define MPI_INFO_TYPE INTEGER
+#define MPI_STATUS_TYPE INTEGER,DIMENSION(MPI_STATUS_SIZE)
+#define MPI_STATUS_TYPE_ARRAY(X) INTEGER,DIMENSION(MPI_STATUS_SIZE,X)
+#define MPI_GROUP_TYPE INTEGER
+#define MPI_STATUS_EXTRACT(X) (X)
 #endif
 
    IMPLICIT NONE
@@ -48,27 +100,23 @@ MODULE dbcsr_mpiwrap
 
    ! parameters that might be needed
 #if defined(__parallel)
-   INTEGER, PARAMETER     :: MP_STD_REAL = MPI_DOUBLE_PRECISION
-   INTEGER, PARAMETER     :: MP_STD_COMPLEX = MPI_DOUBLE_COMPLEX
-   INTEGER, PARAMETER     :: MP_STD_HALF_REAL = MPI_REAL
-   INTEGER, PARAMETER     :: MP_STD_HALF_COMPLEX = MPI_COMPLEX
-
    LOGICAL, PARAMETER :: dbcsr_is_parallel = .TRUE.
    INTEGER, PARAMETER, PUBLIC :: mp_any_tag = MPI_ANY_TAG
    INTEGER, PARAMETER, PUBLIC :: mp_any_source = MPI_ANY_SOURCE
-   INTEGER, PARAMETER :: mp_comm_null_handle = MPI_COMM_NULL
-   INTEGER, PARAMETER :: mp_comm_self_handle = MPI_COMM_SELF
-   INTEGER, PARAMETER :: mp_comm_world_handle = MPI_COMM_WORLD
-   INTEGER, PARAMETER :: mp_request_null_handle = MPI_REQUEST_NULL
-   INTEGER, PARAMETER :: mp_win_null_handle = MPI_WIN_NULL
-   INTEGER, PARAMETER :: mp_file_null_handle = MPI_FILE_NULL
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_null_handle = MPI_COMM_NULL
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_self_handle = MPI_COMM_SELF
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_world_handle = MPI_COMM_WORLD
+   MPI_REQUEST_TYPE, PARAMETER :: mp_request_null_handle = MPI_REQUEST_NULL
+   MPI_WIN_TYPE, PARAMETER :: mp_win_null_handle = MPI_WIN_NULL
+   MPI_FILE_TYPE, PARAMETER :: mp_file_null_handle = MPI_FILE_NULL
+   MPI_INFO_TYPE, PARAMETER :: mp_info_null_handle = MPI_INFO_NULL
+   MPI_DATA_TYPE, PARAMETER :: mp_datatype_null_handle = MPI_DATATYPE_NULL
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = MPI_STATUS_SIZE
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = MPI_PROC_NULL
    ! Set max allocatable memory by MPI to 2 GiByte
    INTEGER(KIND=MPI_ADDRESS_KIND), PARAMETER, PRIVATE :: mp_max_memory_size = HUGE(INT(1, KIND=int_4))
 
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = MPI_MAX_LIBRARY_VERSION_STRING
-   INTEGER, PARAMETER, PUBLIC :: mp_max_processor_name = MPI_MAX_PROCESSOR_NAME
 
    INTEGER, PARAMETER, PUBLIC :: file_offset = MPI_OFFSET_KIND
    INTEGER, PARAMETER, PUBLIC :: address_kind = MPI_ADDRESS_KIND
@@ -82,16 +130,17 @@ MODULE dbcsr_mpiwrap
    LOGICAL, PARAMETER :: dbcsr_is_parallel = .FALSE.
    INTEGER, PARAMETER, PUBLIC :: mp_any_tag = -1
    INTEGER, PARAMETER, PUBLIC :: mp_any_source = -2
-   INTEGER, PARAMETER :: mp_comm_null_handle = -3
-   INTEGER, PARAMETER :: mp_comm_self_handle = -11
-   INTEGER, PARAMETER :: mp_comm_world_handle = -12
-   INTEGER, PARAMETER :: mp_request_null_handle = -4
-   INTEGER, PARAMETER :: mp_win_null_handle = -5
-   INTEGER, PARAMETER :: mp_file_null_handle = -6
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_null_handle = -3
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_self_handle = -11
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_world_handle = -12
+   MPI_REQUEST_TYPE, PARAMETER :: mp_request_null_handle = -4
+   MPI_WIN_TYPE, PARAMETER :: mp_win_null_handle = -5
+   MPI_FILE_TYPE, PARAMETER :: mp_file_null_handle = -6
+   MPI_INFO_TYPE, PARAMETER :: mp_info_null_handle = -7
+   MPI_DATA_TYPE, PARAMETER :: mp_datatype_null_handle = -8
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = -7
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = -8
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = 1
-   INTEGER, PARAMETER, PUBLIC :: mp_max_processor_name = 1
 
    INTEGER, PARAMETER, PUBLIC :: file_offset = int_8
    INTEGER, PARAMETER, PUBLIC :: address_kind = int_8
@@ -106,7 +155,7 @@ MODULE dbcsr_mpiwrap
    ! MPI wrapper types (keep the handles private for to switch between serial mode/old mpi module and mpi_f08!)
    TYPE mp_comm_type
       PRIVATE
-      INTEGER :: handle = mp_comm_null_handle
+      MPI_COMM_TYPE :: handle = mp_comm_null_handle
    CONTAINS
       PROCEDURE, PUBLIC, PASS(comm), NON_OVERRIDABLE :: get_handle => mp_get_comm_handle
       PROCEDURE, PUBLIC, PASS(comm), NON_OVERRIDABLE :: set_handle => mp_set_comm_handle
@@ -118,7 +167,7 @@ MODULE dbcsr_mpiwrap
 
    TYPE mp_request_type
       PRIVATE
-      INTEGER :: handle = mp_request_null_handle
+      MPI_REQUEST_TYPE :: handle = mp_request_null_handle
    CONTAINS
       PROCEDURE, PUBLIC, PASS(request), NON_OVERRIDABLE :: get_handle => mp_get_request_handle
       PROCEDURE, PUBLIC, PASS(request), NON_OVERRIDABLE :: set_handle => mp_set_request_handle
@@ -130,7 +179,7 @@ MODULE dbcsr_mpiwrap
 
    TYPE mp_win_type
       PRIVATE
-      INTEGER :: handle = mp_win_null_handle
+      MPI_WIN_TYPE :: handle = mp_win_null_handle
    CONTAINS
       PROCEDURE, PUBLIC, PASS(win), NON_OVERRIDABLE :: get_handle => mp_get_win_handle
       PROCEDURE, PUBLIC, PASS(win), NON_OVERRIDABLE :: set_handle => mp_set_win_handle
@@ -142,7 +191,7 @@ MODULE dbcsr_mpiwrap
 
    TYPE mp_file_type
       PRIVATE
-      INTEGER :: handle = mp_file_null_handle
+      MPI_FILE_TYPE :: handle = mp_file_null_handle
    CONTAINS
       PROCEDURE, PUBLIC, PASS(file), NON_OVERRIDABLE :: get_handle => mp_get_file_handle
       PROCEDURE, PUBLIC, PASS(file), NON_OVERRIDABLE :: set_handle => mp_set_file_handle
@@ -152,12 +201,26 @@ MODULE dbcsr_mpiwrap
       GENERIC, PUBLIC :: OPERATOR(.NE.) => mp_file_op_ne
    END TYPE mp_file_type
 
+   TYPE mp_info_type
+      PRIVATE
+      MPI_INFO_TYPE :: handle = mp_info_null_handle
+   CONTAINS
+      PROCEDURE, PUBLIC, PASS(info), NON_OVERRIDABLE :: get_handle => mp_get_info_handle
+      PROCEDURE, PUBLIC, PASS(info), NON_OVERRIDABLE :: set_handle => mp_set_info_handle
+      PROCEDURE, PRIVATE, PASS(info1), NON_OVERRIDABLE :: mp_info_op_eq
+      GENERIC, PUBLIC :: OPERATOR(.EQ.) => mp_info_op_eq
+      PROCEDURE, PRIVATE, PASS(info1), NON_OVERRIDABLE :: mp_info_op_ne
+      GENERIC, PUBLIC :: OPERATOR(.NE.) => mp_info_op_ne
+   END TYPE mp_info_type
+
    ! The actual MPI wrapper constants
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_null = mp_comm_type(mp_comm_null_handle)
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_self = mp_comm_type(mp_comm_self_handle)
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_world = mp_comm_type(mp_comm_world_handle)
    TYPE(mp_request_type), PARAMETER, PUBLIC :: mp_request_null = mp_request_type(mp_request_null_handle)
    TYPE(mp_win_type), PARAMETER, PUBLIC :: mp_win_null = mp_win_type(mp_win_null_handle)
+   TYPE(mp_file_type), PARAMETER, PUBLIC :: mp_file_null = mp_file_type(mp_file_null_handle)
+   TYPE(mp_info_type), PARAMETER, PUBLIC :: mp_info_null = mp_info_type(mp_info_null_handle)
 
    ! we need to fix this to a given number (crossing fingers)
    ! so that the serial code using Fortran stream IO and the MPI have the same sizes.
@@ -176,6 +239,7 @@ MODULE dbcsr_mpiwrap
    PUBLIC :: mp_request_type
    PUBLIC :: mp_win_type
    PUBLIC :: mp_file_type
+   PUBLIC :: mp_info_type
 
    ! init and error
    PUBLIC :: mp_world_init, mp_world_finalize
@@ -409,7 +473,7 @@ MODULE dbcsr_mpiwrap
    END TYPE mp_indexing_meta_type
 
    TYPE mp_type_descriptor_type
-      INTEGER :: type_handle
+      MPI_DATA_TYPE :: type_handle
       INTEGER :: length
 #if defined(__parallel)
       INTEGER(kind=mpi_address_kind) :: base
@@ -481,121 +545,55 @@ MODULE dbcsr_mpiwrap
 
 CONTAINS
 
-   ELEMENTAL INTEGER FUNCTION mp_get_comm_handle(comm)
-      CLASS(mp_comm_type), INTENT(IN) :: comm
+   #:mute
+      #:set types = ["comm", "request", "win", "file", "info"]
+   #:endmute
+   #:for type in types
+   ELEMENTAL INTEGER FUNCTION mp_get_${type}$_handle(${type}$)
+      CLASS(mp_${type}$_type), INTENT(IN) :: ${type}$
 
-      mp_get_comm_handle = comm%handle
+#if defined(__parallel) && defined(__USE_MPI_F08)
+      mp_get_${type}$_handle = ${type}$%handle%mpi_val
+#else
+      mp_get_${type}$_handle = ${type}$%handle
+#endif
 
-   END FUNCTION mp_get_comm_handle
+   END FUNCTION mp_get_${type}$_handle
 
-   ELEMENTAL SUBROUTINE mp_set_comm_handle(comm, handle)
-      CLASS(mp_comm_type), INTENT(INOUT) :: comm
+   ELEMENTAL SUBROUTINE mp_set_${type}$_handle(${type}$, handle)
+      CLASS(mp_${type}$_type), INTENT(INOUT) :: ${type}$
       INTEGER, INTENT(IN) :: handle
 
-      comm%handle = handle
+#if defined(__parallel) && defined(__USE_MPI_F08)
+      ${type}$%handle%mpi_val = handle
+#else
+      ${type}$%handle = handle
+#endif
 
-   END SUBROUTINE mp_set_comm_handle
+   END SUBROUTINE mp_set_${type}$_handle
 
-   ELEMENTAL LOGICAL FUNCTION mp_comm_op_eq(comm1, comm2)
-      CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
+   ELEMENTAL IMPURE LOGICAL FUNCTION mp_${type}$_op_eq(${type}$1, ${type}$2)
+      CLASS(mp_${type}$_type), INTENT(IN) :: ${type}$1, ${type}$2
 
-      mp_comm_op_eq = (comm1%handle .EQ. comm2%handle)
+#if defined(__parallel) && defined(__USE_MPI_F08)
+      mp_${type}$_op_eq = (${type}$1%handle%mpi_val .EQ. ${type}$2%handle%mpi_val)
+#else
+      mp_${type}$_op_eq = (${type}$1%handle .EQ. ${type}$2%handle)
+#endif
 
-   END FUNCTION mp_comm_op_eq
+   END FUNCTION mp_${type}$_op_eq
 
-   ELEMENTAL LOGICAL FUNCTION mp_comm_op_ne(comm1, comm2)
-      CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
+   ELEMENTAL IMPURE LOGICAL FUNCTION mp_${type}$_op_ne(${type}$1, ${type}$2)
+      CLASS(mp_${type}$_type), INTENT(IN) :: ${type}$1, ${type}$2
 
-      mp_comm_op_ne = (comm1%handle .NE. comm2%handle)
+#if defined(__parallel) && defined(__USE_MPI_F08)
+      mp_${type}$_op_ne = (${type}$1%handle%mpi_val .NE. ${type}$2%handle%mpi_val)
+#else
+      mp_${type}$_op_ne = (${type}$1%handle .NE. ${type}$2%handle)
+#endif
 
-   END FUNCTION mp_comm_op_ne
-
-   ELEMENTAL INTEGER FUNCTION mp_get_request_handle(request)
-      CLASS(mp_request_type), INTENT(IN) :: request
-
-      mp_get_request_handle = request%handle
-
-   END FUNCTION mp_get_request_handle
-
-   ELEMENTAL SUBROUTINE mp_set_request_handle(request, handle)
-      CLASS(mp_request_type), INTENT(INOUT) :: request
-      INTEGER, INTENT(IN) :: handle
-
-      request%handle = handle
-
-   END SUBROUTINE mp_set_request_handle
-
-   ELEMENTAL LOGICAL FUNCTION mp_request_op_eq(request1, request2)
-      CLASS(mp_request_type), INTENT(IN) :: request1, request2
-
-      mp_request_op_eq = (request1%handle .EQ. request2%handle)
-
-   END FUNCTION mp_request_op_eq
-
-   ELEMENTAL LOGICAL FUNCTION mp_request_op_ne(request1, request2)
-      CLASS(mp_request_type), INTENT(IN) :: request1, request2
-
-      mp_request_op_ne = (request1%handle .NE. request2%handle)
-
-   END FUNCTION mp_request_op_ne
-
-   ELEMENTAL INTEGER FUNCTION mp_get_win_handle(win)
-      CLASS(mp_win_type), INTENT(IN) :: win
-
-      mp_get_win_handle = win%handle
-
-   END FUNCTION mp_get_win_handle
-
-   ELEMENTAL SUBROUTINE mp_set_win_handle(win, handle)
-      CLASS(mp_win_type), INTENT(INOUT) :: win
-      INTEGER, INTENT(IN) :: handle
-
-      win%handle = handle
-
-   END SUBROUTINE mp_set_win_handle
-
-   ELEMENTAL LOGICAL FUNCTION mp_win_op_eq(win1, win2)
-      CLASS(mp_win_type), INTENT(IN) :: win1, win2
-
-      mp_win_op_eq = (win1%handle .EQ. win2%handle)
-
-   END FUNCTION mp_win_op_eq
-
-   ELEMENTAL LOGICAL FUNCTION mp_win_op_ne(win1, win2)
-      CLASS(mp_win_type), INTENT(IN) :: win1, win2
-
-      mp_win_op_ne = (win1%handle .NE. win2%handle)
-
-   END FUNCTION mp_win_op_ne
-
-   ELEMENTAL INTEGER FUNCTION mp_get_file_handle(file)
-      CLASS(mp_file_type), INTENT(IN) :: file
-
-      mp_get_file_handle = file%handle
-
-   END FUNCTION mp_get_file_handle
-
-   ELEMENTAL SUBROUTINE mp_set_file_handle(file, handle)
-      CLASS(mp_file_type), INTENT(INOUT) :: file
-      INTEGER, INTENT(IN) :: handle
-
-      file%handle = handle
-
-   END SUBROUTINE mp_set_file_handle
-
-   ELEMENTAL LOGICAL FUNCTION mp_file_op_eq(file1, file2)
-      CLASS(mp_file_type), INTENT(IN) :: file1, file2
-
-      mp_file_op_eq = (file1%handle .EQ. file2%handle)
-
-   END FUNCTION mp_file_op_eq
-
-   ELEMENTAL LOGICAL FUNCTION mp_file_op_ne(file1, file2)
-      CLASS(mp_file_type), INTENT(IN) :: file1, file2
-
-      mp_file_op_ne = (file1%handle .NE. file2%handle)
-
-   END FUNCTION mp_file_op_ne
+   END FUNCTION mp_${type}$_op_ne
+      #:endfor
 
    SUBROUTINE mp_world_init(mp_comm)
       !! initializes the system default communicator
@@ -670,7 +668,7 @@ CONTAINS
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
-      INTEGER                                  :: newgroup, oldgroup
+      MPI_GROUP_TYPE                           :: newgroup, oldgroup
       TYPE(mp_comm_type)                       :: newcomm
 #endif
 
@@ -1113,7 +1111,7 @@ CONTAINS
                            ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_create @ "//routineN)
 
-      IF (comm_cart%handle /= MP_COMM_NULL%handle) THEN
+      IF (comm_cart /= MP_COMM_NULL) THEN
          debug_comm_count = debug_comm_count + 1
          CALL mpi_cart_get(comm_cart%handle, ndims, dims, period, pos, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_get @ "//routineN)
@@ -1272,8 +1270,9 @@ CONTAINS
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
-      INTEGER                                  :: g1, g2, i, n, n1, n2
+      INTEGER                                  :: i, n, n1, n2
       INTEGER, ALLOCATABLE, DIMENSION(:)       :: rin
+      MPI_GROUP_TYPE                           :: g1, g2
 #endif
 
       ierr = 0
@@ -1395,7 +1394,7 @@ CONTAINS
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: count
-      INTEGER, ALLOCATABLE, DIMENSION(:, :)    :: status
+      MPI_STATUS_TYPE_ARRAY(SIZE(requests))    :: status
 #endif
 
       ierr = 0
@@ -1403,10 +1402,8 @@ CONTAINS
 
 #if defined(__parallel)
       count = SIZE(requests)
-      ALLOCATE (status(MPI_STATUS_SIZE, count))
       CALL mpi_waitall_internal(count, requests, status, ierr) ! MPI_STATUSES_IGNORE openmpi workaround
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_waitall @ "//routineN)
-      DEALLOCATE (status)
 #else
       MARK_USED(requests)
 #endif
@@ -1422,7 +1419,7 @@ CONTAINS
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: count
-      INTEGER, ALLOCATABLE, DIMENSION(:, :)    :: status
+      MPI_STATUS_TYPE_ARRAY(SIZE(requests))    :: status
 #endif
 
       ierr = 0
@@ -1430,11 +1427,9 @@ CONTAINS
 
 #if defined(__parallel)
       count = SIZE(requests)
-      ALLOCATE (status(MPI_STATUS_SIZE, count))
 
       CALL mpi_waitall_internal(count, requests, status, ierr) ! MPI_STATUSES_IGNORE openmpi workaround
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_waitall @ "//routineN)
-      DEALLOCATE (status)
 #else
       MARK_USED(requests)
 #endif
@@ -1448,12 +1443,11 @@ CONTAINS
 
       INTEGER, INTENT(in)                                :: count
       TYPE(mp_request_type), DIMENSION(count), INTENT(inout)           :: array_of_requests
-      INTEGER, DIMENSION(MPI_STATUS_SIZE, *), &
-         INTENT(out)                                     :: array_of_statuses
+      MPI_STATUS_TYPE_ARRAY(*), INTENT(inout)            :: array_of_statuses
       INTEGER, INTENT(out)                               :: ierr
 
       INTEGER :: i
-      INTEGER, DIMENSION(count) :: request_handles
+      MPI_REQUEST_TYPE, DIMENSION(count) :: request_handles
 
       DO i = 1, count
          request_handles(i) = array_of_requests(i)%handle
@@ -1478,7 +1472,7 @@ CONTAINS
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: count, i
-      INTEGER, DIMENSION(SIZE(requests))       :: request_handles
+      MPI_REQUEST_TYPE, DIMENSION(SIZE(requests))       :: request_handles
 #endif
 
       ierr = 0
@@ -1624,11 +1618,11 @@ CONTAINS
       TYPE(mp_request_type), DIMENSION(count), INTENT(inout)           :: array_of_requests
       INTEGER, INTENT(out)                               :: index
       LOGICAL, INTENT(out)                               :: flag
-      INTEGER, DIMENSION(MPI_STATUS_SIZE), INTENT(out)   :: status
+      MPI_STATUS_TYPE                                    :: status
       INTEGER, INTENT(out)                               :: ierr
 
       INTEGER :: i
-      INTEGER, DIMENSION(count) :: request_handles
+      MPI_REQUEST_TYPE, DIMENSION(count) :: request_handles
 
       DO i = 1, count
          request_handles(i) = array_of_requests(i)%handle
@@ -1802,7 +1796,7 @@ CONTAINS
          !! the source of the possible incoming message, if MP_ANY_SOURCE it is a blocking one and return value is the source of the
          !! next incoming message if source is a different value it is a non-blocking probe retuning MP_ANY_SOURCE if there is no
          !! incoming message
-      TYPE(mp_comm_type), INTENT(IN)                      :: comm
+      TYPE(mp_comm_type), INTENT(IN)           :: comm
          !! the communicator
       INTEGER, INTENT(OUT)                     :: tag
          !! the tag of the incoming message
@@ -1811,7 +1805,7 @@ CONTAINS
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
-      INTEGER, DIMENSION(mp_status_size)       :: status_single
+      MPI_STATUS_TYPE                          :: status_single
       LOGICAL                                  :: flag
 #endif
 
@@ -1824,17 +1818,17 @@ CONTAINS
       IF (source .EQ. mp_any_source) THEN
          CALL mpi_probe(mp_any_source, mp_any_tag, comm%handle, status_single, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_probe @ "//routineN)
-         source = status_single(MPI_SOURCE)
-         tag = status_single(MPI_TAG)
+         source = status_single MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status_single MPI_STATUS_EXTRACT(MPI_TAG)
       ELSE
          flag = .FALSE.
          CALL mpi_iprobe(source, mp_any_tag, comm%handle, flag, status_single, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iprobe @ "//routineN)
          IF (flag .EQV. .FALSE.) THEN
             source = mp_any_source
-            tag = -1 !status_single(MPI_TAG) ! in case of flag==false status is undefined
+            tag = -1 !status_single MPI_STATUS_EXTRACT(MPI_TAG) ! in case of flag==false status is undefined
          ELSE
-            tag = status_single(MPI_TAG)
+            tag = status_single MPI_STATUS_EXTRACT(MPI_TAG)
          END IF
       END IF
 #else
@@ -2324,7 +2318,7 @@ CONTAINS
       !! Get a unique specifier for the actual (as opposed to virtual) node (MPI 2.1)
 
       CHARACTER(LEN=*), INTENT(OUT)                      :: procname
-         !! Name of processor, declared as CHARACTER(LEN=mp_max_processor_name)
+         !! Name of processor
       INTEGER, OPTIONAL, INTENT(OUT)                     :: resultlen
          !! Length (in characters) of procname (INTEGER)
 
@@ -2358,12 +2352,12 @@ CONTAINS
          !! path to the file
       INTEGER, INTENT(IN)                      :: amode_status
          !! access mode
-      INTEGER, INTENT(IN), OPTIONAL            :: info
+      TYPE(mp_info_type), INTENT(IN), OPTIONAL :: info
          !! info object
 
       INTEGER                                  :: ierr, istat
 #if defined(__parallel)
-      INTEGER                                  :: my_info
+      MPI_INFO_TYPE                            :: my_info
 #else
       CHARACTER(LEN=10)                        :: fstatus, fposition
       INTEGER                                  :: amode, file_handle
@@ -2374,7 +2368,7 @@ CONTAINS
       istat = 0
 #if defined(__parallel)
       my_info = mpi_info_null
-      IF (PRESENT(info)) my_info = info
+      IF (PRESENT(info)) my_info = info%handle
       CALL mpi_file_open(groupid%handle, filepath, amode_status, my_info, fh%handle, ierr)
       CALL mpi_file_set_errhandler(fh%handle, MPI_ERRORS_RETURN, ierr)
       IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_file_set_errhandler @ mp_file_open")
@@ -2411,19 +2405,19 @@ CONTAINS
 
       CHARACTER(LEN=*), INTENT(IN)             :: filepath
          !! path to the file
-      INTEGER, INTENT(IN), OPTIONAL            :: info
+      TYPE(mp_info_type), INTENT(IN), OPTIONAL :: info
          !! info object
 
 #if defined(__parallel)
       INTEGER                                  :: ierr
-      INTEGER                                  :: my_info
+      MPI_INFO_TYPE                            :: my_info
       LOGICAL                                  :: exists
 #endif
 
 #if defined(__parallel)
       ierr = 0
       my_info = mpi_info_null
-      IF (PRESENT(info)) my_info = info
+      IF (PRESENT(info)) my_info = info%handle
       INQUIRE (FILE=filepath, EXIST=exists)
       IF (exists) CALL mpi_file_delete(filepath, my_info, ierr)
       IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_file_set_errhandler @ mp_file_delete")
@@ -2610,7 +2604,8 @@ CONTAINS
       INTEGER(kind=mpi_address_kind), &
          ALLOCATABLE, DIMENSION(:)              :: displacements
 #endif
-      INTEGER, ALLOCATABLE, DIMENSION(:)       :: lengths, old_types
+      INTEGER, DIMENSION(SIZE(subtypes))       :: lengths
+      MPI_DATA_TYPE, DIMENSION(SIZE(subtypes)) :: old_types
 
       ierr = 0
       n = SIZE(subtypes)
@@ -2626,7 +2621,6 @@ CONTAINS
       type_descriptor%has_indexing = .FALSE.
       ALLOCATE (type_descriptor%subtype(n))
       type_descriptor%subtype(:) = subtypes(:)
-      ALLOCATE (lengths(n), old_types(n))
       DO i = 1, SIZE(subtypes)
 #if defined(__parallel)
          displacements(i) = subtypes(i)%base
@@ -3095,7 +3089,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -3103,13 +3097,11 @@ CONTAINS
 
          msglen = 1
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, ${mpi_type1}$, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*${bytes1}$)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -3134,7 +3126,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -3142,13 +3134,11 @@ CONTAINS
 
          msglen = SIZE(msg)
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, ${mpi_type1}$, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*${bytes1}$)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -5155,11 +5145,10 @@ CONTAINS
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
          INTEGER                                  :: len, &
-                                                     handle_origin_datatype, &
-                                                     handle_target_datatype, &
                                                      origin_len, target_len
          LOGICAL                                  :: do_local_copy
          INTEGER(kind=mpi_address_kind)           :: disp_aint
+         MPI_DATA_TYPE                             :: handle_origin_datatype, handle_target_datatype
 #endif
 
          ierr = 0
@@ -5539,9 +5528,10 @@ CONTAINS
          !! allocation status result
 
          INTEGER                                  :: size, ierr, length, &
-                                                     mp_info, mp_res
+                                                     mp_res
          INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
          TYPE(C_PTR)                              :: mp_baseptr
+         MPI_INFO_TYPE                            :: mp_info
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(${mpi_type1}$, size, ierr)
