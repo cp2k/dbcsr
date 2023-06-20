@@ -1927,7 +1927,7 @@ CONTAINS
 
       msglen = SIZE(msgin, 1)
       IF (msglen > 0) THEN
-         CALL mpi_isend(msgin(1), msglen, MPI_LOGICAL, dest, my_tag, &
+         CALL mpi_isend(msgin, msglen, MPI_LOGICAL, dest, my_tag, &
                         comm%handle, request%handle, ierr)
       ELSE
          CALL mpi_isend(foo, msglen, MPI_LOGICAL, dest, my_tag, &
@@ -1983,7 +1983,7 @@ CONTAINS
 
       msglen = SIZE(msgout, 1)
       IF (msglen > 0) THEN
-         CALL mpi_irecv(msgout(1), msglen, MPI_LOGICAL, source, my_tag, &
+         CALL mpi_irecv(msgout, msglen, MPI_LOGICAL, source, my_tag, &
                         comm%handle, request%handle, ierr)
       ELSE
          CALL mpi_irecv(foo, msglen, MPI_LOGICAL, source, my_tag, &
@@ -4847,7 +4847,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, ${mpi_type1}$, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, ${mpi_type1}$, source, my_tag, &
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, ${mpi_type1}$, source, my_tag, &
@@ -4857,7 +4857,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, ${mpi_type1}$, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, ${mpi_type1}$, dest, my_tag, &
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, ${mpi_type1}$, dest, my_tag, &
@@ -4909,7 +4909,7 @@ CONTAINS
 
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, ${mpi_type1}$, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, ${mpi_type1}$, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, ${mpi_type1}$, dest, my_tag, &
@@ -4963,7 +4963,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1, 1), msglen, ${mpi_type1}$, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, ${mpi_type1}$, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, ${mpi_type1}$, dest, my_tag, &
@@ -5015,7 +5015,7 @@ CONTAINS
 
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, ${mpi_type1}$, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, ${mpi_type1}$, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, ${mpi_type1}$, source, my_tag, &
@@ -5068,7 +5068,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1, 1), msglen, ${mpi_type1}$, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, ${mpi_type1}$, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, ${mpi_type1}$, source, my_tag, &
@@ -5113,7 +5113,7 @@ CONTAINS
 
          len = SIZE(base)*${bytes1}$
          IF (len > 0) THEN
-            CALL mpi_win_create(base(1), len, ${bytes1}$, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+            CALL mpi_win_create(base, len, ${bytes1}$, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          ELSE
             CALL mpi_win_create(foo, len, ${bytes1}$, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          END IF
@@ -5192,7 +5192,7 @@ CONTAINS
                request = mp_request_null
                ierr = 0
             ELSE
-               CALL mpi_rget(base(1), origin_len, handle_origin_datatype, source, disp_aint, &
+               CALL mpi_rget(base, origin_len, handle_origin_datatype, source, disp_aint, &
                              target_len, handle_target_datatype, win%handle, request%handle, ierr)
             END IF
          ELSE
