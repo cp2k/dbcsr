@@ -549,51 +549,51 @@ CONTAINS
       #:set types = ["comm", "request", "win", "file", "info"]
    #:endmute
    #:for type in types
-   ELEMENTAL INTEGER FUNCTION mp_get_${type}$_handle(${type}$)
-      CLASS(mp_${type}$_type), INTENT(IN) :: ${type}$
+      ELEMENTAL INTEGER FUNCTION mp_get_${type}$_handle(${type}$)
+         CLASS(mp_${type}$_type), INTENT(IN) :: ${type}$
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
-      mp_get_${type}$_handle = ${type}$%handle%mpi_val
+         mp_get_${type}$_handle = ${type}$%handle%mpi_val
 #else
-      mp_get_${type}$_handle = ${type}$%handle
+         mp_get_${type}$_handle = ${type}$%handle
 #endif
 
-   END FUNCTION mp_get_${type}$_handle
+      END FUNCTION mp_get_${type}$_handle
 
-   ELEMENTAL SUBROUTINE mp_set_${type}$_handle(${type}$, handle)
-      CLASS(mp_${type}$_type), INTENT(INOUT) :: ${type}$
-      INTEGER, INTENT(IN) :: handle
+      ELEMENTAL SUBROUTINE mp_set_${type}$_handle(${type}$, handle)
+         CLASS(mp_${type}$_type), INTENT(INOUT) :: ${type}$
+         INTEGER, INTENT(IN) :: handle
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
-      ${type}$%handle%mpi_val = handle
+         ${type}$%handle%mpi_val = handle
 #else
-      ${type}$%handle = handle
+         ${type}$%handle = handle
 #endif
 
-   END SUBROUTINE mp_set_${type}$_handle
+      END SUBROUTINE mp_set_${type}$_handle
 
-   ELEMENTAL IMPURE LOGICAL FUNCTION mp_${type}$_op_eq(${type}$1, ${type}$2)
-      CLASS(mp_${type}$_type), INTENT(IN) :: ${type}$1, ${type}$2
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_${type}$_op_eq(${type}$1, ${type}$2)
+         CLASS(mp_${type}$_type), INTENT(IN) :: ${type}$1, ${type}$2
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
-      mp_${type}$_op_eq = (${type}$1%handle%mpi_val .EQ. ${type}$2%handle%mpi_val)
+         mp_${type}$_op_eq = (${type}$1%handle%mpi_val .EQ. ${type}$2%handle%mpi_val)
 #else
-      mp_${type}$_op_eq = (${type}$1%handle .EQ. ${type}$2%handle)
+         mp_${type}$_op_eq = (${type}$1%handle .EQ. ${type}$2%handle)
 #endif
 
-   END FUNCTION mp_${type}$_op_eq
+      END FUNCTION mp_${type}$_op_eq
 
-   ELEMENTAL IMPURE LOGICAL FUNCTION mp_${type}$_op_ne(${type}$1, ${type}$2)
-      CLASS(mp_${type}$_type), INTENT(IN) :: ${type}$1, ${type}$2
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_${type}$_op_ne(${type}$1, ${type}$2)
+         CLASS(mp_${type}$_type), INTENT(IN) :: ${type}$1, ${type}$2
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
-      mp_${type}$_op_ne = (${type}$1%handle%mpi_val .NE. ${type}$2%handle%mpi_val)
+         mp_${type}$_op_ne = (${type}$1%handle%mpi_val .NE. ${type}$2%handle%mpi_val)
 #else
-      mp_${type}$_op_ne = (${type}$1%handle .NE. ${type}$2%handle)
+         mp_${type}$_op_ne = (${type}$1%handle .NE. ${type}$2%handle)
 #endif
 
-   END FUNCTION mp_${type}$_op_ne
-      #:endfor
+      END FUNCTION mp_${type}$_op_ne
+   #:endfor
 
    SUBROUTINE mp_world_init(mp_comm)
       !! initializes the system default communicator
