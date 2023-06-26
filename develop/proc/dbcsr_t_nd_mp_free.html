@@ -176,8 +176,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~22"></span>
-              integer,
+              <span class="anchor" id="variable-mp_comm~24"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -239,7 +239,7 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_t_nd_mp_free</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="c">!! Release the MPI communicator.</span>
-<span class="w">            </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_comm</span><span class="w"></span>
+<span class="w">            </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_comm</span><span class="w"></span>
 
 <span class="w">            </span><span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">)</span><span class="w"></span>
 <span class="w">         </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_t_nd_mp_free</span><span class="w"></span>

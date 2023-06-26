@@ -59,6 +59,7 @@ MODULE dbcsr_operations
       dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
       dbcsr_row_block_offsets, dbcsr_valid_index, dbcsr_get_nze, dbcsr_nfullcols_local, &
       dbcsr_nfullrows_local, dbcsr_get_num_blocks, dbcsr_release, dbcsr_wm_use_mutable
+   USE dbcsr_mpiwrap, ONLY: mp_comm_type
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_group, &
                                dbcsr_mp_mynode, &
                                dbcsr_mp_mypcol, &
@@ -199,8 +200,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
-# 196 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
-# 197 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 197 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
+# 198 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       FUNCTION make_conformant_scalar_d (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -222,7 +223,7 @@ CONTAINS
          END IF
          CALL dbcsr_scalar_set_type(encapsulated, data_type)
       END FUNCTION make_conformant_scalar_d
-# 197 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 198 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       FUNCTION make_conformant_scalar_s (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -244,7 +245,7 @@ CONTAINS
          END IF
          CALL dbcsr_scalar_set_type(encapsulated, data_type)
       END FUNCTION make_conformant_scalar_s
-# 197 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 198 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       FUNCTION make_conformant_scalar_z (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -266,7 +267,7 @@ CONTAINS
          END IF
          CALL dbcsr_scalar_set_type(encapsulated, data_type)
       END FUNCTION make_conformant_scalar_z
-# 197 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 198 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       FUNCTION make_conformant_scalar_c (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -288,7 +289,7 @@ CONTAINS
          END IF
          CALL dbcsr_scalar_set_type(encapsulated, data_type)
       END FUNCTION make_conformant_scalar_c
-# 219 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 220 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
    SUBROUTINE dbcsr_add_block_node(matrix, block_row, block_col, block)
       !! Emulation of sparse_matrix_types/add_block_node mapped
@@ -2460,10 +2461,11 @@ CONTAINS
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sum_replicated'
 
-      INTEGER                                            :: comm, handle, index_checksum, mynode, &
+      INTEGER                                            :: handle, index_checksum, mynode, &
                                                             numnodes
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: all_checksums
       TYPE(dbcsr_mp_obj)                                 :: mp
+      TYPE(mp_comm_type)                                 :: comm
 
 !   ---------------------------------------------------------------------------
 
@@ -2541,7 +2543,7 @@ CONTAINS
          !! matrix type (regular, symmetric, see dbcsr_types.F for values)
       INTEGER, OPTIONAL                                  :: data_type
          !! data type (single/double precision real/complex)
-      INTEGER, INTENT(OUT), OPTIONAL                     :: group
+      TYPE(mp_comm_type), INTENT(OUT), OPTIONAL                     :: group
 
 !   ---------------------------------------------------------------------------
 
@@ -2711,8 +2713,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
-# 2636 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
-# 2637 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2638 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
+# 2639 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_d (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3205,7 +3207,7 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_d
-# 2637 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2639 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_s (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3698,7 +3700,7 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_s
-# 2637 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2639 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_z (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4191,7 +4193,7 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_z
-# 2637 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2639 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_c (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4684,6 +4686,6 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_c
-# 3130 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 3132 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 END MODULE dbcsr_operations

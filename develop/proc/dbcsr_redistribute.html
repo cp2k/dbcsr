@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.3% of total for procedures.">157 statements</a>
+               title=" 0.3% of total for procedures.">158 statements</a>
           </li>
 
             <li id="source-file">
@@ -178,7 +178,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~42"></span>
+              <span class="anchor" id="variable-matrix~79"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -267,7 +267,7 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">metalen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">dbg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"></span>
 
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">blk_ps</span><span class="p">,</span><span class="w"> </span><span class="n">blks</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">dst_p</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">meta_l</span><span class="p">,</span><span class="w"> </span><span class="n">mp_group</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">blk_ps</span><span class="p">,</span><span class="w"> </span><span class="n">blks</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">dst_p</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">meta_l</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                 </span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">src_p</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col_new</span><span class="p">,</span><span class="w"> </span><span class="n">stored_row_new</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">rd_disp</span><span class="p">,</span><span class="w"> </span><span class="n">recv_meta</span><span class="p">,</span><span class="w"> </span><span class="n">rm_disp</span><span class="p">,</span><span class="w"> </span><span class="n">sd_disp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                                            </span><span class="n">sdp</span><span class="p">,</span><span class="w"> </span><span class="n">send_meta</span><span class="p">,</span><span class="w"> </span><span class="n">sm_disp</span><span class="p">,</span><span class="w"> </span><span class="n">smp</span><span class="w"></span>
@@ -281,6 +281,7 @@
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">dist_new</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_obj_new</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_group</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 

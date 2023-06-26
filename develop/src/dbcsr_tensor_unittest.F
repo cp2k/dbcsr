@@ -18,7 +18,7 @@ PROGRAM dbcsr_tensor_unittest
                             mp_comm_free, &
                             mp_environ, &
                             mp_world_finalize, &
-                            mp_world_init
+                            mp_world_init, mp_comm_type
    USE dbcsr_tensor_test, ONLY: dbcsr_t_contract_test, &
                                 dbcsr_t_setup_test_tensor, &
                                 dbcsr_t_test_formats, &
@@ -33,7 +33,7 @@ PROGRAM dbcsr_tensor_unittest
 
    IMPLICIT NONE
 
-   INTEGER                            :: mp_comm, numnodes, mynode, io_unit
+   INTEGER                            :: numnodes, mynode, io_unit
    INTEGER                            :: ndims, nblks_alloc, nblks_1, nblks_2, nblks_3, nblks_4, nblks_5, &
                                          nblks_alloc_1, nblks_alloc_2, nblks_alloc_3, nblks_alloc_4, nblks_alloc_5
    INTEGER, DIMENSION(:), ALLOCATABLE :: size_1, size_2, size_3, size_4, size_5, dist1_1, dist1_2, dist1_3, &
@@ -57,6 +57,7 @@ PROGRAM dbcsr_tensor_unittest
    TYPE(dbcsr_t_pgrid_type)           :: pgrid_2d, pgrid_3d, pgrid_4d
    INTEGER, DIMENSION(:), ALLOCATABLE :: bounds_t
    INTEGER, DIMENSION(:, :), ALLOCATABLE :: bounds, bounds_1, bounds_2
+   TYPE(mp_comm_type)                 :: mp_comm
 
    CALL mp_world_init(mp_comm)
    CALL mp_environ(numnodes, mynode, mp_comm)
@@ -66,7 +67,7 @@ PROGRAM dbcsr_tensor_unittest
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
    ! initialize libdbcsr
-   CALL dbcsr_init_lib(mp_comm, io_unit)
+   CALL dbcsr_init_lib(mp_comm%get_handle(), io_unit)
 
    CALL dbcsr_t_reset_randmat_seed()
 

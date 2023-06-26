@@ -782,6 +782,7 @@ back-converted matrix is calculated.</p></td></tr>
 distributed DBCSR matrix</p></td></tr>
 			   <tr><td><a href='../proc/csr_create_from_dbcsr.html'>csr_create_from_dbcsr</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>create CSR matrix including dbcsr_mapping from arbitrary DBCSR matrix
 in order to prepare conversion.</p></td></tr>
+			   <tr><td><a href='../proc/csr_create_new~2.html'>csr_create_new</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/csr_create_new.html'>csr_create_new</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Create a new CSR matrix and allocate all internal data (excluding dbcsr_mapping)</p></td></tr>
 			   <tr><td><a href='../proc/csr_create_nzerow.html'>csr_create_nzerow</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>create a vector containing the number of non-zero elements in each
 row of a CSR matrix</p></td></tr>
@@ -1231,8 +1232,12 @@ distribution</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_index_compact.html'>dbcsr_index_compact</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Compacts an index.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_index_prune_deleted.html'>dbcsr_index_prune_deleted</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Removes the deleted blocks from the index.</p><a href="../proc/dbcsr_index_prune_deleted.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../interface/dbcsr_init_lib.html'>dbcsr_init_lib</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_init_lib_def.html'>dbcsr_init_lib_def</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Initialize the DBCSR library using internal loggers and timer callbacks</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_init_lib_hooks.html'>dbcsr_init_lib_hooks</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Initialize the DBCSR library using external loggers and timer callbacks</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_init_lib_def.html'>dbcsr_init_lib_def</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Initialize the DBCSR library using internal loggers and timer callbacks
+We do not need this routine within the library, so we keep the communicator as a handle
+and convert it here to a communicator type</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_init_lib_hooks.html'>dbcsr_init_lib_hooks</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Initialize the DBCSR library using external loggers and timer callbacks
+We do not need this routine within the library, so we keep the communicator as a handle
+and convert it here to a communicator type</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_init_lib_low.html'>dbcsr_init_lib_low</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Initialize the DBCSR library
 Prepares the DBCSR library for use.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_init_lib_pre.html'>dbcsr_init_lib_pre</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Initialize the DBCSR library
@@ -1542,6 +1547,7 @@ the default logger is what it has
 been</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_row_block_offsets.html'>dbcsr_row_block_offsets</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_row_block_sizes.html'>dbcsr_row_block_sizes</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_run_tests~2.html'>dbcsr_run_tests</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a></td><td><a href='../module/dbcsr_tests.html'>dbcsr_tests</a></td><td>Subroutine</td><td><p>Performs a variety of matrix multiplies of same matrices on different
 processor grids</p></td></tr>
 			   <tr><td><a href='../interface/dbcsr_scalar.html'>dbcsr_scalar</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Interface</td><td><p>Encapsulates a scalar.</p></td></tr>
@@ -1749,6 +1755,7 @@ of a tensor, imposing that no process grid dimension is greater than the corresp
 tensor dimension.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nblks_local.html'>dbcsr_t_nblks_local</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>local number of blocks along dimension idim</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nblks_total.html'>dbcsr_t_nblks_total</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>total numbers of blocks along dimension idim</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm~2.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>Create a default nd process topology that is consistent with a given 2d topology.
 Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
 matrix with the given 2d topology.
@@ -1757,7 +1764,9 @@ This is needed to enable contraction of 2 tensors (must have the same 2d process
 			   <tr><td><a href='../proc/dbcsr_t_nd_mp_free.html'>dbcsr_t_nd_mp_free</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Release the MPI communicator.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_permute_index.html'>dbcsr_t_permute_index</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Create new tensor by reordering index, data is copied exactly (shallow copy)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_change_dims.html'>dbcsr_t_pgrid_change_dims</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>change dimensions of an existing process grid.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create~2.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create_expert~2.html'>dbcsr_t_pgrid_create_expert</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgrid_create_expert</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create an n-dimensional process grid.
 We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
 n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
@@ -2604,6 +2613,8 @@ same data</p><a href="../proc/mp_allgatherv_zv.html" class="pull-right"><emph>Re
 			   <tr><td><a href='../proc/mp_comm_compare.html'>mp_comm_compare</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_comm_dup.html'>mp_comm_dup</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_comm_free.html'>mp_comm_free</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_comm_op_eq.html'>mp_comm_op_eq</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_comm_op_ne.html'>mp_comm_op_ne</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_comm_split.html'>mp_comm_split</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>splits the given communicator in group in subgroups trying to organize
 them in a way that the communication within each subgroup is
 efficient (but not necessarily the communication between subgroups)
@@ -2630,6 +2641,8 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
 Only the master processor should call this routine.</p></td></tr>
 			   <tr><td><a href='../proc/mp_file_get_position.html'>mp_file_get_position</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Returns the file position</p><a href="../proc/mp_file_get_position.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/mp_file_get_size.html'>mp_file_get_size</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Returns the file size</p><a href="../proc/mp_file_get_size.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+			   <tr><td><a href='../proc/mp_file_op_eq.html'>mp_file_op_eq</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_file_op_ne.html'>mp_file_op_ne</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_file_open.html'>mp_file_open</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Opens a file</p><a href="../proc/mp_file_open.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../interface/mp_file_read_at_all.html'>mp_file_read_at_all</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_file_read_at_all_c.html'>mp_file_read_at_all_c</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
@@ -2718,8 +2731,12 @@ Only the master processor should call this routine.</p></td></tr>
 			   <tr><td><a href='../proc/mp_gatherv_rv.html'>mp_gatherv_rv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers data from all processes to one.</p><a href="../proc/mp_gatherv_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/mp_gatherv_zv.html'>mp_gatherv_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers data from all processes to one.</p><a href="../proc/mp_gatherv_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/mp_get_comm_count.html'>mp_get_comm_count</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td><p>Return the current number of communicators</p></td></tr>
+			   <tr><td><a href='../proc/mp_get_comm_handle.html'>mp_get_comm_handle</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_get_file_handle.html'>mp_get_file_handle</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_get_library_version.html'>mp_get_library_version</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Get Version of the MPI Library (MPI 3)</p></td></tr>
 			   <tr><td><a href='../proc/mp_get_processor_name.html'>mp_get_processor_name</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Get a unique specifier for the actual (as opposed to virtual) node (MPI 2.1)</p></td></tr>
+			   <tr><td><a href='../proc/mp_get_request_handle.html'>mp_get_request_handle</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_get_win_handle.html'>mp_get_win_handle</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../interface/mp_iallgather.html'>mp_iallgather</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_iallgather_c.html'>mp_iallgather_c</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers a datum from all processes and all processes receive the
 same data</p><a href="../proc/mp_iallgather_c.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
@@ -3058,6 +3075,8 @@ then replicates the result.</p><a href="../proc/mp_prod_z.html" class="pull-righ
 			   <tr><td><a href='../proc/mp_reordering.html'>mp_reordering</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>re-create the system default communicator with a different MPI
 rank order
 </p><a href="../proc/mp_reordering.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+			   <tr><td><a href='../proc/mp_request_op_eq.html'>mp_request_op_eq</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_request_op_ne.html'>mp_request_op_ne</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../interface/mp_rget.html'>mp_rget</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_rget_cv.html'>mp_rget_cv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Single-sided get function for vector data
 </p><a href="../proc/mp_rget_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
@@ -3097,6 +3116,10 @@ rank order
 			   <tr><td><a href='../proc/mp_sendrecv_lv.html'>mp_sendrecv_lv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sends and receives vector data</p></td></tr>
 			   <tr><td><a href='../proc/mp_sendrecv_rv.html'>mp_sendrecv_rv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sends and receives vector data</p></td></tr>
 			   <tr><td><a href='../proc/mp_sendrecv_zv.html'>mp_sendrecv_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sends and receives vector data</p></td></tr>
+			   <tr><td><a href='../proc/mp_set_comm_handle.html'>mp_set_comm_handle</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_set_file_handle.html'>mp_set_file_handle</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_set_request_handle.html'>mp_set_request_handle</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_set_win_handle.html'>mp_set_win_handle</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_stop.html'>mp_stop</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>stops <em>after an mpi error</em> translating the error code
 </p><a href="../proc/mp_stop.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../interface/mp_sum.html'>mp_sum</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
@@ -3241,6 +3264,8 @@ We use mpi_test so that we can use a single status.</p></td></tr>
 			   <tr><td><a href='../proc/mp_win_flush_all.html'>mp_win_flush_all</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Window flush</p></td></tr>
 			   <tr><td><a href='../proc/mp_win_free.html'>mp_win_free</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Window free</p></td></tr>
 			   <tr><td><a href='../proc/mp_win_lock_all.html'>mp_win_lock_all</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Window lock</p></td></tr>
+			   <tr><td><a href='../proc/mp_win_op_eq.html'>mp_win_op_eq</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/mp_win_op_ne.html'>mp_win_op_ne</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/mp_win_unlock_all.html'>mp_win_unlock_all</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Window lock</p></td></tr>
 			   <tr><td><a href='../proc/mp_world_finalize.html'>mp_world_finalize</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>finalizes the system default communicator</p></td></tr>
 			   <tr><td><a href='../proc/mp_world_init.html'>mp_world_init</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>initializes the system default communicator
@@ -3432,8 +3457,8 @@ considered.
 			   <tr><td><a href='../proc/stream_array_force_size.html'>stream_array_force_size</a></td><td><a href='../module/dbcsr_mm_accdrv.html'>dbcsr_mm_accdrv</a></td><td>Subroutine</td><td><p>Helper routine</p></td></tr>
 			   <tr><td><a href='../interface/stringify.html'>stringify</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/sum_of_arrays.html'>sum_of_arrays</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>sum of all elements for each array stored in list</p></td></tr>
-			   <tr><td><a href='../interface/swap.html'>swap</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/swap~2.html'>swap</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/swap.html'>swap</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/swap~2.html'>swap</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/swap_buffers.html'>swap_buffers</a></td><td><a href='../module/dbcsr_mm_3d.html'>dbcsr_mm_3d</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/swap_i.html'>swap_i</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/swap_i8.html'>swap_i8</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td></td></tr>

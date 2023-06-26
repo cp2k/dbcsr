@@ -252,8 +252,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~280"></span>
-              integer,
+              <span class="anchor" id="variable-gid~132"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -321,7 +321,7 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">scount</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">recv_data</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">recv_count</span><span class="p">,</span><span class="w"> </span><span class="n">recv_displ</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">gid</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">gid</span><span class="w"></span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">send_data</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">recv_data</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Data type mismatch&quot;</span><span class="p">)</span><span class="w"></span>

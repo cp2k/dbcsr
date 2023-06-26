@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-base~5"></span>
+              <span class="anchor" id="variable-base~10"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -192,8 +192,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~40"></span>
-              integer,
+              <span class="anchor" id="variable-comm~46"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -207,10 +207,10 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-win~5"></span>
-              integer,
+              <span class="anchor" id="variable-win~9"></span>
+              type(<a href='../type/mp_win_type.html'>mp_win_type</a>),
             </td>
-<td>intent(inout)</td>
+<td>intent(out)</td>
               <td></td>            <td>
               
             </td>
@@ -274,8 +274,8 @@
 <span class="w">      </span><span class="c">!! arrays can be pointers or assumed shape, but they must be contiguous!</span>
 
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">base</span><span class="w"></span>
-<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">comm</span><span class="w"></span>
-<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">win</span><span class="w"></span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">comm</span><span class="w"></span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_win_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">win</span><span class="w"></span>
 
 <span class="w">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mp_win_create_iv&#39;</span><span class="w"></span>
 
@@ -292,9 +292,9 @@
 
 <span class="w">         </span><span class="nb">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">)</span><span class="o">*</span><span class="n">int_4_size</span><span class="w"></span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="n">int_4_size</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INFO_NULL</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="k">            CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="n">int_4_size</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INFO_NULL</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
 <span class="w">         </span><span class="k">ELSE</span>
-<span class="k">            CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="n">int_4_size</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INFO_NULL</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="k">            CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="n">int_4_size</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INFO_NULL</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span><span class="w"></span>
 <span class="cp">#else</span>

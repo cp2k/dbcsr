@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title="<p> 0.9% of total for derived types.</p>Including implementation: 10 statements,  0.6% of total for derived types.">10 statements</a>
+               title="<p> 1.0% of total for derived types.</p>Including implementation: 11 statements,  0.6% of total for derived types.">11 statements</a>
           </li>
 
             <li id="source-file">
@@ -137,7 +137,7 @@
             <a class="list-group-item" href="../type/csr_type.html#variable-ncols_total~2">ncols_total</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-nze_local~2">nze_local</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-nrows_local~2">nrows_local</a>
-            <a class="list-group-item" href="../type/csr_type.html#variable-mp_group~4">mp_group</a>
+            <a class="list-group-item" href="../type/csr_type.html#variable-mp_group~2">mp_group</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-nze_total~2">nze_total</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-rowptr_local">rowptr_local</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-colind_local">colind_local</a>
@@ -200,7 +200,7 @@
             <a class="list-group-item" href="../type/csr_type.html#variable-ncols_total~2">ncols_total</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-nze_local~2">nze_local</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-nrows_local~2">nrows_local</a>
-            <a class="list-group-item" href="../type/csr_type.html#variable-mp_group~4">mp_group</a>
+            <a class="list-group-item" href="../type/csr_type.html#variable-mp_group~2">mp_group</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-nze_total~2">nze_total</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-rowptr_local">rowptr_local</a>
             <a class="list-group-item" href="../type/csr_type.html#variable-colind_local">colind_local</a>
@@ -271,8 +271,7 @@
                 <p>total number of rows
 total number of columns
 local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+local number of rows</p>
             </td>
         </tr>
         <tr>
@@ -292,8 +291,7 @@ message-passing group ID</p>
                 <p>total number of rows
 total number of columns
 local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+local number of rows</p>
             </td>
         </tr>
         <tr>
@@ -313,8 +311,7 @@ message-passing group ID</p>
                 <p>total number of rows
 total number of columns
 local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+local number of rows</p>
             </td>
         </tr>
         <tr>
@@ -334,14 +331,13 @@ message-passing group ID</p>
                 <p>total number of rows
 total number of columns
 local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+local number of rows</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~4"></span>
-              integer,
+              <span class="anchor" id="variable-mp_group~2"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -352,11 +348,7 @@ message-passing group ID</p>
                 <td></td>
                 <td></td>
             <td>
-                <p>total number of rows
-total number of columns
-local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+                <p>message-passing group ID</p>
             </td>
         </tr>
         <tr>
@@ -530,11 +522,12 @@ column indices of elements inside nzval_local</p>
 <span class="w">      </span><span class="c">!! Type for CSR matrices</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">nrows_total</span><span class="p">,</span><span class="w"> </span><span class="n">ncols_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                  </span><span class="n">nze_local</span><span class="p">,</span><span class="w"> </span><span class="n">nrows_local</span><span class="p">,</span><span class="w"> </span><span class="n">mp_group</span><span class="w"></span>
+<span class="w">                                                  </span><span class="n">nze_local</span><span class="p">,</span><span class="w"> </span><span class="n">nrows_local</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! total number of rows</span>
 <span class="w">         </span><span class="c">!! total number of columns</span>
 <span class="w">         </span><span class="c">!! local number of nonzero elements</span>
 <span class="w">         </span><span class="c">!! local number of rows</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_group</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! message-passing group ID</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nze_total</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! total number of nonzero elements</span>

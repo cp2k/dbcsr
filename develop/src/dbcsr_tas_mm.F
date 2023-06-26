@@ -52,7 +52,7 @@ MODULE dbcsr_tas_mm
    USE dbcsr_kinds, ONLY: &
       int_8, real_8, real_4, default_string_length
    USE dbcsr_mpiwrap, ONLY: &
-      mp_comm_compare, mp_environ, mp_sum, mp_comm_free, mp_cart_create, mp_max, mp_sync
+      mp_environ, mp_sum, mp_comm_free, mp_cart_create, mp_max, mp_sync, mp_comm_type
    USE dbcsr_operations, ONLY: &
       dbcsr_scale, dbcsr_get_info, dbcsr_copy, dbcsr_clear, dbcsr_add, dbcsr_zero
    USE dbcsr_tas_io, ONLY: &
@@ -116,11 +116,10 @@ CONTAINS
       INTEGER(KIND=int_8), DIMENSION(2)          :: dims_a, dims_b, dims_c
       INTEGER, DIMENSION(2)                      :: pdims, pcoord, pcoord_sub, pdims_sub
       INTEGER(KIND=int_8), DIMENSION(3)          :: dims
-      INTEGER                                    :: max_mm_dim, data_type, mp_comm, comm_tmp, &
-                                                    handle, handle2, handle3, handle4, &
+      INTEGER                                    :: max_mm_dim, data_type, handle, handle2, handle3, handle4, &
                                                     unit_nr_prv, nsplit, nsplit_opt, numproc, numproc_sub, iproc, &
-                                                    mp_comm_group, mp_comm_mm, split_rc, split_a, split_b, split_c, &
-                                                    mp_comm_opt, batched_repl, max_mm_dim_batched, nsplit_batched
+                                                    split_rc, split_a, split_b, split_c, &
+                                                    batched_repl, max_mm_dim_batched, nsplit_batched
       CHARACTER(LEN=1)                           :: tr_case, transa_prv, transb_prv, transc_prv
       TYPE(dbcsr_scalar_type)                    :: zero
       LOGICAL                                    :: new_a, new_b, new_c, simple_split_prv, opt_pgrid, &
@@ -130,6 +129,7 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply'
       INTEGER(KIND=int_8)                        :: nze_a, nze_b, nze_c, nze_c_sum
       TYPE(dbcsr_type)                           :: matrix_a_mm, matrix_b_mm, matrix_c_mm
+      TYPE(mp_comm_type)                         :: mp_comm, comm_tmp, mp_comm_group, mp_comm_mm, mp_comm_opt
 
       CALL timeset(routineN, handle)
       CALL mp_sync(matrix_a%dist%info%mp_comm)
@@ -813,7 +813,7 @@ CONTAINS
       !! Make sure that smallest matrix involved in a multiplication is not split and bring it to
       !! the same process grid as the other 2 matrices.
 
-      INTEGER, INTENT(IN)               :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)               :: mp_comm
          !! communicator that defines Cartesian topology
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)   :: matrix_out
@@ -900,7 +900,7 @@ CONTAINS
       INTEGER, INTENT(INOUT)                     :: split_rc_1, split_rc_2
          !! Whether to split rows or columns for matrix 1
          !! Whether to split rows or columns for matrix 2
-      INTEGER, INTENT(OUT), OPTIONAL             :: comm_new
+      TYPE(mp_comm_type), INTENT(OUT), OPTIONAL             :: comm_new
          !! returns the new communicator only if optimize_dist
       LOGICAL, OPTIONAL, INTENT(IN)              :: nodata1, nodata2
          !! Don't copy matrix data from matrix1_in to matrix1_out
@@ -914,7 +914,7 @@ CONTAINS
       INTEGER(KIND=int_8), DIMENSION(2)          :: dims1, dims2, dims_ref
       INTEGER(KIND=int_8)                        :: d1, d2
       CHARACTER(LEN=*), PARAMETER                :: routineN = 'reshape_mm_compatible'
-      INTEGER                                    :: handle, mp_comm, numnodes, unit_nr_prv, &
+      INTEGER                                    :: handle, numnodes, unit_nr_prv, &
                                                     nsplit_prv, ref, split_rc_ref
       INTEGER, DIMENSION(2)                      :: pcoord, pdims
       LOGICAL                                    :: optimize_dist_prv, trans1_newdist, trans2_newdist
@@ -923,6 +923,7 @@ CONTAINS
       TYPE(dbcsr_tas_split_info)                 :: split_info
       INTEGER(KIND=int_8)                        :: nze1, nze2
       LOGICAL                                    :: nodata1_prv, nodata2_prv
+      TYPE(mp_comm_type)                         :: mp_comm
 
       CALL timeset(routineN, handle)
       new1 = .FALSE.; new2 = .FALSE.
@@ -1134,13 +1135,14 @@ CONTAINS
          !! memory optimization: move data such that matrix_in is empty on return.
 
       INTEGER                                    :: &
-         mp_comm, split_rc, nsplit_old, handle, data_type, nsplit_new, nsplit_prv
+         split_rc, nsplit_old, handle, data_type, nsplit_new, nsplit_prv
       TYPE(dbcsr_tas_split_info)                 :: split_info
       CHARACTER(len=default_string_length)       :: name
       TYPE(dbcsr_tas_distribution_type)          :: dist
       LOGICAL                                    :: nodata_prv
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: rdist, cdist
       CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE  :: rbsize, cbsize
+      TYPE(mp_comm_type)                         :: mp_comm
       CHARACTER(LEN=*), PARAMETER                :: routineN = 'change_split'
 
       NULLIFY (matrix_out)
@@ -1284,10 +1286,11 @@ CONTAINS
 
       TYPE(dbcsr_tas_distribution_type)          :: dist_new
       TYPE(dbcsr_tas_split_info)                 :: info_template, info_matrix
-      INTEGER                                    :: mp_comm, dim_split_template, dim_split_matrix, &
+      INTEGER                                    :: dim_split_template, dim_split_matrix, &
                                                     numnodes, handle
       INTEGER, DIMENSION(2)                      :: pcoord, pdims
       LOGICAL                                    :: nodata_prv, transposed
+      TYPE(mp_comm_type)                         :: mp_comm
       CHARACTER(LEN=*), PARAMETER :: routineN = 'reshape_mm_template'
 
       CALL timeset(routineN, handle)
@@ -1366,9 +1369,10 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_result_index'
       LOGICAL :: retain_sparsity_prv
-      INTEGER :: bn, row_size, col_size, handle, iblk, mp_comm, nblk
+      INTEGER :: bn, row_size, col_size, handle, iblk, nblk
       INTEGER(int_8) :: row, col
       TYPE(dbcsr_tas_iterator) :: iter
+      TYPE(mp_comm_type) :: mp_comm
 
       CALL timeset(routineN, handle)
 
@@ -1474,19 +1478,19 @@ CONTAINS
       CHARACTER(len=default_string_length)       :: name
       INTEGER                                    :: data_type
 
-# 1474 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1478 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_get_r_dp
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_put_r_dp
-# 1474 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1478 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_get_r_sp
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_put_r_sp
-# 1474 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1478 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_get_c_dp
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_put_c_dp
-# 1474 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1478 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_get_c_sp
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_put_c_sp
-# 1477 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1481 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       LOGICAL                                    :: tr, nodata_prv, found
 
       DBCSR_ASSERT(matrix_in%valid)
@@ -1515,35 +1519,35 @@ CONTAINS
 
          DO WHILE (dbcsr_tas_iterator_blocks_left(iter))
 
-# 1506 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1510 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                IF (data_type == dbcsr_type_real_8) THEN
                   CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_r_dp, tr)
                   CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_r_dp, tr, found)
                   DBCSR_ASSERT(found)
                   block_put_r_dp (1, 1) = SQRT(SUM(block_get_r_dp**2)) ! norm2 works only for real
                END IF
-# 1506 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1510 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                IF (data_type == dbcsr_type_real_4) THEN
                   CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_r_sp, tr)
                   CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_r_sp, tr, found)
                   DBCSR_ASSERT(found)
                   block_put_r_sp (1, 1) = SQRT(SUM(block_get_r_sp**2)) ! norm2 works only for real
                END IF
-# 1506 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1510 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                IF (data_type == dbcsr_type_complex_8) THEN
                   CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_c_dp, tr)
                   CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_c_dp, tr, found)
                   DBCSR_ASSERT(found)
                   block_put_c_dp (1, 1) = SQRT(SUM(block_get_c_dp**2)) ! norm2 works only for real
                END IF
-# 1506 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1510 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                IF (data_type == dbcsr_type_complex_4) THEN
                   CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_c_sp, tr)
                   CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_c_sp, tr, found)
                   DBCSR_ASSERT(found)
                   block_put_c_sp (1, 1) = SQRT(SUM(block_get_c_sp**2)) ! norm2 works only for real
                END IF
-# 1513 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1517 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          END DO
          CALL dbcsr_tas_iterator_stop(iter)
       END IF
@@ -1553,7 +1557,7 @@ CONTAINS
    SUBROUTINE convert_to_new_pgrid(mp_comm_cart, matrix_in, matrix_out, move_data, nodata, optimize_pgrid)
       !! Convert a DBCSR matrix to a new process grid
 
-      INTEGER, INTENT(IN)                        :: mp_comm_cart
+      TYPE(mp_comm_type), INTENT(IN)             :: mp_comm_cart
          !! new process grid
       TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_in
       TYPE(dbcsr_type), INTENT(OUT)              :: matrix_out

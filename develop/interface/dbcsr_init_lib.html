@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title="<p> 0.0% of total for procedures.</p>Including implementation: 39 statements,  0.1% of total for procedures.">4 statements</a>
+               title="<p> 0.0% of total for procedures.</p>Including implementation: 43 statements,  0.1% of total for procedures.">4 statements</a>
           </li>
 
             <li id="source-file">
@@ -213,7 +213,9 @@
 </h3></div>
     <div class="panel-body">
           
-  <p>Initialize the DBCSR library using internal loggers and timer callbacks</p>
+  <p>Initialize the DBCSR library using internal loggers and timer callbacks
+We do not need this routine within the library, so we keep the communicator as a handle
+and convert it here to a communicator type</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -283,7 +285,9 @@
 </h3></div>
     <div class="panel-body">
           
-  <p>Initialize the DBCSR library using external loggers and timer callbacks</p>
+  <p>Initialize the DBCSR library using external loggers and timer callbacks
+We do not need this routine within the library, so we keep the communicator as a handle
+and convert it here to a communicator type</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">

@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~6"></span>
+              <span class="anchor" id="variable-dist~7"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -191,7 +191,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-template~4"></span>
+              <span class="anchor" id="variable-template~5"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -206,8 +206,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~18"></span>
-              integer,
+              <span class="anchor" id="variable-group~21"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -236,7 +236,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~7"></span>
+              <span class="anchor" id="variable-row_dist~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -251,7 +251,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~7"></span>
+              <span class="anchor" id="variable-col_dist~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -335,7 +335,7 @@
 <span class="w">         </span><span class="c">!! distribution</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">         </span><span class="k">OPTIONAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">template</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">group</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">group</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">pgrid</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="w"></span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">reuse_arrays</span><span class="w"></span>

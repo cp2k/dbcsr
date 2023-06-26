@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.0% of total for procedures.">20 statements</a>
+               title=" 0.0% of total for procedures.">21 statements</a>
           </li>
 
             <li id="source-file">
@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-base~20"></span>
+              <span class="anchor" id="variable-base~8"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -206,7 +206,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-displs~19"></span>
+              <span class="anchor" id="variable-displs~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -221,7 +221,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~229"></span>
+              <span class="anchor" id="variable-msg~174"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -251,7 +251,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~61"></span>
+              <span class="anchor" id="variable-root~37"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -267,7 +267,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-grp~4"></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -281,8 +281,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-request~127"></span>
-              integer,
+              <span class="anchor" id="variable-request~11"></span>
+              type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -347,8 +347,9 @@
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">base</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">counts</span><span class="p">,</span><span class="w"> </span><span class="n">displs</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">recvcount</span><span class="p">,</span><span class="w"> </span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">grp</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">request</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">recvcount</span><span class="p">,</span><span class="w"> </span><span class="n">root</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">grp</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_request_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">request</span><span class="w"></span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">base</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Different data type for msgin and msgout&quot;</span><span class="p">)</span><span class="w"></span>

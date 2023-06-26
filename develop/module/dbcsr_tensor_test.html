@@ -132,9 +132,9 @@
       </div>
       <div id="vars-0" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-modulen~45">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-randmat_counter~3">randmat_counter</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-rand_seed_init~3">rand_seed_init</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-modulen~50">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-randmat_counter~2">randmat_counter</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-rand_seed_init~2">rand_seed_init</a>
         </div>
       </div>
     </div>
@@ -219,20 +219,19 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
-                <li><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
-                <li><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
-                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
-                <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
                 <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+                <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+                <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
                 <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                <li><a href='../module/dbcsr_blas_operations.html'>dbcsr_blas_operations</a></li>
-                <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
                 <li><a href='../module/dbcsr_tas_test.html'>dbcsr_tas_test</a></li>
                 <li><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></li>
-                <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+                <li><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
+                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                <li><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
+                <li><a href='../module/dbcsr_blas_operations.html'>dbcsr_blas_operations</a></li>
             </ul>
           </li>
       </ul>
@@ -252,9 +251,9 @@
       </div>
       <div id="vars-1" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-modulen~45">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-randmat_counter~3">randmat_counter</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-rand_seed_init~3">rand_seed_init</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-modulen~50">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-randmat_counter~2">randmat_counter</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-rand_seed_init~2">rand_seed_init</a>
         </div>
       </div>
     </div>
@@ -344,7 +343,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~45"></span>
+              <span class="anchor" id="variable-modulen~50"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -361,7 +360,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-randmat_counter~3"></span>
+              <span class="anchor" id="variable-randmat_counter~2"></span>
               integer,
             </td>
               <td>private,</td>
@@ -378,7 +377,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rand_seed_init~3"></span>
+              <span class="anchor" id="variable-rand_seed_init~2"></span>
               integer,
             </td>
               <td>private,</td>
@@ -995,7 +994,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1201,7 +1200,7 @@ on global properties of the tensor but not on distribution, matrix representatio
         <tr>
             <td>
               <span class="anchor" ></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>

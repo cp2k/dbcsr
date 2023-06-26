@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.3% of total for modules and submodules.">166 statements</a>
+               title=" 0.3% of total for modules and submodules.">171 statements</a>
           </li>
 
             <li id="source-file">
@@ -132,7 +132,7 @@
       </div>
       <div id="vars-0" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-modulen~21">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-modulen~32">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-is_initialized">is_initialized</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-check_comm_count">check_comm_count</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-logger~12">logger</a>
@@ -206,20 +206,20 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-                <li><a href='../module/dbcsr_mm.html'>dbcsr_mm</a></li>
                 <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
                 <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_acc_init.html'>dbcsr_acc_init</a></li>
-                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                <li><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></li>
                 <li><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></li>
-                <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
+                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                <li><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></li>
                 <li><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
                 <li><a href='../module/dbcsr_error_handling.html'>dbcsr_error_handling</a></li>
+                <li><a href='../module/dbcsr_acc_init.html'>dbcsr_acc_init</a></li>
+                <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
                 <li><a href='../module/dbcsr_timings_report.html'>dbcsr_timings_report</a></li>
+                <li><a href='../module/dbcsr_mm.html'>dbcsr_mm</a></li>
+                <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
             </ul>
           </li>
       </ul>
@@ -239,7 +239,7 @@
       </div>
       <div id="vars-1" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-modulen~21">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-modulen~32">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-is_initialized">is_initialized</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-check_comm_count">check_comm_count</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-logger~12">logger</a>
@@ -318,7 +318,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~21"></span>
+              <span class="anchor" id="variable-modulen~32"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -404,7 +404,7 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-default_group"></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>private,</td>
             <td>
@@ -412,8 +412,8 @@ parameter
             </td>
             <td>::</td>
             <td><strong>default_group</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>mp_comm_null</td>
             <td>
                 
             </td>
@@ -457,7 +457,9 @@ parameter
 
     </h3>
     
-  <p>Initialize the DBCSR library using internal loggers and timer callbacks</p>
+  <p>Initialize the DBCSR library using internal loggers and timer callbacks
+We do not need this routine within the library, so we keep the communicator as a handle
+and convert it here to a communicator type</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -526,7 +528,9 @@ parameter
 
     </h3>
     
-  <p>Initialize the DBCSR library using external loggers and timer callbacks</p>
+  <p>Initialize the DBCSR library using external loggers and timer callbacks
+We do not need this routine within the library, so we keep the communicator as a handle
+and convert it here to a communicator type</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -665,7 +669,9 @@ parameter
 </h3></div>
     <div class="panel-body">
           
-  <p>Initialize the DBCSR library using internal loggers and timer callbacks</p>
+  <p>Initialize the DBCSR library using internal loggers and timer callbacks
+We do not need this routine within the library, so we keep the communicator as a handle
+and convert it here to a communicator type</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -735,7 +741,9 @@ parameter
 </h3></div>
     <div class="panel-body">
           
-  <p>Initialize the DBCSR library using external loggers and timer callbacks</p>
+  <p>Initialize the DBCSR library using external loggers and timer callbacks
+We do not need this routine within the library, so we keep the communicator as a handle
+and convert it here to a communicator type</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -882,7 +890,7 @@ Prepares the DBCSR library for use.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>

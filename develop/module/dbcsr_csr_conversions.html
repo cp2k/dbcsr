@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 1.4% of total for modules and submodules.">901 statements</a>
+               title=" 1.4% of total for modules and submodules.">905 statements</a>
           </li>
 
             <li id="source-file">
@@ -132,8 +132,8 @@
       </div>
       <div id="vars-0" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~35">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~5">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~66">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~19">careful_mod</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_dbcsr_blkrow_dist">csr_dbcsr_blkrow_dist</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_ceil_dist">csr_eqrow_ceil_dist</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_floor_dist">csr_eqrow_floor_dist</a>
@@ -239,20 +239,20 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-                <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
-                <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-                <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+                <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
                 <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+                <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
+                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
                 <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                 <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-                <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
                 <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
-                <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
+                <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+                <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+                <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
             </ul>
           </li>
       </ul>
@@ -272,8 +272,8 @@
       </div>
       <div id="vars-1" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~35">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~5">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~66">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~19">careful_mod</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_dbcsr_blkrow_dist">csr_dbcsr_blkrow_dist</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_ceil_dist">csr_eqrow_ceil_dist</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_floor_dist">csr_eqrow_floor_dist</a>
@@ -384,7 +384,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~35"></span>
+              <span class="anchor" id="variable-modulen~66"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -401,7 +401,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~5"></span>
+              <span class="anchor" id="variable-careful_mod~19"></span>
               logical,
             </td>
               <td>private,</td>
@@ -599,7 +599,7 @@ local number of rows</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -608,8 +608,7 @@ local number of rows</p>
             <td>::</td>
             <td><strong>mp_group</strong></td>
             <td>
-<p>local number of non-zero elements
-local number of rows</p>
+
             </td>
         </tr>
         <tr>
@@ -1008,7 +1007,7 @@ representing the original block structure.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dp~3"></span>
+              <span class="anchor" id="variable-c_dp~4"></span>
               complex(kind=real_8),
             </td>
               <td>public,</td>
@@ -1025,7 +1024,7 @@ representing the original block structure.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~16"></span>
+              <span class="anchor" id="variable-data_type~17"></span>
               integer,
             </td>
               <td>public</td>
@@ -1089,8 +1088,7 @@ representing the original block structure.</p>
 <p>total number of rows
 total number of columns
 local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+local number of rows</p>
             </td>
         </tr>
         <tr>
@@ -1110,8 +1108,7 @@ message-passing group ID</p>
 <p>total number of rows
 total number of columns
 local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+local number of rows</p>
             </td>
         </tr>
         <tr>
@@ -1131,8 +1128,7 @@ message-passing group ID</p>
 <p>total number of rows
 total number of columns
 local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+local number of rows</p>
             </td>
         </tr>
         <tr>
@@ -1152,14 +1148,13 @@ message-passing group ID</p>
 <p>total number of rows
 total number of columns
 local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+local number of rows</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~4"></span>
-              integer,
+              <span class="anchor" id="variable-mp_group~2"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -1170,11 +1165,7 @@ message-passing group ID</p>
                 <td></td>
                 <td></td>
             <td>
-<p>total number of rows
-total number of columns
-local number of nonzero elements
-local number of rows
-message-passing group ID</p>
+<p>message-passing group ID</p>
             </td>
         </tr>
         <tr>
@@ -1577,7 +1568,7 @@ local number of rows</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1586,8 +1577,7 @@ local number of rows</p>
             <td>::</td>
             <td><strong>mp_group</strong></td>
             <td>
-<p>local number of non-zero elements
-local number of rows</p>
+
             </td>
         </tr>
         <tr>

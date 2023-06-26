@@ -31,7 +31,7 @@ MODULE dbcsr_mp_operations
       mp_allgather, mp_alltoall, mp_gatherv, mp_ibcast, mp_irecv, mp_iscatter, mp_isend, &
       mp_isendrecv, mp_rget, mp_sendrecv, mp_type_descriptor_type, mp_type_indexed_make_c, &
       mp_type_indexed_make_d, mp_type_indexed_make_r, mp_type_indexed_make_z, mp_type_make, &
-      mp_waitall, mp_win_create
+      mp_waitall, mp_win_create, mp_comm_type, mp_request_type, mp_win_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -128,16 +128,17 @@ CONTAINS
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
 
-      INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
+      INTEGER :: mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                  ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
-                 prow, pcol, send_cnt, recv_cnt, tag, grp, i
-      INTEGER, ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, &
-                                            new_rcount, new_rdispl, new_scount, new_sdispl, row_rr, row_sr
+                 prow, pcol, send_cnt, recv_cnt, tag, i
+      INTEGER, ALLOCATABLE, DIMENSION(:) :: new_rcount, new_rdispl, new_scount, new_sdispl
       INTEGER, DIMENSION(:, :), POINTER        :: pgrid
       LOGICAL                                  :: most_collective, &
                                                   remainder_collective, no_h
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: send_data_p, recv_data_p
       TYPE(dbcsr_mp_obj)                       :: mpe
+      TYPE(mp_comm_type)                       :: all_group, grp
+      TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
 
       IF (.NOT. dbcsr_mp_has_subgroups(mp_env)) THEN
          mpe = mp_env
@@ -340,7 +341,8 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msgout
-      INTEGER, INTENT(IN)                                :: source, comm
+      INTEGER, INTENT(IN)                                :: source
+      TYPE(mp_comm_type), INTENT(IN)                     :: comm
 
       IF (dbcsr_data_get_type(msgin) .NE. dbcsr_data_get_type(msgout)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
@@ -364,8 +366,9 @@ CONTAINS
       !! @note see mp_isend_iv
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
-      INTEGER, INTENT(IN)                                :: dest, comm
-      INTEGER, INTENT(OUT)                               :: request
+      INTEGER, INTENT(IN)                                :: dest
+      TYPE(mp_comm_type), INTENT(IN)                     :: comm
+      TYPE(mp_request_type), INTENT(OUT)                 :: request
       INTEGER, INTENT(IN), OPTIONAL                      :: tag
 
       SELECT CASE (dbcsr_data_get_type(msgin))
@@ -387,8 +390,9 @@ CONTAINS
       !! @note see mp_irecv_iv
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
-      INTEGER, INTENT(IN)                                :: source, comm
-      INTEGER, INTENT(OUT)                               :: request
+      INTEGER, INTENT(IN)                                :: source
+      TYPE(mp_comm_type), INTENT(IN)                     :: comm
+      TYPE(mp_request_type), INTENT(OUT)                 :: request
       INTEGER, INTENT(IN), OPTIONAL                      :: tag
 
       SELECT CASE (dbcsr_data_get_type(msgin))
@@ -408,8 +412,8 @@ CONTAINS
    SUBROUTINE dbcsr_win_create_any(base, comm, win)
       !! Window initialization function of encapsulated data.
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
-      INTEGER, INTENT(IN)                                :: comm
-      INTEGER, INTENT(OUT)                               :: win
+      TYPE(mp_comm_type), INTENT(IN)                     :: comm
+      TYPE(mp_win_type), INTENT(OUT)                     :: win
 
       SELECT CASE (dbcsr_data_get_type(base))
       CASE (dbcsr_type_real_4)
@@ -429,10 +433,11 @@ CONTAINS
       !! Single-sided Get function of encapsulated data.
                              origin_datatype, target_datatype)
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
-      INTEGER, INTENT(IN)                                :: source, win
+      INTEGER, INTENT(IN)                                :: source
+      TYPE(mp_win_type), INTENT(IN)                      :: win
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: win_data
       INTEGER, INTENT(IN), OPTIONAL                      :: myproc, disp
-      INTEGER, INTENT(OUT)                               :: request
+      TYPE(mp_request_type), INTENT(OUT)                 :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), &
          OPTIONAL                                        :: origin_datatype, target_datatype
 
@@ -460,8 +465,9 @@ CONTAINS
    SUBROUTINE dbcsr_ibcast_any(base, source, grp, request)
       !! Bcast function of encapsulated data.
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
-      INTEGER, INTENT(IN)                                :: source, grp
-      INTEGER, INTENT(INOUT)                             :: request
+      INTEGER, INTENT(IN)                                :: source
+      TYPE(mp_comm_type), INTENT(IN)                     :: grp
+      TYPE(mp_request_type), INTENT(INOUT)               :: request
 
       SELECT CASE (dbcsr_data_get_type(base))
       CASE (dbcsr_type_real_4)
@@ -482,8 +488,9 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
       INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS      :: counts, displs
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msg
-      INTEGER, INTENT(IN)                                :: recvcount, root, grp
-      INTEGER, INTENT(INOUT)                             :: request
+      INTEGER, INTENT(IN)                                :: recvcount, root
+      TYPE(mp_comm_type), INTENT(IN)                     :: grp
+      TYPE(mp_request_type), INTENT(INOUT)               :: request
 
       IF (dbcsr_data_get_type(base) .NE. dbcsr_data_get_type(msg)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
@@ -508,7 +515,8 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: ub_base
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msg
       INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: counts, displs
-      INTEGER, INTENT(IN)                                :: root, grp
+      INTEGER, INTENT(IN)                                :: root
+      TYPE(mp_comm_type), INTENT(IN)                     :: grp
 
       IF (dbcsr_data_get_type(base) .NE. dbcsr_data_get_type(msg)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
@@ -532,8 +540,9 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msgout
-      INTEGER, INTENT(IN)                                :: source, grp
-      INTEGER, INTENT(OUT)                               :: send_request, recv_request
+      INTEGER, INTENT(IN)                                :: source
+      TYPE(mp_comm_type), INTENT(IN)                     :: grp
+      TYPE(mp_request_type), INTENT(OUT)                 :: send_request, recv_request
 
       IF (dbcsr_data_get_type(msgin) .NE. dbcsr_data_get_type(msgout)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
@@ -568,7 +577,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: scount
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: recv_data
       INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: recv_count, recv_displ
-      INTEGER, INTENT(IN)                                :: gid
+      TYPE(mp_comm_type), INTENT(IN)                     :: gid
 
       IF (dbcsr_data_get_type(send_data) /= dbcsr_data_get_type(recv_data)) &
          DBCSR_ABORT("Data type mismatch")
@@ -596,8 +605,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mpi/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/mpi/../data/dbcsr.fypp"
-# 593 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F" 2
-# 594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 602 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F" 2
+# 603 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
       SUBROUTINE hybrid_alltoall_d1(sb, scount, sdispl, &
                                                 rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
@@ -623,16 +632,17 @@ CONTAINS
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
 
-         INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
+         INTEGER :: mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                     ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
-                    prow, pcol, send_cnt, recv_cnt, tag, grp, i
-         INTEGER, ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, &
-                                               new_rcount, new_rdispl, new_scount, new_sdispl, row_rr, row_sr
+                    prow, pcol, send_cnt, recv_cnt, tag, i
+         INTEGER, ALLOCATABLE, DIMENSION(:) :: new_rcount, new_rdispl, new_scount, new_sdispl
          INTEGER, DIMENSION(:, :), CONTIGUOUS, POINTER :: pgrid
          LOGICAL                                  :: most_collective, &
                                                      remainder_collective, no_h
          REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, POINTER :: send_data_p, recv_data_p
          TYPE(dbcsr_mp_obj)                       :: mpe
+         TYPE(mp_comm_type)                       :: all_group, grp
+         TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
 
          IF (.NOT. dbcsr_mp_has_subgroups(mp_env)) THEN
             mpe = mp_env
@@ -817,7 +827,7 @@ CONTAINS
             END DO
          END SUBROUTINE remainder_point_to_point
       END SUBROUTINE hybrid_alltoall_d1
-# 594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 603 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
       SUBROUTINE hybrid_alltoall_s1(sb, scount, sdispl, &
                                                 rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
@@ -843,16 +853,17 @@ CONTAINS
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
 
-         INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
+         INTEGER :: mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                     ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
-                    prow, pcol, send_cnt, recv_cnt, tag, grp, i
-         INTEGER, ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, &
-                                               new_rcount, new_rdispl, new_scount, new_sdispl, row_rr, row_sr
+                    prow, pcol, send_cnt, recv_cnt, tag, i
+         INTEGER, ALLOCATABLE, DIMENSION(:) :: new_rcount, new_rdispl, new_scount, new_sdispl
          INTEGER, DIMENSION(:, :), CONTIGUOUS, POINTER :: pgrid
          LOGICAL                                  :: most_collective, &
                                                      remainder_collective, no_h
          REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, POINTER :: send_data_p, recv_data_p
          TYPE(dbcsr_mp_obj)                       :: mpe
+         TYPE(mp_comm_type)                       :: all_group, grp
+         TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
 
          IF (.NOT. dbcsr_mp_has_subgroups(mp_env)) THEN
             mpe = mp_env
@@ -1037,7 +1048,7 @@ CONTAINS
             END DO
          END SUBROUTINE remainder_point_to_point
       END SUBROUTINE hybrid_alltoall_s1
-# 594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 603 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
       SUBROUTINE hybrid_alltoall_z1(sb, scount, sdispl, &
                                                 rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
@@ -1063,16 +1074,17 @@ CONTAINS
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
 
-         INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
+         INTEGER :: mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                     ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
-                    prow, pcol, send_cnt, recv_cnt, tag, grp, i
-         INTEGER, ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, &
-                                               new_rcount, new_rdispl, new_scount, new_sdispl, row_rr, row_sr
+                    prow, pcol, send_cnt, recv_cnt, tag, i
+         INTEGER, ALLOCATABLE, DIMENSION(:) :: new_rcount, new_rdispl, new_scount, new_sdispl
          INTEGER, DIMENSION(:, :), CONTIGUOUS, POINTER :: pgrid
          LOGICAL                                  :: most_collective, &
                                                      remainder_collective, no_h
          COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, POINTER :: send_data_p, recv_data_p
          TYPE(dbcsr_mp_obj)                       :: mpe
+         TYPE(mp_comm_type)                       :: all_group, grp
+         TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
 
          IF (.NOT. dbcsr_mp_has_subgroups(mp_env)) THEN
             mpe = mp_env
@@ -1257,7 +1269,7 @@ CONTAINS
             END DO
          END SUBROUTINE remainder_point_to_point
       END SUBROUTINE hybrid_alltoall_z1
-# 594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 603 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
       SUBROUTINE hybrid_alltoall_c1(sb, scount, sdispl, &
                                                 rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
@@ -1283,16 +1295,17 @@ CONTAINS
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
 
-         INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
+         INTEGER :: mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                     ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
-                    prow, pcol, send_cnt, recv_cnt, tag, grp, i
-         INTEGER, ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, &
-                                               new_rcount, new_rdispl, new_scount, new_sdispl, row_rr, row_sr
+                    prow, pcol, send_cnt, recv_cnt, tag, i
+         INTEGER, ALLOCATABLE, DIMENSION(:) :: new_rcount, new_rdispl, new_scount, new_sdispl
          INTEGER, DIMENSION(:, :), CONTIGUOUS, POINTER :: pgrid
          LOGICAL                                  :: most_collective, &
                                                      remainder_collective, no_h
          COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, POINTER :: send_data_p, recv_data_p
          TYPE(dbcsr_mp_obj)                       :: mpe
+         TYPE(mp_comm_type)                       :: all_group, grp
+         TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
 
          IF (.NOT. dbcsr_mp_has_subgroups(mp_env)) THEN
             mpe = mp_env
@@ -1477,6 +1490,6 @@ CONTAINS
             END DO
          END SUBROUTINE remainder_point_to_point
       END SUBROUTINE hybrid_alltoall_c1
-# 814 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 824 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
 
 END MODULE dbcsr_mp_operations

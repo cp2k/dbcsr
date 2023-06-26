@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.4% of total for procedures.">251 statements</a>
+               title=" 0.4% of total for procedures.">253 statements</a>
           </li>
 
             <li id="source-file">
@@ -191,7 +191,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distribution"></span>
+              <span class="anchor" id="variable-distribution~4"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-groupid"></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -291,7 +291,7 @@
 <span class="w">         </span><span class="c">!! path to the file</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">distribution</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! row and column distribution</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">groupid</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">groupid</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! message passing environment identifier</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_new</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! DBCSR matrix</span>
@@ -302,18 +302,20 @@
 <span class="w">                                               </span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="n">darea_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">type_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                               </span><span class="n">globalinfo_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                               </span><span class="n">size_of_pgrid</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                               </span><span class="n">thefile</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                               </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                               </span><span class="n">nblocks</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                               </span><span class="n">share_size</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="n">cur_blks</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                               </span><span class="n">job_count</span><span class="p">,</span><span class="w"> </span><span class="n">start_index</span><span class="p">,</span><span class="w"> </span><span class="n">end_index</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                               </span><span class="n">localinfo_length</span><span class="p">,</span><span class="w"> </span><span class="n">blockdata_length</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                               </span><span class="n">group_id</span><span class="p">,</span><span class="w"> </span><span class="n">worker_id</span><span class="p">,</span><span class="w"> </span><span class="n">group_list_size</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">linfo_length</span><span class="w"></span>
+<span class="w">                                               </span><span class="n">worker_id</span><span class="p">,</span><span class="w"> </span><span class="n">group_list_size</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">linfo_length</span><span class="w"></span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_type</span><span class="w"></span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_name</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">version_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">version_len</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">version</span><span class="w"></span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_name_v_1_0</span><span class="w"></span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">version_len</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">version_v_1_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;DBCSRv_1.0&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">group_id</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_file_type</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">thefile</span><span class="w"></span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_p</span><span class="p">,</span><span class="w"> </span><span class="n">col_i</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                               </span><span class="n">proc_nblks</span><span class="p">,</span><span class="w"> </span><span class="n">proc_darea_sizes</span><span class="w"></span>

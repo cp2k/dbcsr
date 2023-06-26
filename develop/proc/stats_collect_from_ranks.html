@@ -191,8 +191,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~37"></span>
-              integer,
+              <span class="anchor" id="variable-group~20"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -255,7 +255,7 @@
     <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">stats_collect_from_ranks</span><span class="p">(</span><span class="n">report</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="c">!! Collects statistics from all MPI-ranks</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">stats_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">report</span><span class="w"></span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">group</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">group</span><span class="w"></span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">myrank</span><span class="p">,</span><span class="w"> </span><span class="n">nranks</span><span class="p">,</span><span class="w"> </span><span class="n">sending_rank</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mnk_collected</span><span class="w"></span>

@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.1% of total for procedures.">36 statements</a>
+               title=" 0.1% of total for procedures.">37 statements</a>
           </li>
 
             <li id="source-file">
@@ -183,7 +183,7 @@ just one comm is created that contains all cpus</p></div>
         <tr>
             <td>
               <span class="anchor" id="variable-comm"></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -198,7 +198,7 @@ just one comm is created that contains all cpus</p></div>
         <tr>
             <td>
               <span class="anchor" id="variable-sub_comm"></span>
-              integer,
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>
@@ -207,8 +207,7 @@ just one comm is created that contains all cpus</p></div>
             <td>::</td>
             <td><strong>sub_comm</strong></td>
             <td>
-                <p>the communicator for the subgroup (created, needs to be freed later)
-actual number of groups</p>
+                <p>the communicator for the subgroup (created, needs to be freed later)</p>
             </td>
         </tr>
         <tr>
@@ -223,8 +222,7 @@ actual number of groups</p>
             <td>::</td>
             <td><strong>ngroups</strong></td>
             <td>
-                <p>the communicator for the subgroup (created, needs to be freed later)
-actual number of groups</p>
+                <p>actual number of groups</p>
             </td>
         </tr>
         <tr>
@@ -364,10 +362,11 @@ if present and associated) (0..ngroups-1)</p>
 <span class="w">      </span><span class="c">!! if less cpus are present than needed for subgroup min size, n_subgroups,</span>
 <span class="w">      </span><span class="c">!! just one comm is created that contains all cpus</span>
 
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">comm</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">comm</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! the mpi communicator that you want to split</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">sub_comm</span><span class="p">,</span><span class="w"> </span><span class="n">ngroups</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">sub_comm</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! the communicator for the subgroup (created, needs to be freed later)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">ngroups</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! actual number of groups</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">group_distribution</span><span class="w"></span>
 <span class="w">         </span><span class="c">!! input  : allocated with array with the nprocs entries (0 .. nprocs-1)</span>
@@ -459,7 +458,7 @@ if present and associated) (0..ngroups-1)</p>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">      END IF</span>
 <span class="k">      </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group_distribution</span><span class="p">(</span><span class="n">mepos</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">mpi_comm_split</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">sub_comm</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">mpi_comm_split</span><span class="p">(</span><span class="n">comm</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">sub_comm</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="n">debug_comm_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">debug_comm_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">mpi_success</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;in &quot;</span><span class="o">//</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; split&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="cp">#else</span>

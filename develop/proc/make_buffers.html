@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.8% of total for procedures.">482 statements</a>
+               title=" 0.8% of total for procedures.">483 statements</a>
           </li>
 
             <li id="source-file">
@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~323"></span>
+              <span class="anchor" id="variable-matrix~220"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -191,7 +191,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-imgdist~11"></span>
+              <span class="anchor" id="variable-imgdist~10"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -370,7 +370,7 @@
 
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;make_buffers&#39;</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">bp</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">col_img</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">dst_proc</span><span class="p">,</span><span class="w"> </span><span class="n">f_col_f</span><span class="p">,</span><span class="w"> </span><span class="n">f_row_f</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                 </span><span class="n">grp</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">handle2</span><span class="p">,</span><span class="w"> </span><span class="n">irequests</span><span class="p">,</span><span class="w"> </span><span class="n">it</span><span class="p">,</span><span class="w"> </span><span class="n">ithread</span><span class="p">,</span><span class="w"> </span><span class="n">l_col_l</span><span class="p">,</span><span class="w"> </span><span class="n">l_row_l</span><span class="p">,</span><span class="w"> </span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="n">myt</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                 </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">handle2</span><span class="p">,</span><span class="w"> </span><span class="n">irequests</span><span class="p">,</span><span class="w"> </span><span class="n">it</span><span class="p">,</span><span class="w"> </span><span class="n">ithread</span><span class="p">,</span><span class="w"> </span><span class="n">l_col_l</span><span class="p">,</span><span class="w"> </span><span class="n">l_row_l</span><span class="p">,</span><span class="w"> </span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="n">myt</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                 </span><span class="n">nblkcols_local</span><span class="p">,</span><span class="w"> </span><span class="n">nblkrows_local</span><span class="p">,</span><span class="w"> </span><span class="n">ncols_images</span><span class="p">,</span><span class="w"> </span><span class="n">nimages</span><span class="p">,</span><span class="w"> </span><span class="n">nprocs</span><span class="p">,</span><span class="w"> </span><span class="n">nprocs_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                 </span><span class="n">nrows_images</span><span class="p">,</span><span class="w"> </span><span class="n">nsymmetries</span><span class="p">,</span><span class="w"> </span><span class="n">nthreads</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">pcol</span><span class="p">,</span><span class="w"> </span><span class="n">prow</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">row_img</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">size_index</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                 </span><span class="n">stored_col</span><span class="p">,</span><span class="w"> </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">symmetry_i</span><span class="p">,</span><span class="w"> </span><span class="n">tr_col_size</span><span class="p">,</span><span class="w"> </span><span class="n">tr_row_size</span><span class="w"></span>
@@ -400,6 +400,7 @@
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_obj</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">scale_neg_one</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">sm</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">grp</span><span class="w"></span>
 
 <span class="c">!$    INTEGER(kind=omp_lock_kind), ALLOCATABLE, DIMENSION(:) :: locks</span>
 

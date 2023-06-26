@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.4% of total for procedures.">250 statements</a>
+               title=" 0.4% of total for procedures.">251 statements</a>
           </li>
 
             <li id="source-file">
@@ -179,7 +179,7 @@ matrix.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~41"></span>
+              <span class="anchor" id="variable-matrix~78"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -209,7 +209,7 @@ matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_sparsity"></span>
+              <span class="anchor" id="variable-keep_sparsity~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -225,7 +225,7 @@ sum blocks with identical row and col from different processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~3"></span>
+              <span class="anchor" id="variable-summation~32"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -307,7 +307,7 @@ sum blocks with identical row and col from different processes</p>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">blk_col_new</span><span class="p">,</span><span class="w"> </span><span class="n">blk_ps</span><span class="p">,</span><span class="w"> </span><span class="n">blk_row_new</span><span class="p">,</span><span class="w"> </span><span class="n">blks</span><span class="p">,</span><span class="w"> </span><span class="n">cnt_fnd</span><span class="p">,</span><span class="w"> </span><span class="n">cnt_new</span><span class="p">,</span><span class="w"> </span><span class="n">cnt_skip</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                 </span><span class="n">col_int</span><span class="p">,</span><span class="w"> </span><span class="n">col_offset_new</span><span class="p">,</span><span class="w"> </span><span class="n">col_offset_old</span><span class="p">,</span><span class="w"> </span><span class="n">col_rle</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size_new</span><span class="p">,</span><span class="w"> </span><span class="n">data_offset_l</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                 </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">dst_p</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">meta_l</span><span class="p">,</span><span class="w"> </span><span class="n">mp_group</span><span class="p">,</span><span class="w"> </span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">nze_rle</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">row_int</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                 </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">dst_p</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">meta_l</span><span class="p">,</span><span class="w"> </span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">nze_rle</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">row_int</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                 </span><span class="n">row_offset_new</span><span class="p">,</span><span class="w"> </span><span class="n">row_offset_old</span><span class="p">,</span><span class="w"> </span><span class="n">row_rle</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_size_new</span><span class="p">,</span><span class="w"> </span><span class="n">src_p</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col_new</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                 </span><span class="n">stored_row_new</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">col_end_new</span><span class="p">,</span><span class="w"> </span><span class="n">col_end_old</span><span class="p">,</span><span class="w"> </span><span class="n">col_start_new</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
@@ -327,6 +327,7 @@ sum blocks with identical row and col from different processes</p>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">dist_new</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_obj_new</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_group</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 

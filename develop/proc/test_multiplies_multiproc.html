@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.2% of total for procedures.">107 statements</a>
+               title=" 0.2% of total for procedures.">108 statements</a>
           </li>
 
             <li id="source-file">
@@ -192,7 +192,7 @@ processor grids</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~2"></span>
+              <span class="anchor" id="variable-matrix_a~4"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -209,7 +209,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b"></span>
+              <span class="anchor" id="variable-matrix_b~3"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -226,7 +226,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c"></span>
+              <span class="anchor" id="variable-matrix_c~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -243,7 +243,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~10"></span>
+              <span class="anchor" id="variable-transa~14"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -258,7 +258,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~10"></span>
+              <span class="anchor" id="variable-transb~14"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -273,7 +273,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~28"></span>
+              <span class="anchor" id="variable-alpha~44"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -288,7 +288,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~10"></span>
+              <span class="anchor" id="variable-beta~19"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -318,7 +318,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~12"></span>
+              <span class="anchor" id="variable-retain_sparsity~18"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -333,7 +333,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_loops~2"></span>
+              <span class="anchor" id="variable-n_loops~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -348,7 +348,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~11"></span>
+              <span class="anchor" id="variable-eps~17"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -378,7 +378,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-always_checksum~2"></span>
+              <span class="anchor" id="variable-always_checksum~3"></span>
               logical
             </td>
 <td></td>
@@ -465,7 +465,7 @@ matrices to multiply</p>
 
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;test_multiplies_multiproc&#39;</span><span class="w"></span>
 
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">cart_group</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">                                                            </span><span class="n">loop_iter</span><span class="p">,</span><span class="w"> </span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">test</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="n">flop_sum</span><span class="w"></span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">npdims</span><span class="w"></span>
@@ -476,6 +476,7 @@ matrices to multiply</p>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">dist_a</span><span class="p">,</span><span class="w"> </span><span class="n">dist_b</span><span class="p">,</span><span class="w"> </span><span class="n">dist_c</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_env</span><span class="w"></span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">m_a</span><span class="p">,</span><span class="w"> </span><span class="n">m_b</span><span class="p">,</span><span class="w"> </span><span class="n">m_c</span><span class="p">,</span><span class="w"> </span><span class="n">m_c_reserve</span><span class="w"></span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">cart_group</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"></span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
