@@ -34,7 +34,7 @@ MODULE dbcsr_tensor_reshape
                             mp_environ, &
                             mp_irecv, &
                             mp_isend, &
-                            mp_waitall
+                            mp_waitall, mp_comm_type, mp_request_type
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -73,17 +73,19 @@ CONTAINS
          !! tensor_in is empty on return
       LOGICAL, INTENT(IN), OPTIONAL                    :: move_data
 
-      INTEGER                                            :: blk, iproc, mp_comm, mynode, ndata, &
+      INTEGER                                            :: blk, iproc, mynode, ndata, &
                                                             numnodes, bcount, nblk
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: num_blocks_recv, num_blocks_send, &
                                                             num_entries_recv, num_entries_send, &
                                                             num_rec, num_send
-      INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: req_array, index_recv, blks_to_allocate
+      INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: index_recv, blks_to_allocate
       TYPE(dbcsr_t_iterator_type)                        :: iter
       TYPE(block_nd)                                     :: blk_data
       TYPE(block_buffer_type), ALLOCATABLE, DIMENSION(:) :: buffer_recv, buffer_send
       INTEGER, DIMENSION(ndims_tensor(tensor_in))       :: blk_size, ind_nd, index
       LOGICAL :: found, summation_prv, move_prv
+      TYPE(mp_comm_type) :: mp_comm
+      TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:, :) :: req_array
 
       IF (PRESENT(summation)) THEN
          summation_prv = summation
@@ -285,9 +287,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_t_communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
       !! communicate buffer
-      INTEGER, INTENT(IN)                    :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                    :: mp_comm
       TYPE(block_buffer_type), DIMENSION(0:), INTENT(INOUT) :: buffer_recv, buffer_send
-      INTEGER, DIMENSION(:, :), INTENT(OUT)               :: req_array
+      TYPE(mp_request_type), DIMENSION(:, :), INTENT(OUT)               :: req_array
 
       INTEGER                                :: iproc, mynode, numnodes, rec_counter, &
                                                 send_counter

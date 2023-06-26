@@ -25,7 +25,7 @@ PROGRAM dbcsr_test_csr_conversions
                             mp_comm_free, &
                             mp_environ, &
                             mp_world_finalize, &
-                            mp_world_init
+                            mp_world_init, mp_comm_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -38,7 +38,7 @@ PROGRAM dbcsr_test_csr_conversions
 
    INTEGER, DIMENSION(:), POINTER :: col_dist, row_dist
 
-   INTEGER                      :: mp_comm, group, numnodes, mynode, io_unit
+   INTEGER                      :: numnodes, mynode, io_unit
 
    INTEGER, DIMENSION(2)                    :: npdims, myploc
 
@@ -52,6 +52,8 @@ PROGRAM dbcsr_test_csr_conversions
 
    CHARACTER(LEN=10)            :: k_str, mynode_str
 
+   TYPE(mp_comm_type)           :: mp_comm, group
+
    ! Set up everything as in the dbcsr example codes
    CALL mp_world_init(mp_comm)
 
@@ -60,7 +62,7 @@ PROGRAM dbcsr_test_csr_conversions
    io_unit = 0
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
-   CALL dbcsr_init_lib(mp_comm, io_unit)
+   CALL dbcsr_init_lib(mp_comm%get_handle(), io_unit)
 
    npdims(:) = 0
    CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
@@ -173,7 +175,7 @@ CONTAINS
       !! Create a DBCSR matrix with random values and random blocks
                                        col_blk_sizes, row_blk_sizes, col_dist, row_dist, sparsity)
       TYPE(dbcsr_type), INTENT(OUT)                      :: matrix_a
-      INTEGER, INTENT(IN)                                :: group
+      TYPE(mp_comm_type), INTENT(IN)                                :: group
       INTEGER, DIMENSION(:), POINTER                     :: col_blk_sizes, row_blk_sizes, col_dist, &
                                                             row_dist
       REAL(real_8), INTENT(IN)                           :: sparsity
@@ -186,7 +188,7 @@ CONTAINS
       REAL(real_8), ALLOCATABLE, DIMENSION(:)            :: values
       TYPE(dbcsr_distribution_type)                      :: dist
 
-      CALL dbcsr_distribution_new(dist, group=group, row_dist=row_dist, col_dist=col_dist, reuse_arrays=.TRUE.)
+      CALL dbcsr_distribution_new(dist, group=group%get_handle(), row_dist=row_dist, col_dist=col_dist, reuse_arrays=.TRUE.)
 
       CALL dbcsr_create(matrix=matrix_a, &
                         name="this is my matrix a", &

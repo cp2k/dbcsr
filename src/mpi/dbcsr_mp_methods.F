@@ -16,7 +16,7 @@ MODULE dbcsr_mp_methods
                             mp_environ, &
                             mp_cart_rank, &
                             mp_dims_create, &
-                            mp_comm_null
+                            mp_comm_null, mp_comm_type
    USE dbcsr_types, ONLY: dbcsr_mp_obj
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -66,7 +66,8 @@ CONTAINS
 
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
          !! multiprocessor environment
-      INTEGER, INTENT(IN)                                :: mp_group, mynode
+      TYPE(mp_comm_type), INTENT(IN)                     :: mp_group
+      INTEGER, INTENT(IN)                                :: mynode
          !! my processor number
       INTEGER, DIMENSION(0:, 0:), INTENT(IN)             :: pgrid
          !! process grid
@@ -114,7 +115,7 @@ CONTAINS
       !! Creates a new dbcsr_mp_obj based on a input template
 
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
-      INTEGER, INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
       INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
          !! Optional, if not provided group is assumed to be a 2D cartesian communicator
 
@@ -173,9 +174,10 @@ CONTAINS
       TYPE(dbcsr_mp_obj), INTENT(INOUT)                  :: mp_env
          !! multiprocessor environment
 
-      INTEGER                                            :: ndims, tmp_group
+      INTEGER                                            :: ndims
       INTEGER, DIMENSION(2)                              :: dims, my_pos
       LOGICAL, DIMENSION(2)                              :: remain
+      TYPE(mp_comm_type)                                 :: tmp_group
 
 !   ---------------------------------------------------------------------------
 
@@ -207,9 +209,9 @@ CONTAINS
 
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
          !! Message-passing environment object to create
-      INTEGER, INTENT(OUT)                               :: cart_group
+      TYPE(mp_comm_type), INTENT(OUT)                               :: cart_group
          !! the created cartesian group (to be freed by the user)
-      INTEGER, INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
          !! MPI group
       INTEGER, INTENT(IN), OPTIONAL                      :: nprocs
          !! Number of processes
@@ -300,7 +302,7 @@ CONTAINS
 
    PURE FUNCTION dbcsr_mp_group(mp_env) RESULT(mp_group)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
-      INTEGER                                            :: mp_group
+      TYPE(mp_comm_type)                                            :: mp_group
 
       mp_group = mp_env%mp%mp_group
    END FUNCTION dbcsr_mp_group
@@ -342,14 +344,14 @@ CONTAINS
 
    PURE FUNCTION dbcsr_mp_my_row_group(mp_env) RESULT(row_group)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
-      INTEGER                                            :: row_group
+      TYPE(mp_comm_type)                                            :: row_group
 
       row_group = mp_env%mp%prow_group
    END FUNCTION dbcsr_mp_my_row_group
 
    PURE FUNCTION dbcsr_mp_my_col_group(mp_env) RESULT(col_group)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
-      INTEGER                                            :: col_group
+      TYPE(mp_comm_type)                                            :: col_group
 
       col_group = mp_env%mp%pcol_group
    END FUNCTION dbcsr_mp_my_col_group

@@ -22,7 +22,7 @@ PROGRAM dbcsr_unittest
                             mp_comm_free, &
                             mp_environ, &
                             mp_world_finalize, &
-                            mp_world_init
+                            mp_world_init, mp_comm_type
    USE dbcsr_test_add, ONLY: dbcsr_test_adds
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_test_scale_by_vector, ONLY: dbcsr_test_scale_by_vectors
@@ -31,12 +31,13 @@ PROGRAM dbcsr_unittest
 
    IMPLICIT NONE
 
-   INTEGER                                  :: mp_comm, group, numnodes, mynode, &
+   INTEGER                                  :: numnodes, mynode, &
                                                prow, pcol, io_unit, handle
    INTEGER, DIMENSION(2)                    :: npdims, myploc
    INTEGER, DIMENSION(:, :), POINTER        :: pgrid
    TYPE(dbcsr_mp_obj)                       :: mp_env
    LOGICAL                                  :: success
+   TYPE(mp_comm_type)                       :: mp_comm, group
 
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_unittest'
 
@@ -62,7 +63,7 @@ PROGRAM dbcsr_unittest
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
    ! initialize DBCSR
-   CALL dbcsr_init_lib(mp_comm, io_unit)
+   CALL dbcsr_init_lib(mp_comm%get_handle(), io_unit)
 
    ! start measuring the complete test
    CALL timeset(routineN, handle)

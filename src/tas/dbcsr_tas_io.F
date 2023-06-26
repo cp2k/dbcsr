@@ -22,7 +22,7 @@ MODULE dbcsr_tas_io
    USE dbcsr_tas_split, ONLY: &
       dbcsr_tas_get_split_info, rowsplit, colsplit
    USE dbcsr_mpiwrap, ONLY: &
-      mp_environ, mp_sum, mp_max
+      mp_environ, mp_sum, mp_max, mp_comm_type
    USE dbcsr_dist_methods, ONLY: &
       dbcsr_distribution_row_dist, dbcsr_distribution_col_dist
 
@@ -109,7 +109,7 @@ CONTAINS
          !! Whether to print subgroup DBCSR distribution
 
       CHARACTER(default_string_length) :: name
-      INTEGER                          :: mp_comm, ngroup, igroup, mp_comm_group, nproc, iproc, &
+      INTEGER                          :: ngroup, igroup, nproc, iproc, &
                                           nblock_p_max, nelement_p_max, &
                                           nblock, nelement
       INTEGER(KIND=int_8), DIMENSION(2) :: tmp_i8
@@ -119,6 +119,7 @@ CONTAINS
       REAL(KIND=real_8)                :: occupation
       INTEGER, DIMENSION(:), POINTER   :: rowdist, coldist
       INTEGER                          :: split_rowcol, icol, irow, unit_nr_prv
+      TYPE(mp_comm_type)               :: mp_comm, mp_comm_group
 
       unit_nr_prv = prep_output_unit(unit_nr)
       IF (unit_nr_prv == 0) RETURN
@@ -190,12 +191,13 @@ CONTAINS
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
       INTEGER, INTENT(IN) :: unit_nr
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name
-      INTEGER                                            :: groupsize, igroup, mp_comm, &
-                                                            mp_comm_group, mynode, nsplit, &
+      INTEGER                                            :: groupsize, igroup, &
+                                                            mynode, nsplit, &
                                                             numnodes, split_rowcol, unit_nr_prv
       INTEGER, DIMENSION(2)                              :: coord, dims, groupcoord, groupdims, &
                                                             pgrid_offset
       CHARACTER(len=:), ALLOCATABLE                      :: name_prv
+      TYPE(mp_comm_type)                                 :: mp_comm, mp_comm_group
 
       unit_nr_prv = prep_output_unit(unit_nr)
       IF (unit_nr_prv == 0) RETURN

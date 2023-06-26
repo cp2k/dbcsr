@@ -43,7 +43,7 @@ MODULE dbcsr_mm_sched
    USE dbcsr_mpiwrap, ONLY: mp_bcast, &
                             mp_environ, &
                             mp_max, &
-                            mp_sum
+                            mp_sum, mp_comm_type
    USE dbcsr_toollib, ONLY: sort
    USE dbcsr_types, ONLY: dbcsr_type, &
                           dbcsr_work_type
@@ -139,7 +139,8 @@ CONTAINS
 
    SUBROUTINE dbcsr_mm_sched_print_statistics(group, output_unit)
       !! Prints DBCSR statistics
-      INTEGER, INTENT(IN)                                :: group, output_unit
+      TYPE(mp_comm_type), INTENT(IN)                     :: group
+      INTEGER, INTENT(IN)                                :: output_unit
 
       TYPE(stats_type)                                   :: report
       ! Collect and output statistics ---------------------------------------------
@@ -491,7 +492,7 @@ CONTAINS
    SUBROUTINE stats_collect_from_ranks(report, group)
       !! Collects statistics from all MPI-ranks
       TYPE(stats_type), INTENT(INOUT)                    :: report
-      INTEGER, INTENT(IN)                                :: group
+      TYPE(mp_comm_type), INTENT(IN)                                :: group
 
       INTEGER                                            :: i, myrank, nranks, sending_rank
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: mnk_collected

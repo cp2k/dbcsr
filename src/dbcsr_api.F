@@ -30,13 +30,13 @@ MODULE dbcsr_api
    USE dbcsr_csr_conversions, ONLY: &
       convert_csr_to_dbcsr_prv => convert_csr_to_dbcsr, &
       convert_dbcsr_to_csr_prv => convert_dbcsr_to_csr, &
-      csr_create_from_dbcsr_prv => csr_create_from_dbcsr, csr_create_new, &
+      csr_create_from_dbcsr_prv => csr_create_from_dbcsr, csr_create_new_prv => csr_create_new, &
       csr_create_template, dbcsr_csr_dbcsr_blkrow_dist => csr_dbcsr_blkrow_dist, &
       dbcsr_csr_destroy => csr_destroy, dbcsr_csr_eqrow_ceil_dist => csr_eqrow_ceil_dist, &
       dbcsr_csr_eqrow_floor_dist => csr_eqrow_floor_dist, dbcsr_csr_p_type => csr_p_type, &
       dbcsr_csr_print_sparsity => csr_print_sparsity, dbcsr_csr_type => csr_type, &
       dbcsr_csr_write => csr_write, &
-      dbcsr_to_csr_filter_prv => dbcsr_to_csr_filter
+      dbcsr_to_csr_filter_prv => dbcsr_to_csr_filter, csr_type
    USE dbcsr_data_methods, ONLY: dbcsr_get_data_p_prv => dbcsr_get_data_p, &
                                  dbcsr_scalar, &
                                  dbcsr_scalar_fill_all, &
@@ -76,10 +76,8 @@ MODULE dbcsr_api
       dbcsr_release_prv => dbcsr_release, &
       dbcsr_setname_prv => dbcsr_setname, &
       dbcsr_valid_index_prv => dbcsr_valid_index, dbcsr_wm_use_mutable
-   USE dbcsr_mp_methods, ONLY: dbcsr_mp_grid_setup_prv => dbcsr_mp_grid_setup, &
-                               dbcsr_mp_group, &
-                               dbcsr_mp_new_prv => dbcsr_mp_new, &
-                               dbcsr_mp_release
+   USE dbcsr_mpiwrap, ONLY: mp_comm_type
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_grid_setup_prv => dbcsr_mp_grid_setup
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply_prv => dbcsr_multiply
    USE dbcsr_operations, ONLY: &
       dbcsr_add_on_diag_prv => dbcsr_add_on_diag, &
@@ -111,14 +109,13 @@ MODULE dbcsr_api
       dbcsr_add_block_node_prv => dbcsr_add_block_node, &
       dbcsr_conform_scalar_prv => dbcsr_conform_scalar
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
-   USE dbcsr_tests, ONLY: dbcsr_run_tests, &
+   USE dbcsr_tests, ONLY: dbcsr_run_tests_prv => dbcsr_run_tests, &
                           dbcsr_test_binary_io, &
                           dbcsr_test_mm
    USE dbcsr_string_utilities, ONLY: uppercase
    USE dbcsr_transformations, ONLY: dbcsr_complete_redistribute_prv => dbcsr_complete_redistribute, &
                                     dbcsr_desymmetrize_deep_prv => dbcsr_desymmetrize_deep, &
                                     dbcsr_distribute_prv => dbcsr_distribute, &
-                                    dbcsr_new_transposed_prv => dbcsr_new_transposed, &
                                     dbcsr_replicate_all_prv => dbcsr_replicate_all, &
                                     dbcsr_transposed_prv => dbcsr_transposed
    USE dbcsr_types, ONLY: &
@@ -142,8 +139,6 @@ MODULE dbcsr_api
                           int_8, &
                           real_4, &
                           real_8
-   USE dbcsr_mpiwrap, ONLY: mp_cart_rank, &
-                            mp_environ
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 #include "base/dbcsr_base_uses.f90"
@@ -675,6 +670,7 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: data_type, group
 
       TYPE(dbcsr_dist_prv_obj)                           :: dist
+      TYPE(mp_comm_type)                                 :: my_group
 
       CALL dbcsr_get_info_prv(matrix=matrix%prv, &
                               nblkrows_total=nblkrows_total, &
@@ -699,11 +695,13 @@ CONTAINS
                               name=name, &
                               matrix_type=matrix_type, &
                               data_type=data_type, &
-                              group=group)
+                              group=my_group)
 
       IF (PRESENT(distribution)) THEN
          distribution%prv = dist
       END IF
+
+      IF (PRESENT(group)) group = my_group%get_handle()
 
    END SUBROUTINE dbcsr_get_info
 
@@ -721,10 +719,16 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                     :: subgroups_defined
       INTEGER, INTENT(OUT), OPTIONAL                     :: prow_group, pcol_group
 
+      TYPE(mp_comm_type) :: my_group, my_prow_group, my_pcol_group
+
       call dbcsr_distribution_get_prv(dist%prv, row_dist, col_dist, &
                                       nrows, ncols, has_threads, &
-                                      group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
-                                      subgroups_defined, prow_group, pcol_group)
+                                      my_group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
+                                      subgroups_defined, my_prow_group, my_pcol_group)
+
+      IF (PRESENT(group)) group = my_group%get_handle()
+      IF (PRESENT(prow_group)) prow_group = my_prow_group%get_handle()
+      IF (PRESENT(pcol_group)) pcol_group = my_pcol_group%get_handle()
    END SUBROUTINE dbcsr_distribution_get
 
    SUBROUTINE dbcsr_distribution_hold(dist)
@@ -856,6 +860,8 @@ CONTAINS
 
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_dist, cont_col_dist
 
+      TYPE(mp_comm_type)                                 :: my_mp_group
+
       ! Make the arrays contiguous, avoid change in the API
       ALLOCATE (cont_row_dist(SIZE(row_dist)), cont_col_dist(SIZE(col_dist)))
       cont_row_dist(:) = row_dist(:)
@@ -868,12 +874,25 @@ CONTAINS
          END IF
       END IF
 
-      IF (PRESENT(template)) THEN
-         call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, cont_row_dist, cont_col_dist, &
-                                         reuse_arrays=.TRUE.)
+      IF (PRESENT(group)) THEN
+         CALL my_mp_group%set_handle(group)
+         IF (PRESENT(template)) THEN
+            call dbcsr_distribution_new_prv(dist%prv, template%prv, my_mp_group, pgrid, cont_row_dist, cont_col_dist, &
+                                            reuse_arrays=.TRUE.)
+         ELSE
+            call dbcsr_distribution_new_prv(dist%prv, group=my_mp_group, pgrid=pgrid, &
+                                            row_dist=cont_row_dist, col_dist=cont_col_dist, &
+                                            reuse_arrays=.TRUE.)
+         END IF
       ELSE
-         call dbcsr_distribution_new_prv(dist%prv, group=group, pgrid=pgrid, row_dist=cont_row_dist, col_dist=cont_col_dist, &
-                                         reuse_arrays=.TRUE.)
+         IF (PRESENT(template)) THEN
+            call dbcsr_distribution_new_prv(dist%prv, template%prv, pgrid=pgrid, row_dist=cont_row_dist, col_dist=cont_col_dist, &
+                                            reuse_arrays=.TRUE.)
+         ELSE
+            call dbcsr_distribution_new_prv(dist%prv, pgrid=pgrid, &
+                                            row_dist=cont_row_dist, col_dist=cont_col_dist, &
+                                            reuse_arrays=.TRUE.)
+         END IF
       END IF
    END SUBROUTINE dbcsr_distribution_new
 
@@ -1031,7 +1050,11 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: groupid
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_new
 
-      CALL dbcsr_binary_read_prv(filepath, distribution%prv, groupid, matrix_new%prv)
+      TYPE(mp_comm_type)                                 :: my_comm
+
+      CALL my_comm%set_handle(groupid)
+
+      CALL dbcsr_binary_read_prv(filepath, distribution%prv, my_comm, matrix_new%prv)
    END SUBROUTINE dbcsr_binary_read
 
    SUBROUTINE dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, &
@@ -1118,6 +1141,24 @@ CONTAINS
       has_symmetry = dbcsr_has_symmetry_prv(matrix%prv)
    END FUNCTION dbcsr_has_symmetry
 
+   SUBROUTINE csr_create_new(csr_mat, nrows_total, ncols_total, nze_total, &
+                             nze_local, nrows_local, mp_group, data_type)
+      TYPE(dbcsr_csr_type), INTENT(OUT)                  :: csr_mat
+      INTEGER, INTENT(IN)                                :: nrows_total, ncols_total
+      INTEGER(KIND=int_8)                                :: nze_total
+      INTEGER, INTENT(IN)                                :: nze_local, nrows_local
+      INTEGER, INTENT(IN)                                :: mp_group
+      INTEGER, INTENT(IN), OPTIONAL                      :: data_type
+
+      TYPE(mp_comm_type)                                 :: my_mp_group
+
+      CALL my_mp_group%set_handle(mp_group)
+
+      CALL csr_create_new_prv(csr_mat, nrows_total, ncols_total, nze_total, &
+                              nze_local, nrows_local, my_mp_group, data_type)
+
+   END SUBROUTINE csr_create_new
+
    SUBROUTINE dbcsr_csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_sparsity, numnodes)
 
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
@@ -1182,6 +1223,31 @@ CONTAINS
 
       call dbcsr_add_block_node_prv(matrix%prv, block_row, block_col, block)
    END SUBROUTINE dbcsr_add_block_node
+
+   SUBROUTINE dbcsr_run_tests(mp_group, io_unit, nproc, matrix_sizes, trs, &
+                              bs_m, bs_n, bs_k, sparsities, alpha, beta, data_type, test_type, &
+                              n_loops, eps, retain_sparsity, always_checksum)
+
+      INTEGER, INTENT(IN)                                :: mp_group, io_unit
+      INTEGER, DIMENSION(:), POINTER                     :: nproc
+      INTEGER, DIMENSION(:), INTENT(in)                  :: matrix_sizes
+      LOGICAL, DIMENSION(2), INTENT(in)                  :: trs
+      INTEGER, DIMENSION(:), POINTER                     :: bs_m, bs_n, bs_k
+      REAL(kind=dp), DIMENSION(3), INTENT(in)            :: sparsities
+      REAL(kind=dp), INTENT(in)                          :: alpha, beta
+      INTEGER, INTENT(IN)                                :: data_type, test_type, n_loops
+      REAL(kind=dp), INTENT(in)                          :: eps
+      LOGICAL, INTENT(in)                                :: retain_sparsity, always_checksum
+
+      TYPE(mp_comm_type)                                 :: my_mp_group
+
+      CALL my_mp_group%set_handle(mp_group)
+
+      CALL dbcsr_run_tests_prv(my_mp_group, io_unit, nproc, matrix_sizes, trs, &
+                               bs_m, bs_n, bs_k, sparsities, alpha, beta, data_type, test_type, &
+                               n_loops, eps, retain_sparsity, always_checksum)
+
+   END SUBROUTINE dbcsr_run_tests
 
    #:include 'data/dbcsr.fypp'
    #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float

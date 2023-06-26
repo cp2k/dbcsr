@@ -38,11 +38,11 @@ MODULE dbcsr_tensor_types
       dbcsr_t_get_mapping_info, nd_to_2d_mapping, split_tensor_index, combine_tensor_index, combine_pgrid_index, &
       split_pgrid_index, ndims_mapping, ndims_mapping_row, ndims_mapping_column
    USE dbcsr_tas_split, ONLY: &
-      dbcsr_tas_create_split_rows_or_cols, dbcsr_tas_release_info, dbcsr_tas_info_hold, &
+      dbcsr_tas_release_info, dbcsr_tas_info_hold, &
       dbcsr_tas_create_split, dbcsr_tas_get_split_info, dbcsr_tas_set_strict_split
    USE dbcsr_kinds, ONLY: default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
-      mp_cart_create, mp_cart_rank, mp_environ, mp_dims_create, mp_comm_free, mp_comm_dup, mp_sum, mp_max
+      mp_cart_create, mp_environ, mp_dims_create, mp_comm_free, mp_comm_type
    USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution, dbcsr_tas_rowcol_data, dbcsr_tas_default_distvec
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
@@ -104,7 +104,7 @@ MODULE dbcsr_tensor_types
 
    TYPE dbcsr_t_pgrid_type
       TYPE(nd_to_2d_mapping)                  :: nd_index_grid
-      INTEGER                                 :: mp_comm_2d
+      TYPE(mp_comm_type)                      :: mp_comm_2d
       TYPE(dbcsr_tas_split_info), ALLOCATABLE :: tas_split_info
       INTEGER                                 :: nproc
    END TYPE
@@ -379,7 +379,7 @@ CONTAINS
       !! This is needed to enable contraction of 2 tensors (must have the same 2d process grid).
       !! \return with nd cartesian grid
 
-            INTEGER, INTENT(IN)                               :: comm_2d
+            TYPE(mp_comm_type), INTENT(IN)                               :: comm_2d
          !! communicator with 2-dimensional topology
             INTEGER, DIMENSION(:), INTENT(IN)                 :: map1_2d, map2_2d
          !! which nd-indices map to first matrix index and in which order
@@ -559,7 +559,7 @@ CONTAINS
 
          SUBROUTINE dbcsr_t_nd_mp_free(mp_comm)
       !! Release the MPI communicator.
-            INTEGER, INTENT(INOUT)                               :: mp_comm
+            TYPE(mp_comm_type), INTENT(INOUT)                               :: mp_comm
 
             CALL mp_comm_free(mp_comm)
          END SUBROUTINE dbcsr_t_nd_mp_free
@@ -593,7 +593,8 @@ CONTAINS
             INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL     :: ${varlist("nd_dist")}$
             LOGICAL, INTENT(IN), OPTIONAL                   :: own_comm
          !! whether distribution should own communicator
-            INTEGER                                         :: ndims, comm_2d
+            INTEGER                                         :: ndims
+            TYPE(mp_comm_type)                              :: comm_2d
             INTEGER, DIMENSION(2)                           :: pdims_2d_check, &
                                                                pdims_2d, task_coor_2d
             INTEGER, DIMENSION(SIZE(map1_2d) + SIZE(map2_2d)) :: dims, nblks_nd, task_coor
@@ -968,7 +969,7 @@ CONTAINS
 
             CHARACTER(len=default_string_length)        :: name_in
             INTEGER, DIMENSION(2)                       :: order_in
-            INTEGER                                     :: comm_2d, data_type
+            INTEGER                                     :: comm_2d_handle, data_type
             TYPE(dbcsr_distribution_type)                :: matrix_dist
             TYPE(dbcsr_t_distribution_type)             :: dist
             INTEGER, DIMENSION(:), POINTER              :: row_blk_size, col_blk_size
@@ -977,6 +978,7 @@ CONTAINS
             CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_matrix'
             TYPE(dbcsr_t_pgrid_type)                  :: comm_nd
             INTEGER, DIMENSION(2)                     :: pdims_2d
+            TYPE(mp_comm_type)                        :: comm_2d
 
             CALL timeset(routineN, handle)
 
@@ -994,8 +996,9 @@ CONTAINS
             END IF
 
             CALL dbcsr_get_info(matrix_in, distribution=matrix_dist)
-            CALL dbcsr_distribution_get(matrix_dist, group=comm_2d, row_dist=row_dist, col_dist=col_dist, &
+            CALL dbcsr_distribution_get(matrix_dist, group=comm_2d_handle, row_dist=row_dist, col_dist=col_dist, &
                                         nprows=pdims_2d(1), npcols=pdims_2d(2))
+            CALL comm_2d%set_handle(comm_2d_handle)
             comm_nd = dbcsr_t_nd_mp_comm(comm_2d, [order_in(1)], [order_in(2)], pdims_2d=pdims_2d)
 
             CALL dbcsr_t_distribution_new_expert( &
@@ -1175,7 +1178,7 @@ CONTAINS
          END SUBROUTINE
 
          SUBROUTINE dbcsr_t_pgrid_create(mp_comm, dims, pgrid, tensor_dims)
-            INTEGER, INTENT(IN) :: mp_comm
+            TYPE(mp_comm_type), INTENT(IN) :: mp_comm
             INTEGER, DIMENSION(:), INTENT(INOUT) :: dims
             TYPE(dbcsr_t_pgrid_type), INTENT(OUT) :: pgrid
             INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: tensor_dims
@@ -1206,7 +1209,7 @@ CONTAINS
       !! coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
       !! cartesian grid.
 
-            INTEGER, INTENT(IN) :: mp_comm
+            TYPE(mp_comm_type), INTENT(IN) :: mp_comm
          !! simple MPI Communicator
             INTEGER, DIMENSION(:), INTENT(INOUT) :: dims
          !! grid dimensions - if entries are 0, dimensions are chosen automatically.

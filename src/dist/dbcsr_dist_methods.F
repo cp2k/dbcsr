@@ -25,6 +25,7 @@ MODULE dbcsr_dist_methods
                              dbcsr_heap_release, &
                              dbcsr_heap_reset_first, &
                              dbcsr_heap_type
+   USE dbcsr_mpiwrap, ONLY: mp_comm_type
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_hold, &
                                dbcsr_mp_mypcol, &
                                dbcsr_mp_myprow, &
@@ -75,7 +76,7 @@ CONTAINS
          !! distribution
       TYPE(dbcsr_distribution_obj), INTENT(IN), &
          OPTIONAL                                        :: template
-      INTEGER, INTENT(IN), OPTIONAL                      :: group
+      TYPE(mp_comm_type), INTENT(IN), OPTIONAL                      :: group
       INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
       INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_dist, col_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
@@ -240,11 +241,12 @@ CONTAINS
       INTEGER, DIMENSION(:), OPTIONAL, POINTER           :: row_dist, col_dist
       INTEGER, INTENT(OUT), OPTIONAL                     :: nrows, ncols
       LOGICAL, INTENT(OUT), OPTIONAL                     :: has_threads
-      INTEGER, INTENT(OUT), OPTIONAL                     :: group, mynode, numnodes, nprows, npcols, &
+      TYPE(mp_comm_type), INTENT(OUT), OPTIONAL          :: group
+      INTEGER, INTENT(OUT), OPTIONAL                     :: mynode, numnodes, nprows, npcols, &
                                                             myprow, mypcol
       INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
       LOGICAL, INTENT(OUT), OPTIONAL                     :: subgroups_defined
-      INTEGER, INTENT(OUT), OPTIONAL                     :: prow_group, pcol_group
+      TYPE(mp_comm_type), INTENT(OUT), OPTIONAL          :: prow_group, pcol_group
 
       IF (PRESENT(row_dist)) row_dist => array_data(dist%d%row_dist_block)
       IF (PRESENT(col_dist)) col_dist => array_data(dist%d%col_dist_block)

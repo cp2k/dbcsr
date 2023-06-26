@@ -17,7 +17,7 @@ MODULE dbcsr_tas_util
                           dbcsr_no_transpose
    USE dbcsr_kinds, ONLY: int_8
    USE dbcsr_mpiwrap, ONLY: mp_cart_rank, &
-                            mp_environ
+                            mp_environ, mp_comm_type
    USE dbcsr_index_operations, ONLY: dbcsr_sort_indices
 
 #include "base/dbcsr_base_uses.f90"
@@ -53,7 +53,7 @@ MODULE dbcsr_tas_util
 CONTAINS
    FUNCTION dbcsr_mp_environ(mp_comm)
       !! Create a dbcsr mp environment from communicator
-      INTEGER, INTENT(IN)                                :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_comm
       TYPE(dbcsr_mp_obj)                                 :: dbcsr_mp_environ
 
       INTEGER                                            :: mynode, numnodes, pcol, prow

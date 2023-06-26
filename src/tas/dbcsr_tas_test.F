@@ -37,7 +37,7 @@ MODULE dbcsr_tas_test
                           real_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, &
                             mp_cart_create, &
-                            mp_comm_free
+                            mp_comm_free, mp_comm_type
    USE dbcsr_dist_methods, ONLY: dbcsr_distribution_new
    USE dbcsr_work_operations, ONLY: dbcsr_create, &
                                     dbcsr_finalize
@@ -46,7 +46,7 @@ MODULE dbcsr_tas_test
                                dbcsr_add
    USE dbcsr_transformations, ONLY: dbcsr_complete_redistribute
    USE dbcsr_blas_operations, ONLY: &
-      dbcsr_lapack_larnv, set_larnv_seed
+      set_larnv_seed
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -69,8 +69,8 @@ CONTAINS
                                           dist_splitsize, name, sparsity, reuse_comm)
 
       TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix
-      INTEGER, INTENT(OUT)                               :: mp_comm_out
-      INTEGER, INTENT(IN)                                :: mp_comm
+      TYPE(mp_comm_type), INTENT(OUT)                               :: mp_comm_out
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_comm
       INTEGER(KIND=int_8), INTENT(IN)                    :: nrows, ncols
       INTEGER, DIMENSION(nrows), INTENT(IN)              :: rbsizes
       INTEGER, DIMENSION(ncols), INTENT(IN)              :: cbsizes
@@ -179,7 +179,7 @@ CONTAINS
       INTEGER                                            :: handle1, handle2
       TYPE(dbcsr_type)                                   :: dbcsr_a, dbcsr_b, dbcsr_c, &
                                                             dbcsr_a_mm, dbcsr_b_mm, dbcsr_c_mm
-      INTEGER                                            :: mp_comm, comm_dbcsr
+      TYPE(mp_comm_type)                                 :: mp_comm, comm_dbcsr
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
       INTEGER, DIMENSION(2)                              :: npdims, myploc
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cd_a, cd_b, cd_c, &
@@ -290,7 +290,7 @@ CONTAINS
       REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: filter_eps
 
       CHARACTER(LEN=1)                                   :: transa_prv, transb_prv
-      INTEGER                                            :: comm_dbcsr, io_unit, mp_comm, mynode, &
+      INTEGER                                            :: io_unit, mynode, &
                                                             numnodes
       INTEGER, DIMENSION(2)                              :: myploc, npdims
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cd_a, cd_b, cd_c, &
@@ -301,6 +301,7 @@ CONTAINS
       TYPE(dbcsr_type)                                   :: dbcsr_a, dbcsr_a_mm, dbcsr_b, &
                                                             dbcsr_b_mm, dbcsr_c, dbcsr_c_mm, &
                                                             dbcsr_c_mm_check
+      TYPE(mp_comm_type)                                 :: comm_dbcsr, mp_comm
       REAL(KIND=real_8), PARAMETER :: test_tol = 1.0E-10_real_8
 
       CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
