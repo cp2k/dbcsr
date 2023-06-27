@@ -14,12 +14,12 @@ import json
 import argparse
 
 sys.path.append("../")
-from kernels.smm_acc_predict import params_dict_to_kernel  # noqa: E402
+from kernels.smm_acc import params_dict_to_kernel  # noqa: E402
 
 
 def main(param_fn):
     # Read new kernel parameters
-    param_new = "parameters.json"
+    param_new = "../parameters/parameters.json"
     with open(param_new) as f:
         new_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
 
@@ -70,7 +70,7 @@ if __name__ == "__main__":
         "--params",
         metavar="parameters_GPU.json",
         type=str,
-        default="../parameters/parameters_P100.json",
+        default="../parameters/parameters_A100.json",
         help="parameter file in which to merge the newly obtained autotuned parameters",
     )
 

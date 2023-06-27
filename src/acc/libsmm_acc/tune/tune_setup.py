@@ -252,7 +252,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
 
 
 # ===============================================================================
-def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task=12, max_num_nodes=0):
+def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task, max_num_nodes=0):
     file_extension = get_file_extension_from_compiler(compiler)
 
     tprefix = f"tune_{int(m)}x{int(n)}x{int(k)}"
@@ -262,10 +262,7 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task=12, max_num_nodes=0):
         num_nodes = min(len(all_exe), max_num_nodes)
     else:
         num_nodes = len(all_exe)
-    if num_nodes < 3:
-        time = "4:00:00"
-    else:
-        time = "0:30:00"
+    time = "00:40:00"
 
     output = f"""\
 #!/bin/bash -l
@@ -275,30 +272,23 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task=12, max_num_nodes=0):
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task={int(cpus_per_task)}
 #SBATCH --time={time}
-#SBATCH --partition=bardpeak
-
-source ${{MODULESHOME}}/init/sh; module use /global/opt/modulefiles;
-module unload PrgEnv-cray
-module load PrgEnv-gnu
-"""
-    if compiler == "nvcc":
-        output += "module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c\n"
-    else:  # i.e. compiler = hipcc
-        output += "module load rocm/5.1.0; module load craype-accel-amd-gfx90a;\n"
-
-    output += """\
-export ROCR_VISIBLE_DEVICES=4 # GPU corresponding to Numa node 0
+#SBATCH --account=jiek61
+#SBATCH --partition=dc-gpu
+#SBATCH --cuda-mps
+#SBATCH --gres=gpu:4
+module purge
+module add GCC/11.3.0
+module add ParaStationMPI/5.8.0-1-mt
+module add CUDA/11.7
 module list
-cd $SLURM_SUBMIT_DIR
-
-date
+nvidia-smi
+t1=$(date +%s)
 """
-
     # Compilation
     num_nodes_busy = 0
     for exe in all_exe:
         output += (
-            f"srun --nodes=1 --bcast=/tmp/${{USER}} --ntasks=1 --ntasks-per-node=1"
+            f"srun --nodes=1 --ntasks=1 --ntasks-per-node=1"
             f" --cpus-per-task={cpus_per_task} --exact make -j {cpus_per_task} {exe} &\n"
         )
         num_nodes_busy += 1
@@ -307,13 +297,14 @@ date
             num_nodes_busy = 0
 
     output += "wait\n"
-    output += "date\n"
-    output += "\n"
+    output += "t2=$(date +%s)\n"
+    output += "echo $((t2-t1)) seconds for compilation step\n\n"
 
     # Execution
+    output += "t1=$(date +%s)\n"
     for exe in all_exe:
         output += (
-            f"srun --nodes=1 --bcast=/tmp/${{USER}} --ntasks=1 --ntasks-per-node=1"
+            f"srun --nodes=1 --ntasks=1 --ntasks-per-node=1"
             f" --cpus-per-task=1 --exact ./{exe} > {exe}.log 2>&1 & \n"
         )
         num_nodes_busy += 1
@@ -322,14 +313,15 @@ date
             num_nodes_busy = 0
 
     output += "wait\n"
-    output += "date\n"
-    output += "\n"
+    output += "t2=$(date +%s)\n"
+    output += "echo $((t2-t1)) seconds for execution step\n\n"
 
     # Winner
     output += "echo Over all winner:\n"
-    output += f"grep WINNER {tprefix}_exe*.log  |  sort -n --field-separator='#' -k 2 | tail -n 1\n"
-    output += "\n"
-    output += "#EOF\n"
+    output += f"grep WINNER {tprefix}_exe*.log | sort -n --field-separator='#' -k 2 | tail -n 1\n\n"
+
+    # Cleaning
+    output += "make realclean\n"
 
     fn = outdir / f"{tprefix}.job"
     writefile(fn, output)
@@ -342,8 +334,12 @@ def gen_makefile(outdir, compiler, arch):
     # header
     output = ".SECONDARY:\n"
     output += f"vpath %{file_extension}../\n\n"
-    output += ".PHONY: do_nothing build_all \n\n"
+    output += ".PHONY: do_nothing build_all clean realclean\n\n"
     output += "do_nothing:\n\n"
+    output += "clean:\n"
+    output += "	rm -f *.o\n\n"
+    output += "realclean: clean\n"
+    output += "	rm -f *.cu\n\n"
 
     # target "build_all"
     all_exe_src = sorted(
@@ -461,7 +457,7 @@ if __name__ == "__main__":
         "-c",
         "--cpus_per_task",
         metavar="INT",
-        default=12,
+        default=128,
         type=int,
         help="Number of CPUs required per task",
     )
@@ -469,7 +465,7 @@ if __name__ == "__main__":
         "-n",
         "--nodes",
         metavar="INT",
-        default=0,
+        default=1,
         type=int,
         help="Maximum number of nodes an slurm allocation can get. 0: not a limiting factor"
         + "(choose this option if you can allocate jobs of 20-30 nodes without a problem.",
