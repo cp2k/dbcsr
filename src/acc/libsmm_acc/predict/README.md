@@ -71,7 +71,7 @@ A few steps are needed to make the data ready for training:
 - Compress training data files from CSV to Parquet files
 
 ```bash
-./prepare_data.py  # --folder /scratch/autotuning_dataset -a 60 -j12, e.g. to run with 12 threads
+./prepare_training_data.py  # --folder /scratch/autotuning_dataset -a 60 -j12, e.g. to run with 12 threads
 ```
 
 The data preparation is relatively computationally expensive, especially for large data sets.
