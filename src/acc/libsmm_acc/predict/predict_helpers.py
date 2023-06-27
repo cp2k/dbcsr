@@ -16,7 +16,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 sys.path.append("../")
-from kernels.smm_acc_predict import to_string  # noqa: E402
+from kernels.smm_acc import to_string  # noqa: E402
 
 
 # ===============================================================================
@@ -116,6 +116,7 @@ def plot_absolute_performance_gain(
         pp.savefig()
     else:
         plt.show()
+    plt.close()
 
 
 def plot_relative_performance_gain(
@@ -144,6 +145,7 @@ def plot_relative_performance_gain(
         pp.savefig()
     else:
         plt.show()
+    plt.close()
 
 
 def plot_performance_gains(
@@ -179,6 +181,7 @@ def plot_performance_gains(
         pp.savefig()
     else:
         plt.show()
+    plt.close()
 
 
 def plot_scaled_performance_gains(
@@ -214,6 +217,7 @@ def plot_scaled_performance_gains(
         pp.savefig()
     else:
         plt.show()
+    plt.close()
 
 
 def plot_choice_goodness(
@@ -294,3 +298,4 @@ def plot_choice_goodness(
 
     plt.legend(loc="lower right")
     pp.savefig()
+    plt.close()
