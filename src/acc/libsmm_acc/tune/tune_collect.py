@@ -53,13 +53,10 @@ def main(tune_dir=Path(".")):
         if not dir.is_dir():
             continue
 
-        for exe_fpath in sorted(dir.glob("tune_*main.c*")):
-            mnk = tuple(int(i) for i in re_mnk.search(exe_fpath.name).groups())
+        for log_fpath in sorted(dir.glob("tune_*.log")):
+            mnk = tuple(int(i) for i in re_mnk.search(log_fpath.name).groups())
             if mnk not in winners:
                 winners[mnk] = awinner()
-            log_fpath = exe_fpath.parent / exe_fpath.name.replace(
-                "_main.cu", ".log"
-            ).replace("_main.cpp", ".log")
             if not log_fpath.exists():
                 winners[mnk] = awinner(value=f"log missing: {log_fpath}", missing=1)
                 print(
@@ -100,7 +97,7 @@ def main(tune_dir=Path(".")):
 
 # ===============================================================================
 def process_log(log_fn: Path, mnk, winners):
-    print(f"Reading: {log_fn}")
+    print(f"Reading {log_fn}")
 
     content = log_fn.read_text()
     m = re_errors.search(content)
