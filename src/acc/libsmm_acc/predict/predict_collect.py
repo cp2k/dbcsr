@@ -17,11 +17,8 @@ import argparse
 import pandas as pd
 
 sys.path.append("../")
-from kernels.cusmm_predict import (  # noqa: E402
-    to_string,
-    kernel_algorithm,
-    parameter_types,
-)  # noqa: E402
+
+from kernels.smm_acc import to_string, kernel_algorithm, parameter_types  # noqa: E402
 
 
 # ===============================================================================
@@ -32,6 +29,15 @@ def main(tunedir):
     - dump them to CSV files for data analysis and training of a predictive model
     """
     # ===============================================================================
+    # Check for old data files first
+    for algorithm in kernel_algorithm.keys():
+        training_data_file = os.path.join(tunedir, f"raw_training_data_{algorithm}.csv")
+        if os.path.exists(training_data_file):
+            print(
+                f"WARNING: Found old data file {training_data_file}, re(move) it first ... exiting"
+            )
+            sys.exit(1)
+
     # Find all the 'tune_MxNxK' folders
     kernel_folder_pattern = re.compile(r"tune_(\d+)x(\d+)x(\d+)$")
     kernel_folders = [
@@ -46,7 +52,7 @@ def main(tunedir):
         + " in folder "
         + tunedir
     )
-    print("Found {:,} kernel folders".format(n_kernels))
+    print(f"Found {n_kernels} kernel folders")
 
     # Collect information and write to csv
     collect_training_data(kernel_folders, kernel_folder_pattern)
@@ -79,7 +85,7 @@ def read_log_file(log_folder, m, n, k):
     # Parse the log files and collect data
     data = list()
     for log_file in log_files:
-        print("Processing log file", log_file)
+        print(f"Processing log file {log_file}")
         with open(os.path.join(log_folder, log_file), "r") as f:
             log_file_content = f.read().splitlines()
 
@@ -111,7 +117,7 @@ def read_log_file(log_folder, m, n, k):
                     }
                 )
 
-    print("Autotuning lines found: ", len(data))
+    print(f"{len(data)} autotuning lines found")
 
     # Merge dictionaries into a pandas dataframe
     dataframe = pd.DataFrame(data)
@@ -130,7 +136,7 @@ def collect_training_data(kernel_folders, kernel_folder_pattern):
     # For each folder:
     n_kernels = len(kernel_folders)
     for i, kernel_folder in enumerate(kernel_folders):
-        print("\nProcess folder {} ({}/{:,})".format(kernel_folder, i + 1, n_kernels))
+        print(f"\nProcess folder {kernel_folder} ({i+1}/{n_kernels})")
 
         # Find (m, n, k)
         # Each folder contains data for just one (m, n, k) but potentially mutliple algorithms
@@ -141,7 +147,12 @@ def collect_training_data(kernel_folders, kernel_folder_pattern):
 
         # ===============================================================================
         # Collect info from log files
-        data = read_log_file(kernel_folder, m, n, k)
+        log_files = [f for f in os.listdir(kernel_folder) if f[-4:] == ".log"]
+        if len(log_files) > 0:
+            data = read_log_file(kernel_folder, m, n, k)
+        else:
+            print(f"No log files found in folder {kernel_folder} ... skipping")
+            continue
 
         # ===============================================================================
         # Write parameters to CSV
@@ -159,18 +170,14 @@ def collect_training_data(kernel_folders, kernel_folder_pattern):
                 )
 
                 if os.path.exists(raw_parameters_file_name):
-                    print(
-                        "\tFound csv file:", raw_parameters_file_name, ", skipping ..."
-                    )
-
+                    print(f"Found csv file {raw_parameters_file_name} ... skipping")
                 else:
                     # Get the data corresponding to this algorithm
                     data_algo = data[data["algorithm"] == name_algo]
-
                     # Write raw parameters
                     pars_to_get = kernel_algo.launch_parameters + ["perf (Gflop/s)"]
                     data_algo[pars_to_get].to_csv(raw_parameters_file_name, index=False)
-                    print("\tWrote", raw_parameters_file_name)
+                    print("Wrote", raw_parameters_file_name)
 
 
 # ===============================================================================
@@ -184,52 +191,48 @@ def merge_data_files(tunedir):
         )
 
         if os.path.exists(training_data_file):
-            print("\nFound {}, skipping ... ".format(training_data_file))
+            print(f"\nFound {training_data_file} ... skipping")
+            os.rename(training_data_file, f"{training_data_file}.bak")
+
+        print(f"\nMerging partial CSV files into {training_data_file} ... ")
+
+        filenames_pattern = os.path.join(
+            tunedir,
+            "tune_*/raw_training_data_*_{algorithm}.csv".format(algorithm=algorithm),
+        )
+        print("Merging all files with pattern:", filenames_pattern)
+        filenames = glob.glob(filenames_pattern)
+        if len(filenames) == 0:
+            print("Found no files matching this pattern ... skipping")
 
         else:
-            print("\nMerging partial CSV files into {} ... ".format(training_data_file))
+            print(f"Found {len(filenames)} files matching this pattern")
 
-            filenames_pattern = os.path.join(
-                tunedir,
-                "tune_*/raw_training_data_*_{algorithm}.csv".format(
-                    algorithm=algorithm
-                ),
-            )
-            print("Merging all files with pattern:", filenames_pattern)
-            filenames = glob.glob(filenames_pattern)
-            if len(filenames) == 0:
-                print("Found no files matching this pattern, skipping ...")
-
-            else:
-                print("Found {} files matching this pattern".format(len(filenames)))
-
-                with open(training_data_file, "w") as out:
-                    # Write the first file, including its header
-                    fn_1 = filenames.pop(0)
-                    with open(fn_1) as f:
-                        header_line_ref = next(f)  # read header line
-                        out.write(header_line_ref)  # write header line
-                        out.write(f.read())  # write the rest of the file
-                    # Write the rest of the files, skipping the header line each time
-                    for i, fn in enumerate(filenames):
-                        print(
-                            "writing from {} ({}/{})".format(fn, i + 1, len(filenames))
+            with open(training_data_file, "w") as out:
+                # Write the first file, including its header
+                fn_1 = filenames.pop(0)
+                with open(fn_1) as f:
+                    header_line_ref = next(f)  # read header line
+                    out.write(header_line_ref)  # write header line
+                    out.write(f.read())  # write the rest of the file
+                # Write the rest of the files, skipping the header line each time
+                for i, fn in enumerate(filenames):
+                    print("writing from {} ({}/{})".format(fn, i + 1, len(filenames)))
+                    with open(fn) as f:
+                        header_line = next(f)  # skip header line
+                        assert header_line == header_line_ref, (
+                            'Cannot merge file "'
+                            + fn
+                            + '", because its header line:\n'
+                            + header_line
+                            + 'is different from the header line of file "'
+                            + fn_1
+                            + '":\n'
+                            + header_line_ref
                         )
-                        with open(fn) as f:
-                            header_line = next(f)  # skip header line
-                            assert header_line == header_line_ref, (
-                                'Cannot merge file "'
-                                + fn
-                                + '", because its header line:\n'
-                                + header_line
-                                + 'is different from the header line of file "'
-                                + fn_1
-                                + '":\n'
-                                + header_line_ref
-                            )
-                            out.write(f.read())
+                        out.write(f.read())
 
-                print("Wrote to {}".format(training_data_file))
+            print("Wrote to {}".format(training_data_file))
 
 
 # ===============================================================================
@@ -257,8 +260,8 @@ if __name__ == "__main__":
         "--arch",
         metavar="ARCHITECTURE_NUMBER",
         type=int,
-        default=60,
-        help="GPU architecture code. Options: sm_35, sm_37, sm_60, sm_70, gfx906",
+        default=80,
+        help="GPU architecture code. Options: sm_35, sm_37, sm_60, sm_70, sm_80, gfx906",
     )
 
     args = parser.parse_args()

@@ -1,5 +1,5 @@
 eli5>=0.8.1
-joblib>=0.13.1
+joblib>=0.13.1, <=0.17.0
 tqdm>=4.32.2
 matplotlib>=3.0.2
 numpy>=1.16.0
