@@ -111,8 +111,8 @@ ifneq (0,$(DEV))
     OMP := 0
   endif
   CFLAGS += -pedantic
-else
-  CFLAGS += -std=c99
+#else
+  #CFLAGS += -std=c99
 endif
 
 ifneq (0,$(DBG))
