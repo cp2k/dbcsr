@@ -142,7 +142,6 @@ def find_optimal_kernel(
         optimal_kernels = dict()
 
     else:
-
         # Get predictor features from raw parameters
         parameter_sets = PredictiveParameters(
             parameter_space, gpu_properties, autotuning_properties, None
@@ -233,7 +232,6 @@ def get_optimal_kernels(
     print("Caching intermediate results to:", ckpt_folder_name)
 
     for i in range(0, num_mnks_by_algo, chunk_size):
-
         # Chunk up tasks
         start_chunk = i
         end_chunk = int(min(start_chunk + chunk_size, num_mnks_by_algo))
@@ -258,7 +256,6 @@ def get_optimal_kernels(
             print(f"Read chunk {start_chunk}-{end_chunk - 1}\n")
 
         else:
-
             if njobs == 1:
                 j = i
                 optimal_kernels_list_ = list()
@@ -266,7 +263,9 @@ def get_optimal_kernels(
                 for mnk, algo in mnks_by_algo[start_chunk:end_chunk]:
                     j += 1
                     gc.collect()
-                    print(f"{j:6d} of {num_mnks_by_algo}: Find optimal kernels for mnk = {mnk} algo = {algo}")
+                    print(
+                        f"{j:6d} of {num_mnks_by_algo}: Find optimal kernels for mnk = {mnk} algo = {algo}"
+                    )
                     optker = find_optimal_kernel(
                         mnk,
                         algo,
@@ -276,10 +275,9 @@ def get_optimal_kernels(
                         autotuning_properties,
                     )
                     if optker:
-                       optimal_kernels_list_.append(optker)
+                        optimal_kernels_list_.append(optker)
 
             else:
-
                 # Run prediction tasks in parallel with joblib
                 optimal_kernels_list_ = Parallel(n_jobs=njobs, verbose=2)(
                     delayed(find_optimal_kernel, check_pickle=True)(
@@ -330,7 +328,6 @@ def get_optimal_kernels(
 
 
 def get_baseline_kernels(mnks_to_predict, gpu_propertes, autotuning_properties):
-
     print("Getting baseline kernels")
     baseline_algorithm = "medium"
     baseline_kernels = list()
