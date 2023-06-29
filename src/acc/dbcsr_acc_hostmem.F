@@ -23,6 +23,8 @@ MODULE dbcsr_acc_hostmem
    USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
                                acc_stream_cptr, &
                                acc_stream_type
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_set_active_device
+   USE dbcsr_config, ONLY: get_accdrv_active_device_id
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -98,6 +100,7 @@ CONTAINS
 
       stream_cptr = acc_stream_cptr(stream)
 
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_host_mem_alloc(host_mem_c_ptr, n_bytes, stream_cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_hostmem_alloc_raw: Could not allocate host pinned memory")
@@ -120,6 +123,7 @@ CONTAINS
 
       stream_cptr = acc_stream_cptr(stream)
 
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_host_mem_dealloc(host_mem_c_ptr, stream_cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_hostmem_dealloc_raw: Could not deallocate host pinned memory")

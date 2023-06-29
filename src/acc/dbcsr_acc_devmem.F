@@ -24,6 +24,8 @@ MODULE dbcsr_acc_devmem
                                acc_stream_cptr, &
                                acc_stream_synchronize, &
                                acc_stream_type
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_set_active_device
+   USE dbcsr_config, ONLY: get_accdrv_active_device_id
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -209,6 +211,8 @@ CONTAINS
       IF (this%size_in_bytes < requested_size_in_bytes) THEN
          !WRITE (*,*) "acc_devmem_ensure_size_bytes: growing dev_mem to: ", data_size
 
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
+
          new_size = requested_size_in_bytes
          old_size = this%size_in_bytes
          old_cptr = this%cptr
@@ -332,6 +336,7 @@ CONTAINS
       INTEGER(KIND=C_INT)                      :: istat
       INTEGER(KIND=C_SIZE_T)                   :: free_c, total_c
 
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_dev_mem_info(free_c, total_c)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_devmem_info: failed")
@@ -360,6 +365,7 @@ CONTAINS
          DBCSR_ABORT("acc_devmem_alloc: already allocated")
       this%size_in_bytes = size_in_bytes
       IF (size_in_bytes > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_dev_mem_alloc(this%cptr, INT(this%size_in_bytes, KIND=C_SIZE_T))
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_allocate: failed")
@@ -381,6 +387,7 @@ CONTAINS
       IF (this%size_in_bytes < 0) &
          DBCSR_ABORT("acc_devmem_deallocate: double free")
       IF (this%size_in_bytes > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_dev_mem_dealloc(this%cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_deallocate: failed")
@@ -426,6 +433,7 @@ CONTAINS
       stream_cptr = acc_stream_cptr(stream)
 
       IF (length > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_memzero(this%cptr, offset, length, stream_cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_setzero: failed")
@@ -451,6 +459,7 @@ CONTAINS
 
       stream_cptr = acc_stream_cptr(stream)
       IF (n_bytes > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_memcpy_h2d(hostmem_cptr, this%cptr, &
                                           INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &
@@ -479,6 +488,7 @@ CONTAINS
       stream_cptr = acc_stream_cptr(stream)
 
       IF (n_bytes > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_memcpy_d2h(this%cptr, hostmem_cptr, &
                                           INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &

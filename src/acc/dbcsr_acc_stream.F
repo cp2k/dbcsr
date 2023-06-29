@@ -12,6 +12,8 @@ MODULE dbcsr_acc_stream
 #if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_PTR, C_NULL_PTR, C_NULL_CHAR, C_ASSOCIATED
 #endif
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_set_active_device
+   USE dbcsr_config, ONLY: get_accdrv_active_device_id
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -126,6 +128,7 @@ CONTAINS
       IF (C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_stream_create: stream already allocated")
 
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_stream_create(this%cptr, name//c_null_char, my_priority)
 
       IF (istat /= 0 .OR. .NOT. C_ASSOCIATED(this%cptr)) &
@@ -146,6 +149,7 @@ CONTAINS
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_stream_destroy: stream not allocated")
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_stream_destroy(this%cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_stream_destroy failed")
@@ -166,6 +170,7 @@ CONTAINS
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_stream_synchronize: stream not allocated")
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_stream_sync(this%cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_stream_synchronize failed")
