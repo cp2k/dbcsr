@@ -405,7 +405,7 @@
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private elemental function <a href='../proc/mp_request_op_eq.html'>mp_request_op_eq</a>(request1, request2)  
+    private impure elemental function <a href='../proc/mp_request_op_eq.html'>mp_request_op_eq</a>(request1, request2)  
 </h3>
     
   
@@ -470,7 +470,7 @@
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private elemental function <a href='../proc/mp_request_op_eq.html'>mp_request_op_eq</a>(request1, request2)  
+    private impure elemental function <a href='../proc/mp_request_op_eq.html'>mp_request_op_eq</a>(request1, request2)  
 </h3>
     
   
@@ -535,7 +535,7 @@
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private elemental function <a href='../proc/mp_request_op_ne.html'>mp_request_op_ne</a>(request1, request2)  
+    private impure elemental function <a href='../proc/mp_request_op_ne.html'>mp_request_op_ne</a>(request1, request2)  
 </h3>
     
   
@@ -600,7 +600,7 @@
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private elemental function <a href='../proc/mp_request_op_ne.html'>mp_request_op_ne</a>(request1, request2)  
+    private impure elemental function <a href='../proc/mp_request_op_ne.html'>mp_request_op_ne</a>(request1, request2)  
 </h3>
     
   
@@ -665,7 +665,7 @@
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">mp_request_type</span><span class="w"></span>
 <span class="w">      </span><span class="k">PRIVATE</span>
-<span class="k">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_request_null_handle</span><span class="w"></span>
+<span class="k">      </span><span class="n">MPI_REQUEST_TYPE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_request_null_handle</span><span class="w"></span>
 <span class="w">   </span><span class="k">CONTAINS</span>
 <span class="k">      PROCEDURE</span><span class="p">,</span><span class="w"> </span><span class="k">PUBLIC</span><span class="p">,</span><span class="w"> </span><span class="k">PASS</span><span class="p">(</span><span class="n">request</span><span class="p">),</span><span class="w"> </span><span class="k">NON_OVERRIDABLE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_handle</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">mp_get_request_handle</span><span class="w"></span>
 <span class="w">      </span><span class="k">PROCEDURE</span><span class="p">,</span><span class="w"> </span><span class="k">PUBLIC</span><span class="p">,</span><span class="w"> </span><span class="k">PASS</span><span class="p">(</span><span class="n">request</span><span class="p">),</span><span class="w"> </span><span class="k">NON_OVERRIDABLE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set_handle</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">mp_set_request_handle</span><span class="w"></span>

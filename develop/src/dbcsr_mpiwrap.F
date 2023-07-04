@@ -24,8 +24,28 @@ MODULE dbcsr_mpiwrap
 # 31 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.fypp"
 # 21 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F" 2
 
-#if defined(__parallel)
+#if defined(__parallel) && defined(__USE_MPI_F08)
+   USE mpi_f08, ONLY: mpi_datatype, mpi_comm, mpi_request, mpi_win, mpi_file, mpi_info, mpi_status, mpi_group, MPI_ANY_TAG, &
+                      MPI_ANY_SOURCE, MPI_COMM_NULL, MPI_COMM_SELF, MPI_COMM_WORLD, MPI_REQUEST_NULL, MPI_WIN_NULL, &
+                      MPI_FILE_NULL, MPI_INFO_NULL, MPI_DATATYPE_NULL, MPI_STATUS_SIZE, MPI_PROC_NULL, &
+                      MPI_MAX_LIBRARY_VERSION_STRING, MPI_OFFSET_KIND, MPI_ADDRESS_KIND, MPI_MODE_CREATE, &
+                      MPI_MODE_RDONLY, MPI_MODE_WRONLY, MPI_MODE_RDWR, MPI_MODE_EXCL, MPI_MODE_APPEND, &
+                      MPI_MAX_ERROR_STRING, MPI_IDENT, MPI_CONGRUENT, MPI_SIMILAR, MPI_UNEQUAL, MPI_COMPLEX, MPI_DOUBLE_COMPLEX, &
+                      MPI_INTEGER, MPI_LOGICAL, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, MPI_TYPE_SIZE, MPI_FILE_READ_AT_ALL, &
+                      MPI_FILE_READ_AT, mpi_type_indexed, mpi_irecv, mpi_recv, mpi_isend, mpi_send, mpi_sendrecv, mpi_allreduce, &
+                      mpi_reduce, mpi_barrier, mpi_ibarrier, mpi_iallreduce, mpi_test, mpi_probe, mpi_wait, mpi_iprobe, &
+                      mpi_testany, mpi_testall, mpi_waitany, mpi_waitall, mpi_allgather, mpi_allgatherv, mpi_iallgather, &
+                      mpi_iallgatherv, mpi_gather, mpi_gatherv, mpi_scatter, mpi_scatterv, mpi_iscatterv, mpi_iscatter, &
+                      mpi_scan, mpi_alltoall, mpi_alltoallv, mpi_type_indexed, mpi_bcast, mpi_ibcast, mpi_group_free, &
+                      mpi_comm_free, mpi_comm_create, mpi_win_create, mpi_rget, mpi_free_mem, mpi_get_address, &
+                      MPI_FILE_WRITE_AT, MPI_FILE_WRITE_AT_ALL, mpi_comm_group, mpi_init, mpi_init_thread, mpi_bottom, &
+                      MPI_IN_PLACE, MPI_MIN, MPI_MAX, MPI_SUM, MPI_PROD, MPI_SOURCE, MPI_TAG, MPI_REAL, MPI_INTEGER8, &
+                      MPI_MODE_NOCHECK, MPI_CHARACTER, MPI_ERRORS_RETURN, MPI_2DOUBLE_PRECISION, MPI_MAXLOC, MPI_LOR, &
+                      MPI_MINLOC, MPI_SUCCESS, MPI_THREAD_FUNNELED
+#endif
+#if defined(__parallel) && ! defined(__USE_MPI_F08)
    USE mpi
+#endif
 ! subroutines: unfortunately, mpi implementations do not provide interfaces for all subroutines (problems with types and ranks explosion),
 !              we do not quite know what is in the module, so we can not include any....
 !              to nevertheless get checking for what is included, we use the mpi module without use clause, getting all there is
@@ -46,6 +66,38 @@ MODULE dbcsr_mpiwrap
 !                MPI_UNEQUAL, MPI_MAX, MPI_SUM, MPI_INFO_NULL, MPI_IN_PLACE, MPI_CONGRUENT, MPI_SIMILAR, MPI_MIN, MPI_SOURCE,&
 !                MPI_TAG, MPI_INTEGER8, MPI_INTEGER, MPI_MAXLOC, MPI_2INTEGER, MPI_MINLOC, MPI_LOGICAL, MPI_2DOUBLE_PRECISION,&
 !                MPI_LOR, MPI_CHARACTER, MPI_BOTTOM, MPI_MODE_NOCHECK, MPI_2REAL
+
+! To simplify the transition between the old MPI module and the F08-style module, we introduce these macros to switch between the required handle types
+! Unfortunately, Fortran does not offer something like typedef in C/C++
+!
+! MPI_STATUS_ARRAY is a macro to provide the appropriate type of arrays of status variables because with mpi.
+!
+! MPI_STATUS_EXTRACT is a macro to provide an extraction method from the respective MPI_Status objects/ status arrays depending on the MPI library in use.
+! Use it as "<name of status variable> MPI_STATUS_EXTRACT(<name of component of interest>)".
+! The space before MPI_STATUS_EXTRACT is compulsory to allow the C-preprocessor to identify the macro.
+! In Fortran, this space is ignored according to the standards.
+#if defined(__parallel) && defined(__USE_MPI_F08)
+#define MPI_DATA_TYPE TYPE(MPI_Datatype)
+#define MPI_COMM_TYPE TYPE(MPI_Comm)
+#define MPI_REQUEST_TYPE TYPE(MPI_Request)
+#define MPI_WIN_TYPE TYPE(MPI_Win)
+#define MPI_FILE_TYPE TYPE(MPI_File)
+#define MPI_INFO_TYPE TYPE(MPI_Info)
+#define MPI_STATUS_TYPE TYPE(MPI_Status)
+#define MPI_STATUS_TYPE_ARRAY(X) TYPE(MPI_Status),DIMENSION(X)
+#define MPI_GROUP_TYPE TYPE(MPI_Group)
+#define MPI_STATUS_EXTRACT(X) %X
+#else
+#define MPI_DATA_TYPE INTEGER
+#define MPI_COMM_TYPE INTEGER
+#define MPI_REQUEST_TYPE INTEGER
+#define MPI_WIN_TYPE INTEGER
+#define MPI_FILE_TYPE INTEGER
+#define MPI_INFO_TYPE INTEGER
+#define MPI_STATUS_TYPE INTEGER,DIMENSION(MPI_STATUS_SIZE)
+#define MPI_STATUS_TYPE_ARRAY(X) INTEGER,DIMENSION(MPI_STATUS_SIZE,X)
+#define MPI_GROUP_TYPE INTEGER
+#define MPI_STATUS_EXTRACT(X) (X)
 #endif
 
    IMPLICIT NONE
@@ -53,27 +105,23 @@ MODULE dbcsr_mpiwrap
 
    ! parameters that might be needed
 #if defined(__parallel)
-   INTEGER, PARAMETER     :: MP_STD_REAL = MPI_DOUBLE_PRECISION
-   INTEGER, PARAMETER     :: MP_STD_COMPLEX = MPI_DOUBLE_COMPLEX
-   INTEGER, PARAMETER     :: MP_STD_HALF_REAL = MPI_REAL
-   INTEGER, PARAMETER     :: MP_STD_HALF_COMPLEX = MPI_COMPLEX
-
    LOGICAL, PARAMETER :: dbcsr_is_parallel = .TRUE.
    INTEGER, PARAMETER, PUBLIC :: mp_any_tag = MPI_ANY_TAG
    INTEGER, PARAMETER, PUBLIC :: mp_any_source = MPI_ANY_SOURCE
-   INTEGER, PARAMETER :: mp_comm_null_handle = MPI_COMM_NULL
-   INTEGER, PARAMETER :: mp_comm_self_handle = MPI_COMM_SELF
-   INTEGER, PARAMETER :: mp_comm_world_handle = MPI_COMM_WORLD
-   INTEGER, PARAMETER :: mp_request_null_handle = MPI_REQUEST_NULL
-   INTEGER, PARAMETER :: mp_win_null_handle = MPI_WIN_NULL
-   INTEGER, PARAMETER :: mp_file_null_handle = MPI_FILE_NULL
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_null_handle = MPI_COMM_NULL
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_self_handle = MPI_COMM_SELF
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_world_handle = MPI_COMM_WORLD
+   MPI_REQUEST_TYPE, PARAMETER :: mp_request_null_handle = MPI_REQUEST_NULL
+   MPI_WIN_TYPE, PARAMETER :: mp_win_null_handle = MPI_WIN_NULL
+   MPI_FILE_TYPE, PARAMETER :: mp_file_null_handle = MPI_FILE_NULL
+   MPI_INFO_TYPE, PARAMETER :: mp_info_null_handle = MPI_INFO_NULL
+   MPI_DATA_TYPE, PARAMETER :: mp_datatype_null_handle = MPI_DATATYPE_NULL
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = MPI_STATUS_SIZE
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = MPI_PROC_NULL
    ! Set max allocatable memory by MPI to 2 GiByte
    INTEGER(KIND=MPI_ADDRESS_KIND), PARAMETER, PRIVATE :: mp_max_memory_size = HUGE(INT(1, KIND=int_4))
 
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = MPI_MAX_LIBRARY_VERSION_STRING
-   INTEGER, PARAMETER, PUBLIC :: mp_max_processor_name = MPI_MAX_PROCESSOR_NAME
 
    INTEGER, PARAMETER, PUBLIC :: file_offset = MPI_OFFSET_KIND
    INTEGER, PARAMETER, PUBLIC :: address_kind = MPI_ADDRESS_KIND
@@ -87,16 +135,17 @@ MODULE dbcsr_mpiwrap
    LOGICAL, PARAMETER :: dbcsr_is_parallel = .FALSE.
    INTEGER, PARAMETER, PUBLIC :: mp_any_tag = -1
    INTEGER, PARAMETER, PUBLIC :: mp_any_source = -2
-   INTEGER, PARAMETER :: mp_comm_null_handle = -3
-   INTEGER, PARAMETER :: mp_comm_self_handle = -11
-   INTEGER, PARAMETER :: mp_comm_world_handle = -12
-   INTEGER, PARAMETER :: mp_request_null_handle = -4
-   INTEGER, PARAMETER :: mp_win_null_handle = -5
-   INTEGER, PARAMETER :: mp_file_null_handle = -6
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_null_handle = -3
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_self_handle = -11
+   MPI_COMM_TYPE, PARAMETER :: mp_comm_world_handle = -12
+   MPI_REQUEST_TYPE, PARAMETER :: mp_request_null_handle = -4
+   MPI_WIN_TYPE, PARAMETER :: mp_win_null_handle = -5
+   MPI_FILE_TYPE, PARAMETER :: mp_file_null_handle = -6
+   MPI_INFO_TYPE, PARAMETER :: mp_info_null_handle = -7
+   MPI_DATA_TYPE, PARAMETER :: mp_datatype_null_handle = -8
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = -7
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = -8
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = 1
-   INTEGER, PARAMETER, PUBLIC :: mp_max_processor_name = 1
 
    INTEGER, PARAMETER, PUBLIC :: file_offset = int_8
    INTEGER, PARAMETER, PUBLIC :: address_kind = int_8
@@ -111,7 +160,7 @@ MODULE dbcsr_mpiwrap
    ! MPI wrapper types (keep the handles private for to switch between serial mode/old mpi module and mpi_f08!)
    TYPE mp_comm_type
       PRIVATE
-      INTEGER :: handle = mp_comm_null_handle
+      MPI_COMM_TYPE :: handle = mp_comm_null_handle
    CONTAINS
       PROCEDURE, PUBLIC, PASS(comm), NON_OVERRIDABLE :: get_handle => mp_get_comm_handle
       PROCEDURE, PUBLIC, PASS(comm), NON_OVERRIDABLE :: set_handle => mp_set_comm_handle
@@ -123,7 +172,7 @@ MODULE dbcsr_mpiwrap
 
    TYPE mp_request_type
       PRIVATE
-      INTEGER :: handle = mp_request_null_handle
+      MPI_REQUEST_TYPE :: handle = mp_request_null_handle
    CONTAINS
       PROCEDURE, PUBLIC, PASS(request), NON_OVERRIDABLE :: get_handle => mp_get_request_handle
       PROCEDURE, PUBLIC, PASS(request), NON_OVERRIDABLE :: set_handle => mp_set_request_handle
@@ -135,7 +184,7 @@ MODULE dbcsr_mpiwrap
 
    TYPE mp_win_type
       PRIVATE
-      INTEGER :: handle = mp_win_null_handle
+      MPI_WIN_TYPE :: handle = mp_win_null_handle
    CONTAINS
       PROCEDURE, PUBLIC, PASS(win), NON_OVERRIDABLE :: get_handle => mp_get_win_handle
       PROCEDURE, PUBLIC, PASS(win), NON_OVERRIDABLE :: set_handle => mp_set_win_handle
@@ -147,7 +196,7 @@ MODULE dbcsr_mpiwrap
 
    TYPE mp_file_type
       PRIVATE
-      INTEGER :: handle = mp_file_null_handle
+      MPI_FILE_TYPE :: handle = mp_file_null_handle
    CONTAINS
       PROCEDURE, PUBLIC, PASS(file), NON_OVERRIDABLE :: get_handle => mp_get_file_handle
       PROCEDURE, PUBLIC, PASS(file), NON_OVERRIDABLE :: set_handle => mp_set_file_handle
@@ -157,12 +206,26 @@ MODULE dbcsr_mpiwrap
       GENERIC, PUBLIC :: OPERATOR(.NE.) => mp_file_op_ne
    END TYPE mp_file_type
 
+   TYPE mp_info_type
+      PRIVATE
+      MPI_INFO_TYPE :: handle = mp_info_null_handle
+   CONTAINS
+      PROCEDURE, PUBLIC, PASS(info), NON_OVERRIDABLE :: get_handle => mp_get_info_handle
+      PROCEDURE, PUBLIC, PASS(info), NON_OVERRIDABLE :: set_handle => mp_set_info_handle
+      PROCEDURE, PRIVATE, PASS(info1), NON_OVERRIDABLE :: mp_info_op_eq
+      GENERIC, PUBLIC :: OPERATOR(.EQ.) => mp_info_op_eq
+      PROCEDURE, PRIVATE, PASS(info1), NON_OVERRIDABLE :: mp_info_op_ne
+      GENERIC, PUBLIC :: OPERATOR(.NE.) => mp_info_op_ne
+   END TYPE mp_info_type
+
    ! The actual MPI wrapper constants
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_null = mp_comm_type(mp_comm_null_handle)
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_self = mp_comm_type(mp_comm_self_handle)
    TYPE(mp_comm_type), PARAMETER, PUBLIC :: mp_comm_world = mp_comm_type(mp_comm_world_handle)
    TYPE(mp_request_type), PARAMETER, PUBLIC :: mp_request_null = mp_request_type(mp_request_null_handle)
    TYPE(mp_win_type), PARAMETER, PUBLIC :: mp_win_null = mp_win_type(mp_win_null_handle)
+   TYPE(mp_file_type), PARAMETER, PUBLIC :: mp_file_null = mp_file_type(mp_file_null_handle)
+   TYPE(mp_info_type), PARAMETER, PUBLIC :: mp_info_null = mp_info_type(mp_info_null_handle)
 
    ! we need to fix this to a given number (crossing fingers)
    ! so that the serial code using Fortran stream IO and the MPI have the same sizes.
@@ -181,6 +244,7 @@ MODULE dbcsr_mpiwrap
    PUBLIC :: mp_request_type
    PUBLIC :: mp_win_type
    PUBLIC :: mp_file_type
+   PUBLIC :: mp_info_type
 
    ! init and error
    PUBLIC :: mp_world_init, mp_world_finalize
@@ -278,22 +342,22 @@ MODULE dbcsr_mpiwrap
    END INTERFACE
 
    INTERFACE mp_bcast
-# 275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 339 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_bcast_i, mp_bcast_iv, mp_bcast_im, mp_bcast_i3, mp_bcast_l, mp_bcast_lv, mp_bcast_lm, mp_bcast_l3,&
-# 275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 339 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_bcast_d, mp_bcast_dv, mp_bcast_dm, mp_bcast_d3, mp_bcast_r, mp_bcast_rv, mp_bcast_rm, mp_bcast_r3, mp_bcast_z,&
-# 275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 339 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_bcast_zv, mp_bcast_zm, mp_bcast_z3, mp_bcast_c, mp_bcast_cv, mp_bcast_cm, mp_bcast_c3, mp_bcast_b, mp_bcast_bv,&
-# 275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 339 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_bcast_av, mp_bcast_am
-# 275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 339 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_ibcast
-# 276 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_ibcast_i, mp_ibcast_iv, mp_ibcast_l, mp_ibcast_lv, mp_ibcast_d, mp_ibcast_dv, mp_ibcast_r, mp_ibcast_rv,&
-# 276 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_ibcast_z, mp_ibcast_zv, mp_ibcast_c, mp_ibcast_cv
-# 276 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_sum
@@ -313,49 +377,49 @@ MODULE dbcsr_mpiwrap
    END INTERFACE
 
    INTERFACE mp_isum
-# 294 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 358 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_isum_iv, mp_isum_lv, mp_isum_dv, mp_isum_rv, mp_isum_zv, mp_isum_cv, mp_isum_bv
-# 294 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 358 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_sum_partial
-# 295 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_sum_partial_im, mp_sum_partial_lm, mp_sum_partial_dm, mp_sum_partial_rm, mp_sum_partial_zm,&
-# 295 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_sum_partial_cm
-# 295 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_max
-# 296 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_max_i, mp_max_iv, mp_max_l, mp_max_lv, mp_max_d, mp_max_dv, mp_max_r, mp_max_rv, mp_max_z, mp_max_zv,&
-# 296 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_max_c, mp_max_cv
-# 296 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_min
-# 297 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 361 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_min_i, mp_min_iv, mp_min_l, mp_min_lv, mp_min_d, mp_min_dv, mp_min_r, mp_min_rv, mp_min_z, mp_min_zv,&
-# 297 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 361 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_min_c, mp_min_cv
-# 297 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 361 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_prod
-# 298 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_prod_i, mp_prod_l, mp_prod_d, mp_prod_r, mp_prod_z, mp_prod_c
-# 298 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_gather
-# 299 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 363 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_gather_i, mp_gather_im, mp_gather_iv, mp_gather_l, mp_gather_lm, mp_gather_lv, mp_gather_d,&
-# 299 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 363 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_gather_dm, mp_gather_dv, mp_gather_r, mp_gather_rm, mp_gather_rv, mp_gather_z, mp_gather_zm, mp_gather_zv,&
-# 299 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 363 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_gather_c, mp_gather_cm, mp_gather_cv
-# 299 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 363 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_gatherv
-# 300 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_gatherv_iv, mp_gatherv_lv, mp_gatherv_dv, mp_gatherv_rv, mp_gatherv_zv, mp_gatherv_cv
-# 300 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_allgather
@@ -437,128 +501,128 @@ MODULE dbcsr_mpiwrap
    END INTERFACE
 
    INTERFACE mp_alltoall
-# 380 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_alltoall_i, mp_alltoall_i22, mp_alltoall_i44, mp_alltoall_i11v, mp_alltoall_l, mp_alltoall_l22,&
-# 380 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_alltoall_l44, mp_alltoall_l11v, mp_alltoall_d, mp_alltoall_d22, mp_alltoall_d44, mp_alltoall_d11v, mp_alltoall_r,&
-# 380 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_alltoall_r22, mp_alltoall_r44, mp_alltoall_r11v, mp_alltoall_z, mp_alltoall_z22, mp_alltoall_z44, mp_alltoall_z11v,&
-# 380 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_alltoall_c, mp_alltoall_c22, mp_alltoall_c44, mp_alltoall_c11v
-# 380 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_send
-# 382 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_send_i, mp_send_iv, mp_send_l, mp_send_lv, mp_send_d, mp_send_dv, mp_send_r, mp_send_rv, mp_send_z,&
-# 382 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_send_zv, mp_send_c, mp_send_cv
-# 382 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_recv
-# 383 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 447 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_recv_i, mp_recv_iv, mp_recv_l, mp_recv_lv, mp_recv_d, mp_recv_dv, mp_recv_r, mp_recv_rv, mp_recv_z,&
-# 383 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 447 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_recv_zv, mp_recv_c, mp_recv_cv
-# 383 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 447 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_sendrecv
-# 384 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_sendrecv_iv, mp_sendrecv_lv, mp_sendrecv_dv, mp_sendrecv_rv, mp_sendrecv_zv, mp_sendrecv_cv
-# 384 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_isendrecv
-# 385 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 449 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_isendrecv_i, mp_isendrecv_iv, mp_isendrecv_l, mp_isendrecv_lv, mp_isendrecv_d, mp_isendrecv_dv,&
-# 385 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 449 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_isendrecv_r, mp_isendrecv_rv, mp_isendrecv_z, mp_isendrecv_zv, mp_isendrecv_c, mp_isendrecv_cv
-# 385 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 449 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_isend
-# 387 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_isend_iv, mp_isend_im2, mp_isend_lv, mp_isend_lm2, mp_isend_dv, mp_isend_dm2, mp_isend_rv, mp_isend_rm2,&
-# 387 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_isend_zv, mp_isend_zm2, mp_isend_cv, mp_isend_cm2, mp_isend_bv, mp_isend_custom
-# 387 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_irecv
-# 388 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_irecv_iv, mp_irecv_im2, mp_irecv_lv, mp_irecv_lm2, mp_irecv_dv, mp_irecv_dm2, mp_irecv_rv, mp_irecv_rm2,&
-# 388 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_irecv_zv, mp_irecv_zm2, mp_irecv_cv, mp_irecv_cm2, mp_irecv_bv, mp_irecv_custom
-# 388 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_win_create
-# 390 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 454 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_win_create_iv, mp_win_create_lv, mp_win_create_dv, mp_win_create_rv, mp_win_create_zv, mp_win_create_cv
-# 390 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 454 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_rget
-# 391 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 455 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_rget_iv, mp_rget_lv, mp_rget_dv, mp_rget_rv, mp_rget_zv, mp_rget_cv
-# 391 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 455 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_allocate
-# 392 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_allocate_i, mp_allocate_l, mp_allocate_d, mp_allocate_r, mp_allocate_z, mp_allocate_c
-# 392 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_deallocate
-# 393 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_deallocate_i, mp_deallocate_l, mp_deallocate_d, mp_deallocate_r, mp_deallocate_z, mp_deallocate_c
-# 393 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_type_make
-# 395 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 459 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_type_make_i, mp_type_make_l, mp_type_make_d, mp_type_make_r, mp_type_make_z, mp_type_make_c,&
-# 395 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 459 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_type_make_struct
-# 395 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 459 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
    INTERFACE mp_file_write_at
-# 397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 461 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_file_write_at_i, mp_file_write_at_iv, mp_file_write_at_l, mp_file_write_at_lv, mp_file_write_at_d,&
-# 397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 461 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_dv, mp_file_write_at_r, mp_file_write_at_rv, mp_file_write_at_z, mp_file_write_at_zv,&
-# 397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 461 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_c, mp_file_write_at_cv, mp_file_write_at_ch
-# 397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 461 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_file_write_at_all
-# 398 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_file_write_at_all_i, mp_file_write_at_all_iv, mp_file_write_at_all_l, mp_file_write_at_all_lv,&
-# 398 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_all_d, mp_file_write_at_all_dv, mp_file_write_at_all_r, mp_file_write_at_all_rv,&
-# 398 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_all_z, mp_file_write_at_all_zv, mp_file_write_at_all_c, mp_file_write_at_all_cv,&
-# 398 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_write_at_all_ch
-# 398 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_file_read_at_all
-# 399 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 463 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_file_read_at_all_i, mp_file_read_at_all_iv, mp_file_read_at_all_l, mp_file_read_at_all_lv,&
-# 399 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 463 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_read_at_all_d, mp_file_read_at_all_dv, mp_file_read_at_all_r, mp_file_read_at_all_rv, mp_file_read_at_all_z,&
-# 399 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 463 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
           & mp_file_read_at_all_zv, mp_file_read_at_all_c, mp_file_read_at_all_cv, mp_file_read_at_all_ch
-# 399 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 463 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
 #if defined(__parallel)
    INTERFACE mp_alloc_mem
-# 402 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 466 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_alloc_mem_i, mp_alloc_mem_l, mp_alloc_mem_d, mp_alloc_mem_r, mp_alloc_mem_z, mp_alloc_mem_c
-# 402 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 466 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_free_mem
-# 403 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_free_mem_i, mp_free_mem_l, mp_free_mem_d, mp_free_mem_r, mp_free_mem_z, mp_free_mem_c
-# 403 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 #endif
 
@@ -568,7 +632,7 @@ MODULE dbcsr_mpiwrap
    END TYPE mp_indexing_meta_type
 
    TYPE mp_type_descriptor_type
-      INTEGER :: type_handle
+      MPI_DATA_TYPE :: type_handle
       INTEGER :: length
 #if defined(__parallel)
       INTEGER(kind=mpi_address_kind) :: base
@@ -640,121 +704,233 @@ MODULE dbcsr_mpiwrap
 
 CONTAINS
 
-   ELEMENTAL INTEGER FUNCTION mp_get_comm_handle(comm)
-      CLASS(mp_comm_type), INTENT(IN) :: comm
+# 551 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+      ELEMENTAL INTEGER FUNCTION mp_get_comm_handle(comm)
+         CLASS(mp_comm_type), INTENT(IN) :: comm
 
-      mp_get_comm_handle = comm%handle
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_get_comm_handle = comm%handle%mpi_val
+#else
+         mp_get_comm_handle = comm%handle
+#endif
 
-   END FUNCTION mp_get_comm_handle
+      END FUNCTION mp_get_comm_handle
 
-   ELEMENTAL SUBROUTINE mp_set_comm_handle(comm, handle)
-      CLASS(mp_comm_type), INTENT(INOUT) :: comm
-      INTEGER, INTENT(IN) :: handle
+      ELEMENTAL SUBROUTINE mp_set_comm_handle(comm, handle)
+         CLASS(mp_comm_type), INTENT(INOUT) :: comm
+         INTEGER, INTENT(IN) :: handle
 
-      comm%handle = handle
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         comm%handle%mpi_val = handle
+#else
+         comm%handle = handle
+#endif
 
-   END SUBROUTINE mp_set_comm_handle
+      END SUBROUTINE mp_set_comm_handle
 
-   ELEMENTAL LOGICAL FUNCTION mp_comm_op_eq(comm1, comm2)
-      CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_comm_op_eq(comm1, comm2)
+         CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
 
-      mp_comm_op_eq = (comm1%handle .EQ. comm2%handle)
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_comm_op_eq = (comm1%handle%mpi_val .EQ. comm2%handle%mpi_val)
+#else
+         mp_comm_op_eq = (comm1%handle .EQ. comm2%handle)
+#endif
 
-   END FUNCTION mp_comm_op_eq
+      END FUNCTION mp_comm_op_eq
 
-   ELEMENTAL LOGICAL FUNCTION mp_comm_op_ne(comm1, comm2)
-      CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_comm_op_ne(comm1, comm2)
+         CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
 
-      mp_comm_op_ne = (comm1%handle .NE. comm2%handle)
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_comm_op_ne = (comm1%handle%mpi_val .NE. comm2%handle%mpi_val)
+#else
+         mp_comm_op_ne = (comm1%handle .NE. comm2%handle)
+#endif
 
-   END FUNCTION mp_comm_op_ne
+      END FUNCTION mp_comm_op_ne
+# 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+      ELEMENTAL INTEGER FUNCTION mp_get_request_handle(request)
+         CLASS(mp_request_type), INTENT(IN) :: request
 
-   ELEMENTAL INTEGER FUNCTION mp_get_request_handle(request)
-      CLASS(mp_request_type), INTENT(IN) :: request
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_get_request_handle = request%handle%mpi_val
+#else
+         mp_get_request_handle = request%handle
+#endif
 
-      mp_get_request_handle = request%handle
+      END FUNCTION mp_get_request_handle
 
-   END FUNCTION mp_get_request_handle
+      ELEMENTAL SUBROUTINE mp_set_request_handle(request, handle)
+         CLASS(mp_request_type), INTENT(INOUT) :: request
+         INTEGER, INTENT(IN) :: handle
 
-   ELEMENTAL SUBROUTINE mp_set_request_handle(request, handle)
-      CLASS(mp_request_type), INTENT(INOUT) :: request
-      INTEGER, INTENT(IN) :: handle
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         request%handle%mpi_val = handle
+#else
+         request%handle = handle
+#endif
 
-      request%handle = handle
+      END SUBROUTINE mp_set_request_handle
 
-   END SUBROUTINE mp_set_request_handle
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_request_op_eq(request1, request2)
+         CLASS(mp_request_type), INTENT(IN) :: request1, request2
 
-   ELEMENTAL LOGICAL FUNCTION mp_request_op_eq(request1, request2)
-      CLASS(mp_request_type), INTENT(IN) :: request1, request2
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_request_op_eq = (request1%handle%mpi_val .EQ. request2%handle%mpi_val)
+#else
+         mp_request_op_eq = (request1%handle .EQ. request2%handle)
+#endif
 
-      mp_request_op_eq = (request1%handle .EQ. request2%handle)
+      END FUNCTION mp_request_op_eq
 
-   END FUNCTION mp_request_op_eq
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_request_op_ne(request1, request2)
+         CLASS(mp_request_type), INTENT(IN) :: request1, request2
 
-   ELEMENTAL LOGICAL FUNCTION mp_request_op_ne(request1, request2)
-      CLASS(mp_request_type), INTENT(IN) :: request1, request2
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_request_op_ne = (request1%handle%mpi_val .NE. request2%handle%mpi_val)
+#else
+         mp_request_op_ne = (request1%handle .NE. request2%handle)
+#endif
 
-      mp_request_op_ne = (request1%handle .NE. request2%handle)
+      END FUNCTION mp_request_op_ne
+# 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+      ELEMENTAL INTEGER FUNCTION mp_get_win_handle(win)
+         CLASS(mp_win_type), INTENT(IN) :: win
 
-   END FUNCTION mp_request_op_ne
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_get_win_handle = win%handle%mpi_val
+#else
+         mp_get_win_handle = win%handle
+#endif
 
-   ELEMENTAL INTEGER FUNCTION mp_get_win_handle(win)
-      CLASS(mp_win_type), INTENT(IN) :: win
+      END FUNCTION mp_get_win_handle
 
-      mp_get_win_handle = win%handle
+      ELEMENTAL SUBROUTINE mp_set_win_handle(win, handle)
+         CLASS(mp_win_type), INTENT(INOUT) :: win
+         INTEGER, INTENT(IN) :: handle
 
-   END FUNCTION mp_get_win_handle
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         win%handle%mpi_val = handle
+#else
+         win%handle = handle
+#endif
 
-   ELEMENTAL SUBROUTINE mp_set_win_handle(win, handle)
-      CLASS(mp_win_type), INTENT(INOUT) :: win
-      INTEGER, INTENT(IN) :: handle
+      END SUBROUTINE mp_set_win_handle
 
-      win%handle = handle
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_win_op_eq(win1, win2)
+         CLASS(mp_win_type), INTENT(IN) :: win1, win2
 
-   END SUBROUTINE mp_set_win_handle
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_win_op_eq = (win1%handle%mpi_val .EQ. win2%handle%mpi_val)
+#else
+         mp_win_op_eq = (win1%handle .EQ. win2%handle)
+#endif
 
-   ELEMENTAL LOGICAL FUNCTION mp_win_op_eq(win1, win2)
-      CLASS(mp_win_type), INTENT(IN) :: win1, win2
+      END FUNCTION mp_win_op_eq
 
-      mp_win_op_eq = (win1%handle .EQ. win2%handle)
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_win_op_ne(win1, win2)
+         CLASS(mp_win_type), INTENT(IN) :: win1, win2
 
-   END FUNCTION mp_win_op_eq
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_win_op_ne = (win1%handle%mpi_val .NE. win2%handle%mpi_val)
+#else
+         mp_win_op_ne = (win1%handle .NE. win2%handle)
+#endif
 
-   ELEMENTAL LOGICAL FUNCTION mp_win_op_ne(win1, win2)
-      CLASS(mp_win_type), INTENT(IN) :: win1, win2
+      END FUNCTION mp_win_op_ne
+# 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+      ELEMENTAL INTEGER FUNCTION mp_get_file_handle(file)
+         CLASS(mp_file_type), INTENT(IN) :: file
 
-      mp_win_op_ne = (win1%handle .NE. win2%handle)
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_get_file_handle = file%handle%mpi_val
+#else
+         mp_get_file_handle = file%handle
+#endif
 
-   END FUNCTION mp_win_op_ne
+      END FUNCTION mp_get_file_handle
 
-   ELEMENTAL INTEGER FUNCTION mp_get_file_handle(file)
-      CLASS(mp_file_type), INTENT(IN) :: file
+      ELEMENTAL SUBROUTINE mp_set_file_handle(file, handle)
+         CLASS(mp_file_type), INTENT(INOUT) :: file
+         INTEGER, INTENT(IN) :: handle
 
-      mp_get_file_handle = file%handle
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         file%handle%mpi_val = handle
+#else
+         file%handle = handle
+#endif
 
-   END FUNCTION mp_get_file_handle
+      END SUBROUTINE mp_set_file_handle
 
-   ELEMENTAL SUBROUTINE mp_set_file_handle(file, handle)
-      CLASS(mp_file_type), INTENT(INOUT) :: file
-      INTEGER, INTENT(IN) :: handle
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_file_op_eq(file1, file2)
+         CLASS(mp_file_type), INTENT(IN) :: file1, file2
 
-      file%handle = handle
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_file_op_eq = (file1%handle%mpi_val .EQ. file2%handle%mpi_val)
+#else
+         mp_file_op_eq = (file1%handle .EQ. file2%handle)
+#endif
 
-   END SUBROUTINE mp_set_file_handle
+      END FUNCTION mp_file_op_eq
 
-   ELEMENTAL LOGICAL FUNCTION mp_file_op_eq(file1, file2)
-      CLASS(mp_file_type), INTENT(IN) :: file1, file2
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_file_op_ne(file1, file2)
+         CLASS(mp_file_type), INTENT(IN) :: file1, file2
 
-      mp_file_op_eq = (file1%handle .EQ. file2%handle)
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_file_op_ne = (file1%handle%mpi_val .NE. file2%handle%mpi_val)
+#else
+         mp_file_op_ne = (file1%handle .NE. file2%handle)
+#endif
 
-   END FUNCTION mp_file_op_eq
+      END FUNCTION mp_file_op_ne
+# 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+      ELEMENTAL INTEGER FUNCTION mp_get_info_handle(info)
+         CLASS(mp_info_type), INTENT(IN) :: info
 
-   ELEMENTAL LOGICAL FUNCTION mp_file_op_ne(file1, file2)
-      CLASS(mp_file_type), INTENT(IN) :: file1, file2
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_get_info_handle = info%handle%mpi_val
+#else
+         mp_get_info_handle = info%handle
+#endif
 
-      mp_file_op_ne = (file1%handle .NE. file2%handle)
+      END FUNCTION mp_get_info_handle
 
-   END FUNCTION mp_file_op_ne
+      ELEMENTAL SUBROUTINE mp_set_info_handle(info, handle)
+         CLASS(mp_info_type), INTENT(INOUT) :: info
+         INTEGER, INTENT(IN) :: handle
+
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         info%handle%mpi_val = handle
+#else
+         info%handle = handle
+#endif
+
+      END SUBROUTINE mp_set_info_handle
+
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_info_op_eq(info1, info2)
+         CLASS(mp_info_type), INTENT(IN) :: info1, info2
+
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_info_op_eq = (info1%handle%mpi_val .EQ. info2%handle%mpi_val)
+#else
+         mp_info_op_eq = (info1%handle .EQ. info2%handle)
+#endif
+
+      END FUNCTION mp_info_op_eq
+
+      ELEMENTAL IMPURE LOGICAL FUNCTION mp_info_op_ne(info1, info2)
+         CLASS(mp_info_type), INTENT(IN) :: info1, info2
+
+#if defined(__parallel) && defined(__USE_MPI_F08)
+         mp_info_op_ne = (info1%handle%mpi_val .NE. info2%handle%mpi_val)
+#else
+         mp_info_op_ne = (info1%handle .NE. info2%handle)
+#endif
+
+      END FUNCTION mp_info_op_ne
+# 597 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
    SUBROUTINE mp_world_init(mp_comm)
       !! initializes the system default communicator
@@ -829,7 +1005,7 @@ CONTAINS
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
-      INTEGER                                  :: newgroup, oldgroup
+      MPI_GROUP_TYPE                           :: newgroup, oldgroup
       TYPE(mp_comm_type)                       :: newcomm
 #endif
 
@@ -1272,7 +1448,7 @@ CONTAINS
                            ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_create @ "//routineN)
 
-      IF (comm_cart%handle /= MP_COMM_NULL%handle) THEN
+      IF (comm_cart /= MP_COMM_NULL) THEN
          debug_comm_count = debug_comm_count + 1
          CALL mpi_cart_get(comm_cart%handle, ndims, dims, period, pos, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_get @ "//routineN)
@@ -1431,8 +1607,9 @@ CONTAINS
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
-      INTEGER                                  :: g1, g2, i, n, n1, n2
+      INTEGER                                  :: i, n, n1, n2
       INTEGER, ALLOCATABLE, DIMENSION(:)       :: rin
+      MPI_GROUP_TYPE                           :: g1, g2
 #endif
 
       ierr = 0
@@ -1554,7 +1731,7 @@ CONTAINS
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: count
-      INTEGER, ALLOCATABLE, DIMENSION(:, :)    :: status
+      MPI_STATUS_TYPE_ARRAY(SIZE(requests))    :: status
 #endif
 
       ierr = 0
@@ -1562,10 +1739,8 @@ CONTAINS
 
 #if defined(__parallel)
       count = SIZE(requests)
-      ALLOCATE (status(MPI_STATUS_SIZE, count))
       CALL mpi_waitall_internal(count, requests, status, ierr) ! MPI_STATUSES_IGNORE openmpi workaround
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_waitall @ "//routineN)
-      DEALLOCATE (status)
 #else
       MARK_USED(requests)
 #endif
@@ -1581,7 +1756,7 @@ CONTAINS
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: count
-      INTEGER, ALLOCATABLE, DIMENSION(:, :)    :: status
+      MPI_STATUS_TYPE_ARRAY(SIZE(requests))    :: status
 #endif
 
       ierr = 0
@@ -1589,11 +1764,9 @@ CONTAINS
 
 #if defined(__parallel)
       count = SIZE(requests)
-      ALLOCATE (status(MPI_STATUS_SIZE, count))
 
       CALL mpi_waitall_internal(count, requests, status, ierr) ! MPI_STATUSES_IGNORE openmpi workaround
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_waitall @ "//routineN)
-      DEALLOCATE (status)
 #else
       MARK_USED(requests)
 #endif
@@ -1607,12 +1780,11 @@ CONTAINS
 
       INTEGER, INTENT(in)                                :: count
       TYPE(mp_request_type), DIMENSION(count), INTENT(inout)           :: array_of_requests
-      INTEGER, DIMENSION(MPI_STATUS_SIZE, *), &
-         INTENT(out)                                     :: array_of_statuses
+      MPI_STATUS_TYPE_ARRAY(*), INTENT(inout)            :: array_of_statuses
       INTEGER, INTENT(out)                               :: ierr
 
       INTEGER :: i
-      INTEGER, DIMENSION(count) :: request_handles
+      MPI_REQUEST_TYPE, DIMENSION(count) :: request_handles
 
       DO i = 1, count
          request_handles(i) = array_of_requests(i)%handle
@@ -1637,7 +1809,7 @@ CONTAINS
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: count, i
-      INTEGER, DIMENSION(SIZE(requests))       :: request_handles
+      MPI_REQUEST_TYPE, DIMENSION(SIZE(requests))       :: request_handles
 #endif
 
       ierr = 0
@@ -1783,11 +1955,11 @@ CONTAINS
       TYPE(mp_request_type), DIMENSION(count), INTENT(inout)           :: array_of_requests
       INTEGER, INTENT(out)                               :: index
       LOGICAL, INTENT(out)                               :: flag
-      INTEGER, DIMENSION(MPI_STATUS_SIZE), INTENT(out)   :: status
+      MPI_STATUS_TYPE                                    :: status
       INTEGER, INTENT(out)                               :: ierr
 
       INTEGER :: i
-      INTEGER, DIMENSION(count) :: request_handles
+      MPI_REQUEST_TYPE, DIMENSION(count) :: request_handles
 
       DO i = 1, count
          request_handles(i) = array_of_requests(i)%handle
@@ -1961,7 +2133,7 @@ CONTAINS
          !! the source of the possible incoming message, if MP_ANY_SOURCE it is a blocking one and return value is the source of the
          !! next incoming message if source is a different value it is a non-blocking probe retuning MP_ANY_SOURCE if there is no
          !! incoming message
-      TYPE(mp_comm_type), INTENT(IN)                      :: comm
+      TYPE(mp_comm_type), INTENT(IN)           :: comm
          !! the communicator
       INTEGER, INTENT(OUT)                     :: tag
          !! the tag of the incoming message
@@ -1970,7 +2142,7 @@ CONTAINS
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
-      INTEGER, DIMENSION(mp_status_size)       :: status_single
+      MPI_STATUS_TYPE                          :: status_single
       LOGICAL                                  :: flag
 #endif
 
@@ -1983,17 +2155,17 @@ CONTAINS
       IF (source .EQ. mp_any_source) THEN
          CALL mpi_probe(mp_any_source, mp_any_tag, comm%handle, status_single, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_probe @ "//routineN)
-         source = status_single(MPI_SOURCE)
-         tag = status_single(MPI_TAG)
+         source = status_single MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status_single MPI_STATUS_EXTRACT(MPI_TAG)
       ELSE
          flag = .FALSE.
          CALL mpi_iprobe(source, mp_any_tag, comm%handle, flag, status_single, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iprobe @ "//routineN)
          IF (flag .EQV. .FALSE.) THEN
             source = mp_any_source
-            tag = -1 !status_single(MPI_TAG) ! in case of flag==false status is undefined
+            tag = -1 !status_single MPI_STATUS_EXTRACT(MPI_TAG) ! in case of flag==false status is undefined
          ELSE
-            tag = status_single(MPI_TAG)
+            tag = status_single MPI_STATUS_EXTRACT(MPI_TAG)
          END IF
       END IF
 #else
@@ -2092,7 +2264,7 @@ CONTAINS
 
       msglen = SIZE(msgin, 1)
       IF (msglen > 0) THEN
-         CALL mpi_isend(msgin(1), msglen, MPI_LOGICAL, dest, my_tag, &
+         CALL mpi_isend(msgin, msglen, MPI_LOGICAL, dest, my_tag, &
                         comm%handle, request%handle, ierr)
       ELSE
          CALL mpi_isend(foo, msglen, MPI_LOGICAL, dest, my_tag, &
@@ -2148,7 +2320,7 @@ CONTAINS
 
       msglen = SIZE(msgout, 1)
       IF (msglen > 0) THEN
-         CALL mpi_irecv(msgout(1), msglen, MPI_LOGICAL, source, my_tag, &
+         CALL mpi_irecv(msgout, msglen, MPI_LOGICAL, source, my_tag, &
                         comm%handle, request%handle, ierr)
       ELSE
          CALL mpi_irecv(foo, msglen, MPI_LOGICAL, source, my_tag, &
@@ -2483,7 +2655,7 @@ CONTAINS
       !! Get a unique specifier for the actual (as opposed to virtual) node (MPI 2.1)
 
       CHARACTER(LEN=*), INTENT(OUT)                      :: procname
-         !! Name of processor, declared as CHARACTER(LEN=mp_max_processor_name)
+         !! Name of processor
       INTEGER, OPTIONAL, INTENT(OUT)                     :: resultlen
          !! Length (in characters) of procname (INTEGER)
 
@@ -2517,12 +2689,12 @@ CONTAINS
          !! path to the file
       INTEGER, INTENT(IN)                      :: amode_status
          !! access mode
-      INTEGER, INTENT(IN), OPTIONAL            :: info
+      TYPE(mp_info_type), INTENT(IN), OPTIONAL :: info
          !! info object
 
       INTEGER                                  :: ierr, istat
 #if defined(__parallel)
-      INTEGER                                  :: my_info
+      MPI_INFO_TYPE                            :: my_info
 #else
       CHARACTER(LEN=10)                        :: fstatus, fposition
       INTEGER                                  :: amode, file_handle
@@ -2533,7 +2705,7 @@ CONTAINS
       istat = 0
 #if defined(__parallel)
       my_info = mpi_info_null
-      IF (PRESENT(info)) my_info = info
+      IF (PRESENT(info)) my_info = info%handle
       CALL mpi_file_open(groupid%handle, filepath, amode_status, my_info, fh%handle, ierr)
       CALL mpi_file_set_errhandler(fh%handle, MPI_ERRORS_RETURN, ierr)
       IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_file_set_errhandler @ mp_file_open")
@@ -2570,19 +2742,19 @@ CONTAINS
 
       CHARACTER(LEN=*), INTENT(IN)             :: filepath
          !! path to the file
-      INTEGER, INTENT(IN), OPTIONAL            :: info
+      TYPE(mp_info_type), INTENT(IN), OPTIONAL :: info
          !! info object
 
 #if defined(__parallel)
       INTEGER                                  :: ierr
-      INTEGER                                  :: my_info
+      MPI_INFO_TYPE                            :: my_info
       LOGICAL                                  :: exists
 #endif
 
 #if defined(__parallel)
       ierr = 0
       my_info = mpi_info_null
-      IF (PRESENT(info)) my_info = info
+      IF (PRESENT(info)) my_info = info%handle
       INQUIRE (FILE=filepath, EXIST=exists)
       IF (exists) CALL mpi_file_delete(filepath, my_info, ierr)
       IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_file_set_errhandler @ mp_file_delete")
@@ -2769,7 +2941,8 @@ CONTAINS
       INTEGER(kind=mpi_address_kind), &
          ALLOCATABLE, DIMENSION(:)              :: displacements
 #endif
-      INTEGER, ALLOCATABLE, DIMENSION(:)       :: lengths, old_types
+      INTEGER, DIMENSION(SIZE(subtypes))       :: lengths
+      MPI_DATA_TYPE, DIMENSION(SIZE(subtypes)) :: old_types
 
       ierr = 0
       n = SIZE(subtypes)
@@ -2785,7 +2958,6 @@ CONTAINS
       type_descriptor%has_indexing = .FALSE.
       ALLOCATE (type_descriptor%subtype(n))
       type_descriptor%subtype(:) = subtypes(:)
-      ALLOCATE (lengths(n), old_types(n))
       DO i = 1, SIZE(subtypes)
 #if defined(__parallel)
          displacements(i) = subtypes(i)%base
@@ -2985,7 +3157,7 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_unlock_all
 
-# 2830 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2824 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_i11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -3254,7 +3426,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -3262,13 +3434,11 @@ CONTAINS
 
          msglen = 1
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_INTEGER, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*int_4_size)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -3293,7 +3463,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -3301,13 +3471,11 @@ CONTAINS
 
          msglen = SIZE(msg)
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_INTEGER, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*int_4_size)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -5016,7 +5184,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_INTEGER, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_INTEGER, source, my_tag, &
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER, source, my_tag, &
@@ -5026,7 +5194,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_INTEGER, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_INTEGER, dest, my_tag, &
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER, dest, my_tag, &
@@ -5078,7 +5246,7 @@ CONTAINS
 
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_INTEGER, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_INTEGER, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER, dest, my_tag, &
@@ -5132,7 +5300,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1, 1), msglen, MPI_INTEGER, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_INTEGER, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER, dest, my_tag, &
@@ -5184,7 +5352,7 @@ CONTAINS
 
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_INTEGER, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_INTEGER, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER, source, my_tag, &
@@ -5237,7 +5405,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1, 1), msglen, MPI_INTEGER, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_INTEGER, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER, source, my_tag, &
@@ -5282,7 +5450,7 @@ CONTAINS
 
          len = SIZE(base)*int_4_size
          IF (len > 0) THEN
-            CALL mpi_win_create(base(1), len, int_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+            CALL mpi_win_create(base, len, int_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          ELSE
             CALL mpi_win_create(foo, len, int_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          END IF
@@ -5314,11 +5482,10 @@ CONTAINS
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
          INTEGER                                  :: len, &
-                                                     handle_origin_datatype, &
-                                                     handle_target_datatype, &
                                                      origin_len, target_len
          LOGICAL                                  :: do_local_copy
          INTEGER(kind=mpi_address_kind)           :: disp_aint
+         MPI_DATA_TYPE                             :: handle_origin_datatype, handle_target_datatype
 #endif
 
          ierr = 0
@@ -5362,7 +5529,7 @@ CONTAINS
                request = mp_request_null
                ierr = 0
             ELSE
-               CALL mpi_rget(base(1), origin_len, handle_origin_datatype, source, disp_aint, &
+               CALL mpi_rget(base, origin_len, handle_origin_datatype, source, disp_aint, &
                              target_len, handle_target_datatype, win%handle, request%handle, ierr)
             END IF
          ELSE
@@ -5698,9 +5865,10 @@ CONTAINS
          !! allocation status result
 
          INTEGER                                  :: size, ierr, length, &
-                                                     mp_info, mp_res
+                                                     mp_res
          INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
          TYPE(C_PTR)                              :: mp_baseptr
+         MPI_INFO_TYPE                            :: mp_info
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_INTEGER, size, ierr)
@@ -5732,7 +5900,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_i
 #endif
 
-# 2830 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2824 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_l11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -6001,7 +6169,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -6009,13 +6177,11 @@ CONTAINS
 
          msglen = 1
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_INTEGER8, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*int_8_size)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -6040,7 +6206,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -6048,13 +6214,11 @@ CONTAINS
 
          msglen = SIZE(msg)
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_INTEGER8, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*int_8_size)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -7763,7 +7927,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_INTEGER8, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_INTEGER8, source, my_tag, &
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER8, source, my_tag, &
@@ -7773,7 +7937,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_INTEGER8, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_INTEGER8, dest, my_tag, &
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER8, dest, my_tag, &
@@ -7825,7 +7989,7 @@ CONTAINS
 
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_INTEGER8, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_INTEGER8, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER8, dest, my_tag, &
@@ -7879,7 +8043,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1, 1), msglen, MPI_INTEGER8, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_INTEGER8, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER8, dest, my_tag, &
@@ -7931,7 +8095,7 @@ CONTAINS
 
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_INTEGER8, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_INTEGER8, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER8, source, my_tag, &
@@ -7984,7 +8148,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1, 1), msglen, MPI_INTEGER8, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_INTEGER8, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER8, source, my_tag, &
@@ -8029,7 +8193,7 @@ CONTAINS
 
          len = SIZE(base)*int_8_size
          IF (len > 0) THEN
-            CALL mpi_win_create(base(1), len, int_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+            CALL mpi_win_create(base, len, int_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          ELSE
             CALL mpi_win_create(foo, len, int_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          END IF
@@ -8061,11 +8225,10 @@ CONTAINS
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
          INTEGER                                  :: len, &
-                                                     handle_origin_datatype, &
-                                                     handle_target_datatype, &
                                                      origin_len, target_len
          LOGICAL                                  :: do_local_copy
          INTEGER(kind=mpi_address_kind)           :: disp_aint
+         MPI_DATA_TYPE                             :: handle_origin_datatype, handle_target_datatype
 #endif
 
          ierr = 0
@@ -8109,7 +8272,7 @@ CONTAINS
                request = mp_request_null
                ierr = 0
             ELSE
-               CALL mpi_rget(base(1), origin_len, handle_origin_datatype, source, disp_aint, &
+               CALL mpi_rget(base, origin_len, handle_origin_datatype, source, disp_aint, &
                              target_len, handle_target_datatype, win%handle, request%handle, ierr)
             END IF
          ELSE
@@ -8445,9 +8608,10 @@ CONTAINS
          !! allocation status result
 
          INTEGER                                  :: size, ierr, length, &
-                                                     mp_info, mp_res
+                                                     mp_res
          INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
          TYPE(C_PTR)                              :: mp_baseptr
+         MPI_INFO_TYPE                            :: mp_info
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_INTEGER8, size, ierr)
@@ -8479,7 +8643,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_l
 #endif
 
-# 2830 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2824 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_d11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -8748,7 +8912,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -8756,13 +8920,11 @@ CONTAINS
 
          msglen = 1
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_DOUBLE_PRECISION, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*real_8_size)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -8787,7 +8949,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -8795,13 +8957,11 @@ CONTAINS
 
          msglen = SIZE(msg)
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_DOUBLE_PRECISION, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*real_8_size)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -10510,7 +10670,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
@@ -10520,7 +10680,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
@@ -10572,7 +10732,7 @@ CONTAINS
 
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
@@ -10626,7 +10786,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1, 1), msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
@@ -10678,7 +10838,7 @@ CONTAINS
 
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
@@ -10731,7 +10891,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1, 1), msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
@@ -10776,7 +10936,7 @@ CONTAINS
 
          len = SIZE(base)*real_8_size
          IF (len > 0) THEN
-            CALL mpi_win_create(base(1), len, real_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+            CALL mpi_win_create(base, len, real_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          ELSE
             CALL mpi_win_create(foo, len, real_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          END IF
@@ -10808,11 +10968,10 @@ CONTAINS
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
          INTEGER                                  :: len, &
-                                                     handle_origin_datatype, &
-                                                     handle_target_datatype, &
                                                      origin_len, target_len
          LOGICAL                                  :: do_local_copy
          INTEGER(kind=mpi_address_kind)           :: disp_aint
+         MPI_DATA_TYPE                             :: handle_origin_datatype, handle_target_datatype
 #endif
 
          ierr = 0
@@ -10856,7 +11015,7 @@ CONTAINS
                request = mp_request_null
                ierr = 0
             ELSE
-               CALL mpi_rget(base(1), origin_len, handle_origin_datatype, source, disp_aint, &
+               CALL mpi_rget(base, origin_len, handle_origin_datatype, source, disp_aint, &
                              target_len, handle_target_datatype, win%handle, request%handle, ierr)
             END IF
          ELSE
@@ -11192,9 +11351,10 @@ CONTAINS
          !! allocation status result
 
          INTEGER                                  :: size, ierr, length, &
-                                                     mp_info, mp_res
+                                                     mp_res
          INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
          TYPE(C_PTR)                              :: mp_baseptr
+         MPI_INFO_TYPE                            :: mp_info
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_DOUBLE_PRECISION, size, ierr)
@@ -11226,7 +11386,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_d
 #endif
 
-# 2830 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2824 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -11495,7 +11655,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -11503,13 +11663,11 @@ CONTAINS
 
          msglen = 1
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_REAL, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*real_4_size)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -11534,7 +11692,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -11542,13 +11700,11 @@ CONTAINS
 
          msglen = SIZE(msg)
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_REAL, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*real_4_size)
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -13257,7 +13413,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_REAL, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_REAL, source, my_tag, &
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_REAL, source, my_tag, &
@@ -13267,7 +13423,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_REAL, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_REAL, dest, my_tag, &
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_REAL, dest, my_tag, &
@@ -13319,7 +13475,7 @@ CONTAINS
 
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_REAL, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_REAL, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_REAL, dest, my_tag, &
@@ -13373,7 +13529,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1, 1), msglen, MPI_REAL, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_REAL, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_REAL, dest, my_tag, &
@@ -13425,7 +13581,7 @@ CONTAINS
 
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_REAL, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_REAL, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_REAL, source, my_tag, &
@@ -13478,7 +13634,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1, 1), msglen, MPI_REAL, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_REAL, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_REAL, source, my_tag, &
@@ -13523,7 +13679,7 @@ CONTAINS
 
          len = SIZE(base)*real_4_size
          IF (len > 0) THEN
-            CALL mpi_win_create(base(1), len, real_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+            CALL mpi_win_create(base, len, real_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          ELSE
             CALL mpi_win_create(foo, len, real_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
          END IF
@@ -13555,11 +13711,10 @@ CONTAINS
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
          INTEGER                                  :: len, &
-                                                     handle_origin_datatype, &
-                                                     handle_target_datatype, &
                                                      origin_len, target_len
          LOGICAL                                  :: do_local_copy
          INTEGER(kind=mpi_address_kind)           :: disp_aint
+         MPI_DATA_TYPE                             :: handle_origin_datatype, handle_target_datatype
 #endif
 
          ierr = 0
@@ -13603,7 +13758,7 @@ CONTAINS
                request = mp_request_null
                ierr = 0
             ELSE
-               CALL mpi_rget(base(1), origin_len, handle_origin_datatype, source, disp_aint, &
+               CALL mpi_rget(base, origin_len, handle_origin_datatype, source, disp_aint, &
                              target_len, handle_target_datatype, win%handle, request%handle, ierr)
             END IF
          ELSE
@@ -13939,9 +14094,10 @@ CONTAINS
          !! allocation status result
 
          INTEGER                                  :: size, ierr, length, &
-                                                     mp_info, mp_res
+                                                     mp_res
          INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
          TYPE(C_PTR)                              :: mp_baseptr
+         MPI_INFO_TYPE                            :: mp_info
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_REAL, size, ierr)
@@ -13973,7 +14129,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_r
 #endif
 
-# 2830 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2824 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_z11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -14242,7 +14398,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -14250,13 +14406,11 @@ CONTAINS
 
          msglen = 1
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_DOUBLE_COMPLEX, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*(2*real_8_size))
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -14281,7 +14435,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -14289,13 +14443,11 @@ CONTAINS
 
          msglen = SIZE(msg)
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_DOUBLE_COMPLEX, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*(2*real_8_size))
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -16004,7 +16156,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
@@ -16014,7 +16166,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
@@ -16066,7 +16218,7 @@ CONTAINS
 
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
@@ -16120,7 +16272,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1, 1), msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
@@ -16172,7 +16324,7 @@ CONTAINS
 
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
@@ -16225,7 +16377,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1, 1), msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
@@ -16270,7 +16422,7 @@ CONTAINS
 
          len = SIZE(base)*(2*real_8_size)
          IF (len > 0) THEN
-            CALL mpi_win_create(base(1), len, (2*real_8_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
+            CALL mpi_win_create(base, len, (2*real_8_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
          ELSE
             CALL mpi_win_create(foo, len, (2*real_8_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
          END IF
@@ -16302,11 +16454,10 @@ CONTAINS
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
          INTEGER                                  :: len, &
-                                                     handle_origin_datatype, &
-                                                     handle_target_datatype, &
                                                      origin_len, target_len
          LOGICAL                                  :: do_local_copy
          INTEGER(kind=mpi_address_kind)           :: disp_aint
+         MPI_DATA_TYPE                             :: handle_origin_datatype, handle_target_datatype
 #endif
 
          ierr = 0
@@ -16350,7 +16501,7 @@ CONTAINS
                request = mp_request_null
                ierr = 0
             ELSE
-               CALL mpi_rget(base(1), origin_len, handle_origin_datatype, source, disp_aint, &
+               CALL mpi_rget(base, origin_len, handle_origin_datatype, source, disp_aint, &
                              target_len, handle_target_datatype, win%handle, request%handle, ierr)
             END IF
          ELSE
@@ -16686,9 +16837,10 @@ CONTAINS
          !! allocation status result
 
          INTEGER                                  :: size, ierr, length, &
-                                                     mp_info, mp_res
+                                                     mp_res
          INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
          TYPE(C_PTR)                              :: mp_baseptr
+         MPI_INFO_TYPE                            :: mp_info
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_DOUBLE_COMPLEX, size, ierr)
@@ -16720,7 +16872,7 @@ CONTAINS
       END SUBROUTINE mp_free_mem_z
 #endif
 
-# 2830 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2824 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_c11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -16989,7 +17141,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -16997,13 +17149,11 @@ CONTAINS
 
          msglen = 1
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_COMPLEX, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*(2*real_4_size))
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -17028,7 +17178,7 @@ CONTAINS
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
-         INTEGER, ALLOCATABLE, DIMENSION(:)       :: status
+         MPI_STATUS_TYPE                          :: status
 #endif
 
          ierr = 0
@@ -17036,13 +17186,11 @@ CONTAINS
 
          msglen = SIZE(msg)
 #if defined(__parallel)
-         ALLOCATE (status(MPI_STATUS_SIZE))
          CALL mpi_recv(msg, msglen, MPI_COMPLEX, source, tag, gid%handle, status, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*(2*real_4_size))
-         source = status(MPI_SOURCE)
-         tag = status(MPI_TAG)
-         DEALLOCATE (status)
+         source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
+         tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -18751,7 +18899,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_COMPLEX, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_COMPLEX, source, my_tag, &
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_COMPLEX, source, my_tag, &
@@ -18761,7 +18909,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_COMPLEX, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_COMPLEX, dest, my_tag, &
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_COMPLEX, dest, my_tag, &
@@ -18813,7 +18961,7 @@ CONTAINS
 
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1), msglen, MPI_COMPLEX, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_COMPLEX, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_COMPLEX, dest, my_tag, &
@@ -18867,7 +19015,7 @@ CONTAINS
 
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
-            CALL mpi_isend(msgin(1, 1), msglen, MPI_COMPLEX, dest, my_tag, &
+            CALL mpi_isend(msgin, msglen, MPI_COMPLEX, dest, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_COMPLEX, dest, my_tag, &
@@ -18919,7 +19067,7 @@ CONTAINS
 
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1), msglen, MPI_COMPLEX, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_COMPLEX, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_COMPLEX, source, my_tag, &
@@ -18972,7 +19120,7 @@ CONTAINS
 
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
-            CALL mpi_irecv(msgout(1, 1), msglen, MPI_COMPLEX, source, my_tag, &
+            CALL mpi_irecv(msgout, msglen, MPI_COMPLEX, source, my_tag, &
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_COMPLEX, source, my_tag, &
@@ -19017,7 +19165,7 @@ CONTAINS
 
          len = SIZE(base)*(2*real_4_size)
          IF (len > 0) THEN
-            CALL mpi_win_create(base(1), len, (2*real_4_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
+            CALL mpi_win_create(base, len, (2*real_4_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
          ELSE
             CALL mpi_win_create(foo, len, (2*real_4_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
          END IF
@@ -19049,11 +19197,10 @@ CONTAINS
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
          INTEGER                                  :: len, &
-                                                     handle_origin_datatype, &
-                                                     handle_target_datatype, &
                                                      origin_len, target_len
          LOGICAL                                  :: do_local_copy
          INTEGER(kind=mpi_address_kind)           :: disp_aint
+         MPI_DATA_TYPE                             :: handle_origin_datatype, handle_target_datatype
 #endif
 
          ierr = 0
@@ -19097,7 +19244,7 @@ CONTAINS
                request = mp_request_null
                ierr = 0
             ELSE
-               CALL mpi_rget(base(1), origin_len, handle_origin_datatype, source, disp_aint, &
+               CALL mpi_rget(base, origin_len, handle_origin_datatype, source, disp_aint, &
                              target_len, handle_target_datatype, win%handle, request%handle, ierr)
             END IF
          ELSE
@@ -19433,9 +19580,10 @@ CONTAINS
          !! allocation status result
 
          INTEGER                                  :: size, ierr, length, &
-                                                     mp_info, mp_res
+                                                     mp_res
          INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
          TYPE(C_PTR)                              :: mp_baseptr
+         MPI_INFO_TYPE                            :: mp_info
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_COMPLEX, size, ierr)
@@ -19467,6 +19615,6 @@ CONTAINS
       END SUBROUTINE mp_free_mem_c
 #endif
 
-# 5577 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 5567 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 END MODULE dbcsr_mpiwrap

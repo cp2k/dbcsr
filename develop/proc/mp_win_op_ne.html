@@ -156,7 +156,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private elemental function mp_win_op_ne(win1, win2)  
+    <h2>private impure elemental function mp_win_op_ne(win1, win2)  
 </h2>
     
 
@@ -260,12 +260,16 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">   </span><span class="k">ELEMENTAL </span><span class="kt">LOGICAL </span><span class="k">FUNCTION </span><span class="n">mp_win_op_ne</span><span class="p">(</span><span class="n">win1</span><span class="p">,</span><span class="w"> </span><span class="n">win2</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">CLASS</span><span class="p">(</span><span class="n">mp_win_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">win1</span><span class="p">,</span><span class="w"> </span><span class="n">win2</span><span class="w"></span>
+    <div class="highlight"><pre><span></span><span class="w">      </span><span class="k">ELEMENTAL IMPURE </span><span class="kt">LOGICAL </span><span class="k">FUNCTION </span><span class="n">mp_win_op_ne</span><span class="p">(</span><span class="n">win1</span><span class="p">,</span><span class="w"> </span><span class="n">win2</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">CLASS</span><span class="p">(</span><span class="n">mp_win_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">win1</span><span class="p">,</span><span class="w"> </span><span class="n">win2</span><span class="w"></span>
 
-<span class="w">      </span><span class="n">mp_win_op_ne</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">win1</span><span class="p">%</span><span class="n">handle</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">win2</span><span class="p">%</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#if defined(__parallel) &amp;&amp; defined(__USE_MPI_F08)</span>
+<span class="w">         </span><span class="n">mp_win_op_ne</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">win1</span><span class="p">%</span><span class="n">handle</span><span class="p">%</span><span class="n">mpi_val</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">win2</span><span class="p">%</span><span class="n">handle</span><span class="p">%</span><span class="n">mpi_val</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#else</span>
+<span class="w">         </span><span class="n">mp_win_op_ne</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">win1</span><span class="p">%</span><span class="n">handle</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">win2</span><span class="p">%</span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="cp">#endif</span>
 
-<span class="w">   </span><span class="k">END FUNCTION </span><span class="n">mp_win_op_ne</span><span class="w"></span>
+<span class="w">      </span><span class="k">END FUNCTION </span><span class="n">mp_win_op_ne</span><span class="w"></span>
 </pre></div>
 
     </section>
