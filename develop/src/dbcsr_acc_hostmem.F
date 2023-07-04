@@ -24,6 +24,8 @@ MODULE dbcsr_acc_hostmem
    USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
                                acc_stream_cptr, &
                                acc_stream_type
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_set_active_device
+   USE dbcsr_config, ONLY: get_accdrv_active_device_id
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -99,6 +101,7 @@ CONTAINS
 
       stream_cptr = acc_stream_cptr(stream)
 
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_host_mem_alloc(host_mem_c_ptr, n_bytes, stream_cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_hostmem_alloc_raw: Could not allocate host pinned memory")
@@ -121,6 +124,7 @@ CONTAINS
 
       stream_cptr = acc_stream_cptr(stream)
 
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_host_mem_dealloc(host_mem_c_ptr, stream_cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_hostmem_dealloc_raw: Could not deallocate host pinned memory")
@@ -128,9 +132,9 @@ CONTAINS
    END SUBROUTINE acc_hostmem_dealloc_raw
 #endif
 
-# 137 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 141 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
-# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_i4 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -216,7 +220,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_i4_2D
 
-# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_i8 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -302,7 +306,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_i8_2D
 
-# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_r4 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -388,7 +392,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_r4_2D
 
-# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_r8 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -474,7 +478,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_r8_2D
 
-# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_c4 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -560,7 +564,7 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_c4_2D
 
-# 139 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_c8 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -646,6 +650,6 @@ CONTAINS
 #endif
       END SUBROUTINE acc_hostmem_dealloc_c8_2D
 
-# 225 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 229 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
 END MODULE dbcsr_acc_hostmem

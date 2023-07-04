@@ -25,6 +25,8 @@ MODULE dbcsr_acc_devmem
                                acc_stream_cptr, &
                                acc_stream_synchronize, &
                                acc_stream_type
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_set_active_device
+   USE dbcsr_config, ONLY: get_accdrv_active_device_id
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -210,6 +212,8 @@ CONTAINS
       IF (this%size_in_bytes < requested_size_in_bytes) THEN
          !WRITE (*,*) "acc_devmem_ensure_size_bytes: growing dev_mem to: ", data_size
 
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
+
          new_size = requested_size_in_bytes
          old_size = this%size_in_bytes
          old_cptr = this%cptr
@@ -333,6 +337,7 @@ CONTAINS
       INTEGER(KIND=C_INT)                      :: istat
       INTEGER(KIND=C_SIZE_T)                   :: free_c, total_c
 
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_dev_mem_info(free_c, total_c)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_devmem_info: failed")
@@ -361,6 +366,7 @@ CONTAINS
          DBCSR_ABORT("acc_devmem_alloc: already allocated")
       this%size_in_bytes = size_in_bytes
       IF (size_in_bytes > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_dev_mem_alloc(this%cptr, INT(this%size_in_bytes, KIND=C_SIZE_T))
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_allocate: failed")
@@ -382,6 +388,7 @@ CONTAINS
       IF (this%size_in_bytes < 0) &
          DBCSR_ABORT("acc_devmem_deallocate: double free")
       IF (this%size_in_bytes > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_dev_mem_dealloc(this%cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_deallocate: failed")
@@ -427,6 +434,7 @@ CONTAINS
       stream_cptr = acc_stream_cptr(stream)
 
       IF (length > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_memzero(this%cptr, offset, length, stream_cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_setzero: failed")
@@ -452,6 +460,7 @@ CONTAINS
 
       stream_cptr = acc_stream_cptr(stream)
       IF (n_bytes > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_memcpy_h2d(hostmem_cptr, this%cptr, &
                                           INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &
@@ -480,6 +489,7 @@ CONTAINS
       stream_cptr = acc_stream_cptr(stream)
 
       IF (n_bytes > 0) THEN
+         CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
          istat = acc_interface_memcpy_d2h(this%cptr, hostmem_cptr, &
                                           INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &
@@ -488,9 +498,9 @@ CONTAINS
    END SUBROUTINE dev2host_raw
 #endif
 
-# 496 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 506 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
-# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_i4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -543,7 +553,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_i4_1D
 
-# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_i8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -596,7 +606,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_i8_1D
 
-# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_r4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -649,7 +659,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_r4_1D
 
-# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_r8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -702,7 +712,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_r8_1D
 
-# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_c4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -755,7 +765,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_c4_1D
 
-# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_c8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -808,6 +818,6 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_c8_1D
 
-# 551 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 561 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 END MODULE dbcsr_acc_devmem
