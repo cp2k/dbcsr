@@ -14,6 +14,8 @@ MODULE dbcsr_acc_event
 #endif
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
                                acc_stream_type
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_set_active_device
+   USE dbcsr_config, ONLY: get_accdrv_active_device_id
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -115,6 +117,7 @@ CONTAINS
          DBCSR_ABORT("acc_stream_wait_event: event not allocated")
       IF (.NOT. C_ASSOCIATED(stream_cptr)) &
          DBCSR_ABORT("acc_stream_wait_event: stream not allocated")
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_stream_wait_event(stream_cptr, event%cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_stream_wait_event failed")
@@ -140,6 +143,7 @@ CONTAINS
          DBCSR_ABORT("acc_event_record: event not allocated")
       IF (.NOT. C_ASSOCIATED(stream_cptr)) &
          DBCSR_ABORT("acc_event_record: stream not allocated")
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_event_record(this%cptr, stream_cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_event_record failed")
@@ -160,6 +164,7 @@ CONTAINS
 
       IF (C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_event_create: already allocated")
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_event_create(this%cptr)
       IF (istat /= 0 .OR. .NOT. C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_event_create: failed")
@@ -179,6 +184,7 @@ CONTAINS
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_event_destroy: event not allocated")
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_event_destroy(this%cptr)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_event_destroy failed")
@@ -201,6 +207,7 @@ CONTAINS
       INTEGER                                  :: istat, has_occurred
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_event_query: event not allocated")
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_event_query(this%cptr, has_occurred)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_event_query failed")
@@ -220,6 +227,7 @@ CONTAINS
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_event_synchronize: event not allocated")
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
       istat = acc_interface_event_synchronize(this%cptr)
       IF (istat < 0) &
          DBCSR_ABORT("acc_event_synchronize failed")
