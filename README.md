@@ -1,6 +1,6 @@
 # DBCSR: Distributed Block Compressed Sparse Row matrix library
 
-[![Build Status](https://github.com/cp2k/dbcsr/actions/workflows/testing-linux.yml/badge.svg)](https://travis-ci.org/cp2k/dbcsr) [![codecov](https://codecov.io/gh/cp2k/dbcsr/branch/develop/graph/badge.svg)](https://codecov.io/gh/cp2k/dbcsr)
+[![Build Status](https://github.com/cp2k/dbcsr/actions/workflows/testing-linux.yml/badge.svg)](https://github.com/cp2k/dbcsr/actions) [![codecov](https://codecov.io/gh/cp2k/dbcsr/branch/develop/graph/badge.svg)](https://codecov.io/gh/cp2k/dbcsr)
 [![Licence](https://img.shields.io/badge/license-GPL%20v2.0-blue.svg)](./LICENSE)
 [![GitHub Releases](https://img.shields.io/github/release-pre/cp2k/dbcsr.svg)](https://github.com/cp2k/dbcsr/releases)
 

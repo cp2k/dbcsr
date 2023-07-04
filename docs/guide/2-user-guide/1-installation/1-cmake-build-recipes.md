@@ -10,7 +10,7 @@ The listed examples can usually be combined with other build options like *libxs
 even if the examples are not explicitly given.
 
 The instructions used for building in the Continuous Integration can be found in
-the `.ci/` folder or in the `.travis.yml`.
+the `.ci/` folder or in the `.github/workflows/`.
 
 ## GNU
 
