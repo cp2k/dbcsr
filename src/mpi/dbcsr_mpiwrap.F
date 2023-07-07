@@ -110,7 +110,6 @@ MODULE dbcsr_mpiwrap
    MPI_WIN_TYPE, PARAMETER :: mp_win_null_handle = MPI_WIN_NULL
    MPI_FILE_TYPE, PARAMETER :: mp_file_null_handle = MPI_FILE_NULL
    MPI_INFO_TYPE, PARAMETER :: mp_info_null_handle = MPI_INFO_NULL
-   MPI_DATA_TYPE, PARAMETER :: mp_datatype_null_handle = MPI_DATATYPE_NULL
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = MPI_STATUS_SIZE
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = MPI_PROC_NULL
    ! Set max allocatable memory by MPI to 2 GiByte
@@ -137,7 +136,6 @@ MODULE dbcsr_mpiwrap
    MPI_WIN_TYPE, PARAMETER :: mp_win_null_handle = -5
    MPI_FILE_TYPE, PARAMETER :: mp_file_null_handle = -6
    MPI_INFO_TYPE, PARAMETER :: mp_info_null_handle = -7
-   MPI_DATA_TYPE, PARAMETER :: mp_datatype_null_handle = -8
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = -7
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = -8
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = 1

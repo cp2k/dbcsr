@@ -201,10 +201,9 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
   if (USE_MPI_F08)
     if (NOT MPI_Fortran_HAVE_F08_MODULE)
       message(
-        WARNING
-          "The listed MPI implementation does not provide the required mpi_f08.mod interface. \
-The Fortran 90 bindings will be used instead.")
-      set(USE_MPI_F08 OFF)
+        FATAL_ERROR
+          "The listed MPI implementation does not provide the required mpi_f08.mod interface."
+      )
     endif ()
   endif ()
   if ("${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI v2.1"
