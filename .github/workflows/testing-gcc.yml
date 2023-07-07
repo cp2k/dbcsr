@@ -27,6 +27,7 @@ jobs:
           -DUSE_MPI=OFF \
           -DUSE_OPENMP=ON \
           -DUSE_SMM=blas \
+          -DUSE_MPI_F08=ON \
           ..
 
     - name: Build

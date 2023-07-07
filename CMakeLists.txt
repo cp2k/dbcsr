@@ -72,7 +72,7 @@ include(CMakeDependentOption)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(USE_OPENMP "Build with OpenMP support" ON)
 option(USE_MPI "Build with MPI support" ON)
-option(USE_MPI_F08 "Build with the mpi_f08 module support" ON)
+option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF)
 cmake_dependent_option(
   WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF
 )# the ISO_C_BINDINGS require MPI unconditionally
@@ -203,7 +203,7 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
       message(
         FATAL_ERROR
           "The listed MPI implementation does not provide the required mpi_f08.mod interface."
-          "Consider to use USE_MPI_F08=OFF to disable it.")
+      )
     endif ()
   endif ()
   if ("${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI v2.1"
