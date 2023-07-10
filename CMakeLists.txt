@@ -268,7 +268,11 @@ if (USE_ACCEL MATCHES "cuda")
 endif ()
 
 if (USE_ACCEL MATCHES "hip")
+  if(NOT CMAKE_HIP_ARCHITECTURES)
+    set(CMAKE_HIP_ARCHITECTURES OFF)
+  endif()
   enable_language(HIP)
+
   # Make sure the GPU required is supported
   list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
   if (GPU_SUPPORTED EQUAL -1)
