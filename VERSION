@@ -1,8 +1,8 @@
 MAJOR = 2
-MINOR = 5
+MINOR = 6
 PATCH = 0
 # A specific DATE (YYYY-MM-DD) fixes an official release, otherwise
 # it is considered Development version.
-DATE  = 2022-12-27
+DATE  = 2023-07-10
 
 
