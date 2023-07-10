@@ -1769,8 +1769,8 @@ CONTAINS
    END SUBROUTINE multiply_cannon
 
    SUBROUTINE multiply_cannon_g2g(left_set, right_set, product_matrix, &
-                              retain_sparsity, &
-                              filter_eps, flop, keep_product_data)
+                                  retain_sparsity, &
+                                  filter_eps, flop, keep_product_data)
       !! Multiplies two DBCSR matrices
       !!
       !! This function is expected to be called only if __DBCSR_ACC_G2G

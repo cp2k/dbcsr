@@ -364,7 +364,9 @@ def gen_makefile(outdir, compiler, arch):
             + " -w -c -o $@ -std=c++11 $<\n\n"
         )
     else:
-        output += "\thipcc -O3 -D__TUNING -D__HIP -w -munsafe-fp-atomics -c -o $@ $<\n\n"
+        output += (
+            "\thipcc -O3 -D__TUNING -D__HIP -w -munsafe-fp-atomics -c -o $@ $<\n\n"
+        )
 
     # compilation rule for kernel files
     headers = " ".join([f"../{fn}" for fn in Path("../kernels").glob("*.h")])
