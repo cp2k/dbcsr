@@ -13,7 +13,9 @@ import argparse
 import re
 import mmap
 import sys
-from os import path
+import pathlib
+from collections import defaultdict
+from os import path, listdir
 from contextlib import contextmanager
 
 TYPES = {
@@ -41,14 +43,19 @@ def mmap_open(name, mode="r"):
 
 def check_header(header_dir, files, verbose=False):
     retval = 0
-    header_re = {}
-    header_len = {}
+    header_re = defaultdict(list)
+    header_len = defaultdict(list)
 
-    for headertype in TYPES:
-        with open(path.join(header_dir, headertype), "rb") as fhandle:
-            header_content = fhandle.read()
-            header_re[headertype] = re.compile(re.escape(header_content))
-            header_len[headertype] = len(header_content)
+    for headerfile in listdir(header_dir):
+        headertype = pathlib.Path(headerfile).stem
+        if headertype in TYPES:
+            with open(path.join(header_dir, headerfile), "rb") as fhandle:
+                header_content = fhandle.read()
+                header_re[headertype].append(re.compile(re.escape(header_content)))
+                header_len[headertype].append(len(header_content))
+        else:
+            print("no matching headerfile to file extensions")
+            sys.exit(1)
 
     ext_map = {e: t for t, exts in TYPES.items() for e in exts}
 
@@ -62,9 +69,10 @@ def check_header(header_dir, files, verbose=False):
 
         with mmap_open(fpath) as fmapped:
             header_type = ext_map[fext]
-            match = header_re[header_type].search(
-                fmapped, 0, ALLOWED_LINES * MAX_LINE_LENGTH + header_len[header_type]
-            )
+            for h_re, h_len in zip(header_re[header_type], header_len[header_type]):
+                match = h_re.search(fmapped, 0, ALLOWED_LINES * MAX_LINE_LENGTH + h_len)
+                if match:
+                    break
 
             if not match:
                 print("✗ {} ... required header not found".format(fpath))
