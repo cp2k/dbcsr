@@ -1801,7 +1801,7 @@ CONTAINS
       INTEGER, PARAMETER                                 :: idata = 1, ileft = 0, imeta = 2, &
                                                             iright = 2
 
-      INTEGER :: data_type, data_type_byte, grp, handle, handle1, handle2, handle3, i, ithread, &
+      INTEGER :: data_type, data_type_byte, handle, handle1, handle2, handle3, i, ithread, &
                  left_col_image, left_col_mult, left_col_nimages, left_dst_icol, left_dst_irow, &
                  left_dst_p, left_dst_pcol, left_dst_prow, left_dst_vcol, left_dst_vrow, left_max_nblks, &
                  left_max_nze, left_myfirstvcol, left_myfirstvrow, left_mypcol, left_myprow, left_npcols, &
@@ -1810,7 +1810,7 @@ CONTAINS
                  left_send_icol, left_send_irow, left_send_p, left_send_pcol, left_send_prow
       INTEGER :: left_send_vcol, left_send_vrow, left_src_icol, left_src_irow, left_src_p, &
                  left_src_pcol, left_src_prow, left_src_vcol, left_src_vrow, metronome, min_nimages, &
-                 mp_group, mynode, nblkrows_used, nsteps_k, nthreads, numnodes, nvirt_k, &
+                 mynode, nblkrows_used, nsteps_k, nthreads, numnodes, nvirt_k, &
                  output_unit, right_col_image, right_col_mult, right_col_nimages, right_dst_icol, &
                  right_dst_irow, right_dst_p, right_dst_pcol, right_dst_prow, right_dst_vcol, &
                  right_dst_vrow, right_max_nblks, right_max_nze, right_myfirstvcol, right_myfirstvrow, &
@@ -1821,19 +1821,16 @@ CONTAINS
                  right_src_icol, right_src_irow, right_src_p, right_src_pcol, right_src_prow, &
                  right_src_vcol, right_src_vrow, row, size_guess, size_guess_init, stat, threads_finished, &
                  threads_finished_read, v_ki, v_ki_left, v_ki_right, max_nblks
-      INTEGER :: left_grp, right_grp, left_numnodes, right_numnodes, left_mynode, right_mynode
+      INTEGER :: left_numnodes, right_numnodes, left_mynode, right_mynode
       INTEGER :: msglen
       INTEGER(KIND=int_8)                                :: flop_single, flop_total, mem
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: row_counts, total_row_counts
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :)           :: left_sizes, my_sizes, right_sizes
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :, :)        :: all_sizes
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: col_blk_sizes2enum, enum2col_blk_sizes, &
-                                                    enum2row_blk_sizes, left_data_rr, left_data_sr, &
-                                                    left_index_rp, left_index_rr, &
-                                                    left_index_sp, left_index_sr, m_sizes, n_sizes, &
-                                                    right_data_rr, right_data_sr, &
-                                                    right_index_rp, right_index_rr, right_index_sp, &
-                                                    right_index_sr, row_blk_sizes2enum
+                                                    enum2row_blk_sizes, m_sizes, n_sizes, &
+                                                    row_blk_sizes2enum, left_index_rp, left_index_sp, &
+                                                    right_index_rp, right_index_sp
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: k_sizes
       INTEGER, DIMENSION(:, :), POINTER, CONTIGUOUS      :: left_pgrid, product_pgrid, right_pgrid
       INTEGER, SAVE                                      :: mult_id = 0
@@ -1855,6 +1852,9 @@ CONTAINS
       TYPE(dbcsr_mm_multrec_type_p), DIMENSION(:), ALLOCATABLE :: multrec
       TYPE(dbcsr_mp_obj)                       :: left_mp_obj, product_mp_obj, &
                                                   right_mp_obj
+      TYPE(mp_comm_type)                       :: grp, left_grp, right_grp, mp_group
+      TYPE(mp_request_type), DIMENSION(:), ALLOCATABLE :: left_data_rr, left_data_sr, left_index_rr, &
+                                                         left_index_sr, right_data_rr, right_data_sr, right_index_rr, right_index_sr
 
 !   ---------------------------------------------------------------------------
 

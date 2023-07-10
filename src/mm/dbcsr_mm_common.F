@@ -24,8 +24,7 @@ MODULE dbcsr_mm_common
    USE dbcsr_acc_devmem, ONLY: acc_devmem_cptr
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_hold
-   USE dbcsr_acc_operations, ONLY: dbcsr_acc_transpose, &
-                                   acc_interface_calculate_norms
+   USE dbcsr_acc_operations, ONLY: dbcsr_acc_transpose
    USE dbcsr_data_methods, ONLY: dbcsr_data_ensure_size, &
                                  dbcsr_data_get_size, &
                                  dbcsr_data_host2dev, &
@@ -112,6 +111,24 @@ MODULE dbcsr_mm_common
    PUBLIC :: calculate_norms
    PUBLIC :: huge_norm
    PUBLIC :: local_filter
+
+#if defined (__DBCSR_ACC)
+   INTERFACE
+      FUNCTION acc_interface_calculate_norms(mat, nblks, offsets, nelems, norms, stream_ptr) RESULT(istat) &
+         BIND(C, name="c_calculate_norms")
+         IMPORT
+         TYPE(C_PTR), INTENT(IN), VALUE           :: mat
+         TYPE(C_PTR), INTENT(IN), VALUE           :: offsets
+         TYPE(C_PTR), INTENT(IN), VALUE           :: nelems
+         TYPE(C_PTR), VALUE                       :: norms
+         INTEGER(KIND=C_INT), INTENT(IN), &
+            VALUE                                  :: nblks
+         TYPE(C_PTR), VALUE                       :: stream_ptr
+         INTEGER(KIND=C_INT)                      :: istat
+
+      END FUNCTION acc_interface_calculate_norms
+   END INTERFACE
+#endif
 
 CONTAINS
 
