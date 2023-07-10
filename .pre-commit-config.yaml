@@ -4,8 +4,8 @@ default_language_version:
 exclude: '^tools/(build_utils/fypp)'
 fail_fast: false
 repos:
-- repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: 'v0.0.276'
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: 'v0.0.277'
   hooks:
   - id: ruff
     args: [ --fix, --exit-non-zero-on-fix ]
