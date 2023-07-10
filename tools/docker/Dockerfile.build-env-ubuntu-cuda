@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.6.0-devel-ubuntu20.04
+FROM nvidia/cuda:12.2.0-devel-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -14,7 +14,7 @@ RUN set -ex ; \
     curl -LsS https://apt.kitware.com/keys/kitware-archive-latest.asc \
         | gpg --dearmor - \
         | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null ; \
-    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' ; \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ jammy main' ; \
     apt-get install -y \
         locales \
         gfortran \

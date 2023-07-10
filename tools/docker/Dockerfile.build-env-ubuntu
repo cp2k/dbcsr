@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 # we need at least Ubuntu 19.10 for:
 #   git > 2.18
@@ -22,7 +22,7 @@ RUN set -ex ; \
     curl -LsS https://apt.kitware.com/keys/kitware-archive-latest.asc \
         | gpg --dearmor - \
         | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null ; \
-    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' ; \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ jammy main' ; \
     apt-get install -y \
         locales \
         gfortran \
