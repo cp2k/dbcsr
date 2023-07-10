@@ -77,7 +77,7 @@ MODULE dbcsr_transformations
                                   hybrid_alltoall_s1, &
                                   hybrid_alltoall_z1
    USE dbcsr_mpiwrap, ONLY: mp_allgather, &
-                            mp_alltoall
+                            mp_alltoall, mp_comm_type
    USE dbcsr_operations, ONLY: dbcsr_set
    USE dbcsr_ptr_util, ONLY: pointer_view
    USE dbcsr_types, ONLY: &
@@ -318,7 +318,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_desymmetrize_deep'
       INTEGER, PARAMETER                                 :: idata = 2, imeta = 1, metalen = 3
 
-      INTEGER :: blk, blk_l, blk_p, blk_ps, blks, col, col_size, dst_p, handle, mp_group, &
+      INTEGER :: blk, blk_l, blk_p, blk_ps, blks, col, col_size, dst_p, handle, &
                  nsymmetries, numproc, nze, pcol, prow, row, row_size, src_p, stored_col, stored_row, &
                  symmetry_i
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: rd_disp, recv_meta, rm_disp, sd_disp, &
@@ -333,6 +333,7 @@ CONTAINS
       TYPE(dbcsr_distribution_obj)                       :: target_dist
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_mp_obj)                                 :: mp_obj
+      TYPE(mp_comm_type)                                 :: mp_group
 
 !   ---------------------------------------------------------------------------
 
@@ -1300,7 +1301,7 @@ CONTAINS
 
       CHARACTER                                          :: rep_type
       INTEGER :: blk, blk_l, blk_p, blk_ps, blks, col, col_size, data_type, dst_p, handle, &
-                 mp_group, mynode, mypcol, myprow, nblks, numnodes, nze, offset, row, row_size, smp, &
+                 mynode, mypcol, myprow, nblks, numnodes, nze, offset, row, row_size, smp, &
                  src_p, stored_blk_p, stored_col, stored_row
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: rd_disp, recv_meta, rm_disp, send_meta
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: recv_count
@@ -1316,6 +1317,7 @@ CONTAINS
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_mp_obj)                                 :: mp_obj
       TYPE(dbcsr_type)                                   :: replicated
+      TYPE(mp_comm_type)                                 :: mp_group
 
 !   ---------------------------------------------------------------------------
 
@@ -1561,7 +1563,7 @@ CONTAINS
 
       INTEGER :: blk, blk_col_new, blk_ps, blk_row_new, blks, cnt_fnd, cnt_new, cnt_skip, col, &
                  col_int, col_offset_new, col_offset_old, col_rle, col_size, col_size_new, data_offset_l, &
-                 data_type, dst_p, handle, i, meta_l, mp_group, numnodes, nze_rle, row, row_int, &
+                 data_type, dst_p, handle, i, meta_l, numnodes, nze_rle, row, row_int, &
                  row_offset_new, row_offset_old, row_rle, row_size, row_size_new, src_p, stored_col_new, &
                  stored_row_new
       INTEGER, ALLOCATABLE, DIMENSION(:) :: col_end_new, col_end_old, col_start_new, &
@@ -1581,6 +1583,7 @@ CONTAINS
       TYPE(dbcsr_distribution_obj)                       :: dist_new
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_mp_obj)                                 :: mp_obj_new
+      TYPE(mp_comm_type)                                 :: mp_group
 
 !   ---------------------------------------------------------------------------
 
@@ -1958,7 +1961,7 @@ CONTAINS
       INTEGER, PARAMETER                                 :: metalen = 2
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
-      INTEGER :: blk, blk_ps, blks, col, col_size, data_type, dst_p, handle, meta_l, mp_group, &
+      INTEGER :: blk, blk_ps, blks, col, col_size, data_type, dst_p, handle, meta_l, &
                  numnodes, nze, row, row_size, src_p, stored_col_new, stored_row_new
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: rd_disp, recv_meta, rm_disp, sd_disp, &
                                                             sdp, send_meta, sm_disp, smp
@@ -1972,6 +1975,7 @@ CONTAINS
       TYPE(dbcsr_distribution_obj)                       :: dist_new
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_mp_obj)                                 :: mp_obj_new
+      TYPE(mp_comm_type)                                 :: mp_group
 
 !   ---------------------------------------------------------------------------
 
@@ -2200,7 +2204,7 @@ CONTAINS
       COMPLEX(kind=dp), DIMENSION(:), POINTER, CONTIGUOUS :: c_dp
       COMPLEX(kind=sp), DIMENSION(:), POINTER, CONTIGUOUS :: c_sp
       INTEGER :: bcol, blk, blk_ps, blk_size, blks, brow, col_size, data_type, &
-                 dst_p, handle, i, ind, job_count, meta_l, mp_group, &
+                 dst_p, handle, i, ind, job_count, meta_l, &
                  nblkrows_total, numnodes, row_size, src_p, stored_col_new, &
                  stored_row_new
       INTEGER(kind=int_8)                      :: actual_blk, blkp, end_ind, &
@@ -2221,6 +2225,7 @@ CONTAINS
                                                   send_data
       TYPE(dbcsr_distribution_obj)             :: dist
       TYPE(dbcsr_mp_obj)                       :: mp_env
+      TYPE(mp_comm_type)                                 :: mp_group
 
       CALL timeset(routineN, handle)
 

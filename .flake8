@@ -1,4 +1,0 @@
-[flake8]
-max-line-length = 128
-# ignore whitespaces in array slices (https://github.com/PyCQA/pycodestyle/issues/373)
-ignore = E203,W503

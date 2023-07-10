@@ -5,15 +5,18 @@ FROM gcc:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Ensure that we're using Bullseye as base, needs to be updated as soon as this changes
+# Idiom to enable backports when available/required. Add after `set -ex` below:
+#   grep -q bullseye /etc/os-release ; \
+#   echo "deb http://deb.debian.org/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list ; \
+# To install packages from the backports, append `/bullseye-backports` to package name, ex.:
+#   cmake/bullseye-backports
+
 RUN set -ex ; \
-    grep -q bullseye /etc/os-release ; \
-    echo "deb http://deb.debian.org/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list ; \
     apt-get update ; \
     apt-get install -y --no-install-recommends \
         locales \
         libopenblas-openmp-dev \
-        cmake/bullseye-backports \
+        cmake \
         ninja-build \
         lcov \
         pkg-config \

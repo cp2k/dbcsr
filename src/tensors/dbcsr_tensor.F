@@ -55,7 +55,7 @@ MODULE dbcsr_tensor
    USE dbcsr_kinds, ONLY: &
       ${uselist(dtype_float_prec)}$, default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
-      mp_environ, mp_max, mp_sum, mp_comm_free, mp_cart_create, mp_sync
+      mp_environ, mp_max, mp_comm_free, mp_cart_create, mp_sync, mp_comm_type
    USE dbcsr_toollib, ONLY: &
       sort
    USE dbcsr_tensor_reshape, ONLY: &
@@ -590,8 +590,8 @@ CONTAINS
 
       INTEGER(int_8), DIMENSION(:, :), ALLOCATABLE  :: result_index_2d
       LOGICAL                                        :: assert_stmt, tensors_remapped
-      INTEGER                                        :: data_type, max_mm_dim, max_tensor, mp_comm, &
-                                                        iblk, nblk, unit_nr_prv, ref_tensor, mp_comm_opt, &
+      INTEGER                                        :: data_type, max_mm_dim, max_tensor, &
+                                                        iblk, nblk, unit_nr_prv, ref_tensor, &
                                                         handle
       INTEGER, DIMENSION(SIZE(contract_1))           :: contract_1_mod
       INTEGER, DIMENSION(SIZE(notcontract_1))        :: notcontract_1_mod
@@ -618,6 +618,7 @@ CONTAINS
       INTEGER, DIMENSION(2) :: pdims_2d_opt, pdims_2d, pcoord_2d, pdims_sub, pdims_sub_opt
       LOGICAL, DIMENSION(2) :: periods_2d
       REAL(real_8) :: pdim_ratio, pdim_ratio_opt
+      TYPE(mp_comm_type) :: mp_comm, mp_comm_opt
 
       NULLIFY (tensor_contr_1, tensor_contr_2, tensor_contr_3, tensor_crop_1, tensor_crop_2, &
                tensor_small)
@@ -1217,7 +1218,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL               :: unit_nr
          !! output unit
       INTEGER                                     :: compat1, compat1_old, compat2, compat2_old, &
-                                                     comm_2d, unit_nr_prv
+                                                     unit_nr_prv
       TYPE(array_list)                            :: dist_list
       INTEGER, DIMENSION(:), ALLOCATABLE          :: mp_dims
       TYPE(dbcsr_t_distribution_type)             :: dist_in
@@ -1225,6 +1226,7 @@ CONTAINS
       LOGICAL                                     :: optimize_dist_prv
       INTEGER, DIMENSION(ndims_tensor(tensor1)) :: dims1
       INTEGER, DIMENSION(ndims_tensor(tensor2)) :: dims2
+      TYPE(mp_comm_type) :: comm_2d
 
       NULLIFY (tensor1_out, tensor2_out)
 
@@ -1610,7 +1612,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(OUT)        :: tensor_out
       CHARACTER(len=*), INTENT(IN), OPTIONAL :: name
       LOGICAL, INTENT(IN), OPTIONAL          :: nodata, move_data
-      INTEGER, INTENT(IN), OPTIONAL          :: comm_2d
+      TYPE(mp_comm_type), INTENT(IN), OPTIONAL          :: comm_2d
       TYPE(array_list), INTENT(IN), OPTIONAL :: dist1, dist2
       INTEGER, DIMENSION(SIZE(map1_2d)), OPTIONAL :: mp_dims_1
       INTEGER, DIMENSION(SIZE(map2_2d)), OPTIONAL :: mp_dims_2
@@ -1618,11 +1620,12 @@ CONTAINS
       INTEGER, DIMENSION(:), ALLOCATABLE     :: ${varlist("blk_sizes")}$, &
                                                 ${varlist("nd_dist")}$
       TYPE(dbcsr_t_distribution_type)        :: dist
-      INTEGER                                :: comm_2d_prv, handle, i
+      INTEGER                                :: handle, i
       INTEGER, DIMENSION(ndims_tensor(tensor_in)) :: pdims, myploc
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_remap'
       LOGICAL                               :: nodata_prv
       TYPE(dbcsr_t_pgrid_type)              :: comm_nd
+      TYPE(mp_comm_type) :: comm_2d_prv
 
       CALL timeset(routineN, handle)
 
@@ -2183,7 +2186,7 @@ CONTAINS
    SUBROUTINE dbcsr_t_change_pgrid_2d(tensor, mp_comm, pdims, nodata, nsplit, dimsplit, pgrid_changed, unit_nr)
       !! map tensor to a new 2d process grid for the matrix representation.
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor
-      INTEGER, INTENT(IN)               :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)               :: mp_comm
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: pdims
       LOGICAL, INTENT(IN), OPTIONAL                      :: nodata
       INTEGER, INTENT(IN), OPTIONAL :: nsplit, dimsplit

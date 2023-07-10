@@ -46,7 +46,7 @@ MODULE dbcsr_csr_conversions
                             mp_gather, &
                             mp_recv, &
                             mp_send, &
-                            mp_sum
+                            mp_sum, mp_comm_type
    USE dbcsr_operations, ONLY: dbcsr_copy, &
                                dbcsr_get_info, &
                                dbcsr_set
@@ -116,11 +116,12 @@ MODULE dbcsr_csr_conversions
       !! Type for CSR matrices
 
       INTEGER                                  :: nrows_total, ncols_total, &
-                                                  nze_local, nrows_local, mp_group
+                                                  nze_local, nrows_local
          !! total number of rows
          !! total number of columns
          !! local number of nonzero elements
          !! local number of rows
+      TYPE(mp_comm_type)                       :: mp_group
          !! message-passing group ID
       INTEGER(KIND=int_8)                      :: nze_total
          !! total number of nonzero elements
@@ -170,9 +171,10 @@ CONTAINS
          !! total number of columns
       INTEGER(KIND=int_8)                                :: nze_total
          !! total number of non-zero elements
-      INTEGER, INTENT(IN)                                :: nze_local, nrows_local, mp_group
+      INTEGER, INTENT(IN)                                :: nze_local, nrows_local
          !! local number of non-zero elements
          !! local number of rows
+      TYPE(mp_comm_type), INTENT(IN)                     :: mp_group
       INTEGER, INTENT(IN), OPTIONAL                      :: data_type
          !! data type of the CSR matrix (default real double prec.)
 
@@ -385,12 +387,13 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_from_brd'
 
-      INTEGER                                            :: data_type, handle, mp_group, &
+      INTEGER                                            :: data_type, handle, &
                                                             nfullcols_total, nfullrows, &
                                                             nfullrows_total, nze_local
       INTEGER(KIND=int_8)                                :: nze_total
       INTEGER, DIMENSION(:), POINTER                     :: cdist, csr_index, dbcsr_index
       TYPE(dbcsr_distribution_obj)                       :: dist_current
+      TYPE(mp_comm_type)                                 :: mp_group
 
       CALL timeset(routineN, handle)
       NULLIFY (dbcsr_index, csr_index, cdist)
@@ -1336,7 +1339,7 @@ CONTAINS
 
       CHARACTER                                          :: matrix_type
       CHARACTER(LEN=default_string_length)               :: matrix_name
-      INTEGER :: cs, data_type, end_ind, handle, i, k, l, m, mp_group, mynode, nblkcols_total, &
+      INTEGER :: cs, data_type, end_ind, handle, i, k, l, m, mynode, nblkcols_total, &
                  nblkrows_total, nfullrows_local, nfullrows_total, node_size, numnodes_total, row_index, &
                  split_row, start_ind
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: rdist_tmp, row_blk_size_new_tmp
@@ -1346,6 +1349,7 @@ CONTAINS
       REAL(KIND=real_8)                                  :: chunk_size
       TYPE(dbcsr_distribution_obj)                       :: dist_current, dist_new
       TYPE(dbcsr_mp_obj)                                 :: mp_obj_current, mp_obj_new
+      TYPE(mp_comm_type)                                 :: mp_group
 
       CALL timeset(routineN, handle)
 

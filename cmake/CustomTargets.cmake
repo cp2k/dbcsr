@@ -22,11 +22,14 @@ find_program(
   DOC "path to the genhtml executable (required to generate HTML coverage reports)"
 )
 
+set(LCOV_ARGS CACHE STRING
+                    "specify additional arguments to pass to lcov for cov-info")
 add_custom_target(
   cov-info
   COMMAND
     "${LCOV_EXE}" --directory "${CMAKE_BINARY_DIR}" --base-dir
-    "${CMAKE_SOURCE_DIR}" --no-external --capture --output-file coverage.info
+    "${CMAKE_SOURCE_DIR}" --no-external --capture ${LCOV_ARGS} --output-file
+    coverage.info
   COMMAND "${LCOV_EXE}" --list coverage.info
   VERBATIM
   BYPRODUCTS coverage.info

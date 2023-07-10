@@ -27,7 +27,7 @@ MODULE dbcsr_test_multiply
       dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release, dbcsr_row_block_offsets, &
       dbcsr_row_block_sizes
    USE dbcsr_mpiwrap, ONLY: mp_bcast, &
-                            mp_environ
+                            mp_environ, mp_comm_type
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply
    USE dbcsr_operations, ONLY: dbcsr_copy, &
                                dbcsr_get_occupation, &
@@ -70,7 +70,7 @@ CONTAINS
       !! processor grids
 
       CHARACTER(len=*), INTENT(IN)                       :: test_name
-      INTEGER, INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
          !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
@@ -353,7 +353,7 @@ CONTAINS
       !! processor grids
 
       CHARACTER(len=*), INTENT(IN)                       :: test_name
-      INTEGER, INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
          !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
@@ -541,8 +541,9 @@ CONTAINS
       INTEGER, DIMENSION(6), INTENT(in)                  :: limits
          !! limits for the gemm
       LOGICAL, INTENT(in)                                :: retain_sparsity
-      INTEGER, INTENT(IN)                                :: io_unit, mp_group
+      INTEGER, INTENT(IN)                                :: io_unit
          !! io unit for printing
+      TYPE(mp_comm_type), INTENT(IN)                     :: mp_group
       LOGICAL, INTENT(out)                               :: success
          !! if passed the check success=T
 

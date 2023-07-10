@@ -22,7 +22,7 @@ MODULE dbcsr_test_scale_by_vector
       dbcsr_get_matrix_type, dbcsr_name, dbcsr_nblkcols_total, dbcsr_nblkrows_total, &
       dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release
 
-   USE dbcsr_mpiwrap, ONLY: mp_environ
+   USE dbcsr_mpiwrap, ONLY: mp_environ, mp_comm_type
    USE dbcsr_test_methods, ONLY: dbcsr_make_random_block_sizes, &
                                  dbcsr_make_random_matrix, &
                                  dbcsr_random_dist, &
@@ -57,7 +57,7 @@ CONTAINS
       !! processor grids
 
       CHARACTER(len=*), INTENT(IN)                       :: test_name
-      INTEGER, INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
          !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(IN)                  :: npdims

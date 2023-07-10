@@ -1670,11 +1670,10 @@ CONTAINS
       CALL dbcsr_binary_write(matrix, filepath)
    END SUBROUTINE
 
-   SUBROUTINE c_dbcsr_binary_read(c_filepath, c_distribution, c_groupid, c_matrix_new) &
-      BIND(C, name="c_dbcsr_binary_read_aux")
+   SUBROUTINE c_dbcsr_binary_read(c_filepath, c_distribution, c_matrix_new) &
+      BIND(C, name="c_dbcsr_binary_read")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_filepath, c_distribution
-      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_groupid
       TYPE(c_ptr), INTENT(INOUT) :: c_matrix_new
 
       CHARACTER(:, kind=c_char), ALLOCATABLE :: filepath
@@ -1685,7 +1684,7 @@ CONTAINS
       CALL c_f_pointer(c_distribution, distribution)
       ALLOCATE (matrix_new)
 
-      CALL dbcsr_binary_read(filepath, distribution, c_groupid, matrix_new)
+      CALL dbcsr_binary_read(filepath, distribution, matrix_new)
       c_matrix_new = c_loc(matrix_new)
    END SUBROUTINE
 

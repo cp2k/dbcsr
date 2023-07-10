@@ -46,7 +46,7 @@ int c_dbcsr_acc_opencl_memalignment(size_t size) {
 
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory) {
   void* result = NULL;
-  ACC_OPENCL_EXPECT(CL_SUCCESS, clGetMemObjectInfo(memory, CL_MEM_HOST_PTR, sizeof(void*), &result, NULL));
+  ACC_OPENCL_EXPECT(CL_SUCCESS == clGetMemObjectInfo(memory, CL_MEM_HOST_PTR, sizeof(void*), &result, NULL));
   return result;
 }
 
@@ -105,7 +105,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
       }
     }
     else { /* error: mapping host buffer */
-      ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseMemObject(memory));
+      ACC_OPENCL_EXPECT(CL_SUCCESS == clReleaseMemObject(memory));
       *host_mem = NULL;
     }
   }
@@ -208,7 +208,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
 #  else
     assert(NULL == c_dbcsr_acc_opencl_config.handles || sizeof(void*) >= sizeof(cl_mem));
     *dev_mem = (
-#    if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+#    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
       (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
       NULL != c_dbcsr_acc_opencl_config.handles
         ? libxsmm_pmalloc(c_dbcsr_acc_opencl_config.handles, &c_dbcsr_acc_opencl_config.handle)
@@ -260,7 +260,7 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
 #  if defined(ACC_OPENCL_MEM_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_mem));
 #  else
-#    if LIBXSMM_VERSION4(1, 17, 0, 2188) <= LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
+#    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
       (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
     if (NULL != c_dbcsr_acc_opencl_config.handles) {
       /**(cl_mem*)dev_mem = NULL; assert(NULL == *ACC_OPENCL_MEM(dev_mem));*/
@@ -343,11 +343,13 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
     result = clEnqueueReadBuffer(
       queue, *ACC_OPENCL_MEM(dev_mem), 0 == (2 & c_dbcsr_acc_opencl_config.async), 0 /*offset*/, nbytes, host_mem, 0, NULL, NULL);
     if (CL_SUCCESS != result) {
-      result = clEnqueueReadBuffer(queue, *ACC_OPENCL_MEM(dev_mem), CL_TRUE, 0 /*offset*/, nbytes, host_mem, 0, NULL, NULL);
+      const int result_sync = clEnqueueReadBuffer(
+        queue, *ACC_OPENCL_MEM(dev_mem), CL_TRUE, 0 /*offset*/, nbytes, host_mem, 0, NULL, NULL);
       c_dbcsr_acc_opencl_config.async |= 2; /* retract feature */
       if (0 != c_dbcsr_acc_opencl_config.verbosity) {
-        fprintf(stderr, "WARNING ACC/OpenCL: falling back to synchronous readback.\n");
+        fprintf(stderr, "WARN ACC/OpenCL: falling back to synchronous readback (code=%i).\n", result);
       }
+      result = result_sync;
     }
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
@@ -383,8 +385,8 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
                                 "  const size_t i = get_global_id(0);\n"
                                 "  dst[i] = src[i];\n"
                                 "}\n";
-          result = c_dbcsr_acc_opencl_kernel(source, "memcpy_d2d" /*kernel_name*/, NULL /*build_params*/, NULL /*build_options*/,
-            NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
+          result = c_dbcsr_acc_opencl_kernel(0 /*source_is_file*/, source, "memcpy_d2d" /*kernel_name*/, NULL /*build_params*/,
+            NULL /*build_options*/, NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
         }
         if (EXIT_SUCCESS == result) {
           assert(NULL != kernel);
@@ -431,8 +433,8 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
                               "  const uchar pattern = 0;\n"
                               "  buffer[i] = pattern;\n"
                               "}\n";
-        result = c_dbcsr_acc_opencl_kernel(source, "memset_zero" /*kernel_name*/, NULL /*build_params*/, NULL /*build_options*/,
-          NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
+        result = c_dbcsr_acc_opencl_kernel(0 /*source_is_file*/, source, "memset_zero" /*kernel_name*/, NULL /*build_params*/,
+          NULL /*build_options*/, NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
       }
       if (EXIT_SUCCESS == result) {
         assert(NULL != kernel);
@@ -481,7 +483,7 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t
 #      endif
 #    elif defined(__APPLE__) && defined(__MACH__)
   /*const*/ size_t size_pages_free = sizeof(const long), size_pages_total = sizeof(const long);
-  ACC_OPENCL_EXPECT(0, sysctlbyname("hw.memsize", &pages_total, &size_pages_total, NULL, 0));
+  ACC_OPENCL_EXPECT(0 == sysctlbyname("hw.memsize", &pages_total, &size_pages_total, NULL, 0));
   if (0 < page_size) pages_total /= page_size;
   if (0 != sysctlbyname("vm.page_free_count", &pages_free, &size_pages_free, NULL, 0)) {
     pages_free = pages_total;

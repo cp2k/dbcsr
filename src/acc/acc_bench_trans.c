@@ -12,14 +12,23 @@
 #include <stdio.h>
 
 #if defined(__LIBXSMM)
-#  include <libxsmm.h>
-#  if !defined(LIBXSMM_VERSION_NUMBER)
-#    define LIBXSMM_VERSION_NUMBER \
-      LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
+#  if defined(LIBXSMM_DEFAULT_CONFIG)
+#    include <libxsmm_source.h>
+#  else
+#    include <libxsmm.h>
+#    if !defined(LIBXSMM_TIMER_H)
+#      include <utils/libxsmm_timer.h>
+#    endif
+#    if !defined(LIBXSMM_SYNC_H)
+#      include <libxsmm_sync.h>
+#    endif
 #  endif
-#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+#  if defined(LIBXSMM_VERSION_NUMBER) && LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
 #    define USE_LIBXSMM
 #  endif
+#endif
+
+#if defined(USE_LIBXSMM)
 #  if defined(_OPENMP)
 #    define ACC_BENCH_ITRANSBATCH(A, ...) libxsmm_itrans_batch_omp(A, __VA_ARGS__)
 #  else
@@ -152,8 +161,8 @@ int main(int argc, char* argv[]) {
 #else
   CHECK(c_dbcsr_acc_stream_create(&stream, "stream", -1 /*default priority*/), &result);
 #endif
-  CHECK(c_dbcsr_acc_host_mem_allocate((void**)&mat_hst, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
-  CHECK(c_dbcsr_acc_host_mem_allocate((void**)&stack_hst, sizeof(int) * offset_stack_size, stream), &result);
+  CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&mat_hst, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
+  CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&stack_hst, sizeof(int) * offset_stack_size, stream), &result);
   CHECK(c_dbcsr_acc_stream_sync(stream), &result); /* ensure host-data is allocated */
   if (NULL != mat_hst && NULL != stack_hst) {
 #if defined(_OPENMP)
@@ -169,8 +178,8 @@ int main(int argc, char* argv[]) {
       stack_hst[i] = j;
     }
   }
-  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size), &result);
-  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&stack_dev, sizeof(int) * offset_stack_size), &result);
+  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size), &result);
+  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&stack_dev, sizeof(int) * offset_stack_size), &result);
 #if defined(USE_LIBXSMM)
   CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   start = libxsmm_timer_tick();

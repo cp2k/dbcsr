@@ -22,7 +22,7 @@ PROGRAM dbcsr_performance_driver
                                dbcsr_mp_release
    USE dbcsr_mpiwrap, ONLY: &
       mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
-      mp_world_finalize, mp_world_init
+      mp_world_finalize, mp_world_init, mp_comm_type
    USE dbcsr_performance_multiply, ONLY: dbcsr_perf_multiply
    USE dbcsr_toollib, ONLY: atoi, atol
    USE dbcsr_types, ONLY: dbcsr_mp_obj
@@ -32,12 +32,13 @@ PROGRAM dbcsr_performance_driver
 
    IMPLICIT NONE
 
-   INTEGER                                  :: mp_comm, group, numnodes, mynode, &
+   INTEGER                                  :: numnodes, mynode, &
                                                prow, pcol, io_unit, narg, handle
    INTEGER, DIMENSION(2)                    :: npdims, myploc
    INTEGER, DIMENSION(:, :), POINTER        :: pgrid
    TYPE(dbcsr_mp_obj)                       :: mp_env
    CHARACTER(len=default_string_length)     :: args(100)
+   TYPE(mp_comm_type)                       :: mp_comm, group
 
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_performance_driver'
 
@@ -83,7 +84,7 @@ PROGRAM dbcsr_performance_driver
    IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
 
    ! initialize libdbcsr
-   CALL dbcsr_init_lib(mp_comm, io_unit)
+   CALL dbcsr_init_lib(mp_comm%get_handle(), io_unit)
 
    ! initialize libdbcsr errors
    CALL timeset(routineN, handle)

@@ -20,6 +20,7 @@ ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
 UNAME := $(shell uname)
+HEADERONLY ?= 0
 STATIC ?= 1
 INTEL ?= 0
 DEV ?= 0
@@ -97,17 +98,21 @@ ifneq (0,$(DEV))
     # DEV=2 (and higher): linking is not intended
     CFLAGS += -D__DBCSR_ACC
     CFLAGS += -Wno-deprecated -Werror
-    ifneq (,$(findstring clang,$(CC) $(CXX)))
-      override CC := clang++ --analyze
+    ifneq (2,$(DEV))
+      ifneq (,$(findstring clang,$(CC) $(CXX)))
+        override CC := clang++ --analyze
+      else
+        CC := $(CXX) -xc++
+      endif
     else
-      CC := $(CXX)
+      CC := $(CXX) -xc++
     endif
     $(info CC: $(shell $(CC) --version | head -n1))
     OMP := 0
   endif
   CFLAGS += -pedantic
-else
-  CFLAGS += -std=c99
+#else
+  #CFLAGS += -std=c99
 endif
 
 ifneq (0,$(DBG))
@@ -143,13 +148,15 @@ endif
 
 ifneq (,$(LIBXSMMROOT))
   ifneq (0,$(STATIC))
-    ifneq (0,$(OMP))
-      LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmext.a
+    ifeq (0,$(HEADERONLY))
+      ifneq (0,$(OMP))
+        LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmext.a
+      endif
+      LDFLAGS += $(LIBXSMMROOT)/lib/libxsmm.a
+    else
+      CFLAGS_XSMM += -DLIBXSMM_DEFAULT_CONFIG
     endif
-    LDFLAGS += \
-      $(LIBXSMMROOT)/lib/libxsmm.a \
-      $(LIBXSMMROOT)/lib/libxsmmnoblas.a \
-      $(NULL)
+    LDFLAGS += $(LIBXSMMROOT)/lib/libxsmmnoblas.a
   else
     LDFLAGS += -L$(LIBXSMMROOT)/lib
     ifneq (Darwin,$(UNAME))
@@ -179,7 +186,14 @@ else
     CUDATOOLKIT_HOME := $(if $(NVCC),$(abspath $(dir $(NVCC))/..))
   endif
   ifneq (,$(CUDATOOLKIT_HOME))
-    CFLAGS += -I$(CUDATOOLKIT_HOME)/include
+    ifeq (,$(wildcard $(OPENCL_INC)))
+      CLINC := $(strip $(lastword $(sort $(wildcard $(CUDATOOLKIT_HOME)/../cuda/*/targets/x86_64-linux/include/CL/cl.h))))
+      ifneq (,$(CLINC))
+        OPENCL_INC := $(abspath $(dir $(CLINC))/..)
+      else
+        CFLAGS += -I$(CUDATOOLKIT_HOME)/include
+      endif
+    endif
     ifeq (,$(wildcard $(OPENCL_LIB)))
       LDFLAGS += -L$(CUDATOOLKIT_HOME)/lib64
       LDFLAGS += -Wl,-rpath=$(CUDATOOLKIT_HOME)/lib64
@@ -196,6 +210,13 @@ else
     LDFLAGS += -lOpenCL
   endif
 endif
+
+# Collect all paths in LD_LIBRARY_PATH and LD_LIBRARY_PATH/stubs, and append to LDFLAGS
+LD_LIBRARY_PATH := $(wildcard $(subst :, ,$(LD_LIBRARY_PATH)))
+LD_LIBSTUB_PATH := $(wildcard $(patsubst %,%/stubs,$(LD_LIBRARY_PATH)))
+LIBPATHS := $(foreach DIR,$(LD_LIBRARY_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
+LIBSTUBS := $(foreach DIR,$(LD_LIBSTUB_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
+LDFLAGS += $(LIBPATHS) $(LIBSTUBS)
 
 .PHONY: bench
 bench: $(ACCDIR)/acc_bench_smm $(ACCDIR)/acc_bench_trans

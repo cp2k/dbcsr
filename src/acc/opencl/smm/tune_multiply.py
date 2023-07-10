@@ -100,7 +100,7 @@ class SmmTuner(MeasurementInterface):
                 int(typename.group(1)) if typename and typename.group(1) else 0
             )
             device = re.search(
-                'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="(.+)"\\s+uid=',
+                'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="([^"]+)"',
                 str(run_result["stderr"]),
             )
             self.device = device.group(1) if device and device.group(1) else ""
@@ -267,7 +267,8 @@ class SmmTuner(MeasurementInterface):
         config = desired_result.configuration.data
         cfgenv = self.environment(config)
         run_result = self.launch(
-            cfgenv + ["CHECK={}".format(self.args.check)], verbose=self.args.verbose
+            cfgenv + ["CHECK={}".format(self.args.check)],
+            verbose=self.args.verbose,
         )
         if 0 == run_result["returncode"]:
             performance = re.search(
@@ -337,10 +338,18 @@ class SmmTuner(MeasurementInterface):
                     ):
                         continue
                     device = data["DEVICE"] if "DEVICE" in data else self.device
-                    key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
+                    key = (
+                        device,
+                        data["TYPEID"],
+                        data["M"],
+                        data["N"],
+                        data["K"],
+                    )
                     value = (
                         data["S"] if "S" in data else 0,  # pseudo key component
-                        data["GFLOPS"],
+                        data["GFLOPS"]
+                        if "GFLOPS" in data and not self.args.nogflops
+                        else 0,
                         data["BS"],
                         data["BM"],
                         data["BN"],
@@ -419,7 +428,7 @@ class SmmTuner(MeasurementInterface):
             # extend result for easier reuse later
             config = configuration.data
             config["DEVICE"] = self.device
-            config["GFLOPS"] = self.gflops
+            config["GFLOPS"] = self.gflops if not self.args.nogflops else 0
             config["TYPEID"] = self.typeid
             config["M"] = self.mnk[0]
             config["N"] = self.mnk[1]
@@ -435,7 +444,8 @@ class SmmTuner(MeasurementInterface):
             )
             # self.manipulator().save_to_file(config, filename)
             with open(
-                os.path.join(self.args.jsondir, ".{}.json".format(self.args.label)), "w"
+                os.path.join(self.args.jsondir, ".{}.json".format(self.args.label)),
+                "w",
             ) as file:
                 json.dump(config, file, sort_keys=True)
                 file.write("\n")  # append newline at EOF
@@ -535,6 +545,14 @@ if __name__ == "__main__":
         help="Merge JSONs into CSV (-1: auto, 0: all, 1: SP, 2: DP)",
     )
     argparser.add_argument(
+        "-x",
+        "--csv-nogflops",
+        action="store_true",
+        default=False,
+        dest="nogflops",
+        help="Exclude real GFLOPS",
+    )
+    argparser.add_argument(
         "-p",
         "--jsons-dir",
         type=str,
@@ -626,9 +644,9 @@ if __name__ == "__main__":
         "-lu",
         "--initial-lu",
         type=int,
-        default=env_value("OPENCL_LIBSMM_SMM_LU", "0"),
+        default=env_value("OPENCL_LIBSMM_SMM_LU", "-1"),
         dest="lu",
-        help="Loop unroll (-2) full, (-1) no hints, (0) default, (1) limited, (2) literal",
+        help="Loop unroll (-2) full, (-1) no hints (default), (0) inner, (1) outer-dehint, (2) literal",
     )
     argparser.add_argument(
         "-nz",
@@ -674,7 +692,7 @@ if __name__ == "__main__":
         "-aa",
         "--initial-aa",
         type=int,
-        default=env_value("OPENCL_LIBSMM_SMM_AA", "1"),
+        default=env_value("OPENCL_LIBSMM_SMM_AA", "0"),
         dest="aa",
         help="Matrix A: global (0), shared (1), shared-bc (2), register (3)",
     )
@@ -682,7 +700,7 @@ if __name__ == "__main__":
         "-ab",
         "--initial-ab",
         type=int,
-        default=env_value("OPENCL_LIBSMM_SMM_AB", "3"),
+        default=env_value("OPENCL_LIBSMM_SMM_AB", "0"),
         dest="ab",
         help="Matrix B: global (0), shared (1), shared-bc (2), register (3)",
     )
@@ -723,23 +741,23 @@ if __name__ == "__main__":
     )
     args = argparser.parse_args()
     # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
-    if not os.getenv("OPENCL_LIBSMM_SMM_WS") in {"tune", "enabled", "on"}:
+    if os.getenv("OPENCL_LIBSMM_SMM_WS") not in {"tune", "enabled", "on"}:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
-    if not os.getenv("OPENCL_LIBSMM_SMM_AL") in {"tune", "enabled", "on"}:
-        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
+    # if not os.getenv("OPENCL_LIBSMM_SMM_AL") in {"tune", "enabled", "on"}:
+    # os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
         os.environ["OPENCL_LIBSMM_SMM_BN"] = "{}".format(args.bn)
     if 2 <= args.tlevel or 0 > args.tlevel:
-        os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
-        os.environ["OPENCL_LIBSMM_SMM_NZ"] = "{}".format(args.nz)
         os.environ["OPENCL_LIBSMM_SMM_TB"] = "{}".format(args.tb)
         os.environ["OPENCL_LIBSMM_SMM_TC"] = "{}".format(args.tc)
+        os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
+        os.environ["OPENCL_LIBSMM_SMM_AC"] = "{}".format(args.ac)
+        os.environ["OPENCL_LIBSMM_SMM_NZ"] = "{}".format(args.nz)
     if 3 <= args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BK"] = "{}".format(args.bk)
         os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
-        os.environ["OPENCL_LIBSMM_SMM_AC"] = "{}".format(args.ac)
     if 4 <= args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_LU"] = "{}".format(args.lu)
     if 0 == args.mb:

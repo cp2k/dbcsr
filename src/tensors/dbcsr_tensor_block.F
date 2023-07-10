@@ -17,11 +17,10 @@ MODULE dbcsr_tensor_block
    USE dbcsr_allocate_wrap, ONLY: &
       allocate_any
    USE dbcsr_api, ONLY: &
-      ${uselist(dtype_float_param)}$, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
+      ${uselist(dtype_float_param)}$, dbcsr_iterator_type, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, dbcsr_type, &
       dbcsr_reserve_blocks, dbcsr_scalar_type, dbcsr_finalize, dbcsr_get_num_blocks, &
-      dbcsr_type_no_symmetry, dbcsr_get_matrix_type, dbcsr_desymmetrize, dbcsr_release, &
-      dbcsr_has_symmetry
+      dbcsr_type_no_symmetry, dbcsr_desymmetrize, dbcsr_release, dbcsr_has_symmetry
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_iterator
    USE dbcsr_tas_base, ONLY: &
@@ -30,8 +29,7 @@ MODULE dbcsr_tensor_block
    USE dbcsr_kinds, ONLY: &
       ${uselist(dtype_float_prec)}$, int_8
    USE dbcsr_tensor_index, ONLY: &
-      nd_to_2d_mapping, ndims_mapping, get_nd_indices_tensor, destroy_nd_to_2d_mapping, get_2d_indices_tensor, &
-      create_nd_to_2d_mapping
+      nd_to_2d_mapping, ndims_mapping, get_nd_indices_tensor, destroy_nd_to_2d_mapping, get_2d_indices_tensor
    USE dbcsr_array_list_methods, ONLY: &
       array_list, get_array_elements, destroy_array_list, sizes_of_arrays, create_array_list, &
       get_arrays

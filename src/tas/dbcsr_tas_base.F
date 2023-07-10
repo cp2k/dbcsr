@@ -48,7 +48,7 @@ MODULE dbcsr_tas_base
    USE dbcsr_kinds, ONLY: &
       default_string_length, int_8, real_8, real_4
    USE dbcsr_mpiwrap, ONLY: &
-      mp_cart_rank, mp_environ, mp_sum, mp_max
+      mp_cart_rank, mp_environ, mp_sum, mp_comm_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -356,7 +356,7 @@ CONTAINS
       !! arrays.
 
       TYPE(dbcsr_tas_distribution_type), INTENT(OUT)   :: dist
-      INTEGER, INTENT(IN)                              :: mp_comm
+      TYPE(mp_comm_type), INTENT(IN)                              :: mp_comm
       CLASS(dbcsr_tas_distribution), INTENT(IN)        :: row_dist, col_dist
       TYPE(dbcsr_tas_split_info), INTENT(IN), OPTIONAL :: split_info
          !! Strategy of how to split process grid (optional). If not present a default split heuristic is applied.

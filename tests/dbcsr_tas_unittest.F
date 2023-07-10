@@ -29,7 +29,7 @@ PROGRAM dbcsr_tas_unittest
    USE dbcsr_mpiwrap, ONLY: mp_comm_free, &
                             mp_environ, &
                             mp_world_finalize, &
-                            mp_world_init
+                            mp_world_init, mp_comm_type
    USE dbcsr_tas_io, ONLY: dbcsr_tas_write_split_info
 #include "base/dbcsr_base_uses.f90"
 
@@ -41,8 +41,8 @@ PROGRAM dbcsr_tas_unittest
    INTEGER, DIMENSION(n)          :: bsize_n
    INTEGER, DIMENSION(k)          :: bsize_k
    REAL(KIND=real_8), PARAMETER   :: sparsity = 0.1
-   INTEGER                        :: mp_comm, numnodes, mynode, io_unit
-   INTEGER                        :: mp_comm_A, mp_comm_At, mp_comm_B, mp_comm_Bt, mp_comm_C, mp_comm_Ct
+   INTEGER                        :: numnodes, mynode, io_unit
+   TYPE(mp_comm_type)             :: mp_comm, mp_comm_A, mp_comm_At, mp_comm_B, mp_comm_Bt, mp_comm_C, mp_comm_Ct
    REAL(KIND=real_8), PARAMETER   :: filter_eps = 1.0E-08
 
    CALL mp_world_init(mp_comm)
@@ -52,7 +52,7 @@ PROGRAM dbcsr_tas_unittest
    io_unit = -1
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
-   CALL dbcsr_init_lib(mp_comm, io_unit)
+   CALL dbcsr_init_lib(mp_comm%get_handle(), io_unit)
 
    CALL dbcsr_tas_reset_randmat_seed()
 

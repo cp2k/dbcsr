@@ -31,18 +31,35 @@
 #  endif
 #endif
 
-#if defined(__LIBXSMM)
+#if !defined(LIBXSMM_SYNC_NPAUSE)
+#  define LIBXSMM_SYNC_NPAUSE 0
+#endif
+
+#if defined(__LIBXSMM) && !defined(LIBXSMM_DEFAULT_CONFIG)
 #  include <libxsmm.h>
-#  include <libxsmm_sync.h>
+#  if !defined(LIBXSMM_TIMER_H)
+#    include <utils/libxsmm_timer.h>
+#  endif
+#  if !defined(LIBXSMM_SYNC_H)
+#    include <libxsmm_sync.h>
+#  endif
 #else
 /* OpenCL backend depends on LIBXSMM */
 #  include <libxsmm_source.h>
-#  define __LIBXSMM
+#  if !defined(__LIBXSMM)
+#    define __LIBXSMM
+#  endif
 #endif
 
 #if !defined(LIBXSMM_VERSION_NUMBER)
 #  define LIBXSMM_VERSION_NUMBER \
     LIBXSMM_VERSION4(LIBXSMM_VERSION_MAJOR, LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE, LIBXSMM_VERSION_PATCH)
+#endif
+
+#if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+#  define LIBXSMM_STRISTR libxsmm_stristr
+#else
+#  define LIBXSMM_STRISTR strstr
 #endif
 
 #include "../acc.h"
@@ -115,11 +132,17 @@
 #  include <omp.h>
 #  define ACC_OPENCL_OMP_TID() omp_get_thread_num()
 #else
-#  define ACC_OPENCL_OMP_TID() (/*master*/ 0)
+#  define ACC_OPENCL_OMP_TID() (/*main*/ 0)
+#endif
+
+#if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+#  define ACC_OPENCL_EXPECT(EXPR) LIBXSMM_EXPECT(EXPR)
+#else
+#  define ACC_OPENCL_EXPECT(EXPR) \
+    if (0 == (EXPR)) assert(0);
 #endif
 
 #if !defined(NDEBUG)
-#  define ACC_OPENCL_EXPECT(EXPECTED, EXPR) assert((EXPECTED) == (EXPR))
 #  define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) \
     do { \
       if (EXIT_SUCCESS == (RESULT)) { \
@@ -150,8 +173,8 @@
           fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", (const char*)CAUSE); \
           assert(!"SUCCESS"); \
         } \
-        else if (NULL != (LIBXSMM_FUNCNAME) && '\0' != *(LIBXSMM_FUNCNAME)) { \
-          fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", LIBXSMM_FUNCNAME); \
+        else if (NULL != (LIBXSMM_FUNCNAME) && '\0' != *(const char*)(LIBXSMM_FUNCNAME)) { \
+          fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", (const char*)LIBXSMM_FUNCNAME); \
           assert(!"SUCCESS"); \
         } \
         else { \
@@ -162,7 +185,6 @@
       return acc_opencl_return_cause_result_; \
     } while (0)
 #else
-#  define ACC_OPENCL_EXPECT(EXPECTED, EXPR) (EXPR)
 #  define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) \
     do { \
       if (EXIT_SUCCESS == (RESULT)) { \
@@ -272,8 +294,6 @@ const int* c_dbcsr_acc_opencl_stream_priority(const void* stream);
 
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
-/** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
-const char* c_dbcsr_acc_opencl_stristr(const char a[], const char b[]);
 /** Amount of device memory; local memory is only non-zero if separate from global. */
 int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t* mem_total, size_t* mem_local, int* mem_unified);
 /** Get device associated with thread-ID. */
@@ -283,10 +303,9 @@ int c_dbcsr_acc_opencl_device_id(cl_device_id device, int* device_id, int* globa
 /** Confirm the vendor of the given device. */
 int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);
 /** Capture or calculate UID based on the device-name. */
-int c_dbcsr_acc_opencl_device_uid(const char devname[], unsigned int* uid);
+int c_dbcsr_acc_opencl_device_uid(cl_device_id device, const char devname[], unsigned int* uid);
 /** Based on the device-ID, return the device's UID (capture or calculate), device name, and platform name. */
-int c_dbcsr_acc_opencl_device_info(
-  cl_device_id device, unsigned int* uid, char name[], size_t name_maxlen, char platform[], size_t platform_maxlen);
+int c_dbcsr_acc_opencl_device_name(cl_device_id device, char name[], size_t name_maxlen, char platform[], size_t platform_maxlen);
 /** Return the OpenCL support level for the given device. */
 int c_dbcsr_acc_opencl_device_level(cl_device_id device, int* level_major, int* level_minor, char cl_std[16], cl_device_type* type);
 /** Check if given device supports the extensions. */
@@ -297,13 +316,17 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id device_id);
 int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id);
 /** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
 int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max_value, size_t* preferred_multiple);
+/** Assemble various flags for calling clBuildProgram into the given buffer.*/
+int c_dbcsr_acc_opencl_build_flags(const char build_params[], const char build_options[], const char try_build_options[],
+  const char cl_std[], char buffer[], size_t buffer_size);
 /**
  * Build kernel from source with given kernel_name, build_params and build_options.
  * The build_params are meant to instantiate the kernel (-D) whereas build_options
  * are are meant to be compiler-flags.
  */
-int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[], const char build_params[], const char build_options[],
-  const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts, cl_kernel* kernel);
+int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
+  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts,
+  cl_kernel* kernel);
 /** Per-thread variant of c_dbcsr_acc_device_synchronize. */
 int c_dbcsr_acc_opencl_device_synchronize(int thread_id);
 /** Create user-event if not created and sets initial state. */

@@ -82,7 +82,7 @@ MODULE dbcsr_mm
                             mp_min, &
                             mp_request_null, &
                             mp_sum, &
-                            mp_wait
+                            mp_wait, mp_comm_type
    USE dbcsr_operations, ONLY: dbcsr_conjg, &
                                dbcsr_copy, &
                                dbcsr_get_occupation, &
@@ -203,7 +203,8 @@ CONTAINS
 
    SUBROUTINE dbcsr_multiply_print_statistics(group, output_unit)
       !! Print statistics
-      INTEGER, INTENT(IN)                                :: group, output_unit
+      TYPE(mp_comm_type), INTENT(IN)                     :: group
+      INTEGER, INTENT(IN)                                :: output_unit
 
       INTEGER(KIND=int_8)                                :: total_nexchanged
       INTEGER(KIND=int_8), &
@@ -385,7 +386,7 @@ CONTAINS
       REAL(real_8), PARAMETER                            :: make_dense_occ_thresh = 1.0_dp
 
       CHARACTER                                          :: transa_l, transb_l
-      INTEGER :: comm, f_col, f_k, f_row, handle, handle2, ithread, l_col, l_k, l_row, &
+      INTEGER :: f_col, f_k, f_row, handle, handle2, ithread, l_col, l_k, l_row, &
                  nimages_left_rows, nimages_match, nimages_right_cols, npcols, nprows, numnodes, &
                  output_unit
       INTEGER(KIND=int_8)                                :: my_flop
@@ -403,6 +404,7 @@ CONTAINS
                                                             rdist_left, rdist_right
       TYPE(dbcsr_mp_obj)                                 :: mp_obj
       TYPE(dbcsr_type)                                   :: matrix_left, matrix_right, product_matrix
+      TYPE(mp_comm_type)                                 :: comm
 
       CALL timeset(routineN, handle)
 

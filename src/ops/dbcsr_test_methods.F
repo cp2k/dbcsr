@@ -48,7 +48,7 @@ MODULE dbcsr_test_methods
                                dbcsr_mp_numnodes, &
                                dbcsr_mp_release
    USE dbcsr_mpiwrap, ONLY: mp_comm_null, &
-                            mp_environ
+                            mp_environ, mp_comm_type
    USE dbcsr_ptr_util, ONLY: ensure_array_size
    USE dbcsr_types, ONLY: &
       dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_iterator, dbcsr_mp_obj, dbcsr_scalar_type, &
@@ -324,7 +324,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(INOUT), POINTER, CONTIGUOUS :: row_blk_sizes, col_blk_sizes
       CHARACTER(len=*), INTENT(in)                       :: name
       REAL(kind=real_8), INTENT(in)                      :: sparsity
-      INTEGER, INTENT(in)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(in)                     :: mp_group
       INTEGER, INTENT(in), OPTIONAL                      :: data_type
       CHARACTER, INTENT(in), OPTIONAL                    :: symmetry
       TYPE(dbcsr_distribution_obj), INTENT(IN), OPTIONAL :: dist
@@ -517,7 +517,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_make_null_mp(mp_env, group)
       TYPE(dbcsr_mp_obj), INTENT(out)                    :: mp_env
-      INTEGER, INTENT(in), OPTIONAL                      :: group
+      TYPE(mp_comm_type), INTENT(in), OPTIONAL           :: group
 
       INTEGER                                            :: mynode, numnodes
 
@@ -538,7 +538,7 @@ CONTAINS
    SUBROUTINE dbcsr_make_null_dist(distribution, nblkrows, nblkcols, group)
       TYPE(dbcsr_distribution_obj), INTENT(out)          :: distribution
       INTEGER, INTENT(in)                                :: nblkrows, nblkcols
-      INTEGER, INTENT(in), OPTIONAL                      :: group
+      TYPE(mp_comm_type), INTENT(in), OPTIONAL           :: group
 
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist, row_dist
       TYPE(dbcsr_mp_obj)                                 :: mp_env

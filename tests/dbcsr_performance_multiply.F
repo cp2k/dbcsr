@@ -31,7 +31,7 @@ MODULE dbcsr_performance_multiply
                                dbcsr_mp_nprows
    USE dbcsr_mpiwrap, ONLY: mp_environ, &
                             mp_sum, &
-                            mp_sync
+                            mp_sync, mp_comm_type
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply
    USE dbcsr_operations, ONLY: dbcsr_copy, &
                                dbcsr_scale
@@ -65,7 +65,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_perf_multiply(group, mp_env, npdims, io_unit, narg, args_shift, args)
 
-      INTEGER                                            :: group
+      TYPE(mp_comm_type)                                 :: group
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
       INTEGER                                            :: io_unit, narg, args_shift
@@ -195,7 +195,7 @@ CONTAINS
       !! Performs a variety of matrix multiplies of same matrices on different
       !! processor grids
 
-      INTEGER, INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
          !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
@@ -456,7 +456,7 @@ CONTAINS
       !! Performs a variety of matrix multiplies of same matrices on different
       !! processor grids
 
-      INTEGER, INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
          !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, INTENT(IN)                                :: io_unit

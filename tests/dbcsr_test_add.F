@@ -25,7 +25,7 @@ MODULE dbcsr_test_add
       dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
       dbcsr_release, dbcsr_row_block_sizes
    USE dbcsr_mpiwrap, ONLY: mp_bcast, &
-                            mp_environ
+                            mp_environ, mp_comm_type
    USE dbcsr_operations, ONLY: dbcsr_add, &
                                dbcsr_get_occupation
    USE dbcsr_test_methods, ONLY: compx_to_dbcsr_scalar, &
@@ -63,7 +63,7 @@ CONTAINS
       !! Performs a variety of matrix add
 
       CHARACTER(len=*), INTENT(IN)                       :: test_name
-      INTEGER, INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
          !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
@@ -233,7 +233,7 @@ CONTAINS
       !! Performs a variety of matrix add
 
       CHARACTER(len=*), INTENT(IN)                       :: test_name
-      INTEGER, INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
          !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
@@ -364,8 +364,9 @@ CONTAINS
       INTEGER, DIMENSION(4), INTENT(in)                  :: limits
          !! limits for the add
       LOGICAL, INTENT(in)                                :: retain_sparsity
-      INTEGER, INTENT(IN)                                :: io_unit, mp_group
+      INTEGER, INTENT(IN)                                :: io_unit
          !! io unit for printing
+      TYPE(mp_comm_type), INTENT(IN)                     :: mp_group
       LOGICAL, INTENT(out)                               :: success
          !! if passed the check success=T
 

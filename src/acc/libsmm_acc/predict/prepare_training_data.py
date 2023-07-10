@@ -10,6 +10,7 @@
 ####################################################################################################
 
 
+import sys
 import os
 import json
 import argparse
@@ -18,11 +19,13 @@ import pandas as pd
 import dask.dataframe as dd
 from joblib import Parallel, delayed
 from tqdm import tqdm
-from kernels.cusmm_predict import (
+
+sys.path.append("../")
+
+from kernels.smm_acc import kernel_algorithm, mnk_pattern  # noqa: E402
+from kernels.smm_acc_predict import (  # noqa: E402
     PredictiveParameters,
     derived_parameters,
-    kernel_algorithm,
-    mnk_pattern,
 )
 
 
@@ -113,10 +116,10 @@ def get_performance_closest_to_baseline(
             if len(idx_baseline) > 0:
                 break
         else:
-            assert False, (
-                'Could not find closest baseline for mnk=({}x{}x{}) and for algorithm "{}".'
-                "\nLast baseline parameters searched:\n{}"
-                "\nParameter sets searched:\n".format(m, n, k, algorithm, baseline_pars)
+            raise AssertionError(
+                f'Could not find closest baseline for mnk=({m}x{n}x{k}) and for algorithm "{algorithm}.\n'
+                f"Last baseline parameters searched:\n{baseline_pars}\n"
+                f"Parameter sets searched:\n"
             )
 
     idx_baseline = idx_baseline[0]
@@ -142,8 +145,7 @@ def process_chunk(data_chunk, algorithm, gpu_properties, autotuning_properties):
     # For each (mnk), ...
     baseline_performances = dict()
     max_performances = dict()
-    for i, mnk in enumerate(mnks):
-
+    for mnk in mnks:
         data_mnk = data_chunk[data_chunk["mnk"] == mnk]
         m, n, k = mnk_pattern.match(mnk).groups()
         m, n, k = int(m), int(n), int(k)
@@ -187,7 +189,6 @@ def write_to_parquet(data_path, algorithm):
         print("Found {:40}, skipping".format(parquet_file_done))
 
     else:
-
         print("Didn't find {:40}, generating".format(parquet_file_done))
 
         # [RAW] Read CSV files into Pandas dataframes
@@ -328,7 +329,7 @@ def write_baseline_and_max_records_per_algorithm(
     """
     # Read GPU properties and autotuning properties
     with open("../kernels/gpu_properties.json") as f:
-        gpu_properties = json.load(f)[str(arch)]
+        gpu_properties = json.load(f)[arch]
     with open("../kernels/autotuning_properties.json") as f:
         autotuning_properties = json.load(f)
 
@@ -349,7 +350,6 @@ def write_baseline_and_max_records_per_algorithm(
         print("Found {:40}, skipping".format(max_performances_per_algo_file))
 
     else:
-
         print("Processing data of algorithm {}".format(algorithm))
         raw_pars_cols = kernel_algorithm[algorithm].launch_parameters
         if algorithm in ["largeDB1", "largeDB2"]:
@@ -364,7 +364,9 @@ def write_baseline_and_max_records_per_algorithm(
             delayed(process_chunk, check_pickle=True)(
                 data_chunk, algorithm, gpu_properties, autotuning_properties
             )
-            for data_chunk in tqdm(pd.read_csv(data_file_raw, chunksize=chunk_size))
+            for data_chunk in tqdm(
+                pd.read_csv(data_file_raw, chunksize=chunk_size), disable=True
+            )
         )
 
         baseline_performance_dictionaries, maximums_performance_dictionaries = zip(
@@ -413,7 +415,9 @@ def write_baseline_and_max_records_per_algorithm(
             delayed(get_baseline_performance, check_pickle=True)(
                 mnk, base_list, raw_pars_cols
             )
-            for mnk, base_list in tqdm(baseline_performance_dictionary.items())
+            for mnk, base_list in tqdm(
+                baseline_performance_dictionary.items(), disable=True
+            )
         )
 
         baseline_performances = dict(
@@ -433,7 +437,7 @@ def plot_baseline(baseline_perfs_by_algo, data_path, algorithms):
 
     # Get all mnks
     mnk_sequences = list()
-    for algo, baseline_dic in baseline_perfs_by_algo.items():
+    for _algo, baseline_dic in baseline_perfs_by_algo.items():
         mnk_sequences += list(baseline_dic.keys())
     all_mnks = list(set.union(set(mnk_sequences)))
 
@@ -451,9 +455,9 @@ def plot_baseline(baseline_perfs_by_algo, data_path, algorithms):
                 baseline_perfs[mnk] = baseline_perfs_by_algo[algo][mnk]
                 break
         else:
-            assert (
-                False
-            ), "NOOOO this is actually impossible by def of all_mnks, isn't it?"
+            raise AssertionError(
+                "NOOOO this is actually impossible by def of all_mnks, isn't it?"
+            )
 
     # Sort
     mnks = list()
@@ -483,6 +487,7 @@ def plot_baseline(baseline_perfs_by_algo, data_path, algorithms):
     )
     plt.savefig(file_name)
     print("... wrote to", file_name)
+    plt.close()
 
 
 def write_baseline_record(data_path, algorithms):
@@ -580,6 +585,7 @@ def plot_max_performances(max_perfs, data_path, algorithms):
     )
     plt.savefig(file_name)
     print("... wrote to", file_name)
+    plt.close()
 
 
 def write_max_record(data_path, algorithms):
@@ -659,16 +665,15 @@ def write_derived_data(data_path, algorithm, arch, n_jobs, chunk_size):
         print("Found {:40}, skipping".format(derived_training_data_filename))
 
     else:
-
         print("Didn't find {:40}, generating".format(derived_training_data_filename))
 
         # Read max performances, GPU properties and autotuning properties
         maxperf_file = os.path.join(data_path, "max_performances.json")
         with open(maxperf_file) as f:
             max_performances = json.load(f)
-        with open("kernels/gpu_properties.json") as f:
-            gpu_properties = json.load(f)["sm_" + str(arch)]
-        with open("kernels/autotuning_properties.json") as f:
+        with open("../kernels/gpu_properties.json") as f:
+            gpu_properties = json.load(f)[arch]
+        with open("../kernels/autotuning_properties.json") as f:
             autotuning_properties = json.load(f)
 
         # Compute derived data from raw data
@@ -782,10 +787,10 @@ if __name__ == "__main__":
     parser.add_argument(
         "-a",
         "--arch",
-        metavar="ARCHITECTURE_NUMBER",
-        type=int,
-        default="60",
-        help="CUDA architecture number. Options: sm_35, sm_37, sm_60, sm_70, gfx906",
+        metavar="ARCHITECTURE",
+        type=str,
+        default="sm_80",
+        help="CUDA architecture number. Options: sm_35, sm_37, sm_60, sm_70, sm_80, gfx906",
     )
     parser.add_argument(
         "-j",
@@ -807,7 +812,10 @@ if __name__ == "__main__":
         "--skip_derived_data",
         type=bool,
         default=False,
-        help="Skip the computation of derived data. Set to true if computing baseline & max records for each algoseparately",
+        help=(
+            "Skip the computation of derived data. Set to true if computing baseline & max records for "
+            "each algorithm separately"
+        ),
     )
 
     args = parser.parse_args()

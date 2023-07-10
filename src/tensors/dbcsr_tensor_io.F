@@ -19,7 +19,7 @@ MODULE dbcsr_tensor_io
       blk_dims_tensor, dbcsr_t_get_stored_coordinates, dbcsr_t_get_nze, dbcsr_t_get_nze_total, &
       dbcsr_t_pgrid_type, dbcsr_t_nblks_total
    USE dbcsr_kinds, ONLY: default_string_length, int_8, real_8
-   USE dbcsr_mpiwrap, ONLY: mp_environ, mp_sum, mp_max
+   USE dbcsr_mpiwrap, ONLY: mp_environ, mp_max, mp_comm_type
    USE dbcsr_tensor_block, ONLY: &
       dbcsr_t_iterator_type, dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_stop, dbcsr_t_get_block
@@ -119,7 +119,7 @@ CONTAINS
       INTEGER                        :: nproc, myproc, nblock_max, nelement_max
       INTEGER(KIND=int_8)            :: nblock_sum, nelement_sum, nblock_tot
       INTEGER                        :: nblock, nelement, unit_nr_prv
-      INTEGER                        :: mp_comm
+      TYPE(mp_comm_type)             :: mp_comm
       INTEGER, DIMENSION(2)          :: tmp
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: bdims
       REAL(KIND=real_8)              :: occupation

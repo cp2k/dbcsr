@@ -535,7 +535,7 @@ CONTAINS
                CALL m_hostnm(host_name)
                PRINT *, " *** Error trying to WRITE to the local logger ***"
                PRINT *, " *** MPI_id           = ", lggr%mp_env%mp%mynode
-               PRINT *, " *** MPI_Communicator = ", lggr%mp_env%mp%mp_group
+               PRINT *, " *** MPI_Communicator = ", lggr%mp_env%mp%mp_group%get_handle()
                PRINT *, " *** PID              = ", pid
                PRINT *, " *** Hostname         = "//TRIM(host_name)
                CALL print_stack(default_output_unit)
@@ -554,7 +554,7 @@ CONTAINS
                            unit_number=lggr%default_local_unit_nr)
             WRITE (UNIT=lggr%default_local_unit_nr, FMT='(/,T2,A,I0,A,I0,A)', IOSTAT=iostat) &
                '*** Local logger file of MPI task ', lggr%mp_env%mp%mynode, &
-               ' in communicator ', lggr%mp_env%mp%mp_group, ' ***'
+               ' in communicator ', lggr%mp_env%mp%mp_group%get_handle(), ' ***'
             IF (iostat == 0) THEN
                CALL m_getpid(pid)
                CALL m_hostnm(host_name)
@@ -568,7 +568,7 @@ CONTAINS
                CALL m_hostnm(host_name)
                PRINT *, " *** Error trying to WRITE to the local logger ***"
                PRINT *, " *** MPI_id           = ", lggr%mp_env%mp%mynode
-               PRINT *, " *** MPI_Communicator = ", lggr%mp_env%mp%mp_group
+               PRINT *, " *** MPI_Communicator = ", lggr%mp_env%mp%mp_group%get_handle()
                PRINT *, " *** PID              = ", pid
                PRINT *, " *** Hostname         = "//TRIM(host_name)
                CALL print_stack(default_output_unit)

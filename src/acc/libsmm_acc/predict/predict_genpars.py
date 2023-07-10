@@ -18,16 +18,21 @@ from itertools import product
 import argparse
 from joblib import Parallel, delayed
 from predict_helpers import safe_pickle_load
+from warnings import simplefilter
+
+simplefilter(action="ignore", category=UserWarning)
 
 sys.path.append("../")
+from kernels.smm_acc import to_tuple, to_string  # noqa: E402
 from kernels.smm_acc_predict import (  # noqa: E402
     gpu_architectures,
     kernel_algorithm,
-    to_string,
-    to_tuple,
     params_dict_to_kernel,
     PredictiveParameters,
 )
+
+# The joblib backend spawns additional processes, which do not inherit the warning filters applied using warnings.filterwarnings
+os.environ["PYTHONWARNINGS"] = "ignore::UserWarning"
 
 
 # ===============================================================================
@@ -137,7 +142,6 @@ def find_optimal_kernel(
         optimal_kernels = dict()
 
     else:
-
         # Get predictor features from raw parameters
         parameter_sets = PredictiveParameters(
             parameter_space, gpu_properties, autotuning_properties, None
@@ -227,17 +231,17 @@ def get_optimal_kernels(
         os.mkdir(ckpt_folder_name)
     print("Caching intermediate results to:", ckpt_folder_name)
 
-    for i in range(0, num_mnks_by_algo + 1, chunk_size):
-
+    for i in range(0, num_mnks_by_algo, chunk_size):
         # Chunk up tasks
         start_chunk = i
-        end_chunk = int(min(start_chunk + chunk_size, num_mnks_by_algo + 1))
-        print("Completed {:,} tasks out of {:,}".format(i, num_mnks_by_algo))
+        end_chunk = int(min(start_chunk + chunk_size, num_mnks_by_algo))
+        print(f"Completed {i} tasks out of {num_mnks_by_algo}")
 
         # Create checkpoint file or load checkpointed data from it
         checkpoint_file_name = os.path.join(
-            ckpt_folder_name, "chunk_{}-{}.json".format(start_chunk, end_chunk)
+            ckpt_folder_name, f"chunk_{start_chunk}-{end_chunk - 1}.json"
         )
+
         if os.path.exists(checkpoint_file_name):
             with open(checkpoint_file_name, "r") as f:
                 optimal_kernels_list__ = json.load(f)
@@ -249,17 +253,20 @@ def get_optimal_kernels(
                         optimal_kernels_list_[i][to_tuple(k)] = kernel_algorithm[algo](
                             **v
                         )
-            print("Read chunk {}-{}\n".format(start_chunk, end_chunk))
+            print(f"Read chunk {start_chunk}-{end_chunk - 1}\n")
 
         else:
-
             if njobs == 1:
-
+                j = i
+                optimal_kernels_list_ = list()
                 # Ignore joblib and run serially:
-                for mnk, algo in mnks_by_algo:
+                for mnk, algo in mnks_by_algo[start_chunk:end_chunk]:
+                    j += 1
                     gc.collect()
-                    print("Find optimal kernels for mnk=", mnk, ", algo=", algo)
-                    optimal_kernels_list_ = find_optimal_kernel(
+                    print(
+                        f"{j:6d} of {num_mnks_by_algo}: Find optimal kernels for mnk = {mnk} algo = {algo}"
+                    )
+                    optker = find_optimal_kernel(
                         mnk,
                         algo,
                         tree[algo]["tree"],
@@ -267,8 +274,10 @@ def get_optimal_kernels(
                         gpu_properties,
                         autotuning_properties,
                     )
-            else:
+                    if optker:
+                        optimal_kernels_list_.append(optker)
 
+            else:
                 # Run prediction tasks in parallel with joblib
                 optimal_kernels_list_ = Parallel(n_jobs=njobs, verbose=2)(
                     delayed(find_optimal_kernel, check_pickle=True)(
@@ -281,8 +290,8 @@ def get_optimal_kernels(
                     )
                     for mnk, algo in mnks_by_algo[start_chunk:end_chunk]
                 )
+                optimal_kernels_list_ = remove_empty_entries(optimal_kernels_list_)
 
-            optimal_kernels_list_ = remove_empty_entries(optimal_kernels_list_)
             with open(checkpoint_file_name, "w") as f:
                 optimal_kernels_list__ = list()
                 for i, optker in enumerate(optimal_kernels_list_):
@@ -290,6 +299,7 @@ def get_optimal_kernels(
                     for k, v in optker.items():
                         optimal_kernels_list__[i][to_string(k)] = v.as_dict
                 json.dump(optimal_kernels_list__, f)
+                print(f"Checkpoint file {checkpoint_file_name} written")
 
         optimal_kernels_list += optimal_kernels_list_
 
@@ -318,7 +328,6 @@ def get_optimal_kernels(
 
 
 def get_baseline_kernels(mnks_to_predict, gpu_propertes, autotuning_properties):
-
     print("Getting baseline kernels")
     baseline_algorithm = "medium"
     baseline_kernels = list()
@@ -346,7 +355,7 @@ if __name__ == "__main__":
         "-p",
         "--params",
         metavar="parameters_GPU.json",
-        default="../parameters/parameters_P100.json",
+        default="../parameters/parameters_A100.json",
         help="Parameter file to read and update with predictions",
     )
     parser.add_argument(
@@ -386,7 +395,7 @@ if __name__ == "__main__":
         "-c",
         "--chunk_size",
         type=int,
-        default=2000,
+        default=5000,
         help="Chunk size for dispatching joblib jobs. If memory errors are experienced, reduce this number",
     )
 

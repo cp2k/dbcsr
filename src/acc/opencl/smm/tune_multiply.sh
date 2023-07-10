@@ -12,6 +12,7 @@ XARGS=$(command -v xargs)
 SORT=$(command -v sort)
 HEAD=$(command -v head)
 SED=$(command -v gsed)
+CUT=$(command -v cut)
 LS=$(command -v ls)
 RM=$(command -v rm)
 WC=$(command -v wc)
@@ -125,7 +126,6 @@ then
   elif [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
     if [ "${UPDATE}" ] && [ "0" != "${UPDATE}" ]; then
       if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=1; fi
-      if [ ! "${MAXTIME}" ]; then MAXTIME=160; fi
       MNKS=$(echo "${JSONS}" | ${SED} -n "s/.*tune_multiply-..*-\(..*x..*x.[^-]*\)-..*gflops\.json/\1/p" \
          | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3)
     elif [ "${SPECID}" ]; then
@@ -167,7 +167,9 @@ then
       MNKS=$(echo "${MNKS}" | tr ' ' '\n' | tac | tr '\n' ' '; echo)
     fi
     if [ "${MNKS}" ] && [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then
-      MNKS=$(echo "${MNKS}" | ${XARGS} -n1 | ${HEAD} -n"${MAXNUM}")
+      MNKS=$(echo "${MNKS}" | ${XARGS} -n1 | ${HEAD} -n"${MAXNUM}" | ${XARGS})
+    else
+      MNKS=$(echo "${MNKS}" | ${XARGS})
     fi
   fi
   NTRIPLETS=$(echo "${MNKS}" | ${WC} -w)
@@ -183,6 +185,13 @@ then
     echo "Session ${PART} of ${NPARTS} part(s)."
   else
     echo "Session ${PART} of ${NPARTS} part(s). The problem is over-decomposed!"
+  fi
+  if [ ! "${MAXTIME}" ] && [[ (! "${CONTINUE}"  || \
+      "${CONTINUE}" = "false"                   || \
+      "${CONTINUE}" = "no"                      || \
+      "${CONTINUE}" = "0") ]];
+  then
+    MAXTIME=160
   fi
   if [ "${MAXTIME}" ] && [ "0" != "$((0<MAXTIME))" ]; then
     HRS=$((MAXTIME*PARTSIZE/3600))
@@ -208,10 +217,11 @@ then
     sleep ${WAIT}
   fi
   N=0
-  for MNK in ${MNKS}; do
-    if [ "0" != "$((PARTOFFS<=N))" ]; then
+  MNKPART=$(echo "${MNKS}" | ${CUT} -d' ' -f $((PARTOFFS+1))-$((PARTOFFS+PARTSIZE)))
+  for MNK in ${MNKPART}; do
+    if [ "0" != "$(((N)<PARTSIZE))" ]; then
       echo
-      echo "[$((N-PARTOFFS+1))/${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
+      echo "[$((N+1))/${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf ./opentuner.db
       eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
@@ -226,6 +236,8 @@ then
       then
         exit ${RESULT}
       fi
+    else
+      break
     fi
     N=$((N+1))
   done

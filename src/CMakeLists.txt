@@ -156,8 +156,13 @@ endif ()
 # DBCSR LIBRARY
 add_library(dbcsr ${DBCSR_SRCS})
 
-set_target_properties(dbcsr PROPERTIES VERSION ${dbcsr_VERSION}
-                                       SOVERSION ${dbcsr_APIVERSION})
+# -fPIC can also be used in the static case. Addresses are resolved during the
+# linking process
+set_target_properties(
+  dbcsr
+  PROPERTIES VERSION ${dbcsr_VERSION}
+             SOVERSION ${dbcsr_APIVERSION}
+             POSITION_INDEPENDENT_CODE ON)
 
 if (USE_SMM MATCHES "libxsmm")
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
@@ -203,6 +208,11 @@ if (MPI_FOUND)
   # by setting those flags:
   target_compile_definitions(dbcsr PRIVATE __parallel)
 
+  # If requested, use the MPI_F08 module
+  if (USE_MPI_F08)
+    target_compile_definitions(dbcsr PRIVATE __USE_MPI_F08)
+  endif ()
+
   # Instead of resetting the compiler for MPI, we are adding the compiler flags
   # otherwise added by the mpifort-wrapper directly; based on hints from:
   # https://cmake.org/pipermail/cmake/2012-June/050991.html Here we assume that
@@ -243,6 +253,7 @@ if (USE_ACCEL)
   target_link_libraries(
     dbcsr
     PRIVATE $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cudart>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver>
             $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cublas>
             $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
             $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
@@ -263,8 +274,11 @@ if (WITH_C_API)
   add_library(dbcsr_c ${DBCSR_C_SRCS})
   set_target_properties(dbcsr_c PROPERTIES LINKER_LANGUAGE Fortran)
 
-  set_target_properties(dbcsr_c PROPERTIES VERSION ${dbcsr_VERSION}
-                                           SOVERSION ${dbcsr_APIVERSION})
+  set_target_properties(
+    dbcsr_c
+    PROPERTIES VERSION ${dbcsr_VERSION}
+               SOVERSION ${dbcsr_APIVERSION}
+               POSITION_INDEPENDENT_CODE ON)
 
   target_link_libraries(dbcsr_c PRIVATE dbcsr)
   target_link_libraries(dbcsr_c PUBLIC MPI::MPI_C) # the C API always needs MPI
