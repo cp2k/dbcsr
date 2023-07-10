@@ -340,14 +340,7 @@ void c_dbcsr_get_info(const dbcsr_matrix c_matrix, int* c_nblkrows_total, int* c
 
               void c_dbcsr_binary_write(const dbcsr_matrix c_matrix, const char* c_filepath);
 
-              void c_dbcsr_binary_read_aux(
-                const char* c_filepath, dbcsr_distribution c_distribution, MPI_Fint c_groupid, dbcsr_matrix* c_matrix_new);
-
-              inline void c_dbcsr_binary_read(
-                const char* c_filepath, dbcsr_distribution c_distribution, MPI_Comm comm, dbcsr_matrix* c_matrix_new) {
-                MPI_Fint fcomm = MPI_Comm_c2f(comm);
-                c_dbcsr_binary_read_aux(c_filepath, c_distribution, fcomm, c_matrix_new);
-              }
+              void c_dbcsr_binary_read(const char* c_filepath, dbcsr_distribution c_distribution, dbcsr_matrix* c_matrix_new);
 
               void c_free_string(char** c_string);
 

@@ -1044,17 +1044,12 @@ CONTAINS
       CALL dbcsr_binary_write_prv(matrix%prv, filepath)
    END SUBROUTINE dbcsr_binary_write
 
-   SUBROUTINE dbcsr_binary_read(filepath, distribution, groupid, matrix_new)
+   SUBROUTINE dbcsr_binary_read(filepath, distribution, matrix_new)
       CHARACTER(len=*), INTENT(IN)                       :: filepath
       TYPE(dbcsr_distribution_type), INTENT(IN)          :: distribution
-      INTEGER, INTENT(IN), OPTIONAL                      :: groupid
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_new
 
-      TYPE(mp_comm_type)                                 :: my_comm
-
-      CALL my_comm%set_handle(groupid)
-
-      CALL dbcsr_binary_read_prv(filepath, distribution%prv, my_comm, matrix_new%prv)
+      CALL dbcsr_binary_read_prv(filepath, distribution%prv, matrix_new%prv)
    END SUBROUTINE dbcsr_binary_read
 
    SUBROUTINE dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, &

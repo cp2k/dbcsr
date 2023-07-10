@@ -754,7 +754,7 @@ CONTAINS
       END SUBROUTINE cumsum_l
    END SUBROUTINE dbcsr_binary_write
 
-   SUBROUTINE dbcsr_binary_read(filepath, distribution, groupid, matrix_new)
+   SUBROUTINE dbcsr_binary_read(filepath, distribution, matrix_new)
       !! Reads a DBCSR matrix from a file
 
       IMPLICIT NONE
@@ -763,8 +763,6 @@ CONTAINS
          !! path to the file
       TYPE(dbcsr_distribution_obj), INTENT(IN)     :: distribution
          !! row and column distribution
-      TYPE(mp_comm_type), INTENT(IN), OPTIONAL                :: groupid
-         !! message passing environment identifier
       TYPE(dbcsr_type), INTENT(INOUT)               :: matrix_new
          !! DBCSR matrix
 
@@ -817,12 +815,8 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      IF (PRESENT(groupid)) THEN
-         group_id = groupid
-      ELSE
-         mp_env = dbcsr_distribution_mp(distribution)
-         group_id = dbcsr_mp_group(mp_env)
-      END IF
+      mp_env = dbcsr_distribution_mp(distribution)
+      group_id = dbcsr_mp_group(mp_env)
 
       CALL mp_environ(group_list_size, worker_id, group_id)
       CALL mp_file_open(group_id, thefile, filepath, file_amode_rdonly)
