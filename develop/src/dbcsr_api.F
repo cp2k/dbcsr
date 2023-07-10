@@ -1045,17 +1045,12 @@ CONTAINS
       CALL dbcsr_binary_write_prv(matrix%prv, filepath)
    END SUBROUTINE dbcsr_binary_write
 
-   SUBROUTINE dbcsr_binary_read(filepath, distribution, groupid, matrix_new)
+   SUBROUTINE dbcsr_binary_read(filepath, distribution, matrix_new)
       CHARACTER(len=*), INTENT(IN)                       :: filepath
       TYPE(dbcsr_distribution_type), INTENT(IN)          :: distribution
-      INTEGER, INTENT(IN), OPTIONAL                      :: groupid
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_new
 
-      TYPE(mp_comm_type)                                 :: my_comm
-
-      CALL my_comm%set_handle(groupid)
-
-      CALL dbcsr_binary_read_prv(filepath, distribution%prv, my_comm, matrix_new%prv)
+      CALL dbcsr_binary_read_prv(filepath, distribution%prv, matrix_new%prv)
    END SUBROUTINE dbcsr_binary_read
 
    SUBROUTINE dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, &
@@ -1256,8 +1251,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 1253 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
-# 1254 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
+# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_d (matrix, row, col, block, transposed, existed)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
@@ -1515,7 +1510,7 @@ CONTAINS
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_d
-# 1254 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_s (matrix, row, col, block, transposed, existed)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
@@ -1773,7 +1768,7 @@ CONTAINS
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_s
-# 1254 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_z (matrix, row, col, block, transposed, existed)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
@@ -2031,7 +2026,7 @@ CONTAINS
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_z
-# 1254 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_c (matrix, row, col, block, transposed, existed)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
@@ -2289,6 +2284,6 @@ CONTAINS
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_c
-# 1512 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1507 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 END MODULE dbcsr_api
