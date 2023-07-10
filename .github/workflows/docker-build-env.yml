@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - docker_image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04
+          - docker_image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04
             context: tools/docker
             file: Dockerfile.build-env-ubuntu
             registry: ghcr.io
@@ -31,7 +31,7 @@ jobs:
             context: tools/docker
             file: Dockerfile.build-env-rocm
             registry: ghcr.io
-          - docker_image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04-cuda
+          - docker_image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04-cuda
             context: tools/docker
             file: Dockerfile.build-env-ubuntu-cuda
             registry: ghcr.io
