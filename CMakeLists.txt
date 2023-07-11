@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)
+
 # include our cmake snippets
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -353,3 +355,6 @@ endif ()
 add_subdirectory(docs)
 
 include(CustomTargets)
+
+# Disable LTO
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)

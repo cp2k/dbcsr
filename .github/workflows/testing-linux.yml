@@ -49,7 +49,7 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -G Ninja \
+        export DEB_BUILD_MAINT_OPTIONS=optimize=-lto && cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Coverage \
           -DUSE_${{ matrix.use_mpi }} \
           -DUSE_${{ matrix.use_openmp }} \
@@ -60,7 +60,8 @@ jobs:
           ..
 
     - name: Build
-      run: cmake --build build -- --verbose
+      run: |
+        export DEB_BUILD_MAINT_OPTIONS=optimize=-lto && cmake --build build -- --verbose
 
     - name: Test
       run: |
