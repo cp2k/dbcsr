@@ -9,7 +9,7 @@ jobs:
   build-and-upload:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
 
     steps:
     - uses: actions/checkout@v3

@@ -13,7 +13,7 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
     steps:
     - uses: actions/checkout@v3
     - name: Run pre-commit
@@ -27,7 +27,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
 
     strategy:
       matrix:
@@ -93,7 +93,7 @@ jobs:
   build-on-cuda:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04-cuda:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04-cuda:develop
 
     strategy:
       matrix:
@@ -126,7 +126,7 @@ jobs:
   build-on-opencl:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04-cuda:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04-cuda:develop
 
     strategy:
       matrix:
@@ -191,7 +191,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
 
     steps:
       - uses: actions/checkout@v3

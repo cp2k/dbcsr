@@ -12,7 +12,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
       volumes:
       - "/etc/ssh/ssh_known_hosts:/etc/ssh/ssh_known_hosts:ro"
 
