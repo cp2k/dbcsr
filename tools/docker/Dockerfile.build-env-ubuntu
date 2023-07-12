@@ -29,8 +29,8 @@ RUN set -ex ; \
         g++ \
         openmpi-bin \
         libopenmpi-dev \
-        mpich \
-        libmpich-dev \
+	mpich \
+	libmpich-dev \
         libopenblas-openmp-dev \
         cmake \
         ninja-build \
@@ -63,6 +63,12 @@ RUN set -ex ; \
     make -j -C /opt/libxsmm MALLOC=0
 
 ENV PKG_CONFIG_PATH="/opt/libxsmm/lib:${PKG_CONFIG_PATH}"
+
+# Remove LTO for MPICH (default now in Ubuntu >=22)
+RUN set -ex ; \
+    for ff in /usr/lib/x86_64-linux-gnu/pkgconfig/mpich.pc /usr/bin/mpicc.mpich /usr/bin/mpicxx.mpich /usr/bin/mpif77.mpich /usr/bin/mpif90.mpich /usr/bin/mpifort.mpich; do \
+    	sed -i -e 's/-flto=auto//g' -e 's/-ffat-lto-objects//g' ${ff}; \
+    done
 
 # Leak suppression
 COPY lsan.supp /opt
