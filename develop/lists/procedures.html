@@ -1755,18 +1755,17 @@ of a tensor, imposing that no process grid dimension is greater than the corresp
 tensor dimension.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nblks_local.html'>dbcsr_t_nblks_local</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>local number of blocks along dimension idim</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nblks_total.html'>dbcsr_t_nblks_total</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>total numbers of blocks along dimension idim</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm~2.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>Create a default nd process topology that is consistent with a given 2d topology.
 Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
 matrix with the given 2d topology.
 This is needed to enable contraction of 2 tensors (must have the same 2d process grid).
 \return with nd cartesian grid</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm~2.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nd_mp_free.html'>dbcsr_t_nd_mp_free</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Release the MPI communicator.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_permute_index.html'>dbcsr_t_permute_index</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Create new tensor by reordering index, data is copied exactly (shallow copy)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_change_dims.html'>dbcsr_t_pgrid_change_dims</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>change dimensions of an existing process grid.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_t_pgrid_create~2.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_t_pgrid_create_expert~2.html'>dbcsr_t_pgrid_create_expert</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create~2.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgrid_create_expert</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create an n-dimensional process grid.
 We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
 n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
@@ -1778,6 +1777,7 @@ Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2
 (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
 coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
 cartesian grid.</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create_expert~2.html'>dbcsr_t_pgrid_create_expert</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_destroy.html'>dbcsr_t_pgrid_destroy</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>destroy process grid</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_remap.html'>dbcsr_t_pgrid_remap</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>remap a process grid (needed when mapping between tensor and matrix index is changed)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_set_strict_split.html'>dbcsr_t_pgrid_set_strict_split</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>freeze current split factor such that it is never changed during contraction</p></td></tr>
@@ -2309,9 +2309,9 @@ single precision elements.</p></td></tr>
 			   <tr><td><a href='../proc/m_energy.html'>m_energy</a></td><td><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></td><td>Function</td><td><p>returns the energy used since some time in the past.
 The precise meaning depends on the infrastructure is available.
 In the cray_pm_energy case, this is the energy used by the node in kJ.</p></td></tr>
-			   <tr><td><a href='../proc/m_flush.html'>m_flush</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td><p>Flush a given unit</p></td></tr>
-			   <tr><td><a href='../proc/m_flush~2.html'>m_flush</a></td><td><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></td><td>Subroutine</td><td><p>flushes units if the &amp;GLOBAL flag is set accordingly
-</p><a href="../proc/m_flush~2.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+			   <tr><td><a href='../proc/m_flush.html'>m_flush</a></td><td><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></td><td>Subroutine</td><td><p>flushes units if the &amp;GLOBAL flag is set accordingly
+</p><a href="../proc/m_flush.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+			   <tr><td><a href='../proc/m_flush~2.html'>m_flush</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td><p>Flush a given unit</p></td></tr>
 			   <tr><td><a href='../proc/m_getarg.html'>m_getarg</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/m_getcwd.html'>m_getcwd</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/m_getlog.html'>m_getlog</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td></td></tr>
@@ -3364,9 +3364,9 @@ optionally decorated with a frame of stars as defined by declev.
 The data area from the work matrix is accepted as the new matrix's data
 area and the index is built from the work matrix.</p></td></tr>
 			   <tr><td><a href='../proc/random_blk_sizes.html'>random_blk_sizes</a></td><td><a href='../program/dbcsr_tensor_example_1.html'>dbcsr_tensor_example_1</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/random_dist.html'>random_dist</a></td><td><a href='../program/dbcsr_example_3.html'>dbcsr_example_3</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/random_dist.html'>random_dist</a></td><td><a href='../program/dbcsr_example_1.html'>dbcsr_example_1</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/random_dist~2.html'>random_dist</a></td><td><a href='../program/dbcsr_example_2.html'>dbcsr_example_2</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/random_dist~3.html'>random_dist</a></td><td><a href='../program/dbcsr_example_1.html'>dbcsr_example_1</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/random_dist~3.html'>random_dist</a></td><td><a href='../program/dbcsr_example_3.html'>dbcsr_example_3</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/rebin_distribution.html'>rebin_distribution</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Makes new distribution with decimation and multiplicity</p><a href="../proc/rebin_distribution.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/rebin_imaged_distribution.html'>rebin_imaged_distribution</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td><p>Makes new distribution with multiplicity</p><a href="../proc/rebin_imaged_distribution.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/rec_sort_index.html'>rec_sort_index</a></td><td><a href='../module/dbcsr_mm_common.html'>dbcsr_mm_common</a></td><td>Subroutine</td><td><p>Sorts index for recursing.</p><a href="../proc/rec_sort_index.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
