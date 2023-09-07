@@ -591,6 +591,7 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
+      IF (n .LE. 0) RETURN
       IF (SIZE(row_i) .EQ. 0) RETURN
 
       CALL timeset(routineN, error_handle)
