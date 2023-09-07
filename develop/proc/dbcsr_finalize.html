@@ -278,7 +278,9 @@ Deleted blocks are pruned from the index.</p>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
 
+<span class="c">!$OMP     MASTER</span>
 <span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">old_blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">,</span><span class="w"> </span><span class="n">old_row_p</span><span class="p">)</span><span class="w"></span>
+<span class="c">!$OMP     END MASTER</span>
 
 <span class="c">!$OMP     BARRIER</span>
 <span class="w">      </span><span class="c">! If the matrix is not marked as dirty then skip the work.</span>

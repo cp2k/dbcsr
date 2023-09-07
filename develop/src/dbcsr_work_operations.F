@@ -770,7 +770,9 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
+!$OMP     MASTER
       NULLIFY (old_blk_p, old_col_i, old_row_p)
+!$OMP     END MASTER
 
 !$OMP     BARRIER
       ! If the matrix is not marked as dirty then skip the work.
@@ -1836,8 +1838,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
-# 1833 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
-# 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1835 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
+# 1836 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_d (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1903,7 +1905,7 @@ CONTAINS
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_d
 
-# 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1836 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_s (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1969,7 +1971,7 @@ CONTAINS
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_s
 
-# 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1836 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_z (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -2035,7 +2037,7 @@ CONTAINS
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_z
 
-# 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1836 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_c (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -2101,6 +2103,6 @@ CONTAINS
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_c
 
-# 1900 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1902 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
 END MODULE dbcsr_work_operations
