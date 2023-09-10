@@ -305,7 +305,8 @@ install(
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 # See https://gitlab.kitware.com/cmake/cmake/-/issues/19608
-# CMAKE_INSTALL_Fortran_MODULES is not an "official" cmake variable yet, but should be the standard soon
+# CMAKE_INSTALL_Fortran_MODULES is not an "official" cmake variable yet, but
+# should be the standard soon
 if (NOT CMAKE_INSTALL_Fortran_MODULES)
   set(CMAKE_INSTALL_Fortran_MODULES "${CMAKE_INSTALL_INCLUDEDIR}")
 endif ()
