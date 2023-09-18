@@ -1755,17 +1755,18 @@ of a tensor, imposing that no process grid dimension is greater than the corresp
 tensor dimension.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nblks_local.html'>dbcsr_t_nblks_local</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>local number of blocks along dimension idim</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nblks_total.html'>dbcsr_t_nblks_total</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>total numbers of blocks along dimension idim</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm~2.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>Create a default nd process topology that is consistent with a given 2d topology.
 Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
 matrix with the given 2d topology.
 This is needed to enable contraction of 2 tensors (must have the same 2d process grid).
 \return with nd cartesian grid</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm~2.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_nd_mp_free.html'>dbcsr_t_nd_mp_free</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Release the MPI communicator.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_permute_index.html'>dbcsr_t_permute_index</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Create new tensor by reordering index, data is copied exactly (shallow copy)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_change_dims.html'>dbcsr_t_pgrid_change_dims</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>change dimensions of an existing process grid.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_t_pgrid_create~2.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create~2.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create_expert~2.html'>dbcsr_t_pgrid_create_expert</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgrid_create_expert</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create an n-dimensional process grid.
 We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
 n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
@@ -1777,7 +1778,6 @@ Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2
 (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
 coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
 cartesian grid.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_t_pgrid_create_expert~2.html'>dbcsr_t_pgrid_create_expert</a></td><td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_destroy.html'>dbcsr_t_pgrid_destroy</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>destroy process grid</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_remap.html'>dbcsr_t_pgrid_remap</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>remap a process grid (needed when mapping between tensor and matrix index is changed)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_set_strict_split.html'>dbcsr_t_pgrid_set_strict_split</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>freeze current split factor such that it is never changed during contraction</p></td></tr>
@@ -3461,8 +3461,8 @@ considered.
 			   <tr><td><a href='../proc/stream_array_force_size.html'>stream_array_force_size</a></td><td><a href='../module/dbcsr_mm_accdrv.html'>dbcsr_mm_accdrv</a></td><td>Subroutine</td><td><p>Helper routine</p></td></tr>
 			   <tr><td><a href='../interface/stringify.html'>stringify</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/sum_of_arrays.html'>sum_of_arrays</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>sum of all elements for each array stored in list</p></td></tr>
-			   <tr><td><a href='../interface/swap.html'>swap</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/swap~2.html'>swap</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/swap.html'>swap</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/swap~2.html'>swap</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/swap_buffers.html'>swap_buffers</a></td><td><a href='../module/dbcsr_mm_3d.html'>dbcsr_mm_3d</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/swap_i.html'>swap_i</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/swap_i8.html'>swap_i8</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td></td></tr>
