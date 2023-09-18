@@ -99,10 +99,8 @@ class SmmTuner(MeasurementInterface):
             self.typeid = (
                 int(typename.group(1)) if typename and typename.group(1) else 0
             )
-            device = re.search(
-                'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="([^"]+)"',
-                str(run_result["stderr"]),
-            )
+            devicepat = 'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="([^"]+)"'
+            device = re.search(devicepat, str(run_result["stderr"]))
             self.device = device.group(1) if device and device.group(1) else ""
         elif self.args.update is not None and "" != self.args.update:
             self.device = self.args.update
@@ -113,7 +111,7 @@ class SmmTuner(MeasurementInterface):
                     "{},{},{},{}".format(  # t,m,n,k (key)
                         self.typeid, self.mnk[0], self.mnk[1], self.mnk[2]
                     ),
-                    "{}, {}, {}, {}, {}".format(  # value: some can be neg. hence "-*[0-9]+"
+                    "{}, {}, {}, {}, {}".format(  # value: if neg. "-*[0-9]+"
                         "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",  # bs,bm,bn,bk
                         "(-*[0-9]+),(-*[0-9]+)",  # ws,wg
                         "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",  # lu,nz,al
@@ -147,7 +145,7 @@ class SmmTuner(MeasurementInterface):
             if not paramt:
                 sys.tracebacklimit = 0
                 raise RuntimeError(
-                    "All tunable parameters are fixed with environment variables!"
+                    "All parameters are fixed with environment variables!"
                 )
             for param in params + paramt:
                 manipulator.add_parameter(param)
@@ -408,10 +406,18 @@ class SmmTuner(MeasurementInterface):
                                 retain.append(filename)
                             else:
                                 delete.append(filename)
-                    if retain:
-                        print("Worse and newer (retain): {}".format(" ".join(retain)))
-                    if delete:
-                        print("Worse and older (delete): {}".format(" ".join(delete)))
+                    if not self.args.nogflops:
+                        if retain:
+                            print(
+                                "Worse and newer (retain): {}".format(" ".join(retain))
+                            )
+                        if delete:
+                            print(
+                                "Worse and older (delete): {}".format(" ".join(delete))
+                            )
+                    elif bool(worse):
+                        print("WARNING: incorrectly merged duplicates")
+                        print("         due to nogflops argument!")
                 print(
                     "Merged {} of {} JSONs into {}".format(
                         len(merged), len(filenames), self.args.csvfile
@@ -452,7 +458,7 @@ class SmmTuner(MeasurementInterface):
             if final:
                 if not filenames and glob.glob(self.args.csvfile):
                     print(
-                        "WARNING: no JSON file found but (unrelated?) {}".format(
+                        "WARNING: no JSON file found but {} exists.".format(
                             self.args.csvfile
                         )
                     )
@@ -478,7 +484,7 @@ class SmmTuner(MeasurementInterface):
                         filename,
                     )
                 )
-                # no validation in SIGINT (user may fired signal due to apps misbehavior)
+                # no validation in SIGINT (signal may be due to application)
                 if 0 == self.args.check and self.handle_sigint != getsignal(SIGINT):
                     run_result = self.launch(self.environment(config) + ["CHECK=1"])
                     if 0 != run_result["returncode"]:
@@ -487,7 +493,7 @@ class SmmTuner(MeasurementInterface):
     def handle_sigint(self, signum, frame):
         """Handle SIGINT or CTRL-C"""
         print(
-            "\nWARNING: tuning {}x{}x{}-kernel was interrupted".format(
+            "\nWARNING: tuning {}x{}x{}-kernel was interrupted.".format(
                 self.mnk[0], self.mnk[1], self.mnk[2]
             )
         )
@@ -646,7 +652,8 @@ if __name__ == "__main__":
         type=int,
         default=env_value("OPENCL_LIBSMM_SMM_LU", "-1"),
         dest="lu",
-        help="Loop unroll (-2) full, (-1) no hints (default), (0) inner, (1) outer-dehint, (2) literal",
+        help="Loop unroll (-2) full, (-1) no hints (default),"
+        + " (0) inner, (1) outer-dehint, (2) literal",
     )
     argparser.add_argument(
         "-nz",
