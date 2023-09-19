@@ -2,7 +2,7 @@ title: Documentation
 
 # Documentation
 
-## Build
+## Build
 
 To build the documentation you need [FORD](https://github.com/Fortran-FOSS-Programmers/ford).
 
