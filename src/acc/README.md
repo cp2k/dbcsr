@@ -8,7 +8,7 @@ The code for both the CUDA and the HIP backend is unified, and can be found in t
 
 ## Drivers
 
-There are two stand-alone sample codes or drivers exercising the ACC-interface. The driver code (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except runtime libraries such as CUDA, HIP, OpenCL). For OpenCL, the LIBXSMM library is mandatory. 
+There are two stand-alone sample codes or drivers exercising the ACC-interface. The driver code (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except runtime libraries such as CUDA, HIP, OpenCL). For OpenCL, the LIBXSMM library is mandatory.
 
 To build the driver code, a folder `libxsmm` in parallel to DBCSR's root directory (`dbcsr`) is expected to be present and prebuilt (`make GNU=1` in LIBXSMM's root directory). To build the driver code, change into the respective backend folder (`cuda` or `opencl`), and invoke `make` (`DBG=0|1|2` is supported among other optional key-value pairs).
 

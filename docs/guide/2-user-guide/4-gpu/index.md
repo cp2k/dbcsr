@@ -8,11 +8,11 @@ CP2K or DBCSR can scale to thousands of nodes and furter benefit from thread-sca
 
 CP2K almost exclusively uses double-precision calculations on CPUs and GPUs (along with DBCSR's need for atomic update instructions for GPUs). Consumer focused GPU offerings often deliver a FLOP-rate ratio between single and double precision up to `SP:DP = 64:1`, which renders them unsuitable for CP2K like not beneficial when compared to modestly many CPU cores. Further, GPU accleration hinges on memory bandwidth rather than compute which further limits the benefit.
 
-# CUDA/HIP backend and LIBSMM_ACC
+# CUDA/HIP Backend
 
-Users interested to tune kernels for the CUDA/HIP backend, can take a look at the [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html). Following the guide, [tuned parameters](https://github.com/cp2k/dbcsr/tree/develop/src/acc/libsmm_acc/parameters) can be collected for the desired GPU and potentially submitted for the benefit of others.
+Users interested to tune kernels for the CUDA/HIP backend and LIBSMM_ACC, can take a look at the [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html). Following the guide, [tuned parameters](https://github.com/cp2k/dbcsr/tree/develop/src/acc/libsmm_acc/parameters) can be collected for the desired GPU and potentially submitted for the benefit of others.
 
-# OpenCL Backend and OpenCL based LIBSMM
+# OpenCL Backend
 
 This section shows how to auto-tune a kernel for the OpenCL based LIBSMM library. The process builds a stand-alone driver program which is then driven by an [OpenTuner](https://opentuner.org/) based script guiding the auto-tuning of the desired kernel. The [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html) provides more information, e.g., about constraining execution time or parallelizing the tuning-process as well as how to select and tune an entire set of kernels.
 
