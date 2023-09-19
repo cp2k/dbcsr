@@ -8,7 +8,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../../../../../favicon.png">
 
-    <title>CUDA/HIP &ndash; DBCSR</title>
+    <title>Parameters &ndash; DBCSR</title>
 
     <link href="../../../../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../../../../css/pygments.css" rel="stylesheet">
@@ -84,18 +84,12 @@
 
     <div class="container">
   <div class="row">
-    <h1>CUDA/HIP</h1>
+    <h1>Parameters</h1>
     <div class="row">
     <div class="col-lg-12">
     <div class="well well-sm" style="min-height: 40px;">
       <ul class="list-inline" style="margin-bottom:0px; display:inline">
 <!--
-        <li><i class="fa fa-sitemap"></i> Subsections:</li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/1-kernels.html'>Kernels</a></li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a></li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a></li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/4-predict.html'>Predictive Modeling Framework</a></li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/5-notebooks.html'>Notebooks</a></li>
 -->
       </ul>
         <ol class="breadcrumb in-well">
@@ -103,7 +97,8 @@
          <li><a href='../../../../../page/3-developer-guide/index.html'>Developer Guide</a></li>
          <li><a href='../../../../../page/3-developer-guide/3-programming/index.html'>Programming</a></li>
          <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/index.html'>Accelerator Backend</a></li>
-         <li class="active">CUDA/HIP</li>
+         <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/index.html'>OpenCL</a></li>
+         <li class="active">Parameters</li>
       </ol>
     </div>
     </div>
@@ -112,90 +107,55 @@
   
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
-      <h1>GPU Accelerated Small Matrix Multiplications</h1>
-<p><code>libsmm_acc</code> is a <strong>lib</strong>rary for <strong>s</strong>mall <strong>m</strong>atrix-<strong>m</strong>atrix multiplication on a GPU-<strong>acc</strong>elerator. Stacks of matrix-matrix multiplication indices are passed from DBCSR to <code>libsmm_acc</code> which performs the multiplications on the GPU.</p>
-<p>For a description of the library (some details are outdated, but this nevertheless provides a very good introduction), see Chapter 8.4 of:</p>
-<blockquote>
-<p>WALKER, R. C., &amp; GOETZ, A. W. (2016). <a href="https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118670712">Electronic structure calculations on graphics processing units: from quantum chemistry to condensed matter physics</a>.</p>
-</blockquote>
-<h3>Compilation</h3>
-<p><code>libsmm_acc</code> is compiled from within DBCSR, there is no separate compilation.</p>
-<h2>Directory Organization</h2>
-<ul>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/"><code>kernels/</code></a>: GPU kernels (CUDA- and HIP-compatible) for matrix-matrix multiplication and python interface to autotuning and predictive code.</li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/"><code>notebooks/</code></a>: jupyter notebooks for exploring data generated from autotuning and prediction.</li>
-<li><code>generate_*.py</code>: utility scripts for <code>libsmm_acc</code> compilation</li>
-<li><code>libsmm_acc*</code>: libsmm_acc C++ and CUDA / HIP code</li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/parameters/"><code>parameters/</code></a>: contains <code>parameters_GPU.json</code> files. These are sets of matrix-matrix multiplication parameters for different (m, n, k)-triplets optimized for a given GPU card. You can explore these parameters interactively using the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/inspect_autotuned_parameters.ipynb">provided jupyter notebook</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/"><code>predict/</code></a>: scripts for prediction of optimal parameter sets, see <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/README.md">predictive modeling of kernel parameters</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/"><code>tune/</code></a>: scripts for autotuning of optimal parameter sets, see <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/README.md">autotuning of kernel parameters</a></li>
-</ul>
-<h2>Matrix-matrix Multiplication Kernels and Parameters</h2>
-<p>For a given matrix-matrix multiplication <strong>triplet</strong> characterized by dimensions</p>
-<ul>
-<li><strong>m</strong></li>
-<li><strong>n</strong></li>
-<li><strong>k</strong>,</li>
-</ul>
-<p><code>libsmm_acc</code> can run 5 different matrix-matrix multiplication <strong>kernels</strong>:</p>
-<ul>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_tiny.h">tiny</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_small.h">small</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_medium.h">medium</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_largeDB1.h">largeDB1</a> ("large double-buffering 1")</li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_largeDB2.h">largeDB2</a> ("large double-buffering 2")</li>
-</ul>
-<p>which take between 3 - 7 <strong>parameters</strong> (see figure at the top):</p>
-<ul>
-<li><strong>threads</strong>: number of threads per block in the execution configuration of the CUDA/HIP kernels</li>
-<li><strong>grouping</strong>: how many stack entries are grouped together into a CUDA/HIP thread block (if <code>grouping</code> is bigger, less blocks are launched)</li>
-<li><strong>minblocks</strong>: specifies the desired minimum number of resident blocks per multiprocessor</li>
-<li><strong>tile_m</strong>: (on the figure: <strong>M</strong>), <code>tile_m</code> * <code>tile_n</code> = dimensions of the result block <code>T</code></li>
-<li><strong>tile_n</strong> : (on the figure: <strong>N</strong>)</li>
-<li><strong>w</strong>: input slab width (width of slab <code>P_A</code> and <code>P_B</code>)</li>
-<li><strong>v</strong>: output slab width (width of slab <code>P_C</code>)</li>
-</ul>
-<p>The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters. For this reason, <code>libsmm_acc</code> provides lists of optimal parameters for different GPU cards and different (m, n, k)-triplets. These sets of optimal parameters can be found either through <em>autotuning</em> or <em>predictive modeling</em>.</p>
-<h2>Contributing to libsmm_acc</h2>
-<h4>Autotuning procedure</h4>
-<p>Follow the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/README.md">autotuning procedure</a></p>
-<h4>Predictive modeling of kernel parameters</h4>
-<p>Follow the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/README.md">predictive modeling procedure</a></p>
-<h4>Adding a new kernel</h4>
-<ol>
-<li>
-<p>Choose a kernel <code>name</code></p>
-</li>
-<li>
-<p>Add the kernel's code (must be able to compile by both <code>nvcc</code> and <code>hip</code>) in file <code>kernels/smm_acc_dnt_name.h</code></p>
-</li>
-<li>
-<p>Add python kernel class inheriting from base class <code>kernels/smm_acc_dnt_name.py</code></p>
-</li>
-<li>
-<p>Add the new kernel to the <code>kernel_algorithm</code> data structure in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></p>
-</li>
-</ol>
-<h4>Adding support for a new GPU card</h4>
-<ol>
-<li>
-<p>Add the GPU's compute architecture properties to <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>. For more information on where to find these properties, please refer to the "info" field of <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>.</p>
-</li>
-<li>
-<p>Add the GPU to the <code>gpu_architectures</code> data structure in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc.py"><code>kernels/smm_acc.py</code></a>.</p>
-</li>
-<li>
-<p>Add the necessary code for setting <code>ARCH_NUMBER</code> correctly in the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt"><code>CMakeLists</code></a>. Also add this GPU to the list of <code>SUPPORTED_CUDA_ARCHITECTURES</code> or <code>SUPPORTED_HIP_ARCHITECTURES</code> in the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt"><code>CMakeLists</code></a>.</p>
-</li>
-<li>
-<p>Add a minimal JSON file <code>parameters_GPU.json</code>, containing:</p>
-</li>
-</ol>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+      <h1>Optimized Kernels</h1>
+<p>Optimized kernel parameters are stored in JSON-files and are automatically summarized into a CSV-file. Further and beyond auto-tuning kernels, <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> can be used to perform basic operations on collected data: explicitly merging all JSON-files into a CSV-file (<code>tune_multiply.py -m</code>), and updating the device name in all JSON-files according to current driver version (<code>tune_multiply.py -u</code>).</p>
+<p>Collected or auto-tuned parameters achieved with single precision (SP), double precision (DP), or from different devices can be safely combined. Practically, <code>acc_opencl.sh</code> transforms the CSV-file into source code compiled into the final binary, which is independent of <code>OPENCL_LIBSMM_SMM_PARAMS</code> accepting a CSV-file (path/filename). However, <code>acc_opencl.sh</code> currently limits the origin of parameters to a single device. Care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).</p>
+<p>Different problem sizes (like "s15"; see above) are not represented individually, but are instead collected into a maximum value. In turn, this means tuning for a non-default problem-size must be manually kept pure since the result achieved with a larger problem may dominate (maximum value).</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
+make realclean
+make
 </code></pre></div>
 
-<p>then add matrix-matrix multiplication parameters for this GPU using <em>autotuning</em> and <em>predictive modeling</em></p>
+<p>This way auto-tuned kernels just work and can be of course exercised using the afore mentioned benchmark:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc
+./acc_bench_smm <span class="m">5</span> <span class="m">30000</span> <span class="m">13</span> <span class="m">5</span> <span class="m">7</span>
+</code></pre></div>
+
+<p>Tuned parameters can be also disabled at runtime like:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc
+<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span><span class="m">0</span> ./acc_bench_smm <span class="m">5</span> <span class="m">30000</span> <span class="m">13</span> <span class="m">5</span> <span class="m">7</span>
+</code></pre></div>
+
+<p>By supplying a CSV-file at runtime, embedded parameters and defaults are overriden, and given parameters are applied even if the current device is different from what would match the given parameters:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc
+<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span>opencl/smm/tune_multiply.csv ./acc_bench_smm <span class="m">5</span> <span class="m">30000</span> <span class="m">13</span> <span class="m">5</span> <span class="m">7</span>
+</code></pre></div>
+
+<p>To tune multiple kernels in a convenient fashion, a triplet specification can be supplied to the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.sh">tune_multiply.sh</a> wrapper script. This script estimates the total runtime for auto-tuning kernels, cleans up intermediate results (<code>opentuner.db</code>), allows to specify triplets, and splits work to auto-tune in parallel.</p>
+<p>Triplets are used to conveniently describe multiple kernels. A triplet specification consists of comma-separated groups of (M,N,K)-extents, i.e., matrix shapes according to GEMM. For example:</p>
+<div class="codehilite"><pre><span></span><code>4 10 15, 6 7 8, 23
+</code></pre></div>
+
+<p>This triplet specification expands to 55 kernels using the Cartesian product within each group and concatenating the result of such expanded groups followed by removing duplicate triplets. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the number of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be processed with five minutes per kernel and about 35 minutes in total per partition).</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl/smm
+./tune_multiply.sh -t <span class="m">300</span>  -j <span class="m">8</span> -i <span class="m">1</span>  <span class="m">4</span> <span class="m">10</span> <span class="m">15</span>, <span class="m">6</span> <span class="m">7</span> <span class="m">8</span>, <span class="m">23</span>
+</code></pre></div>
+
+<p>The script <code>tune_multiply.sh</code> is tuning 1266 kernels by default (<code>./tune_multiply.sh -t 300 -j 8 -i 1</code> takes approximately 13 hours per part). If the process is interrupted earlier (per SIGINT or Ctrl-C), the execution terminates for all requested kernels (triplet specification) unless <code>--continue</code> is given (or <code>-c</code>, or an environment variable <code>CONTINUE=1</code>).</p>
+<p>For convenience, it is possible to "update" an existing set of JSON-files (path can be given with <code>-p</code>), i.e., to parse the (M,N,K)-triplet denoted by the JSON filename and to re-tune with an almost unconstrained tuning-level (<code>-a 1</code> by default) as well as a limited duration (160 seconds per kernel by default).</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
+make realclean
+<span class="nb">echo</span> <span class="s2">&quot;Rebuild and embed smm/params/tune_multiply_P100.csv&quot;</span>
+make <span class="nv">WITH_GPU</span><span class="o">=</span>P100
+
+<span class="nb">echo</span> <span class="s2">&quot;Retune original parameters&quot;</span>
+smm/tune_multiply.sh -p smm/params/p100 -u
+
+<span class="nb">echo</span> <span class="s2">&quot;Override original parameters&quot;</span>
+cp tune_multiply.csv smm/params/tune_multiply_P100.csv
+</code></pre></div>
+
+<p>Tuning kernels further is only sensible if the previously tuned parameters are embedded into the binary (such that the process does not start from scratch). Retuned parameters are captured with JSON-files as usual.</p>
     </div>
     <div class="col-md-3 col-md-pull-9">
       <hr class="visible-xs visible-sm">
@@ -268,7 +228,7 @@
                           <li role="presentation">
             <a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/1-code-structure.html'>Code Structure</a>
             </li>
-            <li role="presentation" class="disabled">
+            <li role="presentation">
             <a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>CUDA/HIP</a>
             <ul class="nav nav-stacked nav-pills">
                           <li role="presentation">
@@ -295,7 +255,7 @@
                           <li role="presentation">
             <a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html'>Autotune</a>
             </li>
-            <li role="presentation">
+            <li role="presentation" class="disabled">
             <a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/2-bulktune.html'>Parameters</a>
             </li>
 

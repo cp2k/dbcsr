@@ -8,7 +8,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../../../../../favicon.png">
 
-    <title>CUDA/HIP &ndash; DBCSR</title>
+    <title>OpenCL &ndash; DBCSR</title>
 
     <link href="../../../../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../../../../css/pygments.css" rel="stylesheet">
@@ -84,18 +84,15 @@
 
     <div class="container">
   <div class="row">
-    <h1>CUDA/HIP</h1>
+    <h1>OpenCL</h1>
     <div class="row">
     <div class="col-lg-12">
     <div class="well well-sm" style="min-height: 40px;">
       <ul class="list-inline" style="margin-bottom:0px; display:inline">
 <!--
         <li><i class="fa fa-sitemap"></i> Subsections:</li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/1-kernels.html'>Kernels</a></li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a></li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a></li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/4-predict.html'>Predictive Modeling Framework</a></li>
-        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/5-notebooks.html'>Notebooks</a></li>
+        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html'>Autotune</a></li>
+        <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/2-bulktune.html'>Parameters</a></li>
 -->
       </ul>
         <ol class="breadcrumb in-well">
@@ -103,7 +100,7 @@
          <li><a href='../../../../../page/3-developer-guide/index.html'>Developer Guide</a></li>
          <li><a href='../../../../../page/3-developer-guide/3-programming/index.html'>Programming</a></li>
          <li><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/index.html'>Accelerator Backend</a></li>
-         <li class="active">CUDA/HIP</li>
+         <li class="active">OpenCL</li>
       </ol>
     </div>
     </div>
@@ -112,90 +109,59 @@
   
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
-      <h1>GPU Accelerated Small Matrix Multiplications</h1>
-<p><code>libsmm_acc</code> is a <strong>lib</strong>rary for <strong>s</strong>mall <strong>m</strong>atrix-<strong>m</strong>atrix multiplication on a GPU-<strong>acc</strong>elerator. Stacks of matrix-matrix multiplication indices are passed from DBCSR to <code>libsmm_acc</code> which performs the multiplications on the GPU.</p>
-<p>For a description of the library (some details are outdated, but this nevertheless provides a very good introduction), see Chapter 8.4 of:</p>
-<blockquote>
-<p>WALKER, R. C., &amp; GOETZ, A. W. (2016). <a href="https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118670712">Electronic structure calculations on graphics processing units: from quantum chemistry to condensed matter physics</a>.</p>
-</blockquote>
-<h3>Compilation</h3>
-<p><code>libsmm_acc</code> is compiled from within DBCSR, there is no separate compilation.</p>
-<h2>Directory Organization</h2>
+      <h1>Backend</h1>
+<p>The OpenCL backend implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC interface</a>, which is exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)acceleration based on ACC's device enumeration, data movement, and synchronization functionality. By design, DBCSR activates one device per rank (process). For instance, multiple GPUs can be used by the means of multiple ranks per system or at least one rank per device. The LIBSMM library complements the backend and implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h">ACC LIBSMM interface</a>.</p>
+<p>All major GPU vendors support OpenCL even if the vendor-preferred programming model suggests otherwise. On Nvidia GPUs, the OpenCL backend can be used with CUDA based GPU-code in other portions of CP2K. The OpenCL based backend provides the following benefits:</p>
 <ul>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/"><code>kernels/</code></a>: GPU kernels (CUDA- and HIP-compatible) for matrix-matrix multiplication and python interface to autotuning and predictive code.</li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/"><code>notebooks/</code></a>: jupyter notebooks for exploring data generated from autotuning and prediction.</li>
-<li><code>generate_*.py</code>: utility scripts for <code>libsmm_acc</code> compilation</li>
-<li><code>libsmm_acc*</code>: libsmm_acc C++ and CUDA / HIP code</li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/parameters/"><code>parameters/</code></a>: contains <code>parameters_GPU.json</code> files. These are sets of matrix-matrix multiplication parameters for different (m, n, k)-triplets optimized for a given GPU card. You can explore these parameters interactively using the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/inspect_autotuned_parameters.ipynb">provided jupyter notebook</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/"><code>predict/</code></a>: scripts for prediction of optimal parameter sets, see <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/README.md">predictive modeling of kernel parameters</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/"><code>tune/</code></a>: scripts for autotuning of optimal parameter sets, see <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/README.md">autotuning of kernel parameters</a></li>
+<li>Code portability between GPU vendors (if not performance portability). For instance, performance of the OpenCL backend matches the performance of the CUDA backend or exceeds it.</li>
+<li>Acceptable performance for kernels not covered by specifically tuned parameters, and the ability to run on GPU if no tuned parameters are present.</li>
+<li>Auto-tuning kernels within an acceptable time limit along with handy scripts to retune parameters and to carry forward an existing set (new GPU).</li>
 </ul>
-<h2>Matrix-matrix Multiplication Kernels and Parameters</h2>
-<p>For a given matrix-matrix multiplication <strong>triplet</strong> characterized by dimensions</p>
+<p>Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:</p>
 <ul>
-<li><strong>m</strong></li>
-<li><strong>n</strong></li>
-<li><strong>k</strong>,</li>
+<li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero/default: subdevices, zero: aggregated).</li>
+<li><code>ACC_OPENCL_DEVTYPE</code>: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).</li>
+<li><code>ACC_OPENCL_DEVICE</code>: non-negative integer number to select a device from the (internally enumerated) list of devices.</li>
+<li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in a case-insensitive fashion, e.g., "intel".</li>
+<li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer) with console output on <code>stderr</code>.<ul>
+<li><code>ACC_OPENCL_VERBOSE=1</code>: outputs the number of devices found and the name of the selected device.</li>
+<li><code>ACC_OPENCL_VERBOSE=2</code>: outputs the duration needed to generate a requested kernel.</li>
+<li><code>ACC_OPENCL_VERBOSE=3</code>: outputs device-side performance of kernels (every launch profiled).</li>
 </ul>
-<p><code>libsmm_acc</code> can run 5 different matrix-matrix multiplication <strong>kernels</strong>:</p>
+</li>
+<li><code>ACC_OPENCL_DUMP</code>: dump preprocessed kernel source code (1) or dump compiled OpenCL kernels (2).<ul>
+<li><code>ACC_OPENCL_DUMP=1</code>: dump preprocessed kernel source code and use it for JIT compilation. Instantiates the original source code using preprocessor definitions (<code>-D</code>) and collapses the code accordingly.</li>
+<li><code>ACC_OPENCL_DUMP=2</code>: dump compiled OpenCL kernels (depends on OpenCL implementation), e.g., PTX code on Nvidia.</li>
+</ul>
+</li>
+</ul>
+<p>The OpenCL backend enumerates and orders devices by kind, i.e., GPU, CPU, and "other" (primary criterion) and by memory capacity (secondary criterion). Device IDs are zero-based as defined by the ACC interface (and less than what is permitted by <code>acc_get_ndevices</code>).</p>
+<h1>LIBSMM</h1>
+<p>The LIBSMM library implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h">ACC LIBSMM interface</a>, and depends on the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/README.md">OpenCL backend</a>.</p>
+<p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h">opencl_libsmm.h</a>, e.g., <code>OPENCL_LIBSMM_VALIDATE</code> is disabled by default but can be enabled for debug purpose. The <code>OPENCL_LIBSMM_VALIDATE</code> compile-time setting enables side-by-side validation of matrix transpose and multiply operations between device and host. For example, running DBCSR's unit tests with <code>OPENCL_LIBSMM_VALIDATE</code> enabled produces console output that allows to pin-point a kernel which misses validation. Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables".</p>
+<p>There are two categories for the two domains in LIBSMM, i.e., matrix transpose (<code>OPENCL_LIBSMM_TRANS_*</code>) and matrix multiplication (<code>OPENCL_LIBSMM_SMM_*</code>). For transposing matrices, the settings are:</p>
 <ul>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_tiny.h">tiny</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_small.h">small</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_medium.h">medium</a></li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_largeDB1.h">largeDB1</a> ("large double-buffering 1")</li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_dnt_largeDB2.h">largeDB2</a> ("large double-buffering 2")</li>
+<li><code>OPENCL_LIBSMM_TRANS_BUILDOPTS</code>: character string with build options (compile and link) supplied to the OpenCL runtime compiler.</li>
+<li><code>OPENCL_LIBSMM_TRANS_INPLACE</code>: Boolean value (zero or non-zero integer) for in-place matrix transpose (no local memory needed).</li>
+<li><code>OPENCL_LIBSMM_TRANS_BM</code>: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.</li>
 </ul>
-<p>which take between 3 - 7 <strong>parameters</strong> (see figure at the top):</p>
+<p>The most common settings for multiplying matrices are:</p>
 <ul>
-<li><strong>threads</strong>: number of threads per block in the execution configuration of the CUDA/HIP kernels</li>
-<li><strong>grouping</strong>: how many stack entries are grouped together into a CUDA/HIP thread block (if <code>grouping</code> is bigger, less blocks are launched)</li>
-<li><strong>minblocks</strong>: specifies the desired minimum number of resident blocks per multiprocessor</li>
-<li><strong>tile_m</strong>: (on the figure: <strong>M</strong>), <code>tile_m</code> * <code>tile_n</code> = dimensions of the result block <code>T</code></li>
-<li><strong>tile_n</strong> : (on the figure: <strong>N</strong>)</li>
-<li><strong>w</strong>: input slab width (width of slab <code>P_A</code> and <code>P_B</code>)</li>
-<li><strong>v</strong>: output slab width (width of slab <code>P_C</code>)</li>
+<li><code>OPENCL_LIBSMM_SMM_BUILDOPTS</code>: character string with build options (compile and link) supplied to the OpenCL runtime compiler.</li>
+<li><code>OPENCL_LIBSMM_SMM_ATOMICS</code>: selects the kind of atomic operation used for global memory updates (<code>xchg</code>, <code>cmpxchg</code>, <code>cmpxchg2</code>), attempts to force atomic instructions, or disables atomic instructions (<code>0</code>). The latter is for instance to quantify the impact of atomic operations.</li>
+<li><code>OPENCL_LIBSMM_SMM_PARAMS</code>: Disable embedded/auto-tuned parameters (<code>0</code>), or load CSV-file (e.g., <code>path/to/tune_multiply.csv</code>).</li>
+<li><code>OPENCL_LIBSMM_SMM_BS</code>: non-negative integer number denoting the intra-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.</li>
+<li><code>OPENCL_LIBSMM_SMM_BM</code>: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.</li>
+<li><code>OPENCL_LIBSMM_SMM_BN</code>: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.</li>
+<li><code>OPENCL_LIBSMM_SMM_AP</code>: specifies access to array of parameters (batch or "stack").</li>
+<li><code>OPENCL_LIBSMM_SMM_AA</code>: specifies access to array of A-matrices.</li>
+<li><code>OPENCL_LIBSMM_SMM_AB</code>: specifies access to array of B-matrices.</li>
+<li><code>OPENCL_LIBSMM_SMM_AC</code>: specifies access to array of C-matrices.</li>
 </ul>
-<p>The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters. For this reason, <code>libsmm_acc</code> provides lists of optimal parameters for different GPU cards and different (m, n, k)-triplets. These sets of optimal parameters can be found either through <em>autotuning</em> or <em>predictive modeling</em>.</p>
-<h2>Contributing to libsmm_acc</h2>
-<h4>Autotuning procedure</h4>
-<p>Follow the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/README.md">autotuning procedure</a></p>
-<h4>Predictive modeling of kernel parameters</h4>
-<p>Follow the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/README.md">predictive modeling procedure</a></p>
-<h4>Adding a new kernel</h4>
-<ol>
-<li>
-<p>Choose a kernel <code>name</code></p>
-</li>
-<li>
-<p>Add the kernel's code (must be able to compile by both <code>nvcc</code> and <code>hip</code>) in file <code>kernels/smm_acc_dnt_name.h</code></p>
-</li>
-<li>
-<p>Add python kernel class inheriting from base class <code>kernels/smm_acc_dnt_name.py</code></p>
-</li>
-<li>
-<p>Add the new kernel to the <code>kernel_algorithm</code> data structure in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></p>
-</li>
-</ol>
-<h4>Adding support for a new GPU card</h4>
-<ol>
-<li>
-<p>Add the GPU's compute architecture properties to <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>. For more information on where to find these properties, please refer to the "info" field of <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>.</p>
-</li>
-<li>
-<p>Add the GPU to the <code>gpu_architectures</code> data structure in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc.py"><code>kernels/smm_acc.py</code></a>.</p>
-</li>
-<li>
-<p>Add the necessary code for setting <code>ARCH_NUMBER</code> correctly in the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt"><code>CMakeLists</code></a>. Also add this GPU to the list of <code>SUPPORTED_CUDA_ARCHITECTURES</code> or <code>SUPPORTED_HIP_ARCHITECTURES</code> in the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/CMakeLists.txt"><code>CMakeLists</code></a>.</p>
-</li>
-<li>
-<p>Add a minimal JSON file <code>parameters_GPU.json</code>, containing:</p>
-</li>
-</ol>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</code></pre></div>
-
-<p>then add matrix-matrix multiplication parameters for this GPU using <em>autotuning</em> and <em>predictive modeling</em></p>
+<p>The full list of tunable parameters and some explanation can be received with <code>smm/tune_multiply.py --help</code>, i.e., short description, default settings, and accepted values.</p>
+<p><strong>NOTE</strong>: LIBSMM's tunable runtime settings can be non-smooth like producing distinct code-paths, e.g., <code>OPENCL_LIBSMM_SMM_BS=1</code> vs. <code>OPENCL_LIBSMM_SMM_BS=2</code>.</p>
+<h1>Auto Tuning</h1>
+<p>To tune and optimize a kernel and generating kernel parameters, please refer to the <a href="README-autotune.md">Auto Tuning</a> guide. To update or retune an entire set of kernels (optimized parameters), please refer to the <a href="README-bulktune.md">Bulk Tuning</a> guide.</p>
     </div>
     <div class="col-md-3 col-md-pull-9">
       <hr class="visible-xs visible-sm">
@@ -268,7 +234,7 @@
                           <li role="presentation">
             <a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/1-code-structure.html'>Code Structure</a>
             </li>
-            <li role="presentation" class="disabled">
+            <li role="presentation">
             <a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>CUDA/HIP</a>
             <ul class="nav nav-stacked nav-pills">
                           <li role="presentation">
@@ -289,7 +255,7 @@
 
             </ul>
             </li>
-            <li role="presentation">
+            <li role="presentation" class="disabled">
             <a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/index.html'>OpenCL</a>
             <ul class="nav nav-stacked nav-pills">
                           <li role="presentation">
