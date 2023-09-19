@@ -14,7 +14,7 @@ Users interested to tune kernels for the CUDA/HIP backend and LIBSMM_ACC, can ta
 
 # OpenCL Backend
 
-This section shows how to auto-tune a kernel for the OpenCL based LIBSMM library. The process builds a stand-alone driver program which is then driven by an [OpenTuner](https://opentuner.org/) based script guiding the auto-tuning of the desired kernel. The [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html) provides more information, e.g., about constraining execution time or parallelizing the tuning-process as well as how to select and tune an entire set of kernels.
+This section shows how to auto-tune a kernel for the OpenCL based LIBSMM library. The process builds a stand-alone driver program which is then driven by an [OpenTuner](https://opentuner.org/) based script guiding the auto-tuning of the desired kernel. The [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html) provides more information, e.g., about constraining execution time or parallelizing the tuning-process as well as how to select and tune an entire set of kernels.
 
 For simplicity, the GNU Compiler is used to build the afore mentioned driver program, both DBCSR and LIBXSMM are Git-cloned into the same common directory, e.g., the user's `HOME` directory, and the driver is built for tuning double-precision kernels (DP).
 
@@ -37,7 +37,7 @@ cd ${HOME}/dbcsr/src/acc/opencl/smm
 ./tune_multiply.py 23x23x23
 ```
 
-Beside of interactive termination, above process would also terminate based on OpenTuner's default or can be constrained by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html).
+Beside of interactive termination, above process would also terminate based on OpenTuner's default or can be constrained by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html).
 
 Suppose the 23x23x23-kernel was tuned for some time (e.g., 5-10 minutes), tuned parameters can be incorporated into the backend. The aggregated parameters (`tune_multiply.csv`) are automatically embedded when rebuilding the library and driver.
 

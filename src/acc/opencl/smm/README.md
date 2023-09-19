@@ -29,4 +29,4 @@ The full list of tunable parameters and some explanation can be received with `s
 
 # Auto Tuning
 
-To tune and optimize a kernel and generating kernel parameters, please refer to the [Auto Tuning](README-autotune.md) guide. To update or retune an entire set of kernels (optimized parameters), please refer to the [Bulk Tuning](README-bulktune.md) guide.
+To tune and optimize a kernel and generating kernel parameters, please refer to the [Auto Tuning](https://cp2k.github.io/dbcsr/develop/page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html) guide. To update or retune an entire set of kernels (optimized parameters), please refer to the [Bulk Tuning](https://cp2k.github.io/dbcsr/develop/page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/2-bulktune.html) guide.
