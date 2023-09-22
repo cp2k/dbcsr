@@ -409,11 +409,15 @@ class SmmTuner(MeasurementInterface):
                     if not self.args.nogflops:
                         if retain:
                             print(
-                                "Worse and newer (retain): {}".format(" ".join(retain))
+                                "Worse and newer (retain {}): {}".format(
+                                    len(retain), " ".join(retain)
+                                )
                             )
                         if delete:
                             print(
-                                "Worse and older (delete): {}".format(" ".join(delete))
+                                "Worse and older (delete {}): {}".format(
+                                    len(delete), " ".join(delete)
+                                )
                             )
                     elif bool(worse):
                         print("WARNING: incorrectly merged duplicates")
