@@ -491,8 +491,8 @@ int libsmm_acc_init(void) {
           unsigned int active_uid;
           int active_match = -1;
           if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device(ACC_OPENCL_OMP_TID(), &active_id) &&
-              EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(
-                                active_id, bufname, ACC_OPENCL_BUFFERSIZE, NULL /*platform*/, 0 /*platform_maxlen*/) &&
+              EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(active_id, bufname, ACC_OPENCL_BUFFERSIZE, NULL /*platform*/,
+                                0 /*platform_maxlen*/, /*cleanup*/ 1) &&
               EXIT_SUCCESS == c_dbcsr_acc_opencl_device_uid(active_id, bufname, &active_uid))
           {
             int i = 0, best = 0;
@@ -545,8 +545,8 @@ int libsmm_acc_init(void) {
                   if (NULL == config_init && NULL != libxsmm_xregister(&key, sizeof(key), sizeof(config), &config)) {
                     static int info = 0;
                     if (0 == info && 0 != c_dbcsr_acc_opencl_config.verbosity &&
-                        EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(
-                                          active_id, bufname, ACC_OPENCL_BUFFERSIZE, NULL /*platform*/, 0 /*platform_maxlen*/))
+                        EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(active_id, bufname, ACC_OPENCL_BUFFERSIZE, NULL /*platform*/,
+                                          0 /*platform_maxlen*/, /*cleanup*/ 0))
                     {
                       fprintf(stderr, "INFO ACC/OpenCL: PARAMS of \"%s\" used for \"%s\"\n", OPENCL_LIBSMM_DEVICES[i], bufname);
                       info = 1;

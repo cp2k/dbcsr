@@ -305,7 +305,8 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);
 /** Capture or calculate UID based on the device-name. */
 int c_dbcsr_acc_opencl_device_uid(cl_device_id device, const char devname[], unsigned int* uid);
 /** Based on the device-ID, return the device's UID (capture or calculate), device name, and platform name. */
-int c_dbcsr_acc_opencl_device_name(cl_device_id device, char name[], size_t name_maxlen, char platform[], size_t platform_maxlen);
+int c_dbcsr_acc_opencl_device_name(
+  cl_device_id device, char name[], size_t name_maxlen, char platform[], size_t platform_maxlen, int cleanup);
 /** Return the OpenCL support level for the given device. */
 int c_dbcsr_acc_opencl_device_level(cl_device_id device, int* level_major, int* level_minor, char cl_std[16], cl_device_type* type);
 /** Check if given device supports the extensions. */
