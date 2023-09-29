@@ -8,13 +8,25 @@ The code for both the CUDA and the HIP backend is unified, and can be found in t
 
 ## Drivers
 
-There are two stand-alone sample codes or drivers exercising the ACC-interface. The driver code (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except runtime libraries such as CUDA, HIP, OpenCL). For OpenCL, the LIBXSMM library is mandatory.
+There are two stand-alone sample codes or drivers exercising the ACC-interface. The driver code (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except runtime libraries such as CUDA, HIP, OpenCL). For OpenCL, the LIBXSMM library is mandatory and preferred as baseline and for validation in any case. To build LIBXSMM, a folder `libxsmm` in parallel to DBCSR's root directory (`dbcsr`) is expected to be present and prebuilt.
 
-To build the driver code, a folder `libxsmm` in parallel to DBCSR's root directory (`dbcsr`) is expected to be present and prebuilt (`make GNU=1` in LIBXSMM's root directory). To build the driver code, change into the respective backend folder (`cuda` or `opencl`), and invoke `make` (`DBG=0|1|2` is supported among other optional key-value pairs).
+```bash
+git clone -b main https://github.com/libxsmm/libxsmm.git
+cd libxsmm
+make GNU=1 -j
+```
 
-**NOTE**: To activate a certain device, the drivers consider an environment variable called `DEVICE`. For example, `DEVICE=1 ./acc_bench_trans` activates the second device (at least two devices must be discovered).
+To build the driver code (`opencl` in below example), change into the respective backend folder (`cuda` or `opencl`), and invoke `make` (`DBG=0|1|2` is supported among other optional key-value pairs).
 
-The drivers support a few command line options (_nrepeat_, _stack_size_, _m_, _n_, ...). Command line arguments are positional but allow `0` as placeholder to access the default value (`acc_bench_smm 0 0 5 13 5` performs the default number of repetitions with the default stacksize when running the 5x13x5-kernel). For example, running the tranpose benchmark may look like:
+```bash
+git clone https://github.com/cp2k/dbcsr.git
+cd dbcsr/src/acc/opencl
+make
+```
+
+**NOTE**: To activate a certain device, the drivers consider an environment variable called `DEVICE`. For example, `DEVICE=1 ./acc_bench_trans` activates the second device (at least two devices must be discovered). This environment variable is implemented by the driver code and meant to work across backends, i.e., the OpenCL backend also supports `ACC_OPENCL_DEVICE=1` (see Developer Guide for the OpenCL backend).
+
+The drivers support command line options (_nrepeat_, _stack_size_, _m_, _n_, ...). Command line arguments are positional but allow `0` as placeholder to refer to the default value (`acc_bench_smm 0 0 5 13 5` performs the default number of repetitions with the default stacksize when running the 5x13x5-kernel). For example, running the tranpose benchmark may look like:
 
 ```bash
 $ OMP_PROC_BIND=TRUE ./acc_bench_trans 5 30000 23 23

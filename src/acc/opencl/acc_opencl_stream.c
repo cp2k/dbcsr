@@ -1,10 +1,10 @@
 /*------------------------------------------------------------------------------------------------*/
-/* Copyright (C) by the DBCSR developers group - All rights reserved                              */
-/* This file is part of the DBCSR library.                                                        */
+/* Copyright (C) by the DBCSR developers group - All rights reserved */
+/* This file is part of the DBCSR library. */
 /*                                                                                                */
-/* For information on the license, see the LICENSE file.                                          */
-/* For further information please visit https://dbcsr.cp2k.org                                    */
-/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/* For information on the license, see the LICENSE file. */
+/* For further information please visit https://dbcsr.cp2k.org */
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
@@ -19,7 +19,6 @@
       clCreateCommandQueue(CTX, DEV, (cl_command_queue_properties)(NULL != (PROPS) ? ((PROPS)[1]) : 0), RESULT)
 #  endif
 
-
 #  if defined(__cplusplus)
 extern "C" {
 #  endif
@@ -27,13 +26,11 @@ extern "C" {
 int c_dbcsr_acc_opencl_stream_counter_base;
 int c_dbcsr_acc_opencl_stream_counter;
 
-
 c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream) {
   assert(NULL == stream || sizeof(c_dbcsr_acc_opencl_info_stream_t) <= (uintptr_t)stream);
   return (
     NULL != stream ? ((c_dbcsr_acc_opencl_info_stream_t*)((uintptr_t)stream - sizeof(c_dbcsr_acc_opencl_info_stream_t))) : NULL);
 }
-
 
 const int* c_dbcsr_acc_opencl_stream_priority(const void* stream) {
   const int* result;
@@ -49,7 +46,6 @@ const int* c_dbcsr_acc_opencl_stream_priority(const void* stream) {
   result = NULL;
   return result;
 }
-
 
 int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   ACC_OPENCL_STREAM_PROPERTIES_TYPE properties[8] = {
@@ -245,7 +241,6 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   ACC_OPENCL_RETURN_CAUSE(result, name);
 }
 
-
 int c_dbcsr_acc_stream_destroy(void* stream) {
   int result = EXIT_SUCCESS;
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
@@ -297,7 +292,6 @@ int c_dbcsr_acc_stream_destroy(void* stream) {
   ACC_OPENCL_RETURN(result);
 }
 
-
 int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
   int result = ((NULL != least || NULL != greatest) ? EXIT_SUCCESS : EXIT_FAILURE);
   int priohi = -1, priolo = -1;
@@ -321,7 +315,8 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
     ACC_OPENCL_CHECK(clGetPlatformInfo(platform, CL_PLATFORM_EXTENSIONS, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
       "retrieve platform extensions", result);
     if (EXIT_SUCCESS == result) {
-      if (NULL != strstr(buffer, "cl_khr_priority_hints") || EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia"))
+      if (NULL != strstr(buffer, "cl_khr_priority_hints") ||
+          EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia", 0 /*use_platform_name*/))
       {
         priohi = CL_QUEUE_PRIORITY_HIGH_KHR;
         priolo = CL_QUEUE_PRIORITY_LOW_KHR;
@@ -336,7 +331,6 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
 #  endif
   ACC_OPENCL_RETURN(result);
 }
-
 
 int c_dbcsr_acc_stream_sync(void* stream) {
   int result = EXIT_SUCCESS;

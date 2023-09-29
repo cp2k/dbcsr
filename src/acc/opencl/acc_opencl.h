@@ -135,14 +135,18 @@
 #  define ACC_OPENCL_OMP_TID() (/*main*/ 0)
 #endif
 
-#if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
-#  define ACC_OPENCL_EXPECT(EXPR) LIBXSMM_EXPECT(EXPR)
-#else
-#  define ACC_OPENCL_EXPECT(EXPR) \
-    if (0 == (EXPR)) assert(0);
+#if 1
+#  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+#    define ACC_OPENCL_EXPECT(EXPR) LIBXSMM_EXPECT(EXPR)
+#  else
+#    define ACC_OPENCL_EXPECT(EXPR) \
+      if (0 == (EXPR)) assert(0);
+#  endif
+#else /* elide */
+#  define ACC_OPENCL_EXPECT(EXPR) (void)(EXPR)
 #endif
 
-#if !defined(NDEBUG)
+#if !defined(NDEBUG) && 1
 #  define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) \
     do { \
       if (EXIT_SUCCESS == (RESULT)) { \
@@ -301,7 +305,7 @@ int c_dbcsr_acc_opencl_device(int thread_id, cl_device_id* device);
 /** Get device-ID for given device, and optionally global device-ID. */
 int c_dbcsr_acc_opencl_device_id(cl_device_id device, int* device_id, int* global_id);
 /** Confirm the vendor of the given device. */
-int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);
+int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[], int use_platform_name);
 /** Capture or calculate UID based on the device-name. */
 int c_dbcsr_acc_opencl_device_uid(cl_device_id device, const char devname[], unsigned int* uid);
 /** Based on the device-ID, return the device's UID (capture or calculate), device name, and platform name. */
