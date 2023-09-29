@@ -65,7 +65,7 @@ typedef struct opencl_libsmm_smm_t {
   size_t wgsize[2];
   double gflops;
   /* (pseudo-)parameters (either pretuned or determined) */
-  int s, bs, bm, bn, bk, ws, wg, lu, nz, al, tb, tc, ap, aa, ab, ac;
+  int s, bs, bm, bn, bk, ws, wg, lu, nz, al, tb, tc, ap, aa, ab, ac, flags;
 } opencl_libsmm_smm_t;
 
 /** Type to collect statistics about tuned SMM-kernels */

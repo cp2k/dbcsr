@@ -728,12 +728,23 @@ int c_dbcsr_acc_opencl_device_id(cl_device_id device, int* device_id, int* globa
 }
 
 
-int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]) {
+int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[], int use_platform_name) {
   char buffer[ACC_OPENCL_BUFFERSIZE];
   int result = EXIT_SUCCESS;
   assert(NULL != device && NULL != vendor);
-  ACC_OPENCL_CHECK(
-    clGetDeviceInfo(device, CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL), "retrieve device vendor", result);
+  if (0 == use_platform_name) {
+    ACC_OPENCL_CHECK(
+      clGetDeviceInfo(device, CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL), "retrieve device vendor", result);
+  }
+  else {
+    cl_platform_id platform_id;
+    ACC_OPENCL_CHECK(
+      clGetDeviceInfo(device, CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform_id, NULL), "retrieve platform id", result);
+    if (EXIT_SUCCESS == result) {
+      ACC_OPENCL_CHECK(
+        clGetPlatformInfo(platform_id, CL_PLATFORM_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL), "retrieve platform name", result);
+    }
+  }
   if (EXIT_SUCCESS == result) {
     result = (NULL != LIBXSMM_STRISTR(buffer, vendor) ? EXIT_SUCCESS : EXIT_FAILURE);
   }
@@ -744,7 +755,7 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]) {
 int c_dbcsr_acc_opencl_device_uid(cl_device_id device, const char devname[], unsigned int* uid) {
   int result;
   if (NULL != uid) {
-    if (NULL != device && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(device, "intel")) {
+    if (NULL != device && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(device, "intel", 0 /*use_platform_name*/)) {
       result = clGetDeviceInfo(device, 0x4251 /*CL_DEVICE_ID_INTEL*/, sizeof(unsigned int), uid, NULL);
     }
     else result = EXIT_FAILURE;
@@ -931,7 +942,9 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id active_id) {
         }
       }
     }
-    else if (CL_INVALID_DEVICE == result && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia")) {
+    else if (CL_INVALID_DEVICE == result &&
+             EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia", 0 /*use_platform_name*/))
+    {
       fprintf(stderr, "WARN ACC/OpenCL: if MPI-ranks target the same device in exclusive mode,\n"
                       "                    SMI must be used to enable sharing the device.\n");
     }
@@ -996,7 +1009,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id) {
             c_dbcsr_acc_opencl_config.device[thread_id].uid = (cl_uint)-1;
           }
           c_dbcsr_acc_opencl_config.device[thread_id].intel =
-            (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "intel") ? CL_TRUE : CL_FALSE);
+            (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "intel", 0 /*use_platform_name*/) ? CL_TRUE : CL_FALSE);
         }
       }
     }
@@ -1259,7 +1272,9 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
             const int cl_std_len = (int)strlen(cl_std);
             nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer),
               ACC_OPENCL_CPPBIN " -P -C -nostdinc -D__OPENCL_VERSION__=%u %s %s %s %s >%s.cl", 100 * level_major + 10 * level_minor,
-              EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
+              EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia", 0 /*use_platform_name*/)
+                ? ""
+                : "-D__NV_CL_C_VERSION",
               NULL != build_params ? build_params : "", buffer_name, sed_pattern, kernel_name);
             if (0 < nchar && (int)sizeof(buffer) > nchar &&
                 (0 == cl_std_len || (3 == write(file_tmp, "/*\n", 3) && cl_std_len == write(file_tmp, cl_std, cl_std_len) &&

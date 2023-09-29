@@ -80,7 +80,7 @@ then
       if [ "${CLFILE##*.}" = "cl" ]; then
         if [ -e "${CLFILE}" ]; then
           BNAME=$(${BASENAME} "${CLFILE}" .cl)
-          UNAME=$(echo "${BNAME}" | ${TR} '[:lower:]' '[:upper:]')
+          UNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${BNAME}")
           SNAME=OPENCL_LIBSMM_STRING_${UNAME}
           VNAME=opencl_libsmm_source_${BNAME}
           MNAME=OPENCL_LIBSMM_SOURCE_${UNAME}
@@ -167,8 +167,8 @@ then
     SNAME=OPENCL_LIBSMM_STRING_PARAMS_SMM
     VNAME=opencl_libsmm_params_smm
     DNAME=opencl_libsmm_devices
-    MNAME=$(echo "${VNAME}" | ${TR} '[:lower:]' '[:upper:]')
-    NNAME=$(echo "${DNAME}" | ${TR} '[:lower:]' '[:upper:]')
+    MNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${VNAME}")
+    NNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${DNAME}")
     if [ "${DEVICES}" ]; then
       echo >>"${OFILE}"
       echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
@@ -176,19 +176,19 @@ then
       CSVLINES=$(for CSVFILE in "${CSVFILES[@]}"; do ${SED} "1d;/^[[:space:]]*$/d;s/[\r]*$/\\\n\" \\\/" "${CSVFILE}"; done)
       IFS=$'\n'
       for LINE in ${CSVLINES}; do
-        I=0; IDEVICE=$(echo "${LINE}" | ${SED} "${DEVPAT}")
+        I=0; IDEVICE=$(${SED} "${DEVPAT}" <<<"${LINE}")
         for DEVICE in ${DEVICES}; do
           if [ "${DEVICE}" = "${IDEVICE}" ]; then break; fi
           I=$((I+1));
         done
-        echo "${LINE}" | ${SED} "s/[^${DELIM}]*//;s/^/  \"${I}/" >>"${OFILE}"
+        ${SED} "s/[^${DELIM}]*//;s/^/  \"${I}/" <<<"${LINE}" >>"${OFILE}"
       done
       echo "  \"\"" >>"${OFILE}"
       echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
       echo >>"${OFILE}"
       echo "#define ${NNAME} ${DNAME}" >>"${OFILE}"
       echo "static const char *const ${DNAME}[] = {" >>"${OFILE}"
-      I=0; S=","; NDEVICES=$(echo "${DEVICES}" | ${WC} -l)
+      I=0; S=","; NDEVICES=$(${WC} -l <<<"${DEVICES}")
       for DEVICE in ${DEVICES}; do
         I=$((I+1)); if [ "0" != "$((NDEVICES==I))" ]; then S=""; fi
         echo "  \"${DEVICE}\"${S}" >>"${OFILE}"
