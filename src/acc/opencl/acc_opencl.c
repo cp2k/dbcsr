@@ -331,12 +331,14 @@ int c_dbcsr_acc_init(void) {
               cl_device_partition_property properties[] = {
                 CL_DEVICE_PARTITION_BY_AFFINITY_DOMAIN, CL_DEVICE_AFFINITY_DOMAIN_NUMA, /*terminator*/ 0};
               cl_uint nunits = 0;
-              if (1 < devsplit &&
+              if (0 != devsplit &&
                   CL_SUCCESS == clGetDeviceInfo(devices[j], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(cl_uint), &nunits, NULL) &&
-                  0 < nunits)
+                  1 < nunits)
               {
-                properties[0] = CL_DEVICE_PARTITION_EQUALLY;
-                properties[1] = (nunits + devsplit - 1) / devsplit;
+                if (1 < devsplit) {
+                  properties[0] = CL_DEVICE_PARTITION_EQUALLY;
+                  properties[1] = (nunits + devsplit - 1) / devsplit;
+                }
               }
               if ((NULL != env_devsplit && '0' == *env_devsplit) ||
                   (c_dbcsr_acc_opencl_config.ndevices + 1) == ACC_OPENCL_DEVICES_MAXCOUNT ||
@@ -347,7 +349,12 @@ int c_dbcsr_acc_init(void) {
                 ++c_dbcsr_acc_opencl_config.ndevices;
               }
 #  if defined(CL_VERSION_1_2)
-              else if (1 < n) { /* create subdevices */
+              else if (1 < n || 1 < nunits) { /* create subdevices */
+                if (1 < nunits) {
+                  properties[0] = CL_DEVICE_PARTITION_EQUALLY;
+                  properties[1] = 1;
+                  n = nunits;
+                }
                 if (ACC_OPENCL_DEVICES_MAXCOUNT < (c_dbcsr_acc_opencl_config.ndevices + n)) {
                   n = (cl_uint)ACC_OPENCL_DEVICES_MAXCOUNT - c_dbcsr_acc_opencl_config.ndevices;
                 }
@@ -437,7 +444,7 @@ int c_dbcsr_acc_init(void) {
       }
     }
     if (EXIT_SUCCESS == result && 0 < c_dbcsr_acc_opencl_config.ndevices) {
-      /* preselect any default device or prune to homogeneous set of GPUs */
+      /* preselect any default device or prune to homogeneous set of devices */
       if (NULL == env_device || '\0' == *env_device) {
         char tmp[ACC_OPENCL_BUFFERSIZE] = "";
         ndevices = (cl_uint)c_dbcsr_acc_opencl_config.ndevices;
@@ -453,9 +460,9 @@ int c_dbcsr_acc_init(void) {
               device_id = (int)i;
               break;
             }
-            else if (CL_DEVICE_TYPE_ALL == type && NULL == env_devtype && CL_DEVICE_TYPE_GPU == itype && device_id <= (int)i) {
+            else if (CL_DEVICE_TYPE_ALL == type && NULL == env_devtype /*&& CL_DEVICE_TYPE_GPU == itype*/ && device_id <= (int)i) {
               result = clGetDeviceInfo(c_dbcsr_acc_opencl_config.devices[i], CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
-              if (CL_SUCCESS == result /* prune for homogeneous set of GPUs */
+              if (CL_SUCCESS == result /* prune for homogeneous set of devices */
                   && ('\0' == *tmp || 0 == strncmp(buffer, tmp, ACC_OPENCL_BUFFERSIZE)))
               {
                 c_dbcsr_acc_opencl_config.ndevices = i + 1;
