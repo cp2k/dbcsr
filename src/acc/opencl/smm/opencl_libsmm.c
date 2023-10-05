@@ -807,11 +807,10 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
         cl_device_id active_device;
         result = clGetCommandQueueInfo(queue, CL_QUEUE_DEVICE, sizeof(cl_device_id), &active_device, NULL);
         if (CL_SUCCESS == result) {
-          const char* const param_format = "-DGLOBAL=%s -DINPLACE=%i -DFN=%s -DSM=%i -DSN=%i -DSWG=%i -DT=%s";
+          const char *const env_cl = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS"), *const env_bm = getenv("OPENCL_LIBSMM_TRANS_BM");
           const char* const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant");
-          const char *const env_options = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS"), *tname = "";
-          const char* const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE");
-          const char* const env_bm = getenv("OPENCL_LIBSMM_TRANS_BM");
+          const char* const param_format = "-DGLOBAL=%s -DINPLACE=%i -DFN=%s -DSM=%i -DSN=%i -DSWG=%i -DT=%s";
+          const char *const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE"), *tname = "";
 #    if defined(OPENCL_LIBSMM_TRANS_INPLACE)
           const int inplace = ((m == n) && (NULL == env_inplace ? 1 : ('0' != *env_inplace)));
 #    else
@@ -837,7 +836,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
               default: assert('\0' == *tname);
             }
             new_config.wgsize = LIBXSMM_MIN((size_t)((m == bm || 0 == (m % bm)) ? bm : m), wgsize_max);
-            nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s", NULL == env_options ? "" : env_options);
+            nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s", NULL == env_cl ? "" : env_cl);
             if (0 <= /*<*/ nchar && (int)sizeof(buffer) > nchar) {
               nchar = LIBXSMM_SNPRINTF(
                 build_params, sizeof(build_params), param_format, cmem, inplace, fname, m, n, (int)new_config.wgsize, tname);
@@ -1255,6 +1254,14 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               const char *const env_tb = getenv("OPENCL_LIBSMM_SMM_TB"), *const env_tc = getenv("OPENCL_LIBSMM_SMM_TC");
               const char *const env_ap = getenv("OPENCL_LIBSMM_SMM_AP"), *const env_aa = getenv("OPENCL_LIBSMM_SMM_AA");
               const char *const env_ab = getenv("OPENCL_LIBSMM_SMM_AB"), *const env_ac = getenv("OPENCL_LIBSMM_SMM_AC");
+              const char *const env_xf = getenv("OPENCL_LIBSMM_SMM_XF"), *const env_cl = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
+              const char* const intel_xf = "-cl-intel-256-GRF-per-thread";
+              const int cl_nonv = (0 != devinfo->intel || EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(
+                                                                            active_device, "nvidia", 0 /*use_platform_name*/));
+              const int cl_noamd =
+                0 != devinfo->intel || !cl_nonv ||
+                (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "amd", 0 /*use_platform_name*/) &&
+                  EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "amd", 1 /*use_platform_name*/));
               const int blockm = ((NULL == env_bm || '\0' == *env_bm) ? 0 : atoi(env_bm));
               const int blockn = ((NULL == env_bn || '\0' == *env_bn) ? 0 : atoi(env_bn));
               const int blockk = ((NULL == env_bk || '\0' == *env_bk) ? 0 : atoi(env_bk));
@@ -1292,9 +1299,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                              ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->nz) : /*default*/ 0)
                                              : atoi(env_nz),
                 0, 1);
-              new_config.al = LIBXSMM_CLMP((NULL == env_al || '\0' == *env_al)
-                                             ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->al) : /*default*/ 0)
-                                             : atoi(env_al),
+              new_config.al = LIBXSMM_CLMP(
+                (NULL == env_al || '\0' == *env_al)
+                  ? (cl_noamd ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->al) : /*default*/ 0) : 1)
+                  : atoi(env_al),
                 0, 1);
               new_config.tb = LIBXSMM_CLMP((NULL == env_tb || '\0' == *env_tb)
                                              ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->tb) : /*default*/ 0)
@@ -1323,7 +1331,13 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   ? (0 == kernel_idx ? (NULL == config ? /*default*/ default_ac : config->ac) : /*default*/ default_ac)
                   : atoi(env_ac),
                 0, 2);
-              new_config.flags = (NULL == config ? /*default*/ 0 : config->flags);
+              if (NULL == env_xf || '\0' == *env_xf) {
+                if (0 == devinfo->intel || NULL == env_cl || NULL == strstr(env_cl, intel_xf)) {
+                  new_config.flags = (NULL == config ? /*default*/ 0 : config->flags);
+                }
+                else new_config.flags = 1;
+              }
+              else new_config.flags = atoi(env_xf);
               if (0 >= new_config.s) new_config.s = stack_size;
               if (0 == kernel_idx || 1 >= new_config.bs) new_config.bs = bs;
               nbm = (m_max + new_config.bm - 1) / new_config.bm;
@@ -1398,7 +1412,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               }
               if (new_config.wgsize[kernel_idx] <= wgsize_max) { /* SMMs can be potentially handled by device */
                 const char* const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant");
-                const char* const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
                 const char* const env_barrier = getenv("OPENCL_LIBSMM_SMM_BARRIER");
                 const char* const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
                 const char* const env_nrepeat = getenv("SMM_NREPEAT");
@@ -1414,8 +1427,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 if (NULL == env_atomics || '0' != *env_atomics) {
                   /* atomics_force: attempt to force atomics without confirmation */
                   const int atomics_force = ((NULL == env_atomics || '\0' == *env_atomics) ? 0 : atoi(env_atomics));
-                  const int cl_nonv = (EXIT_SUCCESS !=
-                                       c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia", 0 /*use_platform_name*/));
                   if (NULL == env_atomics || '\0' == *env_atomics || 0 != atomics_force) {
                     cl_bitfield fp_atomics;
                     assert(dbcsr_type_real_8 == datatype || dbcsr_type_real_4 == datatype);
@@ -1456,10 +1467,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                     }
                     else if (cl_nonv) {
                       int gfx90 = 0;
-                      if ((EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_device, "amd", 0 /*use_platform_name*/) ||
-                            EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_device, "amd", 1 /*use_platform_name*/)) &&
-                          EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(active_device, buffer, ACC_OPENCL_BUFFERSIZE,
-                                            NULL /*platform*/, 0 /*platform_maxlen*/, /*cleanup*/ 1))
+                      if (!cl_noamd && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(active_device, buffer, ACC_OPENCL_BUFFERSIZE,
+                                                         NULL /*platform*/, 0 /*platform_maxlen*/, /*cleanup*/ 1))
                       {
                         const char* const gfxname = LIBXSMM_STRISTR(buffer, "gfx");
                         if (NULL != gfxname && 90 <= atoi(gfxname + 3)) gfx90 = 1;
@@ -1534,8 +1543,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
 #    else
                   const char* const cl_debug = "";
 #    endif
-                  nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s %s -cl-fast-relaxed-math -cl-denorms-are-zero",
-                    NULL == env_options ? "" : env_options, cl_debug);
+                  nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "-cl-fast-relaxed-math -cl-denorms-are-zero %s %s %s",
+                    NULL == env_cl ? "" : env_cl, (0 == new_config.flags || 0 == devinfo->intel) ? "" : intel_xf, cl_debug);
                   if (0 >= nchar || (int)sizeof(buffer) <= nchar) result = EXIT_FAILURE;
                 }
                 else result = EXIT_FAILURE;
