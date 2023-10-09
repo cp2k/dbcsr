@@ -20,7 +20,7 @@ repos:
     name: Reformat Python files with the black code formatter
     files: '^.*(/PACKAGE)|(\.py)$'
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
+  rev: v4.5.0
   hooks:
   - id: check-ast
   - id: check-yaml
