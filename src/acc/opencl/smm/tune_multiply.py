@@ -138,6 +138,8 @@ class SmmTuner(MeasurementInterface):
             ):
                 self.xf = seed.group(16)[2:]
             self.create_param("XF", params, paramt, self.xf, -1, 0, 1)
+            if self.xf is not None:
+                self.xf = int(self.xf)
             if not paramt:
                 sys.tracebacklimit = 0
                 raise RuntimeError(
@@ -250,22 +252,7 @@ class SmmTuner(MeasurementInterface):
 
     def environment(self, config):
         return [
-            "OPENCL_LIBSMM_SMM_BS={}".format(config["BS"]),
-            "OPENCL_LIBSMM_SMM_BM={}".format(config["BM"]),
-            "OPENCL_LIBSMM_SMM_BN={}".format(config["BN"]),
-            "OPENCL_LIBSMM_SMM_BK={}".format(config["BK"]),
-            "OPENCL_LIBSMM_SMM_WS={}".format(config["WS"]),
-            "OPENCL_LIBSMM_SMM_WG={}".format(config["WG"]),
-            "OPENCL_LIBSMM_SMM_LU={}".format(config["LU"]),
-            "OPENCL_LIBSMM_SMM_NZ={}".format(config["NZ"]),
-            "OPENCL_LIBSMM_SMM_AL={}".format(config["AL"]),
-            "OPENCL_LIBSMM_SMM_TB={}".format(config["TB"]),
-            "OPENCL_LIBSMM_SMM_TC={}".format(config["TC"]),
-            "OPENCL_LIBSMM_SMM_AP={}".format(config["AP"]),
-            "OPENCL_LIBSMM_SMM_AA={}".format(config["AA"]),
-            "OPENCL_LIBSMM_SMM_AB={}".format(config["AB"]),
-            "OPENCL_LIBSMM_SMM_AC={}".format(config["AC"]),
-            "OPENCL_LIBSMM_SMM_XF={}".format(config["XF"]),
+            "OPENCL_LIBSMM_SMM_{}={}".format(key, config[key]) for key in config.keys()
         ]
 
     def run(self, desired_result, input, limit):
