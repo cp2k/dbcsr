@@ -192,12 +192,7 @@ int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred) {
 #  endif
   assert(NULL != event && NULL != has_occurred);
   result = clGetEventInfo(*ACC_OPENCL_EVENT(event), CL_EVENT_COMMAND_EXECUTION_STATUS, sizeof(cl_int), &status, NULL);
-  if (CL_SUCCESS == result && 0 <= status) {
-    *has_occurred = (CL_COMPLETE == status ? 1 : 0);
-    if (0 == *has_occurred && 0 != (8 & c_dbcsr_acc_opencl_config.flush)) {
-      result = c_dbcsr_acc_opencl_device_synchronize(ACC_OPENCL_OMP_TID());
-    }
-  }
+  if (CL_SUCCESS == result && 0 <= status) *has_occurred = (CL_COMPLETE == status ? 1 : 0);
   else { /* error state */
 #  if defined(ACC_OPENCL_EVENT_CREATE)
     if (CL_SUCCESS == result) result = EXIT_FAILURE;

@@ -82,7 +82,7 @@
 #  define ACC_OPENCL_MAXSTRLEN 48
 #endif
 #if !defined(ACC_OPENCL_DEVICES_MAXCOUNT)
-#  define ACC_OPENCL_DEVICES_MAXCOUNT 256
+#  define ACC_OPENCL_DEVICES_MAXCOUNT 64
 #endif
 /** Counted on a per-thread basis! */
 #if !defined(ACC_OPENCL_HANDLES_MAXCOUNT)
@@ -112,6 +112,7 @@
 #    define ACC_OPENCL_STREAM_PRIORITIES
 #  endif
 #endif
+/** Use DBCSR's profile for detailed timings */
 #if !defined(ACC_OPENCL_PROFILE) && 0
 #  define ACC_OPENCL_PROFILE
 #endif
@@ -262,12 +263,8 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_int devcopy;
   /** Execution-hints (command stream). */
   cl_int xhints;
-  /** Share streams across threads. */
-  cl_int share;
   /** Asynchronous memory ops. */
   cl_int async;
-  /** Flush level. */
-  cl_int flush;
   /** Dump level. */
   cl_int dump;
 } c_dbcsr_acc_opencl_config_t;
