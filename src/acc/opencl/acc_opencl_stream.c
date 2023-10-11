@@ -110,86 +110,52 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
     cl_device_id device = NULL;
     result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
     if (CL_SUCCESS == result) {
-      const int s = c_dbcsr_acc_opencl_config.share;
-      if (0 == s || 0 == (tid % s)) {
-        if (0 != c_dbcsr_acc_opencl_config.device[tid].intel) {
-          const int xhints = ((1 == c_dbcsr_acc_opencl_config.xhints || 0 > c_dbcsr_acc_opencl_config.xhints)
-                                ? (0 != c_dbcsr_acc_opencl_config.device[tid].intel ? 1 : 0)
-                                : (c_dbcsr_acc_opencl_config.xhints >> 1));
-          if (0 != (1 & xhints)) { /* attempt to enable command aggregation */
-            const ACC_OPENCL_STREAM_PROPERTIES_TYPE props[4] = {
-              CL_QUEUE_PROPERTIES, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, 0 /* terminator */
-            };
-            const cl_command_queue q = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, props, &result);
-            if (CL_SUCCESS == result) {
-              c_dbcsr_acc_opencl_config.timer = c_dbcsr_acc_opencl_timer_host; /* force host-timer */
-              clReleaseCommandQueue(q);
-            }
-            else result = CL_SUCCESS;
+      if (0 != c_dbcsr_acc_opencl_config.device[tid].intel) {
+        const int xhints = ((1 == c_dbcsr_acc_opencl_config.xhints || 0 > c_dbcsr_acc_opencl_config.xhints)
+                              ? (0 != c_dbcsr_acc_opencl_config.device[tid].intel ? 1 : 0)
+                              : (c_dbcsr_acc_opencl_config.xhints >> 1));
+        if (0 != (1 & xhints)) { /* attempt to enable command aggregation */
+          const ACC_OPENCL_STREAM_PROPERTIES_TYPE props[4] = {
+            CL_QUEUE_PROPERTIES, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, 0 /* terminator */
+          };
+          const cl_command_queue q = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, props, &result);
+          if (CL_SUCCESS == result) {
+            c_dbcsr_acc_opencl_config.timer = c_dbcsr_acc_opencl_timer_host; /* force host-timer */
+            clReleaseCommandQueue(q);
           }
-          if (0 != (2 & xhints)) { /* attempt to enable queue families */
-            struct {
-              cl_command_queue_properties properties;
-              cl_bitfield capabilities;
-              cl_uint count;
-              char name[64 /*CL_QUEUE_FAMILY_MAX_NAME_SIZE_INTEL*/];
-            } intel_qfprops[16];
-            size_t nbytes = 0, i;
-            if (CL_SUCCESS == clGetDeviceInfo(device, 0x418B /*CL_DEVICE_QUEUE_FAMILY_PROPERTIES_INTEL*/, sizeof(intel_qfprops),
-                                intel_qfprops, &nbytes))
-            {
-              for (i = 0; (i * sizeof(*intel_qfprops)) < nbytes; ++i) {
-                if (0 /*CL_QUEUE_DEFAULT_CAPABILITIES_INTEL*/ == intel_qfprops[i].capabilities && 1 < intel_qfprops[i].count) {
-                  const int j = (0 /*terminator*/ == properties[2] ? 2 : 4);
-                  properties[j + 0] = 0x418C; /* CL_QUEUE_FAMILY_INTEL */
-                  properties[j + 1] = (int)i;
-                  properties[j + 2] = 0x418D; /* CL_QUEUE_INDEX_INTEL */
-                  properties[j + 3] = (i + offset) % intel_qfprops[i].count;
-                  properties[j + 4] = 0; /* terminator */
-                  break;
-                }
-              }
-            }
-          }
+          else result = CL_SUCCESS;
         }
-        if ((c_dbcsr_acc_opencl_timer_device == c_dbcsr_acc_opencl_config.timer) &&
-            (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
-        {
-          properties[1] = CL_QUEUE_PROFILING_ENABLE;
-        }
-        queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
-      }
-      else { /* attempt to share existing stream */
-        const int maxn = c_dbcsr_acc_opencl_config.nthreads;
-        cl_command_queue stream = NULL;
-        assert(0 < tid);
-        for (i = 0; i < maxn; ++i) {
-          int j = i + tid - 1, t = (j < maxn ? j : (j - maxn));
-          if (0 < t && t != tid) { /* avoid cloning master's and own streams */
-            streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * t;
-            for (j = 0; j < ACC_OPENCL_STREAMS_MAXCOUNT; ++j) {
-              if (NULL != streams[j]) {
-                stream = *ACC_OPENCL_STREAM(streams[j]);
-                i = maxn; /* break outer loop */
+        if (0 != (2 & xhints)) { /* attempt to enable queue families */
+          struct {
+            cl_command_queue_properties properties;
+            cl_bitfield capabilities;
+            cl_uint count;
+            char name[64 /*CL_QUEUE_FAMILY_MAX_NAME_SIZE_INTEL*/];
+          } intel_qfprops[16];
+          size_t nbytes = 0, i;
+          if (CL_SUCCESS == clGetDeviceInfo(device, 0x418B /*CL_DEVICE_QUEUE_FAMILY_PROPERTIES_INTEL*/, sizeof(intel_qfprops),
+                              intel_qfprops, &nbytes))
+          {
+            for (i = 0; (i * sizeof(*intel_qfprops)) < nbytes; ++i) {
+              if (0 /*CL_QUEUE_DEFAULT_CAPABILITIES_INTEL*/ == intel_qfprops[i].capabilities && 1 < intel_qfprops[i].count) {
+                const int j = (0 /*terminator*/ == properties[2] ? 2 : 4);
+                properties[j + 0] = 0x418C; /* CL_QUEUE_FAMILY_INTEL */
+                properties[j + 1] = (int)i;
+                properties[j + 2] = 0x418D; /* CL_QUEUE_INDEX_INTEL */
+                properties[j + 3] = (i + offset) % intel_qfprops[i].count;
+                properties[j + 4] = 0; /* terminator */
                 break;
               }
             }
           }
         }
-        if (NULL != stream) { /* clone existing stream */
-          result = clRetainCommandQueue(stream);
-        }
-        else {
-          for (i = 0; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) { /* adopt master's stream created last */
-            if (NULL != c_dbcsr_acc_opencl_config.streams[i]) {
-              stream = *ACC_OPENCL_STREAM(c_dbcsr_acc_opencl_config.streams[i]);
-              result = clRetainCommandQueue(stream);
-            }
-            else break;
-          }
-        }
-        if (EXIT_SUCCESS == result) queue = stream;
       }
+      if ((c_dbcsr_acc_opencl_timer_device == c_dbcsr_acc_opencl_config.timer) &&
+          (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
+      {
+        properties[1] = CL_QUEUE_PROFILING_ENABLE;
+      }
+      queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
     }
   }
   else {
@@ -267,14 +233,8 @@ int c_dbcsr_acc_stream_destroy(void* stream) {
               memmove(streams + i, streams + j, sizeof(void*) * (ACC_OPENCL_STREAMS_MAXCOUNT - j));
             }
             streams[ACC_OPENCL_STREAMS_MAXCOUNT - j] = NULL;
-            /* consider breaking outer loop */
-            if (0 == c_dbcsr_acc_opencl_config.share) {
-              tid = c_dbcsr_acc_opencl_config.nthreads;
-              result = result_release; /* promote */
-            }
-            else if (EXIT_SUCCESS != result_release) {
-              tid = c_dbcsr_acc_opencl_config.nthreads;
-            }
+            tid = c_dbcsr_acc_opencl_config.nthreads; /* leave outer loop */
+            result = result_release; /* promote */
             break;
           }
           else if (NULL == streams[i]) { /* compact streams */
@@ -335,7 +295,7 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
 int c_dbcsr_acc_stream_sync(void* stream) {
   int result = EXIT_SUCCESS;
 #  if defined(ACC_OPENCL_STREAM_PRIORITIES)
-  const int* const priority = (0 == (1 & c_dbcsr_acc_opencl_config.flush) ? NULL : c_dbcsr_acc_opencl_stream_priority(stream));
+  const int* const priority = NULL;
 #  endif
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   int routine_handle;
@@ -344,18 +304,7 @@ int c_dbcsr_acc_stream_sync(void* stream) {
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
   assert(NULL != stream);
-#  if defined(ACC_OPENCL_STREAM_PRIORITIES)
-  if (NULL != priority && CL_QUEUE_PRIORITY_HIGH_KHR <= *priority && CL_QUEUE_PRIORITY_MED_KHR > *priority) {
-    if (0 != (2 & c_dbcsr_acc_opencl_config.flush)) {
-      result = clFlush(*ACC_OPENCL_STREAM(stream));
-    }
-  }
-  else
-#  endif
-  {
-    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
-    result = clFinish(queue);
-  }
+  result = clFinish(*ACC_OPENCL_STREAM(stream));
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #  endif

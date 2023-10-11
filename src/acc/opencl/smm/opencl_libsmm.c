@@ -1672,7 +1672,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             &blob, precision, m_max, n_max, k_max, m_max, k_max, m_max, LIBXSMM_GEMM_FLAG_NONE, LIBXSMM_PREFETCH_NONE);
           const size_t scratch_size = psize + asize + bsize + csize + csize + k_max * n_max * typesize +
                                       5 * (LIBXSMM_ALIGNMENT - 1) /*alignments*/;
-          scratch = libxsmm_aligned_malloc(scratch_size, LIBXSMM_ALIGNMENT);
+          scratch = libxsmm_aligned_scratch(scratch_size, LIBXSMM_ALIGNMENT);
           if (NULL != desc && NULL != scratch) {
             pinp = (int*)scratch;
             ainp = (char*)LIBXSMM_UP2((uintptr_t)pinp + psize, LIBXSMM_ALIGNMENT);
@@ -1783,10 +1783,16 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           /* some result may be validated multiple times in case of duplicated c-indexes */
           for (i = 0; i < ((size_t)stack_size * nparams); i += nparams) {
             const size_t ic = (size_t)(params[i + 2] - 1) * typesize;
+            double epsilon = 0;
             libxsmm_matdiff_info diff;
             libxsmm_matdiff(
               &diff, (libxsmm_datatype)precision, m_max, n_max, gold + ic, test + ic, &m_max /*ldref*/, &m_max /*ldtst*/);
-            if (tolerance < diff.normf_rel) {
+#      if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+            epsilon = libxsmm_matdiff_epsilon(&diff);
+#      else
+            epsilon = diff.normf_rel;
+#      endif
+            if (tolerance < epsilon) {
               if (0 == c_dbcsr_acc_opencl_config.verbosity) {
                 fprintf(stderr, "libsmm_acc_process(size=%i, type=%s, m=%i, n=%i, k=%i, max=%i, stream=%p)", stack_size,
                   dbcsr_type_real_8 == datatype ? "f64" : (dbcsr_type_real_4 == datatype ? "f32" : "unknown"), m_max, n_max, k_max,
