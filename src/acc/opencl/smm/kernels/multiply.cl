@@ -117,6 +117,7 @@ __attribute__((overloadable)) T atomic_add(GLOBAL_VOLATILE(T) *, T);
 #    endif
 #  endif
 #endif
+#define ACCUMULATE(A, B) ATOMIC_ADD_GLOBAL(A, B)
 
 #if !defined(cl_intel_global_float_atomics) || (1 != TN)
 #  if defined(ATOMIC32_ADD64)
@@ -282,6 +283,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
   for (short m = 0; m < SM; ++m) cnm[m] = ZERO;
 #  endif
 #  if defined(SLM_P)
+  UNROLL_FORCE(3 * BS)
   for (int i = idx; i < (3 * batchsize); i += SWG) params[i] = pbase[i] - 1;
 #  endif
 #  if defined(BARRIER) && (MAX(1, SGS) < SWG) && (defined(SLM_C) || defined(SLM_P))
@@ -291,7 +293,11 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
   if (WRK <= idx) return;
 #  endif
   c0 = params[2] - IDXBASE;
+#  if defined(BSC) && (1 != BK) && (1 != UM)
+  UNROLL_OUTER(REPEAT * BS)
+#  else
   UNROLL_FORCE(1)
+#  endif
 #  if (1 < REPEAT)
   for (int item = 0; item < (REPEAT * batchsize); ++item) {
     const int i = item % batchsize;
@@ -413,7 +419,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
             if (ZERO != CNM(idx, bn))
 #      endif
             {
-              ATOMIC_ADD_GLOBAL(&CDX(m, bn + n0), CNM(idx, bn));
+              ACCUMULATE(&CDX(m, bn + n0), CNM(idx, bn));
               CNM(idx, bn) = ZERO; /* reset */
             }
           }
@@ -471,7 +477,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
               if (ZERO != CNM(idx, bm))
 #      endif
               {
-                ATOMIC_ADD_GLOBAL(&CDX(bm + m0, n), CNM(idx, bm));
+                ACCUMULATE(&CDX(bm + m0, n), CNM(idx, bm));
                 CNM(idx, bm) = ZERO; /* reset */
               }
             }
@@ -520,7 +526,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
           if (ZERO != CNM(idx, bm))
 #      endif
           {
-            ATOMIC_ADD_GLOBAL(&CDX(bm + m0, n), CNM(idx, bm));
+            ACCUMULATE(&CDX(bm + m0, n), CNM(idx, bm));
             CNM(idx, bm) = ZERO; /* reset */
           }
         }
@@ -578,7 +584,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
         if (ZERO != CNM(idx, m))
 #      endif
         {
-          ATOMIC_ADD_GLOBAL(&CDX(m, idx), CNM(idx, m));
+          ACCUMULATE(&CDX(m, idx), CNM(idx, m));
           CNM(idx, m) = ZERO; /* reset */
         }
       }
@@ -620,7 +626,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
           if (ZERO != CNM(idx, u))
 #      endif
           {
-            ATOMIC_ADD_GLOBAL(&CDX(u + m, idx), CNM(idx, u));
+            ACCUMULATE(&CDX(u + m, idx), CNM(idx, u));
             CNM(idx, u) = ZERO; /* reset */
           }
 #    endif
@@ -658,7 +664,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
         if (ZERO != CNM(idx, u))
 #        endif
         {
-          ATOMIC_ADD_GLOBAL(&CDX(u + m, idx), CNM(idx, u));
+          ACCUMULATE(&CDX(u + m, idx), CNM(idx, u));
           CNM(idx, u) = ZERO; /* reset */
         }
 #      endif
@@ -695,7 +701,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    if defined(ATOMIC_INC_NZ)
               if (ZERO != CNM(nc, mc)) {
 #    endif
-                ATOMIC_ADD_GLOBAL(&CDX(m, n), CNM(nc, mc));
+                ACCUMULATE(&CDX(m, n), CNM(nc, mc));
                 CNM(nc, mc) = ZERO; /* reset */
 #    if defined(ATOMIC_INC_NZ)
               }
@@ -727,7 +733,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
         if (ZERO != CNM(idx, m))
 #      endif
         {
-          ATOMIC_ADD_GLOBAL(&CDX(m, idx), CNM(idx, m));
+          ACCUMULATE(&CDX(m, idx), CNM(idx, m));
           CNM(idx, m) = ZERO; /* reset */
         }
       }
