@@ -12,7 +12,7 @@ from opentuner.search.manipulator import IntegerParameter
 from opentuner import ConfigurationManipulator
 from opentuner import MeasurementInterface
 from opentuner import Result
-from signal import signal, getsignal, SIGINT, SIG_DFL
+from signal import signal, SIGINT
 import copy
 import json
 import glob
