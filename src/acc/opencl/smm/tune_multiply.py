@@ -59,7 +59,7 @@ class SmmTuner(MeasurementInterface):
         self.bs = self.bm = self.bn = self.bk = self.ws = self.wg = self.lu = None
         self.nz = self.al = self.tb = self.tc = None
         self.ap = self.aa = self.ab = self.ac = None
-        self.xf = os.getenv("OPENCL_LIBSMM_SMM_XF")
+        self.xf = int(os.getenv("OPENCL_LIBSMM_SMM_XF"))
         self.gfbase = self.gfsave = self.gflops = 0
         self.typename = self.typeid = None
         self.device = self.size = None
@@ -181,6 +181,7 @@ class SmmTuner(MeasurementInterface):
             raise RuntimeError("Setup failed for {}!".format(self.exepath))
         # register signal handler (CTRL-C)
         signal(SIGINT, self.handle_sigint)
+        self.handle_sigint_counter = 0
         return manipulator
 
     def create_param(self, name, params, paramt, match, match_id, value0, value1):
@@ -253,7 +254,7 @@ class SmmTuner(MeasurementInterface):
     def environment(self, config):
         return [
             "OPENCL_LIBSMM_SMM_{}={}".format(key, config[key])
-            for key in config.keys()
+            for key in sorted(config.keys())
             if 2 == len(key)
         ]
 
@@ -283,7 +284,7 @@ class SmmTuner(MeasurementInterface):
                 self.gflops = gflops
                 if 0 == self.gfbase:  # seed configuration
                     self.gfbase = gflops
-                self.save_config(desired_result.configuration, final=False)
+                self.save_final_config(desired_result.configuration, final=False)
             kernelreq = round(
                 (100.0 * config["BM"] * config["BN"]) / (self.mnk[0] * self.mnk[1])
             )
@@ -319,121 +320,107 @@ class SmmTuner(MeasurementInterface):
 
     def merge_jsons(self, filenames):
         """Merge all JSONs into a single CSV-file"""
-        if self.args.csvfile:
-            merged, worse = dict(), dict()
-            for filename in filenames:
-                try:
-                    data = dict()
-                    with open(filename, "r") as file:
-                        data = json.load(file)
-                    if self.args.merge is not None and (
-                        (0 > self.args.merge and self.typeid != data["TYPEID"])
-                        or (1 == self.args.merge and 1 != data["TYPEID"])
-                        or (2 == self.args.merge and 3 != data["TYPEID"])
-                    ):
-                        continue
-                    device = data["DEVICE"] if "DEVICE" in data else self.device
-                    key = (
-                        device,
-                        data["TYPEID"],
-                        data["M"],
-                        data["N"],
-                        data["K"],
-                    )
-                    value = (
-                        data["S"] if "S" in data else 0,  # pseudo key component
-                        data["GFLOPS"]
-                        if "GFLOPS" in data and not self.args.nogflops
-                        else 0,
-                        data["BS"],
-                        data["BM"],
-                        data["BN"],
-                        data["BK"] if "BK" in data else 0,
-                        data["WS"] if "WS" in data else 0,
-                        data["WG"] if "WG" in data else 0,
-                        data["LU"] if "LU" in data else 0,
-                        data["NZ"] if "NZ" in data else 0,
-                        data["AL"] if "AL" in data else 0,
-                        data["TB"] if "TB" in data else 0,
-                        data["TC"] if "TC" in data else 1,
-                        data["AP"] if "AP" in data else 0,
-                        data["AA"] if "AA" in data else 1,
-                        data["AB"] if "AB" in data else 3,
-                        data["AC"] if "AC" in data else 0,
-                        data["XF"] if "XF" in data else 0,
-                        filename,  # last entry
-                    )
-                    if key not in merged:
+        if not self.args.csvfile:
+            return  # early exit
+        merged, worse = dict(), dict()
+        for filename in filenames:
+            try:
+                data = dict()
+                with open(filename, "r") as file:
+                    data = json.load(file)
+                if self.args.merge is not None and (
+                    (0 > self.args.merge and self.typeid != data["TYPEID"])
+                    or (1 == self.args.merge and 1 != data["TYPEID"])
+                    or (2 == self.args.merge and 3 != data["TYPEID"])
+                ):
+                    continue
+                device = data["DEVICE"] if "DEVICE" in data else self.device
+                key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
+                value = (
+                    data["S"] if "S" in data else 0,  # pseudo key component
+                    data["GFLOPS"]
+                    if "GFLOPS" in data and not self.args.nogflops
+                    else 0,
+                    data["BS"],
+                    data["BM"],
+                    data["BN"],
+                    data["BK"] if "BK" in data else 0,
+                    data["WS"] if "WS" in data else 0,
+                    data["WG"] if "WG" in data else 0,
+                    data["LU"] if "LU" in data else 0,
+                    data["NZ"] if "NZ" in data else 0,
+                    data["AL"] if "AL" in data else 0,
+                    data["TB"] if "TB" in data else 0,
+                    data["TC"] if "TC" in data else 1,
+                    data["AP"] if "AP" in data else 0,
+                    data["AA"] if "AA" in data else 1,
+                    data["AB"] if "AB" in data else 3,
+                    data["AC"] if "AC" in data else 0,
+                    data["XF"] if "XF" in data else 0,
+                    filename,  # last entry
+                )
+                if key not in merged:
+                    merged[key] = value
+                else:
+                    filename2 = merged[key][-1]
+                    if merged[key][1] <= value[1]:  # GFLOPS
                         merged[key] = value
                     else:
-                        filename2 = merged[key][-1]
-                        if merged[key][1] <= value[1]:  # GFLOPS
-                            merged[key] = value
-                        else:
-                            filename2 = filename
-                        if key in worse:
-                            worse[key].append(filename2)
-                        else:
-                            worse[key] = [filename2]
-                except (json.JSONDecodeError, KeyError, TypeError):
-                    print("Failed to merge {} into CSV-file.".format(filename))
-            if bool(merged):
-                with open(self.args.csvfile, "w") as file:
-                    file.write(  # CSV header line with termination/newline
-                        "{}{}{}{}{}{}{}{}{}\n".format(  # key-part
-                            self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
-                            self.args.csvsep,  # separator for value-part
-                            "S",  # pseudo-key component
-                            self.args.csvsep,
-                            self.args.csvsep.join(["GFLOPS", "BS", "BM", "BN", "BK"]),
-                            self.args.csvsep,
-                            self.args.csvsep.join(["WS", "WG", "LU", "NZ", "AL"]),
-                            self.args.csvsep,
-                            self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
-                        )
-                    )
-                    for key, value in sorted(merged.items()):  # CSV data lines
-                        strkey = self.args.csvsep.join([str(k) for k in key])
-                        strval = self.args.csvsep.join([str(v) for v in value[:-1]])
-                        file.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
-                    retain, delete = [], []
-                    for key, value in worse.items():
-                        mtime = os.path.getmtime(merged[key][-1])
-                        for filename in value:
-                            if mtime < os.path.getmtime(filename):
-                                retain.append(filename)
-                            else:
-                                delete.append(filename)
-                    if not self.args.nogflops:
-                        if retain:
-                            print(
-                                "Worse and newer (retain {}): {}".format(
-                                    len(retain), " ".join(retain)
-                                )
-                            )
-                        if delete:
-                            print(
-                                "Worse and older (delete {}): {}".format(
-                                    len(delete), " ".join(delete)
-                                )
-                            )
-                    elif bool(worse):
-                        print("WARNING: incorrectly merged duplicates")
-                        print("         due to nogflops argument!")
-                print(
-                    "Merged {} of {} JSONs into {}".format(
-                        len(merged), len(filenames), self.args.csvfile
+                        filename2 = filename
+                    if key in worse:
+                        worse[key].append(filename2)
+                    else:
+                        worse[key] = [filename2]
+            except (json.JSONDecodeError, KeyError, TypeError):
+                print("Failed to merge {} into CSV-file.".format(filename))
+        if bool(merged):
+            with open(self.args.csvfile, "w") as file:
+                file.write(  # CSV header line with termination/newline
+                    "{}{}{}{}{}{}{}{}{}\n".format(  # key-part
+                        self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
+                        self.args.csvsep,  # separator for value-part
+                        "S",  # pseudo-key component
+                        self.args.csvsep,
+                        self.args.csvsep.join(["GFLOPS", "BS", "BM", "BN", "BK"]),
+                        self.args.csvsep,
+                        self.args.csvsep.join(["WS", "WG", "LU", "NZ", "AL"]),
+                        self.args.csvsep,
+                        self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
                     )
                 )
-            elif glob.glob(self.args.csvfile):
-                backup = "{}.bak".format(self.args.csvfile)
-                print("Renamed {} to {}.".format(self.args.csvfile, backup))
-                os.rename(self.args.csvfile, backup)
+                for key, value in sorted(merged.items()):  # CSV data lines
+                    strkey = self.args.csvsep.join([str(k) for k in key])
+                    strval = self.args.csvsep.join([str(v) for v in value[:-1]])
+                    file.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
+                retain, delete = [], []
+                for key, value in worse.items():
+                    mtime = os.path.getmtime(merged[key][-1])
+                    for filename in value:
+                        if mtime < os.path.getmtime(filename):
+                            retain.append(filename)
+                        else:
+                            delete.append(filename)
+                if not self.args.nogflops:
+                    if retain:
+                        msg = "Worse and newer (retain {}): {}".format(
+                            len(retain), " ".join(retain)
+                        )
+                        print(msg)
+                    if delete:
+                        msg = "Worse and older (delete {}): {}".format(
+                            len(delete), " ".join(delete)
+                        )
+                        print(msg)
+                elif bool(worse):
+                    print("WARNING: incorrectly merged duplicates")
+                    print("         due to nogflops argument!")
+            msg = "Merged {} of {} JSONs into {}".format(
+                len(merged), len(filenames), self.args.csvfile
+            )
+            print(msg)
 
-    def save_config(self, configuration, final=True):
+    def save_final_config(self, configuration, final=True):
         """Called at termination"""
-        if self.handle_sigint != getsignal(SIGINT):
-            signal(SIGINT, SIG_DFL)  # avoid recursion
         if 0 >= self.gflops or not configuration:
             return  # nothing to save
         config = configuration.data
@@ -505,12 +492,14 @@ class SmmTuner(MeasurementInterface):
 
     def handle_sigint(self, signum, frame):
         """Handle SIGINT or CTRL-C"""
-        print(
-            "\nWARNING: tuning {}x{}x{}-kernel was interrupted.".format(
-                self.mnk[0], self.mnk[1], self.mnk[2]
+        if 1 > self.handle_sigint_counter:  # avoid recursion
+            self.handle_sigint_counter = self.handle_sigint_counter + 1
+            print(
+                "\nWARNING: tuning {}x{}x{}-kernel was interrupted.".format(
+                    self.mnk[0], self.mnk[1], self.mnk[2]
+                )
             )
-        )
-        self.save_config(self.config)
+            self.save_final_config(self.config)
         exit(1)
 
 
@@ -763,6 +752,8 @@ if __name__ == "__main__":
     # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
     if os.getenv("OPENCL_LIBSMM_SMM_WS") not in {"tune", "enabled", "on"}:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
+    if os.getenv("OPENCL_LIBSMM_SMM_XF") not in {"tune", "enabled", "on"}:
+        os.environ["OPENCL_LIBSMM_SMM_XF"] = "0"
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
@@ -782,5 +773,7 @@ if __name__ == "__main__":
         args.mb = 64
     try:
         SmmTuner.main(args)
-    except Exception:
+    except Exception as e:
+        print(str(e))
+        print("WARNING: ignored above error!")
         pass

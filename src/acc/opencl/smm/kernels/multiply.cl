@@ -290,7 +290,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
   BARRIER(CLK_LOCAL_MEM_FENCE);
 #  endif
 #  if (WRK < SWG)
-  if (WRK <= idx) return;
+  if (WRK <= idx) return; /* WRK <= idx */
 #  endif
   c0 = params[2] - IDXBASE;
 #  if defined(BSC) && (1 != BK) && (1 != UM)
@@ -309,7 +309,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
     const int c1 = ((i + 1) < batchsize ? (params[3 * i + 5] - IDXBASE) : -1);
 #else
 #  if (WRK < SWG)
-  if (WRK > idx)
+  if (WRK > idx) /* WRK > idx */
 #  endif
   {
     const int a0 = params[0] - IDXBASE, b0 = params[1] - IDXBASE, c0 = params[2] - IDXBASE;
@@ -379,7 +379,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       for (short bm = 0; bm < BM; ++bm) {
         const int m = bm + m0;
 #    if (SM % BM)
-        if (m < SM)
+        if (m < SM) /* m < SM */
 #    endif
         {
           UNROLL_FORCE(SK)
@@ -390,7 +390,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
             const int n = bn + n0;
 #    endif
 #    if (SN % BN)
-            if (n < SN)
+            if (n < SN) /* n < SN */
 #    endif
             {
 #    if defined(SLM_C) && (1 < BS)
@@ -442,7 +442,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
           const int n = bn + n0;
 #    endif
 #    if (SN % BN)
-          if (n < SN)
+          if (n < SN) /* n < SN */
 #    endif
           {
 #    if defined(REG_B)
@@ -454,7 +454,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
             for (short bm = 0; bm < BM; ++bm) {
               const int m = bm + m0;
 #    if (SM % BM)
-              if (m < SM)
+              if (m < SM) /* m < SM */
 #    endif
               {
 #    if defined(SLM_C) && (1 < BS)
@@ -492,7 +492,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       const int n = bn + n0;
 #    endif
 #    if (SN % BN)
-      if (n < SN)
+      if (n < SN) /* n < SN */
 #    endif
       {
 #    if (1 == BS)
@@ -507,7 +507,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
         for (short bm = 0; bm < BM; ++bm) {
           const int m = bm + m0;
 #    if (SM % BM)
-          if (m < SM)
+          if (m < SM) /* m < SM */
 #    endif
           {
 #    if defined(SLM_C) && (1 < BS)
@@ -563,14 +563,15 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
         UNROLL_FORCE(SM)
         for (short m = 0; m < SM; ++m) {
 #    if (200 /*CL_VERSION_2_0*/ <= __OPENCL_VERSION__) && !defined(SLM_A) && !defined(REG_A) && (WRK == SM) && \
-      (SM <= SGS || SM <= SWG) /* size of subgroup or size of workgroup is sufficient */
+      (SM <= SGS || SM <= SWG)
+          /* size of subgroup or size of workgroup is sufficient */
 #      if (SM <= SGS)
           CNM(idx, m) = MAD(sub_group_broadcast(a, m), b, CNM(idx, m));
 #      else
           CNM(idx, m) = MAD(work_group_broadcast(a, m), b, CNM(idx, m));
 #      endif
-#    else /* fallback */
-          CNM(idx, m) = MAD(AMK(m, k), b, CNM(idx, m));
+#    else
+          CNM(idx, m) = MAD(AMK(m, k), b, CNM(idx, m)); /* fallback */
 #    endif
         }
 #    if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A)
@@ -683,14 +684,14 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       for (short bn = 0; bn < BN; ++bn) {
         const int n = bn + n0;
 #    if (SN % BN)
-        if (n < SN)
+        if (n < SN) /* n < SN */
 #    endif
         {
           UNROLL_FORCE(BM)
           for (short bm = 0; bm < BM; ++bm) {
             const int m = bm + m0;
 #    if (SM % BM)
-            if (m < SM)
+            if (m < SM) /* m < SM */
 #    endif
             {
 #    if defined(SLM_C)
