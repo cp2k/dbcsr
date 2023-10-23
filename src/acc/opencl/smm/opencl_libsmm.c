@@ -1393,15 +1393,17 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               assert(1 <= bs && 0 < new_config.wgsize[kernel_idx] && 0 < wgsize_max && 0 < wgsize_prf);
               /* ensure minimum requested WG-size */
               while ((nbm * nbn) < new_config.ws && (nbm < m_max || nbn < n_max)) {
-                if (nbn < n_max) {
-                  ++nbn;
-                  new_config.bn = (n_max + nbn - 1) / nbn;
-                }
-                else if (nbm < m_max) {
-                  ++nbm;
-                  new_config.bm = (m_max + nbm - 1) / nbm;
-                }
+                if (nbn < n_max) ++nbn;
+                else if (nbm < m_max) ++nbm;
+              }
+              if ((nbm * nbn) < new_config.ws) {
+                new_config.bn = (n_max + nbn - 1) / nbn;
+                new_config.bm = (m_max + nbm - 1) / nbm;
                 new_config.wgsize[kernel_idx] = (2 > new_config.wg ? (nbm * nbn) : ((int)LIBXSMM_UP2POT(nbm * nbn)));
+              }
+              else { /* reset */
+                nbm = (m_max + new_config.bm - 1) / new_config.bm;
+                nbn = (n_max + new_config.bn - 1) / new_config.bn;
               }
               /* limit WG-size to maximum WG-size */
               while (wgsize_max < new_config.wgsize[kernel_idx] && (new_config.bm < m_max || new_config.bn < n_max)) {
