@@ -1264,10 +1264,16 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               const int cl_nonv = (0 != devinfo->intel || EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(
                                                                             active_device, "nvidia", 0 /*use_platform_name*/));
               const int cl_noamd =
-                0 != devinfo->intel || !cl_nonv ||
-                (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "amd", 0 /*use_platform_name*/) &&
-                  EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "amd", 1 /*use_platform_name*/));
-              const int blockm = ((NULL == env_bm || '\0' == *env_bm) ? 0 : atoi(env_bm));
+                (0 != devinfo->intel || !cl_nonv ||
+                  (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "amd", 0 /*use_platform_name*/) &&
+                    EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "amd", 1 /*use_platform_name*/)));
+              const int default_lu = (0 != devinfo->intel ? -1 : 0);
+              const int unroll = LIBXSMM_MAX(-2, (NULL == env_lu || '\0' == *env_lu)
+                                                   ? (0 == kernel_idx ? (NULL == config ? default_lu : config->lu) : default_lu)
+                                                   : atoi(env_lu)); /* populate only lower bound */
+              const int blockm = ((NULL == env_bm || '\0' == *env_bm || 1 < unroll) /* 1<LU ignores BM */
+                                    ? (1 >= unroll ? 0 : LIBXSMM_UP(m_max / unroll, OPENCL_LIBSMM_VMIN))
+                                    : atoi(env_bm));
               const int blockn = ((NULL == env_bn || '\0' == *env_bn) ? 0 : atoi(env_bn));
               const int blockk = ((NULL == env_bk || '\0' == *env_bk) ? 0 : atoi(env_bk));
               const int wgmin = ((NULL == env_ws || '\0' == *env_ws) ? 0 : atoi(env_ws));
@@ -1278,8 +1284,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                                            : LIBXSMM_MIN(OPENCL_LIBSMM_VMIN, m_max))
                                         : 1);
               const int default_wg = (((0x0bd0 > devuid || 0x0bdb < devuid)) ? (0 == kernel_idx ? 0 : -2) : -1);
-              const int default_lu = (0 != devinfo->intel ? -1 : 0);
               int nbm, nbn;
+              new_config.lu = unroll;
               /* two defaults for new_config parameters: 1st - regular, 2nd - BS=1 kernel */
               new_config.bm = (0 >= blockm ? (0 == kernel_idx ? (NULL == config ? LIBXSMM_MIN(OPENCL_LIBSMM_DEFAULT_BM, m_max)
                                                                                 : LIBXSMM_CLMP(config->bm, 1, m_max))
@@ -1297,9 +1303,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                           : LIBXSMM_MIN(wgmin, n_max * m_max));
               new_config.wg = LIBXSMM_CLMP(
                 (NULL == env_wg || '\0' == *env_wg) ? (NULL == config ? default_wg : config->wg) : atoi(env_wg), -2, 2);
-              new_config.lu = LIBXSMM_MAX(-2, (NULL == env_lu || '\0' == *env_lu)
-                                                ? (0 == kernel_idx ? (NULL == config ? default_lu : config->lu) : default_lu)
-                                                : atoi(env_lu)); /* populate only lower bound */
               new_config.nz = LIBXSMM_CLMP((NULL == env_nz || '\0' == *env_nz)
                                              ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->nz) : /*default*/ 0)
                                              : atoi(env_nz),
@@ -1533,10 +1536,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 /* compose build parameters and flags */
                 nchar = LIBXSMM_SNPRINTF(build_params, sizeof(build_params),
                   "-DMAD=fma -DINTEL=%u -DGLOBAL=%s -DSWG=%i -DSGS=%i -DFN=%s -DREPEAT=%i -DLU=%i "
-                  "-DSM=%i -DSN=%i -DSK=%i -DBS=%i %s -DBM=%i -DBN=%i -DBK=%i -DT=%s -DTN=%i "
+                  "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DVL=%i %s -DBM=%i -DBN=%i -DBK=%i -DT=%s -DTN=%i "
                   "%s %s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s %s",
                   0 != devinfo->intel ? devinfo->uid : 0, cmem, (int)new_config.wgsize[kernel_idx], (int)sgs, fname,
-                  NULL == env_nrepeat ? 1 : atoi(env_nrepeat), new_config.lu, m_max, n_max, k_max, bs,
+                  NULL == env_nrepeat ? 1 : atoi(env_nrepeat), new_config.lu, m_max, n_max, k_max, bs, OPENCL_LIBSMM_VMIN,
                   bs == new_config.bs ? "-DBSC" : "", new_config.bm, new_config.bn, new_config.bk, tname, datatype,
                   0 == new_config.nz ? "" : "-DATOMIC_INC_NZ", 0 == new_config.al ? "" : "-DAL",
                   0 == new_config.tb ? "" : "-DTRACK_B", 0 != new_config.tc ? "-DTRACK_C" : "", 0 == new_config.ap ? "" : "-DSLM_P",

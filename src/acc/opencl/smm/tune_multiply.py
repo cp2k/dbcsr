@@ -59,7 +59,7 @@ class SmmTuner(MeasurementInterface):
         self.bs = self.bm = self.bn = self.bk = self.ws = self.wg = self.lu = None
         self.nz = self.al = self.tb = self.tc = None
         self.ap = self.aa = self.ab = self.ac = None
-        self.xf = int(os.getenv("OPENCL_LIBSMM_SMM_XF"))
+        self.xf = env_intvalue("OPENCL_LIBSMM_SMM_XF", 0)
         self.gfbase = self.gfsave = self.gflops = 0
         self.typename = self.typeid = None
         self.device = self.size = None
@@ -114,6 +114,7 @@ class SmmTuner(MeasurementInterface):
             nprm = len(seed.groups()) if seed else 0
             if 15 > nprm:
                 print("WARNING: missed to parse initial parameters!")
+            maxlu = 2 if 2 <= self.args.tlevel or 0 > self.args.tlevel else 4
             # setup fixed and tunable parameters
             params, paramt = [], []
             self.create_param("BS", params, paramt, seed, 1, 1, self.args.mb)
@@ -124,7 +125,7 @@ class SmmTuner(MeasurementInterface):
                 "WS", params, paramt, seed, 5, 1, self.mnk[0] * self.mnk[1]
             )
             self.create_param("WG", params, paramt, seed, 6, -2, 1)  # avoid WG=2
-            self.create_param("LU", params, paramt, seed, 7, -2, 2)
+            self.create_param("LU", params, paramt, seed, 7, -2, maxlu)
             self.create_param("NZ", params, paramt, seed, 8, 0, 1)
             self.create_param("AL", params, paramt, seed, 9, 0, 1)
             self.create_param("TB", params, paramt, seed, 10, 0, 1)
@@ -186,13 +187,17 @@ class SmmTuner(MeasurementInterface):
 
     def create_param(self, name, params, paramt, match, match_id, value0, value1):
         """Append integer-parameter to either params or paramt list"""
-        value_env = os.getenv("OPENCL_LIBSMM_SMM_{}".format(name))
+        value_key = "OPENCL_LIBSMM_SMM_{}".format(name)
+        value_env = os.getenv(value_key)
+        value_raw = env_intvalue(value_key, 0)
         value_fix = (
-            getattr(self.args, name.lower(), None)
-            if value_env is None
-            else int(value_env)
+            getattr(self.args, name.lower(), None) if value_env is None else value_raw
         )
-        if value_env is None:  # tunable parameter
+        if value_env is None or value_env in {
+            "tune",
+            "enabled",
+            "on",
+        }:  # tunable parameter
             if 0 <= match_id:
                 value = (
                     int(match.group(match_id))
@@ -204,7 +209,7 @@ class SmmTuner(MeasurementInterface):
             setattr(self, name.lower(), value)
             paramt.append(IntegerParameter(name, value0, value1))
         else:  # fixed parameter
-            value_fix = getattr(self.args, name.lower(), int(value_env))
+            value_fix = getattr(self.args, name.lower(), value_raw)
             params.append(IntegerParameter(name, value_fix, value_fix))
 
     def launch(self, envs, nrep=None, verbose=None):
@@ -444,8 +449,7 @@ class SmmTuner(MeasurementInterface):
             else None
         )
         filedot = os.path.join(self.args.jsondir, ".{}.json".format(self.args.label))
-        # check return code (consider not saving parameters)
-        if 0 == result:
+        if self.gfsave < self.gflops:  # save intermediate result
             self.gfsave = self.gflops
             # self.manipulator().save_to_file(config, filename)
             with open(filedot, "w") as file:
@@ -455,7 +459,8 @@ class SmmTuner(MeasurementInterface):
                     del cfg["XF"]
                 json.dump(cfg, file, sort_keys=True)
                 file.write("\n")  # append newline at EOF
-        elif not final:  # incorrect result
+        # check return code (consider not saving parameters)
+        if 0 != result and not final:  # incorrect result
             failed = " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
             print("FAILED: {}".format(failed))
             return
@@ -655,7 +660,7 @@ if __name__ == "__main__":
         default=env_intvalue("OPENCL_LIBSMM_SMM_LU", "-1"),
         dest="lu",
         help="Loop unroll (-2) full, (-1) no hints (default),"
-        + " (0) inner, (1) outer-dehint, (2) literal",
+        + " (0) inner, (1) outer-dehint, (2) block-m",
     )
     argparser.add_argument(
         "-nz",
@@ -753,7 +758,8 @@ if __name__ == "__main__":
     if os.getenv("OPENCL_LIBSMM_SMM_WS") not in {"tune", "enabled", "on"}:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
     if os.getenv("OPENCL_LIBSMM_SMM_XF") not in {"tune", "enabled", "on"}:
-        os.environ["OPENCL_LIBSMM_SMM_XF"] = "0"
+        xfvalue = env_intvalue("OPENCL_LIBSMM_SMM_XF", 0)
+        os.environ["OPENCL_LIBSMM_SMM_XF"] = "{}".format(xfvalue)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
@@ -774,6 +780,6 @@ if __name__ == "__main__":
     try:
         SmmTuner.main(args)
     except Exception as e:
-        print(str(e))
+        print("ERROR {}: {}!".format(type(e).__name__, e))
         print("WARNING: ignored above error!")
         pass
