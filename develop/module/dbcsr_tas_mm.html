@@ -10,77 +10,53 @@
 
     <title>dbcsr_tas_mm &ndash; DBCSR</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Guide</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-                  <li><a href="../lists/programs.html">Programs</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/programs.html">Programs</a>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,51 +64,54 @@
       <small>Module</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 1.9% of total for modules and submodules.">1190 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 1.9% of total for modules and submodules.">1190 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/dbcsr_tas_mm.F"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/dbcsr_tas_mm.f.html'>dbcsr_tas_mm.F</a></li>
-          <li class="active">dbcsr_tas_mm</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tas_mm.f.html'>dbcsr_tas_mm.F</a></li>
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_tas_mm</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-0">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-0" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#variable-modulen~9">moduleN</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#variable-modulen~11">moduleN</a>
         </div>
       </div>
     </div>
@@ -146,28 +125,26 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#funcs-0">Functions</a>
-        </h3>
-      </div>
-      <div id="funcs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dist_compatible">dist_compatible</a>
             <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-split_factor_estimate">split_factor_estimate</a>
         </div>
       </div>
     </div>
 
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-0">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_multiply">dbcsr_tas_multiply</a>
             <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-redistribute_and_sum">redistribute_and_sum</a>
             <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-reshape_mm_small">reshape_mm_small</a>
@@ -185,6 +162,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -205,115 +183,40 @@ Submatrices are obtained by splitting a dimension of the process grid. Multiplic
 submatrices uses DBCSR Cannon algorithm. Due to unknown sparsity pattern of result matrix, parameters
 (group sizes and process grid dimensions) can not be derived from matrix dimensions and need to be
 set manually.</p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-                <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-                <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                <li><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></li>
-                <li><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
-                <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-                <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                <li><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
-                <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
-                <li><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
-                <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
-                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-                <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
-                <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
-                <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-1">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#variable-modulen~9">moduleN</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#funcs-1">Functions</a>
-        </h3>
-      </div>
-      <div id="funcs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dist_compatible">dist_compatible</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-split_factor_estimate">split_factor_estimate</a>
-        </div>
-      </div>
-    </div>
-
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-1">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_multiply">dbcsr_tas_multiply</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-redistribute_and_sum">redistribute_and_sum</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-reshape_mm_small">reshape_mm_small</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-reshape_mm_compatible">reshape_mm_compatible</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-change_split">change_split</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-reshape_mm_template">reshape_mm_template</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_result_index">dbcsr_tas_result_index</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-create_block_norms_matrix">create_block_norms_matrix</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-convert_to_new_pgrid">convert_to_new_pgrid</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_batched_mm_init">dbcsr_tas_batched_mm_init</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_batched_mm_finalize">dbcsr_tas_batched_mm_finalize</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_set_batched_state">dbcsr_tas_set_batched_state</a>
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_batched_mm_complete">dbcsr_tas_batched_mm_complete</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
         <section>
@@ -321,16 +224,16 @@ set manually.</p>
             <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~9"></span>
+              <span class="anchor" id="variable-modulen~11"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -340,7 +243,7 @@ parameter
             <td>::</td>
             <td><strong>moduleN</strong></td>
 <td> =</td>
-                <td>'dbcsr_tas_mm'</td>
+                <td>&#39;dbcsr_tas_mm&#39;</td>
             <td>
                 
             </td>
@@ -357,10 +260,10 @@ parameter
 
         <section>
           <h2>Functions</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dist_compatible"></span><h3>private  function <a href='../proc/dist_compatible.html'>dist_compatible</a>(mat_a, mat_b, split_rc_a, split_rc_b, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dist_compatible"></span><h3>private  function <a href='../proc/dist_compatible.html'>dist_compatible</a>(mat_a, mat_b, split_rc_a, split_rc_b, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Check whether matrices have same distribution and same split.</p>
 
@@ -368,16 +271,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mat_a"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -392,7 +295,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mat_b"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -407,7 +310,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-split_rc_a"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -422,7 +325,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-split_rc_b"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -437,7 +340,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -462,10 +365,10 @@ parameter
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-split_factor_estimate"></span><h3>private  function <a href='../proc/split_factor_estimate.html'>split_factor_estimate</a>(max_mm_dim, nze_a, nze_b, nze_c, numnodes) result(nsplit)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-split_factor_estimate"></span><h3>private  function <a href='../proc/split_factor_estimate.html'>split_factor_estimate</a>(max_mm_dim, nze_a, nze_b, nze_c, numnodes) result(nsplit)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Estimate optimal split factor for AxB=C from occupancies (number of non-zero elements)
 This estimate is based on the minimization of communication volume whereby
@@ -477,16 +380,16 @@ considered.
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-max_mm_dim"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -501,7 +404,7 @@ considered.
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nze_a"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -518,7 +421,7 @@ number of non-zeroes in C</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nze_b"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -535,7 +438,7 @@ number of non-zeroes in C</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nze_c"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -552,7 +455,7 @@ number of non-zeroes in C</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-numnodes~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -582,10 +485,10 @@ number of non-zeroes in C</p>
 
         <section>
           <h2>Subroutines</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_multiply"></span><h3>public recursive subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_multiply</a>(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, optimize_dist, split_opt, filter_eps, flop, move_data_a, move_data_b, retain_sparsity, simple_split, result_index, unit_nr, log_verbose)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_multiply"></span><h3>public recursive subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_multiply</a>(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, optimize_dist, split_opt, filter_eps, flop, move_data_a, move_data_b, retain_sparsity, simple_split, result_index, unit_nr, log_verbose)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>tall-and-skinny matrix-matrix multiplication. Undocumented dummy arguments are identical to
 arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
@@ -594,16 +497,16 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transa~2"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -618,7 +521,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transb~2"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -633,7 +536,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transc"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -648,7 +551,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-alpha~10"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -663,7 +566,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_a~35"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -678,7 +581,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_b~25"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -693,7 +596,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-beta~5"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -708,7 +611,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_c~4"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -723,7 +626,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-optimize_dist"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -739,7 +642,7 @@ only for dense matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-split_opt"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(out),</td>
@@ -755,7 +658,7 @@ grids for subsequent matrix multiplications with matrices of similar shape and s
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-filter_eps~3"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -770,7 +673,7 @@ grids for subsequent matrix multiplications with matrices of similar shape and s
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-flop~7"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -785,7 +688,7 @@ grids for subsequent matrix multiplications with matrices of similar shape and s
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data_a"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -802,7 +705,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data_b"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -819,7 +722,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-retain_sparsity"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -836,7 +739,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-simple_split"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -853,7 +756,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-result_index~3"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -868,7 +771,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -883,7 +786,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-log_verbose"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -903,10 +806,10 @@ for internal use only</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-redistribute_and_sum"></span><h3>private  subroutine <a href='../proc/redistribute_and_sum.html'>redistribute_and_sum</a>(matrix_in, matrix_out, local_copy, alpha)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-redistribute_and_sum"></span><h3>private  subroutine <a href='../proc/redistribute_and_sum.html'>redistribute_and_sum</a>(matrix_in, matrix_out, local_copy, alpha)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -914,16 +817,16 @@ for internal use only</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_in"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -938,7 +841,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_out"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -953,7 +856,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-local_copy"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -968,7 +871,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-alpha~11"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in),</td>
@@ -988,10 +891,10 @@ for internal use only</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_small"></span><h3>private  subroutine <a href='../proc/reshape_mm_small.html'>reshape_mm_small</a>(mp_comm, matrix_in, matrix_out, transposed, trans, nodata, move_data)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-reshape_mm_small"></span><h3>private  subroutine <a href='../proc/reshape_mm_small.html'>reshape_mm_small</a>(mp_comm, matrix_in, matrix_out, transposed, trans, nodata, move_data)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
 the same process grid as the other 2 matrices.</p>
@@ -1000,16 +903,16 @@ the same process grid as the other 2 matrices.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mp_comm"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1024,7 +927,7 @@ the same process grid as the other 2 matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_in~2"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1039,7 +942,7 @@ the same process grid as the other 2 matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_out~2"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1054,7 +957,7 @@ the same process grid as the other 2 matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transposed"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1069,7 +972,7 @@ the same process grid as the other 2 matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-trans"></span>
               character(len=1),
             </td>
 <td>intent(inout)</td>
@@ -1084,7 +987,7 @@ the same process grid as the other 2 matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1100,7 +1003,7 @@ memory optimization: move data such that matrix_in is empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1121,10 +1024,10 @@ memory optimization: move data such that matrix_in is empty on return.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_compatible"></span><h3>private  subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a>(matrix1_in, matrix2_in, matrix1_out, matrix2_out, new1, new2, trans1, trans2, optimize_dist, nsplit, opt_nsplit, split_rc_1, split_rc_2, nodata1, nodata2, move_data_1, move_data_2, comm_new, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-reshape_mm_compatible"></span><h3>private  subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a>(matrix1_in, matrix2_in, matrix1_out, matrix2_out, new1, new2, trans1, trans2, optimize_dist, nsplit, opt_nsplit, split_rc_1, split_rc_2, nodata1, nodata2, move_data_1, move_data_2, comm_new, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
 the same split factor.</p>
@@ -1133,16 +1036,16 @@ the same split factor.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix1_in"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1157,7 +1060,7 @@ the same split factor.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix2_in"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1172,7 +1075,7 @@ the same split factor.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix1_out"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1187,7 +1090,7 @@ the same split factor.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix2_out"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1202,7 +1105,7 @@ the same split factor.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-new1"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1218,7 +1121,7 @@ Whether matrix2_out is a new matrix or simply pointing to matrix2_in</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-new2"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1234,7 +1137,7 @@ Whether matrix2_out is a new matrix or simply pointing to matrix2_in</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-trans1"></span>
               character(len=1),
             </td>
 <td>intent(inout)</td>
@@ -1250,7 +1153,7 @@ transpose flag of matrix2_in for multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-trans2"></span>
               character(len=1),
             </td>
 <td>intent(inout)</td>
@@ -1266,7 +1169,7 @@ transpose flag of matrix2_in for multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-optimize_dist~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1281,7 +1184,7 @@ transpose flag of matrix2_in for multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nsplit"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1296,7 +1199,7 @@ transpose flag of matrix2_in for multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-opt_nsplit~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1311,7 +1214,7 @@ transpose flag of matrix2_in for multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-split_rc_1"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -1327,7 +1230,7 @@ Whether to split rows or columns for matrix 2</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-split_rc_2"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -1343,7 +1246,7 @@ Whether to split rows or columns for matrix 2</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata1"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1359,7 +1262,7 @@ Don't copy matrix data from matrix2_in to matrix2_out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1375,7 +1278,7 @@ Don't copy matrix data from matrix2_in to matrix2_out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data_1"></span>
               logical,
             </td>
 <td>intent(inout),</td>
@@ -1391,7 +1294,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data_2"></span>
               logical,
             </td>
 <td>intent(inout),</td>
@@ -1407,7 +1310,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-comm_new"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1422,7 +1325,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1442,10 +1345,10 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-change_split"></span><h3>private  subroutine <a href='../proc/change_split.html'>change_split</a>(matrix_in, matrix_out, nsplit, split_rowcol, is_new, opt_nsplit, move_data, nodata)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-change_split"></span><h3>private  subroutine <a href='../proc/change_split.html'>change_split</a>(matrix_in, matrix_out, nsplit, split_rowcol, is_new, opt_nsplit, move_data, nodata)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Change split factor without redistribution</p>
 
@@ -1453,16 +1356,16 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_in~3"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1477,7 +1380,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_out~3"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1492,7 +1395,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nsplit~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1507,7 +1410,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-split_rowcol"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1522,7 +1425,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-is_new"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1537,7 +1440,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-opt_nsplit"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1552,7 +1455,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data~2"></span>
               logical,
             </td>
 <td>intent(inout),</td>
@@ -1567,7 +1470,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1587,10 +1490,10 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_template"></span><h3>private  subroutine <a href='../proc/reshape_mm_template.html'>reshape_mm_template</a>(template, matrix_in, matrix_out, trans, split_rc, nodata, move_data)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-reshape_mm_template"></span><h3>private  subroutine <a href='../proc/reshape_mm_template.html'>reshape_mm_template</a>(template, matrix_in, matrix_out, trans, split_rc, nodata, move_data)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Reshape matrix_in s.t. it has same process grid, distribution and split as template</p>
 
@@ -1598,16 +1501,16 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-template~2"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1622,7 +1525,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_in~4"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1637,7 +1540,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_out~4"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1652,7 +1555,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-trans~3"></span>
               character(len=1),
             </td>
 <td>intent(inout)</td>
@@ -1667,7 +1570,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-split_rc"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1682,7 +1585,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata~10"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1697,7 +1600,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data~10"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1717,10 +1620,10 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_result_index"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_result_index.html'>dbcsr_tas_result_index</a>(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, blk_ind, nze, retain_sparsity)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_result_index"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_result_index.html'>dbcsr_tas_result_index</a>(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, blk_ind, nze, retain_sparsity)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
 Same dummy arguments as dbcsr_tas_multiply</p>
@@ -1729,16 +1632,16 @@ Same dummy arguments as dbcsr_tas_multiply</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transa~3"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -1753,7 +1656,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transb~3"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -1768,7 +1671,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transc~2"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -1783,7 +1686,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_a~36"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1798,7 +1701,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_b~26"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1813,7 +1716,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_c~5"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1828,7 +1731,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-filter_eps~4"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1843,7 +1746,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~19"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1858,7 +1761,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-blk_ind"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1873,7 +1776,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nze~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1888,7 +1791,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-retain_sparsity~7"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1908,10 +1811,10 @@ Same dummy arguments as dbcsr_tas_multiply</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-create_block_norms_matrix"></span><h3>private  subroutine <a href='../proc/create_block_norms_matrix.html'>create_block_norms_matrix</a>(matrix_in, matrix_out, nodata)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-create_block_norms_matrix"></span><h3>private  subroutine <a href='../proc/create_block_norms_matrix.html'>create_block_norms_matrix</a>(matrix_in, matrix_out, nodata)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Create a matrix with block sizes one that contains the block norms of matrix_in</p>
 
@@ -1919,16 +1822,16 @@ Same dummy arguments as dbcsr_tas_multiply</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_in~5"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1943,7 +1846,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_out~5"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1958,7 +1861,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata~11"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1978,10 +1881,10 @@ Same dummy arguments as dbcsr_tas_multiply</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-convert_to_new_pgrid"></span><h3>private  subroutine <a href='../proc/convert_to_new_pgrid.html'>convert_to_new_pgrid</a>(mp_comm_cart, matrix_in, matrix_out, move_data, nodata, optimize_pgrid)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-convert_to_new_pgrid"></span><h3>private  subroutine <a href='../proc/convert_to_new_pgrid.html'>convert_to_new_pgrid</a>(mp_comm_cart, matrix_in, matrix_out, move_data, nodata, optimize_pgrid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Convert a DBCSR matrix to a new process grid</p>
 
@@ -1989,16 +1892,16 @@ Same dummy arguments as dbcsr_tas_multiply</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mp_comm_cart"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2013,7 +1916,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_in~6"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2028,7 +1931,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_out~6"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2043,7 +1946,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2059,7 +1962,7 @@ Data of matrix_in should not be copied to matrix_out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2075,7 +1978,7 @@ Data of matrix_in should not be copied to matrix_out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-optimize_pgrid"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2095,10 +1998,10 @@ Data of matrix_in should not be copied to matrix_out</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_batched_mm_init"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_batched_mm_init.html'>dbcsr_tas_batched_mm_init</a>(matrix)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_batched_mm_init"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_batched_mm_init.html'>dbcsr_tas_batched_mm_init</a>(matrix)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -2106,16 +2009,16 @@ Data of matrix_in should not be copied to matrix_out</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~147"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2135,10 +2038,10 @@ Data of matrix_in should not be copied to matrix_out</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_batched_mm_finalize"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_batched_mm_finalize.html'>dbcsr_tas_batched_mm_finalize</a>(matrix)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_batched_mm_finalize"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_batched_mm_finalize.html'>dbcsr_tas_batched_mm_finalize</a>(matrix)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -2146,16 +2049,16 @@ Data of matrix_in should not be copied to matrix_out</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~148"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2175,10 +2078,10 @@ Data of matrix_in should not be copied to matrix_out</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_set_batched_state"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_set_batched_state.html'>dbcsr_tas_set_batched_state</a>(matrix, state, opt_grid)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_set_batched_state"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_set_batched_state.html'>dbcsr_tas_set_batched_state</a>(matrix, state, opt_grid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>set state flags during batched multiplication</p>
 
@@ -2186,16 +2089,16 @@ Data of matrix_in should not be copied to matrix_out</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~149"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2210,7 +2113,7 @@ Data of matrix_in should not be copied to matrix_out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-state"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2225,7 +2128,7 @@ Data of matrix_in should not be copied to matrix_out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-opt_grid"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2245,10 +2148,10 @@ Data of matrix_in should not be copied to matrix_out</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_batched_mm_complete"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_batched_mm_complete.html'>dbcsr_tas_batched_mm_complete</a>(matrix, warn)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_batched_mm_complete"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_batched_mm_complete.html'>dbcsr_tas_batched_mm_complete</a>(matrix, warn)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -2256,16 +2159,16 @@ Data of matrix_in should not be copied to matrix_out</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~150"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2280,7 +2183,7 @@ Data of matrix_in should not be copied to matrix_out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-warn"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2312,12 +2215,12 @@ Data of matrix_in should not be copied to matrix_out</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -2327,17 +2230,12 @@ Data of matrix_in should not be copied to matrix_out</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

@@ -10,77 +10,53 @@
 
     <title>block_buffer_add_block &ndash; DBCSR</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Guide</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-                  <li><a href="../lists/programs.html">Programs</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/programs.html">Programs</a>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,33 +64,37 @@
       <small>Interface</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title="<p> 0.0% of total for procedures.</p>Including implementation: 98 statements,  0.2% of total for procedures.">6 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 191 statements,  0.3% of total for procedures.">7 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_tensor_reshape.F"> Source File</a>
+              <a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
-              <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
-          <li class="active">block_buffer_add_block</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+            <li class="breadcrumb-item active" aria-current="page">block_buffer_add_block</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
@@ -142,14 +122,14 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modprocs-0">Module Procedures</a>
-        </h3>
-      </div>
-      <div id="modprocs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_area_block">block_buffer_add_area_block</a>
             <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_r_dp~2">block_buffer_add_block_r_dp</a>
             <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_r_sp~2">block_buffer_add_block_r_sp</a>
             <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_c_dp~2">block_buffer_add_block_c_dp</a>
@@ -158,6 +138,7 @@
       </div>
     </div>
 
+  
 
 
   </div>
@@ -168,71 +149,30 @@
       <h2>private interface block_buffer_add_block</h2>
       
 
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modprocs-1">Module Procedures</a>
-        </h3>
-      </div>
-      <div id="modprocs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_r_dp~2">block_buffer_add_block_r_dp</a>
-            <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_r_sp~2">block_buffer_add_block_r_sp</a>
-            <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_c_dp~2">block_buffer_add_block_c_dp</a>
-            <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_c_sp~2">block_buffer_add_block_c_sp</a>
-        </div>
-      </div>
-    </div>
-
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
-
 
 
         <h2>Module Procedures</h2>
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_block_r_dp~2"></span><h3>private  subroutine <a href='../proc/block_buffer_add_block_r_dp~2.html'>block_buffer_add_block_r_dp</a>(buffer, ndata, index, block)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_area_block"></span><h3>private  subroutine <a href='../proc/block_buffer_add_area_block.html'>block_buffer_add_area_block</a>(buffer, index, block, transposed)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>add block to buffer.</p>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-buffer~20"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -247,27 +187,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
+              <span class="anchor" id="variable-index~23"></span>
+              integer(kind=int_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
+              DIMENSION(2)
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
@@ -277,15 +202,115 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~169"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~57"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_r_dp~2"></span><h3>private  subroutine <a href='../proc/block_buffer_add_block_r_dp~2.html'>block_buffer_add_block_r_dp</a>(buffer, index, block, transposed)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>insert a block into block buffer (at current iterator position)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer~22"></span>
+              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~3"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+            <td>
+<p>index of block</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~80"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(ndata)
+              DIMENSION(:, :)
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
+            <td>
+<p>block</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~58"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
             <td>
 
             </td>
@@ -297,27 +322,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_block_r_sp~2"></span><h3>private  subroutine <a href='../proc/block_buffer_add_block_r_sp~2.html'>block_buffer_add_block_r_sp</a>(buffer, ndata, index, block)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_r_sp~2"></span><h3>private  subroutine <a href='../proc/block_buffer_add_block_r_sp~2.html'>block_buffer_add_block_r_sp</a>(buffer, index, block, transposed)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>add block to buffer.</p>
+  <p>insert a block into block buffer (at current iterator position)</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-buffer~23"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -332,45 +357,45 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
+              <span class="anchor" id="variable-index~4"></span>
+              integer(kind=int_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
+              DIMENSION(2)
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
             <td>
-
+<p>index of block</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~81"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(ndata)
+              DIMENSION(:, :)
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
+            <td>
+<p>block</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~59"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
             <td>
 
             </td>
@@ -382,27 +407,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_block_c_dp~2"></span><h3>private  subroutine <a href='../proc/block_buffer_add_block_c_dp~2.html'>block_buffer_add_block_c_dp</a>(buffer, ndata, index, block)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_dp~2"></span><h3>private  subroutine <a href='../proc/block_buffer_add_block_c_dp~2.html'>block_buffer_add_block_c_dp</a>(buffer, index, block, transposed)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>add block to buffer.</p>
+  <p>insert a block into block buffer (at current iterator position)</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-buffer~24"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -417,45 +442,45 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
+              <span class="anchor" id="variable-index~5"></span>
+              integer(kind=int_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
+              DIMENSION(2)
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
             <td>
-
+<p>index of block</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~82"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(ndata)
+              DIMENSION(:, :)
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
+            <td>
+<p>block</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~60"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
             <td>
 
             </td>
@@ -467,27 +492,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_block_c_sp~2"></span><h3>private  subroutine <a href='../proc/block_buffer_add_block_c_sp~2.html'>block_buffer_add_block_c_sp</a>(buffer, ndata, index, block)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_sp~2"></span><h3>private  subroutine <a href='../proc/block_buffer_add_block_c_sp~2.html'>block_buffer_add_block_c_sp</a>(buffer, index, block, transposed)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>add block to buffer.</p>
+  <p>insert a block into block buffer (at current iterator position)</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-buffer~25"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -502,45 +527,45 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
+              <span class="anchor" id="variable-index~6"></span>
+              integer(kind=int_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
+              DIMENSION(2)
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
             <td>
-
+<p>index of block</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~83"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(ndata)
+              DIMENSION(:, :)
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
+            <td>
+<p>block</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~61"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
             <td>
 
             </td>
@@ -558,12 +583,12 @@
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -573,17 +598,12 @@
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

@@ -10,77 +10,53 @@
 
     <title>mp_bcast &ndash; DBCSR</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Guide</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-                  <li><a href="../lists/programs.html">Programs</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/programs.html">Programs</a>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,33 +64,37 @@
       <small>Interface</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title="<p> 0.0% of total for procedures.</p>Including implementation: 634 statements,  1.0% of total for procedures.">3 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 634 statements,  1.0% of total for procedures.">3 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/dbcsr_mpiwrap.F"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
-              <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-          <li class="active">mp_bcast</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mp_bcast</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
@@ -142,14 +122,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modprocs-0">Module Procedures</a>
-        </h3>
-      </div>
-      <div id="modprocs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_i">mp_bcast_i</a>
             <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_iv">mp_bcast_iv</a>
             <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_im">mp_bcast_im</a>
@@ -182,6 +161,7 @@
       </div>
     </div>
 
+  
 
 
   </div>
@@ -192,78 +172,13 @@
       <h2>public interface mp_bcast</h2>
       
 
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modprocs-1">Module Procedures</a>
-        </h3>
-      </div>
-      <div id="modprocs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_i">mp_bcast_i</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_iv">mp_bcast_iv</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_im">mp_bcast_im</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_i3">mp_bcast_i3</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_l">mp_bcast_l</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_lv">mp_bcast_lv</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_lm">mp_bcast_lm</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_l3">mp_bcast_l3</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_d">mp_bcast_d</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_dv">mp_bcast_dv</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_dm">mp_bcast_dm</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_d3">mp_bcast_d3</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_r">mp_bcast_r</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_rv">mp_bcast_rv</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_rm">mp_bcast_rm</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_r3">mp_bcast_r3</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_z">mp_bcast_z</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_zv">mp_bcast_zv</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_zm">mp_bcast_zm</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_z3">mp_bcast_z3</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_c">mp_bcast_c</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_cv">mp_bcast_cv</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_cm">mp_bcast_cm</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_c3">mp_bcast_c3</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_b">mp_bcast_b</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_bv">mp_bcast_bv</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_av">mp_bcast_av</a>
-            <a class="list-group-item" href="../interface/mp_bcast.html#moduleprocedure-mp_bcast_am">mp_bcast_am</a>
-        </div>
-      </div>
-    </div>
-
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
-
 
 
         <h2>Module Procedures</h2>
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_i"></span><h3>private  subroutine <a href='../proc/mp_bcast_i.html'>mp_bcast_i</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_i"></span><h3>private  subroutine <a href='../proc/mp_bcast_i.html'>mp_bcast_i</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Broadcasts a datum to all processes.</p><a href="../proc/mp_bcast_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -271,16 +186,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~10"></span>
               integer(kind=int_4)
             </td>
 <td></td>
@@ -295,7 +210,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~4"></span>
               integer
             </td>
 <td></td>
@@ -310,7 +225,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~8"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -330,28 +245,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_iv"></span><h3>private  subroutine <a href='../proc/mp_bcast_iv.html'>mp_bcast_iv</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_iv"></span><h3>private  subroutine <a href='../proc/mp_bcast_iv.html'>mp_bcast_iv</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-1 data to all processes
-</p><a href="../proc/mp_bcast_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-1 data to all processes</p><a href="../proc/mp_bcast_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~12"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -366,7 +280,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~84"></span>
               integer
             </td>
 <td></td>
@@ -381,7 +295,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~138"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -401,28 +315,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_im"></span><h3>private  subroutine <a href='../proc/mp_bcast_im.html'>mp_bcast_im</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_im"></span><h3>private  subroutine <a href='../proc/mp_bcast_im.html'>mp_bcast_im</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-2 data to all processes
-</p><a href="../proc/mp_bcast_im.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-2 data to all processes</p><a href="../proc/mp_bcast_im.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~14"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -437,7 +350,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~86"></span>
               integer
             </td>
 <td></td>
@@ -452,7 +365,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~140"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -472,28 +385,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_i3"></span><h3>private  subroutine <a href='../proc/mp_bcast_i3.html'>mp_bcast_i3</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_i3"></span><h3>private  subroutine <a href='../proc/mp_bcast_i3.html'>mp_bcast_i3</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-3 data to all processes
-</p><a href="../proc/mp_bcast_i3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-3 data to all processes</p><a href="../proc/mp_bcast_i3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~15"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -508,7 +420,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~87"></span>
               integer
             </td>
 <td></td>
@@ -523,7 +435,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~141"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -543,10 +455,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_l"></span><h3>private  subroutine <a href='../proc/mp_bcast_l.html'>mp_bcast_l</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_l"></span><h3>private  subroutine <a href='../proc/mp_bcast_l.html'>mp_bcast_l</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Broadcasts a datum to all processes.</p><a href="../proc/mp_bcast_l.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -554,16 +466,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~38"></span>
               integer(kind=int_8)
             </td>
 <td></td>
@@ -578,7 +490,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~10"></span>
               integer
             </td>
 <td></td>
@@ -593,7 +505,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~29"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -613,28 +525,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_lv"></span><h3>private  subroutine <a href='../proc/mp_bcast_lv.html'>mp_bcast_lv</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_lv"></span><h3>private  subroutine <a href='../proc/mp_bcast_lv.html'>mp_bcast_lv</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-1 data to all processes
-</p><a href="../proc/mp_bcast_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-1 data to all processes</p><a href="../proc/mp_bcast_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~40"></span>
               integer(kind=int_8),
             </td>
 <td></td>
@@ -649,7 +560,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~92"></span>
               integer
             </td>
 <td></td>
@@ -664,7 +575,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~162"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -684,28 +595,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_lm"></span><h3>private  subroutine <a href='../proc/mp_bcast_lm.html'>mp_bcast_lm</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_lm"></span><h3>private  subroutine <a href='../proc/mp_bcast_lm.html'>mp_bcast_lm</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-2 data to all processes
-</p><a href="../proc/mp_bcast_lm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-2 data to all processes</p><a href="../proc/mp_bcast_lm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~42"></span>
               integer(kind=int_8),
             </td>
 <td></td>
@@ -720,7 +630,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~94"></span>
               integer
             </td>
 <td></td>
@@ -735,7 +645,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~164"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -755,28 +665,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_l3"></span><h3>private  subroutine <a href='../proc/mp_bcast_l3.html'>mp_bcast_l3</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_l3"></span><h3>private  subroutine <a href='../proc/mp_bcast_l3.html'>mp_bcast_l3</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-3 data to all processes
-</p><a href="../proc/mp_bcast_l3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-3 data to all processes</p><a href="../proc/mp_bcast_l3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~43"></span>
               integer(kind=int_8),
             </td>
 <td></td>
@@ -791,7 +700,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~95"></span>
               integer
             </td>
 <td></td>
@@ -806,7 +715,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~165"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -826,10 +735,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_d"></span><h3>private  subroutine <a href='../proc/mp_bcast_d.html'>mp_bcast_d</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_d"></span><h3>private  subroutine <a href='../proc/mp_bcast_d.html'>mp_bcast_d</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Broadcasts a datum to all processes.</p><a href="../proc/mp_bcast_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -837,16 +746,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~66"></span>
               real(kind=real_8)
             </td>
 <td></td>
@@ -861,7 +770,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~16"></span>
               integer
             </td>
 <td></td>
@@ -876,7 +785,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~50"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -896,28 +805,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_dv"></span><h3>private  subroutine <a href='../proc/mp_bcast_dv.html'>mp_bcast_dv</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_dv"></span><h3>private  subroutine <a href='../proc/mp_bcast_dv.html'>mp_bcast_dv</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-1 data to all processes
-</p><a href="../proc/mp_bcast_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-1 data to all processes</p><a href="../proc/mp_bcast_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~68"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -932,7 +840,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~100"></span>
               integer
             </td>
 <td></td>
@@ -947,7 +855,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~186"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -967,28 +875,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_dm"></span><h3>private  subroutine <a href='../proc/mp_bcast_dm.html'>mp_bcast_dm</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_dm"></span><h3>private  subroutine <a href='../proc/mp_bcast_dm.html'>mp_bcast_dm</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-2 data to all processes
-</p><a href="../proc/mp_bcast_dm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-2 data to all processes</p><a href="../proc/mp_bcast_dm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~70"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -1003,7 +910,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~102"></span>
               integer
             </td>
 <td></td>
@@ -1018,7 +925,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~188"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1038,28 +945,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_d3"></span><h3>private  subroutine <a href='../proc/mp_bcast_d3.html'>mp_bcast_d3</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_d3"></span><h3>private  subroutine <a href='../proc/mp_bcast_d3.html'>mp_bcast_d3</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-3 data to all processes
-</p><a href="../proc/mp_bcast_d3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-3 data to all processes</p><a href="../proc/mp_bcast_d3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~71"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -1074,7 +980,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~103"></span>
               integer
             </td>
 <td></td>
@@ -1089,7 +995,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~189"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1109,10 +1015,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_r"></span><h3>private  subroutine <a href='../proc/mp_bcast_r.html'>mp_bcast_r</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_r"></span><h3>private  subroutine <a href='../proc/mp_bcast_r.html'>mp_bcast_r</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Broadcasts a datum to all processes.</p><a href="../proc/mp_bcast_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -1120,16 +1026,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~94"></span>
               real(kind=real_4)
             </td>
 <td></td>
@@ -1144,7 +1050,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~22"></span>
               integer
             </td>
 <td></td>
@@ -1159,7 +1065,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~71"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1179,28 +1085,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_rv"></span><h3>private  subroutine <a href='../proc/mp_bcast_rv.html'>mp_bcast_rv</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_rv"></span><h3>private  subroutine <a href='../proc/mp_bcast_rv.html'>mp_bcast_rv</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-1 data to all processes
-</p><a href="../proc/mp_bcast_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-1 data to all processes</p><a href="../proc/mp_bcast_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~96"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -1215,7 +1120,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~108"></span>
               integer
             </td>
 <td></td>
@@ -1230,7 +1135,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~210"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1250,28 +1155,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_rm"></span><h3>private  subroutine <a href='../proc/mp_bcast_rm.html'>mp_bcast_rm</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_rm"></span><h3>private  subroutine <a href='../proc/mp_bcast_rm.html'>mp_bcast_rm</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-2 data to all processes
-</p><a href="../proc/mp_bcast_rm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-2 data to all processes</p><a href="../proc/mp_bcast_rm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~98"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -1286,7 +1190,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~110"></span>
               integer
             </td>
 <td></td>
@@ -1301,7 +1205,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~212"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1321,28 +1225,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_r3"></span><h3>private  subroutine <a href='../proc/mp_bcast_r3.html'>mp_bcast_r3</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_r3"></span><h3>private  subroutine <a href='../proc/mp_bcast_r3.html'>mp_bcast_r3</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-3 data to all processes
-</p><a href="../proc/mp_bcast_r3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-3 data to all processes</p><a href="../proc/mp_bcast_r3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~99"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -1357,7 +1260,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~111"></span>
               integer
             </td>
 <td></td>
@@ -1372,7 +1275,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~213"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1392,10 +1295,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_z"></span><h3>private  subroutine <a href='../proc/mp_bcast_z.html'>mp_bcast_z</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_z"></span><h3>private  subroutine <a href='../proc/mp_bcast_z.html'>mp_bcast_z</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Broadcasts a datum to all processes.</p><a href="../proc/mp_bcast_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -1403,16 +1306,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~122"></span>
               complex(kind=real_8)
             </td>
 <td></td>
@@ -1427,7 +1330,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~28"></span>
               integer
             </td>
 <td></td>
@@ -1442,7 +1345,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~92"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1462,28 +1365,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_zv"></span><h3>private  subroutine <a href='../proc/mp_bcast_zv.html'>mp_bcast_zv</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_zv"></span><h3>private  subroutine <a href='../proc/mp_bcast_zv.html'>mp_bcast_zv</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-1 data to all processes
-</p><a href="../proc/mp_bcast_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-1 data to all processes</p><a href="../proc/mp_bcast_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~124"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -1498,7 +1400,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~116"></span>
               integer
             </td>
 <td></td>
@@ -1513,7 +1415,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~234"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1533,28 +1435,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_zm"></span><h3>private  subroutine <a href='../proc/mp_bcast_zm.html'>mp_bcast_zm</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_zm"></span><h3>private  subroutine <a href='../proc/mp_bcast_zm.html'>mp_bcast_zm</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-2 data to all processes
-</p><a href="../proc/mp_bcast_zm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-2 data to all processes</p><a href="../proc/mp_bcast_zm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~126"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -1569,7 +1470,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~118"></span>
               integer
             </td>
 <td></td>
@@ -1584,7 +1485,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~236"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1604,28 +1505,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_z3"></span><h3>private  subroutine <a href='../proc/mp_bcast_z3.html'>mp_bcast_z3</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_z3"></span><h3>private  subroutine <a href='../proc/mp_bcast_z3.html'>mp_bcast_z3</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-3 data to all processes
-</p><a href="../proc/mp_bcast_z3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-3 data to all processes</p><a href="../proc/mp_bcast_z3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~127"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -1640,7 +1540,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~119"></span>
               integer
             </td>
 <td></td>
@@ -1655,7 +1555,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~237"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1675,10 +1575,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_c"></span><h3>private  subroutine <a href='../proc/mp_bcast_c.html'>mp_bcast_c</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_c"></span><h3>private  subroutine <a href='../proc/mp_bcast_c.html'>mp_bcast_c</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Broadcasts a datum to all processes.</p><a href="../proc/mp_bcast_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -1686,16 +1586,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~150"></span>
               complex(kind=real_4)
             </td>
 <td></td>
@@ -1710,7 +1610,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~34"></span>
               integer
             </td>
 <td></td>
@@ -1725,7 +1625,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~113"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1745,28 +1645,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_cv"></span><h3>private  subroutine <a href='../proc/mp_bcast_cv.html'>mp_bcast_cv</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_cv"></span><h3>private  subroutine <a href='../proc/mp_bcast_cv.html'>mp_bcast_cv</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-1 data to all processes
-</p><a href="../proc/mp_bcast_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-1 data to all processes</p><a href="../proc/mp_bcast_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~152"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -1781,7 +1680,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~124"></span>
               integer
             </td>
 <td></td>
@@ -1796,7 +1695,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~258"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1816,28 +1715,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_cm"></span><h3>private  subroutine <a href='../proc/mp_bcast_cm.html'>mp_bcast_cm</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_cm"></span><h3>private  subroutine <a href='../proc/mp_bcast_cm.html'>mp_bcast_cm</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-2 data to all processes
-</p><a href="../proc/mp_bcast_cm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-2 data to all processes</p><a href="../proc/mp_bcast_cm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~154"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -1852,7 +1750,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~126"></span>
               integer
             </td>
 <td></td>
@@ -1867,7 +1765,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~260"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1887,28 +1785,27 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_c3"></span><h3>private  subroutine <a href='../proc/mp_bcast_c3.html'>mp_bcast_c3</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_c3"></span><h3>private  subroutine <a href='../proc/mp_bcast_c3.html'>mp_bcast_c3</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Broadcasts rank-3 data to all processes
-</p><a href="../proc/mp_bcast_c3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Broadcasts rank-3 data to all processes</p><a href="../proc/mp_bcast_c3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~155"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -1923,7 +1820,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~127"></span>
               integer
             </td>
 <td></td>
@@ -1938,7 +1835,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~261"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1958,10 +1855,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_b"></span><h3>private  subroutine <a href='../proc/mp_bcast_b.html'>mp_bcast_b</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_b"></span><h3>private  subroutine <a href='../proc/mp_bcast_b.html'>mp_bcast_b</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -1969,16 +1866,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~174"></span>
               logical
             </td>
 <td></td>
@@ -1993,7 +1890,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~78"></span>
               integer
             </td>
 <td></td>
@@ -2008,7 +1905,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~132"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2028,10 +1925,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_bv"></span><h3>private  subroutine <a href='../proc/mp_bcast_bv.html'>mp_bcast_bv</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_bv"></span><h3>private  subroutine <a href='../proc/mp_bcast_bv.html'>mp_bcast_bv</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -2039,16 +1936,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~175"></span>
               logical,
             </td>
 <td></td>
@@ -2063,7 +1960,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~79"></span>
               integer
             </td>
 <td></td>
@@ -2078,7 +1975,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~133"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2098,10 +1995,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_av"></span><h3>private  subroutine <a href='../proc/mp_bcast_av.html'>mp_bcast_av</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_av"></span><h3>private  subroutine <a href='../proc/mp_bcast_av.html'>mp_bcast_av</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -2109,16 +2006,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~176"></span>
               character(len=*)
             </td>
 <td></td>
@@ -2133,7 +2030,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~80"></span>
               integer
             </td>
 <td></td>
@@ -2148,7 +2045,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~134"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2168,10 +2065,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mp_bcast_am"></span><h3>private  subroutine <a href='../proc/mp_bcast_am.html'>mp_bcast_am</a>(msg, source, gid)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_bcast_am"></span><h3>private  subroutine <a href='../proc/mp_bcast_am.html'>mp_bcast_am</a>(msg, source, gid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -2179,16 +2076,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-msg~177"></span>
               character(len=*)
             </td>
 <td></td>
@@ -2203,7 +2100,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source~81"></span>
               integer
             </td>
 <td></td>
@@ -2218,7 +2115,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-gid~135"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2244,12 +2141,12 @@
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -2259,17 +2156,12 @@
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

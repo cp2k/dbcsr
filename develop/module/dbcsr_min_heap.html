@@ -10,77 +10,53 @@
 
     <title>dbcsr_min_heap &ndash; DBCSR</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Guide</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-                  <li><a href="../lists/programs.html">Programs</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/programs.html">Programs</a>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,50 +64,53 @@
       <small>Module</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 0.3% of total for modules and submodules.">203 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.3% of total for modules and submodules.">203 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/dbcsr_min_heap.F"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/dbcsr_min_heap.f.html'>dbcsr_min_heap.F</a></li>
-          <li class="active">dbcsr_min_heap</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_min_heap.f.html'>dbcsr_min_heap.F</a></li>
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_min_heap</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-0">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#variable-keyt~2">keyt</a>
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#variable-valt~2">valt</a>
         </div>
@@ -146,14 +125,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#types-0">Derived Types</a>
-        </h3>
-      </div>
-      <div id="types-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#type-dbcsr_heap_node">dbcsr_heap_node</a>
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#type-dbcsr_heap_node_e">dbcsr_heap_node_e</a>
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#type-dbcsr_heap_type">dbcsr_heap_type</a>
@@ -161,14 +139,13 @@
       </div>
     </div>
 
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#funcs-0">Functions</a>
-        </h3>
-      </div>
-      <div id="funcs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-get_parent">get_parent</a>
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-get_left_child">get_left_child</a>
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-get_value">get_value</a>
@@ -176,14 +153,13 @@
       </div>
     </div>
 
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-0">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_new">dbcsr_heap_new</a>
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_release">dbcsr_heap_release</a>
             <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_fill">dbcsr_heap_fill</a>
@@ -199,6 +175,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -213,111 +190,22 @@
 
     <div class="col-md-9" id='text'>
       
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-1">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#variable-keyt~2">keyt</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#variable-valt~2">valt</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#types-1">Derived Types</a>
-        </h3>
-      </div>
-      <div id="types-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#type-dbcsr_heap_node">dbcsr_heap_node</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#type-dbcsr_heap_node_e">dbcsr_heap_node_e</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#type-dbcsr_heap_type">dbcsr_heap_type</a>
-        </div>
-      </div>
-    </div>
-
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#funcs-1">Functions</a>
-        </h3>
-      </div>
-      <div id="funcs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-get_parent">get_parent</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-get_left_child">get_left_child</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-get_value">get_value</a>
-        </div>
-      </div>
-    </div>
-
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-1">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_new">dbcsr_heap_new</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_release">dbcsr_heap_release</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_fill">dbcsr_heap_fill</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_get_first">dbcsr_heap_get_first</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_pop">dbcsr_heap_pop</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_reset_node">dbcsr_heap_reset_node</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_reset_first">dbcsr_heap_reset_first</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_swap">dbcsr_heap_swap</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-dbcsr_heap_copy_node">dbcsr_heap_copy_node</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-bubble_down">bubble_down</a>
-            <a class="list-group-item" href="../module/dbcsr_min_heap.html#proc-bubble_up">bubble_up</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
         <section>
@@ -325,11 +213,11 @@
             <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
@@ -377,8 +265,8 @@ parameter
 
         <section>
           <h2>Derived Types</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-dbcsr_heap_node"></span>
       <h3>
         type, private&nbsp;::&nbsp;
@@ -386,18 +274,18 @@ parameter
         
       </h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
@@ -419,7 +307,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~6"></span>
+              <span class="anchor" id="variable-value~8"></span>
               integer(kind=valt),
             </td>
               <td>public</td>
@@ -443,8 +331,8 @@ parameter
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-dbcsr_heap_node_e"></span>
       <h3>
         type, private&nbsp;::&nbsp;
@@ -452,18 +340,18 @@ parameter
         
       </h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
@@ -492,8 +380,8 @@ parameter
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-dbcsr_heap_type"></span>
       <h3>
         type, public&nbsp;::&nbsp;
@@ -501,23 +389,23 @@ parameter
         
       </h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~40"></span>
+              <span class="anchor" id="variable-n~41"></span>
               integer,
             </td>
               <td>public</td>
@@ -534,7 +422,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~8"></span>
+              <span class="anchor" id="variable-index~10"></span>
               integer,
             </td>
               <td>public,</td>
@@ -580,10 +468,10 @@ parameter
 
         <section>
           <h2>Functions</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-get_parent"></span><h3>private elemental function <a href='../proc/get_parent.html'>get_parent</a>(n) result(parent)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_parent"></span><h3>private elemental function <a href='../proc/get_parent.html'>get_parent</a>(n) result(parent)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -591,16 +479,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-n~48"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -625,10 +513,10 @@ parameter
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-get_left_child"></span><h3>private elemental function <a href='../proc/get_left_child.html'>get_left_child</a>(n) result(child)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_left_child"></span><h3>private elemental function <a href='../proc/get_left_child.html'>get_left_child</a>(n) result(child)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -636,16 +524,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-n~49"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -670,10 +558,10 @@ parameter
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-get_value"></span><h3>private elemental function <a href='../proc/get_value.html'>get_value</a>(heap, n) result(value)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_value"></span><h3>private elemental function <a href='../proc/get_value.html'>get_value</a>(heap, n) result(value)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -681,16 +569,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(in)</td>
@@ -705,7 +593,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-n~50"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -735,10 +623,10 @@ parameter
 
         <section>
           <h2>Subroutines</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_new"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_new.html'>dbcsr_heap_new</a>(heap, n)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_new"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_new.html'>dbcsr_heap_new</a>(heap, n)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -746,16 +634,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~2"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(out)</td>
@@ -770,7 +658,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-n~51"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -790,10 +678,10 @@ parameter
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_release"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_release.html'>dbcsr_heap_release</a>(heap)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_release"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_release.html'>dbcsr_heap_release</a>(heap)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -801,16 +689,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~3"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -830,10 +718,10 @@ parameter
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_fill"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_fill.html'>dbcsr_heap_fill</a>(heap, values)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_fill"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_fill.html'>dbcsr_heap_fill</a>(heap, values)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Fill heap with given values</p>
 
@@ -841,16 +729,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~4"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -865,7 +753,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-values~13"></span>
               integer(kind=valt),
             </td>
 <td>intent(in),</td>
@@ -885,10 +773,10 @@ parameter
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_get_first"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_get_first.html'>dbcsr_heap_get_first</a>(heap, key, value, found)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_get_first"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_get_first.html'>dbcsr_heap_get_first</a>(heap, key, value, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Returns the first heap element without removing it.</p>
 
@@ -896,16 +784,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~5"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -920,7 +808,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-key~58"></span>
               integer(kind=keyt),
             </td>
 <td>intent(out)</td>
@@ -935,7 +823,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-value~65"></span>
               integer(kind=valt),
             </td>
 <td>intent(out)</td>
@@ -950,7 +838,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~64"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -970,10 +858,10 @@ parameter
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_pop"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_pop.html'>dbcsr_heap_pop</a>(heap, key, value, found)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_pop"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_pop.html'>dbcsr_heap_pop</a>(heap, key, value, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Returns and removes the first heap element and rebalances
 the heap.</p>
@@ -982,16 +870,16 @@ the heap.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~6"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1006,7 +894,7 @@ the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-key~59"></span>
               integer(kind=keyt),
             </td>
 <td>intent(out)</td>
@@ -1021,7 +909,7 @@ the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-value~66"></span>
               integer(kind=valt),
             </td>
 <td>intent(out)</td>
@@ -1036,7 +924,7 @@ the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~65"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1056,10 +944,10 @@ the heap.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_reset_node"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_reset_node.html'>dbcsr_heap_reset_node</a>(heap, key, value)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_reset_node"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_reset_node.html'>dbcsr_heap_reset_node</a>(heap, key, value)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Changes the value of the heap element with given key and
 rebalances the heap.</p>
@@ -1068,16 +956,16 @@ rebalances the heap.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~7"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1092,7 +980,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-key~60"></span>
               integer(kind=keyt),
             </td>
 <td>intent(in)</td>
@@ -1107,7 +995,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-value~67"></span>
               integer(kind=valt),
             </td>
 <td>intent(in)</td>
@@ -1127,10 +1015,10 @@ rebalances the heap.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_reset_first"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_reset_first.html'>dbcsr_heap_reset_first</a>(heap, value)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_reset_first"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_reset_first.html'>dbcsr_heap_reset_first</a>(heap, value)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Changes the value of the minimum heap element and rebalances the heap.</p>
 
@@ -1138,16 +1026,16 @@ rebalances the heap.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~8"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1162,7 +1050,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-value~68"></span>
               integer(kind=valt),
             </td>
 <td>intent(in)</td>
@@ -1182,10 +1070,10 @@ rebalances the heap.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_swap"></span><h3>private pure subroutine <a href='../proc/dbcsr_heap_swap.html'>dbcsr_heap_swap</a>(heap, e1, e2)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_swap"></span><h3>private pure subroutine <a href='../proc/dbcsr_heap_swap.html'>dbcsr_heap_swap</a>(heap, e1, e2)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -1193,16 +1081,16 @@ rebalances the heap.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~9"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1217,7 +1105,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-e1"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1232,7 +1120,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-e2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1252,10 +1140,10 @@ rebalances the heap.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_copy_node"></span><h3>private pure subroutine <a href='../proc/dbcsr_heap_copy_node.html'>dbcsr_heap_copy_node</a>(heap, e1, e2)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_copy_node"></span><h3>private pure subroutine <a href='../proc/dbcsr_heap_copy_node.html'>dbcsr_heap_copy_node</a>(heap, e1, e2)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Sets node e1 to e2</p>
 
@@ -1263,16 +1151,16 @@ rebalances the heap.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~10"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1287,7 +1175,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-e1~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1302,7 +1190,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-e2~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1322,10 +1210,10 @@ rebalances the heap.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-bubble_down"></span><h3>private  subroutine <a href='../proc/bubble_down.html'>bubble_down</a>(heap, first)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-bubble_down"></span><h3>private  subroutine <a href='../proc/bubble_down.html'>bubble_down</a>(heap, first)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Balances a heap by bubbling down from the given element.</p>
 
@@ -1333,16 +1221,16 @@ rebalances the heap.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~11"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1357,7 +1245,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-first~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1377,10 +1265,10 @@ rebalances the heap.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-bubble_up"></span><h3>private  subroutine <a href='../proc/bubble_up.html'>bubble_up</a>(heap, first, new_pos)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-bubble_up"></span><h3>private  subroutine <a href='../proc/bubble_up.html'>bubble_up</a>(heap, first, new_pos)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Balances a heap by bubbling up from the given element.</p>
 
@@ -1388,16 +1276,16 @@ rebalances the heap.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-heap~12"></span>
               type(<a href='../type/dbcsr_heap_type.html'>dbcsr_heap_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1412,7 +1300,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-first~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1427,7 +1315,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-new_pos"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1459,12 +1347,12 @@ rebalances the heap.</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -1474,17 +1362,12 @@ rebalances the heap.</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

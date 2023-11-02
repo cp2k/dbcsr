@@ -10,101 +10,149 @@
 
     <title>CMake Build Recipes &ndash; DBCSR</title>
 
-    <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../../../css/pygments.css" rel="stylesheet">
     <link href="../../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../../css/local.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../../../js/jquery-2.1.3.min.js"></script>
-         <script src="../../../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.6.0</small></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../../../page/index.html'>Guide</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../../../lists/files.html">Source Files</a></li>
-                  <li><a href="../../../lists/modules.html">Modules</a></li>
-                  <li><a href="../../../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../../../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../../../lists/types.html">Derived Types</a></li>
-                  <li><a href="../../../lists/programs.html">Programs</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../../../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../../../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../../../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../../../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../../../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../../../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../../../lists/types.html">Derived Types</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../../../lists/programs.html">Programs</a>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>CMake Build Recipes</h1>
-    <div class="row">
-    <div class="col-lg-12">
-    <div class="well well-sm" style="min-height: 40px;">
-      <ul class="list-inline" style="margin-bottom:0px; display:inline">
-<!--
--->
-      </ul>
-        <ol class="breadcrumb in-well">
-         <li><a href='../../../page/index.html'>Guide</a></li>
-         <li><a href='../../../page/2-user-guide/index.html'>User Guide</a></li>
-         <li><a href='../../../page/2-user-guide/1-installation/index.html'>Install</a></li>
-         <li class="active">CMake Build Recipes</li>
-      </ol>
-    </div>
-    </div>
+    <div class="container p-2 mb-4 bg-light border rounded-3">
+      <div class="row align-items-center justify-content-between">
+        <div class="col">
+          <ul class="list-inline" style="margin-bottom:0px; display:inline">
+          </ul>
+        </div>
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../../../page/index.html'>Guide</a></li>
+                <li class="breadcrumb-item"><a href='../../../page/2-user-guide/index.html'>User Guide</a></li>
+                <li class="breadcrumb-item"><a href='../../../page/2-user-guide/1-installation/index.html'>Install</a></li>
+              <li class="breadcrumb-item active" aria-current="page">CMake Build Recipes</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
     </div>
   </div>
-  
+
   <div class="row">
-    <div class="col-md-9 col-md-push-3" id='text'>
+      <div class="col-3">
+        <div class="card card-body bg-light" id="sidebar-toc">
+          <ul class="nav flex-column align-items">
+            <li class="nav-item">
+              <a class="nav-link" href="../../../page/index.html">Guide</a>
+            </li>
+          </ul>
+          <hr>
+          <nav class="nav nav-pills flex-column">
+              <a class="nav-link" href="../../../page/1-DBCSR/index.html">DBCSR</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../page/1-DBCSR/publications.html">Publications</a>
+
+                </nav>
+              <a class="nav-link" href="../../../page/2-user-guide/index.html">User Guide</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../page/2-user-guide/1-installation/index.html">Install</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link active disabled" href="../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html">CMake Build Recipes</a>
+              <a class="nav-link" href="../../../page/2-user-guide/1-installation/2-supported-compilers.html">Supported Compilers</a>
+              <a class="nav-link" href="../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html">Using DBCSR in a CMake project</a>
+              <a class="nav-link" href="../../../page/2-user-guide/1-installation/4-docker.html">Docker Images</a>
+
+                </nav>
+              <a class="nav-link" href="../../../page/2-user-guide/2-tests/index.html">Tests</a>
+              <a class="nav-link" href="../../../page/2-user-guide/3-examples/index.html">Examples</a>
+              <a class="nav-link" href="../../../page/2-user-guide/4-gpu/index.html">GPUs</a>
+
+                </nav>
+              <a class="nav-link" href="../../../page/3-developer-guide/index.html">Developer Guide</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../page/3-developer-guide/1-tooling/index.html">Tooling</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/2-documentation/index.html">Documentation</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/3-programming/index.html">Programming</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../page/3-developer-guide/3-programming/1-overview/index.html">Overview</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/index.html">Accelerator Backend</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/1-code-structure.html">Code Structure</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html">CUDA/HIP</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/1-kernels.html">Kernels</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html">Kernel Parameters</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html">Autotuning Framework</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/4-predict.html">Predictive Modeling Framework</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/5-notebooks.html">Notebooks</a>
+
+                </nav>
+              <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/index.html">OpenCL</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html">Autotune</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/2-bulktune.html">Parameters</a>
+
+                </nav>
+
+                </nav>
+
+                </nav>
+              <a class="nav-link" href="../../../page/3-developer-guide/4-performance/index.html">Performance</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../page/3-developer-guide/4-performance/1-insights.html">Insights</a>
+              <a class="nav-link" href="../../../page/3-developer-guide/4-performance/2-just-in-time-compilation.html">JIT</a>
+
+                </nav>
+
+                </nav>
+          </nav>
+        </div>
+      </div>
+
+    <div class="col-9" id='text'>
       <h1>DBCSR CMake Build Recipes</h1>
 <p>Following are recipes for different combinations of compilers, platforms and libraries.
 Unless otherwise noted, the examples assume that after fetching/unpacking DBCSR you created
@@ -117,7 +165,7 @@ the <code>.ci/</code> folder or in the <code>.github/workflows/</code>.</p>
 <h3>GNU compiler, system MPI and system-provided OpenBLAS</h3>
 <p>Most Linux systems provide the GNU compiler, a system MPI (OpenMPI or MPICH) using the
 GNU compiler as a backend and OpenBLAS for BLAS/LAPACK:</p>
-<div class="codehilite"><pre><span></span><code>    cmake ..
+<div class="codehilite"><pre><span></span><code><span class="w">    </span>cmake<span class="w"> </span>..
 </code></pre></div>
 
 <h3>GNU compiler, system MPI and Intel MKL</h3>
@@ -128,13 +176,13 @@ with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.12.0.</
 <ol>
 <li>Make sure the MKL environment is properly loaded:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/mkl/bin/mklvars.sh intel64
+<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="nb">source</span><span class="w"> </span>/sw/intel/mkl/bin/mklvars.sh<span class="w"> </span>intel64
 </code></pre></div>
 
 <ol>
 <li>Make sure CMake picks the Intel MKL over any system-provided BLAS library:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       cmake -DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq ..
+<div class="codehilite"><pre><span></span><code><span class="w">       </span>cmake<span class="w"> </span>-DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq<span class="w"> </span>..
 </code></pre></div>
 
 <h2>Intel</h2>
@@ -149,14 +197,14 @@ with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.12.0.</
 <ol>
 <li>Make sure that the Intel environment is properly loaded:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/bin/compilervars.sh intel64
+<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="nb">source</span><span class="w"> </span>/sw/intel/bin/compilervars.sh<span class="w"> </span>intel64
 </code></pre></div>
 
 <ol>
 <li>Use the Intel-provided MPI compiler wrappers for the GNU toolchain,
    to override CMake's auto-detection which may pick up the system MPI:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">FC</span><span class="o">=</span>mpifc <span class="nv">CXX</span><span class="o">=</span>mpicxx cmake ..
+<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="nv">CC</span><span class="o">=</span>mpicc<span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpifc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>mpicxx<span class="w"> </span>cmake<span class="w"> </span>..
 </code></pre></div>
 
 <h3>Intel MPI, GNU Compiler and Intel MKL</h3>
@@ -165,13 +213,13 @@ with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.12.0.</
 <ol>
 <li>Make sure that the Intel environment is properly loaded:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/bin/compilervars.sh intel64
+<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="nb">source</span><span class="w"> </span>/sw/intel/bin/compilervars.sh<span class="w"> </span>intel64
 </code></pre></div>
 
 <ol>
 <li>Use the Intel-provided MPI compiler wrappers for the GNU toolchain:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">FC</span><span class="o">=</span>mpifc <span class="nv">CXX</span><span class="o">=</span>mpicxx cmake -DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq ..
+<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="nv">CC</span><span class="o">=</span>mpicc<span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpifc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>mpicxx<span class="w"> </span>cmake<span class="w"> </span>-DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq<span class="w"> </span>..
 </code></pre></div>
 
 <h3>Intel MPI, Intel Compiler and Intel MKL</h3>
@@ -180,20 +228,20 @@ on Linux openSUSE Leap 15.1, using CMake 3.12.0.</p>
 <ol>
 <li>Make sure that the Intel environment is properly loaded:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/bin/compilervars.sh intel64
+<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="nb">source</span><span class="w"> </span>/sw/intel/bin/compilervars.sh<span class="w"> </span>intel64
 </code></pre></div>
 
 <ol>
 <li>Use the Intel-provided MPI compiler wrappers:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       <span class="nv">CC</span><span class="o">=</span>mpiicc <span class="nv">FC</span><span class="o">=</span>mpiifort <span class="nv">CXX</span><span class="o">=</span>mpiicxx cmake -DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq ..
+<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="nv">CC</span><span class="o">=</span>mpiicc<span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpiifort<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>mpiicxx<span class="w"> </span>cmake<span class="w"> </span>-DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq<span class="w"> </span>..
 </code></pre></div>
 
 <h2>MacOS</h2>
 <p>Follow what is described in the previous sections.
 For GNU, if you have installed Command Line Tools by Apple and GCC with Homebrew that can lead to a
 conflict in which compiler CMake will use. Therefore, we suggest specifying GCC, for example</p>
-<div class="codehilite"><pre><span></span><code>    <span class="nv">CC</span><span class="o">=</span>gcc-9 <span class="nv">CXX</span><span class="o">=</span>g++-9 cmake ..
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="nv">CC</span><span class="o">=</span>gcc-9<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>g++-9<span class="w"> </span>cmake<span class="w"> </span>..
 </code></pre></div>
 
 <p>where <code>-9</code> can be adapted to your version.</p>
@@ -201,14 +249,14 @@ conflict in which compiler CMake will use. Therefore, we suggest specifying GCC,
 <p>Please note that you need at least PGI &gt;= 19.11.</p>
 <p>Assuming that your <code>$PATH</code> is set correctly such that <code>pgcc</code>, <code>pgc++</code> and <code>pgfortran</code> can be found,
 run the following to get a DBCSR version without MPI:</p>
-<div class="codehilite"><pre><span></span><code>    <span class="nv">CC</span><span class="o">=</span>pgcc <span class="nv">CXX</span><span class="o">=</span>pgc++ <span class="nv">FC</span><span class="o">=</span>pgfortran cmake -DUSE_MPI<span class="o">=</span>OFF ..
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="nv">CC</span><span class="o">=</span>pgcc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>pgc++<span class="w"> </span><span class="nv">FC</span><span class="o">=</span>pgfortran<span class="w"> </span>cmake<span class="w"> </span>-DUSE_MPI<span class="o">=</span>OFF<span class="w"> </span>..
 </code></pre></div>
 
 <p>the <code>-DUSE_MPI=OFF</code> is needed here to avoid that CMake picks up any MPI installation, for example from Homebrew.</p>
 <p>To build with MPI you need an MPI implementation built for/with the PGI compiler, for example the MPICH
 usually bundled with the PGI installation.</p>
 <p>Make sure that <code>$PATH</code> is correctly set to include <code>mpicc</code> and <code>mpifort</code> from the PGI MPICH installation, then run:</p>
-<div class="codehilite"><pre><span></span><code>    <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">CXX</span><span class="o">=</span>mpicxx <span class="nv">FC</span><span class="o">=</span>mpifort <span class="nv">MPICH_CC</span><span class="o">=</span>pgcc cmake ..
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="nv">CC</span><span class="o">=</span>mpicc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>mpicxx<span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpifort<span class="w"> </span><span class="nv">MPICH_CC</span><span class="o">=</span>pgcc<span class="w"> </span>cmake<span class="w"> </span>..
 </code></pre></div>
 
 <h2>Cray</h2>
@@ -216,8 +264,8 @@ usually bundled with the PGI installation.</p>
 the modules specified below or to be able to properly build with the loaded modules.</p>
 <p>Please contact your cluster/datacenter administrator for more information.</p>
 <p>Example for the CSCS' Piz Daint:</p>
-<div class="codehilite"><pre><span></span><code>    module load daint-mc  <span class="c1"># to build for the non-GPU partition</span>
-    module load daint-gpu  <span class="c1"># to build for the GPU partition</span>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span>module<span class="w"> </span>load<span class="w"> </span>daint-mc<span class="w">  </span><span class="c1"># to build for the non-GPU partition</span>
+<span class="w">    </span>module<span class="w"> </span>load<span class="w"> </span>daint-gpu<span class="w">  </span><span class="c1"># to build for the GPU partition</span>
 </code></pre></div>
 
 <p><em>Note</em>: the <code>libsci-cray</code> has different variants for MPI or OpenMP.
@@ -229,18 +277,18 @@ using CMake 3.18.4.</p>
 <ol>
 <li>Make sure that the <code>PrgEnv-cray</code> module is loaded:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       module load PrgEnv-cray
+<div class="codehilite"><pre><span></span><code><span class="w">       </span>module<span class="w"> </span>load<span class="w"> </span>PrgEnv-cray
 </code></pre></div>
 
 <ol>
 <li>While the MPI wrapper/compiler will be detected automatically,
    must the BLAS/LAPACK libraries be specified manually:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
-         -DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment <span class="se">\</span>
-         -DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_cray_mpi_mp -lhugetlbfs&quot;</span> <span class="se">\</span>
-         -DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_cray_mpi_mp&quot;</span> <span class="se">\</span>
-         ..
+<div class="codehilite"><pre><span></span><code><span class="w">       </span>cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_cray_mpi_mp -lhugetlbfs&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_cray_mpi_mp&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>..
 </code></pre></div>
 
 <h3>Intel Compiler and libsci-cray</h3>
@@ -249,18 +297,18 @@ using CMake 3.18.4.</p>
 <ol>
 <li>Make sure that the <code>PrgEnv-intel</code> module is loaded:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       module load PrgEnv-intel
+<div class="codehilite"><pre><span></span><code><span class="w">       </span>module<span class="w"> </span>load<span class="w"> </span>PrgEnv-intel
 </code></pre></div>
 
 <ol>
 <li>While the MPI wrapper/compiler will be detected automatically,
    must the BLAS/LAPACK libraries be specified manually:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
-         -DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment <span class="se">\</span>
-         -DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_intel_mpi_mp -lhugetlbfs&quot;</span> <span class="se">\</span>
-         -DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_intel_mpi_mp&quot;</span> <span class="se">\</span>
-         ..
+<div class="codehilite"><pre><span></span><code><span class="w">       </span>cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_intel_mpi_mp -lhugetlbfs&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_intel_mpi_mp&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>..
 </code></pre></div>
 
 <h3>GNU Compiler and libsci-cray</h3>
@@ -269,18 +317,18 @@ using CMake 3.18.4.</p>
 <ol>
 <li>Make sure that the <code>PrgEnv-gnu</code> module is loaded:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       module load PrgEnv-gnu
+<div class="codehilite"><pre><span></span><code><span class="w">       </span>module<span class="w"> </span>load<span class="w"> </span>PrgEnv-gnu
 </code></pre></div>
 
 <ol>
 <li>While the MPI wrapper/compiler will be detected automatically,
    must the BLAS/LAPACK libraries be specified manually:</li>
 </ol>
-<div class="codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
-         -DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment <span class="se">\</span>
-         -DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_gnu_mpi_mp -lhugetlbfs&quot;</span> <span class="se">\</span>
-         -DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_gnu_mpi_mp&quot;</span> <span class="se">\</span>
-         ..
+<div class="codehilite"><pre><span></span><code><span class="w">       </span>cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_gnu_mpi_mp -lhugetlbfs&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_gnu_mpi_mp&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>..
 </code></pre></div>
 
 <h2>Any compiler</h2>
@@ -290,153 +338,25 @@ required to build the code with a specific compiler, while additional optimizati
 CMake build type.</p>
 <p>This allows the user to override optimization flags by setting a custom build type and providing optimization flags
 for that build type as follows:</p>
-<div class="codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
-         -DCMAKE_BUILD_TYPE<span class="o">=</span>custom <span class="se">\</span>
-         -DCMAKE_C_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span> <span class="se">\</span>
-         -DCMAKE_CXX_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span> <span class="se">\</span>
-         -DCMAKE_Fortran_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span> <span class="se">\</span>
-         ..
+<div class="codehilite"><pre><span></span><code><span class="w">       </span>cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>custom<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_C_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_CXX_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_Fortran_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>..
 </code></pre></div>
-    </div>
-    <div class="col-md-3 col-md-pull-9">
-      <hr class="visible-xs visible-sm">
-        <div class="well toc">
-          <ul class="nav nav-stacked nav-pills">
-            <li role="presentation" class="title"><a href='../../../page/index.html'>Guide</a></li>
-          </ul>
-          <hr>
-          <ul class="nav nav-stacked nav-pills">
-            <li role="presentation">
-            <a href='../../../page/1-DBCSR/index.html'>DBCSR</a>
-            <ul class="nav nav-stacked nav-pills">
-                          <li role="presentation">
-            <a href='../../../page/1-DBCSR/publications.html'>Publications</a>
-            </li>
-
-            </ul>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/2-user-guide/index.html'>User Guide</a>
-            <ul class="nav nav-stacked nav-pills">
-                          <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/index.html'>Install</a>
-            <ul class="nav nav-stacked nav-pills">
-                          <li role="presentation" class="disabled">
-            <a href='../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html'>CMake Build Recipes</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/2-supported-compilers.html'>Supported Compilers</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/4-docker.html'>Docker Images</a>
-            </li>
-
-            </ul>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/2-user-guide/2-tests/index.html'>Tests</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/2-user-guide/3-examples/index.html'>Examples</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/2-user-guide/4-gpu/index.html'>GPUs</a>
-            </li>
-
-            </ul>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/index.html'>Developer Guide</a>
-            <ul class="nav nav-stacked nav-pills">
-                          <li role="presentation">
-            <a href='../../../page/3-developer-guide/1-tooling/index.html'>Tooling</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/2-documentation/index.html'>Documentation</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/index.html'>Programming</a>
-            <ul class="nav nav-stacked nav-pills">
-                          <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/1-overview/index.html'>Overview</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/index.html'>Accelerator Backend</a>
-            <ul class="nav nav-stacked nav-pills">
-                          <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/1-code-structure.html'>Code Structure</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>CUDA/HIP</a>
-            <ul class="nav nav-stacked nav-pills">
-                          <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/1-kernels.html'>Kernels</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/4-predict.html'>Predictive Modeling Framework</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/5-notebooks.html'>Notebooks</a>
-            </li>
-
-            </ul>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/index.html'>OpenCL</a>
-            <ul class="nav nav-stacked nav-pills">
-                          <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html'>Autotune</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/2-bulktune.html'>Parameters</a>
-            </li>
-
-            </ul>
-            </li>
-
-            </ul>
-            </li>
-
-            </ul>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/4-performance/index.html'>Performance</a>
-            <ul class="nav nav-stacked nav-pills">
-                          <li role="presentation">
-            <a href='../../../page/3-developer-guide/4-performance/1-insights.html'>Insights</a>
-            </li>
-            <li role="presentation">
-            <a href='../../../page/3-developer-guide/4-performance/2-just-in-time-compilation.html'>JIT</a>
-            </li>
-
-            </ul>
-            </li>
-
-            </ul>
-            </li>
-          </ul>
-        </div>
     </div>
   </div>
       <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -446,17 +366,12 @@ for that build type as follows:</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../../../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../../../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

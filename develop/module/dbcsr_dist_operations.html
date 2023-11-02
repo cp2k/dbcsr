@@ -10,77 +10,53 @@
 
     <title>dbcsr_dist_operations &ndash; DBCSR</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Guide</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-                  <li><a href="../lists/programs.html">Programs</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/programs.html">Programs</a>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,53 +64,56 @@
       <small>Module</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 0.6% of total for modules and submodules.">401 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.6% of total for modules and submodules.">401 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/dbcsr_dist_operations.F"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
-          <li class="active">dbcsr_dist_operations</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_dist_operations</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-0">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-0" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-modulen~74">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-careful_mod~22">careful_mod</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-debug_mod~12">debug_mod</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-modulen~54">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-careful_mod~15">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-debug_mod~9">debug_mod</a>
         </div>
       </div>
     </div>
@@ -148,14 +127,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#funcs-0">Functions</a>
-        </h3>
-      </div>
-      <div id="funcs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-checker_tr">checker_tr</a>
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-checker_square_proc">checker_square_proc</a>
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-mostly_non_transposed">mostly_non_transposed</a>
@@ -163,14 +141,13 @@
       </div>
     </div>
 
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-0">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_stored_coordinates">dbcsr_get_stored_coordinates</a>
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-get_stored_canonical">get_stored_canonical</a>
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_block_index">dbcsr_get_block_index</a>
@@ -188,6 +165,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -202,106 +180,28 @@
 
     <div class="col-md-9" id='text'>
       <p>DBCSR operations on distributions</p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_min_heap.html'>dbcsr_min_heap</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-                <li><a href='../module/dbcsr_min_heap.html'>dbcsr_min_heap</a></li>
-                <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-                <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-1">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-modulen~74">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-careful_mod~22">careful_mod</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-debug_mod~12">debug_mod</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#funcs-1">Functions</a>
-        </h3>
-      </div>
-      <div id="funcs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-checker_tr">checker_tr</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-checker_square_proc">checker_square_proc</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-mostly_non_transposed">mostly_non_transposed</a>
-        </div>
-      </div>
-    </div>
-
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-1">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_stored_coordinates">dbcsr_get_stored_coordinates</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-get_stored_canonical">get_stored_canonical</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_block_index">dbcsr_get_block_index</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_stored_block_info">dbcsr_get_stored_block_info</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_transpose_distribution">dbcsr_transpose_distribution</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_transpose_dims">dbcsr_transpose_dims</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-rebin_distribution">rebin_distribution</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_reblocking_targets">dbcsr_reblocking_targets</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_find_column">dbcsr_find_column</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-find_all_local_elements">find_all_local_elements</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_local_rows">dbcsr_get_local_rows</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_local_cols">dbcsr_get_local_cols</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_dist_bin">dbcsr_dist_bin</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
         <section>
@@ -309,16 +209,16 @@
             <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~74"></span>
+              <span class="anchor" id="variable-modulen~54"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -328,14 +228,14 @@ parameter
             <td>::</td>
             <td><strong>moduleN</strong></td>
 <td> =</td>
-                <td>'dbcsr_dist_operations'</td>
+                <td>&#39;dbcsr_dist_operations&#39;</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~22"></span>
+              <span class="anchor" id="variable-careful_mod~15"></span>
               logical,
             </td>
               <td>private,</td>
@@ -352,7 +252,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-debug_mod~12"></span>
+              <span class="anchor" id="variable-debug_mod~9"></span>
               logical,
             </td>
               <td>private,</td>
@@ -379,10 +279,10 @@ parameter
 
         <section>
           <h2>Functions</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-checker_tr"></span><h3>public elemental function <a href='../proc/checker_tr.html'>checker_tr</a>(row, column) result(transpose)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-checker_tr"></span><h3>public elemental function <a href='../proc/checker_tr.html'>checker_tr</a>(row, column) result(transpose)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Determines whether a transpose must be applied</p>
 
@@ -390,16 +290,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row~45"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -415,7 +315,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-column~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -441,28 +341,27 @@ The absolute matrix column.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-checker_square_proc"></span><h3>public pure function <a href='../proc/checker_square_proc.html'>checker_square_proc</a>(row, col, pgrid, row_dist, col_dist) result(process)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-checker_square_proc"></span><h3>public pure function <a href='../proc/checker_square_proc.html'>checker_square_proc</a>(row, col, pgrid, row_dist, col_dist) result(process)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Determines the home process for a given logical matrix element.
-</p><a href="../proc/checker_square_proc.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Determines the home process for a given logical matrix element.</p><a href="../proc/checker_square_proc.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row~46"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -478,7 +377,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -494,7 +393,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -509,7 +408,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_dist"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -525,7 +424,7 @@ column distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_dist"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -551,28 +450,27 @@ column distribution</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-mostly_non_transposed"></span><h3>private pure function <a href='../proc/mostly_non_transposed.html'>mostly_non_transposed</a>(blk_p)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mostly_non_transposed"></span><h3>private pure function <a href='../proc/mostly_non_transposed.html'>mostly_non_transposed</a>(blk_p)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Determines whether most blocks are stored transposed in normally.
-</p><a href="../proc/mostly_non_transposed.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Determines whether most blocks are stored transposed in normally.</p><a href="../proc/mostly_non_transposed.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-blk_p~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -602,10 +500,10 @@ column distribution</p>
 
         <section>
           <h2>Subroutines</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_get_stored_coordinates"></span><h3>public pure subroutine <a href='../proc/dbcsr_get_stored_coordinates.html'>dbcsr_get_stored_coordinates</a>(matrix, row, column, processor)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_stored_coordinates"></span><h3>public pure subroutine <a href='../proc/dbcsr_get_stored_coordinates.html'>dbcsr_get_stored_coordinates</a>(matrix, row, column, processor)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Sets the correct source matrix, row, column and possible data
 transposition for a given matrix and matrix logical row and
@@ -615,16 +513,16 @@ column.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~98"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -639,7 +537,7 @@ column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row~47"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -655,7 +553,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-column~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -671,7 +569,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-processor~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -691,10 +589,10 @@ input is logical column</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-get_stored_canonical"></span><h3>public pure subroutine <a href='../proc/get_stored_canonical.html'>get_stored_canonical</a>(matrix, row, column, transpose, processor)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_stored_canonical"></span><h3>public pure subroutine <a href='../proc/get_stored_canonical.html'>get_stored_canonical</a>(matrix, row, column, transpose, processor)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Canonical logic</p>
 
@@ -702,16 +600,16 @@ input is logical column</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~323"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -726,7 +624,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row~118"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -741,7 +639,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-column~46"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -756,7 +654,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transpose~4"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -771,7 +669,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-processor~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -791,10 +689,10 @@ input is logical column</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_get_block_index"></span><h3>public pure subroutine <a href='../proc/dbcsr_get_block_index.html'>dbcsr_get_block_index</a>(matrix, row, column, stored_row, stored_column, transpose, found, block_number, data_offset)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_index"></span><h3>public pure subroutine <a href='../proc/dbcsr_get_block_index.html'>dbcsr_get_block_index</a>(matrix, row, column, stored_row, stored_column, transpose, found, block_number, data_offset)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Looks up a block's index given logical coordinates.</p>
 
@@ -802,16 +700,16 @@ input is logical column</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~99"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -826,7 +724,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row~48"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -842,7 +740,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-column~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -858,7 +756,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-stored_row"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -874,7 +772,7 @@ column where block is actually stored</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-stored_column"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -890,7 +788,7 @@ column where block is actually stored</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transpose"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -906,7 +804,7 @@ whether the block was found</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~39"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -922,7 +820,7 @@ whether the block was found</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block_number~11"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -937,7 +835,7 @@ whether the block was found</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-data_offset"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -957,10 +855,10 @@ whether the block was found</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_get_stored_block_info"></span><h3>public pure subroutine <a href='../proc/dbcsr_get_stored_block_info.html'>dbcsr_get_stored_block_info</a>(matrix, row, column, found, block_number, lb_row_col, data_offset, transposed)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_stored_block_info"></span><h3>public pure subroutine <a href='../proc/dbcsr_get_stored_block_info.html'>dbcsr_get_stored_block_info</a>(matrix, row, column, found, block_number, lb_row_col, data_offset, transposed)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Returns the index to a queried block, given a real (stored) row and
 column</p>
@@ -969,16 +867,16 @@ column</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~100"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -993,7 +891,7 @@ column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row~49"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1009,7 +907,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-column~21"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1025,7 +923,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~40"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1040,7 +938,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block_number~12"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1055,7 +953,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-lb_row_col~10"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1070,7 +968,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-data_offset~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1085,7 +983,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transposed~24"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -1105,10 +1003,10 @@ input is logical column, output is lookup column</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_transpose_distribution"></span><h3>public  subroutine <a href='../proc/dbcsr_transpose_distribution.html'>dbcsr_transpose_distribution</a>(dist_tr, dist_normal)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_transpose_distribution"></span><h3>public  subroutine <a href='../proc/dbcsr_transpose_distribution.html'>dbcsr_transpose_distribution</a>(dist_tr, dist_normal)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Transposes a distribution</p>
 
@@ -1116,16 +1014,16 @@ input is logical column, output is lookup column</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dist_tr"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1140,7 +1038,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dist_normal"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1160,10 +1058,10 @@ input is logical column, output is lookup column</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_transpose_dims"></span><h3>public  subroutine <a href='../proc/dbcsr_transpose_dims.html'>dbcsr_transpose_dims</a>(dist_tr, dist_normal)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_transpose_dims"></span><h3>public  subroutine <a href='../proc/dbcsr_transpose_dims.html'>dbcsr_transpose_dims</a>(dist_tr, dist_normal)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Transposes a distribution but keeps the same mp_env</p>
 
@@ -1171,16 +1069,16 @@ input is logical column, output is lookup column</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dist_tr~2"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1195,7 +1093,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dist_normal~2"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1215,10 +1113,10 @@ input is logical column, output is lookup column</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-rebin_distribution"></span><h3>public  subroutine <a href='../proc/rebin_distribution.html'>rebin_distribution</a>(new_bins, images, source_bins, nbins, multiplicity, nimages)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-rebin_distribution"></span><h3>public  subroutine <a href='../proc/rebin_distribution.html'>rebin_distribution</a>(new_bins, images, source_bins, nbins, multiplicity, nimages)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Makes new distribution with decimation and multiplicity</p><a href="../proc/rebin_distribution.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -1226,16 +1124,16 @@ input is logical column, output is lookup column</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-new_bins~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1251,7 +1149,7 @@ new image distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-images~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1267,7 +1165,7 @@ new image distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-source_bins~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1282,7 +1180,7 @@ new image distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nbins~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1299,7 +1197,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-multiplicity~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1316,7 +1214,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nimages~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1338,10 +1236,10 @@ number of images in the new distribution</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_reblocking_targets"></span><h3>public  subroutine <a href='../proc/dbcsr_reblocking_targets.html'>dbcsr_reblocking_targets</a>(ints, numints, n_src_dsts, src_sizes, dst_sizes)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reblocking_targets"></span><h3>public  subroutine <a href='../proc/dbcsr_reblocking_targets.html'>dbcsr_reblocking_targets</a>(ints, numints, n_src_dsts, src_sizes, dst_sizes)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Calculates the intersections of blocks</p><a href="../proc/dbcsr_reblocking_targets.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -1349,16 +1247,16 @@ number of images in the new distribution</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ints"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1373,7 +1271,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-numints"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -1388,7 +1286,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-n_src_dsts"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1403,7 +1301,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-src_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1419,7 +1317,7 @@ sizes of target blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dst_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1440,10 +1338,10 @@ sizes of target blocks</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_find_column"></span><h3>public pure subroutine <a href='../proc/dbcsr_find_column.html'>dbcsr_find_column</a>(find_col, frst_blk, last_blk, col_i, blk_p, blk, found)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_find_column"></span><h3>public pure subroutine <a href='../proc/dbcsr_find_column.html'>dbcsr_find_column</a>(find_col, frst_blk, last_blk, col_i, blk_p, blk, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Finds the block that has the given column.
 If the block having the queried column is found, the blk parameter
@@ -1454,16 +1352,16 @@ Otherwise found is false and the block number is invalid.</p><a href="../proc/db
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-find_col"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1480,7 +1378,7 @@ last block number in row</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-frst_blk"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1497,7 +1395,7 @@ last block number in row</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-last_blk"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1514,7 +1412,7 @@ last block number in row</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_i~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1530,7 +1428,7 @@ block pointers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-blk_p~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1546,7 +1444,7 @@ block pointers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-blk~5"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1561,7 +1459,7 @@ block pointers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~41"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1581,10 +1479,10 @@ block pointers</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-find_all_local_elements"></span><h3>public  subroutine <a href='../proc/find_all_local_elements.html'>find_all_local_elements</a>(local_elements, bin_distribution, nbins)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-find_all_local_elements"></span><h3>public  subroutine <a href='../proc/find_all_local_elements.html'>find_all_local_elements</a>(local_elements, bin_distribution, nbins)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Finds the local virtual elements
 All elements are mapped at once.  Therefore an entry in the
@@ -1596,16 +1494,16 @@ look.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-local_elements~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(inout),</td>
@@ -1620,7 +1518,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bin_distribution~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1635,7 +1533,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nbins~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1655,10 +1553,10 @@ look.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_get_local_rows"></span><h3>public  subroutine <a href='../proc/dbcsr_get_local_rows.html'>dbcsr_get_local_rows</a>(dist, local_rows, local_prow)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_local_rows"></span><h3>public  subroutine <a href='../proc/dbcsr_get_local_rows.html'>dbcsr_get_local_rows</a>(dist, local_rows, local_prow)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Determines mapping from local to global rows</p>
 
@@ -1666,16 +1564,16 @@ look.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dist~9"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1690,7 +1588,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-local_rows~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1705,7 +1603,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-local_prow"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1725,10 +1623,10 @@ look.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_get_local_cols"></span><h3>public  subroutine <a href='../proc/dbcsr_get_local_cols.html'>dbcsr_get_local_cols</a>(dist, local_cols, local_pcol)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_local_cols"></span><h3>public  subroutine <a href='../proc/dbcsr_get_local_cols.html'>dbcsr_get_local_cols</a>(dist, local_cols, local_pcol)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Determines mapping from local to global columns</p>
 
@@ -1736,16 +1634,16 @@ look.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dist~10"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1760,7 +1658,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-local_cols~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1775,7 +1673,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-local_pcol"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1795,10 +1693,10 @@ look.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_dist_bin"></span><h3>public  subroutine <a href='../proc/dbcsr_dist_bin.html'>dbcsr_dist_bin</a>(bin_dist, nelements, nbins, element_sizes)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_dist_bin"></span><h3>public  subroutine <a href='../proc/dbcsr_dist_bin.html'>dbcsr_dist_bin</a>(bin_dist, nelements, nbins, element_sizes)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Creates a sane 1-D distribution</p>
 
@@ -1806,16 +1704,16 @@ look.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bin_dist"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1830,7 +1728,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nelements~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1846,7 +1744,7 @@ Number of bins</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nbins~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1862,7 +1760,7 @@ Number of bins</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-element_sizes"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1894,12 +1792,12 @@ Number of bins</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -1909,17 +1807,12 @@ Number of bins</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

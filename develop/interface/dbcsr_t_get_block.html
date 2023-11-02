@@ -10,77 +10,53 @@
 
     <title>dbcsr_t_get_block &ndash; DBCSR</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Guide</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-                  <li><a href="../lists/programs.html">Programs</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/programs.html">Programs</a>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,33 +64,37 @@
       <small>Interface</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title="<p> 0.0% of total for procedures.</p>Including implementation: 475 statements,  0.8% of total for procedures.">27 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 475 statements,  0.8% of total for procedures.">27 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/dbcsr_tensor_block.F"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/dbcsr_tensor_block.f.html'>dbcsr_tensor_block.F</a></li>
-              <li><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
-          <li class="active">dbcsr_t_get_block</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tensor_block.f.html'>dbcsr_tensor_block.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_t_get_block</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
@@ -142,14 +122,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modprocs-0">Module Procedures</a>
-        </h3>
-      </div>
-      <div id="modprocs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_2d_block_r_dp">dbcsr_t_get_2d_block_r_dp</a>
             <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_2d_block_r_dp">dbcsr_t_allocate_and_get_2d_block_r_dp</a>
             <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_3d_block_r_dp">dbcsr_t_get_3d_block_r_dp</a>
@@ -179,6 +158,7 @@
       </div>
     </div>
 
+  
 
 
   </div>
@@ -189,75 +169,13 @@
       <h2>public interface dbcsr_t_get_block</h2>
       
 
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modprocs-1">Module Procedures</a>
-        </h3>
-      </div>
-      <div id="modprocs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_2d_block_r_dp">dbcsr_t_get_2d_block_r_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_2d_block_r_dp">dbcsr_t_allocate_and_get_2d_block_r_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_3d_block_r_dp">dbcsr_t_get_3d_block_r_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_3d_block_r_dp">dbcsr_t_allocate_and_get_3d_block_r_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_4d_block_r_dp">dbcsr_t_get_4d_block_r_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_4d_block_r_dp">dbcsr_t_allocate_and_get_4d_block_r_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_2d_block_r_sp">dbcsr_t_get_2d_block_r_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_2d_block_r_sp">dbcsr_t_allocate_and_get_2d_block_r_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_3d_block_r_sp">dbcsr_t_get_3d_block_r_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_3d_block_r_sp">dbcsr_t_allocate_and_get_3d_block_r_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_4d_block_r_sp">dbcsr_t_get_4d_block_r_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_4d_block_r_sp">dbcsr_t_allocate_and_get_4d_block_r_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_2d_block_c_dp">dbcsr_t_get_2d_block_c_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_2d_block_c_dp">dbcsr_t_allocate_and_get_2d_block_c_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_3d_block_c_dp">dbcsr_t_get_3d_block_c_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_3d_block_c_dp">dbcsr_t_allocate_and_get_3d_block_c_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_4d_block_c_dp">dbcsr_t_get_4d_block_c_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_4d_block_c_dp">dbcsr_t_allocate_and_get_4d_block_c_dp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_2d_block_c_sp">dbcsr_t_get_2d_block_c_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_2d_block_c_sp">dbcsr_t_allocate_and_get_2d_block_c_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_3d_block_c_sp">dbcsr_t_get_3d_block_c_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_3d_block_c_sp">dbcsr_t_allocate_and_get_3d_block_c_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_4d_block_c_sp">dbcsr_t_get_4d_block_c_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_allocate_and_get_4d_block_c_sp">dbcsr_t_allocate_and_get_4d_block_c_sp</a>
-            <a class="list-group-item" href="../interface/dbcsr_t_get_block.html#moduleprocedure-dbcsr_t_get_anyd_block">dbcsr_t_get_anyd_block</a>
-        </div>
-      </div>
-    </div>
-
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
-
 
 
         <h2>Module Procedures</h2>
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_2d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_2d_block_r_dp.html'>dbcsr_t_get_2d_block_r_dp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_2d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_2d_block_r_dp.html'>dbcsr_t_get_2d_block_r_dp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -265,16 +183,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~43"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -289,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~35"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -304,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -319,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~35"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -334,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~18"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -354,10 +272,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_2d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_2d_block_r_dp.html'>dbcsr_t_allocate_and_get_2d_block_r_dp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_2d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_2d_block_r_dp.html'>dbcsr_t_allocate_and_get_2d_block_r_dp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -365,16 +283,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~31"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -389,7 +307,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -404,7 +322,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~23"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -419,7 +337,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~6"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -439,10 +357,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_3d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_3d_block_r_dp.html'>dbcsr_t_get_3d_block_r_dp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_3d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_3d_block_r_dp.html'>dbcsr_t_get_3d_block_r_dp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -450,16 +368,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~44"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -474,7 +392,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~36"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -489,7 +407,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -504,7 +422,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~36"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -519,7 +437,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~19"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -539,10 +457,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_3d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_3d_block_r_dp.html'>dbcsr_t_allocate_and_get_3d_block_r_dp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_3d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_3d_block_r_dp.html'>dbcsr_t_allocate_and_get_3d_block_r_dp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -550,16 +468,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~32"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -574,7 +492,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~24"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -589,7 +507,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~24"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -604,7 +522,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~7"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -624,10 +542,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_4d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_4d_block_r_dp.html'>dbcsr_t_get_4d_block_r_dp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_4d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_4d_block_r_dp.html'>dbcsr_t_get_4d_block_r_dp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -635,16 +553,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~45"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -659,7 +577,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~37"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -674,7 +592,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~15"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -689,7 +607,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~37"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -704,7 +622,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~20"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -724,10 +642,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_4d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_4d_block_r_dp.html'>dbcsr_t_allocate_and_get_4d_block_r_dp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_4d_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_4d_block_r_dp.html'>dbcsr_t_allocate_and_get_4d_block_r_dp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -735,16 +653,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~33"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -759,7 +677,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -774,7 +692,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~25"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -789,7 +707,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~8"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -809,10 +727,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_2d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_2d_block_r_sp.html'>dbcsr_t_get_2d_block_r_sp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_2d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_2d_block_r_sp.html'>dbcsr_t_get_2d_block_r_sp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -820,16 +738,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~46"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -844,7 +762,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~38"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -859,7 +777,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~16"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -874,7 +792,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~38"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -889,7 +807,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~21"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -909,10 +827,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_2d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_2d_block_r_sp.html'>dbcsr_t_allocate_and_get_2d_block_r_sp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_2d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_2d_block_r_sp.html'>dbcsr_t_allocate_and_get_2d_block_r_sp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -920,16 +838,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~34"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -944,7 +862,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -959,7 +877,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~26"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -974,7 +892,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~9"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -994,10 +912,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_3d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_3d_block_r_sp.html'>dbcsr_t_get_3d_block_r_sp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_3d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_3d_block_r_sp.html'>dbcsr_t_get_3d_block_r_sp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -1005,16 +923,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~47"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1029,7 +947,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~39"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1044,7 +962,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1059,7 +977,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~39"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -1074,7 +992,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~22"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1094,10 +1012,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_3d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_3d_block_r_sp.html'>dbcsr_t_allocate_and_get_3d_block_r_sp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_3d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_3d_block_r_sp.html'>dbcsr_t_allocate_and_get_3d_block_r_sp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -1105,16 +1023,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~35"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1129,7 +1047,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~27"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1144,7 +1062,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~27"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -1159,7 +1077,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~10"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1179,10 +1097,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_4d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_4d_block_r_sp.html'>dbcsr_t_get_4d_block_r_sp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_4d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_4d_block_r_sp.html'>dbcsr_t_get_4d_block_r_sp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -1190,16 +1108,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~48"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1214,7 +1132,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~40"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1229,7 +1147,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1244,7 +1162,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~40"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -1259,7 +1177,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~23"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1279,10 +1197,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_4d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_4d_block_r_sp.html'>dbcsr_t_allocate_and_get_4d_block_r_sp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_4d_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_4d_block_r_sp.html'>dbcsr_t_allocate_and_get_4d_block_r_sp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -1290,16 +1208,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~36"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1314,7 +1232,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1329,7 +1247,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~28"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -1344,7 +1262,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~11"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1364,10 +1282,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_2d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_2d_block_c_dp.html'>dbcsr_t_get_2d_block_c_dp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_2d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_2d_block_c_dp.html'>dbcsr_t_get_2d_block_c_dp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -1375,16 +1293,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~49"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1399,7 +1317,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~41"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1414,7 +1332,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~19"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1429,7 +1347,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~41"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1444,7 +1362,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~24"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1464,10 +1382,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_2d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_2d_block_c_dp.html'>dbcsr_t_allocate_and_get_2d_block_c_dp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_2d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_2d_block_c_dp.html'>dbcsr_t_allocate_and_get_2d_block_c_dp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -1475,16 +1393,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~37"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1499,7 +1417,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1514,7 +1432,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~29"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1529,7 +1447,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~12"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1549,10 +1467,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_3d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_3d_block_c_dp.html'>dbcsr_t_get_3d_block_c_dp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_3d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_3d_block_c_dp.html'>dbcsr_t_get_3d_block_c_dp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -1560,16 +1478,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~50"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1584,7 +1502,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~42"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1599,7 +1517,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~20"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1614,7 +1532,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~42"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1629,7 +1547,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~25"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1649,10 +1567,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_3d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_3d_block_c_dp.html'>dbcsr_t_allocate_and_get_3d_block_c_dp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_3d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_3d_block_c_dp.html'>dbcsr_t_allocate_and_get_3d_block_c_dp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -1660,16 +1578,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~38"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1684,7 +1602,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~30"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1699,7 +1617,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~30"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1714,7 +1632,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~13"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1734,10 +1652,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_4d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_4d_block_c_dp.html'>dbcsr_t_get_4d_block_c_dp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_4d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_4d_block_c_dp.html'>dbcsr_t_get_4d_block_c_dp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -1745,16 +1663,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~51"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1769,7 +1687,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~43"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1784,7 +1702,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1799,7 +1717,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~43"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1814,7 +1732,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~26"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1834,10 +1752,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_4d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_4d_block_c_dp.html'>dbcsr_t_allocate_and_get_4d_block_c_dp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_4d_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_4d_block_c_dp.html'>dbcsr_t_allocate_and_get_4d_block_c_dp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -1845,16 +1763,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~39"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1869,7 +1787,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~31"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1884,7 +1802,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~31"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1899,7 +1817,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~14"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1919,10 +1837,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_2d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_2d_block_c_sp.html'>dbcsr_t_get_2d_block_c_sp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_2d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_2d_block_c_sp.html'>dbcsr_t_get_2d_block_c_sp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -1930,16 +1848,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~52"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1954,7 +1872,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~44"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1969,7 +1887,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~22"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1984,7 +1902,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~44"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -1999,7 +1917,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~27"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2019,10 +1937,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_2d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_2d_block_c_sp.html'>dbcsr_t_allocate_and_get_2d_block_c_sp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_2d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_2d_block_c_sp.html'>dbcsr_t_allocate_and_get_2d_block_c_sp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -2030,16 +1948,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~40"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2054,7 +1972,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~32"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2069,7 +1987,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~32"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -2084,7 +2002,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~15"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2104,10 +2022,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_3d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_3d_block_c_sp.html'>dbcsr_t_get_3d_block_c_sp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_3d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_3d_block_c_sp.html'>dbcsr_t_get_3d_block_c_sp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -2115,16 +2033,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~53"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2139,7 +2057,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~45"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2154,7 +2072,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2169,7 +2087,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~45"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -2184,7 +2102,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~28"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2204,10 +2122,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_3d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_3d_block_c_sp.html'>dbcsr_t_allocate_and_get_3d_block_c_sp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_3d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_3d_block_c_sp.html'>dbcsr_t_allocate_and_get_3d_block_c_sp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -2215,16 +2133,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~41"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2239,7 +2157,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~33"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2254,7 +2172,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~33"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -2269,7 +2187,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~16"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2289,10 +2207,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_4d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_4d_block_c_sp.html'>dbcsr_t_get_4d_block_c_sp</a>(tensor, ind, sizes, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_4d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_4d_block_c_sp.html'>dbcsr_t_get_4d_block_c_sp</a>(tensor, ind, sizes, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Template for dbcsr_t_get_block.</p>
 
@@ -2300,16 +2218,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~54"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2324,7 +2242,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~46"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2339,7 +2257,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sizes~24"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2354,7 +2272,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~46"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -2369,7 +2287,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~29"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2389,10 +2307,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_4d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_4d_block_c_sp.html'>dbcsr_t_allocate_and_get_4d_block_c_sp</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_allocate_and_get_4d_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_t_allocate_and_get_4d_block_c_sp.html'>dbcsr_t_allocate_and_get_4d_block_c_sp</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>allocate and get block</p>
 
@@ -2400,16 +2318,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~42"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2424,7 +2342,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind~34"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2439,7 +2357,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block~34"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -2454,7 +2372,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found~17"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2474,10 +2392,10 @@
     </div>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_anyd_block"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_anyd_block.html'>dbcsr_t_get_anyd_block</a>(tensor, ind, block, found)  
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_anyd_block"></span><h3>private  subroutine <a href='../proc/dbcsr_t_get_anyd_block.html'>dbcsr_t_get_anyd_block</a>(tensor, ind, block, found)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Generic implementation of dbcsr_t_get_block (arbitrary tensor rank and arbitrary datatype)</p>
 
@@ -2485,16 +2403,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~9"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2509,7 +2427,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2524,7 +2442,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-block"></span>
               type(<a href='../type/block_nd.html'>block_nd</a>),
             </td>
 <td>intent(out)</td>
@@ -2539,7 +2457,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-found"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2565,12 +2483,12 @@
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -2580,17 +2498,12 @@
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

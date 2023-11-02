@@ -10,77 +10,53 @@
 
     <title>dbcsr_transformations &ndash; DBCSR</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Guide</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-                  <li><a href="../lists/programs.html">Programs</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/programs.html">Programs</a>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,52 +64,55 @@
       <small>Module</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 2.4% of total for modules and submodules.">1514 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 2.4% of total for modules and submodules.">1514 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/dbcsr_transformations.F"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/dbcsr_transformations.f.html'>dbcsr_transformations.F</a></li>
-          <li class="active">dbcsr_transformations</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_transformations.f.html'>dbcsr_transformations.F</a></li>
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_transformations</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-0">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-0" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-modulen~32">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-careful_mod~9">careful_mod</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-modulen~62">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-careful_mod~17">careful_mod</a>
         </div>
       </div>
     </div>
@@ -148,14 +127,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-0">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_new_transposed">dbcsr_new_transposed</a>
             <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_transposed">dbcsr_transposed</a>
             <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_desymmetrize_deep">dbcsr_desymmetrize_deep</a>
@@ -175,6 +153,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -189,105 +168,40 @@
 
     <div class="col-md-9" id='text'>
       <p>DBCSR transformations</p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_data_operations.html'>dbcsr_data_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-                <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-                <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
-                <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-                <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-                <li><a href='../module/dbcsr_data_operations.html'>dbcsr_data_operations</a></li>
-                <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
-                <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
-                <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
-                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-                <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-                <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                <li><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></li>
-                <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-                <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
-                <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-1">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-modulen~32">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-careful_mod~9">careful_mod</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-1">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_new_transposed">dbcsr_new_transposed</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_transposed">dbcsr_transposed</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_desymmetrize_deep">dbcsr_desymmetrize_deep</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_distribute">dbcsr_distribute</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_untransposed_blocks">dbcsr_make_untransposed_blocks</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_dense">dbcsr_make_dense</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_dense_low">dbcsr_make_dense_low</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_undense">dbcsr_make_undense</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-make_dense_data">make_dense_data</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-make_undense_data">make_undense_data</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_replicate_all">dbcsr_replicate_all</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_replicate">dbcsr_replicate</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_complete_redistribute">dbcsr_complete_redistribute</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_redistribute">dbcsr_redistribute</a>
-            <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_datablock_redistribute">dbcsr_datablock_redistribute</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
         <section>
@@ -295,16 +209,16 @@
             <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~32"></span>
+              <span class="anchor" id="variable-modulen~62"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -314,14 +228,14 @@ parameter
             <td>::</td>
             <td><strong>moduleN</strong></td>
 <td> =</td>
-                <td>'dbcsr_transformations'</td>
+                <td>&#39;dbcsr_transformations&#39;</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~9"></span>
+              <span class="anchor" id="variable-careful_mod~17"></span>
               logical,
             </td>
               <td>private,</td>
@@ -349,10 +263,10 @@ parameter
 
         <section>
           <h2>Subroutines</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_new_transposed"></span><h3>public  subroutine <a href='../proc/dbcsr_new_transposed.html'>dbcsr_new_transposed</a>(transposed, normal, shallow_data_copy, transpose_data, transpose_distribution, transpose_index, use_distribution, redistribute)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_new_transposed"></span><h3>public  subroutine <a href='../proc/dbcsr_new_transposed.html'>dbcsr_new_transposed</a>(transposed, normal, shallow_data_copy, transpose_data, transpose_distribution, transpose_index, use_distribution, redistribute)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Transposes a DBCSR matrix.</p><a href="../proc/dbcsr_new_transposed.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -360,16 +274,16 @@ parameter
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transposed~25"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -384,7 +298,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-normal"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -399,7 +313,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-shallow_data_copy"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -417,7 +331,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transpose_data"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -435,7 +349,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transpose_distribution"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -453,7 +367,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transpose_index"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -471,7 +385,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-use_distribution"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -486,7 +400,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-redistribute"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -506,10 +420,10 @@ transpose the index (default=yes) or turn it into BCSC</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_transposed"></span><h3>public  subroutine <a href='../proc/dbcsr_transposed.html'>dbcsr_transposed</a>(transposed, normal, shallow_data_copy, transpose_data, transpose_distribution, use_distribution)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_transposed"></span><h3>public  subroutine <a href='../proc/dbcsr_transposed.html'>dbcsr_transposed</a>(transposed, normal, shallow_data_copy, transpose_data, transpose_distribution, use_distribution)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Transposes a DBCSR matrix, keeping the same distribution</p>
 
@@ -517,16 +431,16 @@ transpose the index (default=yes) or turn it into BCSC</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transposed~62"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -541,7 +455,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-normal~3"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -556,7 +470,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-shallow_data_copy~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -571,7 +485,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transpose_data~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -586,7 +500,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-transpose_distribution~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -601,7 +515,7 @@ transpose the index (default=yes) or turn it into BCSC</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-use_distribution~3"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -621,10 +535,10 @@ transpose the index (default=yes) or turn it into BCSC</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_desymmetrize_deep"></span><h3>public  subroutine <a href='../proc/dbcsr_desymmetrize_deep.html'>dbcsr_desymmetrize_deep</a>(sm, desm, untransposed_data)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_desymmetrize_deep"></span><h3>public  subroutine <a href='../proc/dbcsr_desymmetrize_deep.html'>dbcsr_desymmetrize_deep</a>(sm, desm, untransposed_data)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Duplicates data in symmetric matrix to make it normal (w.r.t. data
 structure. Can handle symmetric/antisymmetric/hermitian/skewhermitian
@@ -634,16 +548,16 @@ matrices</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-sm"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -658,7 +572,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-desm"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -673,7 +587,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-untransposed_data"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -693,10 +607,10 @@ matrices</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_distribute"></span><h3>public  subroutine <a href='../proc/dbcsr_distribute.html'>dbcsr_distribute</a>(matrix, fast)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_distribute"></span><h3>public  subroutine <a href='../proc/dbcsr_distribute.html'>dbcsr_distribute</a>(matrix, fast)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Distributes a matrix that is currently replicated.</p>
 
@@ -704,16 +618,16 @@ matrices</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~101"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -728,7 +642,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-fast"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -748,10 +662,10 @@ matrices</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_make_untransposed_blocks"></span><h3>public  subroutine <a href='../proc/dbcsr_make_untransposed_blocks.html'>dbcsr_make_untransposed_blocks</a>(matrix)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_untransposed_blocks"></span><h3>public  subroutine <a href='../proc/dbcsr_make_untransposed_blocks.html'>dbcsr_make_untransposed_blocks</a>(matrix)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Detransposes all blocks in a matrix</p>
 
@@ -759,16 +673,16 @@ matrices</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~102"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -788,28 +702,27 @@ matrices</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_make_dense"></span><h3>public  subroutine <a href='../proc/dbcsr_make_dense.html'>dbcsr_make_dense</a>(matrix, dense_matrix, dense_dist, dense_row_sizes, dense_col_sizes, row_map, col_map)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_dense"></span><h3>public  subroutine <a href='../proc/dbcsr_make_dense.html'>dbcsr_make_dense</a>(matrix, dense_matrix, dense_dist, dense_row_sizes, dense_col_sizes, row_map, col_map)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Makes a dense matrix, inplace.
-</p><a href="../proc/dbcsr_make_dense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Makes a dense matrix, inplace.</p><a href="../proc/dbcsr_make_dense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~103"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -824,7 +737,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_matrix~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -839,7 +752,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_dist~2"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -854,7 +767,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_row_sizes"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -869,7 +782,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_col_sizes"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -884,7 +797,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_map~7"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -899,7 +812,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_map~7"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -919,28 +832,27 @@ matrices</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_make_dense_low"></span><h3>public  subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_low</a>(und_matrix, dense_matrix, und_local_rows, und_local_cols, und_row_blk_offsets, und_col_blk_offsets, dense_local_rows, dense_local_cols, dense_row_blk_offsets, dense_col_blk_offsets, row_map, col_map, join_rows, join_cols)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_dense_low"></span><h3>public  subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_low</a>(und_matrix, dense_matrix, und_local_rows, und_local_cols, und_row_blk_offsets, und_col_blk_offsets, dense_local_rows, dense_local_cols, dense_row_blk_offsets, dense_col_blk_offsets, row_map, col_map, join_rows, join_cols)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Copies a matrix and makes its data dense.
-</p><a href="../proc/dbcsr_make_dense_low.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Copies a matrix and makes its data dense.</p><a href="../proc/dbcsr_make_dense_low.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-und_matrix"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -955,7 +867,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_matrix"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -970,7 +882,7 @@ matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-und_local_rows"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -994,7 +906,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-und_local_cols"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1018,7 +930,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-und_row_blk_offsets"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1042,7 +954,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-und_col_blk_offsets"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1066,7 +978,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_local_rows"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1090,7 +1002,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_local_cols"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1114,7 +1026,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_row_blk_offsets"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1138,7 +1050,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_col_blk_offsets"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1162,7 +1074,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_map~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1186,7 +1098,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_map~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1210,7 +1122,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-join_rows~2"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1226,7 +1138,7 @@ Make columns dense</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-join_cols~2"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1247,28 +1159,27 @@ Make columns dense</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_make_undense"></span><h3>public  subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</a>(matrix, undense_matrix, distribution, row_blk_offsets, col_blk_offsets, row_blk_sizes, col_blk_sizes, row_map, col_map)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_undense"></span><h3>public  subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</a>(matrix, undense_matrix, distribution, row_blk_offsets, col_blk_offsets, row_blk_sizes, col_blk_sizes, row_map, col_map)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Makes a blocked matrix from a dense matrix, inplace
-</p><a href="../proc/dbcsr_make_undense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Makes a blocked matrix from a dense matrix, inplace</p><a href="../proc/dbcsr_make_undense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~104"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1283,7 +1194,7 @@ Make columns dense</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-undense_matrix"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1298,7 +1209,7 @@ Make columns dense</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-distribution~4"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1313,7 +1224,7 @@ Make columns dense</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_blk_offsets~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1333,7 +1244,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_blk_offsets~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1353,7 +1264,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_blk_sizes"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1373,7 +1284,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_blk_sizes"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1393,7 +1304,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_map~5"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1413,7 +1324,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_map~5"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1438,28 +1349,27 @@ mapping from non-dense columns</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-make_dense_data"></span><h3>private  subroutine <a href='../proc/make_dense_data.html'>make_dense_data</a>(matrix, dense_data, nfullrows, nfullcols, und_row_blk_offsets, und_col_blk_offsets, dense_row_blk_offsets, dense_col_blk_offsets, row_map, col_map, row_internal_offsets, col_internal_offsets, join_rows, join_cols, make_tr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-make_dense_data"></span><h3>private  subroutine <a href='../proc/make_dense_data.html'>make_dense_data</a>(matrix, dense_data, nfullrows, nfullcols, und_row_blk_offsets, und_col_blk_offsets, dense_row_blk_offsets, dense_col_blk_offsets, row_map, col_map, row_internal_offsets, col_internal_offsets, join_rows, join_cols, make_tr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Shuffles the data from blocked to standard dense form
-</p><a href="../proc/make_dense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Shuffles the data from blocked to standard dense form</p><a href="../proc/make_dense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~105"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1474,7 +1384,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_data"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1489,7 +1399,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nfullrows"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1505,7 +1415,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nfullcols"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1521,7 +1431,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-und_row_blk_offsets~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1536,7 +1446,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-und_col_blk_offsets~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1551,7 +1461,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_row_blk_offsets~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1566,7 +1476,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_col_blk_offsets~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1581,7 +1491,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_map~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1596,7 +1506,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_map~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1611,7 +1521,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_internal_offsets~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1626,7 +1536,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_internal_offsets~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1641,7 +1551,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-join_rows~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1658,7 +1568,7 @@ make the dense blocks transposed</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-join_cols~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1675,7 +1585,7 @@ make the dense blocks transposed</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-make_tr~2"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1697,28 +1607,27 @@ make the dense blocks transposed</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-make_undense_data"></span><h3>private  subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a>(matrix, dense_data, nfullrows, nfullcols, dense_row_blk_offsets, dense_col_blk_offsets, row_map, col_map, row_internal_offsets, col_internal_offsets)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-make_undense_data"></span><h3>private  subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a>(matrix, dense_data, nfullrows, nfullcols, dense_row_blk_offsets, dense_col_blk_offsets, row_map, col_map, row_internal_offsets, col_internal_offsets)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
-  <p>Shuffles the data from standard dense to blocked form
-</p><a href="../proc/make_undense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Shuffles the data from standard dense to blocked form</p><a href="../proc/make_undense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~106"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1733,7 +1642,7 @@ make the dense blocks transposed</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_data~2"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1748,7 +1657,7 @@ make the dense blocks transposed</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nfullrows~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1764,7 +1673,7 @@ number of full columns in local submatrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nfullcols~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1780,7 +1689,7 @@ number of full columns in local submatrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_row_blk_offsets~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1798,7 +1707,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dense_col_blk_offsets~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1816,7 +1725,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_map~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1834,7 +1743,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_map~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1852,7 +1761,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_internal_offsets"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1870,7 +1779,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_internal_offsets"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1893,10 +1802,10 @@ mapping from undense to dense rows</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_replicate_all"></span><h3>public  subroutine <a href='../proc/dbcsr_replicate_all.html'>dbcsr_replicate_all</a>(matrix)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_replicate_all"></span><h3>public  subroutine <a href='../proc/dbcsr_replicate_all.html'>dbcsr_replicate_all</a>(matrix)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Replicates a DBCSR on all processors.</p>
 
@@ -1904,16 +1813,16 @@ mapping from undense to dense rows</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~107"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1933,10 +1842,10 @@ mapping from undense to dense rows</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_replicate"></span><h3>private  subroutine <a href='../proc/dbcsr_replicate.html'>dbcsr_replicate</a>(matrix, replicate_rows, replicate_columns, restrict_source)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_replicate"></span><h3>private  subroutine <a href='../proc/dbcsr_replicate.html'>dbcsr_replicate</a>(matrix, replicate_rows, replicate_columns, restrict_source)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Replicates a DBCSR matrix among process rows and columns</p><a href="../proc/dbcsr_replicate.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -1944,16 +1853,16 @@ mapping from undense to dense rows</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~108"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1968,7 +1877,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-replicate_rows"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1984,7 +1893,7 @@ Column should be replicated among all processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-replicate_columns"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -2000,7 +1909,7 @@ Column should be replicated among all processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-restrict_source"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2020,10 +1929,10 @@ Column should be replicated among all processors</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_complete_redistribute"></span><h3>public  subroutine <a href='../proc/dbcsr_complete_redistribute.html'>dbcsr_complete_redistribute</a>(matrix, redist, keep_sparsity, summation)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_complete_redistribute"></span><h3>public  subroutine <a href='../proc/dbcsr_complete_redistribute.html'>dbcsr_complete_redistribute</a>(matrix, redist, keep_sparsity, summation)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Fully redistributes a DBCSR matrix.
 The new distribution may be arbitrary as long as the total
@@ -2034,16 +1943,16 @@ matrix.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~109"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2058,7 +1967,7 @@ matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-redist"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2073,7 +1982,7 @@ matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-keep_sparsity~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2089,7 +1998,7 @@ sum blocks with identical row and col from different processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-summation~32"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2110,10 +2019,10 @@ sum blocks with identical row and col from different processes</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_redistribute"></span><h3>public  subroutine <a href='../proc/dbcsr_redistribute.html'>dbcsr_redistribute</a>(matrix, redist)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_redistribute"></span><h3>public  subroutine <a href='../proc/dbcsr_redistribute.html'>dbcsr_redistribute</a>(matrix, redist)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Redistributes a DBCSR matrix.
  The new distribution should have compatible row and column blocks.</p><a href="../proc/dbcsr_redistribute.html" class="pull-right"><emph>Read more&hellip;</emph></a>
@@ -2122,16 +2031,16 @@ sum blocks with identical row and col from different processes</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix~110"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2146,7 +2055,7 @@ sum blocks with identical row and col from different processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-redist~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2166,10 +2075,10 @@ sum blocks with identical row and col from different processes</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_datablock_redistribute"></span><h3>public  subroutine <a href='../proc/dbcsr_datablock_redistribute.html'>dbcsr_datablock_redistribute</a>(dblk, row_p, col_i, blk_p, proc_nblks, proc_darea_sizes, new_matrix)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_datablock_redistribute"></span><h3>public  subroutine <a href='../proc/dbcsr_datablock_redistribute.html'>dbcsr_datablock_redistribute</a>(dblk, row_p, col_i, blk_p, proc_nblks, proc_darea_sizes, new_matrix)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Redistributes data blocks of a DBCSR matrix read from a file.
 This routine should be used with dbcsr_binary_read in the module
@@ -2179,16 +2088,16 @@ dbcsr_io.F</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dblk"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2203,7 +2112,7 @@ dbcsr_io.F</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-row_p~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2224,7 +2133,7 @@ read by the current node of the present mp environment</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col_i~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2245,7 +2154,7 @@ read by the current node of the present mp environment</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-blk_p~15"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2266,7 +2175,7 @@ read by the current node of the present mp environment</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-proc_nblks"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2287,7 +2196,7 @@ read by the current node of the present mp environment</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-proc_darea_sizes"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2308,7 +2217,7 @@ read by the current node of the present mp environment</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-new_matrix"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2340,12 +2249,12 @@ read by the current node of the present mp environment</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -2355,17 +2264,12 @@ read by the current node of the present mp environment</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

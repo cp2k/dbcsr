@@ -10,77 +10,53 @@
 
     <title>dbcsr_tensor &ndash; DBCSR</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Guide</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-                  <li><a href="../lists/programs.html">Programs</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/programs.html">Programs</a>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,51 +64,54 @@
       <small>Module</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 2.7% of total for modules and submodules.">1732 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 2.7% of total for modules and submodules.">1732 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/dbcsr_tensor.F"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/dbcsr_tensor.f.html'>dbcsr_tensor.F</a></li>
-          <li class="active">dbcsr_tensor</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tensor.f.html'>dbcsr_tensor.F</a></li>
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_tensor</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-0">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-0" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#variable-modulen~50">moduleN</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/dbcsr_tensor.html#variable-modulen~27">moduleN</a>
         </div>
       </div>
     </div>
@@ -146,14 +125,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#funcs-0">Functions</a>
-        </h3>
-      </div>
-      <div id="funcs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-update_contraction_storage">update_contraction_storage</a>
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-compat_map">compat_map</a>
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-opt_pgrid">opt_pgrid</a>
@@ -161,14 +139,13 @@
       </div>
     </div>
 
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-0">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy">dbcsr_t_copy</a>
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_expert">dbcsr_t_copy_expert</a>
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_nocomm">dbcsr_t_copy_nocomm</a>
@@ -179,7 +156,7 @@
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-align_tensor">align_tensor</a>
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_compatible~2">reshape_mm_compatible</a>
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_small~2">reshape_mm_small</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-invert_transpose_flag~2">invert_transpose_flag</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-invert_transpose_flag">invert_transpose_flag</a>
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-index_linked_sort">index_linked_sort</a>
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_remap">dbcsr_t_remap</a>
             <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_align_index">dbcsr_t_align_index</a>
@@ -195,6 +172,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -213,124 +191,39 @@ Representation of n-rank tensors as DBCSR tall-and-skinny matrices.
 Support for arbitrary redistribution between different representations.
 Support for arbitrary tensor contractions
 \todo implement checks and error messages</p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_split.html'>dbcsr_tensor_split</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-                <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
-                <li><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
-                <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                <li><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
-                <li><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
-                <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
-                <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
-                <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
-                <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
-                <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
-                <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
-                <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-                <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
-                <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                <li><a href='../module/dbcsr_tensor_split.html'>dbcsr_tensor_split</a></li>
-                <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
-                <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                <li><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-1">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#variable-modulen~50">moduleN</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#funcs-1">Functions</a>
-        </h3>
-      </div>
-      <div id="funcs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-update_contraction_storage">update_contraction_storage</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-compat_map">compat_map</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-opt_pgrid">opt_pgrid</a>
-        </div>
-      </div>
-    </div>
-
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#subs-1">Subroutines</a>
-        </h3>
-      </div>
-      <div id="subs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy">dbcsr_t_copy</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_expert">dbcsr_t_copy_expert</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_nocomm">dbcsr_t_copy_nocomm</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_matrix_to_tensor">dbcsr_t_copy_matrix_to_tensor</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_tensor_to_matrix">dbcsr_t_copy_tensor_to_matrix</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract">dbcsr_t_contract</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract_expert">dbcsr_t_contract_expert</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-align_tensor">align_tensor</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_compatible~2">reshape_mm_compatible</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_small~2">reshape_mm_small</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-invert_transpose_flag~2">invert_transpose_flag</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-index_linked_sort">index_linked_sort</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_remap">dbcsr_t_remap</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_align_index">dbcsr_t_align_index</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_permute_index">dbcsr_t_permute_index</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract_index">dbcsr_t_contract_index</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_map_bounds_to_tensors">dbcsr_t_map_bounds_to_tensors</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_print_contraction_index">dbcsr_t_print_contraction_index</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_init">dbcsr_t_batched_contract_init</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_finalize">dbcsr_t_batched_contract_finalize</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid">dbcsr_t_change_pgrid</a>
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid_2d">dbcsr_t_change_pgrid_2d</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
         <section>
@@ -338,16 +231,16 @@ Support for arbitrary tensor contractions
             <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~50"></span>
+              <span class="anchor" id="variable-modulen~27"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -357,7 +250,7 @@ parameter
             <td>::</td>
             <td><strong>moduleN</strong></td>
 <td> =</td>
-                <td>'dbcsr_tensor'</td>
+                <td>&#39;dbcsr_tensor&#39;</td>
             <td>
                 
             </td>
@@ -374,10 +267,10 @@ parameter
 
         <section>
           <h2>Functions</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-update_contraction_storage"></span><h3>private  function <a href='../proc/update_contraction_storage.html'>update_contraction_storage</a>(storage, split_opt, split) result(do_change_pgrid)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-update_contraction_storage"></span><h3>private  function <a href='../proc/update_contraction_storage.html'>update_contraction_storage</a>(storage, split_opt, split) result(do_change_pgrid)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>update contraction storage that keeps track of process grids during a batched contraction
 and decide if tensor process grid needs to be optimized</p>
@@ -386,16 +279,16 @@ and decide if tensor process grid needs to be optimized</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-storage"></span>
               type(<a href='../type/dbcsr_t_contraction_storage.html'>dbcsr_t_contraction_storage</a>),
             </td>
 <td>intent(inout)</td>
@@ -410,7 +303,7 @@ and decide if tensor process grid needs to be optimized</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-split_opt~2"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -425,7 +318,7 @@ and decide if tensor process grid needs to be optimized</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-split"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -450,10 +343,10 @@ and decide if tensor process grid needs to be optimized</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-compat_map"></span><h3>private  function <a href='../proc/compat_map.html'>compat_map</a>(nd_index, compat_ind)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compat_map"></span><h3>private  function <a href='../proc/compat_map.html'>compat_map</a>(nd_index, compat_ind)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Check if 2d index is compatible with tensor index</p>
 
@@ -461,16 +354,16 @@ and decide if tensor process grid needs to be optimized</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nd_index~3"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
@@ -485,7 +378,7 @@ and decide if tensor process grid needs to be optimized</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-compat_ind"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -510,10 +403,10 @@ and decide if tensor process grid needs to be optimized</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-opt_pgrid"></span><h3>private  function <a href='../proc/opt_pgrid.html'>opt_pgrid</a>(tensor, tas_split_info)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-opt_pgrid"></span><h3>private  function <a href='../proc/opt_pgrid.html'>opt_pgrid</a>(tensor, tas_split_info)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -521,16 +414,16 @@ and decide if tensor process grid needs to be optimized</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~55"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -545,7 +438,7 @@ and decide if tensor process grid needs to be optimized</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tas_split_info~2"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -575,10 +468,10 @@ and decide if tensor process grid needs to be optimized</p>
 
         <section>
           <h2>Subroutines</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy"></span><h3>public  subroutine <a href='../proc/dbcsr_t_copy.html'>dbcsr_t_copy</a>(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_copy"></span><h3>public  subroutine <a href='../proc/dbcsr_t_copy.html'>dbcsr_t_copy</a>(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Copy tensor data.
 Redistributes tensor data according to distributions of target and source tensor.
@@ -594,16 +487,16 @@ OR
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_in~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -619,7 +512,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_out"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -635,7 +528,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-order"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -650,7 +543,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-summation~42"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -665,7 +558,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -680,7 +573,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data~11"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -695,7 +588,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~22"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -715,10 +608,10 @@ Target</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_expert"></span><h3>private  subroutine <a href='../proc/dbcsr_t_copy_expert.html'>dbcsr_t_copy_expert</a>(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_copy_expert"></span><h3>private  subroutine <a href='../proc/dbcsr_t_copy_expert.html'>dbcsr_t_copy_expert</a>(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>expert routine for copying a tensor. For internal use only.</p>
 
@@ -726,16 +619,16 @@ Target</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_in~7"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -750,7 +643,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_out~8"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -765,7 +658,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-order~39"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -780,7 +673,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-summation~43"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -795,7 +688,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -810,7 +703,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data~12"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -825,7 +718,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -845,10 +738,10 @@ Target</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_nocomm"></span><h3>private  subroutine <a href='../proc/dbcsr_t_copy_nocomm.html'>dbcsr_t_copy_nocomm</a>(tensor_in, tensor_out, summation)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_copy_nocomm"></span><h3>private  subroutine <a href='../proc/dbcsr_t_copy_nocomm.html'>dbcsr_t_copy_nocomm</a>(tensor_in, tensor_out, summation)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>copy without communication, requires that both tensors have same process grid and distribution</p>
 
@@ -856,16 +749,16 @@ Target</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_in~8"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -880,7 +773,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_out~9"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -895,7 +788,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-summation~18"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -915,10 +808,10 @@ Target</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_matrix_to_tensor"></span><h3>public  subroutine <a href='../proc/dbcsr_t_copy_matrix_to_tensor.html'>dbcsr_t_copy_matrix_to_tensor</a>(matrix_in, tensor_out, summation)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_copy_matrix_to_tensor"></span><h3>public  subroutine <a href='../proc/dbcsr_t_copy_matrix_to_tensor.html'>dbcsr_t_copy_matrix_to_tensor</a>(matrix_in, tensor_out, summation)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>copy matrix to tensor.</p>
 
@@ -926,16 +819,16 @@ Target</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_in~8"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in),</td>
@@ -950,7 +843,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_out~10"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -965,7 +858,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-summation~19"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -985,10 +878,10 @@ Target</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_tensor_to_matrix"></span><h3>public  subroutine <a href='../proc/dbcsr_t_copy_tensor_to_matrix.html'>dbcsr_t_copy_tensor_to_matrix</a>(tensor_in, matrix_out, summation)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_copy_tensor_to_matrix"></span><h3>public  subroutine <a href='../proc/dbcsr_t_copy_tensor_to_matrix.html'>dbcsr_t_copy_tensor_to_matrix</a>(tensor_in, matrix_out, summation)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>copy tensor to matrix</p>
 
@@ -996,16 +889,16 @@ Target</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_in~9"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1020,7 +913,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-matrix_out~8"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1035,7 +928,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-summation~20"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1055,10 +948,10 @@ Target</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract"></span><h3>public  subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, unit_nr, log_verbose)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_contract"></span><h3>public  subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, unit_nr, log_verbose)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Contract tensors by multiplying matrix representations.
 tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
@@ -1069,16 +962,16 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-alpha~29"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1093,7 +986,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_1"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1108,7 +1001,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1123,7 +1016,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-beta~15"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1138,7 +1031,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1153,7 +1046,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_1"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1168,7 +1061,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_1"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1183,7 +1076,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1198,7 +1091,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1213,7 +1106,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-map_1"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1228,7 +1121,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-map_2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1243,7 +1136,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_1"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1259,7 +1152,7 @@ which to contract. For use in batched contraction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1275,7 +1168,7 @@ For use in batched contraction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1291,7 +1184,7 @@ For use in batched contraction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-optimize_dist~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1307,7 +1200,7 @@ only for dense matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid_opt_1"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1324,7 +1217,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid_opt_2"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1339,7 +1232,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid_opt_3"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1354,7 +1247,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-filter_eps"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1369,7 +1262,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-flop"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1384,7 +1277,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1399,7 +1292,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-retain_sparsity~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1414,7 +1307,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1431,7 +1324,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-log_verbose~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1451,10 +1344,10 @@ if 0 on ALL ranks, no output is written</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract_expert"></span><h3>private  subroutine <a href='../proc/dbcsr_t_contract_expert.html'>dbcsr_t_contract_expert</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, nblks_local, result_index, unit_nr, log_verbose)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_contract_expert"></span><h3>private  subroutine <a href='../proc/dbcsr_t_contract_expert.html'>dbcsr_t_contract_expert</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, nblks_local, result_index, unit_nr, log_verbose)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>expert routine for tensor contraction. For internal use only.</p>
 
@@ -1462,16 +1355,16 @@ if 0 on ALL ranks, no output is written</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-alpha~30"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1486,7 +1379,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_1~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1501,7 +1394,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_2~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1516,7 +1409,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-beta~16"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1531,7 +1424,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_3~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1546,7 +1439,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_1~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1561,7 +1454,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_1~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1576,7 +1469,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_2~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1591,7 +1484,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_2~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1606,7 +1499,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-map_1~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1621,7 +1514,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-map_2~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1636,7 +1529,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_1~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1651,7 +1544,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_2~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1666,7 +1559,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_3~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1681,7 +1574,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-optimize_dist~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1696,7 +1589,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid_opt_1~2"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1711,7 +1604,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid_opt_2~2"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1726,7 +1619,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid_opt_3~2"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1741,7 +1634,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-filter_eps~13"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1756,7 +1649,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-flop~16"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1771,7 +1664,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data~13"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1786,7 +1679,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-retain_sparsity~17"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1801,7 +1694,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nblks_local"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1816,7 +1709,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-result_index"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1832,7 +1725,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~24"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1847,7 +1740,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-log_verbose~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1867,10 +1760,10 @@ this is an estimate based on block norm multiplication</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-align_tensor"></span><h3>private  subroutine <a href='../proc/align_tensor.html'>align_tensor</a>(tensor_in, contract_in, notcontract_in, tensor_out, contract_out, notcontract_out, indp_in, indp_out)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-align_tensor"></span><h3>private  subroutine <a href='../proc/align_tensor.html'>align_tensor</a>(tensor_in, contract_in, notcontract_in, tensor_out, contract_out, notcontract_out, indp_in, indp_out)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>align tensor index with data</p>
 
@@ -1878,16 +1771,16 @@ this is an estimate based on block norm multiplication</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_in~10"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1902,7 +1795,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_in"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1917,7 +1810,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_in"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1932,7 +1825,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_out~11"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1947,7 +1840,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_out"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1962,7 +1855,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_out"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1977,7 +1870,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-indp_in"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -1992,7 +1885,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-indp_out"></span>
               character(len=1),
             </td>
 <td>intent(out),</td>
@@ -2012,10 +1905,10 @@ this is an estimate based on block norm multiplication</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_compatible~2"></span><h3>private  subroutine <a href='../proc/reshape_mm_compatible~2.html'>reshape_mm_compatible</a>(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, ref_tensor, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-reshape_mm_compatible~2"></span><h3>private  subroutine <a href='../proc/reshape_mm_compatible~2.html'>reshape_mm_compatible</a>(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, ref_tensor, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
 matrix multiplication. This routine reshapes the two largest of the three tensors. Redistribution
@@ -2025,16 +1918,16 @@ is avoided if tensors already in a consistent layout.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor1"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -2049,7 +1942,7 @@ is avoided if tensors already in a consistent layout.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -2064,7 +1957,7 @@ is avoided if tensors already in a consistent layout.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor1_out"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out),</td>
@@ -2080,7 +1973,7 @@ tensor 2 out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor2_out"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out),</td>
@@ -2096,7 +1989,7 @@ tensor 2 out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind1_free"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2111,7 +2004,7 @@ tensor 2 out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind1_linked"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2127,7 +2020,7 @@ tensor 2 out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind2_free"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2142,7 +2035,7 @@ tensor 2 out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind2_linked"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2158,7 +2051,7 @@ tensor 2 out</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-trans1~2"></span>
               character(len=1),
             </td>
 <td>intent(out)</td>
@@ -2174,7 +2067,7 @@ transpose flag of matrix rep. tensor 2</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-trans2~2"></span>
               character(len=1),
             </td>
 <td>intent(out)</td>
@@ -2190,7 +2083,7 @@ transpose flag of matrix rep. tensor 2</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-new1~2"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2206,7 +2099,7 @@ whether a new tensor 2 was created</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-new2~2"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2222,7 +2115,7 @@ whether a new tensor 2 was created</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ref_tensor"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2237,7 +2130,7 @@ whether a new tensor 2 was created</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata1~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2253,7 +2146,7 @@ don't copy data of tensor 2</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata2~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2269,7 +2162,7 @@ don't copy data of tensor 2</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data_1~2"></span>
               logical,
             </td>
 <td>intent(inout),</td>
@@ -2285,7 +2178,7 @@ memory optimization: transfer data s.t. tensor2 may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data_2~2"></span>
               logical,
             </td>
 <td>intent(inout),</td>
@@ -2301,7 +2194,7 @@ memory optimization: transfer data s.t. tensor2 may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-optimize_dist~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2316,7 +2209,7 @@ memory optimization: transfer data s.t. tensor2 may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2336,10 +2229,10 @@ memory optimization: transfer data s.t. tensor2 may be empty on return</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_small~2"></span><h3>private  subroutine <a href='../proc/reshape_mm_small~2.html'>reshape_mm_small</a>(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-reshape_mm_small~2"></span><h3>private  subroutine <a href='../proc/reshape_mm_small~2.html'>reshape_mm_small</a>(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
 matrix multiplication. This routine reshapes the smallest of the three tensors.</p>
@@ -2348,16 +2241,16 @@ matrix multiplication. This routine reshapes the smallest of the three tensors.<
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_in~3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -2372,7 +2265,7 @@ matrix multiplication. This routine reshapes the smallest of the three tensors.<
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind1"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2388,7 +2281,7 @@ index that should be mapped to second matrix dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2404,7 +2297,7 @@ index that should be mapped to second matrix dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_out~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out),</td>
@@ -2419,7 +2312,7 @@ index that should be mapped to second matrix dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-trans~2"></span>
               character(len=1),
             </td>
 <td>intent(out)</td>
@@ -2434,7 +2327,7 @@ index that should be mapped to second matrix dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-new"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2449,7 +2342,7 @@ index that should be mapped to second matrix dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2465,7 +2358,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2481,7 +2374,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2501,10 +2394,10 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-invert_transpose_flag~2"></span><h3>private  subroutine <a href='../proc/invert_transpose_flag~2.html'>invert_transpose_flag</a>(trans_flag)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-invert_transpose_flag"></span><h3>private  subroutine <a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a>(trans_flag)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -2512,16 +2405,16 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-trans_flag"></span>
               character(len=1),
             </td>
 <td>intent(inout)</td>
@@ -2541,10 +2434,10 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-index_linked_sort"></span><h3>private  subroutine <a href='../proc/index_linked_sort.html'>index_linked_sort</a>(ind_ref, ind_dep)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-index_linked_sort"></span><h3>private  subroutine <a href='../proc/index_linked_sort.html'>index_linked_sort</a>(ind_ref, ind_dep)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   
 
@@ -2552,16 +2445,16 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind_ref"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2576,7 +2469,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ind_dep"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2596,10 +2489,10 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_remap"></span><h3>private  subroutine <a href='../proc/dbcsr_t_remap.html'>dbcsr_t_remap</a>(tensor_in, map1_2d, map2_2d, tensor_out, comm_2d, dist1, dist2, mp_dims_1, mp_dims_2, name, nodata, move_data)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_remap"></span><h3>private  subroutine <a href='../proc/dbcsr_t_remap.html'>dbcsr_t_remap</a>(tensor_in, map1_2d, map2_2d, tensor_out, comm_2d, dist1, dist2, mp_dims_1, mp_dims_2, name, nodata, move_data)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Copy tensor to tensor with modified index mapping</p>
 
@@ -2607,16 +2500,16 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_in~11"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2631,7 +2524,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-map1_2d"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2647,7 +2540,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-map2_2d"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2663,7 +2556,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_out~12"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2678,7 +2571,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-comm_2d~2"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in),</td>
@@ -2693,7 +2586,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dist1"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in),</td>
@@ -2708,7 +2601,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dist2"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in),</td>
@@ -2723,7 +2616,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mp_dims_1"></span>
               integer,
             </td>
 <td></td>
@@ -2738,7 +2631,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mp_dims_2"></span>
               integer,
             </td>
 <td></td>
@@ -2753,7 +2646,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-name~18"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -2768,7 +2661,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata~13"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2783,7 +2676,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-move_data~14"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2803,10 +2696,10 @@ new index mapping</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_align_index"></span><h3>private  subroutine <a href='../proc/dbcsr_t_align_index.html'>dbcsr_t_align_index</a>(tensor_in, tensor_out, order)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_align_index"></span><h3>private  subroutine <a href='../proc/dbcsr_t_align_index.html'>dbcsr_t_align_index</a>(tensor_in, tensor_out, order)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Align index with data</p>
 
@@ -2814,16 +2707,16 @@ new index mapping</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_in~12"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2838,7 +2731,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_out~13"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2853,7 +2746,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-order~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2873,10 +2766,10 @@ new index mapping</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_permute_index"></span><h3>private  subroutine <a href='../proc/dbcsr_t_permute_index.html'>dbcsr_t_permute_index</a>(tensor_in, tensor_out, order)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_permute_index"></span><h3>private  subroutine <a href='../proc/dbcsr_t_permute_index.html'>dbcsr_t_permute_index</a>(tensor_in, tensor_out, order)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Create new tensor by reordering index, data is copied exactly (shallow copy)</p>
 
@@ -2884,16 +2777,16 @@ new index mapping</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_in~13"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2908,7 +2801,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_out~14"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2923,7 +2816,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-order~40"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2943,10 +2836,10 @@ new index mapping</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract_index"></span><h3>public  subroutine <a href='../proc/dbcsr_t_contract_index.html'>dbcsr_t_contract_index</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, filter_eps, nblks_local, result_index)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_contract_index"></span><h3>public  subroutine <a href='../proc/dbcsr_t_contract_index.html'>dbcsr_t_contract_index</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, filter_eps, nblks_local, result_index)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>get indices of non-zero tensor blocks for contraction result without actually
 performing contraction.
@@ -2957,16 +2850,16 @@ See documentation of dbcsr_t_contract.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-alpha~31"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2981,7 +2874,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_1~3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -2996,7 +2889,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_2~3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -3011,7 +2904,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-beta~17"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3026,7 +2919,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_3~3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -3041,7 +2934,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_1~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3056,7 +2949,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_1~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3071,7 +2964,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_2~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3086,7 +2979,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_2~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3101,7 +2994,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-map_1~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3116,7 +3009,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-map_2~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3131,7 +3024,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_1~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3146,7 +3039,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_2~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3161,7 +3054,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_3~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3176,7 +3069,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-filter_eps~14"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -3191,7 +3084,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nblks_local~2"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -3206,7 +3099,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-result_index~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -3227,10 +3120,10 @@ only the elements result_index(:nblks_local, :) are relevant (all others are set
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_map_bounds_to_tensors"></span><h3>private  subroutine <a href='../proc/dbcsr_t_map_bounds_to_tensors.html'>dbcsr_t_map_bounds_to_tensors</a>(tensor_1, tensor_2, contract_1, notcontract_1, contract_2, notcontract_2, bounds_t1, bounds_t2, bounds_1, bounds_2, bounds_3, do_crop_1, do_crop_2)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_map_bounds_to_tensors"></span><h3>private  subroutine <a href='../proc/dbcsr_t_map_bounds_to_tensors.html'>dbcsr_t_map_bounds_to_tensors</a>(tensor_1, tensor_2, contract_1, notcontract_1, contract_2, notcontract_2, bounds_t1, bounds_t2, bounds_1, bounds_2, bounds_3, do_crop_1, do_crop_2)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Map contraction bounds to bounds referring to tensor indices
 see dbcsr_t_contract for docu of dummy arguments</p>
@@ -3239,16 +3132,16 @@ see dbcsr_t_contract for docu of dummy arguments</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_1~4"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3263,7 +3156,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_2~4"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3278,7 +3171,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_1~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3293,7 +3186,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_1~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3308,7 +3201,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-contract_2~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3323,7 +3216,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-notcontract_2~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3338,7 +3231,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_t1"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -3353,7 +3246,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_t2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -3368,7 +3261,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_1~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3383,7 +3276,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_2~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3398,7 +3291,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-bounds_3~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3413,7 +3306,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-do_crop_1"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -3429,7 +3322,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-do_crop_2"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -3450,10 +3343,10 @@ whether tensor 2 should be cropped</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_print_contraction_index"></span><h3>private  subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_t_print_contraction_index</a>(tensor_1, indchar1, tensor_2, indchar2, tensor_3, indchar3, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_print_contraction_index"></span><h3>private  subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_t_print_contraction_index</a>(tensor_1, indchar1, tensor_2, indchar2, tensor_3, indchar3, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>print tensor contraction indices in a human readable way</p>
 
@@ -3461,16 +3354,16 @@ whether tensor 2 should be cropped</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_1~5"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3485,7 +3378,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-indchar1"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -3500,7 +3393,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_2~5"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3515,7 +3408,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-indchar2"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -3530,7 +3423,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor_3~4"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3545,7 +3438,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-indchar3"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -3560,7 +3453,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3580,10 +3473,10 @@ whether tensor 2 should be cropped</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_batched_contract_init"></span><h3>public  subroutine <a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_batched_contract_init</a>(tensor, batch_range_1, batch_range_2, batch_range_3, batch_range_4)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_batched_contract_init"></span><h3>public  subroutine <a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_batched_contract_init</a>(tensor, batch_range_1, batch_range_2, batch_range_3, batch_range_4)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Initialize batched contraction for this tensor.</p><a href="../proc/dbcsr_t_batched_contract_init.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -3591,16 +3484,16 @@ whether tensor 2 should be cropped</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~56"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3615,7 +3508,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-batch_range_1"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3634,7 +3527,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-batch_range_2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3653,7 +3546,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-batch_range_3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3672,7 +3565,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-batch_range_4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3696,10 +3589,10 @@ block index plus one of the last block in the last range.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_batched_contract_finalize"></span><h3>public  subroutine <a href='../proc/dbcsr_t_batched_contract_finalize.html'>dbcsr_t_batched_contract_finalize</a>(tensor, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_batched_contract_finalize"></span><h3>public  subroutine <a href='../proc/dbcsr_t_batched_contract_finalize.html'>dbcsr_t_batched_contract_finalize</a>(tensor, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>finalize batched contraction. This performs all communication that has been postponed in the
 contraction calls.</p>
@@ -3708,16 +3601,16 @@ contraction calls.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~57"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3732,7 +3625,7 @@ contraction calls.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3752,10 +3645,10 @@ contraction calls.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_change_pgrid"></span><h3>private  subroutine <a href='../proc/dbcsr_t_change_pgrid.html'>dbcsr_t_change_pgrid</a>(tensor, pgrid, batch_range_1, batch_range_2, batch_range_3, batch_range_4, nodata, pgrid_changed, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_change_pgrid"></span><h3>private  subroutine <a href='../proc/dbcsr_t_change_pgrid.html'>dbcsr_t_change_pgrid</a>(tensor, pgrid, batch_range_1, batch_range_2, batch_range_3, batch_range_4, nodata, pgrid_changed, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>change the process grid of a tensor</p>
 
@@ -3763,16 +3656,16 @@ contraction calls.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~58"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3787,7 +3680,7 @@ contraction calls.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid~15"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3802,7 +3695,7 @@ contraction calls.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-batch_range_1~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3821,7 +3714,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-batch_range_2~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3840,7 +3733,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-batch_range_3~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3859,7 +3752,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-batch_range_4~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3878,7 +3771,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata~6"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3893,7 +3786,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid_changed"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -3908,7 +3801,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3928,10 +3821,10 @@ block index plus one of the last block in the last range.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_change_pgrid_2d"></span><h3>private  subroutine <a href='../proc/dbcsr_t_change_pgrid_2d.html'>dbcsr_t_change_pgrid_2d</a>(tensor, mp_comm, pdims, nodata, nsplit, dimsplit, pgrid_changed, unit_nr)  
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_change_pgrid_2d"></span><h3>private  subroutine <a href='../proc/dbcsr_t_change_pgrid_2d.html'>dbcsr_t_change_pgrid_2d</a>(tensor, mp_comm, pdims, nodata, nsplit, dimsplit, pgrid_changed, unit_nr)  
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>map tensor to a new 2d process grid for the matrix representation.</p>
 
@@ -3939,16 +3832,16 @@ block index plus one of the last block in the last range.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tensor~59"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3963,7 +3856,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mp_comm~9"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3978,7 +3871,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pdims~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3993,7 +3886,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nodata~14"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4008,7 +3901,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nsplit~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4023,7 +3916,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dimsplit~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4038,7 +3931,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-pgrid_changed~2"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -4053,7 +3946,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unit_nr~27"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4085,12 +3978,12 @@ block index plus one of the last block in the last range.</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2023 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -4100,17 +3993,12 @@ block index plus one of the last block in the last range.</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">
