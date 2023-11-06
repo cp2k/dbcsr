@@ -1328,17 +1328,17 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 (NULL == env_aa || '\0' == *env_aa)
                   ? (0 == kernel_idx ? (NULL == config ? /*default*/ default_aa : config->aa) : /*default*/ default_aa)
                   : atoi(env_aa),
-                0, 3);
+                0, 2);
               new_config.ab = LIBXSMM_CLMP(
                 (NULL == env_ab || '\0' == *env_ab)
                   ? (0 == kernel_idx ? (NULL == config ? /*default*/ default_ab : config->ab) : /*default*/ default_ab)
                   : atoi(env_ab),
-                0, 3);
+                0, 2);
               new_config.ac = LIBXSMM_CLMP(
                 (NULL == env_ac || '\0' == *env_ac)
                   ? (0 == kernel_idx ? (NULL == config ? /*default*/ default_ac : config->ac) : /*default*/ default_ac)
                   : atoi(env_ac),
-                0, 2);
+                0, 1);
               if (NULL == env_xf || '\0' == *env_xf) {
                 if (0 == devinfo->intel || NULL == env_cl || NULL == strstr(env_cl, intel_xf)) {
                   new_config.flags = (NULL == config ? /*default*/ 0 : config->flags);
@@ -1425,6 +1425,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 const char* const env_barrier = getenv("OPENCL_LIBSMM_SMM_BARRIER");
                 const char* const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
                 const char* const env_nrepeat = getenv("SMM_NREPEAT");
+                const int typesize = OPENCL_LIBSMM_TYPESIZE(datatype);
+                const int slm_a = (1 != new_config.aa ? 0 : (LIBXSMM_ISPOT(k_max * typesize) + 1));
+                const int slm_b = (1 != new_config.ab ? 0 : (LIBXSMM_ISPOT(k_max * typesize) + 1));
+                const int slm_c = (1 != new_config.ac ? 0 : (LIBXSMM_ISPOT(m_max * typesize) + 1));
                 const char *barrier_expr = NULL, *atomic_ops = "";
                 const char *atomic_exp = NULL, *atomic_expr2 = "";
                 if (NULL == env_barrier || '0' != *env_barrier) {
@@ -1543,9 +1547,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   bs == new_config.bs ? "-DBSC" : "", new_config.bm, new_config.bn, new_config.bk, tname, datatype,
                   0 == new_config.nz ? "" : "-DATOMIC_INC_NZ", 0 == new_config.al ? "" : "-DAL",
                   0 == new_config.tb ? "" : "-DTRACK_B", 0 != new_config.tc ? "-DTRACK_C" : "", 0 == new_config.ap ? "" : "-DSLM_P",
-                  0 == new_config.aa ? "" : (1 == new_config.aa ? "-DSLM_A=1" : (2 == new_config.aa ? "-DSLM_A=2" : "-DREG_A")),
-                  0 == new_config.ab ? "" : (1 == new_config.ab ? "-DSLM_B=1" : (2 == new_config.ab ? "-DSLM_B=2" : "-DREG_B")),
-                  0 == new_config.ac ? "" : (1 == new_config.ac ? "-DSLM_C=1" : "-DSLM_C=2"), atomic_type, atomic_ops, atomic_exp,
+                  0 == new_config.aa ? "" : (1 == slm_a ? "-DSLM_A=1" : (0 != slm_a ? "-DSLM_A=2" : "-DREG_A")),
+                  0 == new_config.ab ? "" : (1 == slm_b ? "-DSLM_B=1" : (0 != slm_b ? "-DSLM_B=2" : "-DREG_B")),
+                  0 == new_config.ac ? "" : (1 == slm_c ? "-DSLM_C=1" : "-DSLM_C=2"), atomic_type, atomic_ops, atomic_exp,
                   atomic_expr2, barrier_expr);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   const char* const cl_debug = (
@@ -1644,9 +1648,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       assert(EXIT_SUCCESS != result || (0 <= config->tb && 1 >= config->tb));
       assert(EXIT_SUCCESS != result || (0 <= config->tc && 1 >= config->tc));
       assert(EXIT_SUCCESS != result || (0 <= config->ap && 1 >= config->ap));
-      assert(EXIT_SUCCESS != result || (0 <= config->aa && 3 >= config->aa));
-      assert(EXIT_SUCCESS != result || (0 <= config->ab && 3 >= config->ab));
-      assert(EXIT_SUCCESS != result || (0 <= config->ac && 2 >= config->ac));
+      assert(EXIT_SUCCESS != result || (0 <= config->aa && 2 >= config->aa));
+      assert(EXIT_SUCCESS != result || (0 <= config->ab && 2 >= config->ab));
+      assert(EXIT_SUCCESS != result || (0 <= config->ac && 1 >= config->ac));
       assert(EXIT_SUCCESS != result || (1 <= config->wgsize[kernel_idx]));
       assert(EXIT_SUCCESS != result || (1 <= config->s && 1 <= config->bs));
       if (EXIT_SUCCESS == result) {
@@ -1809,7 +1813,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               fprintf(stderr, " => ERROR diff=%g\n", diff.linf_abs);
 #      endif
               if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-                fprintf(stderr, "stackposition = %llu (index=%llu)\n", i, (unsigned long long)ic);
+                fprintf(stderr, "stackposition = %llu (index=%llu)\n", (unsigned long long)i, (unsigned long long)ic);
                 opencl_libsmm_print_matrix(stderr, "gold = ", datatype, gold + ic, m_max, n_max);
                 opencl_libsmm_print_matrix(stderr, "test = ", datatype, test + ic, m_max, n_max);
                 fprintf(stderr, "\n");

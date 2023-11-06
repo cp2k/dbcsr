@@ -42,6 +42,9 @@ then
     -u|--update)
       UPDATE=1
       shift 1;;
+    -d|--delete)
+      DELETE=1
+      shift 1;;
     -a|--tuning-level)
       TLEVEL=$2
       shift 2;;
@@ -205,6 +208,7 @@ then
   else
     echo "Tuning ${PARTSIZE} kernels will take an unknown time (no limit given)."
   fi
+  if [ "${DELETE}" ] && [ "0" != "${DELETE}" ]; then DELETE=-d; fi
   NJSONS=$(${WC} -l <<<"${JSONS}")
   if [ "0" != "${NJSONS}" ]; then
     if [ ! "${UPDATE}" ] || [ "0" = "${UPDATE}" ]; then
@@ -227,7 +231,7 @@ then
       echo "[$((N+1))/${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf ./opentuner.db
-      eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
+      eval "${HERE}/tune_multiply.py ${MNK} ${DELETE} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
       RESULT=$?
       # environment var. CONTINUE allows to proceed with next kernel
       # even if tune_multiply.py returned non-zero exit code
