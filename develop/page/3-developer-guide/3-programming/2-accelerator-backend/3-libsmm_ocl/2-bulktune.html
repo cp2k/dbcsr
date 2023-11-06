@@ -204,6 +204,22 @@ cp<span class="w"> </span>tune_multiply.csv<span class="w"> </span>smm/params/tu
 </code></pre></div>
 
 <p>Tuning kernels further is only sensible if the previously tuned parameters are embedded into the binary (such that the process does not start from scratch). Retuned parameters are captured with JSON-files as usual.</p>
+<h1>Advanced Tuning</h1>
+<p>To utilize multiple devices per system and to accelerate tuning kernels, <code>tune_multiply.py</code> comes with built-in support for running under MPI (SPMD execution model). The basic assumption is to spawn one process per device usually with different kernels tuned per device (SPMD). Of course, tuning the same kernels in parallel on multiple devices is possible but it is a waste of resources. Tuning on multiple devices per system can be also more realistic given the common power budget of all devices and less room for an increased operating frequency per device (Turbo clock speed).</p>
+<p>For example, a single dual-socket system with two PVC cards (modules) per socket exposes eight GPU devices (two GPU stacks or tiles per card). Then 350 kernels can be tuned in less than 2 1/2 hours with a duration of 200 seconds for tuning each kernel.</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">MAXTIME</span><span class="o">=</span><span class="m">200</span><span class="w"> </span><span class="nv">NPARTS</span><span class="o">=</span><span class="m">8</span><span class="w"> </span><span class="nv">UPDATE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">JSONDIR</span><span class="o">=</span>params/pvc<span class="w"> </span>mpirun<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">3</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">4</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">5</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">6</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">7</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+&gt;out.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</code></pre></div>
+
+<p><strong>NOTE</strong>: The above shown example prefers environment variables over command-line options that would be common to the eight launches of <code>tune_multiply.sh</code>.</p>
     </div>
   </div>
       <hr>
