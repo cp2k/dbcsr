@@ -86,8 +86,8 @@
 #endif
 
 #define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
-#define ACC_BENCH_SMM_EPSILON_double 3E-3
-#define ACC_BENCH_SMM_EPSILON_float 3E-3
+#define ACC_BENCH_SMM_EPSILON_double 1E-3
+#define ACC_BENCH_SMM_EPSILON_float 2E-3
 
 #define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT)-1)) & ~((NPOT)-1))
 #define CHECK(EXPR, RPTR, VALUE) \

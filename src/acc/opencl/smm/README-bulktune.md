@@ -66,3 +66,24 @@ cp tune_multiply.csv smm/params/tune_multiply_P100.csv
 ```
 
 Tuning kernels further is only sensible if the previously tuned parameters are embedded into the binary (such that the process does not start from scratch). Retuned parameters are captured with JSON-files as usual.
+
+# Advanced Tuning
+
+To utilize multiple devices per system and to accelerate tuning kernels, `tune_multiply.py` comes with built-in support for running under MPI (SPMD execution model). The basic assumption is to spawn one process per device usually with different kernels tuned per device (SPMD). Of course, tuning the same kernels in parallel on multiple devices is possible but it is a waste of resources. Tuning on multiple devices per system can be also more realistic given the common power budget of all devices and less room for an increased operating frequency per device (Turbo clock speed).
+
+For example, a single dual-socket system with two PVC cards (modules) per socket exposes eight GPU devices (two GPU stacks or tiles per card). Then 350 kernels can be tuned in less than 2 1/2 hours with a duration of 200 seconds for tuning each kernel.
+
+```bash
+MAXTIME=200 NPARTS=8 UPDATE=1 JSONDIR=params/pvc mpirun \
+  ./tune_multiply.sh -i 1 : \
+  ./tune_multiply.sh -i 2 : \
+  ./tune_multiply.sh -i 3 : \
+  ./tune_multiply.sh -i 4 : \
+  ./tune_multiply.sh -i 5 : \
+  ./tune_multiply.sh -i 6 : \
+  ./tune_multiply.sh -i 7 : \
+  ./tune_multiply.sh -i 8 \
+>out.log 2>&1
+```
+
+**NOTE**: The above shown example prefers environment variables over command-line options that would be common to the eight launches of `tune_multiply.sh`.
