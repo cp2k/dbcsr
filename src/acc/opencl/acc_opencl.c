@@ -212,6 +212,7 @@ int c_dbcsr_acc_init(void) {
     const char* const env_dump = (NULL != env_dump_acc ? env_dump_acc : getenv("IGC_ShaderDumpEnable"));
 #  if defined(ACC_OPENCL_NCCS) && (0 < ACC_OPENCL_NCCS)
     const char *const env_zex = getenv("ZEX_NUMBER_OF_CCS"), *const env_nccs = getenv("ACC_OPENCL_NCCS");
+    const char* const env_flt = getenv("ZE_FLAT_DEVICE_HIERARCHY");
     const int nccs = (NULL == env_nccs ? 0 : atoi(env_nccs));
 #  endif
 #  if defined(ACC_OPENCL_IENV)
@@ -245,7 +246,9 @@ int c_dbcsr_acc_init(void) {
       c_dbcsr_acc_opencl_config.timer = c_dbcsr_acc_opencl_timer_host;
     }
 #  if defined(ACC_OPENCL_NCCS) && (0 < ACC_OPENCL_NCCS)
-    if ((NULL == env_zex && 0 == (4 & c_dbcsr_acc_opencl_config.xhints)) || 0 != nccs) {
+    if ((NULL == env_zex && NULL == env_flt && 0 == (4 & c_dbcsr_acc_opencl_config.xhints)) ||
+        (0 == LIBXSMM_PUTENV("ZE_FLAT_DEVICE_HIERARCHY=COMPOSITE") && 0 != nccs))
+    {
       static char zex_number_of_ccs[ACC_OPENCL_DEVICES_MAXCOUNT * 8 + 32] = "ZEX_NUMBER_OF_CCS=";
       int j = strlen(zex_number_of_ccs);
       for (i = 0; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
