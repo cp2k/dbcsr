@@ -111,7 +111,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_mm_sched.html#variable-modulen~47">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_sched.html#variable-modulen~70">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_mm_sched.html#variable-stats_per_thread">stats_per_thread</a>
         </div>
       </div>
@@ -195,17 +195,17 @@ dbcsr_mm_methods.
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
                   <li class="list-inline-item"><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_mm_accdrv.html'>dbcsr_mm_accdrv</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
                   <li class="list-inline-item"><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mm_accdrv.html'>dbcsr_mm_accdrv</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
                   <li class="list-inline-item"><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
               </ul>
             </li>
         </ul>
@@ -230,7 +230,7 @@ dbcsr_mm_methods.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~47"></span>
+              <span class="anchor" id="variable-modulen~70"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -298,7 +298,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-product_wm~2"></span>
+              <span class="anchor" id="variable-product_wm~3"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
               <td>private,</td>
@@ -383,7 +383,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_product_data~3"></span>
+              <span class="anchor" id="variable-keep_product_data~5"></span>
               logical,
             </td>
               <td>private</td>
@@ -619,7 +619,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-padding"></span>
+              <span class="anchor" id="variable-padding~4"></span>
               integer(kind=int_4),
             </td>
               <td>public,</td>
@@ -735,7 +735,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~34"></span>
+              <span class="anchor" id="variable-group~38"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -750,7 +750,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-output_unit~3"></span>
+              <span class="anchor" id="variable-output_unit~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -790,7 +790,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~48"></span>
+              <span class="anchor" id="variable-this~58"></span>
               type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -830,7 +830,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~49"></span>
+              <span class="anchor" id="variable-this~59"></span>
               type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -845,7 +845,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-product_wm~5"></span>
+              <span class="anchor" id="variable-product_wm~7"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td></td>
@@ -860,7 +860,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nlayers~3"></span>
+              <span class="anchor" id="variable-nlayers~4"></span>
               integer,
             </td>
 <td></td>
@@ -875,7 +875,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_product_data~8"></span>
+              <span class="anchor" id="variable-keep_product_data~10"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -915,7 +915,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~50"></span>
+              <span class="anchor" id="variable-this~60"></span>
               type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -955,7 +955,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~51"></span>
+              <span class="anchor" id="variable-this~61"></span>
               type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -995,7 +995,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~52"></span>
+              <span class="anchor" id="variable-this~62"></span>
               type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1063,7 +1063,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~53"></span>
+              <span class="anchor" id="variable-this~63"></span>
               type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1078,7 +1078,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~6"></span>
+              <span class="anchor" id="variable-left~11"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1093,7 +1093,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~6"></span>
+              <span class="anchor" id="variable-right~11"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1138,7 +1138,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_descr"></span>
+              <span class="anchor" id="variable-stack_descr~7"></span>
               type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1178,7 +1178,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~54"></span>
+              <span class="anchor" id="variable-this~64"></span>
               type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1263,7 +1263,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~52"></span>
+              <span class="anchor" id="variable-n~54"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1463,7 +1463,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~35"></span>
+              <span class="anchor" id="variable-group~39"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1518,7 +1518,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-output_unit~4"></span>
+              <span class="anchor" id="variable-output_unit~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
