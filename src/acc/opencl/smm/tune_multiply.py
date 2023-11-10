@@ -29,7 +29,7 @@ default_enable_tune = {"tune", "enabled", "on"}
 default_basename = "tune_multiply"
 default_mnk = "23x23x23"
 default_dbg = False
-default_retry = 3
+default_retry = 1
 
 
 def env_intvalue(env, default, lookup=True):
@@ -59,13 +59,14 @@ class SmmTuner(MeasurementInterface):
             self.args.mnk = default_mnk
         mnk = tuple(max(int(i), 1) for i in self.args.mnk.split("x"))
         self.mnk = (mnk + (mnk[0], mnk[0]))[:3]
+        self.wsx = self.mnk[0] * self.mnk[1]
         # sanitize input arguments
         self.args.mb = max(self.args.mb, 1)
         self.args.bs = max(min(self.args.bs, self.args.mb), 1)
         self.args.bm = [max(self.args.bm, 1), self.mnk[0]][0 == self.args.bm]
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
         self.args.bk = [max(self.args.bk, 1), self.mnk[2]][0 == self.args.bk]
-        self.args.ws = min(self.args.ws, self.mnk[0] * self.mnk[1])
+        self.args.ws = min(self.args.ws, self.wsx)
         self.ndevices = self.gfbase = self.gfsave = self.gflops = 0
         self.config = self.typename = self.typeid = self.device = self.size = None
         self.bs = self.bm = self.bn = self.bk = self.ws = self.wg = self.lu = None
@@ -123,16 +124,14 @@ class SmmTuner(MeasurementInterface):
             nprm = len(seed.groups()) if seed else 0
             if 15 > nprm:
                 print("WARNING: missed to parse initial parameters!")
-            maxlu = 2 if 2 <= self.args.tlevel or 0 > self.args.tlevel else 6
+            maxlu = 6 if 1 >= self.args.tlevel else 2
             # setup fixed and tunable parameters
             params, paramt = [], []
             self.create_param("BS", params, paramt, seed, 1, 1, self.args.mb)
             self.create_param("BM", params, paramt, seed, 2, 1, self.mnk[0])
             self.create_param("BN", params, paramt, seed, 3, 1, self.mnk[1])
             self.create_param("BK", params, paramt, seed, 4, 1, self.mnk[0])
-            self.create_param(
-                "WS", params, paramt, seed, 5, 1, self.mnk[0] * self.mnk[1], False
-            )
+            self.create_param("WS", params, paramt, seed, 5, 1, self.wsx)
             self.create_param("WG", params, paramt, seed, 6, -2, 1, False)  # avoid WG=2
             self.create_param("LU", params, paramt, seed, 7, -2, maxlu)
             self.create_param("NZ", params, paramt, seed, 8, 0, 1)
@@ -316,9 +315,7 @@ class SmmTuner(MeasurementInterface):
                     self.gfbase = gflops
                 else:
                     self.save_final_config(desired_result.configuration, final=False)
-            kernelreq = round(
-                (100.0 * config["BM"] * config["BN"]) / (self.mnk[0] * self.mnk[1])
-            )
+            kernelreq = round((100.0 * config["BM"] * config["BN"]) / self.wsx)
             # gflops are reported as "accuracy" (console output)
             return Result(time=mseconds, accuracy=gflops, size=kernelreq)
         else:  # return non-competitive/bad result in case of an error
@@ -428,6 +425,7 @@ class SmmTuner(MeasurementInterface):
                 retsld, delsld = [0, 0, 0], [0, 0, 0]  # [min, geo, max]
                 retain, delete = [], []  # lists of filenames
                 retcnt = delcnt = 0  # geo-counter
+                retbad = None
                 for key, value in worse.items():
                     gflops = round(merged[key][1])
                     mtime = os.path.getmtime(merged[key][-1])
@@ -440,7 +438,10 @@ class SmmTuner(MeasurementInterface):
                             if 0 < s:
                                 retsld[1] = retsld[1] + math.log(s)
                                 retsld[0] = min(retsld[0], s) if 0 < retsld[0] else s
-                                retsld[2] = max(retsld[2], s)
+                                if retsld[2] < s:  # maximum
+                                    retmnk = os.path.basename(filename).split("-")
+                                    retbad = retmnk[2] if 2 < len(retmnk) else None
+                                    retsld[2] = s
                                 retcnt = retcnt + 1
                             retain.append(filename)
                         else:
@@ -456,9 +457,10 @@ class SmmTuner(MeasurementInterface):
                     if not self.args.delete:
                         if retain:
                             num, lst = len(retain), " ".join(retain)
-                            msg = "Worse and newer (retain {} @ {}x): {}"
+                            msg = "Worse and newer (retain {} @ {}x{}): {}"
                             rnd = [str(round(i, 2)) for i in retsld]
-                            print(msg.format(num, "..".join(rnd), lst))
+                            bad = " " + retbad if retbad and self.args.verbose else ""
+                            print(msg.format(num, "..".join(rnd), bad, lst))
                         if delete:
                             num, lst = len(delete), " ".join(delete)
                             msg = "Worse and older (delete {} @ {}x): {}"
@@ -574,7 +576,7 @@ class SmmTuner(MeasurementInterface):
             msg = "\nWARNING: tuning {}-kernel interrupted."
             print(msg.format("x".join(map(str, self.mnk))))
             try:
-                self.save_final_config(self.config)
+                self.save_final_config(self.config, True)
             except:  # noqa: E722
                 pass
         exit(1)
@@ -858,10 +860,12 @@ if __name__ == "__main__":
                 TuningRunMain(instance, args).main()
                 exit(0)
             except Exception as e:
-                msg = "IGNORED {} of {} {}: {}".format(
-                    retry, default_retry, type(e).__name__, e
+                ign = (
+                    "[{}/{}]".format(retry + 1, default_retry)
+                    if 1 < default_retry
+                    else ""
                 )
-                print(msg)
+                print("IGNORED{} {}: {}".format(ign, type(e).__name__, e))
                 pass
         instance.save_final_config(None, True)
     else:
