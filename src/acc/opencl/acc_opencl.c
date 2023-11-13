@@ -28,6 +28,9 @@
 #    define S_ISDIR(A) ((S_IFMT & (A)) == S_IFDIR)
 #  endif
 
+#  if !defined(ACC_OPENCL_TEMPDIR) && 1
+#    define ACC_OPENCL_TEMPDIR "/tmp"
+#  endif
 #  if !defined(ACC_OPENCL_CACHEDIR) && 1
 #    define ACC_OPENCL_CACHEDIR ".cl_cache"
 #  endif
@@ -273,20 +276,43 @@ int c_dbcsr_acc_init(void) {
 #  endif
 #  if defined(ACC_OPENCL_CACHEDIR)
     {
-      const char* const env_cache = getenv("ACC_OPENCL_CACHE");
-      const int cache = (NULL == env_cache ? CL_FALSE : (0 != atoi(env_cache) ? CL_TRUE : CL_FALSE));
+      const char *const env_cache = getenv("ACC_OPENCL_CACHE"), *env_cachedir = getenv("NEO_CACHE_DIR");
+      int cache = (NULL == env_cache ? 0 : atoi(env_cache));
       struct stat cachedir;
-      if (0 != cache || (stat(ACC_OPENCL_CACHEDIR, &cachedir) == 0 && S_ISDIR(cachedir.st_mode))) {
-#    if !defined(_WIN32)
-        static char cl_cache_dir[] = "cl_cache_dir=" ACC_OPENCL_CACHEDIR;
+      if (0 == cache) {
+        if (stat(ACC_OPENCL_CACHEDIR, &cachedir) == 0 && S_ISDIR(cachedir.st_mode)) cache = 1;
+        else if (stat(ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHEDIR, &cachedir) == 0 && S_ISDIR(cachedir.st_mode)) cache = 2;
+      }
+      if (1 == cache) {
+        static char neo_cachedir[] = "NEO_CACHE_DIR=" ACC_OPENCL_CACHEDIR;
+        static char ocl_cachedir[] = "cl_cache_dir=" ACC_OPENCL_CACHEDIR;
+        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(neo_cachedir)); /* putenv before entering OpenCL */
+        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(ocl_cachedir)); /* putenv before entering OpenCL */
+        env_cachedir = ACC_OPENCL_CACHEDIR;
+      }
+#    if defined(ACC_OPENCL_TEMPDIR)
+      else if (NULL == env_cachedir) { /* code-path entered by default */
+        if (NULL == env_cache || 0 != cache) { /* customize NEO_CACHE_DIR unless ACC_OPENCL_CACHE=0 */
+          static char neo_cachedir[] = "NEO_CACHE_DIR=" ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHEDIR;
+          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(neo_cachedir)); /* putenv before entering OpenCL */
+          env_cachedir = ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHEDIR;
+        }
+        if (0 != cache) { /* legacy-NEO is treated with explicit opt-in */
+          static char ocl_cachedir[] = "cl_cache_dir=" ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHEDIR;
+          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(ocl_cachedir)); /* putenv before entering OpenCL */
+        }
+      }
+#    endif
+      if (NULL != env_cachedir) {
+#    if defined(_WIN32)
+        LIBXSMM_UNUSED(env_cachedir);
+#    else
 #      if defined(S_IRWXU) && defined(S_IRGRP) && defined(S_IXGRP) && defined(S_IROTH) && defined(S_IXOTH)
         const int mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
 #      else
         const int mode = 0xFFFFFFFF;
 #      endif
-        if (0 == mkdir(ACC_OPENCL_CACHEDIR, mode) || EEXIST == errno) { /* putenv before entering OpenCL */
-          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(cl_cache_dir)); /* soft-error */
-        }
+        ACC_OPENCL_EXPECT(0 == mkdir(env_cachedir, mode) || EEXIST == errno); /* soft-error */
 #    endif
       }
     }
@@ -1254,7 +1280,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
     /* consider preprocessing kernel for analysis (cpp); failure does not matter (result) */
 #  if defined(ACC_OPENCL_CPPBIN)
     if (0 != c_dbcsr_acc_opencl_config.dump && NULL == file_src) {
-      nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), "/tmp/.%s.XXXXXX", kernel_name);
+      nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), ACC_OPENCL_TEMPDIR "/.%s.XXXXXX", kernel_name);
       if (0 < nchar && (int)sizeof(buffer_name) > nchar) {
         FILE* const file_cpp = fopen(ACC_OPENCL_CPPBIN, "rb");
         const char* sed_pattern = "";
