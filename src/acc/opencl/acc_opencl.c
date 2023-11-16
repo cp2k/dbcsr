@@ -31,7 +31,7 @@
 #  if !defined(ACC_OPENCL_TEMPDIR) && 1
 #    define ACC_OPENCL_TEMPDIR "/tmp"
 #  endif
-#  if !defined(ACC_OPENCL_CACHEDIR) && 1
+#  if !defined(ACC_OPENCL_CACHEDIR) && 0
 #    define ACC_OPENCL_CACHEDIR ".cl_cache"
 #  endif
 #  if !defined(ACC_OPENCL_CPPBIN) && 1

@@ -30,6 +30,7 @@ default_basename = "tune_multiply"
 default_mnk = "23x23x23"
 default_dbg = False
 default_retry = 1
+default_vlen = 8
 
 
 def env_intvalue(env, default, lookup=True):
@@ -124,7 +125,7 @@ class SmmTuner(MeasurementInterface):
             nprm = len(seed.groups()) if seed else 0
             if 15 > nprm:
                 print("WARNING: missed to parse initial parameters!")
-            maxlu = 6 if 1 >= self.args.tlevel else 2
+            maxlu = (self.mnk[0] + default_vlen - 1) / default_vlen
             # setup fixed and tunable parameters
             params, paramt = [], []
             self.create_param("BS", params, paramt, seed, 1, 1, self.args.mb)
@@ -242,7 +243,7 @@ class SmmTuner(MeasurementInterface):
         envstrs = " ".join(map(str, envs))
         if verbose is not None and 0 != int(verbose):
             print(envstrs.replace("OPENCL_LIBSMM_SMM_", "").replace(" CHECK=0", ""))
-        env_defaults = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0"
+        env_defaults = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 NEO_CACHE_PERSISTENT=0"
         env_exe_args = "{} {} {} {} {} {}".format(  # consider device-id
             "" if self.idevice is None else "ACC_OPENCL_DEVICE={}".format(self.idevice),
             "{} {}".format(env_defaults, envstrs),  # environment
@@ -496,7 +497,8 @@ class SmmTuner(MeasurementInterface):
         config = configuration.data if configuration else None
         cfgenv = self.environment(config) if config else None
         result = self.run_result["returncode"] if config and self.run_result else 1
-        if 0 == result and 0 == self.args.check:  # enable CHECKing result
+        envchk = os.getenv("CHECK")  # conside CHECKing result unless CHECK=0
+        if 0 == result and 0 == self.args.check and (envchk is None or "0" != envchk):
             self.run_result = self.launch(cfgenv + ["CHECK=1"])
             result = self.run_result["returncode"] if self.run_result else 1
         # extend result for easier reuse
