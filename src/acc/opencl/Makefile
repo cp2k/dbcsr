@@ -218,7 +218,7 @@ else
   ifneq (,$(wildcard $(OPENCL_LIB)))
     LDFLAGS += $(OPENCL_LIB)
   else
-    LDFLAGS += -lOpenCL
+    LDFLAGS += -l:libOpenCL.so.1
   endif
 endif
 
