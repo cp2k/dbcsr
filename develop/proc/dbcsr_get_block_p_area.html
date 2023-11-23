@@ -160,7 +160,7 @@ matrix. It must be 2-dimensional.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~3"></span>
+              <span class="anchor" id="variable-matrix~54"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -175,7 +175,7 @@ matrix. It must be 2-dimensional.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~2"></span>
+              <span class="anchor" id="variable-row~26"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -191,7 +191,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~2"></span>
+              <span class="anchor" id="variable-col~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~2"></span>
+              <span class="anchor" id="variable-block~58"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -238,7 +238,7 @@ whether the block exists in the matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found"></span>
+              <span class="anchor" id="variable-found~33"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -254,7 +254,7 @@ whether the block exists in the matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size"></span>
+              <span class="anchor" id="variable-row_size~18"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -270,7 +270,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size"></span>
+              <span class="anchor" id="variable-col_size~17"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -349,7 +349,7 @@ logical column size of block</p>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="k">block</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_set_block_pointer</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">rsize</span><span class="p">,</span><span class="w"> </span><span class="n">csize</span><span class="p">,</span><span class="w"> </span><span class="n">stored_tr</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">)</span>
-<span class="w">      </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">iw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="c">!$       iw = omp_get_thread_num() + 1</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_use_mutable</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>

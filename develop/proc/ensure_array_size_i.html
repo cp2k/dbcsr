@@ -157,7 +157,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~41"></span>
+              <span class="anchor" id="variable-array~6"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -187,7 +187,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~42"></span>
+              <span class="anchor" id="variable-lb~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -202,7 +202,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~32"></span>
+              <span class="anchor" id="variable-ub~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -248,7 +248,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~9"></span>
+              <span class="anchor" id="variable-memory_type~8"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -425,7 +425,7 @@ zero new allocations; default is to write nothing</p>
 <span class="w">            </span><span class="k">ELSE</span>
 <span class="k">               CALL </span><span class="n">mem_dealloc_i</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">mem_type</span><span class="o">=</span><span class="n">mem_type</span><span class="p">)</span>
 <span class="w">            </span><span class="k">END IF</span>
-<span class="k">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">pad</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">pad</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="w">            </span><span class="c">!newarray(:) = 0</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">mem_zero_i</span><span class="w"> </span><span class="p">(</span><span class="n">newarray</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">newarray</span><span class="p">))</span>
 <span class="w">         </span><span class="k">END IF</span>

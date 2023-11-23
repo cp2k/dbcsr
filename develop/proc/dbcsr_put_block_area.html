@@ -160,7 +160,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~114"></span>
+              <span class="anchor" id="variable-matrix~215"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -175,7 +175,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~51"></span>
+              <span class="anchor" id="variable-row~76"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -190,7 +190,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~25"></span>
+              <span class="anchor" id="variable-col~43"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -205,7 +205,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~94"></span>
+              <span class="anchor" id="variable-block~115"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>)
             </td>
 <td></td>
@@ -220,7 +220,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb_row_col"></span>
+              <span class="anchor" id="variable-lb_row_col~2"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -235,7 +235,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~26"></span>
+              <span class="anchor" id="variable-transposed~42"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -250,7 +250,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~33"></span>
+              <span class="anchor" id="variable-summation~40"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -265,7 +265,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~8"></span>
+              <span class="anchor" id="variable-flop~13"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -280,7 +280,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~30"></span>
+              <span class="anchor" id="variable-scale~35"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in),</td>
@@ -347,7 +347,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
 <span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type_m</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="k">block</span><span class="p">),</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                    </span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">%</span><span class="n">r_sp</span><span class="p">)</span>
-<span class="w">            </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type_m</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">            </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type_m</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                    </span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="k">block</span><span class="p">),</span><span class="w"> </span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                    </span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="o">=</span><span class="kt">REAL</span><span class="p">(</span><span class="nb">scale</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">real_8</span><span class="p">))</span>
@@ -356,7 +356,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
 <span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type_m</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="k">block</span><span class="p">),</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                    </span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">)</span>
-<span class="w">            </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type_m</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">            </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type_m</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                    </span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="k">block</span><span class="p">),</span><span class="w"> </span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                    </span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">)</span>

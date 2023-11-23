@@ -171,7 +171,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~31"></span>
+              <span class="anchor" id="variable-pos~28"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -201,7 +201,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-values~11"></span>
+              <span class="anchor" id="variable-values~10"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(inout),</td>
@@ -252,7 +252,7 @@
 <span class="w">                  </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">               </span><span class="k">END IF</span>
 <span class="k">            END DO</span>
-<span class="k">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            </span><span class="n">keys</span><span class="p">(</span><span class="n">pos</span><span class="p">:</span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
 <span class="w">            </span><span class="n">values</span><span class="p">(</span><span class="n">pos</span><span class="p">:</span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
 <span class="w">            </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span>

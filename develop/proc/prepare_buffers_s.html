@@ -202,7 +202,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~55"></span>
+              <span class="anchor" id="variable-row~54"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -217,7 +217,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~28"></span>
+              <span class="anchor" id="variable-col~27"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -412,7 +412,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~19"></span>
+              <span class="anchor" id="variable-tr~21"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -562,7 +562,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prow~3"></span>
+              <span class="anchor" id="variable-prow~2"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -577,7 +577,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pcol~3"></span>
+              <span class="anchor" id="variable-pcol~2"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -622,7 +622,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~4"></span>
+              <span class="anchor" id="variable-row_dist~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -637,7 +637,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~4"></span>
+              <span class="anchor" id="variable-col_dist~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -922,12 +922,12 @@
 <span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_real</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">negate_imaginary</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                     </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_neg_one</span><span class="p">%</span><span class="n">r_sp</span>
-<span class="w">                  </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_real</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                  </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_real</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="cp"># 2006 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
 <span class="w">                        </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                           </span><span class="o">-</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="cp"># 2015 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
-<span class="w">                  </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_imaginary</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                  </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_imaginary</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="cp"># 2020 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
 <span class="w">                  </span><span class="k">END IF</span>
 <span class="k">               ELSE</span>

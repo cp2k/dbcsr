@@ -175,7 +175,7 @@ that hint is in the range [0, nblocks].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~24"></span>
+              <span class="anchor" id="variable-block~47"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -190,7 +190,7 @@ that hint is in the range [0, nblocks].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblocks~3"></span>
+              <span class="anchor" id="variable-nblocks~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -281,7 +281,7 @@ that hint is in the range [0, nblocks].</p>
 <span class="w">      </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">full</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">full</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">block</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">full</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">         </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">block_offsets</span><span class="p">(</span><span class="k">block</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">full</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">block</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>

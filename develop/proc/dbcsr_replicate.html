@@ -161,7 +161,7 @@ operation has no effect.) Similar logic applies to column replication.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~39"></span>
+              <span class="anchor" id="variable-matrix~105"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -288,9 +288,9 @@ Column should be replicated among all processors</p>
 <span class="w">      </span><span class="c">!   DBCSR_WARN(&quot;Replicating a non-distributed matrix makes no sense.&quot;)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">replicate_rows</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">replicate_columns</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">rep_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_repl_full</span>
-<span class="w">      </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">replicate_rows</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">replicate_columns</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">replicate_rows</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">replicate_columns</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">rep_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_repl_row</span>
-<span class="w">      </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">replicate_columns</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">replicate_rows</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">replicate_columns</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">replicate_rows</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">rep_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_repl_col</span>
 <span class="w">      </span><span class="k">ELSE</span>
 <span class="k">         </span><span class="n">rep_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_repl_none</span>

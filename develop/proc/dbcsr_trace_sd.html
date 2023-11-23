@@ -157,7 +157,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~14"></span>
+              <span class="anchor" id="variable-matrix_a~12"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -218,7 +218,7 @@
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_trace_d</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">trace</span><span class="p">)</span>
-<span class="w">      </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_4</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">trace_4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_real_4</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_trace_s</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">trace_4</span><span class="p">)</span>
 <span class="w">         </span><span class="n">trace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">REAL</span><span class="p">(</span><span class="n">trace_4</span><span class="p">,</span><span class="w"> </span><span class="n">real_8</span><span class="p">)</span>

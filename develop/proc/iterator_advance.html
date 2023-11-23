@@ -157,7 +157,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~4"></span>
+              <span class="anchor" id="variable-iterator~3"></span>
               type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -244,7 +244,7 @@
 <span class="w">            </span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span>
 <span class="c">!$OMP           END CRITICAL (crit_common_pos)</span>
 <span class="w">         </span><span class="k">END IF</span>
-<span class="k">      </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">shared</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">      ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">shared</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">         </span><span class="n">ithread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="c">!$       ithread = OMP_GET_THREAD_NUM()</span>

@@ -217,7 +217,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha"></span>
+              <span class="anchor" id="variable-alpha~7"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -232,7 +232,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~2"></span>
+              <span class="anchor" id="variable-matrix_a~32"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -248,7 +248,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~2"></span>
+              <span class="anchor" id="variable-matrix_b~22"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -264,7 +264,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta"></span>
+              <span class="anchor" id="variable-beta~2"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -279,7 +279,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c"></span>
+              <span class="anchor" id="variable-matrix_c~3"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -414,7 +414,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~3"></span>
+              <span class="anchor" id="variable-retain_sparsity~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -444,7 +444,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~5"></span>
+              <span class="anchor" id="variable-flop~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1056,13 +1056,13 @@ last full column of limiting inner product</p>
 <span class="k">            </span><span class="n">flop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">my_flop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">numnodes</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">numnodes</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
-<span class="w">      </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">mp_isync</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">request_sync_mult</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">release_tdist</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_distribution_no_threads</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
-<span class="w">      </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">thread_dist_force</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">thread_dist_force</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="w">         </span><span class="c">! Restore matrix_c thread-dist</span>
 <span class="w">         </span><span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_c_thread_dist</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>

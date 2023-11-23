@@ -189,7 +189,7 @@ production runs.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_left"></span>
+              <span class="anchor" id="variable-matrix_left~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -204,7 +204,7 @@ production runs.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_right"></span>
+              <span class="anchor" id="variable-matrix_right~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -595,7 +595,7 @@ production runs.</p>
 <span class="w">      </span><span class="n">nbuffers_norms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nvirt_k</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">nbuffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">      </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">nrows3D</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">ncols3D</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">nranks3D</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">nrows3D</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">ncols3D</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">nranks3D</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">nbuffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
 <span class="w">      </span><span class="k">ELSE</span>
 <span class="w">         </span><span class="c">! Note that nrows3D==ncols3D &gt;= 2</span>
