@@ -181,8 +181,8 @@ if (APPLE)
   # fix /proc/self/statm can not be opened on macOS
   target_compile_definitions(dbcsr PRIVATE __NO_STATM_ACCESS)
 
-  if (BLAS_LIBRARIES MATCHES "Accelerate")
-    target_compile_definitions(dbcsr PRIVATE __ACCELERATE)
+  if (VECLIBFORT_LIBRARY)
+    target_link_libraries(dbcsr PRIVATE ${VECLIBFORT_LIBRARY})
   endif ()
 endif ()
 

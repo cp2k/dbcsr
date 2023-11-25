@@ -707,11 +707,7 @@ CONTAINS
          REAL(kind=real_8)                          :: nrm
 
          REAL(KIND=real_8), EXTERNAL                :: DZNRM2, DDOT
-#if defined (__ACCELERATE)
-         REAL(KIND=real_8), EXTERNAL                :: SCNRM2, SDOT
-#else
          REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
-#endif
 
          REAL(kind=real_8)                          :: filter_eps_opt
 

@@ -9,8 +9,12 @@ You need:
 * [CMake](https://cmake.org/) (3.22+)
 * GNU make or Ninja
 * Fortran compiler which supports at least Fortran 2008 (including the TS 29113 when using the C-bindings)
-* BLAS+LAPACK implementation (reference, OpenBLAS and MKL have been tested. Note: DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.)
-* Python version installed (2.7 or 3.6+ have been tested)
+* BLAS+LAPACK implementation
+    * Reference BLAS/LAPACK, OpenBLAS and MKL have been tested and can be considered supported.
+    * On macOS [vecLibFort](https://github.com/mcg1969/vecLibFort) is required to use Accelerate and/or vecLib.
+      The build system will automatically build a bundled version if not found on the system.
+    * DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.
+* Python version installed (3.6+ have been tested)
 
 Optional:
 

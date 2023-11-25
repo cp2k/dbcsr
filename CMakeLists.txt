@@ -165,6 +165,23 @@ endif ()
 find_package(LAPACK REQUIRED) # needed for some of the integrated test routines,
                               # also calls find_package(BLAS)
 
+if (APPLE
+    AND (BLAS_LIBRARIES MATCHES "Accelerate"
+         OR BLAS_LIBRARIES MATCHES "vecLib" # automated search
+         OR BLA_VENDOR STREQUAL "Accelerate"
+         OR BLA_VENDOR STREQUAL "NAS" # user override
+        ))
+  message(CHECK_START "Looking for vecLibFort library")
+  find_library(VECLIBFORT_LIBRARY vecLibFort)
+  if (NOT VECLIBFORT_LIBRARY)
+    message(CHECK_FAIL "not found, building it")
+    add_subdirectory(tools/vecLibFort)
+    set(VECLIBFORT_LIBRARY vecLibFort)
+  else ()
+    message(CHECK_PASS "found at " ${VECLIBFORT_LIBRARY})
+  endif ()
+endif ()
+
 # =================================== Python this module looks preferably for
 # version 3 of Python. If not found, version 2 is searched. In CMake 3.15, if a
 # python virtual environment is activated, it will search the virtual

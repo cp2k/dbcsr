@@ -47,7 +47,6 @@ Assumed square matrix with 20x20 matrix with 5x5 blocks and a 2x2 processor grid
 | `__NO_STATM_ACCESS`, `__STATM_RESIDENT` or `__STATM_TOTAL` | Toggle memory usage reporting between resident memory and total memory. In particular, macOS users must use `-D__NO_STATM_ACCESS` | Fortran |
 | `__NO_ABORT` | Avoid calling abort, but STOP instead (useful for coverage testing, and to avoid core dumps on some systems) | Fortran |
 | `__LIBXSMM` | Enable [LIBXSMM](https://github.com/hfp/libxsmm/) link for optimized small matrix multiplications on CPU | Fortran |
-| `__ACCELERATE` | Must be defined on macOS when Apple's Accelerate framework is used for BLAS and LAPACK (this is due to some interface incompatibilities between Accelerate and reference BLAS/LAPACK) | Fortran |
 | `NDEBUG`       | Assertions are stripped ("compiled out"), `NDEBUG` is the ANSI-conforming symbol name (not `__NDEBUG`). Regular release builds may carry assertions for safety | Fortran, C, C++ |
 | `__CRAY_PM_ACCEL_ENERGY` or `__CRAY_PM_ENERGY` | Switch on collectin energy profiling on Cray systems | Fortran |
 | `__DBCSR_ACC` | Enable Accelerator compilation | Fortran, C, C++ |
