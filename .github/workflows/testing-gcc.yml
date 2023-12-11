@@ -24,7 +24,7 @@ jobs:
         cd build
         cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Debug \
-          -DUSE_MPI=OFF \
+          -DUSE_MPI=ON \
           -DUSE_OPENMP=ON \
           -DUSE_SMM=blas \
           -DUSE_MPI_F08=ON \
