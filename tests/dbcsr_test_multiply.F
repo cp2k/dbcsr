@@ -750,8 +750,8 @@ CONTAINS
          DBCSR_ABORT("Incorrect or 1-D data type")
       END SELECT
 
-      eps_norm = residual/((a_norm + b_norm + c_norm_in)*REAL(n, real_8)*eps)
       IF (mynode .EQ. 0) THEN
+         eps_norm = residual/((a_norm + b_norm + c_norm_in)*REAL(n, real_8)*eps)
          IF (eps_norm .GT. 10.0_real_8) THEN
             success = .FALSE.
          ELSE
@@ -761,6 +761,7 @@ CONTAINS
       !
       ! synchronize the result...
       CALL mp_bcast(success, 0, mp_group)
+      CALL mp_bcast(eps_norm, 0, mp_group)
       !
       ! printing
       IF (io_unit .GT. 0) THEN
