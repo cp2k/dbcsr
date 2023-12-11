@@ -3,6 +3,7 @@ default_language_version:
 
 exclude: '^tools/(build_utils/fypp)'
 fail_fast: false
+minimum_pre_commit_version: 3.2.0
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: 'v0.1.7'

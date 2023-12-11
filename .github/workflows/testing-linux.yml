@@ -55,7 +55,7 @@ jobs:
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_${{ matrix.use_smm }} \
           -DMPI_EXECUTABLE_SUFFIX=.${{ matrix.mpi_suffix }} \
-          -DMPIEXEC_PREFLAGS="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && echo "-mca btl ^openib --allow-run-as-root")" \
+          -DMPIEXEC_PREFLAGS="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && echo "-mca btl ^openib --allow-run-as-root --oversubscribe")" \
           -DLCOV_ARGS="--test-name;${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu" \
           ..
 
