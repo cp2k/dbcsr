@@ -72,20 +72,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 24 statements,  0.0% of total for procedures.">4 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 106 statements,  0.2% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_operations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_add_on_diag</li>
           </ol>
         </nav>
@@ -129,8 +129,8 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_add_on_diag~2.html#moduleprocedure-dbcsr_add_on_diag_d">dbcsr_add_on_diag_d</a>
             <a class="list-group-item" href="../interface/dbcsr_add_on_diag~2.html#moduleprocedure-dbcsr_add_on_diag_s~2">dbcsr_add_on_diag_s</a>
+            <a class="list-group-item" href="../interface/dbcsr_add_on_diag~2.html#moduleprocedure-dbcsr_add_on_diag_ds">dbcsr_add_on_diag_ds</a>
             <a class="list-group-item" href="../interface/dbcsr_add_on_diag~2.html#moduleprocedure-dbcsr_add_on_diag_c~2">dbcsr_add_on_diag_c</a>
             <a class="list-group-item" href="../interface/dbcsr_add_on_diag~2.html#moduleprocedure-dbcsr_add_on_diag_z~2">dbcsr_add_on_diag_z</a>
         </div>
@@ -152,11 +152,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_on_diag_d~2"></span><h3>private  subroutine <a href='../proc/dbcsr_add_on_diag_d~2.html'>dbcsr_add_on_diag_d</a>(matrix, alpha_scalar)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_on_diag_s"></span><h3>private  subroutine <a href='../proc/dbcsr_add_on_diag_s.html'>dbcsr_add_on_diag_s</a>(matrix, alpha)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>add a constant to the diagonal of a matrix</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -171,8 +171,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~294"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~50"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -181,67 +181,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar~13"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>alpha_scalar</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_on_diag_s~2"></span><h3>private  subroutine <a href='../proc/dbcsr_add_on_diag_s~2.html'>dbcsr_add_on_diag_s</a>(matrix, alpha_scalar)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~305"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-alpha_scalar~16"></span>
+              <span class="anchor" id="variable-alpha~3"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -249,9 +194,9 @@
               
             </td>
             <td>::</td>
-            <td><strong>alpha_scalar</strong></td>
+            <td><strong>alpha</strong></td>
             <td>
-
+<p>scalar</p>
             </td>
         </tr>
     </tbody>
@@ -262,7 +207,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_on_diag_c~2"></span><h3>private  subroutine <a href='../proc/dbcsr_add_on_diag_c~2.html'>dbcsr_add_on_diag_c</a>(matrix, alpha_scalar)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_on_diag_ds"></span><h3>private  subroutine <a href='../proc/dbcsr_add_on_diag_ds.html'>dbcsr_add_on_diag_ds</a>(matrix, alpha)  
 </h3></div>
     <div class="card-body">
           
@@ -281,8 +226,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~327"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~219"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -296,7 +241,62 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar~22"></span>
+              <span class="anchor" id="variable-alpha~30"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_on_diag_c"></span><h3>private  subroutine <a href='../proc/dbcsr_add_on_diag_c.html'>dbcsr_add_on_diag_c</a>(matrix, alpha)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>add a constant to the diagonal of a matrix</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~52"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+<p>DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~5"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -304,9 +304,9 @@
               
             </td>
             <td>::</td>
-            <td><strong>alpha_scalar</strong></td>
+            <td><strong>alpha</strong></td>
             <td>
-
+<p>scalar</p>
             </td>
         </tr>
     </tbody>
@@ -317,11 +317,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_on_diag_z~2"></span><h3>private  subroutine <a href='../proc/dbcsr_add_on_diag_z~2.html'>dbcsr_add_on_diag_z</a>(matrix, alpha_scalar)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_on_diag_z"></span><h3>private  subroutine <a href='../proc/dbcsr_add_on_diag_z.html'>dbcsr_add_on_diag_z</a>(matrix, alpha)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>add a constant to the diagonal of a matrix</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -336,8 +336,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~316"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~51"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -346,12 +346,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar~19"></span>
+              <span class="anchor" id="variable-alpha~4"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -359,9 +359,9 @@
               
             </td>
             <td>::</td>
-            <td><strong>alpha_scalar</strong></td>
+            <td><strong>alpha</strong></td>
             <td>
-
+<p>scalar</p>
             </td>
         </tr>
     </tbody>
