@@ -111,7 +111,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-modulen~59">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-modulen~56">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-rowsplit">rowsplit</a>
             <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-colsplit">colsplit</a>
             <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_pdims_accept_ratio">default_pdims_accept_ratio</a>
@@ -201,13 +201,13 @@ Basically, we are splitting process grid and each subgrid holds its own DBCSR ma
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
                   <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
                   <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
               </ul>
             </li>
         </ul>
@@ -232,7 +232,7 @@ Basically, we are splitting process grid and each subgrid holds its own DBCSR ma
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~59"></span>
+              <span class="anchor" id="variable-modulen~56"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -773,7 +773,7 @@ total number of block columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~20"></span>
+              <span class="anchor" id="variable-dims~16"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -833,7 +833,7 @@ total number of block columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~63"></span>
+              <span class="anchor" id="variable-array~47"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -943,7 +943,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~6"></span>
+              <span class="anchor" id="variable-mp_comm~4"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1060,7 +1060,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~7"></span>
+              <span class="anchor" id="variable-mp_comm~5"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1656,7 +1656,7 @@ local process ID</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~65"></span>
+              <span class="anchor" id="variable-dist~68"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1703,7 +1703,7 @@ group local column block index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~39"></span>
+              <span class="anchor" id="variable-row~12"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1719,7 +1719,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~13"></span>
+              <span class="anchor" id="variable-column~9"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1775,7 +1775,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~66"></span>
+              <span class="anchor" id="variable-dist~69"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1790,7 +1790,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~105"></span>
+              <span class="anchor" id="variable-row~106"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
@@ -1805,7 +1805,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~40"></span>
+              <span class="anchor" id="variable-column~41"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
