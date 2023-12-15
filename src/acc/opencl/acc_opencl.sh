@@ -37,8 +37,7 @@ then
     -h|--help)
       shift $#;;
     -p|--params)
-      PARAMPATH=yes
-      PARAMS=$2
+      PARAMS="$2\t"
       shift 2;;
     -c|-d|--debug|--comments)
       CPPFLAGS+=" -C"
@@ -50,13 +49,9 @@ then
     esac
   done
   HERE="$(cd "$(dirname "$0")" && pwd -P)"
-  PARAMDIR=$(if [ ! "${PARAMDIR}" ]; then echo "${HERE}/smm/params"; fi)
-  if [ "${PARAMPATH}" ]; then
-    PARAMPATH=${PARAMS}
-  else
-    HERE="$(cd "$(dirname "$0")" && pwd -P)"
-    PARAMPATH=${PARAMDIR}
-  fi
+  PARAMDIR=${PARAMDIR:-${PARAMS}}
+  PARAMDIR=${PARAMDIR:-${HERE}/smm/params}
+  PARAMDIR=$(echo -e "${PARAMDIR}" | ${TR} -d '\t')
   if [ "$#" -gt 1 ]; then
     # allow for instance /dev/stdout
     if [ "${OFILE##*.}" = "h" ]; then
@@ -127,7 +122,7 @@ then
     NFILES_CSV=0
     for CSVFILE in "${CSVFILES[@]}"; do
       if [ "${CSVFILE##*.}" = "csv" ]; then
-        if [ -e "${CSVFILE}" ]; then
+        if [ -f "${CSVFILE}" ]; then
           NFILES_CSV=$((NFILES_CSV+1))
         fi
       else
@@ -136,15 +131,15 @@ then
         exit 1
       fi
     done
-    if [ "0" = "${NFILES_CSV}" ] && [ "${PARAMPATH}" ]; then
-      CSVFILES=("${PARAMPATH}"/*.csv)
+    if [ "0" = "${NFILES_CSV}" ] && [ "${PARAMDIR}" ] && [ -d "${PARAMDIR}" ]; then
+      CSVFILES=("${PARAMDIR}"/*.csv)
       NFILES_CSV=${#CSVFILES[@]}
     fi
     for CSVFILE in "${CSVFILES[@]}"; do
       if [ ! "${DELIM}" ]; then
-        SEPAR=$(${SED} -n "1s/[^${DELIMS}]//gp" "${CSVFILE}")
+        SEPAR=$(${SED} -n "1s/[^${DELIMS}]//gp" "${CSVFILE}" 2>/dev/null)
         DELIM=${SEPAR:0:1}
-        MATCH=$(${SED} -n "1s/[^${DELIM}]//gp" "${CSVFILE}")
+        MATCH=$(${SED} -n "1s/[^${DELIM}]//gp" "${CSVFILE}" 2>/dev/null)
       fi
       if [ "${DELIM}" ]; then
         CHECK=$(${SED} "/^[[:space:]]*$/d;s/[^${DELIM}]//g" "${CSVFILE}" | ${SORT} -u | ${SED} -n "0,/./p")
@@ -156,7 +151,7 @@ then
       else
         ERRFILE=${CSVFILE}
       fi
-      if [ "${ERRFILE}" ]; then
+      if [ "${ERRFILE}" ] && [ -f "${ERRFILE}" ]; then
         >&2 echo "ERROR: ${ERRFILE} is malformed!"
         if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
         exit 1

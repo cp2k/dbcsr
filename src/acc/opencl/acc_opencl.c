@@ -531,26 +531,45 @@ int c_dbcsr_acc_init(void) {
         else {
           result = EXIT_FAILURE;
         }
-        c_dbcsr_acc_opencl_config.handle = 0;
-        c_dbcsr_acc_opencl_config.handles = NULL;
+        c_dbcsr_acc_opencl_config.nclmems = c_dbcsr_acc_opencl_config.nevents = 0;
+        c_dbcsr_acc_opencl_config.clmems = c_dbcsr_acc_opencl_config.events = NULL;
         c_dbcsr_acc_opencl_config.storage = NULL;
 #  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER && defined(ACC_OPENCL_HANDLES_MAXCOUNT) && \
     (0 < ACC_OPENCL_HANDLES_MAXCOUNT)
         if (EXIT_SUCCESS == result) {
-          c_dbcsr_acc_opencl_config.handle = ACC_OPENCL_HANDLES_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads;
-          c_dbcsr_acc_opencl_config.handles = (void**)malloc(sizeof(void*) * c_dbcsr_acc_opencl_config.handle);
-          c_dbcsr_acc_opencl_config.storage = malloc(sizeof(void*) * c_dbcsr_acc_opencl_config.handle);
-          if (NULL != c_dbcsr_acc_opencl_config.handles && NULL != c_dbcsr_acc_opencl_config.storage) {
-            libxsmm_pmalloc_init(sizeof(void*), &c_dbcsr_acc_opencl_config.handle, c_dbcsr_acc_opencl_config.handles,
+          const size_t nhandles = ACC_OPENCL_HANDLES_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads;
+#    if defined(ACC_OPENCL_MEM_OFFSET)
+          c_dbcsr_acc_opencl_config.nclmems = nhandles;
+          c_dbcsr_acc_opencl_config.clmems = (void**)malloc(sizeof(void*) * nhandles);
+          c_dbcsr_acc_opencl_config.storage = malloc(sizeof(void*) * (nhandles + nhandles));
+          if (NULL != c_dbcsr_acc_opencl_config.clmems && NULL != c_dbcsr_acc_opencl_config.storage) {
+            libxsmm_pmalloc_init(sizeof(void*), &c_dbcsr_acc_opencl_config.nclmems, c_dbcsr_acc_opencl_config.clmems,
+              (void**)c_dbcsr_acc_opencl_config.storage + nhandles);
+          }
+          else {
+            free(c_dbcsr_acc_opencl_config.clmems);
+            c_dbcsr_acc_opencl_config.clmems = NULL;
+            c_dbcsr_acc_opencl_config.nclmems = 0;
+            result = EXIT_FAILURE;
+          }
+#    else
+          c_dbcsr_acc_opencl_config.storage = malloc(sizeof(void*) * nhandles);
+#    endif
+          c_dbcsr_acc_opencl_config.nevents = nhandles;
+          c_dbcsr_acc_opencl_config.events = (void**)malloc(sizeof(void*) * nhandles);
+          if (NULL != c_dbcsr_acc_opencl_config.events && NULL != c_dbcsr_acc_opencl_config.storage) {
+            libxsmm_pmalloc_init(sizeof(void*), &c_dbcsr_acc_opencl_config.nevents, c_dbcsr_acc_opencl_config.events,
               c_dbcsr_acc_opencl_config.storage);
           }
           else {
-            free(c_dbcsr_acc_opencl_config.handles);
-            free(c_dbcsr_acc_opencl_config.storage);
-            c_dbcsr_acc_opencl_config.handles = NULL;
-            c_dbcsr_acc_opencl_config.storage = NULL;
-            c_dbcsr_acc_opencl_config.handle = 0;
+            free(c_dbcsr_acc_opencl_config.events);
+            c_dbcsr_acc_opencl_config.events = NULL;
+            c_dbcsr_acc_opencl_config.nevents = 0;
             result = EXIT_FAILURE;
+          }
+          if (EXIT_SUCCESS != result) {
+            free(c_dbcsr_acc_opencl_config.storage);
+            c_dbcsr_acc_opencl_config.storage = NULL;
           }
         }
 #  endif
@@ -663,7 +682,7 @@ int c_dbcsr_acc_finalize(void) {
       }
     }
     /* release/reset buffers */
-    free(c_dbcsr_acc_opencl_config.handles);
+    free(c_dbcsr_acc_opencl_config.events);
     free(c_dbcsr_acc_opencl_config.storage);
     free(c_dbcsr_acc_opencl_config.streams);
     /* clear configuration */
@@ -1253,7 +1272,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
                   else break;
                 }
 #  if !defined(NDEBUG)
-                if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_id, (const char**)&ext, 1))
+                if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_id, (const char* const*)&ext, 1))
 #  endif
                 { /* NDEBUG: assume given extension is supported (confirmed upfront) */
                   if (NULL == line) { /* extension is not already part of source */
@@ -1318,7 +1337,11 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
                                                 : NULL);
                     if (NULL != src) {
                       if ((size_t)size == fread(src, 1 /*sizeof(char)*/, size /*count*/, file)) {
-                        if (source != ext_source) libxsmm_free((void*)ext_source);
+                        if (source != ext_source) {
+                          void* p = NULL;
+                          LIBXSMM_ASSIGN127(&p, &ext_source);
+                          libxsmm_free(p);
+                        }
                         src[size] = '\0';
                         ext_source = src;
                       }
@@ -1357,7 +1380,11 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
         }
         ok = EXIT_FAILURE;
       }
-      if (source != ext_source) libxsmm_free((void*)ext_source);
+      if (source != ext_source) {
+        void* p = NULL;
+        LIBXSMM_ASSIGN127(&p, &ext_source);
+        libxsmm_free(p);
+      }
       buffer[0] = '\0'; /* reset to empty */
       if (CL_SUCCESS == result) {
         *kernel = clCreateKernel(program, kernel_name, &result);
@@ -1414,7 +1441,9 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
       }
     }
     else if (source != ext_source) { /* error: creating program */
-      libxsmm_free((void*)ext_source);
+      void* p = NULL;
+      LIBXSMM_ASSIGN127(&p, &ext_source);
+      libxsmm_free(p);
     }
   }
   else if (EXIT_SUCCESS == result) { /* binary representation */
@@ -1424,7 +1453,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
 #  endif
     {
       program = clCreateProgramWithBinary(
-        context, 1, &active_id, &size_src, (const unsigned char**)(const void*)&source, NULL /*binary_status*/, &result);
+        context, 1, &active_id, &size_src, (const unsigned char**)&source, NULL /*binary_status*/, &result);
     }
     if (CL_SUCCESS == result) {
       assert(NULL != program);
@@ -1443,7 +1472,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
 #  endif
           {
             program = clCreateProgramWithBinary(
-              context, 1, &active_id, &size_src, (const unsigned char**)(const void*)&source, NULL /*binary_status*/, &result);
+              context, 1, &active_id, &size_src, (const unsigned char**)&source, NULL /*binary_status*/, &result);
           }
           assert(CL_SUCCESS != result || NULL != program);
           if (CL_SUCCESS == result) {
@@ -1479,8 +1508,10 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
     }
   }
   if (NULL != file_src) {
+    void* p = NULL;
+    LIBXSMM_ASSIGN127(&p, (const void*)&source);
     assert(0 != source_is_file);
-    libxsmm_free((void*)source);
+    libxsmm_free(p);
   }
 #  if !defined(NDEBUG)
   if (EXIT_SUCCESS != result && NULL != kernel) *kernel = NULL;

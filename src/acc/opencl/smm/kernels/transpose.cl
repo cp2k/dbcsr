@@ -8,7 +8,7 @@
 /*------------------------------------------------------------------------------------------------*/
 
 __attribute__((reqd_work_group_size(SWG, 1, 1))) kernel void FN(
-  GLOBAL const int* restrict trs_stack, int trs_offset, global T* restrict matrix) {
+  int trs_offset, GLOBAL const int* restrict trs_stack, global T* restrict matrix) {
   /* offset in the transpose-stack that this block ID should handle */
   const int offset = trs_stack[trs_offset + get_group_id(0)];
   /* matrix according to the index (transpose-stack) */

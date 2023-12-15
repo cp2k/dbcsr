@@ -72,6 +72,9 @@
 #if !defined(NREPEAT)
 #  define NREPEAT 3
 #endif
+#if !defined(XREPEAT)
+#  define XREPEAT 66
+#endif
 #if !defined(TRANSPOSE)
 #  define TRANSPOSE
 #endif
@@ -292,7 +295,8 @@ int main(int argc, char* argv[]) {
       double duration = 0;
 #endif
       const char* const env_stack_size = getenv("SMM_BATCHSIZE");
-      int nrepeat = (0 < inr ? inr : NREPEAT);
+      const int xrepeat = (0 != check ? NREPEAT : XREPEAT);
+      int nrepeat = (0 < inr ? inr : xrepeat);
       int stack_size, na, nb, nc, nr, r;
       if (NULL == env_stack_size) {
         stack_size = 0;
@@ -325,7 +329,7 @@ int main(int argc, char* argv[]) {
           const int r = rnd[nok % NRAND], ss = -stack_size, bs = (1 < ss ? ss : BATCHSIZE);
           const int limit = (BATCHGRAIN < ss ? ((bs + BATCHGRAIN - 1) / BATCHGRAIN) : ss);
           stack_size = (r % limit + 1) * BATCHGRAIN;
-          nrepeat = MAX((BATCHSIZE * nrepeat + stack_size - 1) / stack_size, NREPEAT);
+          nrepeat = MAX((BATCHSIZE * nrepeat + stack_size - 1) / stack_size, xrepeat);
         }
         else stack_size = BATCHSIZE; /* plain default */
       }
