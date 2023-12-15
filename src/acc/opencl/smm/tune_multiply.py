@@ -106,7 +106,7 @@ class SmmTuner(MeasurementInterface):
         elif self.args.update is not None and "" != self.args.update:
             self.device = self.args.update
         if self.run_result and 0 == self.run_result["returncode"]:
-            seedpat = "INFO ACC/OpenCL:\\s+SMM-kernel\\s+{}={}\\s+gen=".format(
+            seedpat = "INFO ACC/LIBSMM:\\s+SMM-kernel\\s+{}={}\\s+gen=".format(
                 "{t,m,n,k, bs,bm,bn,bk, ws,wg, lu,nz,al, tb,tc, ap,aa,ab,ac}",
                 "{{{}, {}}}".format(  # key and value
                     "{},{}".format(  # t,m,n,k (key)

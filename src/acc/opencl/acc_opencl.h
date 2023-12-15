@@ -112,18 +112,21 @@
 #    define ACC_OPENCL_STREAM_PRIORITIES
 #  endif
 #endif
+/** Stream-argument (ACC-interface) can be NULL (synchronous) */
+#if !defined(ACC_OPENCL_STREAM_NULL) && 1
+#  define ACC_OPENCL_STREAM_NULL
+#endif
+
+/** Automatically determine cl_mem offset */
+#if !defined(ACC_OPENCL_MEM_OFFSET) && 1
+#  define ACC_OPENCL_MEM_OFFSET
+#endif
+
 /** Use DBCSR's profile for detailed timings */
 #if !defined(ACC_OPENCL_PROFILE) && 0
 #  define ACC_OPENCL_PROFILE
 #endif
 
-/* can depend on OpenCL implementation (unlikely) */
-#if !defined(ACC_OPENCL_MEM_NOALLOC) && 1
-#  define ACC_OPENCL_MEM_NOALLOC
-#  define ACC_OPENCL_MEM(A) ((cl_mem*)&(A))
-#else
-#  define ACC_OPENCL_MEM(A) ((cl_mem*)(A))
-#endif
 /* attaching c_dbcsr_acc_opencl_info_stream_t is needed */
 #define ACC_OPENCL_STREAM(A) ((cl_command_queue*)(A))
 /* incompatible with c_dbcsr_acc_event_record */
@@ -240,9 +243,9 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   /** Table of devices (thread-specific). */
   c_dbcsr_acc_opencl_device_t* device;
   /** Handle-counter. */
-  size_t handle;
+  size_t nclmems, nevents;
   /** All handles and related storage. */
-  void **handles, *storage;
+  void **clmems, **events, *storage;
   /** All created streams partitioned by thread-ID (thread-local slots). */
   void** streams;
   /** Counts number of streams created (thread-local). */
@@ -293,8 +296,11 @@ typedef struct c_dbcsr_acc_opencl_info_stream_t {
 c_dbcsr_acc_opencl_info_stream_t* c_dbcsr_acc_opencl_info_stream(void* stream);
 const int* c_dbcsr_acc_opencl_stream_priority(const void* stream);
 
+void* c_dbcsr_acc_opencl_stream_default(void);
+
 /** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
+int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nbytes, void* stream);
 /** Amount of device memory; local memory is only non-zero if separate from global. */
 int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t* mem_total, size_t* mem_local, int* mem_unified);
 /** Get device associated with thread-ID. */
