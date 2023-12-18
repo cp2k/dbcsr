@@ -1509,7 +1509,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
   }
   if (NULL != file_src) {
     void* p = NULL;
-    LIBXSMM_ASSIGN127(&p, (const void*)&source);
+    LIBXSMM_ASSIGN127(&p, (const void**)&source);
     assert(0 != source_is_file);
     libxsmm_free(p);
   }

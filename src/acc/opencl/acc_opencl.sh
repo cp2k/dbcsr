@@ -10,6 +10,7 @@
 # shellcheck disable=SC2048,SC2129
 
 BASENAME=$(command -v basename)
+DIRNAME=$(command -v dirname)
 SORT=$(command -v sort)
 SED=$(command -v gsed)
 CPP=$(command -v cpp)
@@ -28,8 +29,51 @@ if [ ! "${SED}" ]; then
   SED=$(command -v sed)
 fi
 
-if [ "${BASENAME}" ] && [ "${SORT}" ] && [ "${SED}" ] && \
-   [ "${TR}" ] && [ "${RM}" ] && [ "${WC}" ];
+trap_exit() {
+  if [ "0" != "$?" ] && [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
+}
+
+process_pre() {
+  if [ "${CPP}" ] && \
+     [ "$(eval "${CPP} ${CPPBASEFLAGS} $1" 2>/dev/null >/dev/null && echo "YES")" ];
+  then
+    if [ "${CPPFLAGS}" ] && \
+       [ "$(eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} $1" 2>/dev/null >/dev/null && echo "YES")" ];
+    then
+      eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} $1" 2>/dev/null
+    else
+      eval "${CPP} ${CPPBASEFLAGS} $1" 2>/dev/null
+    fi
+  else # fallback to sed
+    ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' "$1"
+  fi
+}
+
+process() {
+  IFS=$'\n'
+  while read -r LINE; do
+    INCLUDE=$(${SED} -n "s/#[[:space:]]*include[[:space:]][[:space:]]*\"/\"/p" <<<"${LINE}")
+    if [ "${INCLUDE}" ] && [ "$1" ] && [ -e "$1" ]; then
+      CLINC=$(${SED} "s/\"//g" <<<"${INCLUDE}")
+      CLPATH=$(${DIRNAME} "$1")
+      FILE=${CLPATH}/${CLINC}
+      if [ "${FILE}" ] && [ -e "${FILE}" ]; then
+        process_pre "${FILE}" | process "${FILE}"
+      else
+        >&2 echo "ERROR: header file ${FILE} not found!"
+        exit 1
+      fi
+    else
+      ${SED} <<<"${LINE}" \
+        -e '/^[[:space:]]*$/d' -e 's/[[:space:]]*$//' \
+        -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/  "/' -e 's/$/\\n" \\/'
+    fi
+  done
+  unset IFS
+}
+
+if [ "${BASENAME}" ] && [ "${DIRNAME}" ] && [ "${SORT}" ] && \
+   [ "${SED}" ] && [ "${TR}" ] && [ "${RM}" ] && [ "${WC}" ];
 then
   for OFILE in "$@"; do :; done
   while test $# -gt 0; do
@@ -48,7 +92,7 @@ then
     *) break;;
     esac
   done
-  HERE="$(cd "$(dirname "$0")" && pwd -P)"
+  HERE="$(cd "$(${DIRNAME} "$0")" && pwd -P)"
   PARAMDIR=${PARAMDIR:-${PARAMS}}
   PARAMDIR=${PARAMDIR:-${HERE}/smm/params}
   PARAMDIR=$(echo -e "${PARAMDIR}" | ${TR} -d '\t')
@@ -70,6 +114,7 @@ then
         echo "$0 $*"
       fi
     fi
+    trap 'trap_exit' EXIT
     NFILES_OCL=0
     for CLFILE in ${*:1:${#@}-1}; do
       if [ "${CLFILE##*.}" = "cl" ]; then
@@ -84,29 +129,12 @@ then
           fi
           echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
           echo "#define ${SNAME} \\" >>"${OFILE}"
-          if [ "${CPP}" ] && \
-             [ "$(eval "${CPP} ${CPPBASEFLAGS} ${CLFILE}" 2>/dev/null >/dev/null && echo "YES")" ];
-          then
-            if [ "" != "${CPPFLAGS}" ] && \
-               [ "$(eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${CLFILE}" 2>/dev/null >/dev/null && echo "YES")" ];
-            then
-              eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${CLFILE}" 2>/dev/null
-            else
-              eval "${CPP} ${CPPBASEFLAGS} ${CLFILE}" 2>/dev/null
-            fi
-          else # fallback to sed
-            ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' "${CLFILE}"
-          fi | \
-          ${SED} \
-            -e '/^[[:space:]]*$/d' -e 's/[[:space:]]*$//' \
-            -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/  "/' -e 's/$/\\n" \\/' \
-            >>"${OFILE}"
+          process_pre "${CLFILE}" | process "${CLFILE}" >>"${OFILE}"
           echo "  \"\"" >>"${OFILE}"
           echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
           NFILES_OCL=$((NFILES_OCL+1))
         else
           >&2 echo "ERROR: ${CLFILE} does not exist!"
-          if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
           exit 1
         fi
       else
@@ -116,7 +144,6 @@ then
     done
     if [ "0" = "${NFILES_OCL}" ]; then
       >&2 echo "ERROR: no OpenCL file was given!"
-      if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
       exit 1
     fi
     NFILES_CSV=0
@@ -127,7 +154,6 @@ then
         fi
       else
         >&2 echo "ERROR: ${CSVFILE} is not a CSV file!"
-        if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
         exit 1
       fi
     done
@@ -153,7 +179,6 @@ then
       fi
       if [ "${ERRFILE}" ] && [ -f "${ERRFILE}" ]; then
         >&2 echo "ERROR: ${ERRFILE} is malformed!"
-        if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
         exit 1
       fi
     done
