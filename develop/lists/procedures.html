@@ -172,8 +172,8 @@ col_i arrays and returns its position.</p><a href="../proc/add_work_coordinate.h
 			   <tr><td><a href='../interface/array_data.html'>array_data</a></td><td><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/array_data_i1d.html'>array_data_i1d</a></td><td><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../interface/array_eq.html'>array_eq</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../proc/array_eq_i~2.html'>array_eq_i</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/array_eq_i.html'>array_eq_i</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>check whether two arrays are equal</p></td></tr>
+			   <tr><td><a href='../proc/array_eq_i~2.html'>array_eq_i</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/array_eq_i8.html'>array_eq_i8</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../interface/array_equality.html'>array_equality</a></td><td><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/array_equality_i1.html'>array_equality_i1</a></td><td><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></td><td>Function</td><td></td></tr>
@@ -703,8 +703,8 @@ back-converted matrix is calculated.</p></td></tr>
 distributed DBCSR matrix</p></td></tr>
 			   <tr><td><a href='../proc/csr_create_from_dbcsr.html'>csr_create_from_dbcsr</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>create CSR matrix including dbcsr_mapping from arbitrary DBCSR matrix
 in order to prepare conversion.</p></td></tr>
-			   <tr><td><a href='../proc/csr_create_new.html'>csr_create_new</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Create a new CSR matrix and allocate all internal data (excluding dbcsr_mapping)</p></td></tr>
 			   <tr><td><a href='../proc/csr_create_new~2.html'>csr_create_new</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/csr_create_new.html'>csr_create_new</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Create a new CSR matrix and allocate all internal data (excluding dbcsr_mapping)</p></td></tr>
 			   <tr><td><a href='../proc/csr_create_nzerow.html'>csr_create_nzerow</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>create a vector containing the number of non-zero elements in each
 row of a CSR matrix</p></td></tr>
 			   <tr><td><a href='../proc/csr_create_template.html'>csr_create_template</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Create a new CSR matrix and allocate all internal data using
@@ -747,45 +747,45 @@ Only dbcsr_1d_s_sort and itself should call this.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_acc_get_ndevices.html'>dbcsr_acc_get_ndevices</a></td><td><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></td><td>Function</td><td><p>Get number of accelerator devices</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_acc_set_active_device.html'>dbcsr_acc_set_active_device</a></td><td><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></td><td>Subroutine</td><td><p>Set active accelerator device</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_acc_transpose.html'>dbcsr_acc_transpose</a></td><td><a href='../module/dbcsr_acc_operations.html'>dbcsr_acc_operations</a></td><td>Subroutine</td><td><p>Launch an accelerated transpose kernel</p></td></tr>
-			   <tr><td><a href='../interface/dbcsr_add.html'>dbcsr_add</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_add~2.html'>dbcsr_add</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_add.html'>dbcsr_add</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_add~2.html'>dbcsr_add</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_anytype.html'>dbcsr_add_anytype</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>add and scale matrices
 A = alpha<em>A + beta</em>B or</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_anytype_c.html'>dbcsr_add_anytype_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_anytype_d.html'>dbcsr_add_anytype_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_anytype_s.html'>dbcsr_add_anytype_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_anytype_z.html'>dbcsr_add_anytype_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_block_node.html'>dbcsr_add_block_node</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Emulation of sparse_matrix_types/add_block_node mapped
+			   <tr><td><a href='../proc/dbcsr_add_block_node.html'>dbcsr_add_block_node</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Emulation of sparse_matrix_types/add_block_node mapped
 to add_real_matrix_block.... should not be used any longer
 It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
 block. Currently it only and always uses the mutable data.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_block_node~2.html'>dbcsr_add_block_node</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Emulation of sparse_matrix_types/add_block_node mapped
+			   <tr><td><a href='../proc/dbcsr_add_block_node~2.html'>dbcsr_add_block_node</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Emulation of sparse_matrix_types/add_block_node mapped
 to add_real_matrix_block.... should not be used any longer
 It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
 block. Currently it only and always uses the mutable data.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_c.html'>dbcsr_add_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_c~2.html'>dbcsr_add_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_d~2.html'>dbcsr_add_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_c.html'>dbcsr_add_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_c~2.html'>dbcsr_add_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_d.html'>dbcsr_add_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for dbcsr_add</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_d~2.html'>dbcsr_add_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_default_logger.html'>dbcsr_add_default_logger</a></td><td><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></td><td>Subroutine</td><td><p>adds a default logger.
 MUST be called before logging occurs</p><a href="../proc/dbcsr_add_default_logger.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../interface/dbcsr_add_on_diag.html'>dbcsr_add_on_diag</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_add_on_diag~2.html'>dbcsr_add_on_diag</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_on_diag_c~2.html'>dbcsr_add_on_diag_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_add_on_diag.html'>dbcsr_add_on_diag</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_add_on_diag~2.html'>dbcsr_add_on_diag</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_on_diag_c.html'>dbcsr_add_on_diag_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>add a constant to the diagonal of a matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_on_diag_d~2.html'>dbcsr_add_on_diag_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_on_diag_c~2.html'>dbcsr_add_on_diag_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_on_diag_d.html'>dbcsr_add_on_diag_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>add a constant to the diagonal of a matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_on_diag_d~2.html'>dbcsr_add_on_diag_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_on_diag_ds.html'>dbcsr_add_on_diag_ds</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_on_diag_s~2.html'>dbcsr_add_on_diag_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_on_diag_s.html'>dbcsr_add_on_diag_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>add a constant to the diagonal of a matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_on_diag_z~2.html'>dbcsr_add_on_diag_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_on_diag_s~2.html'>dbcsr_add_on_diag_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_on_diag_z.html'>dbcsr_add_on_diag_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>add a constant to the diagonal of a matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_s.html'>dbcsr_add_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_s~2.html'>dbcsr_add_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_on_diag_z~2.html'>dbcsr_add_on_diag_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_s.html'>dbcsr_add_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_s~2.html'>dbcsr_add_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_wm_from_matrix.html'>dbcsr_add_wm_from_matrix</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Creates a work matrix from the data present in a finalized matrix.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_add_work_coordinate.html'>dbcsr_add_work_coordinate</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_z.html'>dbcsr_add_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_add_z~2.html'>dbcsr_add_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_z.html'>dbcsr_add_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_add_z~2.html'>dbcsr_add_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_addto_index_array.html'>dbcsr_addto_index_array</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Adds data to the index. Increases the index size when necessary.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_allgatherv.html'>dbcsr_allgatherv</a></td><td><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></td><td>Subroutine</td><td><p>Allgather of encapsulated data</p><a href="../proc/dbcsr_allgatherv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/dbcsr_binary_read~2.html'>dbcsr_binary_read</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
@@ -833,27 +833,27 @@ There are no checks done for correctness!</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_build_row_index_copy.html'>dbcsr_build_row_index_copy</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Builds row index array from a columns-per-row count.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_build_row_index_inplace.html'>dbcsr_build_row_index_inplace</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Builds row index array from a columns-per-row count, in-place.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_calc_block_sizes.html'>dbcsr_calc_block_sizes</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Subroutine</td><td><p>Calculates explicit sizes for all data blocks.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_checksum.html'>dbcsr_checksum</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Function</td><td><p>Calculates the checksum of a DBCSR matrix.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_checksum~2.html'>dbcsr_checksum</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_clear.html'>dbcsr_clear</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Clear a matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_clear~2.html'>dbcsr_clear</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Clear a matrix (remove all blocks)</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_checksum.html'>dbcsr_checksum</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Function</td><td><p>Calculates the checksum of a DBCSR matrix.</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_clear.html'>dbcsr_clear</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Clear a matrix (remove all blocks)</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_clear~2.html'>dbcsr_clear</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Clear a matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_clear_mempools.html'>dbcsr_clear_mempools</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Deallocate memory contained in mempools</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_clearfrom_index_array.html'>dbcsr_clearfrom_index_array</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Removes data from the index.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_col_block_offsets.html'>dbcsr_col_block_offsets</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_col_block_sizes.html'>dbcsr_col_block_sizes</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_complete_redistribute~2.html'>dbcsr_complete_redistribute</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_complete_redistribute.html'>dbcsr_complete_redistribute</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Fully redistributes a DBCSR matrix.
 The new distribution may be arbitrary as long as the total
 number full rows and columns matches that of the existing
 matrix.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_complete_redistribute~2.html'>dbcsr_complete_redistribute</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../interface/dbcsr_conform_scalar.html'>dbcsr_conform_scalar</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_conjg.html'>dbcsr_conjg</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Conjugate a DBCSR matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_convert_csr_to_dbcsr.html'>dbcsr_convert_csr_to_dbcsr</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_convert_dbcsr_to_csr.html'>dbcsr_convert_dbcsr_to_csr</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_copy~2.html'>dbcsr_copy</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_copy.html'>dbcsr_copy</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>copy a matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_copy_into_existing~2.html'>dbcsr_copy_into_existing</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_copy~2.html'>dbcsr_copy</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_copy_into_existing.html'>dbcsr_copy_into_existing</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>copy a matrix, retaining current sparsity</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_copy_into_existing~2.html'>dbcsr_copy_into_existing</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_copy_into_existing_sym.html'>dbcsr_copy_into_existing_sym</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>copy a matrix, retaining current sparsity</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_data</a></td><td><a href='../module/dbcsr_data_operations.html'>dbcsr_data_operations</a></td><td>Subroutine</td><td><p>Sorts the data in a matrix so that the data blocks follow
 sequentially and does various transposing options.
@@ -862,14 +862,14 @@ As opposed to dbcsr_sort_data, this routine calculates block sizes</p></td></tr>
 			   <tr><td><a href='../interface/dbcsr_count_row_index.html'>dbcsr_count_row_index</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_count_row_index_copy.html'>dbcsr_count_row_index_copy</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Counts columns-per-row count from row index array.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_count_row_index_inplace.html'>dbcsr_count_row_index_inplace</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Counts columns-per-row count from row index array, in-place.</p></td></tr>
-			   <tr><td><a href='../interface/dbcsr_create.html'>dbcsr_create</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_create~2.html'>dbcsr_create</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_create.html'>dbcsr_create</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_create~2.html'>dbcsr_create</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_create_brd.html'>dbcsr_create_brd</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Converts a DBCSR matrix to a block row distributed matrix.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_create_image_dist.html'>dbcsr_create_image_dist</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td><p>Creates an image distribution given the other compatibility images</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_create_new.html'>dbcsr_create_new</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Creates a matrix, allocating the essentials.</p><a href="../proc/dbcsr_create_new.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/dbcsr_create_new~2.html'>dbcsr_create_new</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_create_template.html'>dbcsr_create_template</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_template</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_create_new.html'>dbcsr_create_new</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Creates a matrix, allocating the essentials.</p><a href="../proc/dbcsr_create_new.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+			   <tr><td><a href='../proc/dbcsr_create_template.html'>dbcsr_create_template</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_template</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_crop_matrix.html'>dbcsr_crop_matrix</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Crop and copies a matrix.</p></td></tr>
 			   <tr><td><a href='../interface/dbcsr_csr_create.html'>dbcsr_csr_create</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_csr_create_from_dbcsr.html'>dbcsr_csr_create_from_dbcsr</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
@@ -934,16 +934,16 @@ structure. Can handle symmetric/antisymmetric/hermitian/skewhermitian
 matrices</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_dist_bin.html'>dbcsr_dist_bin</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Creates a sane 1-D distribution</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_dist_release_locals.html'>dbcsr_dist_release_locals</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_distribute.html'>dbcsr_distribute</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Distributes a matrix that is currently replicated.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribute~2.html'>dbcsr_distribute</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_distribute.html'>dbcsr_distribute</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Distributes a matrix that is currently replicated.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution.html'>dbcsr_distribution</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_col_dist.html'>dbcsr_distribution_col_dist</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_distribution_get.html'>dbcsr_distribution_get</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Subroutine</td><td><p>Get distribution parameters</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_get~2.html'>dbcsr_distribution_get</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_distribution_get.html'>dbcsr_distribution_get</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Subroutine</td><td><p>Get distribution parameters</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_get_num_images_1d.html'>dbcsr_distribution_get_num_images_1d</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td><p>Count number of images in the product matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_has_threads.html'>dbcsr_distribution_has_threads</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_distribution_hold.html'>dbcsr_distribution_hold</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Subroutine</td><td><p>Marks another use of the distribution</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_hold~2.html'>dbcsr_distribution_hold</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_distribution_hold.html'>dbcsr_distribution_hold</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Subroutine</td><td><p>Marks another use of the distribution</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_local_cols.html'>dbcsr_distribution_local_cols</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_local_cols_obj.html'>dbcsr_distribution_local_cols_obj</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_local_rows.html'>dbcsr_distribution_local_rows</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
@@ -953,8 +953,8 @@ matrices</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_max_row_dist.html'>dbcsr_distribution_max_row_dist</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_mp.html'>dbcsr_distribution_mp</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_ncols.html'>dbcsr_distribution_ncols</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_distribution_new.html'>dbcsr_distribution_new</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_new.html'>dbcsr_distribution_new</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Creates new distribution from blockr distributions</p></td></tr>
+			   <tr><td><a href='../interface/dbcsr_distribution_new.html'>dbcsr_distribution_new</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_new_low.html'>dbcsr_distribution_new_low</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Subroutine</td><td><p>Creates new distribution</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_new_obj.html'>dbcsr_distribution_new_obj</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Subroutine</td><td><p>Creates new distribution
 Workaround for CCE compilation</p></td></tr>
@@ -965,52 +965,52 @@ Workaround for CCE compilation</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_nrows.html'>dbcsr_distribution_nrows</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_num_threads.html'>dbcsr_distribution_num_threads</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_processor.html'>dbcsr_distribution_processor</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_distribution_release.html'>dbcsr_distribution_release</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td><p>Releases and potentially destroys a distribution</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_release~2.html'>dbcsr_distribution_release</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_distribution_release.html'>dbcsr_distribution_release</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td><p>Releases and potentially destroys a distribution</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_row_dist.html'>dbcsr_distribution_row_dist</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_distribution_thread_dist.html'>dbcsr_distribution_thread_dist</a></td><td><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_dot.html'>dbcsr_dot</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_dot~2.html'>dbcsr_dot</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_dot_c~2.html'>dbcsr_dot_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_dot.html'>dbcsr_dot</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_dot~2.html'>dbcsr_dot</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_dot_c.html'>dbcsr_dot_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Dot product of DBCSR matrices</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_dot_d~2.html'>dbcsr_dot_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_dot_c~2.html'>dbcsr_dot_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_dot_d.html'>dbcsr_dot_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Dot product of DBCSR matrices</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_dot_s~2.html'>dbcsr_dot_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_dot_d~2.html'>dbcsr_dot_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_dot_s.html'>dbcsr_dot_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Dot product of DBCSR matrices</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_dot_s~2.html'>dbcsr_dot_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_dot_sd.html'>dbcsr_dot_sd</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Dot product of DBCSR matrices
 \result    the dot product of the matrices</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_dot_z~2.html'>dbcsr_dot_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_dot_z.html'>dbcsr_dot_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Dot product of DBCSR matrices</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_dot_z~2.html'>dbcsr_dot_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_error_handling_setup.html'>dbcsr_error_handling_setup</a></td><td><a href='../module/dbcsr_error_handling.html'>dbcsr_error_handling</a></td><td>Subroutine</td><td><p>Registers handlers with base_hooks.F</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_expand_row_index.html'>dbcsr_expand_row_index</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Expands a row_p index</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_expand_row_index_2d.html'>dbcsr_expand_row_index_2d</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Expands a row_p index</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_fill_wm_from_matrix.html'>dbcsr_fill_wm_from_matrix</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Fills index and data of the work matrix from the
 previously-finalized one.</p><a href="../proc/dbcsr_fill_wm_from_matrix.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dbcsr_filter.html'>dbcsr_filter</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../interface/dbcsr_filter.html'>dbcsr_filter</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_filter.html'>dbcsr_filter</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_filter_anytype.html'>dbcsr_filter_anytype</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>filter a dbcsr matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_filter_c.html'>dbcsr_filter_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_filter_d.html'>dbcsr_filter_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_filter_s.html'>dbcsr_filter_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_filter_z.html'>dbcsr_filter_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_finalize~2.html'>dbcsr_finalize</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_finalize.html'>dbcsr_finalize</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Creates the final dbcsr_type matrix from the working matrix.
 Work matrices (array or tree-based) are merged into the base DBCSR matrix.
 If a matrix is marked as having a valid index, then nothing is done.
 Deleted blocks are pruned from the index.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_finalize~2.html'>dbcsr_finalize</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_finalize_lib.html'>dbcsr_finalize_lib</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Finalize the DBCSR library
 Cleans up after the DBCSR library.  Used to deallocate persistent objects.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_find_column.html'>dbcsr_find_column</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Finds the block that has the given column.
 If the block having the queried column is found, the blk parameter
 is set to this block number and the found parameter is true.
 Otherwise found is false and the block number is invalid.</p><a href="../proc/dbcsr_find_column.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dbcsr_frobenius_norm~2.html'>dbcsr_frobenius_norm</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_frobenius_norm.html'>dbcsr_frobenius_norm</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>compute a norm of a dbcsr matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_function_of_elements~2.html'>dbcsr_function_of_elements</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_frobenius_norm~2.html'>dbcsr_frobenius_norm</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_function_of_elements.html'>dbcsr_function_of_elements</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Computes various functions (defined by func) of matrix elements</p><a href="../proc/dbcsr_function_of_elements.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+			   <tr><td><a href='../proc/dbcsr_function_of_elements~2.html'>dbcsr_function_of_elements</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_gatherv_any.html'>dbcsr_gatherv_any</a></td><td><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></td><td>Subroutine</td><td><p>Gather function of encapsulated data.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_gershgorin_norm~2.html'>dbcsr_gershgorin_norm</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_gershgorin_norm.html'>dbcsr_gershgorin_norm</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>compute a norm of a dbcsr matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_gershgorin_norm~2.html'>dbcsr_gershgorin_norm</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_2d_block_notrans_p_c.html'>dbcsr_get_2d_block_notrans_p_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_2d_block_notrans_p_d.html'>dbcsr_get_2d_block_notrans_p_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_2d_block_notrans_p_s.html'>dbcsr_get_2d_block_notrans_p_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
@@ -1023,8 +1023,8 @@ Otherwise found is false and the block number is invalid.</p><a href="../proc/db
 			   <tr><td><a href='../proc/dbcsr_get_2d_block_p_s.html'>dbcsr_get_2d_block_p_s</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Subroutine</td><td><p>Gets a 2-d block from a dbcsr matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_2d_block_p_z~2.html'>dbcsr_get_2d_block_p_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_2d_block_p_z.html'>dbcsr_get_2d_block_p_z</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Subroutine</td><td><p>Gets a 2-d block from a dbcsr matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_block_diag~2.html'>dbcsr_get_block_diag</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_block_diag.html'>dbcsr_get_block_diag</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>get the diagonal of a dbcsr matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_block_diag~2.html'>dbcsr_get_block_diag</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_block_index.html'>dbcsr_get_block_index</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Looks up a block's index given logical coordinates.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_block_notrans_p_c.html'>dbcsr_get_block_notrans_p_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_block_notrans_p_d.html'>dbcsr_get_block_notrans_p_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
@@ -1069,42 +1069,42 @@ Otherwise found is false and the block number is invalid.</p><a href="../proc/db
 			   <tr><td><a href='../proc/dbcsr_get_data_p_z.html'>dbcsr_get_data_p_z</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Returns the single/double precision real/complex data
 \brief dbcsr_get_data_c_z</p><a href="../proc/dbcsr_get_data_p_z.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_data_s.html'>dbcsr_get_data_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_data_size.html'>dbcsr_get_data_size</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the allocated data size of a DBCSR matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_data_size~2.html'>dbcsr_get_data_size</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_data_size.html'>dbcsr_get_data_size</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the allocated data size of a DBCSR matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_data_size_used.html'>dbcsr_get_data_size_used</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Count actual data storage used for matrix data.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_data_type.html'>dbcsr_get_data_type</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the data type stored in the matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_data_type~2.html'>dbcsr_get_data_type</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_data_type.html'>dbcsr_get_data_type</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the data type stored in the matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_data_z.html'>dbcsr_get_data_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_default_logger.html'>dbcsr_get_default_logger</a></td><td><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></td><td>Function</td><td><p>returns the default logger</p><a href="../proc/dbcsr_get_default_logger.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../interface/dbcsr_get_diag.html'>dbcsr_get_diag</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_get_diag~2.html'>dbcsr_get_diag</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_diag_c.html'>dbcsr_get_diag_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_diag_c~2.html'>dbcsr_get_diag_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_diag_d.html'>dbcsr_get_diag_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_diag_d~2.html'>dbcsr_get_diag_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_diag_s.html'>dbcsr_get_diag_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_diag_s~2.html'>dbcsr_get_diag_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_diag_z.html'>dbcsr_get_diag_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_diag_z~2.html'>dbcsr_get_diag_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_get_diag.html'>dbcsr_get_diag</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_get_diag~2.html'>dbcsr_get_diag</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_diag_c.html'>dbcsr_get_diag_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_diag_c~2.html'>dbcsr_get_diag_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_diag_d.html'>dbcsr_get_diag_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_diag_d~2.html'>dbcsr_get_diag_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_diag_s.html'>dbcsr_get_diag_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_diag_s~2.html'>dbcsr_get_diag_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_diag_z.html'>dbcsr_get_diag_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_diag_z~2.html'>dbcsr_get_diag_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_global_col_map.html'>dbcsr_get_global_col_map</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td><p>Determines mapping from global to local columns</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_global_row_map.html'>dbcsr_get_global_row_map</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td><p>Determines mapping from global to local rows</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_global_vcol_map.html'>dbcsr_get_global_vcol_map</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td><p>Determines mapping from global to virtual local columns</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_global_vrow_map.html'>dbcsr_get_global_vrow_map</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td><p>Determines mapping from global to virtual local rows</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_index_memory_type.html'>dbcsr_get_index_memory_type</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the type of memory used for the index in the matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_info~2.html'>dbcsr_get_info</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_info.html'>dbcsr_get_info</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Gets information about a matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_info~2.html'>dbcsr_get_info</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_local_cols.html'>dbcsr_get_local_cols</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Determines mapping from local to global columns</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_local_rows.html'>dbcsr_get_local_rows</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Determines mapping from local to global rows</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_local_vcols.html'>dbcsr_get_local_vcols</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td><p>Determines mapping from local to global virtual process columns</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_local_vrows.html'>dbcsr_get_local_vrows</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td><p>Determines mapping from local to global virtual process rows</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_matrix_type.html'>dbcsr_get_matrix_type</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the matrix type</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_matrix_type~2.html'>dbcsr_get_matrix_type</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_num_blocks.html'>dbcsr_get_num_blocks</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the number of blocks in the matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_matrix_type.html'>dbcsr_get_matrix_type</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the matrix type</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_num_blocks~2.html'>dbcsr_get_num_blocks</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_num_blocks.html'>dbcsr_get_num_blocks</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the number of blocks in the matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_nze.html'>dbcsr_get_nze</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the number of non-zero elements in the matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_get_occupation~2.html'>dbcsr_get_occupation</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_occupation.html'>dbcsr_get_occupation</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Returns the occupation of the matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_get_occupation~2.html'>dbcsr_get_occupation</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_replication_type.html'>dbcsr_get_replication_type</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns the data type stored in the matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_stored_block_info.html'>dbcsr_get_stored_block_info</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Returns the index to a queried block, given a real (stored) row and
 column</p></td></tr>
@@ -1117,14 +1117,14 @@ column.</p></td></tr>
 			   <tr><td><a href='../interface/dbcsr_get_wms_data_p.html'>dbcsr_get_wms_data_p</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_wms_data_s.html'>dbcsr_get_wms_data_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_get_wms_data_z.html'>dbcsr_get_wms_data_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_hadamard_product~2.html'>dbcsr_hadamard_product</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_hadamard_product.html'>dbcsr_hadamard_product</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Hadamard product
 C = A . B (C needs to be different from A and B)</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_hadamard_product~2.html'>dbcsr_hadamard_product</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_has_local_row_index.html'>dbcsr_has_local_row_index</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_has_same_block_structure.html'>dbcsr_has_same_block_structure</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Function</td><td><p>Helper function to assert that two DBCSR matrices have the same block
 structure and same sparsity pattern</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_has_symmetry.html'>dbcsr_has_symmetry</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Whether matrix has symmetry</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_has_symmetry~2.html'>dbcsr_has_symmetry</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_has_symmetry.html'>dbcsr_has_symmetry</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Whether matrix has symmetry</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_heap_copy_node.html'>dbcsr_heap_copy_node</a></td><td><a href='../module/dbcsr_min_heap.html'>dbcsr_min_heap</a></td><td>Subroutine</td><td><p>Sets node e1 to e2</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_heap_fill.html'>dbcsr_heap_fill</a></td><td><a href='../module/dbcsr_min_heap.html'>dbcsr_min_heap</a></td><td>Subroutine</td><td><p>Fill heap with given values</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_heap_get_first.html'>dbcsr_heap_get_first</a></td><td><a href='../module/dbcsr_min_heap.html'>dbcsr_min_heap</a></td><td>Subroutine</td><td><p>Returns the first heap element without removing it.</p></td></tr>
@@ -1158,8 +1158,8 @@ Prepares the DBCSR library for use.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_init_lib_pre.html'>dbcsr_init_lib_pre</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Initialize the DBCSR library
 Prepares the DBCSR library for use.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_init_p.html'>dbcsr_init_p</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_init_random~2.html'>dbcsr_init_random</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_init_random.html'>dbcsr_init_random</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>... TODO : unify with other version which is generic in the data_type</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_init_random~2.html'>dbcsr_init_random</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_init_wm.html'>dbcsr_init_wm</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Initializes one work matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_int_to_string.html'>dbcsr_int_to_string</a></td><td><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></td><td>Function</td><td><p>converts an int to a string
 (should be a variable length string, but that does not work with
@@ -1238,8 +1238,8 @@ of some costly log info is necessary</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_make_untransposed_blocks.html'>dbcsr_make_untransposed_blocks</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Detransposes all blocks in a matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_max_col_size.html'>dbcsr_max_col_size</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_max_row_size.html'>dbcsr_max_row_size</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_maxabs~2.html'>dbcsr_maxabs</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_maxabs.html'>dbcsr_maxabs</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>compute a norm of a dbcsr matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_maxabs~2.html'>dbcsr_maxabs</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_may_be_dense.html'>dbcsr_may_be_dense</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Returns whether the matrix could be represented in a dense form</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mempool_add.html'>dbcsr_mempool_add</a></td><td><a href='../module/dbcsr_mem_methods.html'>dbcsr_mem_methods</a></td><td>Subroutine</td><td><p>Adds an unused (refcount==0) data_area to the pool.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mempool_clear.html'>dbcsr_mempool_clear</a></td><td><a href='../module/dbcsr_mem_methods.html'>dbcsr_mem_methods</a></td><td>Subroutine</td><td><p>Deallocates all data_areas contained in given mempool.</p></td></tr>
@@ -1298,8 +1298,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_mp_environ.html'>dbcsr_mp_environ</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Function</td><td><p>Create a dbcsr mp environment from communicator</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mp_get_process.html'>dbcsr_mp_get_process</a></td><td><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mp_grid_remove.html'>dbcsr_mp_grid_remove</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td><p>Removes an MPI cartesian process grid</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_mp_grid_setup~2.html'>dbcsr_mp_grid_setup</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mp_grid_setup.html'>dbcsr_mp_grid_setup</a></td><td><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></td><td>Subroutine</td><td><p>Sets up MPI cartesian process grid</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_mp_grid_setup~2.html'>dbcsr_mp_grid_setup</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mp_group.html'>dbcsr_mp_group</a></td><td><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mp_has_subgroups.html'>dbcsr_mp_has_subgroups</a></td><td><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mp_hold.html'>dbcsr_mp_hold</a></td><td><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></td><td>Subroutine</td><td><p>Marks another use of the mp_env</p></td></tr>
@@ -1320,22 +1320,22 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_mp_pgrid.html'>dbcsr_mp_pgrid</a></td><td><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mp_release.html'>dbcsr_mp_release</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td><p>Releases and potentially destroys an mp_env</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mp_type_from_anytype.html'>dbcsr_mp_type_from_anytype</a></td><td><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></td><td>Function</td><td><p>Creates an MPI combined type from the given anytype.</p></td></tr>
-			   <tr><td><a href='../interface/dbcsr_multiply.html'>dbcsr_multiply</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_multiply~2.html'>dbcsr_multiply</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_multiply_c.html'>dbcsr_multiply_c</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_multiply_c~2.html'>dbcsr_multiply_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_multiply.html'>dbcsr_multiply</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_multiply~2.html'>dbcsr_multiply</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_multiply_c.html'>dbcsr_multiply_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_multiply_c~2.html'>dbcsr_multiply_c</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_multiply_clear_mempools.html'>dbcsr_multiply_clear_mempools</a></td><td><a href='../module/dbcsr_mm.html'>dbcsr_mm</a></td><td>Subroutine</td><td><p>Deallocate memory contained in mempools</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_multiply_d.html'>dbcsr_multiply_d</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_multiply_d~2.html'>dbcsr_multiply_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_multiply_d.html'>dbcsr_multiply_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_multiply_d~2.html'>dbcsr_multiply_d</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_generic</a></td><td><a href='../module/dbcsr_mm.html'>dbcsr_mm</a></td><td>Subroutine</td><td><p>Performs a multiplication of two dbcsr_type matrices,
 as  C := alpha * op( A ) * op( B ) + beta * C.</p><a href="../proc/dbcsr_multiply_generic.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/dbcsr_multiply_lib_finalize.html'>dbcsr_multiply_lib_finalize</a></td><td><a href='../module/dbcsr_mm.html'>dbcsr_mm</a></td><td>Subroutine</td><td><p>Finalize the library</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_multiply_lib_init.html'>dbcsr_multiply_lib_init</a></td><td><a href='../module/dbcsr_mm.html'>dbcsr_mm</a></td><td>Subroutine</td><td><p>Initialize the library</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_multiply_print_statistics.html'>dbcsr_multiply_print_statistics</a></td><td><a href='../module/dbcsr_mm.html'>dbcsr_mm</a></td><td>Subroutine</td><td><p>Print statistics</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_multiply_s.html'>dbcsr_multiply_s</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_multiply_s~2.html'>dbcsr_multiply_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_multiply_z.html'>dbcsr_multiply_z</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_multiply_z~2.html'>dbcsr_multiply_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_multiply_s.html'>dbcsr_multiply_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_multiply_s~2.html'>dbcsr_multiply_s</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_multiply_z.html'>dbcsr_multiply_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_multiply_z~2.html'>dbcsr_multiply_z</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mutable_destroy.html'>dbcsr_mutable_destroy</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td><p>Destroys a mutable data type</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mutable_init.html'>dbcsr_mutable_init</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td><p>Initializes a mutable data type</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mutable_instantiated.html'>dbcsr_mutable_instantiated</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Unregisters a reference to the mutable data type
@@ -1344,27 +1344,27 @@ The object is destroy when there is no reference to it left.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_mutable_release.html'>dbcsr_mutable_release</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td><p>Unregisters a reference to the mutable data type
 The object is destroy when there is no reference to it left.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_name.html'>dbcsr_name</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nblkcols_local.html'>dbcsr_nblkcols_local</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nblkcols_local~2.html'>dbcsr_nblkcols_local</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nblkcols_total.html'>dbcsr_nblkcols_total</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nblkcols_total~2.html'>dbcsr_nblkcols_total</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nblkrows_local.html'>dbcsr_nblkrows_local</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nblkrows_local~2.html'>dbcsr_nblkrows_local</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nblkrows_total.html'>dbcsr_nblkrows_total</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nblkrows_total~2.html'>dbcsr_nblkrows_total</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nblkcols_local.html'>dbcsr_nblkcols_local</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nblkcols_local~2.html'>dbcsr_nblkcols_local</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nblkcols_total.html'>dbcsr_nblkcols_total</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nblkcols_total~2.html'>dbcsr_nblkcols_total</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nblkrows_local.html'>dbcsr_nblkrows_local</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nblkrows_local~2.html'>dbcsr_nblkrows_local</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nblkrows_total.html'>dbcsr_nblkrows_total</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nblkrows_total~2.html'>dbcsr_nblkrows_total</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_new_image_dist.html'>dbcsr_new_image_dist</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_new_transposed.html'>dbcsr_new_transposed</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Transposes a DBCSR matrix.</p><a href="../proc/dbcsr_new_transposed.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/dbcsr_nfullcols_local.html'>dbcsr_nfullcols_local</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nfullcols_total.html'>dbcsr_nfullcols_total</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nfullcols_total~2.html'>dbcsr_nfullcols_total</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nfullcols_total.html'>dbcsr_nfullcols_total</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nfullcols_total~2.html'>dbcsr_nfullcols_total</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_nfullrows_local.html'>dbcsr_nfullrows_local</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nfullrows_total.html'>dbcsr_nfullrows_total</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_nfullrows_total~2.html'>dbcsr_nfullrows_total</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nfullrows_total.html'>dbcsr_nfullrows_total</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_nfullrows_total~2.html'>dbcsr_nfullrows_total</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../interface/dbcsr_norm.html'>dbcsr_norm</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_norm_r8_vec.html'>dbcsr_norm_r8_vec</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_norm_r8_vec~2.html'>dbcsr_norm_r8_vec</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_norm_scalar~2.html'>dbcsr_norm_scalar</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_norm_r8_vec.html'>dbcsr_norm_r8_vec</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_norm_r8_vec~2.html'>dbcsr_norm_r8_vec</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_norm_scalar.html'>dbcsr_norm_scalar</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>compute a norm of a dbcsr matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_norm_scalar~2.html'>dbcsr_norm_scalar</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_norm_vec.html'>dbcsr_norm_vec</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>compute the column norms of the dbcsr matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_pack_meta.html'>dbcsr_pack_meta</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Subroutine</td><td><p>Copies metadata into an array.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_print~2.html'>dbcsr_print</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
@@ -1372,9 +1372,9 @@ The object is destroy when there is no reference to it left.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_print_block_sum.html'>dbcsr_print_block_sum</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Prints the sum of the elements in each block</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_print_block_sum~2.html'>dbcsr_print_block_sum</a></td><td><a href='../module/dbcsr_io.html'>dbcsr_io</a></td><td>Subroutine</td><td><p>Prints the sum of the elements for each block</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_print_config.html'>dbcsr_print_config</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td><p>Prints configuration for DBCSR</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_print_statistics.html'>dbcsr_print_statistics</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Print statistics</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_print_statistics~2.html'>dbcsr_print_statistics</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Show the whole DBCSR statistics
+			   <tr><td><a href='../proc/dbcsr_print_statistics.html'>dbcsr_print_statistics</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Show the whole DBCSR statistics
 Prepares the DBCSR library for use.</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_print_statistics~2.html'>dbcsr_print_statistics</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Print statistics</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_print_timers.html'>dbcsr_print_timers</a></td><td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td><td>Subroutine</td><td><p>Print timers</p></td></tr>
 			   <tr><td><a href='../interface/dbcsr_printmat.html'>dbcsr_printmat</a></td><td><a href='../module/dbcsr_io.html'>dbcsr_io</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_printmat_matlab_c.html'>dbcsr_printmat_matlab_c</a></td><td><a href='../module/dbcsr_io.html'>dbcsr_io</a></td><td>Subroutine</td><td></td></tr>
@@ -1414,9 +1414,9 @@ all the compilers)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_reblocking_targets.html'>dbcsr_reblocking_targets</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Calculates the intersections of blocks</p><a href="../proc/dbcsr_reblocking_targets.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/dbcsr_redistribute.html'>dbcsr_redistribute</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Redistributes a DBCSR matrix.
  The new distribution should have compatible row and column blocks.</p><a href="../proc/dbcsr_redistribute.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+			   <tr><td><a href='../proc/dbcsr_release~2.html'>dbcsr_release</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_release.html'>dbcsr_release</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td><p>Releases a reference for a DBCSR matrix
 If there are no references left, the matrix is destroyed.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_release~2.html'>dbcsr_release</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_release_locals.html'>dbcsr_release_locals</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_release_p.html'>dbcsr_release_p</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_remove_block.html'>dbcsr_remove_block</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Subroutine</td><td><p>Marks a block for removal from a DBCSR matrix. Handles
@@ -1424,8 +1424,8 @@ symmetric matrices.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_repl_get_stored_coordinates.html'>dbcsr_repl_get_stored_coordinates</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Subroutine</td><td><p>Get all processors for a given row/col combination if matrix is replicated on each process
 subgroup.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_replicate.html'>dbcsr_replicate</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Replicates a DBCSR matrix among process rows and columns</p><a href="../proc/dbcsr_replicate.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dbcsr_replicate_all.html'>dbcsr_replicate_all</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Replicates a DBCSR on all processors.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_replicate_all~2.html'>dbcsr_replicate_all</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_replicate_all.html'>dbcsr_replicate_all</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Replicates a DBCSR on all processors.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_repoint_index.html'>dbcsr_repoint_index</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Updates the index pointers of a bcsr matrix</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_reserve_all_blocks~2.html'>dbcsr_reserve_all_blocks</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_reserve_all_blocks.html'>dbcsr_reserve_all_blocks</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Subroutine</td><td><p>Inserts all blocks of a dbcsr matrix to make it a full matrix.
@@ -1475,65 +1475,65 @@ processor grids</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scalar_set_type.html'>dbcsr_scalar_set_type</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Subroutine</td><td><p>Sets data type of a scalar</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scalar_z.html'>dbcsr_scalar_z</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Sets a scalar in an encapsulated data structure</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scalar_zero.html'>dbcsr_scalar_zero</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Returns an encapsulated scalar "0"</p></td></tr>
-			   <tr><td><a href='../interface/dbcsr_scale.html'>dbcsr_scale</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_scale~2.html'>dbcsr_scale</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_scale.html'>dbcsr_scale</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_scale~2.html'>dbcsr_scale</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_anytype.html'>dbcsr_scale_anytype</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Scales a DBCSR matrix by alpha</p><a href="../proc/dbcsr_scale_anytype.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../interface/dbcsr_scale_by_vector.html'>dbcsr_scale_by_vector</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_scale_by_vector~2.html'>dbcsr_scale_by_vector</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_scale_by_vector.html'>dbcsr_scale_by_vector</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_scale_by_vector~2.html'>dbcsr_scale_by_vector</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_by_vector_anytype.html'>dbcsr_scale_by_vector_anytype</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Scales a DBCSR matrix by alpha</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_scale_by_vector_c~2.html'>dbcsr_scale_by_vector_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_by_vector_c.html'>dbcsr_scale_by_vector_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for matrix scaling by a vector</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_scale_by_vector_d~2.html'>dbcsr_scale_by_vector_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_scale_by_vector_c~2.html'>dbcsr_scale_by_vector_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_by_vector_d.html'>dbcsr_scale_by_vector_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for matrix scaling by a vector</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_scale_by_vector_s~2.html'>dbcsr_scale_by_vector_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_scale_by_vector_d~2.html'>dbcsr_scale_by_vector_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_by_vector_s.html'>dbcsr_scale_by_vector_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for matrix scaling by a vector</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_scale_by_vector_z~2.html'>dbcsr_scale_by_vector_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_scale_by_vector_s~2.html'>dbcsr_scale_by_vector_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_by_vector_z.html'>dbcsr_scale_by_vector_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for matrix scaling by a vector</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_scale_c~2.html'>dbcsr_scale_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_scale_by_vector_z~2.html'>dbcsr_scale_by_vector_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_c.html'>dbcsr_scale_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for matrix scaling by a scalar</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_scale_d~2.html'>dbcsr_scale_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_scale_c~2.html'>dbcsr_scale_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_d.html'>dbcsr_scale_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for matrix scaling by a scalar</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_scale_s~2.html'>dbcsr_scale_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_scale_d~2.html'>dbcsr_scale_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_s.html'>dbcsr_scale_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for matrix scaling by a scalar</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_scale_z~2.html'>dbcsr_scale_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_scale_s~2.html'>dbcsr_scale_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_scale_z.html'>dbcsr_scale_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for matrix scaling by a scalar</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_scale_z~2.html'>dbcsr_scale_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_sendrecv_any.html'>dbcsr_sendrecv_any</a></td><td><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></td><td>Subroutine</td><td><p>sendrecv of encapsulated data.</p><a href="../proc/dbcsr_sendrecv_any.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../interface/dbcsr_set.html'>dbcsr_set</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_set~2.html'>dbcsr_set</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_set.html'>dbcsr_set</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_set~2.html'>dbcsr_set</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../interface/dbcsr_set_block_pointer.html'>dbcsr_set_block_pointer</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_block_pointer_2d_c.html'>dbcsr_set_block_pointer_2d_c</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Subroutine</td><td><p>Sets a pointer, possibly using the buffers.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_block_pointer_2d_d.html'>dbcsr_set_block_pointer_2d_d</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Subroutine</td><td><p>Sets a pointer, possibly using the buffers.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_block_pointer_2d_s.html'>dbcsr_set_block_pointer_2d_s</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Subroutine</td><td><p>Sets a pointer, possibly using the buffers.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_block_pointer_2d_z.html'>dbcsr_set_block_pointer_2d_z</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Subroutine</td><td><p>Sets a pointer, possibly using the buffers.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_block_pointer_any.html'>dbcsr_set_block_pointer_any</a></td><td><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></td><td>Subroutine</td><td><p>Sets a pointer, possibly using the buffers.</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_c~2.html'>dbcsr_set_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_c.html'>dbcsr_set_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for dbcsr_set</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_c~2.html'>dbcsr_set_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_d~2.html'>dbcsr_set_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_d.html'>dbcsr_set_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for dbcsr_set</p></td></tr>
-			   <tr><td><a href='../interface/dbcsr_set_diag.html'>dbcsr_set_diag</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_set_diag~2.html'>dbcsr_set_diag</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_diag_c.html'>dbcsr_set_diag_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_diag_c~2.html'>dbcsr_set_diag_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_diag_d.html'>dbcsr_set_diag_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_diag_d~2.html'>dbcsr_set_diag_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_diag_s.html'>dbcsr_set_diag_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_diag_s~2.html'>dbcsr_set_diag_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_diag_z.html'>dbcsr_set_diag_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_diag_z~2.html'>dbcsr_set_diag_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_s~2.html'>dbcsr_set_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_d~2.html'>dbcsr_set_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_set_diag.html'>dbcsr_set_diag</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_set_diag~2.html'>dbcsr_set_diag</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_diag_c.html'>dbcsr_set_diag_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_diag_c~2.html'>dbcsr_set_diag_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_diag_d.html'>dbcsr_set_diag_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_diag_d~2.html'>dbcsr_set_diag_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_diag_s.html'>dbcsr_set_diag_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_diag_s~2.html'>dbcsr_set_diag_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_diag_z.html'>dbcsr_set_diag_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_diag_z~2.html'>dbcsr_set_diag_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_s.html'>dbcsr_set_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for dbcsr_set</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_s~2.html'>dbcsr_set_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_work_size.html'>dbcsr_set_work_size</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_set_z~2.html'>dbcsr_set_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_set_z.html'>dbcsr_set_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Interface for dbcsr_set</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_setname.html'>dbcsr_setname</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_setname~2.html'>dbcsr_setname</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_set_z~2.html'>dbcsr_set_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_setname.html'>dbcsr_setname</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_setname~2.html'>dbcsr_setname</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_sort_data.html'>dbcsr_sort_data</a></td><td><a href='../module/dbcsr_data_operations.html'>dbcsr_data_operations</a></td><td>Subroutine</td><td><p>Sorts the data in a matrix so that the data blocks follow
 sequentially.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_sort_indices.html'>dbcsr_sort_indices</a></td><td><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></td><td>Subroutine</td><td><p>Sorts the rows &amp; columns of a work matrix</p><a href="../proc/dbcsr_sort_indices.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/dbcsr_special_finalize.html'>dbcsr_special_finalize</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_sum_replicated~2.html'>dbcsr_sum_replicated</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_sum_replicated.html'>dbcsr_sum_replicated</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Sums blocks in a replicated dbcsr matrix, which has the same structure on all ranks.</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_sum_replicated~2.html'>dbcsr_sum_replicated</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../interface/dbcsr_switch.html'>dbcsr_switch</a></td><td><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_switch_d_ptrs.html'>dbcsr_switch_d_ptrs</a></td><td><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></td><td>Subroutine</td><td><p>Switches pointers between two data areas</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_switch_data_area.html'>dbcsr_switch_data_area</a></td><td><a href='../module/dbcsr_data_operations.html'>dbcsr_data_operations</a></td><td>Subroutine</td><td><p>Sets the data area of a matrix</p></td></tr>
@@ -1856,29 +1856,29 @@ Same dummy arguments as dbcsr_tas_multiply</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_test_read_args.html'>dbcsr_test_read_args</a></td><td><a href='../program/dbcsr_performance_driver.html'>dbcsr_performance_driver</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_test_scale_by_vectors.html'>dbcsr_test_scale_by_vectors</a></td><td><a href='../module/dbcsr_test_scale_by_vector.html'>dbcsr_test_scale_by_vector</a></td><td>Function</td><td><p>Performs a variety of matrix multiplies of same matrices on different
 processor grids</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_to_csr_filter.html'>dbcsr_to_csr_filter</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Apply filtering threshold eps to DBCSR blocks in order to improve
+			   <tr><td><a href='../proc/dbcsr_to_csr_filter.html'>dbcsr_to_csr_filter</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Apply filtering threshold eps to DBCSR blocks in order to improve
 CSR sparsity (currently only used for testing purposes)</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_to_csr_filter~2.html'>dbcsr_to_csr_filter</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Apply filtering threshold eps to DBCSR blocks in order to improve
+			   <tr><td><a href='../proc/dbcsr_to_csr_filter~2.html'>dbcsr_to_csr_filter</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Apply filtering threshold eps to DBCSR blocks in order to improve
 CSR sparsity (currently only used for testing purposes)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_to_dense_local.html'>dbcsr_to_dense_local</a></td><td><a href='../module/dbcsr_test_methods.html'>dbcsr_test_methods</a></td><td>Subroutine</td><td><p>Convert a sparse matrix to a dense matrix</p></td></tr>
 			   <tr><td><a href='../interface/dbcsr_to_string.html'>dbcsr_to_string</a></td><td><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_trace.html'>dbcsr_trace</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/dbcsr_trace~2.html'>dbcsr_trace</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_trace_c~2.html'>dbcsr_trace_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_trace.html'>dbcsr_trace</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_trace~2.html'>dbcsr_trace</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_trace_c.html'>dbcsr_trace_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>traces a DBCSR matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_trace_d~2.html'>dbcsr_trace_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_trace_c~2.html'>dbcsr_trace_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_trace_d.html'>dbcsr_trace_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>traces a DBCSR matrix</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_trace_s~2.html'>dbcsr_trace_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_trace_d~2.html'>dbcsr_trace_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_trace_s.html'>dbcsr_trace_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>traces a DBCSR matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_trace_s~2.html'>dbcsr_trace_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_trace_sd.html'>dbcsr_trace_sd</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Trace of DBCSR matrices</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_trace_z~2.html'>dbcsr_trace_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_trace_z.html'>dbcsr_trace_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>traces a DBCSR matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_trace_z~2.html'>dbcsr_trace_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_transpose_dims.html'>dbcsr_transpose_dims</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Transposes a distribution but keeps the same mp_env</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_transpose_distribution.html'>dbcsr_transpose_distribution</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Transposes a distribution</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_transposed.html'>dbcsr_transposed</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Transposes a DBCSR matrix, keeping the same distribution</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_transposed~2.html'>dbcsr_transposed</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_triu~2.html'>dbcsr_triu</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_transposed.html'>dbcsr_transposed</a></td><td><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></td><td>Subroutine</td><td><p>Transposes a DBCSR matrix, keeping the same distribution</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_triu.html'>dbcsr_triu</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>triu of a dbcsr matrix</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_triu~2.html'>dbcsr_triu</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_type_1d_to_2d.html'>dbcsr_type_1d_to_2d</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Returns 2-D data type corresponding to the given 1-D one.
 \return 2-D data type</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_type_2d_to_1d.html'>dbcsr_type_2d_to_1d</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Returns 1-d data type corresponding to the given 2-D one.
@@ -1892,17 +1892,17 @@ CSR sparsity (currently only used for testing purposes)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_update_contiguous_blocks_s.html'>dbcsr_update_contiguous_blocks_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_update_contiguous_blocks_z.html'>dbcsr_update_contiguous_blocks_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_use_mutable.html'>dbcsr_use_mutable</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns whether work matrices should use the mutable data type</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_valid_index.html'>dbcsr_valid_index</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns whether the index structure of the matrix is valid.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_valid_index~2.html'>dbcsr_valid_index</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/dbcsr_verify_matrix.html'>dbcsr_verify_matrix</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Subroutine</td><td><p>Verify the correctness of a BCSR matrix.</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_valid_index.html'>dbcsr_valid_index</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns whether the index structure of the matrix is valid.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_verify_matrix~2.html'>dbcsr_verify_matrix</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_verify_matrix.html'>dbcsr_verify_matrix</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Subroutine</td><td><p>Verify the correctness of a BCSR matrix.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_warn.html'>dbcsr_warn</a></td><td><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></td><td>Subroutine</td><td><p>Issue a warning</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_warn_handler.html'>dbcsr_warn_handler</a></td><td><a href='../module/dbcsr_error_handling.html'>dbcsr_error_handling</a></td><td>Subroutine</td><td><p>Signal a warning</p></td></tr>
 			   <tr><td><a href='../interface/dbcsr_warn_interface.html'>dbcsr_warn_interface</a></td><td><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/dbcsr_win_create_any.html'>dbcsr_win_create_any</a></td><td><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></td><td>Subroutine</td><td><p>Window initialization function of encapsulated data.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_wm_use_mutable.html'>dbcsr_wm_use_mutable</a></td><td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td><td>Function</td><td><p>Returns whether this work matrix uses the mutable type</p></td></tr>
-			   <tr><td><a href='../proc/dbcsr_work_create.html'>dbcsr_work_create</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Creates a the working matrix(es) for a DBCSR matrix.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_work_create~2.html'>dbcsr_work_create</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_work_create.html'>dbcsr_work_create</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Creates a the working matrix(es) for a DBCSR matrix.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_work_destroy.html'>dbcsr_work_destroy</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Deallocates and destroys a work matrix.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_work_destroy_all.html'>dbcsr_work_destroy_all</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Deallocates and destroys a work matrix.</p></td></tr>
 			   <tr><td><a href='../proc/dbcsr_zero.html'>dbcsr_zero</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>fill a dbcsr matrix with zeros</p></td></tr>
@@ -2081,8 +2081,8 @@ supplied string.</p></td></tr>
 			   <tr><td><a href='../proc/internal_process_mm_stack_d.html'>internal_process_mm_stack_d</a></td><td><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></td><td>Subroutine</td><td><p>Processes MM stack and issues internal MM calls.</p></td></tr>
 			   <tr><td><a href='../proc/internal_process_mm_stack_s.html'>internal_process_mm_stack_s</a></td><td><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></td><td>Subroutine</td><td><p>Processes MM stack and issues internal MM calls.</p></td></tr>
 			   <tr><td><a href='../proc/internal_process_mm_stack_z.html'>internal_process_mm_stack_z</a></td><td><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></td><td>Subroutine</td><td><p>Processes MM stack and issues internal MM calls.</p></td></tr>
-			   <tr><td><a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/invert_transpose_flag~2.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/invert_transpose_flag~2.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/iswap.html'>iswap</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Subroutine</td><td><p>Swaps two integers</p></td></tr>
 			   <tr><td><a href='../proc/iterator_advance.html'>iterator_advance</a></td><td><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></td><td>Subroutine</td><td><p>Advances to the next block</p></td></tr>
 			   <tr><td><a href='../proc/iterator_next_1d_block_c.html'>iterator_next_1d_block_c</a></td><td><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></td><td>Subroutine</td><td><p>Gets the next data block, single/double precision real/complex</p></td></tr>
@@ -2211,8 +2211,8 @@ single precision elements.</p></td></tr>
 			   <tr><td><a href='../proc/m_energy.html'>m_energy</a></td><td><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></td><td>Function</td><td><p>returns the energy used since some time in the past.
 The precise meaning depends on the infrastructure is available.
 In the cray_pm_energy case, this is the energy used by the node in kJ.</p></td></tr>
-			   <tr><td><a href='../proc/m_flush.html'>m_flush</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td><p>Flush a given unit</p></td></tr>
-			   <tr><td><a href='../proc/m_flush~2.html'>m_flush</a></td><td><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></td><td>Subroutine</td><td><p>flushes units if the &amp;GLOBAL flag is set accordingly</p><a href="../proc/m_flush~2.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+			   <tr><td><a href='../proc/m_flush.html'>m_flush</a></td><td><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></td><td>Subroutine</td><td><p>flushes units if the &amp;GLOBAL flag is set accordingly</p><a href="../proc/m_flush.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+			   <tr><td><a href='../proc/m_flush~2.html'>m_flush</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td><p>Flush a given unit</p></td></tr>
 			   <tr><td><a href='../proc/m_getarg.html'>m_getarg</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/m_getcwd.html'>m_getcwd</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/m_getlog.html'>m_getlog</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td></td></tr>
@@ -3049,8 +3049,8 @@ rank remapping.</p></td></tr>
 			   <tr><td><a href='../proc/pointer_z_rank_remap2.html'>pointer_z_rank_remap2</a></td><td><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></td><td>Subroutine</td><td><p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
 rank remapping.</p></td></tr>
 			   <tr><td><a href='../proc/pos_relation.html'>pos_relation</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Determines the relation between two matrix positions.</p></td></tr>
-			   <tr><td><a href='../proc/prep_output_unit.html'>prep_output_unit</a></td><td><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../proc/prep_output_unit~2.html'>prep_output_unit</a></td><td><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/prep_output_unit.html'>prep_output_unit</a></td><td><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></td><td>Function</td><td></td></tr>
+			   <tr><td><a href='../proc/prep_output_unit~2.html'>prep_output_unit</a></td><td><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/prepare_buffers_c.html'>prepare_buffers_c</a></td><td><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></td><td>Subroutine</td><td><p>Prepare buffers for multiplications</p></td></tr>
 			   <tr><td><a href='../proc/prepare_buffers_d.html'>prepare_buffers_d</a></td><td><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></td><td>Subroutine</td><td><p>Prepare buffers for multiplications</p></td></tr>
 			   <tr><td><a href='../proc/prepare_buffers_s.html'>prepare_buffers_s</a></td><td><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></td><td>Subroutine</td><td><p>Prepare buffers for multiplications</p></td></tr>
@@ -3073,8 +3073,8 @@ optionally decorated with a frame of stars as defined by declev.</p><a href="../
 The data area from the work matrix is accepted as the new matrix's data
 area and the index is built from the work matrix.</p></td></tr>
 			   <tr><td><a href='../proc/random_blk_sizes.html'>random_blk_sizes</a></td><td><a href='../program/dbcsr_tensor_example_1.html'>dbcsr_tensor_example_1</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/random_dist.html'>random_dist</a></td><td><a href='../program/dbcsr_example_1.html'>dbcsr_example_1</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/random_dist~2.html'>random_dist</a></td><td><a href='../program/dbcsr_example_3.html'>dbcsr_example_3</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/random_dist.html'>random_dist</a></td><td><a href='../program/dbcsr_example_3.html'>dbcsr_example_3</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/random_dist~2.html'>random_dist</a></td><td><a href='../program/dbcsr_example_1.html'>dbcsr_example_1</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/random_dist~3.html'>random_dist</a></td><td><a href='../program/dbcsr_example_2.html'>dbcsr_example_2</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/rebin_distribution.html'>rebin_distribution</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Makes new distribution with decimation and multiplicity</p><a href="../proc/rebin_distribution.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			   <tr><td><a href='../proc/rebin_imaged_distribution.html'>rebin_imaged_distribution</a></td><td><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></td><td>Subroutine</td><td><p>Makes new distribution with multiplicity</p><a href="../proc/rebin_imaged_distribution.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
@@ -3090,15 +3090,15 @@ Multiplicity is being ignored, maybe this is a bug</p><a href="../proc/reimage_d
 			   <tr><td><a href='../proc/repl_dist.html'>repl_dist</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/repl_rowcols.html'>repl_rowcols</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
 			   <tr><td><a href='../proc/reset_accdrv_active_device_id.html'>reset_accdrv_active_device_id</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td></td></tr>
-			   <tr><td><a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+			   <tr><td><a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
+the same split factor.</p></td></tr>
+			   <tr><td><a href='../proc/reshape_mm_compatible~2.html'>reshape_mm_compatible</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
 matrix multiplication. This routine reshapes the two largest of the three tensors. Redistribution
 is avoided if tensors already in a consistent layout.</p></td></tr>
-			   <tr><td><a href='../proc/reshape_mm_compatible~2.html'>reshape_mm_compatible</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
-the same split factor.</p></td></tr>
-			   <tr><td><a href='../proc/reshape_mm_small.html'>reshape_mm_small</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
-matrix multiplication. This routine reshapes the smallest of the three tensors.</p></td></tr>
-			   <tr><td><a href='../proc/reshape_mm_small~2.html'>reshape_mm_small</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
+			   <tr><td><a href='../proc/reshape_mm_small.html'>reshape_mm_small</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
 the same process grid as the other 2 matrices.</p></td></tr>
+			   <tr><td><a href='../proc/reshape_mm_small~2.html'>reshape_mm_small</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+matrix multiplication. This routine reshapes the smallest of the three tensors.</p></td></tr>
 			   <tr><td><a href='../proc/reshape_mm_template.html'>reshape_mm_template</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Reshape matrix_in s.t. it has same process grid, distribution and split as template</p></td></tr>
 			   <tr><td><a href='../proc/rm_mp_perf_env.html'>rm_mp_perf_env</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/rm_timer_env.html'>rm_timer_env</a></td><td><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></td><td>Subroutine</td><td><p>removes the current timer env from the stack</p><a href="../proc/rm_timer_env.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
