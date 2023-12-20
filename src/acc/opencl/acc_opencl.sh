@@ -11,6 +11,7 @@
 
 BASENAME=$(command -v basename)
 DIRNAME=$(command -v dirname)
+HEAD=$(command -v head)
 SORT=$(command -v sort)
 SED=$(command -v gsed)
 CPP=$(command -v cpp)
@@ -72,7 +73,7 @@ process() {
   unset IFS
 }
 
-if [ "${BASENAME}" ] && [ "${DIRNAME}" ] && [ "${SORT}" ] && \
+if [ "${BASENAME}" ] && [ "${DIRNAME}" ] && [ "${HEAD}" ] && [ "${SORT}" ] && \
    [ "${SED}" ] && [ "${TR}" ] && [ "${RM}" ] && [ "${WC}" ];
 then
   for OFILE in "$@"; do :; done
@@ -80,6 +81,9 @@ then
     case "$1" in
     -h|--help)
       shift $#;;
+    -b|--banner)
+      BANNER=$2
+      shift 2;;
     -p|--params)
       PARAMS="$2\t"
       shift 2;;
@@ -125,18 +129,20 @@ then
           VNAME=opencl_libsmm_source_${BNAME}
           MNAME=OPENCL_LIBSMM_SOURCE_${UNAME}
           if [ "0" != "$((0<(NFILES_OCL)))" ]; then
-            echo >>"${OFILE}"
+            echo
+          elif [ "${BANNER}" ] && [ "0" != "${BANNER}" ]; then
+            ${HEAD} -n"${BANNER}" "${CLFILE}"
           fi
-          echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
-          echo "#define ${SNAME} \\" >>"${OFILE}"
-          process_pre "${CLFILE}" | process "${CLFILE}" >>"${OFILE}"
-          echo "  \"\"" >>"${OFILE}"
-          echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
+          echo "#define ${MNAME} ${VNAME}"
+          echo "#define ${SNAME} \\"
+          process_pre "${CLFILE}" | process "${CLFILE}"
+          echo "  \"\""
+          echo "static const char ${VNAME}[] = ${SNAME};"
           NFILES_OCL=$((NFILES_OCL+1))
         else
           >&2 echo "ERROR: ${CLFILE} does not exist!"
           exit 1
-        fi
+        fi >>"${OFILE}"
       else
         CSVFILES=("${*:NFILES_OCL+1:${#@}-NFILES_OCL-1}")
         break
@@ -190,9 +196,9 @@ then
     MNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${VNAME}")
     NNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${DNAME}")
     if [ "${DEVICES}" ]; then
-      echo >>"${OFILE}"
-      echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
-      echo "#define ${SNAME} \\" >>"${OFILE}"
+      echo
+      echo "#define ${MNAME} ${VNAME}"
+      echo "#define ${SNAME} \\"
       CSVLINES=$(for CSVFILE in "${CSVFILES[@]}"; do ${SED} "1d;/^[[:space:]]*$/d;s/[\r]*$/\\\n\" \\\/" "${CSVFILE}"; done)
       IFS=$'\n'
       for LINE in ${CSVLINES}; do
@@ -201,24 +207,25 @@ then
           if [ "${DEVICE}" = "${IDEVICE}" ]; then break; fi
           I=$((I+1));
         done
-        ${SED} "s/[^${DELIM}]*//;s/^/  \"${I}/" <<<"${LINE}" >>"${OFILE}"
+        ${SED} "s/[^${DELIM}]*/  \"${I}/" <<<"${LINE}"
       done
-      echo "  \"\"" >>"${OFILE}"
-      echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
-      echo >>"${OFILE}"
-      echo "#define ${NNAME} ${DNAME}" >>"${OFILE}"
-      echo "static const char *const ${DNAME}[] = {" >>"${OFILE}"
+      echo "  \"\""
+      echo "static const char ${VNAME}[] = ${SNAME};"
+      echo
+      echo "#define ${NNAME} ${DNAME}"
+      echo "static const char *const ${DNAME}[] = {"
       I=0; S=","; NDEVICES=$(${WC} -l <<<"${DEVICES}")
       for DEVICE in ${DEVICES}; do
         I=$((I+1)); if [ "0" != "$((NDEVICES==I))" ]; then S=""; fi
-        echo "  \"${DEVICE}\"${S}" >>"${OFILE}"
+        echo "  \"${DEVICE}\"${S}"
       done
       unset IFS
-      echo "};" >>"${OFILE}"
-    fi
+      echo "};"
+    fi >>"${OFILE}"
   else
     echo "Usage: $0 infile.cl [infile2.cl .. infileN.cl] [infile.csv [.. infileN.csv]] outfile.h"
     echo "       At least one OpenCL file and one header file must be supplied."
+    echo "       -b|--banner N: number of lines used as banner (default: 0)"
     echo "       -p|--params P: directory-path to CSV-files (can be \"\")"
     echo "             default: ${PARAMDIR}"
     echo "       -c|-d|--debug|--comments: keep comments in source-code"
