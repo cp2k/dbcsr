@@ -9,11 +9,14 @@
 #ifndef ACC_OPENCL_H
 #define ACC_OPENCL_H
 
-#if !defined(CL_TARGET_OPENCL_VERSION)
-#  define CL_TARGET_OPENCL_VERSION 220
+#if defined(__OFFLOAD_OPENCL) && !defined(__OPENCL)
+#  define __OPENCL
 #endif
 
 #if defined(__OPENCL)
+#  if !defined(CL_TARGET_OPENCL_VERSION)
+#    define CL_TARGET_OPENCL_VERSION 220
+#  endif
 #  if defined(__APPLE__)
 #    include <OpenCL/cl.h>
 #  else
@@ -90,7 +93,7 @@
 #endif
 /** Counted on a per-thread basis! */
 #if !defined(ACC_OPENCL_STREAMS_MAXCOUNT)
-#  define ACC_OPENCL_STREAMS_MAXCOUNT 128
+#  define ACC_OPENCL_STREAMS_MAXCOUNT 1024
 #endif
 #if !defined(ACC_OPENCL_OVERMALLOC)
 #  if defined(__DBCSR_ACC) || 1
