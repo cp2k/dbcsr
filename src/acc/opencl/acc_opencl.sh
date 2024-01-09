@@ -119,15 +119,17 @@ then
       fi
     fi
     trap 'trap_exit' EXIT
+    RNAME=$(${BASENAME} "$(${DIRNAME} "$1")")
+    ANAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${RNAME}")
     NFILES_OCL=0
     for CLFILE in ${*:1:${#@}-1}; do
       if [ "${CLFILE##*.}" = "cl" ]; then
         if [ -e "${CLFILE}" ]; then
-          BNAME=$(${BASENAME} "${CLFILE}" .cl)
-          UNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${BNAME}")
-          SNAME=OPENCL_LIBSMM_STRING_${UNAME}
-          VNAME=opencl_libsmm_source_${BNAME}
-          MNAME=OPENCL_LIBSMM_SOURCE_${UNAME}
+          CNAME=$(${BASENAME} "${CLFILE}" .cl | ${SED} "s/${RNAME}_//")
+          BNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${CNAME}")
+          SNAME=OPENCL_${ANAME}_STRING_${BNAME}
+          VNAME=opencl_${RNAME}_source_${CNAME}
+          MNAME=OPENCL_${ANAME}_SOURCE_${BNAME}
           if [ "0" != "$((0<(NFILES_OCL)))" ]; then
             echo
           elif [ "${BANNER}" ] && [ "0" != "${BANNER}" ]; then
@@ -190,9 +192,9 @@ then
     done
     DEVPAT="s/${DELIM}..*//"
     DEVICES=$(for CSVFILE in "${CSVFILES[@]}"; do ${SED} "1d;/^[[:space:]]*$/d;${DEVPAT}" "${CSVFILE}"; done | ${SORT} -u)
-    SNAME=OPENCL_LIBSMM_STRING_PARAMS_SMM
-    VNAME=opencl_libsmm_params_smm
-    DNAME=opencl_libsmm_devices
+    SNAME=OPENCL_${ANAME}_STRING_PARAMS_SMM
+    VNAME=opencl_${RNAME}_params_smm
+    DNAME=opencl_${RNAME}_devices
     MNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${VNAME}")
     NNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${DNAME}")
     if [ "${DEVICES}" ]; then

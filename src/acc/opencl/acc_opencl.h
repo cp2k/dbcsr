@@ -290,6 +290,9 @@ typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
 } c_dbcsr_acc_opencl_info_hostptr_t;
 c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory);
 
+/** Determines cl_mem object and offset of memory. */
+void* c_dbcsr_acc_opencl_info_devptr(const void* memory, const size_t* amount, size_t* offset);
+
 /** Information about streams (c_dbcsr_acc_stream_create). */
 typedef struct c_dbcsr_acc_opencl_info_stream_t {
   void* pointer;
@@ -328,6 +331,7 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id);
 /** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
 int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max_value, size_t* preferred_multiple);
 /** Assemble various flags for calling clBuildProgram into the given buffer.*/
+/** Combines build-params and build-options, some optional flags (try_build_options), and applies language std. (cl_std). */
 int c_dbcsr_acc_opencl_build_flags(const char build_params[], const char build_options[], const char try_build_options[],
   const char cl_std[], char buffer[], size_t buffer_size);
 /**
