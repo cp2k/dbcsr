@@ -170,14 +170,6 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b) {
 }
 
 
-int c_dbcsr_acc_opencl_order_streams(const void* /*a*/, const void* /*b*/);
-int c_dbcsr_acc_opencl_order_streams(const void* a, const void* b) { /* NULL-pointers are sorted to the upper end */
-  const cl_command_queue *const p = (const cl_command_queue*)a, *const q = (const cl_command_queue*)b;
-  assert(NULL != p && NULL != q);
-  return *p < *q ? -1 : (*p > *q ? 1 : 0);
-}
-
-
 LIBXSMM_ATTRIBUTE_CTOR void c_dbcsr_acc_opencl_init(void) {
   /* attempt to  automatically initialize backend */
   ACC_OPENCL_EXPECT(EXIT_SUCCESS == c_dbcsr_acc_init());
@@ -229,8 +221,11 @@ int c_dbcsr_acc_init(void) {
 #  if defined(_OPENMP)
     const int max_threads = omp_get_max_threads(), num_threads = omp_get_num_threads();
     c_dbcsr_acc_opencl_config.nthreads = (num_threads < max_threads ? max_threads : num_threads);
+    c_dbcsr_acc_opencl_config.nstreams = (num_threads < max_threads ? (ACC_OPENCL_STREAMS_MAXCOUNT + max_threads)
+                                                                    : (ACC_OPENCL_STREAMS_MAXCOUNT));
 #  else
     c_dbcsr_acc_opencl_config.nthreads = 1;
+    c_dbcsr_acc_opencl_config.nstreams = ACC_OPENCL_STREAMS_MAXCOUNT;
 #  endif
     c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
     c_dbcsr_acc_opencl_config.priority = (NULL == env_priority ? /*default*/ 3 : atoi(env_priority));
@@ -574,12 +569,9 @@ int c_dbcsr_acc_init(void) {
         }
 #  endif
         if (EXIT_SUCCESS == result) {
-          const int nelements = ACC_OPENCL_STREAMS_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads;
+          const int nelements = c_dbcsr_acc_opencl_config.nthreads * c_dbcsr_acc_opencl_config.nstreams;
           c_dbcsr_acc_opencl_config.streams = (void**)calloc(nelements, sizeof(void*)); /* allocate streams */
-          if (NULL != c_dbcsr_acc_opencl_config.streams) { /* allocate counters */
-            c_dbcsr_acc_opencl_config.stats = (cl_command_queue*)calloc(nelements, sizeof(cl_command_queue));
-          }
-          else result = EXIT_FAILURE;
+          if (NULL == c_dbcsr_acc_opencl_config.streams) result = EXIT_FAILURE;
         }
       }
     }
@@ -626,29 +618,6 @@ int c_dbcsr_acc_finalize(void) {
           EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(device, NULL /*devid*/, &d))
       {
         fprintf(stderr, " device=%i", d);
-      }
-      if (NULL != c_dbcsr_acc_opencl_config.stats) {
-        const int nelements = ACC_OPENCL_STREAMS_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads;
-        cl_command_queue s = NULL;
-        int nstreams, j;
-        fprintf(stderr, " streams={");
-        for (i = 0; i < nelements; i += ACC_OPENCL_STREAMS_MAXCOUNT) {
-          for (j = 0, nstreams = 0; j < ACC_OPENCL_STREAMS_MAXCOUNT; ++j) {
-            if (NULL != c_dbcsr_acc_opencl_config.stats[i + j]) ++nstreams;
-          }
-          if (0 != nstreams || 0 == i) fprintf(stderr, 0 < i ? " %i" : "%i", nstreams);
-        }
-        qsort(c_dbcsr_acc_opencl_config.stats, nelements, sizeof(cl_command_queue),
-          c_dbcsr_acc_opencl_order_streams); /* NULL -> upper end */
-        for (i = 0, nstreams = 0; i < nelements; ++i) {
-          const cl_command_queue q = c_dbcsr_acc_opencl_config.stats[i];
-          if (NULL != q && s != q) {
-            s = q;
-            ++nstreams;
-          }
-        }
-        free(c_dbcsr_acc_opencl_config.stats); /* release buffer */
-        fprintf(stderr, "} nstreams=%i", nstreams);
       }
       fprintf(stderr, "\n");
     }
@@ -1086,18 +1055,20 @@ int c_dbcsr_acc_set_active_device(int device_id) {
 
 
 int c_dbcsr_acc_opencl_device_synchronize(int thread_id) {
-  void** const streams = c_dbcsr_acc_opencl_config.streams + ACC_OPENCL_STREAMS_MAXCOUNT * thread_id;
+  void** const streams = c_dbcsr_acc_opencl_config.streams + thread_id * c_dbcsr_acc_opencl_config.nstreams;
   int result = EXIT_SUCCESS;
   int i = 0;
   assert(0 <= thread_id && thread_id < c_dbcsr_acc_opencl_config.nthreads);
   assert(NULL != c_dbcsr_acc_opencl_config.streams);
-  for (; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
+  for (; i < c_dbcsr_acc_opencl_config.nstreams; ++i) {
     void* const stream = streams[i];
     if (NULL != stream) {
       result = c_dbcsr_acc_stream_sync(stream);
       if (EXIT_SUCCESS != result) break;
     }
+#  if defined(ACC_OPENCL_STREAM_COMPACT)
     else break;
+#  endif
   }
   return result;
 }

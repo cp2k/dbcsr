@@ -20,7 +20,7 @@ add_custom_target(
           ${LIBSMM_ACC_HEADER_KERNELS}
   DEPENDS ${SMM_ACC_KERNEL_SCRIPT} ${SMM_ACC_KERNELS}
   BYPRODUCTS ${LIBSMM_ACC_HEADER_KERNELS}
-  COMMENT "libsmm_acc: generating kernels")
+  COMMENT "ACC/LIBSMM OpenCL: collecting tuned kernel parameters...")
 
 add_dependencies(dbcsr parameters)
 target_include_directories(dbcsr PRIVATE ${CMAKE_CURRENT_BINARY_DIR}

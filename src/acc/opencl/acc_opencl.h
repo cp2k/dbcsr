@@ -89,11 +89,11 @@
 #endif
 /** Counted on a per-thread basis! */
 #if !defined(ACC_OPENCL_HANDLES_MAXCOUNT)
-#  define ACC_OPENCL_HANDLES_MAXCOUNT 1024
+#  define ACC_OPENCL_HANDLES_MAXCOUNT 64
 #endif
 /** Counted on a per-thread basis! */
 #if !defined(ACC_OPENCL_STREAMS_MAXCOUNT)
-#  define ACC_OPENCL_STREAMS_MAXCOUNT 1024
+#  define ACC_OPENCL_STREAMS_MAXCOUNT 64
 #endif
 #if !defined(ACC_OPENCL_OVERMALLOC)
 #  if defined(__DBCSR_ACC) || 1
@@ -114,6 +114,10 @@
 #  if defined(CL_QUEUE_PRIORITY_KHR)
 #    define ACC_OPENCL_STREAM_PRIORITIES
 #  endif
+#endif
+/** Streams are registered in compact/consecutive fashion */
+#if !defined(ACC_OPENCL_STREAM_COMPACT) && 1
+#  define ACC_OPENCL_STREAM_COMPACT
 #endif
 /** Stream-argument (ACC-interface) can be NULL (synchronous) */
 #if !defined(ACC_OPENCL_STREAM_NULL) && 1
@@ -251,8 +255,6 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   void **clmems, **events, *storage;
   /** All created streams partitioned by thread-ID (thread-local slots). */
   void** streams;
-  /** Counts number of streams created (thread-local). */
-  cl_command_queue* stats;
   /** Kind of timer used for built-in execution-profile. */
   c_dbcsr_acc_opencl_timer_t timer; /* c_dbcsr_acc_opencl_device_t? */
   /** Kernel-parameters are matched against device's UID */
@@ -263,6 +265,8 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_int ndevices;
   /** Maximum number of threads (omp_get_max_threads). */
   cl_int nthreads;
+  /** Maximum number of streams per thread. */
+  cl_int nstreams;
   /** How to apply/use stream priorities. */
   cl_int priority;
   /** How to zero/copy device-side buffers. */
