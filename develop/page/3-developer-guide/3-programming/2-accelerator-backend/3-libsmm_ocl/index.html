@@ -193,7 +193,6 @@
 <p>The most common settings for multiplying matrices are:</p>
 <ul>
 <li><code>OPENCL_LIBSMM_SMM_BUILDOPTS</code>: character string with build options (compile and link) supplied to the OpenCL runtime compiler.</li>
-<li><code>OPENCL_LIBSMM_SMM_ATOMICS</code>: selects the kind of atomic operation used for global memory updates (<code>xchg</code>, <code>cmpxchg</code>, <code>cmpxchg2</code>), attempts to force atomic instructions, or disables atomic instructions (<code>0</code>). The latter is for instance to quantify the impact of atomic operations.</li>
 <li><code>OPENCL_LIBSMM_SMM_PARAMS</code>: Disable embedded/auto-tuned parameters (<code>0</code>), or load CSV-file (e.g., <code>path/to/tune_multiply.csv</code>).</li>
 <li><code>OPENCL_LIBSMM_SMM_BS</code>: non-negative integer number denoting the intra-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.</li>
 <li><code>OPENCL_LIBSMM_SMM_BM</code>: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.</li>
