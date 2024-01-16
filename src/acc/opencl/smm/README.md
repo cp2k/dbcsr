@@ -13,7 +13,6 @@ There are two categories for the two domains in LIBSMM, i.e., matrix transpose (
 The most common settings for multiplying matrices are:
 
 * `OPENCL_LIBSMM_SMM_BUILDOPTS`: character string with build options (compile and link) supplied to the OpenCL runtime compiler.
-* `OPENCL_LIBSMM_SMM_ATOMICS`: selects the kind of atomic operation used for global memory updates (`xchg`, `cmpxchg`, `cmpxchg2`), attempts to force atomic instructions, or disables atomic instructions (`0`). The latter is for instance to quantify the impact of atomic operations.
 * `OPENCL_LIBSMM_SMM_PARAMS`: Disable embedded/auto-tuned parameters (`0`), or load CSV-file (e.g., `path/to/tune_multiply.csv`).
 * `OPENCL_LIBSMM_SMM_BS`: non-negative integer number denoting the intra-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.
 * `OPENCL_LIBSMM_SMM_BM`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.

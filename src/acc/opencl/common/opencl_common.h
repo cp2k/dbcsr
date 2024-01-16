@@ -30,12 +30,4 @@
 #  define UNROLL(N) UNROLL_FORCE(N)
 #endif
 
-#if (1 == TN)
-#  define ZERO 0.f
-#elif (3 == TN)
-#  define ZERO 0.0
-#else
-#  define ZERO 0
-#endif
-
 #endif /*OPENCL_COMMON_H*/
