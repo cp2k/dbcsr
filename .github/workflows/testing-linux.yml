@@ -164,6 +164,7 @@ jobs:
     strategy:
       matrix:
         use_openmp: [OPENMP=ON]
+        use_g2g: [G2G=ON, G2G=OFF]
 
     steps:
     - uses: actions/checkout@v4
@@ -180,6 +181,7 @@ jobs:
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_ACCEL=hip \
           -DWITH_GPU=Mi250 \
+          -DWITH_${{ matrix.use_g2g }} \
           -DWITH_EXAMPLES=ON \
           -DCMAKE_PREFIX_PATH=/opt/rocm \
           ..
