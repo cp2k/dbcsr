@@ -156,7 +156,7 @@
       <h1>Docker images</h1>
 <p>All images are hosted on the <a href="https://github.com/orgs/cp2k/packages">GitHub Container Registry of the CP2K organization</a>.</p>
 <h2>Ubuntu Build Environment</h2>
-<p>The image is based on Ubuntu 20.04 and contains:</p>
+<p>The image is based on Ubuntu 22.04 and contains:</p>
 <ul>
 <li>GNU Fortran Compiler</li>
 <li>OpenBLAS</li>
@@ -169,7 +169,7 @@
 </ul>
 <h3>Using the image</h3>
 <div class="codehilite"><pre><span></span><code><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>dbcsr
-<span class="gp">$ </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="nv">$PWD</span>:/app<span class="w"> </span>--workdir<span class="w"> </span>/app<span class="w"> </span>--user<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="w"> </span>ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04<span class="w"> </span>/bin/bash
+<span class="gp">$ </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="nv">$PWD</span>:/app<span class="w"> </span>--workdir<span class="w"> </span>/app<span class="w"> </span>--user<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="w"> </span>ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04<span class="w"> </span>/bin/bash
 <span class="gp">$ </span>mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build/
 <span class="gp">$ </span>cmake<span class="w"> </span>-G<span class="w"> </span>Ninja<span class="w"> </span>..
 <span class="gp">$ </span>cmake<span class="w"> </span>--build<span class="w"> </span>.
@@ -178,11 +178,11 @@
 <h3>Building the image</h3>
 <p>If you need to rebuild the image, use:</p>
 <div class="codehilite"><pre><span></span><code><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>dbcsr/tools/docker
-<span class="gp">$ </span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>dbcsr-build-env-ubuntu-20.04<span class="w"> </span>-f<span class="w"> </span>Dockerfile.build-env-ubuntu<span class="w"> </span>.
+<span class="gp">$ </span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>dbcsr-build-env-ubuntu-22.04<span class="w"> </span>-f<span class="w"> </span>Dockerfile.build-env-ubuntu<span class="w"> </span>.
 </code></pre></div>
 
 <h2>ROCm Build Environment</h2>
-<p>The image is based on Ubuntu 20.04 and contains:</p>
+<p>The image is based on Ubuntu 22.04 and contains:</p>
 <ul>
 <li>GNU Fortran Compiler</li>
 <li>OpenBLAS</li>

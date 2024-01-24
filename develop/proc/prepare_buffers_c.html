@@ -187,7 +187,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iter~6"></span>
+              <span class="anchor" id="variable-iter~10"></span>
               type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -202,7 +202,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~54"></span>
+              <span class="anchor" id="variable-row~56"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -217,7 +217,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~28"></span>
+              <span class="anchor" id="variable-col~30"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -307,7 +307,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~8"></span>
+              <span class="anchor" id="variable-nze~13"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -412,7 +412,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~22"></span>
+              <span class="anchor" id="variable-tr~21"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -923,18 +923,18 @@
 <span class="k">                     </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_neg_one</span><span class="p">%</span><span class="n">c_sp</span>
 <span class="w">                  </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_real</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="cp"># 2009 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 3085 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
 <span class="w">                        </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                           </span><span class="nb">CMPLX</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                           </span><span class="o">-</span><span class="kt">REAL</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                           </span><span class="nb">AIMAG</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                           </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
-<span class="cp"># 2015 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 3091 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
 <span class="w">                  </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_imaginary</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="cp"># 2017 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 3093 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
 <span class="w">                        </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                           </span><span class="nb">CONJG</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
-<span class="cp"># 2020 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 3096 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
 <span class="w">                  </span><span class="k">END IF</span>
 <span class="k">               ELSE</span>
 <span class="w">                  </span><span class="c">! Copy the block</span>

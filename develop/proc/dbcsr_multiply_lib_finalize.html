@@ -72,7 +72,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.0% of total for procedures.">20 statements</a>
+                 title=" 0.0% of total for procedures.">23 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -193,6 +193,12 @@
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_destruct</span><span class="p">(</span><span class="n">memtype_trsbuffer_1</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_trsbuffer_2</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_destruct</span><span class="p">(</span><span class="n">memtype_trsbuffer_2</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_normsbuf</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_destruct</span><span class="p">(</span><span class="n">memtype_normsbuf</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_offsetsbuf</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_destruct</span><span class="p">(</span><span class="n">memtype_offsetsbuf</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_nelemsbuf</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_destruct</span><span class="p">(</span><span class="n">memtype_nelemsbuf</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_destruct</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">%</span><span class="n">pool</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_abpanel_2</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>

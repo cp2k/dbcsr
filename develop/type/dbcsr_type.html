@@ -114,12 +114,12 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-serial_number">serial_number</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-valid~7">valid</a>
-            <a class="list-group-item" href="../type/dbcsr_type.html#variable-name~2">name</a>
+            <a class="list-group-item" href="../type/dbcsr_type.html#variable-name~5">name</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-data_area~8">data_area</a>
-            <a class="list-group-item" href="../type/dbcsr_type.html#variable-index">index</a>
-            <a class="list-group-item" href="../type/dbcsr_type.html#variable-row_p~4">row_p</a>
-            <a class="list-group-item" href="../type/dbcsr_type.html#variable-col_i~6">col_i</a>
-            <a class="list-group-item" href="../type/dbcsr_type.html#variable-blk_p~5">blk_p</a>
+            <a class="list-group-item" href="../type/dbcsr_type.html#variable-index~2">index</a>
+            <a class="list-group-item" href="../type/dbcsr_type.html#variable-row_p~5">row_p</a>
+            <a class="list-group-item" href="../type/dbcsr_type.html#variable-col_i~7">col_i</a>
+            <a class="list-group-item" href="../type/dbcsr_type.html#variable-blk_p~7">blk_p</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-thr_c">thr_c</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-coo_l">coo_l</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-row_blk_size~2">row_blk_size</a>
@@ -137,7 +137,7 @@
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-max_rbs">max_rbs</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-max_cbs">max_cbs</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-sparsity_id">sparsity_id</a>
-            <a class="list-group-item" href="../type/dbcsr_type.html#variable-id_nr~3">id_nr</a>
+            <a class="list-group-item" href="../type/dbcsr_type.html#variable-id_nr~4">id_nr</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-nblks">nblks</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-nze">nze</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-nblkrows_total~2">nblkrows_total</a>
@@ -148,7 +148,7 @@
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-nblkcols_local">nblkcols_local</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-nfullrows_local">nfullrows_local</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-nfullcols_local">nfullcols_local</a>
-            <a class="list-group-item" href="../type/dbcsr_type.html#variable-data_type~11">data_type</a>
+            <a class="list-group-item" href="../type/dbcsr_type.html#variable-data_type~14">data_type</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-replication_type">replication_type</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-symmetry">symmetry</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-negate_real">negate_real</a>
@@ -160,8 +160,8 @@
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-index_memory_type">index_memory_type</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-buffers~2">buffers</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-wms">wms</a>
-            <a class="list-group-item" href="../type/dbcsr_type.html#variable-dist~7">dist</a>
-            <a class="list-group-item" href="../type/dbcsr_type.html#variable-refcount~6">refcount</a>
+            <a class="list-group-item" href="../type/dbcsr_type.html#variable-dist~12">dist</a>
+            <a class="list-group-item" href="../type/dbcsr_type.html#variable-refcount~7">refcount</a>
             <a class="list-group-item" href="../type/dbcsr_type.html#variable-work_mutable">work_mutable</a>
         </div>
       </div>
@@ -255,7 +255,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~2"></span>
+              <span class="anchor" id="variable-name~5"></span>
               character(len=default_string_length),
             </td>
               <td>public</td>
@@ -289,7 +289,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index"></span>
+              <span class="anchor" id="variable-index~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -306,7 +306,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_p~4"></span>
+              <span class="anchor" id="variable-row_p~5"></span>
               integer,
             </td>
               <td>public,</td>
@@ -324,7 +324,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~6"></span>
+              <span class="anchor" id="variable-col_i~7"></span>
               integer,
             </td>
               <td>public,</td>
@@ -341,7 +341,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~5"></span>
+              <span class="anchor" id="variable-blk_p~7"></span>
               integer,
             </td>
               <td>public,</td>
@@ -647,7 +647,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-id_nr~3"></span>
+              <span class="anchor" id="variable-id_nr~4"></span>
               integer,
             </td>
               <td>public</td>
@@ -834,7 +834,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~11"></span>
+              <span class="anchor" id="variable-data_type~14"></span>
               integer,
             </td>
               <td>public</td>
@@ -1038,7 +1038,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~7"></span>
+              <span class="anchor" id="variable-dist~12"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
               <td>public</td>
@@ -1055,7 +1055,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~6"></span>
+              <span class="anchor" id="variable-refcount~7"></span>
               integer,
             </td>
               <td>public</td>

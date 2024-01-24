@@ -72,7 +72,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.6% of total for procedures.">361 statements</a>
+                 title=" 0.6% of total for procedures.">368 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -217,7 +217,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha"></span>
+              <span class="anchor" id="variable-alpha~6"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -232,7 +232,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a"></span>
+              <span class="anchor" id="variable-matrix_a~31"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -248,7 +248,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b"></span>
+              <span class="anchor" id="variable-matrix_b~22"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -279,7 +279,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c"></span>
+              <span class="anchor" id="variable-matrix_c~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -414,7 +414,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~3"></span>
+              <span class="anchor" id="variable-retain_sparsity~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -429,7 +429,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps"></span>
+              <span class="anchor" id="variable-filter_eps~2"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -444,7 +444,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~2"></span>
+              <span class="anchor" id="variable-flop~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -545,7 +545,7 @@ last full column of limiting inner product</p>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">transa_l</span><span class="p">,</span><span class="w"> </span><span class="n">transb_l</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f_col</span><span class="p">,</span><span class="w"> </span><span class="n">f_k</span><span class="p">,</span><span class="w"> </span><span class="n">f_row</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">handle2</span><span class="p">,</span><span class="w"> </span><span class="n">ithread</span><span class="p">,</span><span class="w"> </span><span class="n">l_col</span><span class="p">,</span><span class="w"> </span><span class="n">l_k</span><span class="p">,</span><span class="w"> </span><span class="n">l_row</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                 </span><span class="n">nimages_left_rows</span><span class="p">,</span><span class="w"> </span><span class="n">nimages_match</span><span class="p">,</span><span class="w"> </span><span class="n">nimages_right_cols</span><span class="p">,</span><span class="w"> </span><span class="n">npcols</span><span class="p">,</span><span class="w"> </span><span class="n">nprows</span><span class="p">,</span><span class="w"> </span><span class="n">numnodes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                 </span><span class="n">output_unit</span>
+<span class="w">                 </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">output_unit</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">my_flop</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ab_dense</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="p">,</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">product_reindex</span><span class="p">,</span><span class="w"> </span><span class="n">release_tdist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                 </span><span class="n">transpose_left</span><span class="p">,</span><span class="w"> </span><span class="n">transpose_right</span><span class="p">,</span><span class="w"> </span><span class="n">use_dense_mult</span><span class="p">,</span><span class="w"> </span><span class="n">use_mempools</span><span class="p">,</span><span class="w"> </span><span class="n">thread_dist_force</span>
@@ -612,8 +612,17 @@ last full column of limiting inner product</p>
 <span class="w">                                  </span><span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_trsbuffer_2</span><span class="p">,</span><span class="w"> </span><span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                  </span><span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_2</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_normsbuf</span><span class="p">,</span><span class="w"> </span><span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                  </span><span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_1</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_offsetsbuf</span><span class="p">,</span><span class="w"> </span><span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                  </span><span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_1</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_nelemsbuf</span><span class="p">,</span><span class="w"> </span><span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                  </span><span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_trsbuffer_1</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_trsbuffer_2</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_normsbuf</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_offsetsbuf</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_nelemsbuf</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 
 <span class="k">      CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_mpi_buffer</span><span class="p">,</span><span class="w"> </span><span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
@@ -1037,10 +1046,28 @@ last full column of limiting inner product</p>
 <span class="w">                          </span><span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                          </span><span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="o">=</span><span class="n">keep_product_data</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ELSE</span>
-<span class="k">         CALL </span><span class="n">multiply_cannon</span><span class="p">(</span><span class="n">m2s_left</span><span class="p">,</span><span class="w"> </span><span class="n">m2s_right</span><span class="p">,</span><span class="w"> </span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="k">         </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
+<span class="cp">#if defined (__DBCSR_ACC_G2G)</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">            </span><span class="c">! If G2G is enabled, norms have to be calculated on the GPU.</span>
+<span class="w">            </span><span class="c">! Since the norms kernel expects only real_8 type data, we</span>
+<span class="w">            </span><span class="c">! avoid using G2G for all other data types</span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">multiply_cannon</span><span class="p">(</span><span class="n">m2s_left</span><span class="p">,</span><span class="w"> </span><span class="n">m2s_right</span><span class="p">,</span><span class="w"> </span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                 </span><span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                 </span><span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                 </span><span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="o">=</span><span class="n">keep_product_data</span><span class="p">)</span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">multiply_cannon_g2g</span><span class="p">(</span><span class="n">m2s_left</span><span class="p">,</span><span class="w"> </span><span class="n">m2s_right</span><span class="p">,</span><span class="w"> </span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                     </span><span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                     </span><span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                     </span><span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="o">=</span><span class="n">keep_product_data</span><span class="p">)</span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="cp">#else</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">multiply_cannon</span><span class="p">(</span><span class="n">m2s_left</span><span class="p">,</span><span class="w"> </span><span class="n">m2s_right</span><span class="p">,</span><span class="w"> </span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                              </span><span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                              </span><span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                              </span><span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="o">=</span><span class="n">keep_product_data</span><span class="p">)</span>
+<span class="cp">#endif</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">reshuffle</span><span class="o">=</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="w">      </span><span class="c">!</span>
