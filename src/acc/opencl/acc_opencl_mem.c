@@ -126,11 +126,11 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
     NULL == host_ptr ? CL_MEM_ALLOC_HOST_PTR : CL_MEM_USE_HOST_PTR, nbytes, host_ptr, &result);
   assert(CL_SUCCESS == result || NULL == memory);
   if (CL_SUCCESS == result) {
-    /*const*/ cl_command_queue queue = *ACC_OPENCL_STREAM(
 #  if defined(ACC_OPENCL_STREAM_NULL)
-      NULL == stream ? c_dbcsr_acc_opencl_stream_default() :
+    cl_command_queue queue = *ACC_OPENCL_STREAM(NULL != stream ? stream : c_dbcsr_acc_opencl_stream_default());
+#  else
+    cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
 #  endif
-                     stream);
     void* const mapped = clEnqueueMapBuffer(
       queue, memory, CL_TRUE /*blocking*/, CL_MAP_READ | CL_MAP_WRITE, 0 /*offset*/, nbytes, 0, NULL, NULL, &result);
     assert(CL_SUCCESS == result || NULL == mapped);
@@ -182,11 +182,11 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream) {
     c_dbcsr_acc_opencl_info_hostptr_t* const meminfo = c_dbcsr_acc_opencl_info_hostptr(host_mem);
     if (NULL != meminfo->memory) {
       const c_dbcsr_acc_opencl_info_hostptr_t info = *meminfo; /* copy meminfo prior to unmap */
-      /*const*/ cl_command_queue queue = *ACC_OPENCL_STREAM(
 #  if defined(ACC_OPENCL_STREAM_NULL)
-        NULL == stream ? c_dbcsr_acc_opencl_stream_default() :
+      cl_command_queue queue = *ACC_OPENCL_STREAM(NULL != stream ? stream : c_dbcsr_acc_opencl_stream_default());
+#  else
+      cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
 #  endif
-                       stream);
       int result_release;
       result = clEnqueueUnmapMemObject(queue, info.memory, info.mapped, 0, NULL, NULL);
 #  if defined(CL_VERSION_2_0)
@@ -395,11 +395,11 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
 #    endif
 #  endif
     {
-      /*const*/ cl_command_queue queue = *ACC_OPENCL_STREAM(
 #  if defined(ACC_OPENCL_STREAM_NULL)
-        NULL == stream ? c_dbcsr_acc_opencl_stream_default() :
+      cl_command_queue queue = *ACC_OPENCL_STREAM(NULL != stream ? stream : c_dbcsr_acc_opencl_stream_default());
+#  else
+      cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
 #  endif
-                       stream);
       result = clEnqueueWriteBuffer(
         queue, buffer, 0 == (1 & c_dbcsr_acc_opencl_config.async), offset, nbytes, host_mem, 0, NULL, NULL);
 #  if defined(ACC_OPENCL_STREAM_NULL)
@@ -444,11 +444,11 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
 #    endif
 #  endif
     {
-      /*const*/ cl_command_queue queue = *ACC_OPENCL_STREAM(
 #  if defined(ACC_OPENCL_STREAM_NULL)
-        NULL == stream ? c_dbcsr_acc_opencl_stream_default() :
+      cl_command_queue queue = *ACC_OPENCL_STREAM(NULL != stream ? stream : c_dbcsr_acc_opencl_stream_default());
+#  else
+      cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
 #  endif
-                       stream);
       result = clEnqueueReadBuffer(
         queue, buffer, 0 == (2 & c_dbcsr_acc_opencl_config.async), offset, nbytes, host_mem, 0, NULL, NULL);
       if (CL_SUCCESS == result) {
@@ -506,11 +506,11 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
 #    endif
 #  endif
     {
-      /*const*/ cl_command_queue queue = *ACC_OPENCL_STREAM(
 #  if defined(ACC_OPENCL_STREAM_NULL)
-        NULL == stream ? c_dbcsr_acc_opencl_stream_default() :
+      cl_command_queue queue = *ACC_OPENCL_STREAM(NULL != stream ? stream : c_dbcsr_acc_opencl_stream_default());
+#  else
+      cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
 #  endif
-                       stream);
       if (0 == (2 & c_dbcsr_acc_opencl_config.devcopy)) {
         result = clEnqueueCopyBuffer(queue, src, dst, src_offset, dst_offset, nbytes, 0, NULL, NULL);
       }
@@ -579,11 +579,11 @@ int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nb
 #    endif
 #  endif
     {
-      /*const*/ cl_command_queue queue = *ACC_OPENCL_STREAM(
 #  if defined(ACC_OPENCL_STREAM_NULL)
-        NULL == stream ? c_dbcsr_acc_opencl_stream_default() :
+      cl_command_queue queue = *ACC_OPENCL_STREAM(NULL != stream ? stream : c_dbcsr_acc_opencl_stream_default());
+#  else
+      cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
 #  endif
-                       stream);
       if (0 == (1 & c_dbcsr_acc_opencl_config.devcopy)) {
         static LIBXSMM_TLS cl_long pattern = 0;
         size_t size_of_pattern = 1;

@@ -15,8 +15,15 @@
 #  define UNROLL_FORCE(N)
 #endif
 
-#define MIN(A, B) ((A) < (B) ? (A) : (B))
-#define MAX(A, B) ((A) < (B) ? (B) : (A))
+#if !defined(MIN)
+#  define MIN(A, B) ((A) < (B) ? (A) : (B))
+#endif
+#if !defined(MAX)
+#  define MAX(A, B) ((A) < (B) ? (B) : (A))
+#endif
+#if !defined(MAD)
+#  define MAD fma
+#endif
 
 #if !defined(LU) || (-1 == LU)
 #  define UNROLL_OUTER(N)
