@@ -248,13 +248,13 @@ int c_dbcsr_acc_stream_destroy(void* stream) {
         void** const streams = c_dbcsr_acc_opencl_config.streams + tid * c_dbcsr_acc_opencl_config.nstreams;
         for (i = 0; i < c_dbcsr_acc_opencl_config.nstreams; ++i) {
           if (stream == streams[i]) {
+            int k = i;
 #  if defined(ACC_OPENCL_STREAM_COMPACT)
-            const int j = i + 1, k = c_dbcsr_acc_opencl_config.nstreams - j;
+            const int j = i + 1;
             if (j < c_dbcsr_acc_opencl_config.nstreams && NULL != streams[j]) { /* compacting streams is not thread-safe */
+              k = c_dbcsr_acc_opencl_config.nstreams - j;
               memmove(streams + i, streams + j, sizeof(void*) * k);
             }
-#  else
-            const int k = i;
 #  endif
             streams[k] = NULL;
             tid = c_dbcsr_acc_opencl_config.nthreads; /* leave outer loop */
@@ -321,6 +321,7 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
 
 
 int c_dbcsr_acc_stream_sync(void* stream) {
+  cl_command_queue queue = NULL;
   int result = EXIT_SUCCESS;
 #  if defined(ACC_OPENCL_STREAM_PRIORITIES)
   const int* const priority = NULL;
@@ -331,8 +332,12 @@ int c_dbcsr_acc_stream_sync(void* stream) {
   static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
-  assert(NULL != stream);
-  result = clFinish(*ACC_OPENCL_STREAM(stream));
+#  if defined(ACC_OPENCL_STREAM_NULL)
+  queue = *ACC_OPENCL_STREAM(NULL != stream ? stream : c_dbcsr_acc_opencl_stream_default());
+#  else
+  queue = *ACC_OPENCL_STREAM(stream);
+#  endif
+  result = clFinish(queue);
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #  endif

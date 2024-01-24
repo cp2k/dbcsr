@@ -1077,8 +1077,10 @@ int c_dbcsr_acc_opencl_device_synchronize(int thread_id) {
   for (; i < c_dbcsr_acc_opencl_config.nstreams; ++i) {
     void* const stream = streams[i];
     if (NULL != stream) {
-      result = c_dbcsr_acc_stream_sync(stream);
-      if (EXIT_SUCCESS != result) break;
+      if (NULL != *ACC_OPENCL_STREAM(stream)) { /* soft-error? */
+        result = c_dbcsr_acc_stream_sync(stream);
+        if (EXIT_SUCCESS != result) break;
+      }
     }
 #  if defined(ACC_OPENCL_STREAM_COMPACT)
     else break;
