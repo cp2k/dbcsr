@@ -1,5 +1,6 @@
 /*------------------------------------------------------------------------------------------------*/
 /* Copyright (C) by the DBCSR developers group - All rights reserved                              */
+/* Copyright (C) 2022 Advanced Micro Devices, Inc. - All rights reserved                          */
 /* This file is part of the DBCSR library.                                                        */
 /*                                                                                                */
 /* For information on the license, see the LICENSE file.                                          */
@@ -140,8 +141,8 @@ inline void jit_kernel(ACC_DRV(function) & kern_func, libsmm_acc_algo algo, int 
   const char* compileOptions[] = {"-D__CUDA", "-w", ARCH_OPTION};
   size_t nOptions = 3;
 #else
-  const char* compileOptions[] = {"-D__HIP", "-O3", "-w"};
-  size_t nOptions = 3;
+  const char* compileOptions[] = {"-D__HIP", "-O3", "-w", "-munsafe-fp-atomics"};
+  size_t nOptions = 4;
 #endif
   ACC_RTC(Result) compileResult = ACC_RTC(CompileProgram)(kernel_program, nOptions, compileOptions);
   if (compileResult != ACC_RTC_SUCCESS) {

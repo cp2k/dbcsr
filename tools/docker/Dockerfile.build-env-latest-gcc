@@ -25,19 +25,9 @@ RUN set -ex ; \
         unzip \
         rsync \
         valgrind \
-        openmpi-bin \
-        libopenmpi-dev \
-        mpich \
-	libmpich-dev \
         ; \
     rm -rf /var/lib/apt/lists/* ; \
     localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-
-# Remove LTO for MPICH (default now in Ubuntu >=22)
-RUN set -ex ; \
-    for ff in /usr/lib/x86_64-linux-gnu/pkgconfig/mpich.pc /usr/bin/mpicc.mpich /usr/bin/mpicxx.mpich /usr/bin/mpif77.mpich /usr/bin/mpif90.mpich /usr/bin/mpifort.mpich; do \
-        sed -i -e 's/-flto=auto//g' -e 's/-ffat-lto-objects//g' ${ff}; \
-    done
 
 # Make sure we have a proper unicode locale and language
 ENV LANG en_US.utf8

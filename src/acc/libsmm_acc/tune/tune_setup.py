@@ -364,7 +364,9 @@ def gen_makefile(outdir, compiler, arch):
             + " -w -c -o $@ -std=c++11 $<\n\n"
         )
     else:
-        output += "\thipcc -O3 -D__TUNING -D__HIP -w -c -o $@ $<\n\n"
+        output += (
+            "\thipcc -O3 -D__TUNING -D__HIP -w -munsafe-fp-atomics -c -o $@ $<\n\n"
+        )
 
     # compilation rule for kernel files
     headers = " ".join([f"../{fn}" for fn in Path("../kernels").glob("*.h")])
@@ -372,7 +374,7 @@ def gen_makefile(outdir, compiler, arch):
     if compiler == "nvcc":
         output += f"	nvcc -O3 -D__TUNING -D__CUDA -arch={str(arch)} -w -c $<\n\n"
     else:
-        output += "\thipcc -O3 -D__TUNING -D__HIP -w -c $<\n\n"
+        output += "\thipcc -O3 -D__TUNING -D__HIP -w -munsafe-fp-atomics -c $<\n\n"
 
     # compilation rule for autotuning executables
     for exe_src in all_exe_src:
@@ -396,7 +398,7 @@ def gen_makefile(outdir, compiler, arch):
             )
         else:
             rocm_path = os.getenv("ROCM_PATH", "/opt/rocm")
-            output += f"\thipcc -O3 -D__HIP -w -o $@ $^ {rocm_path}/hip/lib/libamdhip64.so\n\n"
+            output += f"\thipcc -O3 -D__HIP -w -munsafe-fp-atomics -o $@ $^ {rocm_path}/hip/lib/libamdhip64.so\n\n"
 
     # write Makefile
     writefile(outdir / "Makefile", output)

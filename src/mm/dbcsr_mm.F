@@ -1,5 +1,6 @@
 !--------------------------------------------------------------------------------------------------!
 ! Copyright (C) by the DBCSR developers group - All rights reserved                                !
+! Copyright (C) 2022 Advanced Micro Devices, Inc. - All rights reserved                            !
 ! This file is part of the DBCSR library.                                                          !
 !                                                                                                  !
 ! For information on the license, see the LICENSE file.                                            !
@@ -51,7 +52,7 @@ MODULE dbcsr_mm
       dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_destroy_array, dbcsr_distribution, &
       dbcsr_get_matrix_type, dbcsr_has_symmetry, dbcsr_image_dist_release, dbcsr_nblkcols_total, &
       dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release, dbcsr_release_locals, &
-      dbcsr_row_block_offsets
+      dbcsr_row_block_offsets, dbcsr_get_data_type
    USE dbcsr_mm_3D, ONLY: buffers_release, &
                           dbcsr_make_buffers, &
                           get_max_layers_3D, &
@@ -60,10 +61,12 @@ MODULE dbcsr_mm
                           release_layers_3D_C_reduction, &
                           request_sync_mult
    USE dbcsr_mm_cannon, ONLY: make_m2s, &
-                              multiply_cannon
+                              multiply_cannon, &
+                              multiply_cannon_g2g
    USE dbcsr_mm_common, ONLY: &
       dbcsr_mpi_statistics, max_memory, memtype_abpanel_1, memtype_abpanel_2, &
       memtype_mpi_buffer, memtype_mpi_product, memtype_product_wm, memtype_trsbuffer_1, &
+      memtype_normsbuf, memtype_offsetsbuf, memtype_nelemsbuf, &
       memtype_trsbuffer_2, num_multiplications, stream_1, stream_2
    USE dbcsr_mm_dist_operations, ONLY: dbcsr_create_image_dist, &
                                        dbcsr_make_dists_dense, &
@@ -96,7 +99,8 @@ MODULE dbcsr_mm
    USE dbcsr_types, ONLY: &
       dbcsr_2d_array_type, dbcsr_conjugate_transpose, dbcsr_distribution_obj, &
       dbcsr_imagedistribution_obj, dbcsr_mp_obj, dbcsr_mpi_size_limits, dbcsr_no_transpose, &
-      dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, dbcsr_type_antisymmetric
+      dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, dbcsr_type_antisymmetric, &
+      dbcsr_type_real_8
    USE dbcsr_work_operations, ONLY: dbcsr_add_wm_from_matrix, &
                                     dbcsr_finalize, &
                                     dbcsr_work_create
@@ -185,6 +189,12 @@ CONTAINS
          CALL dbcsr_mempool_destruct(memtype_trsbuffer_1%pool)
       IF (ASSOCIATED(memtype_trsbuffer_2%pool)) &
          CALL dbcsr_mempool_destruct(memtype_trsbuffer_2%pool)
+      IF (ASSOCIATED(memtype_normsbuf%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_normsbuf%pool)
+      IF (ASSOCIATED(memtype_offsetsbuf%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_offsetsbuf%pool)
+      IF (ASSOCIATED(memtype_nelemsbuf%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_nelemsbuf%pool)
       IF (ASSOCIATED(memtype_abpanel_1%pool)) &
          CALL dbcsr_mempool_destruct(memtype_abpanel_1%pool)
       IF (ASSOCIATED(memtype_abpanel_2%pool)) &
@@ -310,6 +320,12 @@ CONTAINS
          CALL dbcsr_mempool_clear(memtype_trsbuffer_1%pool)
       IF (ASSOCIATED(memtype_trsbuffer_2%pool)) &
          CALL dbcsr_mempool_clear(memtype_trsbuffer_2%pool)
+      IF (ASSOCIATED(memtype_normsbuf%pool)) &
+         CALL dbcsr_mempool_clear(memtype_normsbuf%pool)
+      IF (ASSOCIATED(memtype_offsetsbuf%pool)) &
+         CALL dbcsr_mempool_clear(memtype_offsetsbuf%pool)
+      IF (ASSOCIATED(memtype_nelemsbuf%pool)) &
+         CALL dbcsr_mempool_clear(memtype_nelemsbuf%pool)
       IF (ASSOCIATED(memtype_abpanel_1%pool)) &
          CALL dbcsr_mempool_clear(memtype_abpanel_1%pool)
       IF (ASSOCIATED(memtype_abpanel_2%pool)) &
@@ -388,7 +404,7 @@ CONTAINS
       CHARACTER                                          :: transa_l, transb_l
       INTEGER :: f_col, f_k, f_row, handle, handle2, ithread, l_col, l_k, l_row, &
                  nimages_left_rows, nimages_match, nimages_right_cols, npcols, nprows, numnodes, &
-                 output_unit
+                 data_type, output_unit
       INTEGER(KIND=int_8)                                :: my_flop
       LOGICAL :: ab_dense, keep_product_data, keep_sparsity, product_reindex, release_tdist, &
                  transpose_left, transpose_right, use_dense_mult, use_mempools, thread_dist_force
@@ -455,8 +471,17 @@ CONTAINS
                                   acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_1)
          CALL dbcsr_memtype_setup(memtype_trsbuffer_2, has_pool=.TRUE., &
                                   acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_2)
+         CALL dbcsr_memtype_setup(memtype_normsbuf, has_pool=.TRUE., &
+                                  acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_1)
+         CALL dbcsr_memtype_setup(memtype_offsetsbuf, has_pool=.TRUE., &
+                                  acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_1)
+         CALL dbcsr_memtype_setup(memtype_nelemsbuf, has_pool=.TRUE., &
+                                  acc_hostalloc=.TRUE., acc_devalloc=.TRUE., acc_stream=stream_1)
          CALL dbcsr_mempool_limit_capacity(memtype_trsbuffer_1%pool, capacity=1)
          CALL dbcsr_mempool_limit_capacity(memtype_trsbuffer_2%pool, capacity=1)
+         CALL dbcsr_mempool_limit_capacity(memtype_normsbuf%pool, capacity=1)
+         CALL dbcsr_mempool_limit_capacity(memtype_offsetsbuf%pool, capacity=1)
+         CALL dbcsr_mempool_limit_capacity(memtype_nelemsbuf%pool, capacity=1)
       END IF
 
       CALL dbcsr_memtype_setup(memtype_mpi_buffer, mpi=.TRUE.)
@@ -880,10 +905,28 @@ CONTAINS
                           filter_eps=filter_eps, &
                           flop=my_flop, keep_product_data=keep_product_data)
       ELSE
+         data_type = dbcsr_get_data_type(product_matrix)
+#if defined (__DBCSR_ACC_G2G)
+         IF (data_type .NE. dbcsr_type_real_8) THEN
+            ! If G2G is enabled, norms have to be calculated on the GPU.
+            ! Since the norms kernel expects only real_8 type data, we
+            ! avoid using G2G for all other data types
+            CALL multiply_cannon(m2s_left, m2s_right, product_matrix, &
+                                 retain_sparsity=retain_sparsity, &
+                                 filter_eps=filter_eps, &
+                                 flop=my_flop, keep_product_data=keep_product_data)
+         ELSE
+            CALL multiply_cannon_g2g(m2s_left, m2s_right, product_matrix, &
+                                     retain_sparsity=retain_sparsity, &
+                                     filter_eps=filter_eps, &
+                                     flop=my_flop, keep_product_data=keep_product_data)
+         END IF
+#else
          CALL multiply_cannon(m2s_left, m2s_right, product_matrix, &
                               retain_sparsity=retain_sparsity, &
                               filter_eps=filter_eps, &
                               flop=my_flop, keep_product_data=keep_product_data)
+#endif
          CALL dbcsr_finalize(product_matrix, reshuffle=PRESENT(filter_eps) .AND. .NOT. keep_sparsity)
       END IF
       !

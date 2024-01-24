@@ -55,3 +55,4 @@ Assumed square matrix with 20x20 matrix with 5x5 blocks and a 2x2 processor grid
 | `__CUDA_PROFILING`  | To turn on Nvidia Tools Extensions. It requires to link `-lnvToolsExt` | Fortran, C, C++ |
 | `__CUDA` | Enable CUDA acceleration | C, C++ |
 | `__HIP`  | Enable HIP acceleration | C, C++ |
+| `__DBCSR_ACC_G2G` | Enable GPU Aware MPI in CUDA and HIP backends | Fortran, C, C++ |

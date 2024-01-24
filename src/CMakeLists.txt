@@ -109,6 +109,7 @@ set(DBCSR_HIP_AND_CUDA_SRCS
     acc/libsmm_acc/libsmm_acc_benchmark.cpp
     acc/libsmm_acc/libsmm_acc_init.cpp
     acc/libsmm_acc/libsmm_acc.cpp
+    acc/cuda_hip/calculate_norms.cpp
     acc/cuda_hip/acc_blas.cpp
     acc/cuda_hip/acc_dev.cpp
     acc/cuda_hip/acc_error.cpp
@@ -121,6 +122,18 @@ set(DBCSR_CUDA_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/cuda/acc_cuda.cpp
                     acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
 
 set(DBCSR_HIP_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/hip/acc_hip.cpp)
+
+if (USE_ACCEL MATCHES "hip")
+  set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
+                              PROPERTIES LANGUAGE HIP)
+  set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
+                              PROPERTIES COMPILE_FLAGS "-fPIE")
+elseif (USE_ACCEL MATCHES "cuda")
+  set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
+                              PROPERTIES LANGUAGE CUDA)
+  set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
+                              PROPERTIES COMPILE_FLAGS "--x cu")
+endif ()
 
 set(DBCSR_OPENCL_SRCS
     acc/opencl/smm/opencl_libsmm.c acc/opencl/acc_opencl.c
@@ -163,6 +176,13 @@ set_target_properties(
   PROPERTIES VERSION ${dbcsr_VERSION}
              SOVERSION ${dbcsr_APIVERSION}
              POSITION_INDEPENDENT_CODE ON)
+
+if (USE_ACCEL MATCHES "hip")
+  set_target_properties(dbcsr PROPERTIES HIP_ARCHITECTURES "${ACC_ARCH_NUMBER}")
+elseif (USE_ACCEL MATCHES "cuda")
+  set_target_properties(dbcsr PROPERTIES CUDA_ARCHITECTURES
+                                         "${ACC_ARCH_NUMBER}")
+endif ()
 
 if (USE_SMM MATCHES "libxsmm")
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
@@ -262,6 +282,18 @@ if (USE_ACCEL)
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
             $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>)
+
+  if (WITH_G2G)
+    target_compile_definitions(
+      dbcsr
+      PRIVATE __DBCSR_ACC_G2G
+              $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>
+              $<$<STREQUAL:${USE_ACCEL},cuda>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
+              $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
+              $<$<STREQUAL:${USE_ACCEL},hip>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
+              $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
+              $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
+  endif ()
 endif ()
 
 # =================================================================================================

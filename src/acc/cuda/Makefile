@@ -302,7 +302,7 @@ $(ACCDIR)/dbcsr_acc_smm.a: $(OBJSMM)
 %.o: %.cpp $(INCALL) $(MAKDIR)/Makefile
 	$(CXX) $(DFLAGS) $(CXXFLAGS) $(CFLAGS_XSMM) -c $< -o $@
 
-$(DIRSMM)/calculate_norms.o: $(DIRSMM)/calculate_norms.cpp $(INCALL) $(MAKDIR)/Makefile
+$(ACCDIR)/cuda_hip/calculate_norms.o: $(ACCDIR)/cuda_hip/calculate_norms.cpp $(INCALL) $(MAKDIR)/Makefile
 	$(NVCC) $(DFLAGS) -x cu -allow-unsupported-compiler \
 		--compiler-options="$(filter-out -pedantic,$(CXXFLAGS)) $(CFLAGS_XSMM)" -c $< -o $@
 
