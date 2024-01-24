@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_test_scale_by_vector.html#variable-debug_mod~12">debug_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_test_scale_by_vector.html#variable-debug_mod~5">debug_mod</a>
         </div>
       </div>
     </div>
@@ -172,18 +175,18 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_test_methods.html'>dbcsr_test_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_transformations.html'>dbcsr_transformations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_test_methods.html'>dbcsr_test_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
               </ul>
             </li>
         </ul>
@@ -208,7 +211,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-debug_mod~12"></span>
+              <span class="anchor" id="variable-debug_mod~5"></span>
               logical,
             </td>
               <td>private,</td>
@@ -236,7 +239,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_test_scale_by_vectors"></span><h3>public  function <a href='../proc/dbcsr_test_scale_by_vectors.html'>dbcsr_test_scale_by_vectors</a>(test_name, mp_group, mp_env, npdims, io_unit, matrix_size, bs_m, bs_n, sparsity, do_exact_comparison) result(success)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_test_scale_by_vectors"></span> <h3>public  function <a href='../proc/dbcsr_test_scale_by_vectors.html'>dbcsr_test_scale_by_vectors</a>(test_name, mp_group, mp_env, npdims, io_unit, matrix_size, bs_m, bs_n, sparsity, do_exact_comparison) result(success)  
 </h3></div>
     <div class="card-body">
           
@@ -271,7 +274,7 @@ processor grids</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~4"></span>
+              <span class="anchor" id="variable-mp_group~8"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -286,7 +289,7 @@ processor grids</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~38"></span>
+              <span class="anchor" id="variable-mp_env~24"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -301,7 +304,7 @@ processor grids</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-npdims~2"></span>
+              <span class="anchor" id="variable-npdims~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -316,7 +319,7 @@ processor grids</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~4"></span>
+              <span class="anchor" id="variable-io_unit~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -378,7 +381,7 @@ block sizes of the 2 dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sparsity"></span>
+              <span class="anchor" id="variable-sparsity~4"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -419,7 +422,7 @@ block sizes of the 2 dimension</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-test_scale_by_vector"></span><h3>private  function <a href='../proc/test_scale_by_vector.html'>test_scale_by_vector</a>(mp_env, npdims, matrix, vector, do_exact_comparison) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-test_scale_by_vector"></span> <h3>private  function <a href='../proc/test_scale_by_vector.html'>test_scale_by_vector</a>(mp_env, npdims, matrix, vector, do_exact_comparison) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -438,7 +441,7 @@ block sizes of the 2 dimension</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~39"></span>
+              <span class="anchor" id="variable-mp_env~25"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -453,7 +456,7 @@ block sizes of the 2 dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-npdims"></span>
+              <span class="anchor" id="variable-npdims~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -468,7 +471,7 @@ block sizes of the 2 dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~109"></span>
+              <span class="anchor" id="variable-matrix~269"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -483,7 +486,7 @@ block sizes of the 2 dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vector"></span>
+              <span class="anchor" id="variable-vector~3"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -529,7 +532,7 @@ block sizes of the 2 dimension</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-write_1d_data_obj"></span><h3>private  subroutine <a href='../proc/write_1d_data_obj.html'>write_1d_data_obj</a>(io_unit, vector)  
+    <div class="card-header codesum"><span class="anchor" id="proc-write_1d_data_obj"></span> <h3>private  subroutine <a href='../proc/write_1d_data_obj.html'>write_1d_data_obj</a>(io_unit, vector)  
 </h3></div>
     <div class="card-body">
           
@@ -584,7 +587,7 @@ block sizes of the 2 dimension</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-write_matrix_dense"></span><h3>private  subroutine <a href='../proc/write_matrix_dense.html'>write_matrix_dense</a>(io_unit, matrix)  
+    <div class="card-header codesum"><span class="anchor" id="proc-write_matrix_dense"></span> <h3>private  subroutine <a href='../proc/write_matrix_dense.html'>write_matrix_dense</a>(io_unit, matrix)  
 </h3></div>
     <div class="card-body">
           
@@ -618,7 +621,7 @@ block sizes of the 2 dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~329"></span>
+              <span class="anchor" id="variable-matrix~268"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>

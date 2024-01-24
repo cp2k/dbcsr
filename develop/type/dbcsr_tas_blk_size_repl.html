@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -114,7 +117,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-nmrowcol~2">nmrowcol</a>
             <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-nfullrowcol">nfullrowcol</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-blk_size_vec~3">blk_size_vec</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-blk_size_vec~2">blk_size_vec</a>
             <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#variable-nmrowcol_local~2">nmrowcol_local</a>
         </div>
       </div>
@@ -153,7 +156,7 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~37">DATA</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~16">DATA</a>
         </div>
       </div>
     </div>
@@ -167,7 +170,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public, extends(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>) :: dbcsr_tas_blk_size_repl</h2>
+      <h2>
+        type, public, extends(<a href='dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>) :: dbcsr_tas_blk_size_repl</h2>
     
     <br>
 
@@ -219,7 +223,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size_vec~3"></span>
+              <span class="anchor" id="variable-blk_size_vec~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -302,7 +306,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_repl~3"></span>
+              <span class="anchor" id="variable-n_repl~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -320,7 +324,7 @@
 
     <h4>
     Return Value
-    <small>type(<a href='../type/dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>)</small>
+    <small>type(<a href='dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>)</small>
     </h4>
     
 
@@ -337,10 +341,10 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-data~37"></span>
+      <span class="anchor" id="boundprocedure-data~16"></span>
       <h3>
           procedure, public ::
-  <strong>DATA</strong> => <a href='../proc/blk_size_repl.html'>blk_size_repl</a>
+  <strong>DATA</strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_repl.html'>blk_size_repl</a>
         
       </h3>
     </div>
@@ -367,7 +371,7 @@
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>),
+              class(<a href='dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>

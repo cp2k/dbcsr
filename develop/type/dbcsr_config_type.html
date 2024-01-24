@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -169,7 +172,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private :: dbcsr_config_type</h2>
+      <h2>
+        type, private :: dbcsr_config_type</h2>
     
     <br>
 
@@ -188,7 +192,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-mm_driver"></span>
-              type(<a href='../type/conf_par_mm_driver.html'>CONF_PAR_MM_DRIVER</a>),
+              type(<a href='conf_par_mm_driver.html'>CONF_PAR_MM_DRIVER</a>),
             </td>
               <td>public</td>
             <td>
@@ -205,7 +209,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-mm_stack_size"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -222,7 +226,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-avg_elements_images"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -239,7 +243,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-num_mult_images"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -256,7 +260,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-n_stacks"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -273,7 +277,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-use_mpi_rma"></span>
-              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
@@ -290,7 +294,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-num_layers_3d"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -307,7 +311,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-use_comm_thread"></span>
-              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
@@ -324,7 +328,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-comm_thread_load"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -341,7 +345,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-mm_dense"></span>
-              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
@@ -358,7 +362,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-multrec_limit"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -375,7 +379,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_thread_buffers"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -392,7 +396,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_avoid_after_busy"></span>
-              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
@@ -409,7 +413,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_min_flop_process"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -426,7 +430,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_stack_sort"></span>
-              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
@@ -443,7 +447,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_min_flop_sort"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -460,7 +464,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_do_inhomogenous"></span>
-              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
@@ -477,7 +481,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_binning_nbins"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -494,7 +498,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-accdrv_binning_binsize"></span>
-              type(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
               <td>public</td>
             <td>
@@ -511,7 +515,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-use_mempools_cpu"></span>
-              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
@@ -528,7 +532,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-use_mpi_allocator"></span>
-              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
               <td>public</td>
             <td>
@@ -545,7 +549,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-tas_split_factor"></span>
-              type(<a href='../type/conf_par_real.html'>CONF_PAR_REAL</a>),
+              type(<a href='conf_par_real.html'>CONF_PAR_REAL</a>),
             </td>
               <td>public</td>
             <td>

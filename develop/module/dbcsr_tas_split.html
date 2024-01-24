@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-modulen">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-modulen~64">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-rowsplit">rowsplit</a>
             <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-colsplit">colsplit</a>
             <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_pdims_accept_ratio">default_pdims_accept_ratio</a>
@@ -201,13 +204,13 @@ Basically, we are splitting process grid and each subgrid holds its own DBCSR ma
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
               </ul>
             </li>
         </ul>
@@ -232,7 +235,7 @@ Basically, we are splitting process grid and each subgrid holds its own DBCSR ma
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen"></span>
+              <span class="anchor" id="variable-modulen~64"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -365,7 +368,7 @@ dense matrices only</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~10"></span>
+              <span class="anchor" id="variable-mp_comm~37"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -380,7 +383,7 @@ dense matrices only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows"></span>
+              <span class="anchor" id="variable-nblkrows~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -396,7 +399,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols"></span>
+              <span class="anchor" id="variable-nblkcols~5"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -431,7 +434,7 @@ total number of block columns</p>
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_mp_comm"></span><h3>public  function <a href='../proc/dbcsr_tas_mp_comm.html'>dbcsr_tas_mp_comm</a>(mp_comm, split_rowcol, nsplit)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_mp_comm"></span> <h3>public  function <a href='../proc/dbcsr_tas_mp_comm.html'>dbcsr_tas_mp_comm</a>(mp_comm, split_rowcol, nsplit)  
 </h3></div>
     <div class="card-body">
           
@@ -452,7 +455,7 @@ of dbcsr_tas_create_split
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~9"></span>
+              <span class="anchor" id="variable-mp_comm~36"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -467,7 +470,7 @@ of dbcsr_tas_create_split
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~8"></span>
+              <span class="anchor" id="variable-split_rowcol~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -482,7 +485,7 @@ of dbcsr_tas_create_split
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~7"></span>
+              <span class="anchor" id="variable-nsplit~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -508,7 +511,7 @@ of dbcsr_tas_create_split
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_mp_dims"></span><h3>public  function <a href='../proc/dbcsr_tas_mp_dims.html'>dbcsr_tas_mp_dims</a>(numproc, split_rowcol, nsplit)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_mp_dims"></span> <h3>public  function <a href='../proc/dbcsr_tas_mp_dims.html'>dbcsr_tas_mp_dims</a>(numproc, split_rowcol, nsplit)  
 </h3></div>
     <div class="card-body">
           
@@ -527,7 +530,7 @@ of dbcsr_tas_create_split
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-numproc~2"></span>
+              <span class="anchor" id="variable-numproc~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -542,7 +545,7 @@ of dbcsr_tas_create_split
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~9"></span>
+              <span class="anchor" id="variable-split_rowcol~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -557,7 +560,7 @@ of dbcsr_tas_create_split
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~8"></span>
+              <span class="anchor" id="variable-nsplit~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -583,7 +586,7 @@ of dbcsr_tas_create_split
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_opt_nsplit"></span><h3>private  function <a href='../proc/get_opt_nsplit.html'>get_opt_nsplit</a>(numproc, nsplit, split_pgrid, pdim_nonsplit)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_opt_nsplit"></span> <h3>private  function <a href='../proc/get_opt_nsplit.html'>get_opt_nsplit</a>(numproc, nsplit, split_pgrid, pdim_nonsplit)  
 </h3></div>
     <div class="card-body">
           
@@ -603,7 +606,7 @@ of dbcsr_tas_create_split
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-numproc"></span>
+              <span class="anchor" id="variable-numproc~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -619,7 +622,7 @@ Desired split factor</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit"></span>
+              <span class="anchor" id="variable-nsplit~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -676,7 +679,7 @@ Desired split factor</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_mp_comm_from_matrix_sizes"></span><h3>private  function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcsr_tas_mp_comm_from_matrix_sizes</a>(mp_comm, nblkrows, nblkcols) result(mp_comm_new)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_mp_comm_from_matrix_sizes"></span> <h3>private  function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcsr_tas_mp_comm_from_matrix_sizes</a>(mp_comm, nblkrows, nblkcols) result(mp_comm_new)  
 </h3></div>
     <div class="card-body">
           
@@ -696,7 +699,7 @@ dense matrices only</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~10"></span>
+              <span class="anchor" id="variable-mp_comm~37"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -711,7 +714,7 @@ dense matrices only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows"></span>
+              <span class="anchor" id="variable-nblkrows~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -727,7 +730,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols"></span>
+              <span class="anchor" id="variable-nblkcols~5"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -754,7 +757,7 @@ total number of block columns</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-accept_pgrid_dims"></span><h3>public  function <a href='../proc/accept_pgrid_dims.html'>accept_pgrid_dims</a>(dims, relative)  
+    <div class="card-header codesum"><span class="anchor" id="proc-accept_pgrid_dims"></span> <h3>public  function <a href='../proc/accept_pgrid_dims.html'>accept_pgrid_dims</a>(dims, relative)  
 </h3></div>
     <div class="card-body">
           
@@ -773,7 +776,7 @@ total number of block columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~10"></span>
+              <span class="anchor" id="variable-dims~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -814,7 +817,7 @@ total number of block columns</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-i8_bsearch"></span><h3>private  function <a href='../proc/i8_bsearch.html'>i8_bsearch</a>(array, el, l_index, u_index) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-i8_bsearch"></span> <h3>private  function <a href='../proc/i8_bsearch.html'>i8_bsearch</a>(array, el, l_index, u_index) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -833,7 +836,7 @@ total number of block columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~43"></span>
+              <span class="anchor" id="variable-array~63"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -848,7 +851,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-el"></span>
+              <span class="anchor" id="variable-el~10"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -909,11 +912,128 @@ total number of block columns</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_create_split_rows_or_cols"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_create_split_rows_or_cols.html'>dbcsr_tas_create_split_rows_or_cols</a>(split_info, mp_comm, ngroup, igroup, split_rowcol, own_comm)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_create_split_rows_or_cols"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_create_split_rows_or_cols.html'>dbcsr_tas_create_split_rows_or_cols</a>(split_info, mp_comm, ngroup, igroup, split_rowcol, own_comm)  
 </h3></div>
     <div class="card-body">
           
   <p>split mpi grid by rows or columns</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-split_info~2"></span>
+              type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>split_info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_comm~35"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_comm</strong></td>
+            <td>
+<p>global mpi communicator with a 2d cartesian grid</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ngroup~2"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ngroup</strong></td>
+            <td>
+<p>number of groups</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-igroup~6"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>igroup</strong></td>
+            <td>
+<p>my group ID
+split rows or columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-split_rowcol~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>split_rowcol</strong></td>
+            <td>
+<p>my group ID
+split rows or columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-own_comm~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>own_comm</strong></td>
+            <td>
+<p>Whether split_info should own communicator</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_create_split"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_create_split.html'>dbcsr_tas_create_split</a>(split_info, mp_comm, split_rowcol, nsplit, own_comm, opt_nsplit)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Split Cartesian process grid using a default split heuristic.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -938,129 +1058,12 @@ total number of block columns</p>
             <td>::</td>
             <td><strong>split_info</strong></td>
             <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mp_comm"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mp_comm</strong></td>
-            <td>
-<p>global mpi communicator with a 2d cartesian grid</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ngroup"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ngroup</strong></td>
-            <td>
-<p>number of groups</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-igroup"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>igroup</strong></td>
-            <td>
-<p>my group ID
-split rows or columns</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-split_rowcol"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>split_rowcol</strong></td>
-            <td>
-<p>my group ID
-split rows or columns</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-own_comm"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>own_comm</strong></td>
-            <td>
-<p>Whether split_info should own communicator</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_create_split"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_create_split.html'>dbcsr_tas_create_split</a>(split_info, mp_comm, split_rowcol, nsplit, own_comm, opt_nsplit)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Split Cartesian process grid using a default split heuristic.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-split_info"></span>
-              type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>split_info</strong></td>
-            <td>
 <p>object storing all data corresponding to split, submatrices and parallelization</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~2"></span>
+              <span class="anchor" id="variable-mp_comm~38"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1075,7 +1078,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~2"></span>
+              <span class="anchor" id="variable-split_rowcol~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1090,7 +1093,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~2"></span>
+              <span class="anchor" id="variable-nsplit~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1105,7 +1108,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-own_comm~2"></span>
+              <span class="anchor" id="variable-own_comm~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1120,7 +1123,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-opt_nsplit"></span>
+              <span class="anchor" id="variable-opt_nsplit~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1141,7 +1144,7 @@ split rows or columns</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_get_split_info"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_get_split_info.html'>dbcsr_tas_get_split_info</a>(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_get_split_info"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_get_split_info.html'>dbcsr_tas_get_split_info</a>(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)  
 </h3></div>
     <div class="card-body">
           
@@ -1160,7 +1163,7 @@ split rows or columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~8"></span>
+              <span class="anchor" id="variable-info~19"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -1175,7 +1178,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~11"></span>
+              <span class="anchor" id="variable-mp_comm~39"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1190,7 +1193,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~3"></span>
+              <span class="anchor" id="variable-nsplit~17"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1209,7 +1212,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-igroup~2"></span>
+              <span class="anchor" id="variable-igroup~8"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1228,7 +1231,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm_group~2"></span>
+              <span class="anchor" id="variable-mp_comm_group~3"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1243,7 +1246,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~3"></span>
+              <span class="anchor" id="variable-split_rowcol~8"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1283,7 +1286,7 @@ split rows or columns</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_release_info"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_release_info.html'>dbcsr_tas_release_info</a>(split_info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_release_info"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_release_info.html'>dbcsr_tas_release_info</a>(split_info)  
 </h3></div>
     <div class="card-body">
           
@@ -1323,7 +1326,7 @@ split rows or columns</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_info_hold"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_info_hold.html'>dbcsr_tas_info_hold</a>(split_info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_info_hold"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_info_hold.html'>dbcsr_tas_info_hold</a>(split_info)  
 </h3></div>
     <div class="card-body">
           
@@ -1363,7 +1366,7 @@ split rows or columns</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-world_to_group_proc_map"></span><h3>public  subroutine <a href='../proc/world_to_group_proc_map.html'>world_to_group_proc_map</a>(iproc, pdims, split_rowcol, pgrid_split_size, igroup, pdims_group, iproc_group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-world_to_group_proc_map"></span> <h3>public  subroutine <a href='../proc/world_to_group_proc_map.html'>world_to_group_proc_map</a>(iproc, pdims, split_rowcol, pgrid_split_size, igroup, pdims_group, iproc_group)  
 </h3></div>
     <div class="card-body">
           
@@ -1382,7 +1385,7 @@ split rows or columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iproc"></span>
+              <span class="anchor" id="variable-iproc~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1397,7 +1400,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pdims"></span>
+              <span class="anchor" id="variable-pdims~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1412,7 +1415,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~4"></span>
+              <span class="anchor" id="variable-split_rowcol~9"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1428,7 +1431,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_split_size"></span>
+              <span class="anchor" id="variable-pgrid_split_size~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1444,7 +1447,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-igroup~3"></span>
+              <span class="anchor" id="variable-igroup~9"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1459,7 +1462,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pdims_group"></span>
+              <span class="anchor" id="variable-pdims_group~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1474,7 +1477,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iproc_group"></span>
+              <span class="anchor" id="variable-iproc_group~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1495,7 +1498,7 @@ how many process rows/cols per group</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-group_to_world_proc_map"></span><h3>public  subroutine <a href='../proc/group_to_world_proc_map.html'>group_to_world_proc_map</a>(iproc, pdims, split_rowcol, pgrid_split_size, igroup, iproc_group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-group_to_world_proc_map"></span> <h3>public  subroutine <a href='../proc/group_to_world_proc_map.html'>group_to_world_proc_map</a>(iproc, pdims, split_rowcol, pgrid_split_size, igroup, iproc_group)  
 </h3></div>
     <div class="card-body">
           
@@ -1514,7 +1517,7 @@ how many process rows/cols per group</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iproc~2"></span>
+              <span class="anchor" id="variable-iproc~12"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1529,7 +1532,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pdims~2"></span>
+              <span class="anchor" id="variable-pdims~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1544,7 +1547,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~5"></span>
+              <span class="anchor" id="variable-split_rowcol~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1562,7 +1565,7 @@ local process ID</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_split_size~2"></span>
+              <span class="anchor" id="variable-pgrid_split_size~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1580,7 +1583,7 @@ local process ID</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-igroup~4"></span>
+              <span class="anchor" id="variable-igroup~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1598,7 +1601,7 @@ local process ID</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iproc_group~2"></span>
+              <span class="anchor" id="variable-iproc_group~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1622,7 +1625,7 @@ local process ID</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_index_local_to_global"></span><h3>public  subroutine <a href='../proc/block_index_local_to_global.html'>block_index_local_to_global</a>(info, dist, row_group, column_group, row, column)  
+    <div class="card-header codesum"><span class="anchor" id="proc-block_index_local_to_global"></span> <h3>public  subroutine <a href='../proc/block_index_local_to_global.html'>block_index_local_to_global</a>(info, dist, row_group, column_group, row, column)  
 </h3></div>
     <div class="card-body">
           
@@ -1641,7 +1644,7 @@ local process ID</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~9"></span>
+              <span class="anchor" id="variable-info~20"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -1656,7 +1659,7 @@ local process ID</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~30"></span>
+              <span class="anchor" id="variable-dist~99"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1671,7 +1674,7 @@ local process ID</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_group"></span>
+              <span class="anchor" id="variable-row_group~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1687,7 +1690,7 @@ group local column block index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column_group"></span>
+              <span class="anchor" id="variable-column_group~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1703,7 +1706,7 @@ group local column block index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row"></span>
+              <span class="anchor" id="variable-row~202"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1719,7 +1722,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column"></span>
+              <span class="anchor" id="variable-column~47"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1741,7 +1744,7 @@ global block column</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_index_global_to_local"></span><h3>public  subroutine <a href='../proc/block_index_global_to_local.html'>block_index_global_to_local</a>(info, dist, row, column, row_group, column_group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-block_index_global_to_local"></span> <h3>public  subroutine <a href='../proc/block_index_global_to_local.html'>block_index_global_to_local</a>(info, dist, row, column, row_group, column_group)  
 </h3></div>
     <div class="card-body">
           
@@ -1760,7 +1763,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~10"></span>
+              <span class="anchor" id="variable-info~21"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -1775,7 +1778,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~31"></span>
+              <span class="anchor" id="variable-dist~100"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1790,7 +1793,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~51"></span>
+              <span class="anchor" id="variable-row~203"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
@@ -1805,7 +1808,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~23"></span>
+              <span class="anchor" id="variable-column~48"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
@@ -1820,7 +1823,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_group~2"></span>
+              <span class="anchor" id="variable-row_group~19"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1835,7 +1838,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column_group~2"></span>
+              <span class="anchor" id="variable-column_group~8"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1856,7 +1859,7 @@ global block column</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-group_to_mrowcol"></span><h3>public  subroutine <a href='../proc/group_to_mrowcol.html'>group_to_mrowcol</a>(info, rowcol_dist, igroup, rowcols)  
+    <div class="card-header codesum"><span class="anchor" id="proc-group_to_mrowcol"></span> <h3>public  subroutine <a href='../proc/group_to_mrowcol.html'>group_to_mrowcol</a>(info, rowcol_dist, igroup, rowcols)  
 </h3></div>
     <div class="card-body">
           
@@ -1875,7 +1878,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~11"></span>
+              <span class="anchor" id="variable-info~22"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -1905,7 +1908,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-igroup~5"></span>
+              <span class="anchor" id="variable-igroup~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1920,7 +1923,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcols"></span>
+              <span class="anchor" id="variable-rowcols~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1941,7 +1944,7 @@ global block column</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_set_strict_split"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_set_strict_split.html'>dbcsr_tas_set_strict_split</a>(info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_set_strict_split"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_set_strict_split.html'>dbcsr_tas_set_strict_split</a>(info)  
 </h3></div>
     <div class="card-body">
           
@@ -1960,7 +1963,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~12"></span>
+              <span class="anchor" id="variable-info~23"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(inout)</td>

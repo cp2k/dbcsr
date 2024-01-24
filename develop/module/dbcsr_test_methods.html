@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_test_methods.html#variable-modulen~36">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_test_methods.html#variable-modulen~4">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_test_methods.html#variable-randmat_counter">randmat_counter</a>
             <a class="list-group-item" href="../module/dbcsr_test_methods.html#variable-rand_seed_init">rand_seed_init</a>
         </div>
@@ -179,22 +182,22 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_blas_operations.html'>dbcsr_blas_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_block_access.html'>dbcsr_block_access</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_blas_operations.html'>dbcsr_blas_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
               </ul>
             </li>
         </ul>
@@ -219,7 +222,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~36"></span>
+              <span class="anchor" id="variable-modulen~4"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -281,7 +284,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-compx_to_dbcsr_scalar"></span><h3>public  function <a href='../proc/compx_to_dbcsr_scalar.html'>compx_to_dbcsr_scalar</a>(z, data_type) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-compx_to_dbcsr_scalar"></span> <h3>public  function <a href='../proc/compx_to_dbcsr_scalar.html'>compx_to_dbcsr_scalar</a>(z, data_type) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -315,7 +318,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~45"></span>
+              <span class="anchor" id="variable-data_type~7"></span>
               integer
             </td>
 <td></td>
@@ -346,7 +349,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reset_randmat_seed"></span><h3>public  subroutine <a href='../proc/dbcsr_reset_randmat_seed.html'>dbcsr_reset_randmat_seed</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reset_randmat_seed"></span> <h3>public  subroutine <a href='../proc/dbcsr_reset_randmat_seed.html'>dbcsr_reset_randmat_seed</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -359,7 +362,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_impose_sparsity"></span><h3>public  subroutine <a href='../proc/dbcsr_impose_sparsity.html'>dbcsr_impose_sparsity</a>(sparse, dense)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_impose_sparsity"></span> <h3>public  subroutine <a href='../proc/dbcsr_impose_sparsity.html'>dbcsr_impose_sparsity</a>(sparse, dense)  
 </h3></div>
     <div class="card-body">
           
@@ -415,7 +418,7 @@ done locally.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_to_dense_local"></span><h3>public  subroutine <a href='../proc/dbcsr_to_dense_local.html'>dbcsr_to_dense_local</a>(sparse, dense)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_to_dense_local"></span> <h3>public  subroutine <a href='../proc/dbcsr_to_dense_local.html'>dbcsr_to_dense_local</a>(sparse, dense)  
 </h3></div>
     <div class="card-body">
           
@@ -471,7 +474,7 @@ done locally.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_random_dist"></span><h3>public  subroutine <a href='../proc/dbcsr_random_dist.html'>dbcsr_random_dist</a>(dist_array, dist_size, nbins)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_random_dist"></span> <h3>public  subroutine <a href='../proc/dbcsr_random_dist.html'>dbcsr_random_dist</a>(dist_array, dist_size, nbins)  
 </h3></div>
     <div class="card-body">
           
@@ -505,7 +508,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_size~3"></span>
+              <span class="anchor" id="variable-dist_size"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -520,7 +523,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nbins~8"></span>
+              <span class="anchor" id="variable-nbins"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -541,7 +544,7 @@ done locally.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_random_matrix"></span><h3>public  subroutine <a href='../proc/dbcsr_make_random_matrix.html'>dbcsr_make_random_matrix</a>(matrix, row_blk_sizes, col_blk_sizes, name, sparsity, mp_group, data_type, symmetry, dist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_random_matrix"></span> <h3>public  subroutine <a href='../proc/dbcsr_make_random_matrix.html'>dbcsr_make_random_matrix</a>(matrix, row_blk_sizes, col_blk_sizes, name, sparsity, mp_group, data_type, symmetry, dist)  
 </h3></div>
     <div class="card-body">
           
@@ -560,7 +563,7 @@ done locally.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~289"></span>
+              <span class="anchor" id="variable-matrix~103"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -575,7 +578,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_sizes~3"></span>
+              <span class="anchor" id="variable-row_blk_sizes"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -590,7 +593,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_sizes~3"></span>
+              <span class="anchor" id="variable-col_blk_sizes"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -605,7 +608,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~23"></span>
+              <span class="anchor" id="variable-name~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -620,7 +623,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sparsity~3"></span>
+              <span class="anchor" id="variable-sparsity"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -635,7 +638,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~8"></span>
+              <span class="anchor" id="variable-mp_group~3"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -650,7 +653,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~46"></span>
+              <span class="anchor" id="variable-data_type~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -665,7 +668,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-symmetry~2"></span>
+              <span class="anchor" id="variable-symmetry"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -680,7 +683,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~68"></span>
+              <span class="anchor" id="variable-dist~9"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -701,7 +704,7 @@ done locally.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_random_block_sizes"></span><h3>public  subroutine <a href='../proc/dbcsr_make_random_block_sizes.html'>dbcsr_make_random_block_sizes</a>(block_sizes, size_sum, size_mix)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_random_block_sizes"></span> <h3>public  subroutine <a href='../proc/dbcsr_make_random_block_sizes.html'>dbcsr_make_random_block_sizes</a>(block_sizes, size_sum, size_mix)  
 </h3></div>
     <div class="card-body">
           
@@ -720,7 +723,7 @@ done locally.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_sizes~2"></span>
+              <span class="anchor" id="variable-block_sizes"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -771,7 +774,7 @@ done locally.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_null_mp"></span><h3>private  subroutine <a href='../proc/dbcsr_make_null_mp.html'>dbcsr_make_null_mp</a>(mp_env, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_null_mp"></span> <h3>private  subroutine <a href='../proc/dbcsr_make_null_mp.html'>dbcsr_make_null_mp</a>(mp_env, group)  
 </h3></div>
     <div class="card-body">
           
@@ -790,7 +793,7 @@ done locally.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~22"></span>
+              <span class="anchor" id="variable-mp_env"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -805,7 +808,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~25"></span>
+              <span class="anchor" id="variable-group~4"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in),</td>
@@ -826,7 +829,7 @@ done locally.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_null_dist"></span><h3>private  subroutine <a href='../proc/dbcsr_make_null_dist.html'>dbcsr_make_null_dist</a>(distribution, nblkrows, nblkcols, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_null_dist"></span> <h3>private  subroutine <a href='../proc/dbcsr_make_null_dist.html'>dbcsr_make_null_dist</a>(distribution, nblkrows, nblkcols, group)  
 </h3></div>
     <div class="card-body">
           
@@ -845,7 +848,7 @@ done locally.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-distribution~9"></span>
+              <span class="anchor" id="variable-distribution~3"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -860,7 +863,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows~3"></span>
+              <span class="anchor" id="variable-nblkrows"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -875,7 +878,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols~3"></span>
+              <span class="anchor" id="variable-nblkcols"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -890,7 +893,7 @@ done locally.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~26"></span>
+              <span class="anchor" id="variable-group~5"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in),</td>

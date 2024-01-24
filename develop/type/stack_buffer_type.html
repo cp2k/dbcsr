@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -116,7 +119,7 @@
             <a class="list-group-item" href="../type/stack_buffer_type.html#variable-hostmem">hostmem</a>
             <a class="list-group-item" href="../type/stack_buffer_type.html#variable-ready">ready</a>
             <a class="list-group-item" href="../type/stack_buffer_type.html#variable-calculated">calculated</a>
-            <a class="list-group-item" href="../type/stack_buffer_type.html#variable-stream~3">stream</a>
+            <a class="list-group-item" href="../type/stack_buffer_type.html#variable-stream">stream</a>
         </div>
       </div>
     </div>
@@ -152,7 +155,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private :: stack_buffer_type</h2>
+      <h2>
+        type, private :: stack_buffer_type</h2>
     
     <br>
 
@@ -171,7 +175,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-devmem"></span>
-              type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
+              type(<a href='acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -205,7 +209,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-ready"></span>
-              type(<a href='../type/acc_event_type.html'>acc_event_type</a>),
+              type(<a href='acc_event_type.html'>acc_event_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -222,7 +226,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-calculated"></span>
-              type(<a href='../type/acc_event_type.html'>acc_event_type</a>),
+              type(<a href='acc_event_type.html'>acc_event_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -238,8 +242,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stream~3"></span>
-              type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
+              <span class="anchor" id="variable-stream"></span>
+              type(<a href='acc_stream_type.html'>acc_stream_type</a>),
             </td>
               <td>public</td>
             <td>

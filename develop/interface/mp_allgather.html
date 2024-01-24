@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -193,83 +196,12 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i"></span><h3>private  subroutine <a href='../proc/mp_allgather_i.html'>mp_allgather_i</a>(msgout, msgin, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i"></span> <h3>private  subroutine <a href='../proc/mp_allgather_i.html'>mp_allgather_i</a>(msgout, msgin, gid)  
 </h3></div>
     <div class="card-body">
           
   <p>Gathers a datum from all processes and all processes receive the
 same data</p><a href="../proc/mp_allgather_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~2"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Datum to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~2"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~20"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i2"></span><h3>private  subroutine <a href='../proc/mp_allgather_i2.html'>mp_allgather_i2</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_i2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -307,14 +239,14 @@ same data</p><a href="../proc/mp_allgather_i2.html" class="pull-right"><emph>Rea
               CONTIGUOUS
             </td>
             <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
+            <td><strong>msgin</strong>(:)</td>
             <td>
 <p>Received data</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~21"></span>
+              <span class="anchor" id="variable-gid~40"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -335,296 +267,12 @@ same data</p><a href="../proc/mp_allgather_i2.html" class="pull-right"><emph>Rea
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i12"></span><h3>private  subroutine <a href='../proc/mp_allgather_i12.html'>mp_allgather_i12</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers vector data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_i12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~5"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:)</td>
-            <td>
-<p>Rank-1 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~5"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~23"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i23"></span><h3>private  subroutine <a href='../proc/mp_allgather_i23.html'>mp_allgather_i23</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers matrix data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_i23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~6"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~67"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~153"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i34"></span><h3>private  subroutine <a href='../proc/mp_allgather_i34.html'>mp_allgather_i34</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-3 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_i34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~7"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:,:)</td>
-            <td>
-<p>Rank-3 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~68"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~154"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i22"></span><h3>private  subroutine <a href='../proc/mp_allgather_i22.html'>mp_allgather_i22</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-2 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_i22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~8"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~69"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~155"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l"></span><h3>private  subroutine <a href='../proc/mp_allgather_l.html'>mp_allgather_l</a>(msgout, msgin, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i2"></span> <h3>private  subroutine <a href='../proc/mp_allgather_i2.html'>mp_allgather_i2</a>(msgout, msgin, gid)  
 </h3></div>
     <div class="card-body">
           
   <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_l.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+same data</p><a href="../proc/mp_allgather_i2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -639,8 +287,8 @@ same data</p><a href="../proc/mp_allgather_l.html" class="pull-right"><emph>Read
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~20"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-msgout~4"></span>
+              integer(kind=int_4),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -654,15 +302,15 @@ same data</p><a href="../proc/mp_allgather_l.html" class="pull-right"><emph>Read
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~12"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-msgin~4"></span>
+              integer(kind=int_4),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
               CONTIGUOUS
             </td>
             <td>::</td>
-            <td><strong>msgin</strong>(:)</td>
+            <td><strong>msgin</strong>(:,:)</td>
             <td>
 <p>Received data</p>
             </td>
@@ -690,7 +338,362 @@ same data</p><a href="../proc/mp_allgather_l.html" class="pull-right"><emph>Read
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l2"></span><h3>private  subroutine <a href='../proc/mp_allgather_l2.html'>mp_allgather_l2</a>(msgout, msgin, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i12"></span> <h3>private  subroutine <a href='../proc/mp_allgather_i12.html'>mp_allgather_i12</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers vector data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_i12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~6"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:)</td>
+            <td>
+<p>Rank-1 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~6"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~43"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i23"></span> <h3>private  subroutine <a href='../proc/mp_allgather_i23.html'>mp_allgather_i23</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers matrix data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_i23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~7"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~7"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~44"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i34"></span> <h3>private  subroutine <a href='../proc/mp_allgather_i34.html'>mp_allgather_i34</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-3 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_i34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~8"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:,:)</td>
+            <td>
+<p>Rank-3 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~8"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~45"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_i22"></span> <h3>private  subroutine <a href='../proc/mp_allgather_i22.html'>mp_allgather_i22</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-2 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_i22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~9"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~9"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~46"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l"></span> <h3>private  subroutine <a href='../proc/mp_allgather_l.html'>mp_allgather_l</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers a datum from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_l.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~23"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Datum to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~23"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~85"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l2"></span> <h3>private  subroutine <a href='../proc/mp_allgather_l2.html'>mp_allgather_l2</a>(msgout, msgin, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -710,364 +713,9 @@ same data</p><a href="../proc/mp_allgather_l2.html" class="pull-right"><emph>Rea
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~21"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Datum to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~13"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~42"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l12"></span><h3>private  subroutine <a href='../proc/mp_allgather_l12.html'>mp_allgather_l12</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers vector data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_l12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~23"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:)</td>
-            <td>
-<p>Rank-1 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~15"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~44"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l23"></span><h3>private  subroutine <a href='../proc/mp_allgather_l23.html'>mp_allgather_l23</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers matrix data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_l23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
               <span class="anchor" id="variable-msgout~24"></span>
               integer(kind=int_8),
             </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~77"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~177"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l34"></span><h3>private  subroutine <a href='../proc/mp_allgather_l34.html'>mp_allgather_l34</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-3 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_l34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~25"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:,:)</td>
-            <td>
-<p>Rank-3 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~78"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~178"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l22"></span><h3>private  subroutine <a href='../proc/mp_allgather_l22.html'>mp_allgather_l22</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-2 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_l22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~26"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~79"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~179"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r"></span><h3>private  subroutine <a href='../proc/mp_allgather_r.html'>mp_allgather_r</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~56"></span>
-              real(kind=real_4),
-            </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
@@ -1080,150 +728,8 @@ same data</p><a href="../proc/mp_allgather_r.html" class="pull-right"><emph>Read
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~32"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~83"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r2"></span><h3>private  subroutine <a href='../proc/mp_allgather_r2.html'>mp_allgather_r2</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_r2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~57"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Datum to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~33"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~84"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r12"></span><h3>private  subroutine <a href='../proc/mp_allgather_r12.html'>mp_allgather_r12</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers vector data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_r12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~59"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:)</td>
-            <td>
-<p>Rank-1 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~35"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-msgin~24"></span>
+              integer(kind=int_8),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -1258,7 +764,504 @@ same data</p><a href="../proc/mp_allgather_r12.html" class="pull-right"><emph>Re
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r23"></span><h3>private  subroutine <a href='../proc/mp_allgather_r23.html'>mp_allgather_r23</a>(msgout, msgin, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l12"></span> <h3>private  subroutine <a href='../proc/mp_allgather_l12.html'>mp_allgather_l12</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers vector data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_l12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~26"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:)</td>
+            <td>
+<p>Rank-1 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~26"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~88"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l23"></span> <h3>private  subroutine <a href='../proc/mp_allgather_l23.html'>mp_allgather_l23</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers matrix data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_l23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~27"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~27"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~89"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l34"></span> <h3>private  subroutine <a href='../proc/mp_allgather_l34.html'>mp_allgather_l34</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-3 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_l34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~28"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:,:)</td>
+            <td>
+<p>Rank-3 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~28"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~90"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_l22"></span> <h3>private  subroutine <a href='../proc/mp_allgather_l22.html'>mp_allgather_l22</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-2 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_l22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~29"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~29"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~91"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r"></span> <h3>private  subroutine <a href='../proc/mp_allgather_r.html'>mp_allgather_r</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers a datum from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~63"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Datum to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~63"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~175"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r2"></span> <h3>private  subroutine <a href='../proc/mp_allgather_r2.html'>mp_allgather_r2</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers a datum from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_r2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~64"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Datum to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~64"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~176"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r12"></span> <h3>private  subroutine <a href='../proc/mp_allgather_r12.html'>mp_allgather_r12</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers vector data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_r12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~66"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:)</td>
+            <td>
+<p>Rank-1 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~66"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~178"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r23"></span> <h3>private  subroutine <a href='../proc/mp_allgather_r23.html'>mp_allgather_r23</a>(msgout, msgin, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1278,7 +1281,7 @@ same data</p><a href="../proc/mp_allgather_r23.html" class="pull-right"><emph>Re
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~60"></span>
+              <span class="anchor" id="variable-msgout~67"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -1293,7 +1296,7 @@ same data</p><a href="../proc/mp_allgather_r23.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~97"></span>
+              <span class="anchor" id="variable-msgin~67"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -1302,6 +1305,1355 @@ same data</p><a href="../proc/mp_allgather_r23.html" class="pull-right"><emph>Re
             </td>
             <td>::</td>
             <td><strong>msgin</strong>(:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~179"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r34"></span> <h3>private  subroutine <a href='../proc/mp_allgather_r34.html'>mp_allgather_r34</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-3 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_r34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~68"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:,:)</td>
+            <td>
+<p>Rank-3 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~68"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~180"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r22"></span> <h3>private  subroutine <a href='../proc/mp_allgather_r22.html'>mp_allgather_r22</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-2 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_r22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~69"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~69"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~181"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d"></span> <h3>private  subroutine <a href='../proc/mp_allgather_d.html'>mp_allgather_d</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers a datum from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~43"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Datum to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~43"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~130"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d2"></span> <h3>private  subroutine <a href='../proc/mp_allgather_d2.html'>mp_allgather_d2</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers a datum from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_d2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~44"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Datum to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~44"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~131"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d12"></span> <h3>private  subroutine <a href='../proc/mp_allgather_d12.html'>mp_allgather_d12</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers vector data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_d12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~46"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:)</td>
+            <td>
+<p>Rank-1 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~46"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~133"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d23"></span> <h3>private  subroutine <a href='../proc/mp_allgather_d23.html'>mp_allgather_d23</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers matrix data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_d23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~47"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~47"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~134"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d34"></span> <h3>private  subroutine <a href='../proc/mp_allgather_d34.html'>mp_allgather_d34</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-3 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_d34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~48"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:,:)</td>
+            <td>
+<p>Rank-3 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~48"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~135"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d22"></span> <h3>private  subroutine <a href='../proc/mp_allgather_d22.html'>mp_allgather_d22</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-2 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_d22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~49"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~49"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~136"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c"></span> <h3>private  subroutine <a href='../proc/mp_allgather_c.html'>mp_allgather_c</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers a datum from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~103"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Datum to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~103"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~265"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c2"></span> <h3>private  subroutine <a href='../proc/mp_allgather_c2.html'>mp_allgather_c2</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers a datum from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_c2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~104"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Datum to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~104"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~266"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c12"></span> <h3>private  subroutine <a href='../proc/mp_allgather_c12.html'>mp_allgather_c12</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers vector data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_c12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~106"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:)</td>
+            <td>
+<p>Rank-1 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~106"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~268"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c23"></span> <h3>private  subroutine <a href='../proc/mp_allgather_c23.html'>mp_allgather_c23</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers matrix data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_c23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~107"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~107"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~269"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c34"></span> <h3>private  subroutine <a href='../proc/mp_allgather_c34.html'>mp_allgather_c34</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-3 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_c34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~108"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:,:)</td>
+            <td>
+<p>Rank-3 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~108"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~270"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c22"></span> <h3>private  subroutine <a href='../proc/mp_allgather_c22.html'>mp_allgather_c22</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-2 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_c22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~109"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~109"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~271"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z"></span> <h3>private  subroutine <a href='../proc/mp_allgather_z.html'>mp_allgather_z</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers a datum from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~83"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Datum to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~83"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~220"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z2"></span> <h3>private  subroutine <a href='../proc/mp_allgather_z2.html'>mp_allgather_z2</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers a datum from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_z2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~84"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Datum to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~84"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~221"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z12"></span> <h3>private  subroutine <a href='../proc/mp_allgather_z12.html'>mp_allgather_z12</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers vector data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_z12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~86"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:)</td>
+            <td>
+<p>Rank-1 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~86"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~223"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z23"></span> <h3>private  subroutine <a href='../proc/mp_allgather_z23.html'>mp_allgather_z23</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers matrix data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_z23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~87"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:)</td>
+            <td>
+<p>Rank-2 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~87"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~224"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z34"></span> <h3>private  subroutine <a href='../proc/mp_allgather_z34.html'>mp_allgather_z34</a>(msgout, msgin, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers rank-3 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_z34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~88"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:,:,:)</td>
+            <td>
+<p>Rank-3 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~88"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:,:,:,:)</td>
             <td>
 
             </td>
@@ -1329,12 +2681,12 @@ same data</p><a href="../proc/mp_allgather_r23.html" class="pull-right"><emph>Re
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r34"></span><h3>private  subroutine <a href='../proc/mp_allgather_r34.html'>mp_allgather_r34</a>(msgout, msgin, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z22"></span> <h3>private  subroutine <a href='../proc/mp_allgather_z22.html'>mp_allgather_z22</a>(msgout, msgin, gid)  
 </h3></div>
     <div class="card-body">
           
-  <p>Gathers rank-3 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_r34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Gathers rank-2 data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgather_z22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1349,30 +2701,30 @@ same data</p><a href="../proc/mp_allgather_r34.html" class="pull-right"><emph>Re
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~61"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-msgout~89"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
               CONTIGUOUS
             </td>
             <td>::</td>
-            <td><strong>msgout</strong>(:,:,:)</td>
+            <td><strong>msgout</strong>(:,:)</td>
             <td>
-<p>Rank-3 data to send</p>
+<p>Rank-2 data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~98"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-msgin~89"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
               CONTIGUOUS
             </td>
             <td>::</td>
-            <td><strong>msgin</strong>(:,:,:,:)</td>
+            <td><strong>msgin</strong>(:,:)</td>
             <td>
 
             </td>
@@ -1400,1356 +2752,7 @@ same data</p><a href="../proc/mp_allgather_r34.html" class="pull-right"><emph>Re
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_r22"></span><h3>private  subroutine <a href='../proc/mp_allgather_r22.html'>mp_allgather_r22</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-2 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_r22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~62"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~99"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~227"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d"></span><h3>private  subroutine <a href='../proc/mp_allgather_d.html'>mp_allgather_d</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~38"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Datum to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~22"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~62"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d2"></span><h3>private  subroutine <a href='../proc/mp_allgather_d2.html'>mp_allgather_d2</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_d2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~39"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Datum to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~23"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~63"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d12"></span><h3>private  subroutine <a href='../proc/mp_allgather_d12.html'>mp_allgather_d12</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers vector data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_d12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~41"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:)</td>
-            <td>
-<p>Rank-1 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~25"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~65"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d23"></span><h3>private  subroutine <a href='../proc/mp_allgather_d23.html'>mp_allgather_d23</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers matrix data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_d23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~42"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~87"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~201"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d34"></span><h3>private  subroutine <a href='../proc/mp_allgather_d34.html'>mp_allgather_d34</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-3 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_d34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~43"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:,:)</td>
-            <td>
-<p>Rank-3 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~88"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~202"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_d22"></span><h3>private  subroutine <a href='../proc/mp_allgather_d22.html'>mp_allgather_d22</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-2 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_d22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~44"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~89"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~203"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c"></span><h3>private  subroutine <a href='../proc/mp_allgather_c.html'>mp_allgather_c</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~92"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Datum to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~52"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~125"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c2"></span><h3>private  subroutine <a href='../proc/mp_allgather_c2.html'>mp_allgather_c2</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_c2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~93"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Datum to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~53"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~126"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c12"></span><h3>private  subroutine <a href='../proc/mp_allgather_c12.html'>mp_allgather_c12</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers vector data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_c12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~95"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:)</td>
-            <td>
-<p>Rank-1 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~55"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~128"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c23"></span><h3>private  subroutine <a href='../proc/mp_allgather_c23.html'>mp_allgather_c23</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers matrix data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_c23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~96"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~117"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~273"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c34"></span><h3>private  subroutine <a href='../proc/mp_allgather_c34.html'>mp_allgather_c34</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-3 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_c34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~97"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:,:)</td>
-            <td>
-<p>Rank-3 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~118"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~274"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_c22"></span><h3>private  subroutine <a href='../proc/mp_allgather_c22.html'>mp_allgather_c22</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-2 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_c22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~98"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~119"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~275"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z"></span><h3>private  subroutine <a href='../proc/mp_allgather_z.html'>mp_allgather_z</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~74"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Datum to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~42"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~104"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z2"></span><h3>private  subroutine <a href='../proc/mp_allgather_z2.html'>mp_allgather_z2</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers a datum from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_z2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~75"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Datum to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~43"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~105"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z12"></span><h3>private  subroutine <a href='../proc/mp_allgather_z12.html'>mp_allgather_z12</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers vector data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_z12.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~77"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:)</td>
-            <td>
-<p>Rank-1 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~45"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~107"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z23"></span><h3>private  subroutine <a href='../proc/mp_allgather_z23.html'>mp_allgather_z23</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers matrix data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_z23.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~78"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~107"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~249"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z34"></span><h3>private  subroutine <a href='../proc/mp_allgather_z34.html'>mp_allgather_z34</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-3 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_z34.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~79"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:,:)</td>
-            <td>
-<p>Rank-3 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~108"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~250"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgather_z22"></span><h3>private  subroutine <a href='../proc/mp_allgather_z22.html'>mp_allgather_z22</a>(msgout, msgin, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers rank-2 data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgather_z22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~80"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:,:)</td>
-            <td>
-<p>Rank-2 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~109"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~251"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_iv"></span><h3>private  subroutine <a href='../proc/mp_allgatherv_iv.html'>mp_allgatherv_iv</a>(msgout, msgin, rcount, rdispl, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_iv"></span> <h3>private  subroutine <a href='../proc/mp_allgatherv_iv.html'>mp_allgatherv_iv</a>(msgout, msgin, rcount, rdispl, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2769,7 +2772,7 @@ same data</p><a href="../proc/mp_allgatherv_iv.html" class="pull-right"><emph>Re
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~14"></span>
+              <span class="anchor" id="variable-msgout~15"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in),</td>
@@ -2784,7 +2787,7 @@ same data</p><a href="../proc/mp_allgatherv_iv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~6"></span>
+              <span class="anchor" id="variable-msgin~15"></span>
               integer(kind=int_4),
             </td>
 <td>intent(out),</td>
@@ -2799,7 +2802,7 @@ same data</p><a href="../proc/mp_allgatherv_iv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~13"></span>
+              <span class="anchor" id="variable-rcount~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2814,7 +2817,7 @@ same data</p><a href="../proc/mp_allgatherv_iv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~13"></span>
+              <span class="anchor" id="variable-rdispl~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2829,7 +2832,7 @@ same data</p><a href="../proc/mp_allgatherv_iv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~24"></span>
+              <span class="anchor" id="variable-gid~52"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2852,7 +2855,7 @@ Message passing environment identifier</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_lv"></span><h3>private  subroutine <a href='../proc/mp_allgatherv_lv.html'>mp_allgatherv_lv</a>(msgout, msgin, rcount, rdispl, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_lv"></span> <h3>private  subroutine <a href='../proc/mp_allgatherv_lv.html'>mp_allgatherv_lv</a>(msgout, msgin, rcount, rdispl, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2872,7 +2875,7 @@ same data</p><a href="../proc/mp_allgatherv_lv.html" class="pull-right"><emph>Re
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~32"></span>
+              <span class="anchor" id="variable-msgout~35"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
@@ -2887,7 +2890,7 @@ same data</p><a href="../proc/mp_allgatherv_lv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~16"></span>
+              <span class="anchor" id="variable-msgin~35"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -2902,7 +2905,7 @@ same data</p><a href="../proc/mp_allgatherv_lv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~16"></span>
+              <span class="anchor" id="variable-rcount~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2917,7 +2920,7 @@ same data</p><a href="../proc/mp_allgatherv_lv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~16"></span>
+              <span class="anchor" id="variable-rdispl~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2932,7 +2935,7 @@ same data</p><a href="../proc/mp_allgatherv_lv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~45"></span>
+              <span class="anchor" id="variable-gid~97"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2955,7 +2958,7 @@ Message passing environment identifier</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_rv"></span><h3>private  subroutine <a href='../proc/mp_allgatherv_rv.html'>mp_allgatherv_rv</a>(msgout, msgin, rcount, rdispl, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_rv"></span> <h3>private  subroutine <a href='../proc/mp_allgatherv_rv.html'>mp_allgatherv_rv</a>(msgout, msgin, rcount, rdispl, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2975,7 +2978,7 @@ same data</p><a href="../proc/mp_allgatherv_rv.html" class="pull-right"><emph>Re
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~68"></span>
+              <span class="anchor" id="variable-msgout~75"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -2990,8 +2993,214 @@ same data</p><a href="../proc/mp_allgatherv_rv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~36"></span>
+              <span class="anchor" id="variable-msgin~75"></span>
               real(kind=real_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcount~14"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rcount</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rdispl~14"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rdispl</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~187"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Size of sent data for every process
+Offset of sent data for every process
+Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_dv"></span> <h3>private  subroutine <a href='../proc/mp_allgatherv_dv.html'>mp_allgatherv_dv</a>(msgout, msgin, rcount, rdispl, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers vector data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgatherv_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~55"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:)</td>
+            <td>
+<p>Rank-1 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~55"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong>(:)</td>
+            <td>
+<p>Received data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcount~10"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rcount</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rdispl~10"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rdispl</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~142"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Size of sent data for every process
+Offset of sent data for every process
+Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_cv"></span> <h3>private  subroutine <a href='../proc/mp_allgatherv_cv.html'>mp_allgatherv_cv</a>(msgout, msgin, rcount, rdispl, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gathers vector data from all processes and all processes receive the
+same data</p><a href="../proc/mp_allgatherv_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~115"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong>(:)</td>
+            <td>
+<p>Rank-1 data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~115"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -3035,7 +3244,7 @@ same data</p><a href="../proc/mp_allgatherv_rv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~87"></span>
+              <span class="anchor" id="variable-gid~277"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3058,213 +3267,7 @@ Message passing environment identifier</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_dv"></span><h3>private  subroutine <a href='../proc/mp_allgatherv_dv.html'>mp_allgatherv_dv</a>(msgout, msgin, rcount, rdispl, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers vector data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgatherv_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~50"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:)</td>
-            <td>
-<p>Rank-1 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~26"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rcount~19"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rcount</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rdispl~19"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rdispl</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~66"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Size of sent data for every process
-Offset of sent data for every process
-Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_cv"></span><h3>private  subroutine <a href='../proc/mp_allgatherv_cv.html'>mp_allgatherv_cv</a>(msgout, msgin, rcount, rdispl, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gathers vector data from all processes and all processes receive the
-same data</p><a href="../proc/mp_allgatherv_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~104"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong>(:)</td>
-            <td>
-<p>Rank-1 data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~56"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong>(:)</td>
-            <td>
-<p>Received data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rcount~28"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rcount</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rdispl~28"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rdispl</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~129"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Size of sent data for every process
-Offset of sent data for every process
-Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_zv"></span><h3>private  subroutine <a href='../proc/mp_allgatherv_zv.html'>mp_allgatherv_zv</a>(msgout, msgin, rcount, rdispl, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allgatherv_zv"></span> <h3>private  subroutine <a href='../proc/mp_allgatherv_zv.html'>mp_allgatherv_zv</a>(msgout, msgin, rcount, rdispl, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -3284,7 +3287,7 @@ same data</p><a href="../proc/mp_allgatherv_zv.html" class="pull-right"><emph>Re
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~86"></span>
+              <span class="anchor" id="variable-msgout~95"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -3299,7 +3302,7 @@ same data</p><a href="../proc/mp_allgatherv_zv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~46"></span>
+              <span class="anchor" id="variable-msgin~95"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -3314,7 +3317,7 @@ same data</p><a href="../proc/mp_allgatherv_zv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~25"></span>
+              <span class="anchor" id="variable-rcount~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3329,7 +3332,7 @@ same data</p><a href="../proc/mp_allgatherv_zv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~25"></span>
+              <span class="anchor" id="variable-rdispl~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3344,7 +3347,7 @@ same data</p><a href="../proc/mp_allgatherv_zv.html" class="pull-right"><emph>Re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~108"></span>
+              <span class="anchor" id="variable-gid~232"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>

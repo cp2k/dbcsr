@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -153,131 +156,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_copy_aa2"></span><h3>private  subroutine <a href='../proc/dbcsr_data_copy_aa2.html'>dbcsr_data_copy_aa2</a>(dst, dst_lb, dst_sizes, src, src_lb, src_sizes)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_copy_aa2"></span> <h3>private  subroutine <a href='../proc/dbcsr_data_copy_aa2.html'>dbcsr_data_copy_aa2</a>(dst, dst_lb, dst_sizes, src, src_lb, src_sizes)  
 </h3></div>
     <div class="card-body">
           
   <p>Copy data from one data area to another, the most basic form.
-There are no checks done for correctness!</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dst~4"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dst</strong></td>
-            <td>
-<p>destination data area</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dst_lb"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>dst_lb</strong></td>
-            <td>
-<p>lower bounds for destination
-sizes for destination</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dst_sizes~2"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>dst_sizes</strong></td>
-            <td>
-<p>lower bounds for destination
-sizes for destination</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-src~4"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>src</strong></td>
-            <td>
-<p>source data area</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-src_lb"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>src_lb</strong></td>
-            <td>
-<p>lower bounds for source
-sizes for source</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-src_sizes~2"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>src_sizes</strong></td>
-            <td>
-<p>lower bounds for source
-sizes for source</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_set_as"></span><h3>private  subroutine <a href='../proc/dbcsr_data_set_as.html'>dbcsr_data_set_as</a>(dst, lb, data_size, src, source_lb)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Copy data from a double real array to a data area
 There are no checks done for correctness!</p>
 
   <h4>Arguments</h4>
@@ -308,7 +191,127 @@ There are no checks done for correctness!</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~9"></span>
+              <span class="anchor" id="variable-dst_lb"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>dst_lb</strong></td>
+            <td>
+<p>lower bounds for destination
+sizes for destination</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst_sizes"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>dst_sizes</strong></td>
+            <td>
+<p>lower bounds for destination
+sizes for destination</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-src~5"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>src</strong></td>
+            <td>
+<p>source data area</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-src_lb"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>src_lb</strong></td>
+            <td>
+<p>lower bounds for source
+sizes for source</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-src_sizes"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>src_sizes</strong></td>
+            <td>
+<p>lower bounds for source
+sizes for source</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_set_as"></span> <h3>private  subroutine <a href='../proc/dbcsr_data_set_as.html'>dbcsr_data_set_as</a>(dst, lb, data_size, src, source_lb)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Copy data from a double real array to a data area
+There are no checks done for correctness!</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst~18"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dst</strong></td>
+            <td>
+<p>destination data area</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -324,7 +327,7 @@ number of elements to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size~5"></span>
+              <span class="anchor" id="variable-data_size~9"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -340,7 +343,7 @@ number of elements to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~7"></span>
+              <span class="anchor" id="variable-src~16"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -376,7 +379,7 @@ number of elements to copy</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_set_ad"></span><h3>private  subroutine <a href='../proc/dbcsr_data_set_ad.html'>dbcsr_data_set_ad</a>(dst, lb, data_size, src, source_lb)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_set_ad"></span> <h3>private  subroutine <a href='../proc/dbcsr_data_set_ad.html'>dbcsr_data_set_ad</a>(dst, lb, data_size, src, source_lb)  
 </h3></div>
     <div class="card-body">
           
@@ -396,7 +399,7 @@ There are no checks done for correctness!</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~6"></span>
+              <span class="anchor" id="variable-dst~13"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -411,7 +414,7 @@ There are no checks done for correctness!</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~8"></span>
+              <span class="anchor" id="variable-lb~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -427,7 +430,7 @@ number of elements to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size~4"></span>
+              <span class="anchor" id="variable-data_size~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -443,7 +446,7 @@ number of elements to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~6"></span>
+              <span class="anchor" id="variable-src~11"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -479,7 +482,7 @@ number of elements to copy</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_set_ac"></span><h3>private  subroutine <a href='../proc/dbcsr_data_set_ac.html'>dbcsr_data_set_ac</a>(dst, lb, data_size, src, source_lb)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_set_ac"></span> <h3>private  subroutine <a href='../proc/dbcsr_data_set_ac.html'>dbcsr_data_set_ac</a>(dst, lb, data_size, src, source_lb)  
 </h3></div>
     <div class="card-body">
           
@@ -499,7 +502,7 @@ There are no checks done for correctness!</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~9"></span>
+              <span class="anchor" id="variable-dst~28"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -514,7 +517,7 @@ There are no checks done for correctness!</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~11"></span>
+              <span class="anchor" id="variable-lb~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -530,7 +533,7 @@ number of elements to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size~7"></span>
+              <span class="anchor" id="variable-data_size~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -546,7 +549,7 @@ number of elements to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~9"></span>
+              <span class="anchor" id="variable-src~26"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -582,7 +585,7 @@ number of elements to copy</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_set_az"></span><h3>private  subroutine <a href='../proc/dbcsr_data_set_az.html'>dbcsr_data_set_az</a>(dst, lb, data_size, src, source_lb)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_set_az"></span> <h3>private  subroutine <a href='../proc/dbcsr_data_set_az.html'>dbcsr_data_set_az</a>(dst, lb, data_size, src, source_lb)  
 </h3></div>
     <div class="card-body">
           
@@ -602,7 +605,7 @@ There are no checks done for correctness!</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~8"></span>
+              <span class="anchor" id="variable-dst~23"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -617,7 +620,7 @@ There are no checks done for correctness!</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~10"></span>
+              <span class="anchor" id="variable-lb~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -633,7 +636,7 @@ number of elements to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size~6"></span>
+              <span class="anchor" id="variable-data_size~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -649,7 +652,7 @@ number of elements to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~8"></span>
+              <span class="anchor" id="variable-src~21"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>

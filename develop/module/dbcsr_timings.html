@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_timings.html#variable-modulen~17">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_timings.html#variable-modulen~2">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_timings.html#variable-timers_stack">timers_stack</a>
             <a class="list-group-item" href="../module/dbcsr_timings.html#variable-default_timings_level">default_timings_level</a>
             <a class="list-group-item" href="../module/dbcsr_timings.html#variable-global_timings_level">global_timings_level</a>
@@ -183,17 +186,17 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_hip_profiling.html'>dbcsr_hip_profiling</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_cuda_profiling.html'>dbcsr_cuda_profiling</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_list.html'>dbcsr_list</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_timings_types.html'>dbcsr_timings_types</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_timings_types.html'>dbcsr_timings_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_list.html'>dbcsr_list</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_machine.html'>dbcsr_machine</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dict.html'>dbcsr_dict</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_hip_profiling.html'>dbcsr_hip_profiling</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_cuda_profiling.html'>dbcsr_cuda_profiling</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
               </ul>
             </li>
         </ul>
@@ -218,7 +221,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~17"></span>
+              <span class="anchor" id="variable-modulen~2"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -297,7 +300,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_timer_env"></span><h3>public  function <a href='../proc/get_timer_env.html'>get_timer_env</a>() result(timer_env)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_timer_env"></span> <h3>public  function <a href='../proc/get_timer_env.html'>get_timer_env</a>() result(timer_env)  
 </h3></div>
     <div class="card-body">
           
@@ -315,7 +318,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-routine_name2id"></span><h3>private  function <a href='../proc/routine_name2id.html'>routine_name2id</a>(routineN) result(routine_id)  
+    <div class="card-header codesum"><span class="anchor" id="proc-routine_name2id"></span> <h3>private  function <a href='../proc/routine_name2id.html'>routine_name2id</a>(routineN) result(routine_id)  
 </h3></div>
     <div class="card-body">
           
@@ -336,7 +339,7 @@ then a new entry is created.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-routinen~4"></span>
+              <span class="anchor" id="variable-routinen~2"></span>
               character(len=default_string_length),
             </td>
 <td>intent(in)</td>
@@ -367,7 +370,7 @@ then a new entry is created.</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timings_register_hooks"></span><h3>public  subroutine <a href='../proc/timings_register_hooks.html'>timings_register_hooks</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-timings_register_hooks"></span> <h3>public  subroutine <a href='../proc/timings_register_hooks.html'>timings_register_hooks</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -380,7 +383,7 @@ then a new entry is created.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-add_timer_env"></span><h3>public  subroutine <a href='../proc/add_timer_env.html'>add_timer_env</a>(timer_env)  
+    <div class="card-header codesum"><span class="anchor" id="proc-add_timer_env"></span> <h3>public  subroutine <a href='../proc/add_timer_env.html'>add_timer_env</a>(timer_env)  
 </h3></div>
     <div class="card-body">
           
@@ -399,7 +402,7 @@ then a new entry is created.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-timer_env~4"></span>
+              <span class="anchor" id="variable-timer_env"></span>
               type(<a href='../type/timer_env_type.html'>timer_env_type</a>),
             </td>
 <td></td>
@@ -420,104 +423,11 @@ then a new entry is created.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timer_env_create"></span><h3>private  subroutine <a href='../proc/timer_env_create.html'>timer_env_create</a>(timer_env)  
+    <div class="card-header codesum"><span class="anchor" id="proc-timer_env_create"></span> <h3>private  subroutine <a href='../proc/timer_env_create.html'>timer_env_create</a>(timer_env)  
 </h3></div>
     <div class="card-body">
           
   <p>creates a new timer env</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-timer_env~5"></span>
-              type(<a href='../type/timer_env_type.html'>timer_env_type</a>),
-            </td>
-<td></td>
-              <td></td>            <td>
-              POINTER
-            </td>
-            <td>::</td>
-            <td><strong>timer_env</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-rm_timer_env"></span><h3>public  subroutine <a href='../proc/rm_timer_env.html'>rm_timer_env</a>()  
-</h3></div>
-    <div class="card-body">
-          
-  <p>removes the current timer env from the stack</p><a href="../proc/rm_timer_env.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-    <em>None</em>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timer_env_retain"></span><h3>public  subroutine <a href='../proc/timer_env_retain.html'>timer_env_retain</a>(timer_env)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>retains the given timer env</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-timer_env"></span>
-              type(<a href='../type/timer_env_type.html'>timer_env_type</a>),
-            </td>
-<td></td>
-              <td></td>            <td>
-              POINTER
-            </td>
-            <td>::</td>
-            <td><strong>timer_env</strong></td>
-            <td>
-<p>the timer env to retain</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timer_env_release"></span><h3>public  subroutine <a href='../proc/timer_env_release.html'>timer_env_release</a>(timer_env)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>releases the given timer env</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -542,6 +452,99 @@ then a new entry is created.</p>
             <td>::</td>
             <td><strong>timer_env</strong></td>
             <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-rm_timer_env"></span> <h3>public  subroutine <a href='../proc/rm_timer_env.html'>rm_timer_env</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  <p>removes the current timer env from the stack</p><a href="../proc/rm_timer_env.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-timer_env_retain"></span> <h3>public  subroutine <a href='../proc/timer_env_retain.html'>timer_env_retain</a>(timer_env)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>retains the given timer env</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-timer_env~5"></span>
+              type(<a href='../type/timer_env_type.html'>timer_env_type</a>),
+            </td>
+<td></td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>timer_env</strong></td>
+            <td>
+<p>the timer env to retain</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-timer_env_release"></span> <h3>public  subroutine <a href='../proc/timer_env_release.html'>timer_env_release</a>(timer_env)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>releases the given timer env</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-timer_env~6"></span>
+              type(<a href='../type/timer_env_type.html'>timer_env_type</a>),
+            </td>
+<td></td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>timer_env</strong></td>
+            <td>
 <p>the timer env to release</p>
             </td>
         </tr>
@@ -553,7 +556,7 @@ then a new entry is created.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timeset_handler"></span><h3>public  subroutine <a href='../proc/timeset_handler.html'>timeset_handler</a>(routineN, handle)  
+    <div class="card-header codesum"><span class="anchor" id="proc-timeset_handler"></span> <h3>public  subroutine <a href='../proc/timeset_handler.html'>timeset_handler</a>(routineN, handle)  
 </h3></div>
     <div class="card-body">
           
@@ -572,7 +575,7 @@ then a new entry is created.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-routinen~5"></span>
+              <span class="anchor" id="variable-routinen"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -587,7 +590,7 @@ then a new entry is created.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~11"></span>
+              <span class="anchor" id="variable-handle"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -608,7 +611,7 @@ then a new entry is created.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timestop_handler"></span><h3>public  subroutine <a href='../proc/timestop_handler.html'>timestop_handler</a>(handle)  
+    <div class="card-header codesum"><span class="anchor" id="proc-timestop_handler"></span> <h3>public  subroutine <a href='../proc/timestop_handler.html'>timestop_handler</a>(handle)  
 </h3></div>
     <div class="card-body">
           
@@ -627,7 +630,7 @@ then a new entry is created.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~12"></span>
+              <span class="anchor" id="variable-handle~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -648,7 +651,7 @@ then a new entry is created.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timings_setup_tracing"></span><h3>public  subroutine <a href='../proc/timings_setup_tracing.html'>timings_setup_tracing</a>(trace_max, unit_nr, trace_str, routine_names)  
+    <div class="card-header codesum"><span class="anchor" id="proc-timings_setup_tracing"></span> <h3>public  subroutine <a href='../proc/timings_setup_tracing.html'>timings_setup_tracing</a>(trace_max, unit_nr, trace_str, routine_names)  
 </h3></div>
     <div class="card-body">
           
@@ -683,7 +686,7 @@ output unit used for printing the trace-messages</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~2"></span>
+              <span class="anchor" id="variable-unit_nr~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -735,7 +738,7 @@ output unit used for printing the trace-messages</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-print_stack"></span><h3>public  subroutine <a href='../proc/print_stack.html'>print_stack</a>(unit_nr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-print_stack"></span> <h3>public  subroutine <a href='../proc/print_stack.html'>print_stack</a>(unit_nr)  
 </h3></div>
     <div class="card-body">
           
@@ -754,7 +757,7 @@ output unit used for printing the trace-messages</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~15"></span>
+              <span class="anchor" id="variable-unit_nr~4"></span>
               integer,
             </td>
 <td>intent(in)</td>

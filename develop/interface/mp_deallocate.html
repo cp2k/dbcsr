@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -154,7 +157,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_i"></span><h3>private  subroutine <a href='../proc/mp_deallocate_i.html'>mp_deallocate_i</a>(DATA, stat)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_i"></span> <h3>private  subroutine <a href='../proc/mp_deallocate_i.html'>mp_deallocate_i</a>(DATA, stat)  
 </h3></div>
     <div class="card-body">
           
@@ -173,173 +176,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~3"></span>
+              <span class="anchor" id="variable-data~19"></span>
               integer(kind=int_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>DATA</strong></td>
-            <td>
-<p>pointer to special memory to deallocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-stat~8"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>stat</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_l"></span><h3>private  subroutine <a href='../proc/mp_deallocate_l.html'>mp_deallocate_l</a>(DATA, stat)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocates special parallel memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-data~5"></span>
-              integer(kind=int_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>DATA</strong></td>
-            <td>
-<p>pointer to special memory to deallocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-stat~9"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>stat</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_d"></span><h3>private  subroutine <a href='../proc/mp_deallocate_d.html'>mp_deallocate_d</a>(DATA, stat)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocates special parallel memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-data~7"></span>
-              real(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>DATA</strong></td>
-            <td>
-<p>pointer to special memory to deallocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-stat~10"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>stat</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_r"></span><h3>private  subroutine <a href='../proc/mp_deallocate_r.html'>mp_deallocate_r</a>(DATA, stat)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocates special parallel memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-data~9"></span>
-              real(kind=real_4),
             </td>
 <td></td>
               <td></td>            <td>
@@ -374,7 +212,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_z"></span><h3>private  subroutine <a href='../proc/mp_deallocate_z.html'>mp_deallocate_z</a>(DATA, stat)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_l"></span> <h3>private  subroutine <a href='../proc/mp_deallocate_l.html'>mp_deallocate_l</a>(DATA, stat)  
 </h3></div>
     <div class="card-body">
           
@@ -393,8 +231,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~11"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-data~21"></span>
+              integer(kind=int_8),
             </td>
 <td></td>
               <td></td>            <td>
@@ -408,7 +246,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~12"></span>
+              <span class="anchor" id="variable-stat~13"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -429,7 +267,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_c"></span><h3>private  subroutine <a href='../proc/mp_deallocate_c.html'>mp_deallocate_c</a>(DATA, stat)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_d"></span> <h3>private  subroutine <a href='../proc/mp_deallocate_d.html'>mp_deallocate_d</a>(DATA, stat)  
 </h3></div>
     <div class="card-body">
           
@@ -448,7 +286,172 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~13"></span>
+              <span class="anchor" id="variable-data~23"></span>
+              real(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>DATA</strong></td>
+            <td>
+<p>pointer to special memory to deallocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~15"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_r"></span> <h3>private  subroutine <a href='../proc/mp_deallocate_r.html'>mp_deallocate_r</a>(DATA, stat)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates special parallel memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data~25"></span>
+              real(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>DATA</strong></td>
+            <td>
+<p>pointer to special memory to deallocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~17"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_z"></span> <h3>private  subroutine <a href='../proc/mp_deallocate_z.html'>mp_deallocate_z</a>(DATA, stat)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates special parallel memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data~27"></span>
+              complex(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>DATA</strong></td>
+            <td>
+<p>pointer to special memory to deallocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~19"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_deallocate_c"></span> <h3>private  subroutine <a href='../proc/mp_deallocate_c.html'>mp_deallocate_c</a>(DATA, stat)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates special parallel memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data~29"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -463,7 +466,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~13"></span>
+              <span class="anchor" id="variable-stat~21"></span>
               integer,
             </td>
 <td>intent(out),</td>

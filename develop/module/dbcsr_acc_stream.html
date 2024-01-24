@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_acc_stream.html#variable-modulen~28">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_acc_stream.html#variable-modulen~61">moduleN</a>
         </div>
       </div>
     </div>
@@ -186,9 +189,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -213,7 +216,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~28"></span>
+              <span class="anchor" id="variable-modulen~61"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -294,7 +297,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_cptr"></span><h3>public  function <a href='../proc/acc_stream_cptr.html'>acc_stream_cptr</a>(this) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_cptr"></span> <h3>public  function <a href='../proc/acc_stream_cptr.html'>acc_stream_cptr</a>(this) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -313,7 +316,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~3"></span>
+              <span class="anchor" id="variable-this~53"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -339,7 +342,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_equal"></span><h3>public  function <a href='../proc/acc_stream_equal.html'>acc_stream_equal</a>(this, other) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_equal"></span> <h3>public  function <a href='../proc/acc_stream_equal.html'>acc_stream_equal</a>(this, other) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -358,7 +361,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~46"></span>
+              <span class="anchor" id="variable-this~57"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td>intent(in)</td>
@@ -399,7 +402,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_associated"></span><h3>public  function <a href='../proc/acc_stream_associated.html'>acc_stream_associated</a>(this) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_associated"></span> <h3>public  function <a href='../proc/acc_stream_associated.html'>acc_stream_associated</a>(this) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -418,7 +421,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~47"></span>
+              <span class="anchor" id="variable-this~58"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td>intent(in)</td>
@@ -449,7 +452,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_create"></span><h3>public  subroutine <a href='../proc/acc_stream_create.html'>acc_stream_create</a>(this, name, priority)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_create"></span> <h3>public  subroutine <a href='../proc/acc_stream_create.html'>acc_stream_create</a>(this, name, priority)  
 </h3></div>
     <div class="card-body">
           
@@ -468,7 +471,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~48"></span>
+              <span class="anchor" id="variable-this~54"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td>intent(out)</td>
@@ -483,7 +486,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~19"></span>
+              <span class="anchor" id="variable-name~32"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -498,7 +501,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-priority"></span>
+              <span class="anchor" id="variable-priority~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -519,7 +522,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_destroy"></span><h3>public  subroutine <a href='../proc/acc_stream_destroy.html'>acc_stream_destroy</a>(this)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_destroy"></span> <h3>public  subroutine <a href='../proc/acc_stream_destroy.html'>acc_stream_destroy</a>(this)  
 </h3></div>
     <div class="card-body">
           
@@ -538,7 +541,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~49"></span>
+              <span class="anchor" id="variable-this~55"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -559,7 +562,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_synchronize"></span><h3>public  subroutine <a href='../proc/acc_stream_synchronize.html'>acc_stream_synchronize</a>(this)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_synchronize"></span> <h3>public  subroutine <a href='../proc/acc_stream_synchronize.html'>acc_stream_synchronize</a>(this)  
 </h3></div>
     <div class="card-body">
           
@@ -578,7 +581,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~50"></span>
+              <span class="anchor" id="variable-this~56"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td>intent(in)</td>
@@ -599,7 +602,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_priority_range"></span><h3>public  subroutine <a href='../proc/acc_stream_priority_range.html'>acc_stream_priority_range</a>(least, greatest)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_priority_range"></span> <h3>public  subroutine <a href='../proc/acc_stream_priority_range.html'>acc_stream_priority_range</a>(least, greatest)  
 </h3></div>
     <div class="card-body">
           
@@ -618,7 +621,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-least"></span>
+              <span class="anchor" id="variable-least~2"></span>
               integer,
             </td>
 <td>intent(out)</td>

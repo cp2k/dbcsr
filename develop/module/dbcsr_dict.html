@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_dict.html#variable-modulen~66">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_dict.html#variable-modulen~58">moduleN</a>
         </div>
       </div>
     </div>
@@ -227,9 +230,9 @@ This ensures that the dictionary will perform operations in O(1).</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -254,7 +257,7 @@ This ensures that the dictionary will perform operations in O(1).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~66"></span>
+              <span class="anchor" id="variable-modulen~58"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -306,7 +309,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~9"></span>
+              <span class="anchor" id="variable-dict"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -321,7 +324,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initial_capacity~5"></span>
+              <span class="anchor" id="variable-initial_capacity~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -360,7 +363,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~14"></span>
+              <span class="anchor" id="variable-dict~10"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -375,7 +378,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initial_capacity~6"></span>
+              <span class="anchor" id="variable-initial_capacity~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -424,7 +427,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~3"></span>
+              <span class="anchor" id="variable-dict~8"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -439,7 +442,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~15"></span>
+              <span class="anchor" id="variable-key~65"></span>
               character(len=default_string_length)
             </td>
 <td></td>
@@ -483,7 +486,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~7"></span>
+              <span class="anchor" id="variable-dict~17"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -498,7 +501,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~17"></span>
+              <span class="anchor" id="variable-key~69"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -552,7 +555,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~11"></span>
+              <span class="anchor" id="variable-dict~3"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -567,7 +570,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~18"></span>
+              <span class="anchor" id="variable-key~62"></span>
               character(len=default_string_length),
             </td>
 <td>intent(in)</td>
@@ -582,7 +585,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~49"></span>
+              <span class="anchor" id="variable-value~63"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in)</td>
@@ -621,7 +624,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~16"></span>
+              <span class="anchor" id="variable-dict~12"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -636,7 +639,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~20"></span>
+              <span class="anchor" id="variable-key~66"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in),</td>
@@ -651,7 +654,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~51"></span>
+              <span class="anchor" id="variable-value~66"></span>
               type(<a href='../type/call_stat_type.html'>call_stat_type</a>),
             </td>
 <td>intent(in),</td>
@@ -702,7 +705,7 @@ If the key is not found and default_value was not provided the program stops.</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict"></span>
+              <span class="anchor" id="variable-dict~6"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -717,7 +720,7 @@ If the key is not found and default_value was not provided the program stops.</p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~14"></span>
+              <span class="anchor" id="variable-key~64"></span>
               character(len=default_string_length)
             </td>
 <td></td>
@@ -778,7 +781,7 @@ If the key is not found and default_value was not provided the program stops.</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~5"></span>
+              <span class="anchor" id="variable-dict~15"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -793,7 +796,7 @@ If the key is not found and default_value was not provided the program stops.</p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~16"></span>
+              <span class="anchor" id="variable-key~68"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -863,7 +866,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~4"></span>
+              <span class="anchor" id="variable-dict~9"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -908,7 +911,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~8"></span>
+              <span class="anchor" id="variable-dict~18"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -962,7 +965,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~2"></span>
+              <span class="anchor" id="variable-dict~7"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1006,7 +1009,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~6"></span>
+              <span class="anchor" id="variable-dict~16"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1062,7 +1065,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~10"></span>
+              <span class="anchor" id="variable-dict~2"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1103,7 +1106,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~15"></span>
+              <span class="anchor" id="variable-dict~11"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1155,7 +1158,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~3"></span>
+              <span class="anchor" id="variable-key~56"></span>
               character(len=default_string_length),
             </td>
               <td>private</td>
@@ -1172,7 +1175,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~11"></span>
+              <span class="anchor" id="variable-value~59"></span>
               integer(kind=int_4),
             </td>
               <td>private</td>
@@ -1189,7 +1192,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hash"></span>
+              <span class="anchor" id="variable-hash~2"></span>
               integer(kind=int_8),
             </td>
               <td>private</td>
@@ -1255,7 +1258,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~18"></span>
+              <span class="anchor" id="variable-p~41"></span>
               type(<a href='../type/private_item_type_str_i4.html'>private_item_type_str_i4</a>),
             </td>
               <td>private,</td>
@@ -1321,7 +1324,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-size~5"></span>
+              <span class="anchor" id="variable-size~6"></span>
               integer,
             </td>
               <td>private</td>
@@ -1370,7 +1373,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~4"></span>
+              <span class="anchor" id="variable-key~57"></span>
               character(len=default_string_length),
             </td>
               <td>public</td>
@@ -1387,7 +1390,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~12"></span>
+              <span class="anchor" id="variable-value~60"></span>
               integer(kind=int_4),
             </td>
               <td>public</td>
@@ -1436,7 +1439,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~5"></span>
+              <span class="anchor" id="variable-key~58"></span>
               integer(kind=int_4),
             </td>
               <td>private,</td>
@@ -1453,7 +1456,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~13"></span>
+              <span class="anchor" id="variable-value~61"></span>
               type(<a href='../type/call_stat_type.html'>call_stat_type</a>),
             </td>
               <td>private,</td>
@@ -1470,7 +1473,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hash~2"></span>
+              <span class="anchor" id="variable-hash~3"></span>
               integer(kind=int_8),
             </td>
               <td>private</td>
@@ -1536,7 +1539,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~19"></span>
+              <span class="anchor" id="variable-p~42"></span>
               type(<a href='../type/private_item_type_i4tuple_callstat.html'>private_item_type_i4tuple_callstat</a>),
             </td>
               <td>private,</td>
@@ -1602,7 +1605,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-size~6"></span>
+              <span class="anchor" id="variable-size~7"></span>
               integer,
             </td>
               <td>private</td>
@@ -1651,7 +1654,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~6"></span>
+              <span class="anchor" id="variable-key~59"></span>
               integer(kind=int_4),
             </td>
               <td>public,</td>
@@ -1668,7 +1671,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~14"></span>
+              <span class="anchor" id="variable-value~62"></span>
               type(<a href='../type/call_stat_type.html'>call_stat_type</a>),
             </td>
               <td>public,</td>
@@ -1698,7 +1701,7 @@ not get deallocated by this routine.</p>
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hash_str"></span><h3>private  function <a href='../proc/hash_str.html'>hash_str</a>(key) result(hash)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hash_str"></span> <h3>private  function <a href='../proc/hash_str.html'>hash_str</a>(key) result(hash)  
 </h3></div>
     <div class="card-body">
           
@@ -1717,7 +1720,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key"></span>
+              <span class="anchor" id="variable-key~60"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1743,7 +1746,7 @@ not get deallocated by this routine.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hash_i4tuple"></span><h3>private  function <a href='../proc/hash_i4tuple.html'>hash_i4tuple</a>(key) result(hash)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hash_i4tuple"></span> <h3>private  function <a href='../proc/hash_i4tuple.html'>hash_i4tuple</a>(key) result(hash)  
 </h3></div>
     <div class="card-body">
           
@@ -1762,7 +1765,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~13"></span>
+              <span class="anchor" id="variable-key~61"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in),</td>
@@ -1788,7 +1791,7 @@ not get deallocated by this routine.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_get"></span><h3>private  function <a href='../proc/dict_str_i4_get.html'>dict_str_i4_get</a>(dict, key, default_value) result(value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_get"></span> <h3>private  function <a href='../proc/dict_str_i4_get.html'>dict_str_i4_get</a>(dict, key, default_value) result(value)  
 </h3></div>
     <div class="card-body">
           
@@ -1809,7 +1812,7 @@ If the key is not found and default_value was not provided the program stops.</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict"></span>
+              <span class="anchor" id="variable-dict~6"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1824,7 +1827,7 @@ If the key is not found and default_value was not provided the program stops.</p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~14"></span>
+              <span class="anchor" id="variable-key~64"></span>
               character(len=default_string_length)
             </td>
 <td></td>
@@ -1865,7 +1868,7 @@ If the key is not found and default_value was not provided the program stops.</p
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_size"></span><h3>private  function <a href='../proc/dict_str_i4_size.html'>dict_str_i4_size</a>(dict) result(size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_size"></span> <h3>private  function <a href='../proc/dict_str_i4_size.html'>dict_str_i4_size</a>(dict) result(size)  
 </h3></div>
     <div class="card-body">
           
@@ -1884,7 +1887,7 @@ If the key is not found and default_value was not provided the program stops.</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~2"></span>
+              <span class="anchor" id="variable-dict~7"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1910,7 +1913,7 @@ If the key is not found and default_value was not provided the program stops.</p
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_haskey"></span><h3>private  function <a href='../proc/dict_str_i4_haskey.html'>dict_str_i4_haskey</a>(dict, key) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_haskey"></span> <h3>private  function <a href='../proc/dict_str_i4_haskey.html'>dict_str_i4_haskey</a>(dict, key) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -1929,7 +1932,7 @@ If the key is not found and default_value was not provided the program stops.</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~3"></span>
+              <span class="anchor" id="variable-dict~8"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1944,7 +1947,7 @@ If the key is not found and default_value was not provided the program stops.</p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~15"></span>
+              <span class="anchor" id="variable-key~65"></span>
               character(len=default_string_length)
             </td>
 <td></td>
@@ -1970,7 +1973,7 @@ If the key is not found and default_value was not provided the program stops.</p
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_items"></span><h3>private  function <a href='../proc/dict_str_i4_items.html'>dict_str_i4_items</a>(dict) result(items)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_items"></span> <h3>private  function <a href='../proc/dict_str_i4_items.html'>dict_str_i4_items</a>(dict) result(items)  
 </h3></div>
     <div class="card-body">
           
@@ -1990,7 +1993,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~4"></span>
+              <span class="anchor" id="variable-dict~9"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2016,7 +2019,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_get"></span><h3>private  function <a href='../proc/dict_i4tuple_callstat_get.html'>dict_i4tuple_callstat_get</a>(dict, key, default_value) result(value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_get"></span> <h3>private  function <a href='../proc/dict_i4tuple_callstat_get.html'>dict_i4tuple_callstat_get</a>(dict, key, default_value) result(value)  
 </h3></div>
     <div class="card-body">
           
@@ -2037,7 +2040,7 @@ If the key is not found and default_value was not provided the program stops.</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~5"></span>
+              <span class="anchor" id="variable-dict~15"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2052,7 +2055,7 @@ If the key is not found and default_value was not provided the program stops.</p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~16"></span>
+              <span class="anchor" id="variable-key~68"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -2093,7 +2096,7 @@ If the key is not found and default_value was not provided the program stops.</p
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_size"></span><h3>private  function <a href='../proc/dict_i4tuple_callstat_size.html'>dict_i4tuple_callstat_size</a>(dict) result(size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_size"></span> <h3>private  function <a href='../proc/dict_i4tuple_callstat_size.html'>dict_i4tuple_callstat_size</a>(dict) result(size)  
 </h3></div>
     <div class="card-body">
           
@@ -2112,7 +2115,7 @@ If the key is not found and default_value was not provided the program stops.</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~6"></span>
+              <span class="anchor" id="variable-dict~16"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2138,7 +2141,7 @@ If the key is not found and default_value was not provided the program stops.</p
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_haskey"></span><h3>private  function <a href='../proc/dict_i4tuple_callstat_haskey.html'>dict_i4tuple_callstat_haskey</a>(dict, key) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_haskey"></span> <h3>private  function <a href='../proc/dict_i4tuple_callstat_haskey.html'>dict_i4tuple_callstat_haskey</a>(dict, key) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -2157,7 +2160,7 @@ If the key is not found and default_value was not provided the program stops.</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~7"></span>
+              <span class="anchor" id="variable-dict~17"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2172,7 +2175,7 @@ If the key is not found and default_value was not provided the program stops.</p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~17"></span>
+              <span class="anchor" id="variable-key~69"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -2198,7 +2201,7 @@ If the key is not found and default_value was not provided the program stops.</p
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_items"></span><h3>private  function <a href='../proc/dict_i4tuple_callstat_items.html'>dict_i4tuple_callstat_items</a>(dict) result(items)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_items"></span> <h3>private  function <a href='../proc/dict_i4tuple_callstat_items.html'>dict_i4tuple_callstat_items</a>(dict) result(items)  
 </h3></div>
     <div class="card-body">
           
@@ -2218,7 +2221,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~8"></span>
+              <span class="anchor" id="variable-dict~18"></span>
               type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2249,7 +2252,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_init"></span><h3>private  subroutine <a href='../proc/dict_str_i4_init.html'>dict_str_i4_init</a>(dict, initial_capacity)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_init"></span> <h3>private  subroutine <a href='../proc/dict_str_i4_init.html'>dict_str_i4_init</a>(dict, initial_capacity)  
 </h3></div>
     <div class="card-body">
           
@@ -2268,7 +2271,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~9"></span>
+              <span class="anchor" id="variable-dict"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2283,7 +2286,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initial_capacity~5"></span>
+              <span class="anchor" id="variable-initial_capacity~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2304,7 +2307,7 @@ Caution: The caller is responsible for deallocating targeted array after usage.<
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_destroy"></span><h3>private  subroutine <a href='../proc/dict_str_i4_destroy.html'>dict_str_i4_destroy</a>(dict)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_destroy"></span> <h3>private  subroutine <a href='../proc/dict_str_i4_destroy.html'>dict_str_i4_destroy</a>(dict)  
 </h3></div>
     <div class="card-body">
           
@@ -2325,7 +2328,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~10"></span>
+              <span class="anchor" id="variable-dict~2"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2346,7 +2349,7 @@ not get deallocated by this routine.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_set"></span><h3>private  subroutine <a href='../proc/dict_str_i4_set.html'>dict_str_i4_set</a>(dict, key, value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_str_i4_set"></span> <h3>private  subroutine <a href='../proc/dict_str_i4_set.html'>dict_str_i4_set</a>(dict, key, value)  
 </h3></div>
     <div class="card-body">
           
@@ -2365,7 +2368,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~11"></span>
+              <span class="anchor" id="variable-dict~3"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2380,7 +2383,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~18"></span>
+              <span class="anchor" id="variable-key~62"></span>
               character(len=default_string_length),
             </td>
 <td>intent(in)</td>
@@ -2395,7 +2398,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~49"></span>
+              <span class="anchor" id="variable-value~63"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in)</td>
@@ -2416,7 +2419,7 @@ not get deallocated by this routine.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-set_hashed_str_i4"></span><h3>private recursive subroutine <a href='../proc/set_hashed_str_i4.html'>set_hashed_str_i4</a>(dict, key, value, hash)  
+    <div class="card-header codesum"><span class="anchor" id="proc-set_hashed_str_i4"></span> <h3>private recursive subroutine <a href='../proc/set_hashed_str_i4.html'>set_hashed_str_i4</a>(dict, key, value, hash)  
 </h3></div>
     <div class="card-body">
           
@@ -2435,7 +2438,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~12"></span>
+              <span class="anchor" id="variable-dict~4"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2450,7 +2453,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~19"></span>
+              <span class="anchor" id="variable-key~63"></span>
               character(len=default_string_length),
             </td>
 <td>intent(in)</td>
@@ -2465,7 +2468,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~50"></span>
+              <span class="anchor" id="variable-value~64"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in)</td>
@@ -2480,7 +2483,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hash~5"></span>
+              <span class="anchor" id="variable-hash~7"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2501,7 +2504,7 @@ not get deallocated by this routine.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-change_capacity_str_i4"></span><h3>private recursive subroutine <a href='../proc/change_capacity_str_i4.html'>change_capacity_str_i4</a>(dict, new_capacity)  
+    <div class="card-header codesum"><span class="anchor" id="proc-change_capacity_str_i4"></span> <h3>private recursive subroutine <a href='../proc/change_capacity_str_i4.html'>change_capacity_str_i4</a>(dict, new_capacity)  
 </h3></div>
     <div class="card-body">
           
@@ -2520,7 +2523,7 @@ not get deallocated by this routine.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dict~13"></span>
+              <span class="anchor" id="variable-dict~5"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2535,7 +2538,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_capacity~5"></span>
+              <span class="anchor" id="variable-new_capacity~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2556,11 +2559,263 @@ not get deallocated by this routine.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_init"></span><h3>private  subroutine <a href='../proc/dict_i4tuple_callstat_init.html'>dict_i4tuple_callstat_init</a>(dict, initial_capacity)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_init"></span> <h3>private  subroutine <a href='../proc/dict_i4tuple_callstat_init.html'>dict_i4tuple_callstat_init</a>(dict, initial_capacity)  
 </h3></div>
     <div class="card-body">
           
   <p>Allocates the internal data-structures of the given dictionary.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dict~10"></span>
+              type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dict</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-initial_capacity~4"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>initial_capacity</strong></td>
+            <td>
+<p>The initial size of the internal array (default=11).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_destroy"></span> <h3>private  subroutine <a href='../proc/dict_i4tuple_callstat_destroy.html'>dict_i4tuple_callstat_destroy</a>(dict)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocated the internal data-structures if the given dictionary.
+Caution: If the stored keys or values are pointers, their targets will
+not get deallocated by this routine.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dict~11"></span>
+              type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dict</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_set"></span> <h3>private  subroutine <a href='../proc/dict_i4tuple_callstat_set.html'>dict_i4tuple_callstat_set</a>(dict, key, value)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Stores, and possibly overwrites, a given value under a given key.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dict~12"></span>
+              type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dict</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-key~66"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>key</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-value~66"></span>
+              type(<a href='../type/call_stat_type.html'>call_stat_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>value</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-set_hashed_i4tuple_callstat"></span> <h3>private recursive subroutine <a href='../proc/set_hashed_i4tuple_callstat.html'>set_hashed_i4tuple_callstat</a>(dict, key, value, hash)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Common code used internally by dict_set() and change_capacity().</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dict~13"></span>
+              type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dict</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-key~67"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>key</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-value~67"></span>
+              type(<a href='../type/call_stat_type.html'>call_stat_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>value</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hash~11"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hash</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-change_capacity_i4tuple_callstat"></span> <h3>private recursive subroutine <a href='../proc/change_capacity_i4tuple_callstat.html'>change_capacity_i4tuple_callstat</a>(dict, new_capacity)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Internal routine for changing the dictionary's capacity.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -2590,259 +2845,7 @@ not get deallocated by this routine.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initial_capacity~6"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>initial_capacity</strong></td>
-            <td>
-<p>The initial size of the internal array (default=11).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_destroy"></span><h3>private  subroutine <a href='../proc/dict_i4tuple_callstat_destroy.html'>dict_i4tuple_callstat_destroy</a>(dict)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocated the internal data-structures if the given dictionary.
-Caution: If the stored keys or values are pointers, their targets will
-not get deallocated by this routine.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dict~15"></span>
-              type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dict</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dict_i4tuple_callstat_set"></span><h3>private  subroutine <a href='../proc/dict_i4tuple_callstat_set.html'>dict_i4tuple_callstat_set</a>(dict, key, value)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Stores, and possibly overwrites, a given value under a given key.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dict~16"></span>
-              type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dict</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-key~20"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(2)
-            </td>
-            <td>::</td>
-            <td><strong>key</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-value~51"></span>
-              type(<a href='../type/call_stat_type.html'>call_stat_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              POINTER
-            </td>
-            <td>::</td>
-            <td><strong>value</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-set_hashed_i4tuple_callstat"></span><h3>private recursive subroutine <a href='../proc/set_hashed_i4tuple_callstat.html'>set_hashed_i4tuple_callstat</a>(dict, key, value, hash)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Common code used internally by dict_set() and change_capacity().</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dict~17"></span>
-              type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dict</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-key~21"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(2)
-            </td>
-            <td>::</td>
-            <td><strong>key</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-value~52"></span>
-              type(<a href='../type/call_stat_type.html'>call_stat_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              POINTER
-            </td>
-            <td>::</td>
-            <td><strong>value</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-hash~6"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>hash</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-change_capacity_i4tuple_callstat"></span><h3>private recursive subroutine <a href='../proc/change_capacity_i4tuple_callstat.html'>change_capacity_i4tuple_callstat</a>(dict, new_capacity)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Internal routine for changing the dictionary's capacity.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dict~18"></span>
-              type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dict</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-new_capacity~6"></span>
+              <span class="anchor" id="variable-new_capacity~4"></span>
               integer,
             </td>
 <td>intent(in)</td>

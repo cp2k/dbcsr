@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -172,7 +175,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
               </ul>
             </li>
         </ul>
@@ -252,7 +255,7 @@ supplied string.</p>
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-integer_to_string"></span><h3>private  function <a href='../proc/integer_to_string.html'>integer_to_string</a>(inumber) result(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-integer_to_string"></span> <h3>private  function <a href='../proc/integer_to_string.html'>integer_to_string</a>(inumber) result(string)  
 </h3></div>
     <div class="card-body">
           
@@ -305,7 +308,7 @@ supplied string.</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-compress"></span><h3>public  subroutine <a href='../proc/compress.html'>compress</a>(string, full)  
+    <div class="card-header codesum"><span class="anchor" id="proc-compress"></span> <h3>public  subroutine <a href='../proc/compress.html'>compress</a>(string, full)  
 </h3></div>
     <div class="card-body">
           
@@ -340,7 +343,7 @@ If full is .TRUE., then all spaces are eliminated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-full~2"></span>
+              <span class="anchor" id="variable-full"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -361,7 +364,7 @@ If full is .TRUE., then all spaces are eliminated.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-uppercase"></span><h3>public  subroutine <a href='../proc/uppercase.html'>uppercase</a>(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-uppercase"></span> <h3>public  subroutine <a href='../proc/uppercase.html'>uppercase</a>(string)  
 </h3></div>
     <div class="card-body">
           
@@ -380,7 +383,7 @@ If full is .TRUE., then all spaces are eliminated.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~3"></span>
+              <span class="anchor" id="variable-string~4"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -401,7 +404,7 @@ If full is .TRUE., then all spaces are eliminated.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-str2int"></span><h3>public elemental subroutine <a href='../proc/str2int.html'>str2int</a>(str, int, stat)  
+    <div class="card-header codesum"><span class="anchor" id="proc-str2int"></span> <h3>public elemental subroutine <a href='../proc/str2int.html'>str2int</a>(str, int, stat)  
 </h3></div>
     <div class="card-body">
           
@@ -420,7 +423,7 @@ If full is .TRUE., then all spaces are eliminated.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~3"></span>
+              <span class="anchor" id="variable-str~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -450,7 +453,7 @@ If full is .TRUE., then all spaces are eliminated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~7"></span>
+              <span class="anchor" id="variable-stat~33"></span>
               integer,
             </td>
 <td>intent(out)</td>

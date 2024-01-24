@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -112,11 +115,11 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-r_sp">r_sp</a>
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-r_dp">r_dp</a>
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-c_sp">c_sp</a>
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-c_dp">c_dp</a>
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-data_type~4">data_type</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-r_sp~2">r_sp</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-r_dp~2">r_dp</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-c_sp~2">c_sp</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-c_dp~2">c_dp</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-data_type~13">data_type</a>
         </div>
       </div>
     </div>
@@ -152,7 +155,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public :: dbcsr_scalar_type</h2>
+      <h2>
+        type, public :: dbcsr_scalar_type</h2>
     <p>Stores a scalar in any of the supported data types.</p>
 <p>Reasoning
 Easier routine interfaces</p>
@@ -172,7 +176,7 @@ Easier routine interfaces</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_sp"></span>
+              <span class="anchor" id="variable-r_sp~2"></span>
               real(kind=real_4),
             </td>
               <td>public</td>
@@ -189,7 +193,7 @@ Easier routine interfaces</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_dp"></span>
+              <span class="anchor" id="variable-r_dp~2"></span>
               real(kind=real_8),
             </td>
               <td>public</td>
@@ -206,7 +210,7 @@ Easier routine interfaces</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_sp"></span>
+              <span class="anchor" id="variable-c_sp~2"></span>
               complex(kind=real_4),
             </td>
               <td>public</td>
@@ -223,7 +227,7 @@ Easier routine interfaces</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dp"></span>
+              <span class="anchor" id="variable-c_dp~2"></span>
               complex(kind=real_8),
             </td>
               <td>public</td>
@@ -240,7 +244,7 @@ Easier routine interfaces</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~4"></span>
+              <span class="anchor" id="variable-data_type~13"></span>
               integer,
             </td>
               <td>public</td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -160,7 +163,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_i"></span><h3>private  subroutine <a href='../proc/mem_alloc_i.html'>mem_alloc_i</a>(mem, n, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_i"></span> <h3>private  subroutine <a href='../proc/mem_alloc_i.html'>mem_alloc_i</a>(mem, n, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -179,7 +182,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~17"></span>
+              <span class="anchor" id="variable-mem~18"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -195,6 +198,286 @@
         <tr>
             <td>
               <span class="anchor" id="variable-n~25"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~22"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_l"></span> <h3>private  subroutine <a href='../proc/mem_alloc_l.html'>mem_alloc_l</a>(mem, n, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~22"></span>
+              integer(kind=int_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~28"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~27"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_s"></span> <h3>private  subroutine <a href='../proc/mem_alloc_s.html'>mem_alloc_s</a>(mem, n, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~6"></span>
+              real(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~16"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~7"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_d.html'>mem_alloc_d</a>(mem, n, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~2"></span>
+              real(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~13"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~2"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_c"></span> <h3>private  subroutine <a href='../proc/mem_alloc_c.html'>mem_alloc_c</a>(mem, n, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~14"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~22"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -230,7 +513,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_l"></span><h3>private  subroutine <a href='../proc/mem_alloc_l.html'>mem_alloc_l</a>(mem, n, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_z"></span> <h3>private  subroutine <a href='../proc/mem_alloc_z.html'>mem_alloc_z</a>(mem, n, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -249,287 +532,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~21"></span>
-              integer(kind=int_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~28"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~21"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_s"></span><h3>private  subroutine <a href='../proc/mem_alloc_s.html'>mem_alloc_s</a>(mem, n, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~5"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~16"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~5"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_d"></span><h3>private  subroutine <a href='../proc/mem_alloc_d.html'>mem_alloc_d</a>(mem, n, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem"></span>
-              real(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~13"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_c"></span><h3>private  subroutine <a href='../proc/mem_alloc_c.html'>mem_alloc_c</a>(mem, n, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~13"></span>
-              complex(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~22"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~13"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_z"></span><h3>private  subroutine <a href='../proc/mem_alloc_z.html'>mem_alloc_z</a>(mem, n, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~9"></span>
+              <span class="anchor" id="variable-mem~10"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -559,7 +562,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~9"></span>
+              <span class="anchor" id="variable-mem_type~12"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -580,7 +583,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_i_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_i_2d.html'>mem_alloc_i_2d</a>(mem, sizes, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_i_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_i_2d.html'>mem_alloc_i_2d</a>(mem, sizes, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -599,7 +602,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~18"></span>
+              <span class="anchor" id="variable-mem~19"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -614,7 +617,287 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~32"></span>
+              <span class="anchor" id="variable-sizes~44"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~23"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_l_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_l_2d.html'>mem_alloc_l_2d</a>(mem, sizes, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~23"></span>
+              integer(kind=int_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizes~45"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~28"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_s_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_s_2d.html'>mem_alloc_s_2d</a>(mem, sizes, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~7"></span>
+              real(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizes~41"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~8"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_d_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_d_2d.html'>mem_alloc_d_2d</a>(mem, sizes, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~3"></span>
+              real(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizes~40"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~3"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_c_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_c_2d.html'>mem_alloc_c_2d</a>(mem, sizes, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~15"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizes~43"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -650,7 +933,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_l_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_l_2d.html'>mem_alloc_l_2d</a>(mem, sizes, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_z_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_z_2d.html'>mem_alloc_z_2d</a>(mem, sizes, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -669,287 +952,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~22"></span>
-              integer(kind=int_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~33"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~22"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_s_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_s_2d.html'>mem_alloc_s_2d</a>(mem, sizes, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~6"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~29"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~6"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_d_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_d_2d.html'>mem_alloc_d_2d</a>(mem, sizes, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~2"></span>
-              real(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~28"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~2"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_c_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_c_2d.html'>mem_alloc_c_2d</a>(mem, sizes, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~14"></span>
-              complex(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~31"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~14"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_z_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_z_2d.html'>mem_alloc_z_2d</a>(mem, sizes, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~10"></span>
+              <span class="anchor" id="variable-mem~11"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -964,7 +967,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~30"></span>
+              <span class="anchor" id="variable-sizes~42"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -979,7 +982,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~10"></span>
+              <span class="anchor" id="variable-mem_type~13"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_data_operations.html#variable-modulen~75">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_data_operations.html#variable-modulen~42">moduleN</a>
         </div>
       </div>
     </div>
@@ -163,12 +166,12 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
               </ul>
             </li>
         </ul>
@@ -193,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~75"></span>
+              <span class="anchor" id="variable-modulen~42"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -222,7 +225,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_switch_data_area"></span><h3>public  subroutine <a href='../proc/dbcsr_switch_data_area.html'>dbcsr_switch_data_area</a>(matrix, data_area, previous_data_area)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_switch_data_area"></span> <h3>public  subroutine <a href='../proc/dbcsr_switch_data_area.html'>dbcsr_switch_data_area</a>(matrix, data_area, previous_data_area)  
 </h3></div>
     <div class="card-body">
           
@@ -241,7 +244,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~110"></span>
+              <span class="anchor" id="variable-matrix~364"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -256,7 +259,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area~6"></span>
+              <span class="anchor" id="variable-data_area~10"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -292,7 +295,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_copyall"></span><h3>public  subroutine <a href='../proc/dbcsr_data_copyall.html'>dbcsr_data_copyall</a>(target_area, source_area, shallow)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_copyall"></span> <h3>public  subroutine <a href='../proc/dbcsr_data_copyall.html'>dbcsr_data_copyall</a>(target_area, source_area, shallow)  
 </h3></div>
     <div class="card-body">
           
@@ -341,7 +344,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-shallow"></span>
+              <span class="anchor" id="variable-shallow~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -362,7 +365,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_convert"></span><h3>public  subroutine <a href='../proc/dbcsr_data_convert.html'>dbcsr_data_convert</a>(target_area, source_area, drop_real, multiply_by_i)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_convert"></span> <h3>public  subroutine <a href='../proc/dbcsr_data_convert.html'>dbcsr_data_convert</a>(target_area, source_area, drop_real, multiply_by_i)  
 </h3></div>
     <div class="card-body">
           
@@ -449,7 +452,7 @@ converts real to complex by placing into imaginary instead of real part</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_copy_sort_data"></span><h3>public  subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_data</a>(blk_p, old_blk_p, row_p, col_i, rbs, cbs, dst, src, mark_transposed, transpose_blocks)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_copy_sort_data"></span> <h3>public  subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_data</a>(blk_p, old_blk_p, row_p, col_i, rbs, cbs, dst, src, mark_transposed, transpose_blocks)  
 </h3></div>
     <div class="card-body">
           
@@ -470,7 +473,7 @@ As opposed to dbcsr_sort_data, this routine calculates block sizes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~14"></span>
+              <span class="anchor" id="variable-blk_p~21"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -485,7 +488,7 @@ As opposed to dbcsr_sort_data, this routine calculates block sizes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_p~3"></span>
+              <span class="anchor" id="variable-old_blk_p~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -504,7 +507,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_p~8"></span>
+              <span class="anchor" id="variable-row_p~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -523,7 +526,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~9"></span>
+              <span class="anchor" id="variable-col_i~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -580,7 +583,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~22"></span>
+              <span class="anchor" id="variable-dst~41"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -595,7 +598,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~16"></span>
+              <span class="anchor" id="variable-src~33"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -648,7 +651,7 @@ transpose data blocks</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_sort_data"></span><h3>public  subroutine <a href='../proc/dbcsr_sort_data.html'>dbcsr_sort_data</a>(blk_p, old_blk_p, sizes, dsts, src, srcs, old_blk_d)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_sort_data"></span> <h3>public  subroutine <a href='../proc/dbcsr_sort_data.html'>dbcsr_sort_data</a>(blk_p, old_blk_p, sizes, dsts, src, srcs, old_blk_d)  
 </h3></div>
     <div class="card-body">
           
@@ -668,7 +671,7 @@ sequentially.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~15"></span>
+              <span class="anchor" id="variable-blk_p~22"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -683,7 +686,7 @@ sequentially.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_p~4"></span>
+              <span class="anchor" id="variable-old_blk_p~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -699,7 +702,7 @@ sizes of the data blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~36"></span>
+              <span class="anchor" id="variable-sizes~49"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -730,7 +733,7 @@ sizes of the data blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~17"></span>
+              <span class="anchor" id="variable-src~34"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -760,7 +763,7 @@ sizes of the data blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_d~2"></span>
+              <span class="anchor" id="variable-old_blk_d"></span>
               integer,
             </td>
 <td>intent(in),</td>

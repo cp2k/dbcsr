@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -67,9 +70,21 @@
 			 <thead>
 			 <tr><th>Abstract Interface</th><th>Location</th><th>Description</th></tr>
 			 </thead><tbody>
-			   <tr><td><a href='../interface/dist_rowcols.html'>dist_rowcols</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td><p>map distribution rows/cols to matrix rows/cols:</p></td></tr>
-			   <tr><td><a href='../interface/rowcol_data.html'>rowcol_data</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td><p>integer data for each block row / col</p></td></tr>
-			   <tr><td><a href='../interface/rowcol_dist.html'>rowcol_dist</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td><p>map matrix rows/cols to distribution rows/cols:</p></td></tr>
+			   <tr>
+                 <td><a href='../interface/dist_rowcols.html'>dist_rowcols</a></td>
+                 <td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td>
+                 <td><p>map distribution rows/cols to matrix rows/cols:</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/rowcol_data.html'>rowcol_data</a></td>
+                 <td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td>
+                 <td><p>integer data for each block row / col</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/rowcol_dist.html'>rowcol_dist</a></td>
+                 <td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td>
+                 <td><p>map matrix rows/cols to distribution rows/cols:</p></td>
+               </tr>
 			 </tbody></table>
         </div>
       </div>

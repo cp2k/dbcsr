@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -159,7 +162,7 @@ Calls mpi_isend and mpi_irecv.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~10"></span>
+              <span class="anchor" id="variable-msgin~19"></span>
               integer(kind=int_4)
             </td>
 <td></td>
@@ -174,7 +177,7 @@ Calls mpi_isend and mpi_irecv.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~4"></span>
+              <span class="anchor" id="variable-dest~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -189,7 +192,7 @@ Calls mpi_isend and mpi_irecv.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~18"></span>
+              <span class="anchor" id="variable-msgout~19"></span>
               integer(kind=int_4)
             </td>
 <td></td>
@@ -204,7 +207,7 @@ Calls mpi_isend and mpi_irecv.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~44"></span>
+              <span class="anchor" id="variable-source~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -219,7 +222,7 @@ Calls mpi_isend and mpi_irecv.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~7"></span>
+              <span class="anchor" id="variable-comm~16"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -266,7 +269,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~6"></span>
+              <span class="anchor" id="variable-tag~10"></span>
               integer,
             </td>
 <td>intent(in),</td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -110,19 +113,19 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-numnodes~11">numnodes</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-mynode~7">mynode</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-prow~7">prow</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-pcol~7">pcol</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-io_unit~14">io_unit</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-handle~19">handle</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-npdims~4">npdims</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-myploc~2">myploc</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-pgrid~24">pgrid</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-mp_env~41">mp_env</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-mp_comm~27">mp_comm</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-group~41">group</a>
-            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-routinen~9">routineN</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-numnodes~46">numnodes</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-mynode~49">mynode</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-prow~18">prow</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-pcol~18">pcol</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-io_unit~21">io_unit</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-handle~586">handle</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-npdims~15">npdims</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-myploc~10">myploc</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-pgrid~36">pgrid</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-mp_env~43">mp_env</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-mp_comm~33">mp_comm</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-group~44">group</a>
+            <a class="list-group-item" href="../program/dbcsr_unittest_2.html#variable-routinen~688">routineN</a>
         </div>
       </div>
     </div>
@@ -164,15 +167,15 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item">dbcsr_test_multiply</li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_test_methods.html'>dbcsr_test_methods</a></li>
                   <li class="list-inline-item"><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_test_methods.html'>dbcsr_test_methods</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item">dbcsr_test_multiply</li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
               </ul>
             </li>
         </ul>
@@ -198,7 +201,7 @@ and rectangular matrices (block size=5)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~11"></span>
+              <span class="anchor" id="variable-numnodes~46"></span>
               integer
             </td>
             <td>
@@ -214,7 +217,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mynode~7"></span>
+              <span class="anchor" id="variable-mynode~49"></span>
               integer
             </td>
             <td>
@@ -230,7 +233,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prow~7"></span>
+              <span class="anchor" id="variable-prow~18"></span>
               integer
             </td>
             <td>
@@ -246,7 +249,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pcol~7"></span>
+              <span class="anchor" id="variable-pcol~18"></span>
               integer
             </td>
             <td>
@@ -262,7 +265,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~14"></span>
+              <span class="anchor" id="variable-io_unit~21"></span>
               integer
             </td>
             <td>
@@ -278,7 +281,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~19"></span>
+              <span class="anchor" id="variable-handle~586"></span>
               integer
             </td>
             <td>
@@ -294,7 +297,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-npdims~4"></span>
+              <span class="anchor" id="variable-npdims~15"></span>
               integer,
             </td>
             <td>
@@ -310,7 +313,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-myploc~2"></span>
+              <span class="anchor" id="variable-myploc~10"></span>
               integer,
             </td>
             <td>
@@ -326,7 +329,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~24"></span>
+              <span class="anchor" id="variable-pgrid~36"></span>
               integer,
             </td>
             <td>
@@ -342,7 +345,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~41"></span>
+              <span class="anchor" id="variable-mp_env~43"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>)
             </td>
             <td>
@@ -358,7 +361,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~27"></span>
+              <span class="anchor" id="variable-mp_comm~33"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>)
             </td>
             <td>
@@ -374,7 +377,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~41"></span>
+              <span class="anchor" id="variable-group~44"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>)
             </td>
             <td>
@@ -390,7 +393,7 @@ and rectangular matrices (block size=5)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-routinen~9"></span>
+              <span class="anchor" id="variable-routinen~688"></span>
               character(len=*),
             </td>
             <td>

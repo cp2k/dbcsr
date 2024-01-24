@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -157,7 +160,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_d"></span><h3>private  subroutine <a href='../proc/dbcsr_get_block_p_d.html'>dbcsr_get_block_p_d</a>(matrix, row, col, block, tr, found, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_block_p_d~2.html'>dbcsr_get_block_p_d</a>(matrix, row, col, block, tr, found, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -176,7 +179,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~51"></span>
+              <span class="anchor" id="variable-matrix~115"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -191,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~17"></span>
+              <span class="anchor" id="variable-row~74"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -207,7 +210,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~6"></span>
+              <span class="anchor" id="variable-col~56"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -223,7 +226,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~56"></span>
+              <span class="anchor" id="variable-block~111"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -238,7 +241,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~3"></span>
+              <span class="anchor" id="variable-tr~47"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -253,7 +256,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~35"></span>
+              <span class="anchor" id="variable-found~62"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -268,7 +271,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~4"></span>
+              <span class="anchor" id="variable-row_size~44"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -284,7 +287,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~3"></span>
+              <span class="anchor" id="variable-col_size~44"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -306,7 +309,7 @@ logical column size of block</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_s"></span><h3>private  subroutine <a href='../proc/dbcsr_get_block_p_s.html'>dbcsr_get_block_p_s</a>(matrix, row, col, block, tr, found, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_block_p_s~2.html'>dbcsr_get_block_p_s</a>(matrix, row, col, block, tr, found, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -325,7 +328,7 @@ logical column size of block</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~57"></span>
+              <span class="anchor" id="variable-matrix~121"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -340,7 +343,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~22"></span>
+              <span class="anchor" id="variable-row~79"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -356,7 +359,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~11"></span>
+              <span class="anchor" id="variable-col~61"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -372,7 +375,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~61"></span>
+              <span class="anchor" id="variable-block~116"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -387,7 +390,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~5"></span>
+              <span class="anchor" id="variable-tr~51"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -402,7 +405,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~37"></span>
+              <span class="anchor" id="variable-found~66"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -417,7 +420,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~6"></span>
+              <span class="anchor" id="variable-row_size~48"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -433,7 +436,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~5"></span>
+              <span class="anchor" id="variable-col_size~48"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -455,7 +458,7 @@ logical column size of block</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_z"></span><h3>private  subroutine <a href='../proc/dbcsr_get_block_p_z.html'>dbcsr_get_block_p_z</a>(matrix, row, col, block, tr, found, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_block_p_z~2.html'>dbcsr_get_block_p_z</a>(matrix, row, col, block, tr, found, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -474,7 +477,7 @@ logical column size of block</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~63"></span>
+              <span class="anchor" id="variable-matrix~127"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -489,7 +492,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~27"></span>
+              <span class="anchor" id="variable-row~84"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -505,7 +508,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~16"></span>
+              <span class="anchor" id="variable-col~66"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -521,7 +524,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~66"></span>
+              <span class="anchor" id="variable-block~121"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -536,7 +539,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~7"></span>
+              <span class="anchor" id="variable-tr~55"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -551,7 +554,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~39"></span>
+              <span class="anchor" id="variable-found~70"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -566,7 +569,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~8"></span>
+              <span class="anchor" id="variable-row_size~52"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -582,7 +585,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~7"></span>
+              <span class="anchor" id="variable-col_size~52"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -604,7 +607,7 @@ logical column size of block</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_c"></span><h3>private  subroutine <a href='../proc/dbcsr_get_block_p_c.html'>dbcsr_get_block_p_c</a>(matrix, row, col, block, tr, found, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_block_p_c~2.html'>dbcsr_get_block_p_c</a>(matrix, row, col, block, tr, found, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -623,7 +626,7 @@ logical column size of block</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~69"></span>
+              <span class="anchor" id="variable-matrix~133"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -638,7 +641,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~32"></span>
+              <span class="anchor" id="variable-row~89"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -654,7 +657,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~21"></span>
+              <span class="anchor" id="variable-col~71"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -670,7 +673,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~71"></span>
+              <span class="anchor" id="variable-block~126"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -685,7 +688,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~9"></span>
+              <span class="anchor" id="variable-tr~59"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -700,7 +703,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~41"></span>
+              <span class="anchor" id="variable-found~74"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -715,7 +718,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~10"></span>
+              <span class="anchor" id="variable-row_size~56"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -731,7 +734,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~9"></span>
+              <span class="anchor" id="variable-col_size~56"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -753,7 +756,7 @@ logical column size of block</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_2d_block_p_d"></span><h3>private  subroutine <a href='../proc/dbcsr_get_2d_block_p_d.html'>dbcsr_get_2d_block_p_d</a>(matrix, row, col, block, tr, found, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_2d_block_p_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_2d_block_p_d~2.html'>dbcsr_get_2d_block_p_d</a>(matrix, row, col, block, tr, found, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -772,7 +775,7 @@ logical column size of block</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~50"></span>
+              <span class="anchor" id="variable-matrix~114"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -787,7 +790,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~16"></span>
+              <span class="anchor" id="variable-row~73"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -803,7 +806,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~5"></span>
+              <span class="anchor" id="variable-col~55"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -819,7 +822,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~55"></span>
+              <span class="anchor" id="variable-block~110"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -834,7 +837,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~2"></span>
+              <span class="anchor" id="variable-tr~46"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -849,7 +852,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~34"></span>
+              <span class="anchor" id="variable-found~61"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -864,7 +867,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~3"></span>
+              <span class="anchor" id="variable-row_size~43"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -880,7 +883,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~2"></span>
+              <span class="anchor" id="variable-col_size~43"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -902,7 +905,7 @@ logical column size of block</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_2d_block_p_s"></span><h3>private  subroutine <a href='../proc/dbcsr_get_2d_block_p_s.html'>dbcsr_get_2d_block_p_s</a>(matrix, row, col, block, tr, found, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_2d_block_p_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_2d_block_p_s~2.html'>dbcsr_get_2d_block_p_s</a>(matrix, row, col, block, tr, found, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -921,7 +924,7 @@ logical column size of block</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~56"></span>
+              <span class="anchor" id="variable-matrix~120"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -936,7 +939,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~21"></span>
+              <span class="anchor" id="variable-row~78"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -952,7 +955,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~10"></span>
+              <span class="anchor" id="variable-col~60"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -968,7 +971,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~60"></span>
+              <span class="anchor" id="variable-block~115"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -983,7 +986,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~4"></span>
+              <span class="anchor" id="variable-tr~50"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -998,7 +1001,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~36"></span>
+              <span class="anchor" id="variable-found~65"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1013,7 +1016,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~5"></span>
+              <span class="anchor" id="variable-row_size~47"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1029,7 +1032,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~4"></span>
+              <span class="anchor" id="variable-col_size~47"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1051,7 +1054,7 @@ logical column size of block</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_2d_block_p_z"></span><h3>private  subroutine <a href='../proc/dbcsr_get_2d_block_p_z.html'>dbcsr_get_2d_block_p_z</a>(matrix, row, col, block, tr, found, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_2d_block_p_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_2d_block_p_z~2.html'>dbcsr_get_2d_block_p_z</a>(matrix, row, col, block, tr, found, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -1070,7 +1073,7 @@ logical column size of block</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~62"></span>
+              <span class="anchor" id="variable-matrix~126"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1085,7 +1088,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~26"></span>
+              <span class="anchor" id="variable-row~83"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1101,7 +1104,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~15"></span>
+              <span class="anchor" id="variable-col~65"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1117,7 +1120,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~65"></span>
+              <span class="anchor" id="variable-block~120"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -1132,7 +1135,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~6"></span>
+              <span class="anchor" id="variable-tr~54"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1147,7 +1150,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~38"></span>
+              <span class="anchor" id="variable-found~69"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1162,7 +1165,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~7"></span>
+              <span class="anchor" id="variable-row_size~51"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1178,7 +1181,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~6"></span>
+              <span class="anchor" id="variable-col_size~51"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1200,7 +1203,7 @@ logical column size of block</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_2d_block_p_c"></span><h3>private  subroutine <a href='../proc/dbcsr_get_2d_block_p_c.html'>dbcsr_get_2d_block_p_c</a>(matrix, row, col, block, tr, found, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_2d_block_p_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_2d_block_p_c~2.html'>dbcsr_get_2d_block_p_c</a>(matrix, row, col, block, tr, found, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -1219,7 +1222,7 @@ logical column size of block</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~68"></span>
+              <span class="anchor" id="variable-matrix~132"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1234,7 +1237,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~31"></span>
+              <span class="anchor" id="variable-row~88"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1250,7 +1253,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~20"></span>
+              <span class="anchor" id="variable-col~70"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1266,7 +1269,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~70"></span>
+              <span class="anchor" id="variable-block~125"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -1281,7 +1284,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~8"></span>
+              <span class="anchor" id="variable-tr~58"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1296,7 +1299,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~40"></span>
+              <span class="anchor" id="variable-found~73"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1311,7 +1314,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~9"></span>
+              <span class="anchor" id="variable-row_size~55"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1327,7 +1330,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~8"></span>
+              <span class="anchor" id="variable-col_size~55"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1349,7 +1352,7 @@ logical column size of block</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_area"></span><h3>private  subroutine <a href='../proc/dbcsr_get_block_p_area.html'>dbcsr_get_block_p_area</a>(matrix, row, col, block, tr, found, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_block_p_area"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_block_p_area.html'>dbcsr_get_block_p_area</a>(matrix, row, col, block, tr, found, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -1368,7 +1371,7 @@ logical column size of block</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~45"></span>
+              <span class="anchor" id="variable-matrix~108"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1383,7 +1386,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~15"></span>
+              <span class="anchor" id="variable-row~69"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1399,7 +1402,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~4"></span>
+              <span class="anchor" id="variable-col~51"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1415,7 +1418,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~54"></span>
+              <span class="anchor" id="variable-block~108"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1430,7 +1433,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr"></span>
+              <span class="anchor" id="variable-tr~43"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1446,7 +1449,7 @@ whether the block exists in the matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~33"></span>
+              <span class="anchor" id="variable-found~60"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1462,7 +1465,7 @@ whether the block exists in the matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~2"></span>
+              <span class="anchor" id="variable-row_size~42"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1478,7 +1481,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size"></span>
+              <span class="anchor" id="variable-col_size~42"></span>
               integer,
             </td>
 <td>intent(out),</td>

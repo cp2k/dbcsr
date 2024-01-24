@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_array_list_methods.html#variable-modulen~41">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_array_list_methods.html#variable-modulen~6">moduleN</a>
         </div>
       </div>
     </div>
@@ -205,9 +208,9 @@ This is needed for generic handling of dimension-specific tensor quantities (suc
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
               </ul>
             </li>
         </ul>
@@ -232,7 +235,7 @@ This is needed for generic handling of dimension-specific tensor quantities (suc
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~41"></span>
+              <span class="anchor" id="variable-modulen~6"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -284,7 +287,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~61"></span>
+              <span class="anchor" id="variable-list~8"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
@@ -299,7 +302,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~5"></span>
+              <span class="anchor" id="variable-i~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -314,7 +317,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~59"></span>
+              <span class="anchor" id="variable-array~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -425,7 +428,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-number_of_arrays"></span><h3>public pure function <a href='../proc/number_of_arrays.html'>number_of_arrays</a>(list)  
+    <div class="card-header codesum"><span class="anchor" id="proc-number_of_arrays"></span> <h3>public pure function <a href='../proc/number_of_arrays.html'>number_of_arrays</a>(list)  
 </h3></div>
     <div class="card-body">
           
@@ -444,7 +447,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~54"></span>
+              <span class="anchor" id="variable-list"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
@@ -470,7 +473,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_array_elements"></span><h3>public pure function <a href='../proc/get_array_elements.html'>get_array_elements</a>(list, indices)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_array_elements"></span> <h3>public pure function <a href='../proc/get_array_elements.html'>get_array_elements</a>(list, indices)  
 </h3></div>
     <div class="card-body">
           
@@ -489,7 +492,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~55"></span>
+              <span class="anchor" id="variable-list~2"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
@@ -504,7 +507,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indices~9"></span>
+              <span class="anchor" id="variable-indices"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -530,7 +533,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-array_sublist"></span><h3>public  function <a href='../proc/array_sublist.html'>array_sublist</a>(list, i_selected)  
+    <div class="card-header codesum"><span class="anchor" id="proc-array_sublist"></span> <h3>public  function <a href='../proc/array_sublist.html'>array_sublist</a>(list, i_selected)  
 </h3></div>
     <div class="card-body">
           
@@ -549,7 +552,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~2"></span>
+              <span class="anchor" id="variable-list~4"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
@@ -590,7 +593,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-sizes_of_arrays"></span><h3>public  function <a href='../proc/sizes_of_arrays.html'>sizes_of_arrays</a>(list)  
+    <div class="card-header codesum"><span class="anchor" id="proc-sizes_of_arrays"></span> <h3>public  function <a href='../proc/sizes_of_arrays.html'>sizes_of_arrays</a>(list)  
 </h3></div>
     <div class="card-body">
           
@@ -609,7 +612,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~56"></span>
+              <span class="anchor" id="variable-list~9"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
@@ -635,7 +638,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-sum_of_arrays"></span><h3>public  function <a href='../proc/sum_of_arrays.html'>sum_of_arrays</a>(list)  
+    <div class="card-header codesum"><span class="anchor" id="proc-sum_of_arrays"></span> <h3>public  function <a href='../proc/sum_of_arrays.html'>sum_of_arrays</a>(list)  
 </h3></div>
     <div class="card-body">
           
@@ -654,7 +657,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~57"></span>
+              <span class="anchor" id="variable-list~10"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
@@ -680,7 +683,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-check_equal"></span><h3>public  function <a href='../proc/check_equal.html'>check_equal</a>(list1, list2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-check_equal"></span> <h3>public  function <a href='../proc/check_equal.html'>check_equal</a>(list1, list2)  
 </h3></div>
     <div class="card-body">
           
@@ -740,7 +743,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-array_eq_i"></span><h3>public pure function <a href='../proc/array_eq_i.html'>array_eq_i</a>(arr1, arr2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-array_eq_i"></span> <h3>public pure function <a href='../proc/array_eq_i.html'>array_eq_i</a>(arr1, arr2)  
 </h3></div>
     <div class="card-body">
           
@@ -805,7 +808,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-create_array_list"></span><h3>public  subroutine <a href='../proc/create_array_list.html'>create_array_list</a>(list, ndata, data_1, data_2, data_3, data_4)  
+    <div class="card-header codesum"><span class="anchor" id="proc-create_array_list"></span> <h3>public  subroutine <a href='../proc/create_array_list.html'>create_array_list</a>(list, ndata, data_1, data_2, data_3, data_4)  
 </h3></div>
     <div class="card-body">
           
@@ -825,7 +828,7 @@ storing the indices that start a new array (list%ptr).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list"></span>
+              <span class="anchor" id="variable-list~3"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(out)</td>
@@ -840,7 +843,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndata~3"></span>
+              <span class="anchor" id="variable-ndata"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -921,7 +924,7 @@ storing the indices that start a new array (list%ptr).</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-destroy_array_list"></span><h3>public  subroutine <a href='../proc/destroy_array_list.html'>destroy_array_list</a>(list)  
+    <div class="card-header codesum"><span class="anchor" id="proc-destroy_array_list"></span> <h3>public  subroutine <a href='../proc/destroy_array_list.html'>destroy_array_list</a>(list)  
 </h3></div>
     <div class="card-body">
           
@@ -940,7 +943,7 @@ storing the indices that start a new array (list%ptr).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~58"></span>
+              <span class="anchor" id="variable-list~5"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(inout)</td>
@@ -961,7 +964,7 @@ storing the indices that start a new array (list%ptr).</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_arrays"></span><h3>public  subroutine <a href='../proc/get_arrays.html'>get_arrays</a>(list, data_1, data_2, data_3, data_4, i_selected)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_arrays"></span> <h3>public  subroutine <a href='../proc/get_arrays.html'>get_arrays</a>(list, data_1, data_2, data_3, data_4, i_selected)  
 </h3></div>
     <div class="card-body">
           
@@ -980,7 +983,7 @@ storing the indices that start a new array (list%ptr).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~59"></span>
+              <span class="anchor" id="variable-list~6"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
@@ -995,7 +998,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_1~2"></span>
+              <span class="anchor" id="variable-data_1~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1010,7 +1013,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_2~2"></span>
+              <span class="anchor" id="variable-data_2~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1025,7 +1028,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_3~2"></span>
+              <span class="anchor" id="variable-data_3~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1040,7 +1043,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_4~2"></span>
+              <span class="anchor" id="variable-data_4~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1076,7 +1079,7 @@ storing the indices that start a new array (list%ptr).</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_ith_array"></span><h3>public  subroutine <a href='../proc/get_ith_array.html'>get_ith_array</a>(list, i, array_size, array)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_ith_array"></span> <h3>public  subroutine <a href='../proc/get_ith_array.html'>get_ith_array</a>(list, i, array_size, array)  
 </h3></div>
     <div class="card-body">
           
@@ -1095,7 +1098,7 @@ storing the indices that start a new array (list%ptr).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~60"></span>
+              <span class="anchor" id="variable-list~7"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
@@ -1110,7 +1113,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~4"></span>
+              <span class="anchor" id="variable-i~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1140,7 +1143,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~58"></span>
+              <span class="anchor" id="variable-array"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1161,7 +1164,7 @@ storing the indices that start a new array (list%ptr).</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-allocate_and_get_ith_array"></span><h3>private  subroutine <a href='../proc/allocate_and_get_ith_array.html'>allocate_and_get_ith_array</a>(list, i, array)  
+    <div class="card-header codesum"><span class="anchor" id="proc-allocate_and_get_ith_array"></span> <h3>private  subroutine <a href='../proc/allocate_and_get_ith_array.html'>allocate_and_get_ith_array</a>(list, i, array)  
 </h3></div>
     <div class="card-body">
           
@@ -1180,7 +1183,7 @@ storing the indices that start a new array (list%ptr).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~61"></span>
+              <span class="anchor" id="variable-list~8"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
@@ -1195,7 +1198,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~5"></span>
+              <span class="anchor" id="variable-i~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1210,7 +1213,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~59"></span>
+              <span class="anchor" id="variable-array~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1231,7 +1234,7 @@ storing the indices that start a new array (list%ptr).</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-array_offsets"></span><h3>public  subroutine <a href='../proc/array_offsets.html'>array_offsets</a>(list_in, list_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-array_offsets"></span> <h3>public  subroutine <a href='../proc/array_offsets.html'>array_offsets</a>(list_in, list_out)  
 </h3></div>
     <div class="card-body">
           
@@ -1286,7 +1289,7 @@ storing the indices that start a new array (list%ptr).</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-reorder_arrays"></span><h3>public  subroutine <a href='../proc/reorder_arrays.html'>reorder_arrays</a>(list_in, list_out, order)  
+    <div class="card-header codesum"><span class="anchor" id="proc-reorder_arrays"></span> <h3>public  subroutine <a href='../proc/reorder_arrays.html'>reorder_arrays</a>(list_in, list_out, order)  
 </h3></div>
     <div class="card-body">
           
@@ -1335,7 +1338,7 @@ storing the indices that start a new array (list%ptr).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-order~41"></span>
+              <span class="anchor" id="variable-order"></span>
               integer,
             </td>
 <td>intent(in),</td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../../../../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../../../../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../../../../../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -33,7 +36,7 @@
 
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="../../../../../page/index.html">Guide</a></li>
+                <li class="nav-item"><a class="nav-link" href="../../../../index.html">Guide</a></li>
                   <li class="nav-item">
                     <a class="nav-link" href="../../../../../lists/files.html">Source Files</a>
                   </li>
@@ -70,11 +73,11 @@
         <div class="col">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../../../../../page/index.html'>Guide</a></li>
-                <li class="breadcrumb-item"><a href='../../../../../page/3-developer-guide/index.html'>Developer Guide</a></li>
-                <li class="breadcrumb-item"><a href='../../../../../page/3-developer-guide/3-programming/index.html'>Programming</a></li>
-                <li class="breadcrumb-item"><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/index.html'>Accelerator Backend</a></li>
-                <li class="breadcrumb-item"><a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>CUDA/HIP</a></li>
+                <li class="breadcrumb-item"><a href='../../../../index.html'>Guide</a></li>
+                <li class="breadcrumb-item"><a href='../../../index.html'>Developer Guide</a></li>
+                <li class="breadcrumb-item"><a href='../../index.html'>Programming</a></li>
+                <li class="breadcrumb-item"><a href='../index.html'>Accelerator Backend</a></li>
+                <li class="breadcrumb-item"><a href='index.html'>CUDA/HIP</a></li>
               <li class="breadcrumb-item active" aria-current="page">Autotuning Framework</li>
             </ol>
           </nav>
@@ -88,64 +91,64 @@
         <div class="card card-body bg-light" id="sidebar-toc">
           <ul class="nav flex-column align-items">
             <li class="nav-item">
-              <a class="nav-link" href="../../../../../page/index.html">Guide</a>
+              <a class="nav-link" href="../../../../index.html">Guide</a>
             </li>
           </ul>
           <hr>
           <nav class="nav nav-pills flex-column">
-              <a class="nav-link" href="../../../../../page/1-DBCSR/index.html">DBCSR</a>
+              <a class="nav-link" href="../../../../1-DBCSR/index.html">DBCSR</a>
                 <nav class="nav nav-pills flex-column">
-                                <a class="nav-link" href="../../../../../page/1-DBCSR/publications.html">Publications</a>
+                                <a class="nav-link" href="../../../../1-DBCSR/publications.html">Publications</a>
 
                 </nav>
-              <a class="nav-link" href="../../../../../page/2-user-guide/index.html">User Guide</a>
+              <a class="nav-link" href="../../../../2-user-guide/index.html">User Guide</a>
                 <nav class="nav nav-pills flex-column">
-                                <a class="nav-link" href="../../../../../page/2-user-guide/1-installation/index.html">Install</a>
+                                <a class="nav-link" href="../../../../2-user-guide/1-installation/index.html">Install</a>
                 <nav class="nav nav-pills flex-column">
-                                <a class="nav-link" href="../../../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html">CMake Build Recipes</a>
-              <a class="nav-link" href="../../../../../page/2-user-guide/1-installation/2-supported-compilers.html">Supported Compilers</a>
-              <a class="nav-link" href="../../../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html">Using DBCSR in a CMake project</a>
-              <a class="nav-link" href="../../../../../page/2-user-guide/1-installation/4-docker.html">Docker Images</a>
+                                <a class="nav-link" href="../../../../2-user-guide/1-installation/1-cmake-build-recipes.html">CMake Build Recipes</a>
+              <a class="nav-link" href="../../../../2-user-guide/1-installation/2-supported-compilers.html">Supported Compilers</a>
+              <a class="nav-link" href="../../../../2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html">Using DBCSR in a CMake project</a>
+              <a class="nav-link" href="../../../../2-user-guide/1-installation/4-docker.html">Docker Images</a>
 
                 </nav>
-              <a class="nav-link" href="../../../../../page/2-user-guide/2-tests/index.html">Tests</a>
-              <a class="nav-link" href="../../../../../page/2-user-guide/3-examples/index.html">Examples</a>
-              <a class="nav-link" href="../../../../../page/2-user-guide/4-gpu/index.html">GPUs</a>
+              <a class="nav-link" href="../../../../2-user-guide/2-tests/index.html">Tests</a>
+              <a class="nav-link" href="../../../../2-user-guide/3-examples/index.html">Examples</a>
+              <a class="nav-link" href="../../../../2-user-guide/4-gpu/index.html">GPUs</a>
 
                 </nav>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/index.html">Developer Guide</a>
+              <a class="nav-link" href="../../../index.html">Developer Guide</a>
                 <nav class="nav nav-pills flex-column">
-                                <a class="nav-link" href="../../../../../page/3-developer-guide/1-tooling/index.html">Tooling</a>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/2-documentation/index.html">Documentation</a>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/index.html">Programming</a>
+                                <a class="nav-link" href="../../../1-tooling/index.html">Tooling</a>
+              <a class="nav-link" href="../../../2-documentation/index.html">Documentation</a>
+              <a class="nav-link" href="../../index.html">Programming</a>
                 <nav class="nav nav-pills flex-column">
-                                <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/1-overview/index.html">Overview</a>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/index.html">Accelerator Backend</a>
+                                <a class="nav-link" href="../../1-overview/index.html">Overview</a>
+              <a class="nav-link" href="../index.html">Accelerator Backend</a>
                 <nav class="nav nav-pills flex-column">
-                                <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/1-code-structure.html">Code Structure</a>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html">CUDA/HIP</a>
+                                <a class="nav-link" href="../1-code-structure.html">Code Structure</a>
+              <a class="nav-link" href="index.html">CUDA/HIP</a>
                 <nav class="nav nav-pills flex-column">
-                                <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/1-kernels.html">Kernels</a>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html">Kernel Parameters</a>
-              <a class="nav-link active disabled" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html">Autotuning Framework</a>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/4-predict.html">Predictive Modeling Framework</a>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/5-notebooks.html">Notebooks</a>
+                                <a class="nav-link" href="1-kernels.html">Kernels</a>
+              <a class="nav-link" href="2-parameters.html">Kernel Parameters</a>
+              <a class="nav-link active disabled" href="3-tune.html">Autotuning Framework</a>
+              <a class="nav-link" href="4-predict.html">Predictive Modeling Framework</a>
+              <a class="nav-link" href="5-notebooks.html">Notebooks</a>
 
                 </nav>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/index.html">OpenCL</a>
+              <a class="nav-link" href="../3-libsmm_ocl/index.html">OpenCL</a>
                 <nav class="nav nav-pills flex-column">
-                                <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html">Autotune</a>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/2-bulktune.html">Parameters</a>
+                                <a class="nav-link" href="../3-libsmm_ocl/1-autotune.html">Autotune</a>
+              <a class="nav-link" href="../3-libsmm_ocl/2-bulktune.html">Parameters</a>
 
                 </nav>
 
                 </nav>
 
                 </nav>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/4-performance/index.html">Performance</a>
+              <a class="nav-link" href="../../../4-performance/index.html">Performance</a>
                 <nav class="nav nav-pills flex-column">
-                                <a class="nav-link" href="../../../../../page/3-developer-guide/4-performance/1-insights.html">Insights</a>
-              <a class="nav-link" href="../../../../../page/3-developer-guide/4-performance/2-just-in-time-compilation.html">JIT</a>
+                                <a class="nav-link" href="../../../4-performance/1-insights.html">Insights</a>
+              <a class="nav-link" href="../../../4-performance/2-just-in-time-compilation.html">JIT</a>
 
                 </nav>
 

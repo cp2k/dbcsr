@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -112,10 +115,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_tas_distribution_type.html#variable-info~6">info</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_distribution_type.html#variable-info">info</a>
             <a class="list-group-item" href="../type/dbcsr_tas_distribution_type.html#variable-dbcsr_dist">dbcsr_dist</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_distribution_type.html#variable-row_dist~2">row_dist</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_distribution_type.html#variable-col_dist~2">col_dist</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_distribution_type.html#variable-row_dist~4">row_dist</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_distribution_type.html#variable-col_dist~4">col_dist</a>
             <a class="list-group-item" href="../type/dbcsr_tas_distribution_type.html#variable-local_rowcols">local_rowcols</a>
         </div>
       </div>
@@ -146,7 +149,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public :: dbcsr_tas_distribution_type</h2>
+      <h2>
+        type, public :: dbcsr_tas_distribution_type</h2>
     
     <br>
 
@@ -164,8 +168,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~6"></span>
-              type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
+              <span class="anchor" id="variable-info"></span>
+              type(<a href='dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
               <td>public</td>
             <td>
@@ -182,7 +186,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-dbcsr_dist"></span>
-              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
+              type(<a href='dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
               <td>public</td>
             <td>
@@ -198,8 +202,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~2"></span>
-              class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
+              <span class="anchor" id="variable-row_dist~4"></span>
+              class(<a href='dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
               <td>public,</td>
             <td>
@@ -215,8 +219,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~2"></span>
-              class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
+              <span class="anchor" id="variable-col_dist~4"></span>
+              class(<a href='dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
               <td>public,</td>
             <td>

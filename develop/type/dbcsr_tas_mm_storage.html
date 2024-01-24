@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -146,7 +149,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public :: dbcsr_tas_mm_storage</h2>
+      <h2>
+        type, public :: dbcsr_tas_mm_storage</h2>
     
     <br>
 
@@ -165,7 +169,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-store_batched"></span>
-              type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
+              type(<a href='dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
               <td>public,</td>
             <td>
@@ -182,7 +186,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-store_batched_repl"></span>
-              type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
+              type(<a href='dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
               <td>public,</td>
             <td>
@@ -233,7 +237,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-batched_beta"></span>
-              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
+              type(<a href='dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
               <td>public</td>
             <td>

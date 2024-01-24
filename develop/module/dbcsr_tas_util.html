@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tas_util.html#variable-modulen~46">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tas_util.html#variable-modulen~21">moduleN</a>
         </div>
       </div>
     </div>
@@ -129,7 +132,7 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tas_util.html#interface-swap">swap</a>
+            <a class="list-group-item" href="../module/dbcsr_tas_util.html#interface-swap~2">swap</a>
             <a class="list-group-item" href="../module/dbcsr_tas_util.html#interface-array_eq">array_eq</a>
         </div>
       </div>
@@ -187,12 +190,12 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
               </ul>
             </li>
         </ul>
@@ -217,7 +220,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~46"></span>
+              <span class="anchor" id="variable-modulen~21"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -243,8 +246,8 @@ parameter
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-swap"></span>
-      <h3>public        interface <a href='../interface/swap.html'>swap</a> 
+      <span class="anchor" id="interface-swap~2"></span>
+      <h3>public        interface <a href='../interface/swap~2.html'>swap</a> 
       </h3>
     </div>
     <ul class="list-group">
@@ -269,7 +272,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-arr~13"></span>
+              <span class="anchor" id="variable-arr~11"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -308,7 +311,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-arr~14"></span>
+              <span class="anchor" id="variable-arr~12"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -465,7 +468,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mp_environ"></span><h3>public  function <a href='../proc/dbcsr_mp_environ.html'>dbcsr_mp_environ</a>(mp_comm)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mp_environ"></span> <h3>public  function <a href='../proc/dbcsr_mp_environ.html'>dbcsr_mp_environ</a>(mp_comm)  
 </h3></div>
     <div class="card-body">
           
@@ -484,7 +487,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~20"></span>
+              <span class="anchor" id="variable-mp_comm~10"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -510,7 +513,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-array_eq_i~2"></span><h3>private pure function <a href='../proc/array_eq_i~2.html'>array_eq_i</a>(arr1, arr2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-array_eq_i~2"></span> <h3>private pure function <a href='../proc/array_eq_i~2.html'>array_eq_i</a>(arr1, arr2)  
 </h3></div>
     <div class="card-body">
           
@@ -570,7 +573,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-array_eq_i8"></span><h3>private pure function <a href='../proc/array_eq_i8.html'>array_eq_i8</a>(arr1, arr2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-array_eq_i8"></span> <h3>private pure function <a href='../proc/array_eq_i8.html'>array_eq_i8</a>(arr1, arr2)  
 </h3></div>
     <div class="card-body">
           
@@ -635,7 +638,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-swap_i8"></span><h3>private  subroutine <a href='../proc/swap_i8.html'>swap_i8</a>(arr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-swap_i8"></span> <h3>private  subroutine <a href='../proc/swap_i8.html'>swap_i8</a>(arr)  
 </h3></div>
     <div class="card-body">
           
@@ -654,7 +657,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-arr~13"></span>
+              <span class="anchor" id="variable-arr~11"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -675,7 +678,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-swap_i"></span><h3>private  subroutine <a href='../proc/swap_i.html'>swap_i</a>(arr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-swap_i"></span> <h3>private  subroutine <a href='../proc/swap_i.html'>swap_i</a>(arr)  
 </h3></div>
     <div class="card-body">
           
@@ -694,7 +697,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-arr~14"></span>
+              <span class="anchor" id="variable-arr~12"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -715,7 +718,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-index_unique"></span><h3>public  subroutine <a href='../proc/index_unique.html'>index_unique</a>(index_in, index_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-index_unique"></span> <h3>public  subroutine <a href='../proc/index_unique.html'>index_unique</a>(index_in, index_out)  
 </h3></div>
     <div class="card-body">
           
@@ -770,7 +773,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-invert_transpose_flag"></span><h3>public  subroutine <a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a>(trans_flag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-invert_transpose_flag"></span> <h3>public  subroutine <a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a>(trans_flag)  
 </h3></div>
     <div class="card-body">
           

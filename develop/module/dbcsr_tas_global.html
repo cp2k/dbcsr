@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~38">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~19">moduleN</a>
         </div>
       </div>
     </div>
@@ -237,9 +240,9 @@ function objects, leaving up to the caller how to efficiently store global data.
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -264,7 +267,7 @@ function objects, leaving up to the caller how to efficiently store global data.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~38"></span>
+              <span class="anchor" id="variable-modulen~19"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -400,7 +403,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_vec~2"></span>
+              <span class="anchor" id="variable-dist_vec~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -484,7 +487,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_vec~4"></span>
+              <span class="anchor" id="variable-dist_vec~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -499,7 +502,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nprowcol~4"></span>
+              <span class="anchor" id="variable-nprowcol~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -514,7 +517,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nmrowcol~5"></span>
+              <span class="anchor" id="variable-nmrowcol~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -529,7 +532,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_repl~2"></span>
+              <span class="anchor" id="variable-n_repl~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -544,7 +547,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_size~2"></span>
+              <span class="anchor" id="variable-dist_size~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -598,7 +601,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size_vec~2"></span>
+              <span class="anchor" id="variable-blk_size_vec~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -667,7 +670,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_repl~3"></span>
+              <span class="anchor" id="variable-n_repl~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -777,7 +780,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~4"></span>
+              <span class="anchor" id="variable-t"></span>
               class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
 <td>intent(in)</td>
@@ -792,7 +795,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcol~3"></span>
+              <span class="anchor" id="variable-rowcol"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -843,7 +846,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~5"></span>
+              <span class="anchor" id="variable-t~2"></span>
               class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
 <td>intent(in)</td>
@@ -858,7 +861,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~21"></span>
+              <span class="anchor" id="variable-dist~25"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -909,7 +912,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~12"></span>
+              <span class="anchor" id="variable-t~3"></span>
               class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
             </td>
 <td>intent(in)</td>
@@ -924,7 +927,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcol~7"></span>
+              <span class="anchor" id="variable-rowcol~2"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -1023,12 +1026,12 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure(<a href='../interface/rowcol_dist.html'>rowcol_dist</a>), public, deferred ::
-  <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-dist~20'>dist</a></strong></td>
+  <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-dist~21'>dist</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure(<a href='../interface/dist_rowcols.html'>dist_rowcols</a>), public, deferred ::
-  <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-rowcols~3'>rowcols</a></strong></td>
+  <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-rowcols'>rowcols</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1124,7 +1127,7 @@ parameter
 
                     
                     function
-                    <strong><a href='../proc/new_dbcsr_tas_dist_cyclic.html'>new_dbcsr_tas_dist_cyclic</a></strong>
+                    <strong><a href='/__w/dbcsr/dbcsr/build/doc/proc/new_dbcsr_tas_dist_cyclic.html'>new_dbcsr_tas_dist_cyclic</a></strong>
                     (split_size, nprowcol, nmrowcol)
                   </td>
                   <td></td>
@@ -1138,12 +1141,12 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-dist~22'>dist</a></strong> => <a href='../proc/cyclic_dist.html'>cyclic_dist</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-dist~22'>dist</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/cyclic_dist.html'>cyclic_dist</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-rowcols~4'>rowcols</a></strong> => <a href='../proc/cyclic_rowcols.html'>cyclic_rowcols</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-rowcols~2'>rowcols</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/cyclic_rowcols.html'>cyclic_rowcols</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1239,7 +1242,7 @@ parameter
 
                     
                     function
-                    <strong><a href='../proc/new_dbcsr_tas_dist_arb.html'>new_dbcsr_tas_dist_arb</a></strong>
+                    <strong><a href='/__w/dbcsr/dbcsr/build/doc/proc/new_dbcsr_tas_dist_arb.html'>new_dbcsr_tas_dist_arb</a></strong>
                     (dist_vec, nprowcol, nmrowcol)
                   </td>
                   <td></td>
@@ -1253,12 +1256,12 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-dist~24'>dist</a></strong> => <a href='../proc/arb_dist.html'>arb_dist</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-dist~23'>dist</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/arb_dist.html'>arb_dist</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-rowcols~5'>rowcols</a></strong> => <a href='../proc/arb_rowcols.html'>arb_rowcols</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-rowcols~3'>rowcols</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/arb_rowcols.html'>arb_rowcols</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1325,7 +1328,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_vec~3"></span>
+              <span class="anchor" id="variable-dist_vec~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -1376,7 +1379,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_size"></span>
+              <span class="anchor" id="variable-dist_size~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -1405,7 +1408,7 @@ parameter
 
                     
                     function
-                    <strong><a href='../proc/new_dbcsr_tas_dist_repl.html'>new_dbcsr_tas_dist_repl</a></strong>
+                    <strong><a href='/__w/dbcsr/dbcsr/build/doc/proc/new_dbcsr_tas_dist_repl.html'>new_dbcsr_tas_dist_repl</a></strong>
                     (dist_vec, nprowcol, nmrowcol, n_repl, dist_size)
                   </td>
                   <td></td>
@@ -1419,12 +1422,12 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-dist~26'>dist</a></strong> => <a href='../proc/repl_dist.html'>repl_dist</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-dist~24'>dist</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/repl_dist.html'>repl_dist</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-rowcols~6'>rowcols</a></strong> => <a href='../proc/repl_rowcols.html'>repl_rowcols</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-rowcols~4'>rowcols</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/repl_rowcols.html'>repl_rowcols</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1500,7 +1503,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure(<a href='../interface/rowcol_data.html'>rowcol_data</a>), public, deferred ::
-  <strong><a href='../type/dbcsr_tas_rowcol_data.html#boundprocedure-data~35'>DATA</a></strong></td>
+  <strong><a href='../type/dbcsr_tas_rowcol_data.html#boundprocedure-data~14'>DATA</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1596,7 +1599,7 @@ parameter
 
                     
                     function
-                    <strong><a href='../proc/new_dbcsr_tas_blk_size_arb.html'>new_dbcsr_tas_blk_size_arb</a></strong>
+                    <strong><a href='/__w/dbcsr/dbcsr/build/doc/proc/new_dbcsr_tas_blk_size_arb.html'>new_dbcsr_tas_blk_size_arb</a></strong>
                     (blk_size_vec)
                   </td>
                   <td></td>
@@ -1610,7 +1613,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_blk_size_arb.html#boundprocedure-data~36'>DATA</a></strong> => <a href='../proc/blk_size_arb.html'>blk_size_arb</a></td>
+  <strong><a href='../type/dbcsr_tas_blk_size_arb.html#boundprocedure-data~15'>DATA</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_arb.html'>blk_size_arb</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1677,7 +1680,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size_vec~3"></span>
+              <span class="anchor" id="variable-blk_size_vec~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -1723,7 +1726,7 @@ parameter
 
                     
                     function
-                    <strong><a href='../proc/new_dbcsr_tas_blk_size_repl.html'>new_dbcsr_tas_blk_size_repl</a></strong>
+                    <strong><a href='/__w/dbcsr/dbcsr/build/doc/proc/new_dbcsr_tas_blk_size_repl.html'>new_dbcsr_tas_blk_size_repl</a></strong>
                     (blk_size_vec, n_repl)
                   </td>
                   <td></td>
@@ -1737,7 +1740,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~37'>DATA</a></strong> => <a href='../proc/blk_size_repl.html'>blk_size_repl</a></td>
+  <strong><a href='../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~16'>DATA</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_repl.html'>blk_size_repl</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1816,7 +1819,7 @@ parameter
 
                     
                     function
-                    <strong><a href='../proc/new_dbcsr_tas_blk_size_one.html'>new_dbcsr_tas_blk_size_one</a></strong>
+                    <strong><a href='/__w/dbcsr/dbcsr/build/doc/proc/new_dbcsr_tas_blk_size_one.html'>new_dbcsr_tas_blk_size_one</a></strong>
                     (nrowcol)
                   </td>
                   <td></td>
@@ -1830,7 +1833,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_blk_size_one.html#boundprocedure-data~38'>DATA</a></strong> => <a href='../proc/blk_size_one.html'>blk_size_one</a></td>
+  <strong><a href='../type/dbcsr_tas_blk_size_one.html#boundprocedure-data~17'>DATA</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_one.html'>blk_size_one</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1844,7 +1847,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-blk_size_arb"></span><h3>private  function <a href='../proc/blk_size_arb.html'>blk_size_arb</a>(t, rowcol)  
+    <div class="card-header codesum"><span class="anchor" id="proc-blk_size_arb"></span> <h3>private  function <a href='../proc/blk_size_arb.html'>blk_size_arb</a>(t, rowcol)  
 </h3></div>
     <div class="card-body">
           
@@ -1863,7 +1866,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~13"></span>
+              <span class="anchor" id="variable-t~4"></span>
               class(<a href='../type/dbcsr_tas_blk_size_arb.html'>dbcsr_tas_blk_size_arb</a>),
             </td>
 <td>intent(in)</td>
@@ -1878,7 +1881,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcol~8"></span>
+              <span class="anchor" id="variable-rowcol~3"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -1904,7 +1907,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-blk_size_repl"></span><h3>private  function <a href='../proc/blk_size_repl.html'>blk_size_repl</a>(t, rowcol)  
+    <div class="card-header codesum"><span class="anchor" id="proc-blk_size_repl"></span> <h3>private  function <a href='../proc/blk_size_repl.html'>blk_size_repl</a>(t, rowcol)  
 </h3></div>
     <div class="card-body">
           
@@ -1923,7 +1926,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~14"></span>
+              <span class="anchor" id="variable-t~5"></span>
               class(<a href='../type/dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>),
             </td>
 <td>intent(in)</td>
@@ -1938,7 +1941,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcol~9"></span>
+              <span class="anchor" id="variable-rowcol~4"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -1964,7 +1967,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-blk_size_one"></span><h3>private  function <a href='../proc/blk_size_one.html'>blk_size_one</a>(t, rowcol)  
+    <div class="card-header codesum"><span class="anchor" id="proc-blk_size_one"></span> <h3>private  function <a href='../proc/blk_size_one.html'>blk_size_one</a>(t, rowcol)  
 </h3></div>
     <div class="card-body">
           
@@ -1983,7 +1986,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~15"></span>
+              <span class="anchor" id="variable-t~6"></span>
               class(<a href='../type/dbcsr_tas_blk_size_one.html'>dbcsr_tas_blk_size_one</a>),
             </td>
 <td>intent(in)</td>
@@ -1998,7 +2001,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcol~10"></span>
+              <span class="anchor" id="variable-rowcol~5"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2024,7 +2027,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_blk_size_arb"></span><h3>private  function <a href='../proc/new_dbcsr_tas_blk_size_arb.html'>new_dbcsr_tas_blk_size_arb</a>(blk_size_vec)  
+    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_blk_size_arb"></span> <h3>private  function <a href='../proc/new_dbcsr_tas_blk_size_arb.html'>new_dbcsr_tas_blk_size_arb</a>(blk_size_vec)  
 </h3></div>
     <div class="card-body">
           
@@ -2043,7 +2046,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size_vec~2"></span>
+              <span class="anchor" id="variable-blk_size_vec~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2069,7 +2072,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_blk_size_repl"></span><h3>private  function <a href='../proc/new_dbcsr_tas_blk_size_repl.html'>new_dbcsr_tas_blk_size_repl</a>(blk_size_vec, n_repl)  
+    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_blk_size_repl"></span> <h3>private  function <a href='../proc/new_dbcsr_tas_blk_size_repl.html'>new_dbcsr_tas_blk_size_repl</a>(blk_size_vec, n_repl)  
 </h3></div>
     <div class="card-body">
           
@@ -2103,7 +2106,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_repl~3"></span>
+              <span class="anchor" id="variable-n_repl~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2129,7 +2132,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_blk_size_one"></span><h3>private  function <a href='../proc/new_dbcsr_tas_blk_size_one.html'>new_dbcsr_tas_blk_size_one</a>(nrowcol)  
+    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_blk_size_one"></span> <h3>private  function <a href='../proc/new_dbcsr_tas_blk_size_one.html'>new_dbcsr_tas_blk_size_one</a>(nrowcol)  
 </h3></div>
     <div class="card-body">
           
@@ -2174,7 +2177,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arb_dist"></span><h3>private  function <a href='../proc/arb_dist.html'>arb_dist</a>(t, rowcol)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arb_dist"></span> <h3>private  function <a href='../proc/arb_dist.html'>arb_dist</a>(t, rowcol)  
 </h3></div>
     <div class="card-body">
           
@@ -2193,68 +2196,8 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~8"></span>
+              <span class="anchor" id="variable-t~7"></span>
               class(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>t</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rowcol~5"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rowcol</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-repl_dist"></span><h3>private  function <a href='../proc/repl_dist.html'>repl_dist</a>(t, rowcol)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-t~10"></span>
-              class(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2294,7 +2237,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-repl_rowcols"></span><h3>private  function <a href='../proc/repl_rowcols.html'>repl_rowcols</a>(t, dist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-repl_dist"></span> <h3>private  function <a href='../proc/repl_dist.html'>repl_dist</a>(t, rowcol)  
 </h3></div>
     <div class="card-body">
           
@@ -2313,8 +2256,128 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~11"></span>
+              <span class="anchor" id="variable-t~8"></span>
               class(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>t</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rowcol~7"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rowcol</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-repl_rowcols"></span> <h3>private  function <a href='../proc/repl_rowcols.html'>repl_rowcols</a>(t, dist)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t~9"></span>
+              class(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>t</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist~26"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer(kind=int_8), DIMENSION(:), ALLOCATABLE</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arb_rowcols"></span> <h3>private  function <a href='../proc/arb_rowcols.html'>arb_rowcols</a>(t, dist)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t~10"></span>
+              class(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2354,67 +2417,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arb_rowcols"></span><h3>private  function <a href='../proc/arb_rowcols.html'>arb_rowcols</a>(t, dist)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-t~9"></span>
-              class(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>t</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dist~25"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dist</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer(kind=int_8), DIMENSION(:), ALLOCATABLE</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_dist_cyclic"></span><h3>private  function <a href='../proc/new_dbcsr_tas_dist_cyclic.html'>new_dbcsr_tas_dist_cyclic</a>(split_size, nprowcol, nmrowcol)  
+    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_dist_cyclic"></span> <h3>private  function <a href='../proc/new_dbcsr_tas_dist_cyclic.html'>new_dbcsr_tas_dist_cyclic</a>(split_size, nprowcol, nmrowcol)  
 </h3></div>
     <div class="card-body">
           
@@ -2489,7 +2492,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_dist_arb"></span><h3>private  function <a href='../proc/new_dbcsr_tas_dist_arb.html'>new_dbcsr_tas_dist_arb</a>(dist_vec, nprowcol, nmrowcol)  
+    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_dist_arb"></span> <h3>private  function <a href='../proc/new_dbcsr_tas_dist_arb.html'>new_dbcsr_tas_dist_arb</a>(dist_vec, nprowcol, nmrowcol)  
 </h3></div>
     <div class="card-body">
           
@@ -2508,7 +2511,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_vec~2"></span>
+              <span class="anchor" id="variable-dist_vec~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2564,7 +2567,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_dist_arb_default"></span><h3>public  function <a href='../proc/dbcsr_tas_dist_arb_default.html'>dbcsr_tas_dist_arb_default</a>(nprowcol, nmrowcol, block_sizes)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_dist_arb_default"></span> <h3>public  function <a href='../proc/dbcsr_tas_dist_arb_default.html'>dbcsr_tas_dist_arb_default</a>(nprowcol, nmrowcol, block_sizes)  
 </h3></div>
     <div class="card-body">
           
@@ -2586,7 +2589,7 @@ Only for small dimensions since distribution is created as an array</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nprowcol~5"></span>
+              <span class="anchor" id="variable-nprowcol~4"></span>
               integer
             </td>
 <td></td>
@@ -2601,7 +2604,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nmrowcol~6"></span>
+              <span class="anchor" id="variable-nmrowcol~5"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2642,7 +2645,7 @@ Only for small dimensions since distribution is created as an array</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_dist_repl"></span><h3>private  function <a href='../proc/new_dbcsr_tas_dist_repl.html'>new_dbcsr_tas_dist_repl</a>(dist_vec, nprowcol, nmrowcol, n_repl, dist_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-new_dbcsr_tas_dist_repl"></span> <h3>private  function <a href='../proc/new_dbcsr_tas_dist_repl.html'>new_dbcsr_tas_dist_repl</a>(dist_vec, nprowcol, nmrowcol, n_repl, dist_size)  
 </h3></div>
     <div class="card-body">
           
@@ -2661,7 +2664,7 @@ Only for small dimensions since distribution is created as an array</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_vec~4"></span>
+              <span class="anchor" id="variable-dist_vec~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2676,7 +2679,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nprowcol~4"></span>
+              <span class="anchor" id="variable-nprowcol~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2691,7 +2694,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nmrowcol~5"></span>
+              <span class="anchor" id="variable-nmrowcol~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2706,7 +2709,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_repl~2"></span>
+              <span class="anchor" id="variable-n_repl~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2721,7 +2724,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_size~2"></span>
+              <span class="anchor" id="variable-dist_size~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2747,7 +2750,7 @@ Only for small dimensions since distribution is created as an array</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-cyclic_dist"></span><h3>private  function <a href='../proc/cyclic_dist.html'>cyclic_dist</a>(t, rowcol)  
+    <div class="card-header codesum"><span class="anchor" id="proc-cyclic_dist"></span> <h3>private  function <a href='../proc/cyclic_dist.html'>cyclic_dist</a>(t, rowcol)  
 </h3></div>
     <div class="card-body">
           
@@ -2766,7 +2769,7 @@ Only for small dimensions since distribution is created as an array</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~6"></span>
+              <span class="anchor" id="variable-t~11"></span>
               class(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),
             </td>
 <td>intent(in)</td>
@@ -2781,7 +2784,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcol~4"></span>
+              <span class="anchor" id="variable-rowcol~10"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2807,7 +2810,7 @@ Only for small dimensions since distribution is created as an array</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-cyclic_rowcols"></span><h3>private  function <a href='../proc/cyclic_rowcols.html'>cyclic_rowcols</a>(t, dist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-cyclic_rowcols"></span> <h3>private  function <a href='../proc/cyclic_rowcols.html'>cyclic_rowcols</a>(t, dist)  
 </h3></div>
     <div class="card-body">
           
@@ -2826,7 +2829,7 @@ Only for small dimensions since distribution is created as an array</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~7"></span>
+              <span class="anchor" id="variable-t~12"></span>
               class(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),
             </td>
 <td>intent(in)</td>
@@ -2841,7 +2844,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~23"></span>
+              <span class="anchor" id="variable-dist~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2872,7 +2875,7 @@ Only for small dimensions since distribution is created as an array</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_default_distvec"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_default_distvec.html'>dbcsr_tas_default_distvec</a>(nblk, nproc, blk_size, dist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_default_distvec"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_default_distvec.html'>dbcsr_tas_default_distvec</a>(nblk, nproc, blk_size, dist)  
 </h3></div>
     <div class="card-body">
           
@@ -2891,7 +2894,7 @@ Only for small dimensions since distribution is created as an array</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblk~2"></span>
+              <span class="anchor" id="variable-nblk~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2906,7 +2909,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nproc~3"></span>
+              <span class="anchor" id="variable-nproc~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2921,7 +2924,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size~5"></span>
+              <span class="anchor" id="variable-blk_size~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2936,7 +2939,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~12"></span>
+              <span class="anchor" id="variable-dist~28"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2957,7 +2960,7 @@ Only for small dimensions since distribution is created as an array</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-distribute_lpt_random"></span><h3>private  subroutine <a href='../proc/distribute_lpt_random.html'>distribute_lpt_random</a>(nel, nbin, weights, dist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-distribute_lpt_random"></span> <h3>private  subroutine <a href='../proc/distribute_lpt_random.html'>distribute_lpt_random</a>(nel, nbin, weights, dist)  
 </h3></div>
     <div class="card-body">
           
@@ -3023,7 +3026,7 @@ load balanced distribution is obtained by using LPT algorithm together with rand
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~69"></span>
+              <span class="anchor" id="variable-dist~29"></span>
               integer,
             </td>
 <td>intent(out),</td>

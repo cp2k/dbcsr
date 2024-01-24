@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,8 +114,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_mem_methods.html#variable-modulen~6">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_mem_methods.html#variable-debug~2">debug</a>
+            <a class="list-group-item" href="../module/dbcsr_mem_methods.html#variable-modulen~46">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_mem_methods.html#variable-debug~14">debug</a>
         </div>
       </div>
     </div>
@@ -178,11 +181,11 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
               </ul>
             </li>
         </ul>
@@ -207,7 +210,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~6"></span>
+              <span class="anchor" id="variable-modulen~46"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -224,7 +227,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-debug~2"></span>
+              <span class="anchor" id="variable-debug~14"></span>
               logical,
             </td>
               <td>private,</td>
@@ -252,7 +255,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_get"></span><h3>public  function <a href='../proc/dbcsr_mempool_get.html'>dbcsr_mempool_get</a>(memtype, datatype, datasize) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_get"></span> <h3>public  function <a href='../proc/dbcsr_mempool_get.html'>dbcsr_mempool_get</a>(memtype, datatype, datasize) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -286,7 +289,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-datatype"></span>
+              <span class="anchor" id="variable-datatype~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -327,7 +330,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_memtype_equal"></span><h3>public  function <a href='../proc/dbcsr_memtype_equal.html'>dbcsr_memtype_equal</a>(mt1, mt2) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_memtype_equal"></span> <h3>public  function <a href='../proc/dbcsr_memtype_equal.html'>dbcsr_memtype_equal</a>(mt1, mt2) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -392,7 +395,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_create"></span><h3>private  subroutine <a href='../proc/dbcsr_mempool_create.html'>dbcsr_mempool_create</a>(pool)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_create"></span> <h3>private  subroutine <a href='../proc/dbcsr_mempool_create.html'>dbcsr_mempool_create</a>(pool)  
 </h3></div>
     <div class="card-body">
           
@@ -432,7 +435,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_limit_capacity"></span><h3>public  subroutine <a href='../proc/dbcsr_mempool_limit_capacity.html'>dbcsr_mempool_limit_capacity</a>(pool, capacity)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_limit_capacity"></span> <h3>public  subroutine <a href='../proc/dbcsr_mempool_limit_capacity.html'>dbcsr_mempool_limit_capacity</a>(pool, capacity)  
 </h3></div>
     <div class="card-body">
           
@@ -487,7 +490,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_add"></span><h3>public  subroutine <a href='../proc/dbcsr_mempool_add.html'>dbcsr_mempool_add</a>(area)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_add"></span> <h3>public  subroutine <a href='../proc/dbcsr_mempool_add.html'>dbcsr_mempool_add</a>(area)  
 </h3></div>
     <div class="card-body">
           
@@ -506,7 +509,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~52"></span>
+              <span class="anchor" id="variable-area~56"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>)
             </td>
 <td></td>
@@ -527,91 +530,11 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mempool_collect_garbage"></span><h3>private  subroutine <a href='../proc/mempool_collect_garbage.html'>mempool_collect_garbage</a>(pool)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mempool_collect_garbage"></span> <h3>private  subroutine <a href='../proc/mempool_collect_garbage.html'>mempool_collect_garbage</a>(pool)  
 </h3></div>
     <div class="card-body">
           
   <p>Ensures that pool_size &lt; max_size, e.g. that there is a free slot.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pool~4"></span>
-              type(<a href='../type/dbcsr_mempool_type.html'>dbcsr_mempool_type</a>),
-            </td>
-<td></td>
-              <td></td>            <td>
-              POINTER
-            </td>
-            <td>::</td>
-            <td><strong>pool</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_destruct"></span><h3>public  subroutine <a href='../proc/dbcsr_mempool_destruct.html'>dbcsr_mempool_destruct</a>(pool)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Finalizes mempool, includes deallocation of all contained data_areas.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pool~5"></span>
-              type(<a href='../type/dbcsr_mempool_type.html'>dbcsr_mempool_type</a>),
-            </td>
-<td></td>
-              <td></td>            <td>
-              POINTER
-            </td>
-            <td>::</td>
-            <td><strong>pool</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_clear"></span><h3>public  subroutine <a href='../proc/dbcsr_mempool_clear.html'>dbcsr_mempool_clear</a>(pool)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocates all data_areas contained in given mempool.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -647,7 +570,87 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_memtype_setup"></span><h3>public  subroutine <a href='../proc/dbcsr_memtype_setup.html'>dbcsr_memtype_setup</a>(memtype, acc_hostalloc, acc_devalloc, mpi, acc_stream, oversize_factor, has_pool)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_destruct"></span> <h3>public  subroutine <a href='../proc/dbcsr_mempool_destruct.html'>dbcsr_mempool_destruct</a>(pool)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Finalizes mempool, includes deallocation of all contained data_areas.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pool~7"></span>
+              type(<a href='../type/dbcsr_mempool_type.html'>dbcsr_mempool_type</a>),
+            </td>
+<td></td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>pool</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mempool_clear"></span> <h3>public  subroutine <a href='../proc/dbcsr_mempool_clear.html'>dbcsr_mempool_clear</a>(pool)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates all data_areas contained in given mempool.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pool~8"></span>
+              type(<a href='../type/dbcsr_mempool_type.html'>dbcsr_mempool_type</a>),
+            </td>
+<td></td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>pool</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_memtype_setup"></span> <h3>public  subroutine <a href='../proc/dbcsr_memtype_setup.html'>dbcsr_memtype_setup</a>(memtype, acc_hostalloc, acc_devalloc, mpi, acc_stream, oversize_factor, has_pool)  
 </h3></div>
     <div class="card-body">
           

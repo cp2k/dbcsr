@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -175,25 +178,25 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_blas_operations.html'>dbcsr_blas_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_transformations.html'>dbcsr_transformations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_blas_operations.html'>dbcsr_blas_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
               </ul>
             </li>
         </ul>
@@ -263,7 +266,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_checksum"></span><h3>public  function <a href='../proc/dbcsr_tas_checksum.html'>dbcsr_tas_checksum</a>(matrix, local, pos)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_checksum"></span> <h3>public  function <a href='../proc/dbcsr_tas_checksum.html'>dbcsr_tas_checksum</a>(matrix, local, pos)  
 </h3></div>
     <div class="card-body">
           
@@ -282,7 +285,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~300"></span>
+              <span class="anchor" id="variable-matrix~106"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -297,7 +300,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local~10"></span>
+              <span class="anchor" id="variable-local~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -312,7 +315,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~25"></span>
+              <span class="anchor" id="variable-pos~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -343,7 +346,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_setup_test_matrix"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_setup_test_matrix.html'>dbcsr_tas_setup_test_matrix</a>(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, dist_splitsize, name, sparsity, reuse_comm)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_setup_test_matrix"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_setup_test_matrix.html'>dbcsr_tas_setup_test_matrix</a>(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, dist_splitsize, name, sparsity, reuse_comm)  
 </h3></div>
     <div class="card-body">
           
@@ -362,7 +365,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~301"></span>
+              <span class="anchor" id="variable-matrix~105"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out)</td>
@@ -392,7 +395,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~22"></span>
+              <span class="anchor" id="variable-mp_comm~6"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -407,7 +410,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~12"></span>
+              <span class="anchor" id="variable-nrows~2"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -422,7 +425,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ncols~4"></span>
+              <span class="anchor" id="variable-ncols~2"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -482,7 +485,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~25"></span>
+              <span class="anchor" id="variable-name~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -497,7 +500,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sparsity~4"></span>
+              <span class="anchor" id="variable-sparsity~2"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -533,7 +536,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_benchmark_mm"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_benchmark_mm.html'>dbcsr_tas_benchmark_mm</a>(transa, transb, transc, matrix_a, matrix_b, matrix_c, compare_dbcsr, filter_eps, io_unit)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_benchmark_mm"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_benchmark_mm.html'>dbcsr_tas_benchmark_mm</a>(transa, transb, transc, matrix_a, matrix_b, matrix_c, compare_dbcsr, filter_eps, io_unit)  
 </h3></div>
     <div class="card-body">
           
@@ -553,7 +556,7 @@ may not be representative for actual applications.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~13"></span>
+              <span class="anchor" id="variable-transa~5"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -568,7 +571,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~13"></span>
+              <span class="anchor" id="variable-transb~5"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -583,7 +586,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transc~3"></span>
+              <span class="anchor" id="variable-transc"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -598,7 +601,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~85"></span>
+              <span class="anchor" id="variable-matrix_a~30"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -613,7 +616,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~52"></span>
+              <span class="anchor" id="variable-matrix_b~17"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -628,7 +631,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~15"></span>
+              <span class="anchor" id="variable-matrix_c~6"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -658,7 +661,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~17"></span>
+              <span class="anchor" id="variable-filter_eps~5"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -673,7 +676,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~10"></span>
+              <span class="anchor" id="variable-io_unit~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -694,7 +697,7 @@ may not be representative for actual applications.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_test_mm"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_test_mm.html'>dbcsr_tas_test_mm</a>(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, log_verbose)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_test_mm"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_test_mm.html'>dbcsr_tas_test_mm</a>(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, log_verbose)  
 </h3></div>
     <div class="card-body">
           
@@ -713,7 +716,7 @@ may not be representative for actual applications.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~14"></span>
+              <span class="anchor" id="variable-transa~6"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -728,7 +731,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~14"></span>
+              <span class="anchor" id="variable-transb~6"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -743,7 +746,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transc~4"></span>
+              <span class="anchor" id="variable-transc~2"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -758,7 +761,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~86"></span>
+              <span class="anchor" id="variable-matrix_a~31"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -773,7 +776,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~53"></span>
+              <span class="anchor" id="variable-matrix_b~18"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -788,7 +791,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~16"></span>
+              <span class="anchor" id="variable-matrix_c~7"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -803,7 +806,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~18"></span>
+              <span class="anchor" id="variable-filter_eps~6"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -818,7 +821,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~30"></span>
+              <span class="anchor" id="variable-unit_nr~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -833,7 +836,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-log_verbose~4"></span>
+              <span class="anchor" id="variable-log_verbose"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -854,7 +857,7 @@ may not be representative for actual applications.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_random_bsizes"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_random_bsizes.html'>dbcsr_tas_random_bsizes</a>(sizes, repeat, block_sizes)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_random_bsizes"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_random_bsizes.html'>dbcsr_tas_random_bsizes</a>(sizes, repeat, block_sizes)  
 </h3></div>
     <div class="card-body">
           
@@ -873,7 +876,7 @@ may not be representative for actual applications.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~51"></span>
+              <span class="anchor" id="variable-sizes~39"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -903,7 +906,7 @@ may not be representative for actual applications.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_sizes~4"></span>
+              <span class="anchor" id="variable-block_sizes~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -924,7 +927,7 @@ may not be representative for actual applications.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_reset_randmat_seed"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_reset_randmat_seed.html'>dbcsr_tas_reset_randmat_seed</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_reset_randmat_seed"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_reset_randmat_seed.html'>dbcsr_tas_reset_randmat_seed</a>()  
 </h3></div>
     <div class="card-body">
           

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -151,7 +154,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_create_new"></span><h3>private  subroutine <a href='../proc/dbcsr_t_create_new.html'>dbcsr_t_create_new</a>(tensor, name, dist, map1_2d, map2_2d, data_type, blk_size_1, blk_size_2, blk_size_3, blk_size_4)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_create_new"></span> <h3>private  subroutine <a href='../proc/dbcsr_t_create_new.html'>dbcsr_t_create_new</a>(tensor, name, dist, map1_2d, map2_2d, data_type, blk_size_1, blk_size_2, blk_size_3, blk_size_4)  
 </h3></div>
     <div class="card-body">
           
@@ -172,7 +175,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~69"></span>
+              <span class="anchor" id="variable-tensor~57"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -187,7 +190,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~20"></span>
+              <span class="anchor" id="variable-name~27"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -202,7 +205,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~66"></span>
+              <span class="anchor" id="variable-dist~64"></span>
               type(<a href='../type/dbcsr_t_distribution_type.html'>dbcsr_t_distribution_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -217,7 +220,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map1_2d~3"></span>
+              <span class="anchor" id="variable-map1_2d~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -232,7 +235,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map2_2d~3"></span>
+              <span class="anchor" id="variable-map2_2d~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -247,7 +250,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~43"></span>
+              <span class="anchor" id="variable-data_type~72"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -328,7 +331,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_create_template"></span><h3>private  subroutine <a href='../proc/dbcsr_t_create_template.html'>dbcsr_t_create_template</a>(tensor_in, tensor, name, dist, map1_2d, map2_2d, data_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_create_template"></span> <h3>private  subroutine <a href='../proc/dbcsr_t_create_template.html'>dbcsr_t_create_template</a>(tensor_in, tensor, name, dist, map1_2d, map2_2d, data_type)  
 </h3></div>
     <div class="card-body">
           
@@ -347,7 +350,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~8"></span>
+              <span class="anchor" id="variable-tensor_in~13"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -362,7 +365,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~71"></span>
+              <span class="anchor" id="variable-tensor~59"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -377,7 +380,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~21"></span>
+              <span class="anchor" id="variable-name~28"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -392,7 +395,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~67"></span>
+              <span class="anchor" id="variable-dist~65"></span>
               type(<a href='../type/dbcsr_t_distribution_type.html'>dbcsr_t_distribution_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -407,7 +410,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map1_2d~10"></span>
+              <span class="anchor" id="variable-map1_2d~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -422,7 +425,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map2_2d~10"></span>
+              <span class="anchor" id="variable-map2_2d~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -437,7 +440,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~44"></span>
+              <span class="anchor" id="variable-data_type~73"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -458,7 +461,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_create_matrix"></span><h3>private  subroutine <a href='../proc/dbcsr_t_create_matrix.html'>dbcsr_t_create_matrix</a>(matrix_in, tensor, order, name)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_create_matrix"></span> <h3>private  subroutine <a href='../proc/dbcsr_t_create_matrix.html'>dbcsr_t_create_matrix</a>(matrix_in, tensor, order, name)  
 </h3></div>
     <div class="card-body">
           
@@ -477,7 +480,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~14"></span>
+              <span class="anchor" id="variable-matrix_in~9"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -492,7 +495,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~72"></span>
+              <span class="anchor" id="variable-tensor~60"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -507,7 +510,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-order~38"></span>
+              <span class="anchor" id="variable-order~47"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -522,7 +525,7 @@ consistent with the the contraction to be performed (see documentation of dbcsr_
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~22"></span>
+              <span class="anchor" id="variable-name~29"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>

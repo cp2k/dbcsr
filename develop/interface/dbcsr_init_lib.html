@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -150,7 +153,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_init_lib_def"></span><h3>private  subroutine <a href='../proc/dbcsr_init_lib_def.html'>dbcsr_init_lib_def</a>(mp_comm, io_unit, accdrv_active_device_id)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_init_lib_def"></span> <h3>private  subroutine <a href='../proc/dbcsr_init_lib_def.html'>dbcsr_init_lib_def</a>(mp_comm, io_unit, accdrv_active_device_id)  
 </h3></div>
     <div class="card-body">
           
@@ -171,7 +174,7 @@ and convert it here to a communicator type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~12"></span>
+              <span class="anchor" id="variable-mp_comm~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -186,7 +189,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~6"></span>
+              <span class="anchor" id="variable-io_unit~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -222,7 +225,7 @@ and convert it here to a communicator type</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_init_lib_hooks"></span><h3>private  subroutine <a href='../proc/dbcsr_init_lib_hooks.html'>dbcsr_init_lib_hooks</a>(mp_comm, in_timeset_hook, in_timestop_hook, in_abort_hook, in_warn_hook, io_unit, accdrv_active_device_id)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_init_lib_hooks"></span> <h3>private  subroutine <a href='../proc/dbcsr_init_lib_hooks.html'>dbcsr_init_lib_hooks</a>(mp_comm, in_timeset_hook, in_timestop_hook, in_abort_hook, in_warn_hook, io_unit, accdrv_active_device_id)  
 </h3></div>
     <div class="card-body">
           
@@ -243,7 +246,7 @@ and convert it here to a communicator type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~13"></span>
+              <span class="anchor" id="variable-mp_comm~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -259,7 +262,7 @@ and convert it here to a communicator type</p>
         <tr>
             <td>
               <span class="anchor" id="variable-in_timeset_hook"></span>
-              procedure(<a href='../interface/timeset_interface.html'>timeset_interface</a>),
+              procedure(<a href='timeset_interface.html'>timeset_interface</a>),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -274,7 +277,7 @@ and convert it here to a communicator type</p>
         <tr>
             <td>
               <span class="anchor" id="variable-in_timestop_hook"></span>
-              procedure(<a href='../interface/timestop_interface.html'>timestop_interface</a>),
+              procedure(<a href='timestop_interface.html'>timestop_interface</a>),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -289,7 +292,7 @@ and convert it here to a communicator type</p>
         <tr>
             <td>
               <span class="anchor" id="variable-in_abort_hook"></span>
-              procedure(<a href='../interface/dbcsr_abort_interface.html'>dbcsr_abort_interface</a>),
+              procedure(<a href='dbcsr_abort_interface.html'>dbcsr_abort_interface</a>),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -304,7 +307,7 @@ and convert it here to a communicator type</p>
         <tr>
             <td>
               <span class="anchor" id="variable-in_warn_hook"></span>
-              procedure(<a href='../interface/dbcsr_warn_interface.html'>dbcsr_warn_interface</a>),
+              procedure(<a href='dbcsr_warn_interface.html'>dbcsr_warn_interface</a>),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -318,7 +321,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~7"></span>
+              <span class="anchor" id="variable-io_unit~4"></span>
               integer,
             </td>
 <td>intent(in),</td>

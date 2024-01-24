@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,9 +114,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-modulen~13">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-careful_mod~2">careful_mod</a>
-            <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-debug_mod">debug_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-modulen~66">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-careful_mod~20">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-debug_mod~12">debug_mod</a>
         </div>
       </div>
     </div>
@@ -207,16 +210,16 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
               </ul>
             </li>
         </ul>
@@ -241,7 +244,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~13"></span>
+              <span class="anchor" id="variable-modulen~66"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -258,7 +261,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~2"></span>
+              <span class="anchor" id="variable-careful_mod~20"></span>
               logical,
             </td>
               <td>private,</td>
@@ -275,7 +278,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-debug_mod"></span>
+              <span class="anchor" id="variable-debug_mod~12"></span>
               logical,
             </td>
               <td>private,</td>
@@ -327,7 +330,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~2"></span>
+              <span class="anchor" id="variable-rows~48"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -342,7 +345,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-counts"></span>
+              <span class="anchor" id="variable-counts~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -357,7 +360,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~2"></span>
+              <span class="anchor" id="variable-nrows~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -396,7 +399,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows"></span>
+              <span class="anchor" id="variable-rows~47"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -411,7 +414,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows"></span>
+              <span class="anchor" id="variable-nrows~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -460,7 +463,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-counts~2"></span>
+              <span class="anchor" id="variable-counts~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -475,7 +478,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~4"></span>
+              <span class="anchor" id="variable-rows~50"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -490,7 +493,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~4"></span>
+              <span class="anchor" id="variable-nrows~21"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -529,7 +532,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~3"></span>
+              <span class="anchor" id="variable-rows~49"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -544,7 +547,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~3"></span>
+              <span class="anchor" id="variable-nrows~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -573,7 +576,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_has_local_row_index"></span><h3>public  function <a href='../proc/dbcsr_has_local_row_index.html'>dbcsr_has_local_row_index</a>(matrix) result(local_indexing)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_has_local_row_index"></span> <h3>public  function <a href='../proc/dbcsr_has_local_row_index.html'>dbcsr_has_local_row_index</a>(matrix) result(local_indexing)  
 </h3></div>
     <div class="card-body">
           
@@ -592,7 +595,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~116"></span>
+              <span class="anchor" id="variable-matrix~407"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -623,7 +626,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-make_index_canonical"></span><h3>private  subroutine <a href='../proc/make_index_canonical.html'>make_index_canonical</a>(new_row_p, new_col_i, new_blk_p, old_row_p, old_col_i, old_blk_p, matrix)  
+    <div class="card-header codesum"><span class="anchor" id="proc-make_index_canonical"></span> <h3>private  subroutine <a href='../proc/make_index_canonical.html'>make_index_canonical</a>(new_row_p, new_col_i, new_blk_p, old_row_p, old_col_i, old_blk_p, matrix)  
 </h3></div>
     <div class="card-body">
           
@@ -642,7 +645,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_row_p~2"></span>
+              <span class="anchor" id="variable-new_row_p~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -657,7 +660,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_col_i~3"></span>
+              <span class="anchor" id="variable-new_col_i~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -702,7 +705,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_col_i~5"></span>
+              <span class="anchor" id="variable-old_col_i~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -717,7 +720,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_p~7"></span>
+              <span class="anchor" id="variable-old_blk_p~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -732,7 +735,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~117"></span>
+              <span class="anchor" id="variable-matrix~397"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -753,7 +756,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-make_index_triangular"></span><h3>private  subroutine <a href='../proc/make_index_triangular.html'>make_index_triangular</a>(new_row_p, new_col_i, new_blk_p, old_row_p, old_col_i, old_blk_p, matrix)  
+    <div class="card-header codesum"><span class="anchor" id="proc-make_index_triangular"></span> <h3>private  subroutine <a href='../proc/make_index_triangular.html'>make_index_triangular</a>(new_row_p, new_col_i, new_blk_p, old_row_p, old_col_i, old_blk_p, matrix)  
 </h3></div>
     <div class="card-body">
           
@@ -772,7 +775,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_row_p~3"></span>
+              <span class="anchor" id="variable-new_row_p~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -787,7 +790,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_col_i~4"></span>
+              <span class="anchor" id="variable-new_col_i~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -832,7 +835,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_col_i~6"></span>
+              <span class="anchor" id="variable-old_col_i~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -847,7 +850,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_p~8"></span>
+              <span class="anchor" id="variable-old_blk_p~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -862,7 +865,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~118"></span>
+              <span class="anchor" id="variable-matrix~398"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -883,7 +886,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_dbcsr_index"></span><h3>public  subroutine <a href='../proc/dbcsr_make_dbcsr_index.html'>dbcsr_make_dbcsr_index</a>(row_p, row_i, nrows, nblks)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_dbcsr_index"></span> <h3>public  subroutine <a href='../proc/dbcsr_make_dbcsr_index.html'>dbcsr_make_dbcsr_index</a>(row_p, row_i, nrows, nblks)  
 </h3></div>
     <div class="card-body">
           
@@ -917,7 +920,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_i~3"></span>
+              <span class="anchor" id="variable-row_i~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -932,7 +935,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~6"></span>
+              <span class="anchor" id="variable-nrows~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -947,7 +950,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~3"></span>
+              <span class="anchor" id="variable-nblks~27"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -968,7 +971,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_expand_row_index"></span><h3>public pure subroutine <a href='../proc/dbcsr_expand_row_index.html'>dbcsr_expand_row_index</a>(row_p, row_i, nrows, nblks)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_expand_row_index"></span> <h3>public pure subroutine <a href='../proc/dbcsr_expand_row_index.html'>dbcsr_expand_row_index</a>(row_p, row_i, nrows, nblks)  
 </h3></div>
     <div class="card-body">
           
@@ -1002,7 +1005,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_i~4"></span>
+              <span class="anchor" id="variable-row_i~6"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1017,7 +1020,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~7"></span>
+              <span class="anchor" id="variable-nrows~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1032,7 +1035,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~4"></span>
+              <span class="anchor" id="variable-nblks~28"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1053,7 +1056,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_expand_row_index_2d"></span><h3>private pure subroutine <a href='../proc/dbcsr_expand_row_index_2d.html'>dbcsr_expand_row_index_2d</a>(row_p, row_i, nrows, dst_i)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_expand_row_index_2d"></span> <h3>private pure subroutine <a href='../proc/dbcsr_expand_row_index_2d.html'>dbcsr_expand_row_index_2d</a>(row_p, row_i, nrows, dst_i)  
 </h3></div>
     <div class="card-body">
           
@@ -1087,7 +1090,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_i~5"></span>
+              <span class="anchor" id="variable-row_i~7"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1102,7 +1105,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~8"></span>
+              <span class="anchor" id="variable-nrows~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1138,7 +1141,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_count_row_index_inplace"></span><h3>private pure subroutine <a href='../proc/dbcsr_count_row_index_inplace.html'>dbcsr_count_row_index_inplace</a>(rows, nrows)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_count_row_index_inplace"></span> <h3>private pure subroutine <a href='../proc/dbcsr_count_row_index_inplace.html'>dbcsr_count_row_index_inplace</a>(rows, nrows)  
 </h3></div>
     <div class="card-body">
           
@@ -1157,7 +1160,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows"></span>
+              <span class="anchor" id="variable-rows~47"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1172,7 +1175,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows"></span>
+              <span class="anchor" id="variable-nrows~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1193,7 +1196,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_count_row_index_copy"></span><h3>private pure subroutine <a href='../proc/dbcsr_count_row_index_copy.html'>dbcsr_count_row_index_copy</a>(rows, counts, nrows)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_count_row_index_copy"></span> <h3>private pure subroutine <a href='../proc/dbcsr_count_row_index_copy.html'>dbcsr_count_row_index_copy</a>(rows, counts, nrows)  
 </h3></div>
     <div class="card-body">
           
@@ -1212,7 +1215,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~2"></span>
+              <span class="anchor" id="variable-rows~48"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1227,7 +1230,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-counts"></span>
+              <span class="anchor" id="variable-counts~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1242,7 +1245,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~2"></span>
+              <span class="anchor" id="variable-nrows~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1263,7 +1266,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_build_row_index_inplace"></span><h3>private pure subroutine <a href='../proc/dbcsr_build_row_index_inplace.html'>dbcsr_build_row_index_inplace</a>(rows, nrows)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_build_row_index_inplace"></span> <h3>private pure subroutine <a href='../proc/dbcsr_build_row_index_inplace.html'>dbcsr_build_row_index_inplace</a>(rows, nrows)  
 </h3></div>
     <div class="card-body">
           
@@ -1282,7 +1285,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~3"></span>
+              <span class="anchor" id="variable-rows~49"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1297,7 +1300,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~3"></span>
+              <span class="anchor" id="variable-nrows~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1318,7 +1321,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_build_row_index_copy"></span><h3>private pure subroutine <a href='../proc/dbcsr_build_row_index_copy.html'>dbcsr_build_row_index_copy</a>(counts, rows, nrows)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_build_row_index_copy"></span> <h3>private pure subroutine <a href='../proc/dbcsr_build_row_index_copy.html'>dbcsr_build_row_index_copy</a>(counts, rows, nrows)  
 </h3></div>
     <div class="card-body">
           
@@ -1337,7 +1340,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-counts~2"></span>
+              <span class="anchor" id="variable-counts~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1352,7 +1355,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~4"></span>
+              <span class="anchor" id="variable-rows~50"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1367,7 +1370,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~4"></span>
+              <span class="anchor" id="variable-nrows~21"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1388,7 +1391,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_addto_index_array"></span><h3>public  subroutine <a href='../proc/dbcsr_addto_index_array.html'>dbcsr_addto_index_array</a>(matrix, slot, DATA, reservation, extra)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_addto_index_array"></span> <h3>public  subroutine <a href='../proc/dbcsr_addto_index_array.html'>dbcsr_addto_index_array</a>(matrix, slot, DATA, reservation, extra)  
 </h3></div>
     <div class="card-body">
           
@@ -1407,7 +1410,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~13"></span>
+              <span class="anchor" id="variable-matrix~399"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1437,7 +1440,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data"></span>
+              <span class="anchor" id="variable-data~55"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1490,7 +1493,7 @@ reserve extra space for later additions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_clearfrom_index_array"></span><h3>public  subroutine <a href='../proc/dbcsr_clearfrom_index_array.html'>dbcsr_clearfrom_index_array</a>(matrix, slot)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_clearfrom_index_array"></span> <h3>public  subroutine <a href='../proc/dbcsr_clearfrom_index_array.html'>dbcsr_clearfrom_index_array</a>(matrix, slot)  
 </h3></div>
     <div class="card-body">
           
@@ -1509,7 +1512,7 @@ reserve extra space for later additions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~14"></span>
+              <span class="anchor" id="variable-matrix~400"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1545,7 +1548,7 @@ reserve extra space for later additions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_repoint_index"></span><h3>public  subroutine <a href='../proc/dbcsr_repoint_index.html'>dbcsr_repoint_index</a>(m, slot)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_repoint_index"></span> <h3>public  subroutine <a href='../proc/dbcsr_repoint_index.html'>dbcsr_repoint_index</a>(m, slot)  
 </h3></div>
     <div class="card-body">
           
@@ -1564,7 +1567,7 @@ reserve extra space for later additions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m"></span>
+              <span class="anchor" id="variable-m~25"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1600,7 +1603,7 @@ reserve extra space for later additions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_index_exist"></span><h3>public  subroutine <a href='../proc/dbcsr_make_index_exist.html'>dbcsr_make_index_exist</a>(m)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_index_exist"></span> <h3>public  subroutine <a href='../proc/dbcsr_make_index_exist.html'>dbcsr_make_index_exist</a>(m)  
 </h3></div>
     <div class="card-body">
           
@@ -1619,7 +1622,7 @@ reserve extra space for later additions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~2"></span>
+              <span class="anchor" id="variable-m~26"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1640,7 +1643,7 @@ reserve extra space for later additions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_sort_indices"></span><h3>public  subroutine <a href='../proc/dbcsr_sort_indices.html'>dbcsr_sort_indices</a>(n, row_i, col_i, blk_p, blk_d)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_sort_indices"></span> <h3>public  subroutine <a href='../proc/dbcsr_sort_indices.html'>dbcsr_sort_indices</a>(n, row_i, col_i, blk_p, blk_d)  
 </h3></div>
     <div class="card-body">
           
@@ -1659,7 +1662,7 @@ reserve extra space for later additions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~6"></span>
+              <span class="anchor" id="variable-n~76"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1674,7 +1677,7 @@ reserve extra space for later additions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_i~2"></span>
+              <span class="anchor" id="variable-row_i~8"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1690,7 +1693,7 @@ column indices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~3"></span>
+              <span class="anchor" id="variable-col_i~10"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1706,7 +1709,7 @@ column indices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~4"></span>
+              <span class="anchor" id="variable-blk_p~51"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1722,7 +1725,7 @@ data storage</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_d"></span>
+              <span class="anchor" id="variable-blk_d~4"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1744,7 +1747,7 @@ data storage</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_index_prune_deleted"></span><h3>public  subroutine <a href='../proc/dbcsr_index_prune_deleted.html'>dbcsr_index_prune_deleted</a>(matrix)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_index_prune_deleted"></span> <h3>public  subroutine <a href='../proc/dbcsr_index_prune_deleted.html'>dbcsr_index_prune_deleted</a>(matrix)  
 </h3></div>
     <div class="card-body">
           
@@ -1763,7 +1766,7 @@ data storage</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~15"></span>
+              <span class="anchor" id="variable-matrix~401"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1784,7 +1787,7 @@ data storage</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-transpose_index_local"></span><h3>public  subroutine <a href='../proc/transpose_index_local.html'>transpose_index_local</a>(new_col_p, new_row_i, old_row_p, old_col_i, new_blk_p, old_blk_p)  
+    <div class="card-header codesum"><span class="anchor" id="proc-transpose_index_local"></span> <h3>public  subroutine <a href='../proc/transpose_index_local.html'>transpose_index_local</a>(new_col_p, new_row_i, old_row_p, old_col_i, new_blk_p, old_blk_p)  
 </h3></div>
     <div class="card-body">
           
@@ -1819,7 +1822,7 @@ new row index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_row_i"></span>
+              <span class="anchor" id="variable-new_row_i~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1835,7 +1838,7 @@ new row index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_row_p"></span>
+              <span class="anchor" id="variable-old_row_p~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1851,7 +1854,7 @@ old column index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_col_i"></span>
+              <span class="anchor" id="variable-old_col_i~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1867,7 +1870,7 @@ old column index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_blk_p"></span>
+              <span class="anchor" id="variable-new_blk_p~7"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1882,7 +1885,7 @@ old column index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_p"></span>
+              <span class="anchor" id="variable-old_blk_p~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1903,7 +1906,7 @@ old column index</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_index_canonical"></span><h3>public  subroutine <a href='../proc/dbcsr_make_index_canonical.html'>dbcsr_make_index_canonical</a>(matrix, cp2k)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_index_canonical"></span> <h3>public  subroutine <a href='../proc/dbcsr_make_index_canonical.html'>dbcsr_make_index_canonical</a>(matrix, cp2k)  
 </h3></div>
     <div class="card-body">
           
@@ -1922,7 +1925,7 @@ old column index</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~16"></span>
+              <span class="anchor" id="variable-matrix~402"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1958,7 +1961,7 @@ old column index</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-make_dense_index"></span><h3>public  subroutine <a href='../proc/make_dense_index.html'>make_dense_index</a>(row_p, col_i, blk_p, nblkrows_total, nblkcols_total, myblkrows, myblkcols, row_blk_offsets, col_blk_offsets, meta, make_tr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-make_dense_index"></span> <h3>public  subroutine <a href='../proc/make_dense_index.html'>make_dense_index</a>(row_p, col_i, blk_p, nblkrows_total, nblkcols_total, myblkrows, myblkcols, row_blk_offsets, col_blk_offsets, meta, make_tr)  
 </h3></div>
     <div class="card-body">
           
@@ -1977,7 +1980,7 @@ old column index</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_p~2"></span>
+              <span class="anchor" id="variable-row_p~13"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1992,7 +1995,7 @@ old column index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~4"></span>
+              <span class="anchor" id="variable-col_i~11"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2008,7 +2011,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~5"></span>
+              <span class="anchor" id="variable-blk_p~52"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2024,7 +2027,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows_total~2"></span>
+              <span class="anchor" id="variable-nblkrows_total~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2039,7 +2042,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols_total~2"></span>
+              <span class="anchor" id="variable-nblkcols_total~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2086,7 +2089,7 @@ List of blocked columns in my process column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_offsets"></span>
+              <span class="anchor" id="variable-row_blk_offsets~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2102,7 +2105,7 @@ List of blocked columns in my process column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_offsets"></span>
+              <span class="anchor" id="variable-col_blk_offsets~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2118,7 +2121,7 @@ List of blocked columns in my process column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-meta"></span>
+              <span class="anchor" id="variable-meta~3"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2133,7 +2136,7 @@ List of blocked columns in my process column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-make_tr"></span>
+              <span class="anchor" id="variable-make_tr~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2154,7 +2157,7 @@ List of blocked columns in my process column</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-make_undense_index"></span><h3>public  subroutine <a href='../proc/make_undense_index.html'>make_undense_index</a>(row_p, col_i, blk_p, distribution, local_row_offsets, local_col_offsets, meta)  
+    <div class="card-header codesum"><span class="anchor" id="proc-make_undense_index"></span> <h3>public  subroutine <a href='../proc/make_undense_index.html'>make_undense_index</a>(row_p, col_i, blk_p, distribution, local_row_offsets, local_col_offsets, meta)  
 </h3></div>
     <div class="card-body">
           
@@ -2173,7 +2176,7 @@ List of blocked columns in my process column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_p~3"></span>
+              <span class="anchor" id="variable-row_p~14"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2190,7 +2193,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~5"></span>
+              <span class="anchor" id="variable-col_i~12"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2207,7 +2210,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~6"></span>
+              <span class="anchor" id="variable-blk_p~53"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2224,7 +2227,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distribution"></span>
+              <span class="anchor" id="variable-distribution~13"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>)
             </td>
 <td></td>
@@ -2269,7 +2272,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-meta~2"></span>
+              <span class="anchor" id="variable-meta~4"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2290,7 +2293,7 @@ Storage for new index</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-merge_index_arrays"></span><h3>public  subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</a>(new_row_i, new_col_i, new_blk_p, new_size, old_row_i, old_col_i, old_blk_p, old_size, add_ip, add_size, new_blk_d, old_blk_d, added_size_offset, added_sizes, added_size, added_nblks)  
+    <div class="card-header codesum"><span class="anchor" id="proc-merge_index_arrays"></span> <h3>public  subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</a>(new_row_i, new_col_i, new_blk_p, new_size, old_row_i, old_col_i, old_blk_p, old_size, add_ip, add_size, new_blk_d, old_blk_d, added_size_offset, added_sizes, added_size, added_nblks)  
 </h3></div>
     <div class="card-body">
           
@@ -2309,7 +2312,7 @@ Storage for new index</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_row_i~2"></span>
+              <span class="anchor" id="variable-new_row_i~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2326,7 +2329,7 @@ merged result</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_col_i"></span>
+              <span class="anchor" id="variable-new_col_i~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2343,7 +2346,7 @@ merged result</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_blk_p~2"></span>
+              <span class="anchor" id="variable-new_blk_p~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2375,7 +2378,7 @@ merged result</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_row_i"></span>
+              <span class="anchor" id="variable-old_row_i~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2392,7 +2395,7 @@ current index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_col_i~2"></span>
+              <span class="anchor" id="variable-old_col_i~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2409,7 +2412,7 @@ current index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_p~2"></span>
+              <span class="anchor" id="variable-old_blk_p~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2426,7 +2429,7 @@ current index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_size"></span>
+              <span class="anchor" id="variable-old_size~9"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2486,7 +2489,7 @@ current index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_d"></span>
+              <span class="anchor" id="variable-old_blk_d~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2516,7 +2519,7 @@ current index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-added_sizes"></span>
+              <span class="anchor" id="variable-added_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2569,7 +2572,7 @@ actual number of new elements</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_index_local_row"></span><h3>public  subroutine <a href='../proc/dbcsr_make_index_local_row.html'>dbcsr_make_index_local_row</a>(matrix)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_index_local_row"></span> <h3>public  subroutine <a href='../proc/dbcsr_make_index_local_row.html'>dbcsr_make_index_local_row</a>(matrix)  
 </h3></div>
     <div class="card-body">
           
@@ -2588,7 +2591,7 @@ actual number of new elements</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~17"></span>
+              <span class="anchor" id="variable-matrix~403"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2609,7 +2612,7 @@ actual number of new elements</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_index_list"></span><h3>public  subroutine <a href='../proc/dbcsr_make_index_list.html'>dbcsr_make_index_list</a>(matrix, thread_redist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_index_list"></span> <h3>public  subroutine <a href='../proc/dbcsr_make_index_list.html'>dbcsr_make_index_list</a>(matrix, thread_redist)  
 </h3></div>
     <div class="card-body">
           
@@ -2628,7 +2631,7 @@ actual number of new elements</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~18"></span>
+              <span class="anchor" id="variable-matrix~404"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2643,7 +2646,7 @@ actual number of new elements</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-thread_redist"></span>
+              <span class="anchor" id="variable-thread_redist~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -2664,7 +2667,7 @@ actual number of new elements</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_index_compact"></span><h3>public  subroutine <a href='../proc/dbcsr_index_compact.html'>dbcsr_index_compact</a>(matrix)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_index_compact"></span> <h3>public  subroutine <a href='../proc/dbcsr_index_compact.html'>dbcsr_index_compact</a>(matrix)  
 </h3></div>
     <div class="card-body">
           
@@ -2683,7 +2686,7 @@ actual number of new elements</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~19"></span>
+              <span class="anchor" id="variable-matrix~405"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2704,7 +2707,7 @@ actual number of new elements</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_index_checksum"></span><h3>public  subroutine <a href='../proc/dbcsr_index_checksum.html'>dbcsr_index_checksum</a>(matrix, checksum)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_index_checksum"></span> <h3>public  subroutine <a href='../proc/dbcsr_index_checksum.html'>dbcsr_index_checksum</a>(matrix, checksum)  
 </h3></div>
     <div class="card-body">
           
@@ -2723,7 +2726,7 @@ actual number of new elements</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~20"></span>
+              <span class="anchor" id="variable-matrix~406"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tensor_index.html#variable-modulen~37">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_index.html#variable-modulen~9">moduleN</a>
         </div>
       </div>
     </div>
@@ -195,9 +198,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
               </ul>
             </li>
         </ul>
@@ -222,7 +225,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~37"></span>
+              <span class="anchor" id="variable-modulen~9"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -273,7 +276,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim_nd~2"></span>
+              <span class="anchor" id="variable-ndim_nd"></span>
               integer,
             </td>
               <td>public</td>
@@ -290,7 +293,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim1_2d~2"></span>
+              <span class="anchor" id="variable-ndim1_2d"></span>
               integer,
             </td>
               <td>public</td>
@@ -307,7 +310,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim2_2d~2"></span>
+              <span class="anchor" id="variable-ndim2_2d"></span>
               integer,
             </td>
               <td>public</td>
@@ -324,7 +327,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims_nd~3"></span>
+              <span class="anchor" id="variable-dims_nd"></span>
               integer,
             </td>
               <td>public,</td>
@@ -341,7 +344,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims_2d~2"></span>
+              <span class="anchor" id="variable-dims_2d"></span>
               integer(kind=int_8),
             </td>
               <td>public,</td>
@@ -358,7 +361,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims1_2d~2"></span>
+              <span class="anchor" id="variable-dims1_2d"></span>
               integer,
             </td>
               <td>public,</td>
@@ -375,7 +378,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims2_2d~2"></span>
+              <span class="anchor" id="variable-dims2_2d"></span>
               integer,
             </td>
               <td>public,</td>
@@ -392,7 +395,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map1_2d~9"></span>
+              <span class="anchor" id="variable-map1_2d"></span>
               integer,
             </td>
               <td>public,</td>
@@ -409,7 +412,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map2_2d~9"></span>
+              <span class="anchor" id="variable-map2_2d"></span>
               integer,
             </td>
               <td>public,</td>
@@ -426,7 +429,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map_nd~2"></span>
+              <span class="anchor" id="variable-map_nd"></span>
               integer,
             </td>
               <td>public,</td>
@@ -443,7 +446,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-base~3"></span>
+              <span class="anchor" id="variable-base"></span>
               integer,
             </td>
               <td>public</td>
@@ -460,7 +463,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_major~3"></span>
+              <span class="anchor" id="variable-col_major"></span>
               logical,
             </td>
               <td>public</td>
@@ -490,7 +493,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ndims_mapping"></span><h3>public pure function <a href='../proc/ndims_mapping.html'>ndims_mapping</a>(map)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ndims_mapping"></span> <h3>public pure function <a href='../proc/ndims_mapping.html'>ndims_mapping</a>(map)  
 </h3></div>
     <div class="card-body">
           
@@ -509,7 +512,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-map~7"></span>
+              <span class="anchor" id="variable-map~3"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
@@ -535,7 +538,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ndims_mapping_row"></span><h3>public pure function <a href='../proc/ndims_mapping_row.html'>ndims_mapping_row</a>(map)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ndims_mapping_row"></span> <h3>public pure function <a href='../proc/ndims_mapping_row.html'>ndims_mapping_row</a>(map)  
 </h3></div>
     <div class="card-body">
           
@@ -554,7 +557,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-map~8"></span>
+              <span class="anchor" id="variable-map~4"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
@@ -580,7 +583,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ndims_mapping_column"></span><h3>public pure function <a href='../proc/ndims_mapping_column.html'>ndims_mapping_column</a>(map)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ndims_mapping_column"></span> <h3>public pure function <a href='../proc/ndims_mapping_column.html'>ndims_mapping_column</a>(map)  
 </h3></div>
     <div class="card-body">
           
@@ -599,7 +602,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-map~9"></span>
+              <span class="anchor" id="variable-map~5"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
@@ -625,7 +628,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-combine_tensor_index"></span><h3>public pure function <a href='../proc/combine_tensor_index.html'>combine_tensor_index</a>(ind_in, dims) result(ind_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-combine_tensor_index"></span> <h3>public pure function <a href='../proc/combine_tensor_index.html'>combine_tensor_index</a>(ind_in, dims) result(ind_out)  
 </h3></div>
     <div class="card-body">
           
@@ -660,7 +663,7 @@ nd dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~4"></span>
+              <span class="anchor" id="variable-dims~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -687,7 +690,7 @@ nd dimensions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-combine_pgrid_index"></span><h3>public pure function <a href='../proc/combine_pgrid_index.html'>combine_pgrid_index</a>(ind_in, dims) result(ind_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-combine_pgrid_index"></span> <h3>public pure function <a href='../proc/combine_pgrid_index.html'>combine_pgrid_index</a>(ind_in, dims) result(ind_out)  
 </h3></div>
     <div class="card-body">
           
@@ -722,7 +725,7 @@ nd dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~5"></span>
+              <span class="anchor" id="variable-dims~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -749,7 +752,7 @@ nd dimensions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-split_tensor_index"></span><h3>public pure function <a href='../proc/split_tensor_index.html'>split_tensor_index</a>(ind_in, dims) result(ind_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-split_tensor_index"></span> <h3>public pure function <a href='../proc/split_tensor_index.html'>split_tensor_index</a>(ind_in, dims) result(ind_out)  
 </h3></div>
     <div class="card-body">
           
@@ -770,6 +773,66 @@ nd dimensions</p>
             <td>
               <span class="anchor" id="variable-ind_in~3"></span>
               integer(kind=int_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ind_in</strong></td>
+            <td>
+<p>flat index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dims~5"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>dims</strong></td>
+            <td>
+<p>nd dimensions</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, DIMENSION(SIZE(dims))</small>
+    </h4>
+    <p>nd index</p>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-split_pgrid_index"></span> <h3>public pure function <a href='../proc/split_pgrid_index.html'>split_pgrid_index</a>(ind_in, dims) result(ind_out)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>transform flat index to nd index</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ind_in~4"></span>
+              integer,
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -809,67 +872,7 @@ nd dimensions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-split_pgrid_index"></span><h3>public pure function <a href='../proc/split_pgrid_index.html'>split_pgrid_index</a>(ind_in, dims) result(ind_out)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>transform flat index to nd index</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ind_in~4"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ind_in</strong></td>
-            <td>
-<p>flat index</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dims~7"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>dims</strong></td>
-            <td>
-<p>nd dimensions</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer, DIMENSION(SIZE(dims))</small>
-    </h4>
-    <p>nd index</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_2d_indices_tensor"></span><h3>public pure function <a href='../proc/get_2d_indices_tensor.html'>get_2d_indices_tensor</a>(map, ind_in) result(ind_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_2d_indices_tensor"></span> <h3>public pure function <a href='../proc/get_2d_indices_tensor.html'>get_2d_indices_tensor</a>(map, ind_in) result(ind_out)  
 </h3></div>
     <div class="card-body">
           
@@ -888,7 +891,7 @@ nd dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-map~3"></span>
+              <span class="anchor" id="variable-map~7"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
@@ -929,7 +932,7 @@ nd dimensions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_2d_indices_pgrid"></span><h3>public pure function <a href='../proc/get_2d_indices_pgrid.html'>get_2d_indices_pgrid</a>(map, ind_in) result(ind_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_2d_indices_pgrid"></span> <h3>public pure function <a href='../proc/get_2d_indices_pgrid.html'>get_2d_indices_pgrid</a>(map, ind_in) result(ind_out)  
 </h3></div>
     <div class="card-body">
           
@@ -948,7 +951,7 @@ nd dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-map~4"></span>
+              <span class="anchor" id="variable-map~8"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
@@ -989,7 +992,7 @@ nd dimensions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_nd_indices_tensor"></span><h3>public pure function <a href='../proc/get_nd_indices_tensor.html'>get_nd_indices_tensor</a>(map, ind_in) result(ind_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_nd_indices_tensor"></span> <h3>public pure function <a href='../proc/get_nd_indices_tensor.html'>get_nd_indices_tensor</a>(map, ind_in) result(ind_out)  
 </h3></div>
     <div class="card-body">
           
@@ -1008,7 +1011,7 @@ nd dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-map~5"></span>
+              <span class="anchor" id="variable-map~9"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
@@ -1049,7 +1052,7 @@ nd dimensions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_nd_indices_pgrid"></span><h3>public pure function <a href='../proc/get_nd_indices_pgrid.html'>get_nd_indices_pgrid</a>(map, ind_in) result(ind_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_nd_indices_pgrid"></span> <h3>public pure function <a href='../proc/get_nd_indices_pgrid.html'>get_nd_indices_pgrid</a>(map, ind_in) result(ind_out)  
 </h3></div>
     <div class="card-body">
           
@@ -1068,7 +1071,7 @@ nd dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-map~6"></span>
+              <span class="anchor" id="variable-map~10"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
@@ -1109,7 +1112,7 @@ nd dimensions</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_inverse_order"></span><h3>public pure function <a href='../proc/dbcsr_t_inverse_order.html'>dbcsr_t_inverse_order</a>(order)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_inverse_order"></span> <h3>public pure function <a href='../proc/dbcsr_t_inverse_order.html'>dbcsr_t_inverse_order</a>(order)  
 </h3></div>
     <div class="card-body">
           
@@ -1128,7 +1131,7 @@ nd dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-order~39"></span>
+              <span class="anchor" id="variable-order~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1159,7 +1162,7 @@ nd dimensions</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-create_nd_to_2d_mapping"></span><h3>public  subroutine <a href='../proc/create_nd_to_2d_mapping.html'>create_nd_to_2d_mapping</a>(map, dims, map1_2d, map2_2d, base, col_major)  
+    <div class="card-header codesum"><span class="anchor" id="proc-create_nd_to_2d_mapping"></span> <h3>public  subroutine <a href='../proc/create_nd_to_2d_mapping.html'>create_nd_to_2d_mapping</a>(map, dims, map1_2d, map2_2d, base, col_major)  
 </h3></div>
     <div class="card-body">
           
@@ -1193,7 +1196,7 @@ nd dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~3"></span>
+              <span class="anchor" id="variable-dims~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1210,7 +1213,7 @@ which nd-indices map to second matrix index and in which order</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map1_2d~6"></span>
+              <span class="anchor" id="variable-map1_2d~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1227,7 +1230,7 @@ which nd-indices map to second matrix index and in which order</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map2_2d~6"></span>
+              <span class="anchor" id="variable-map2_2d~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1244,7 +1247,7 @@ which nd-indices map to second matrix index and in which order</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-base"></span>
+              <span class="anchor" id="variable-base~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1259,7 +1262,7 @@ which nd-indices map to second matrix index and in which order</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_major"></span>
+              <span class="anchor" id="variable-col_major~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1280,7 +1283,7 @@ which nd-indices map to second matrix index and in which order</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-destroy_nd_to_2d_mapping"></span><h3>public  subroutine <a href='../proc/destroy_nd_to_2d_mapping.html'>destroy_nd_to_2d_mapping</a>(map)  
+    <div class="card-header codesum"><span class="anchor" id="proc-destroy_nd_to_2d_mapping"></span> <h3>public  subroutine <a href='../proc/destroy_nd_to_2d_mapping.html'>destroy_nd_to_2d_mapping</a>(map)  
 </h3></div>
     <div class="card-body">
           
@@ -1299,7 +1302,7 @@ which nd-indices map to second matrix index and in which order</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-map~10"></span>
+              <span class="anchor" id="variable-map~2"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(inout)</td>
@@ -1320,7 +1323,7 @@ which nd-indices map to second matrix index and in which order</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_mapping_info"></span><h3>public pure subroutine <a href='../proc/dbcsr_t_get_mapping_info.html'>dbcsr_t_get_mapping_info</a>(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, map1_2d, map2_2d, map_nd, base, col_major)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_get_mapping_info"></span> <h3>public pure subroutine <a href='../proc/dbcsr_t_get_mapping_info.html'>dbcsr_t_get_mapping_info</a>(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, map1_2d, map2_2d, map_nd, base, col_major)  
 </h3></div>
     <div class="card-body">
           
@@ -1339,7 +1342,7 @@ which nd-indices map to second matrix index and in which order</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-map~2"></span>
+              <span class="anchor" id="variable-map~6"></span>
               type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
@@ -1354,7 +1357,7 @@ which nd-indices map to second matrix index and in which order</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim_nd"></span>
+              <span class="anchor" id="variable-ndim_nd~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1371,7 +1374,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim1_2d"></span>
+              <span class="anchor" id="variable-ndim1_2d~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1388,7 +1391,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim2_2d"></span>
+              <span class="anchor" id="variable-ndim2_2d~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1420,7 +1423,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims_2d"></span>
+              <span class="anchor" id="variable-dims_2d~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1450,7 +1453,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims1_2d"></span>
+              <span class="anchor" id="variable-dims1_2d~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1465,7 +1468,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims2_2d"></span>
+              <span class="anchor" id="variable-dims2_2d~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1480,7 +1483,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map1_2d~7"></span>
+              <span class="anchor" id="variable-map1_2d~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1495,7 +1498,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map2_2d~7"></span>
+              <span class="anchor" id="variable-map2_2d~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1510,7 +1513,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map_nd"></span>
+              <span class="anchor" id="variable-map_nd~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1525,7 +1528,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-base~2"></span>
+              <span class="anchor" id="variable-base~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1540,7 +1543,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_major~2"></span>
+              <span class="anchor" id="variable-col_major~3"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -1561,7 +1564,7 @@ number of dimensions that map to first 2d index</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-permute_index"></span><h3>public  subroutine <a href='../proc/permute_index.html'>permute_index</a>(map_in, map_out, order)  
+    <div class="card-header codesum"><span class="anchor" id="proc-permute_index"></span> <h3>public  subroutine <a href='../proc/permute_index.html'>permute_index</a>(map_in, map_out, order)  
 </h3></div>
     <div class="card-body">
           
@@ -1610,7 +1613,7 @@ number of dimensions that map to first 2d index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-order~40"></span>
+              <span class="anchor" id="variable-order~3"></span>
               integer,
             </td>
 <td>intent(in),</td>

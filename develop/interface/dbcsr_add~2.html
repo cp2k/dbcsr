@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -72,20 +75,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 27 statements,  0.0% of total for procedures.">3 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 119 statements,  0.2% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_operations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_add</li>
           </ol>
         </nav>
@@ -129,8 +132,9 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_add~2.html#moduleprocedure-dbcsr_add_d~2">dbcsr_add_d</a>
+            <a class="list-group-item" href="../interface/dbcsr_add~2.html#moduleprocedure-dbcsr_add_anytype">dbcsr_add_anytype</a>
             <a class="list-group-item" href="../interface/dbcsr_add~2.html#moduleprocedure-dbcsr_add_s~2">dbcsr_add_s</a>
+            <a class="list-group-item" href="../interface/dbcsr_add~2.html#moduleprocedure-dbcsr_add_d~2">dbcsr_add_d</a>
             <a class="list-group-item" href="../interface/dbcsr_add~2.html#moduleprocedure-dbcsr_add_c~2">dbcsr_add_c</a>
             <a class="list-group-item" href="../interface/dbcsr_add~2.html#moduleprocedure-dbcsr_add_z~2">dbcsr_add_z</a>
         </div>
@@ -152,11 +156,12 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_d~2"></span><h3>private  subroutine <a href='../proc/dbcsr_add_d~2.html'>dbcsr_add_d</a>(matrix_a, matrix_b, alpha_scalar, beta_scalar)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_anytype"></span> <h3>private  subroutine <a href='../proc/dbcsr_add_anytype.html'>dbcsr_add_anytype</a>(matrix_a, matrix_b, alpha_scalar, beta_scalar, flop)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>add and scale matrices
+A = alpha<em>A + beta</em>B or</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -171,8 +176,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~59"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~63"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -181,13 +186,13 @@
             <td>::</td>
             <td><strong>matrix_a</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" id="variable-matrix_b~35"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -196,16 +201,16 @@
             <td>::</td>
             <td><strong>matrix_b</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar~12"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-alpha_scalar~14"></span>
+              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
-<td>intent(in)</td>
-              <td></td>            <td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
               
             </td>
             <td>::</td>
@@ -216,15 +221,30 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta_scalar~6"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-beta_scalar~5"></span>
+              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
-<td>intent(in)</td>
-              <td></td>            <td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
               
             </td>
             <td>::</td>
             <td><strong>beta_scalar</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-flop~14"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>flop</strong></td>
             <td>
 
             </td>
@@ -237,7 +257,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_s~2"></span><h3>private  subroutine <a href='../proc/dbcsr_add_s~2.html'>dbcsr_add_s</a>(matrix_a, matrix_b, alpha_scalar, beta_scalar)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_add_s~2.html'>dbcsr_add_s</a>(matrix_a, matrix_b, alpha_scalar, beta_scalar)  
 </h3></div>
     <div class="card-body">
           
@@ -257,7 +277,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-matrix_a~65"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -271,8 +291,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~38"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_b~37"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -286,7 +306,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar~15"></span>
+              <span class="anchor" id="variable-alpha_scalar~16"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -322,7 +342,92 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_c~2"></span><h3>private  subroutine <a href='../proc/dbcsr_add_c~2.html'>dbcsr_add_c</a>(matrix_a, matrix_b, alpha_scalar, beta_scalar)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_add_d~2.html'>dbcsr_add_d</a>(matrix_a, matrix_b, alpha_scalar, beta_scalar)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Interface for dbcsr_add</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_a~64"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_b~36"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_b</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha_scalar~15"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha_scalar</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta_scalar~6"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta_scalar</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_add_c~2.html'>dbcsr_add_c</a>(matrix_a, matrix_b, alpha_scalar, beta_scalar)  
 </h3></div>
     <div class="card-body">
           
@@ -341,8 +446,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~77"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~67"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -356,8 +461,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~44"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_b~39"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -371,7 +476,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar~21"></span>
+              <span class="anchor" id="variable-alpha_scalar~18"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -407,7 +512,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_z~2"></span><h3>private  subroutine <a href='../proc/dbcsr_add_z~2.html'>dbcsr_add_z</a>(matrix_a, matrix_b, alpha_scalar, beta_scalar)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_add_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_add_z~2.html'>dbcsr_add_z</a>(matrix_a, matrix_b, alpha_scalar, beta_scalar)  
 </h3></div>
     <div class="card-body">
           
@@ -426,8 +531,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~71"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~66"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -441,8 +546,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~41"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_b~38"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -456,7 +561,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar~18"></span>
+              <span class="anchor" id="variable-alpha_scalar~17"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>

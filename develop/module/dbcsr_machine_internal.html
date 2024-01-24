@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -146,7 +149,7 @@
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_machine_internal.html#proc-m_abort">m_abort</a>
-            <a class="list-group-item" href="../module/dbcsr_machine_internal.html#proc-m_flush~2">m_flush</a>
+            <a class="list-group-item" href="../module/dbcsr_machine_internal.html#proc-m_flush">m_flush</a>
             <a class="list-group-item" href="../module/dbcsr_machine_internal.html#proc-m_memory">m_memory</a>
             <a class="list-group-item" href="../module/dbcsr_machine_internal.html#proc-m_memory_details">m_memory_details</a>
             <a class="list-group-item" href="../module/dbcsr_machine_internal.html#proc-m_mov">m_mov</a>
@@ -182,8 +185,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
               </ul>
             </li>
         </ul>
@@ -236,7 +239,7 @@
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_iargc"></span><h3>public  function <a href='../proc/m_iargc.html'>m_iargc</a>() result(ic)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_iargc"></span> <h3>public  function <a href='../proc/m_iargc.html'>m_iargc</a>() result(ic)  
 </h3></div>
     <div class="card-body">
           
@@ -254,7 +257,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_procrun"></span><h3>public  function <a href='../proc/m_procrun.html'>m_procrun</a>(pid) result(run_on)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_procrun"></span> <h3>public  function <a href='../proc/m_procrun.html'>m_procrun</a>(pid) result(run_on)  
 </h3></div>
     <div class="card-body">
           
@@ -305,7 +308,7 @@
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_abort"></span><h3>public  subroutine <a href='../proc/m_abort.html'>m_abort</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_abort"></span> <h3>public  subroutine <a href='../proc/m_abort.html'>m_abort</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -318,7 +321,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_flush~2"></span><h3>public  subroutine <a href='../proc/m_flush~2.html'>m_flush</a>(lunit)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_flush"></span> <h3>public  subroutine <a href='../proc/m_flush.html'>m_flush</a>(lunit)  
 </h3></div>
     <div class="card-body">
           
@@ -337,7 +340,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lunit~2"></span>
+              <span class="anchor" id="variable-lunit"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -358,7 +361,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_memory"></span><h3>public  subroutine <a href='../proc/m_memory.html'>m_memory</a>(mem)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_memory"></span> <h3>public  subroutine <a href='../proc/m_memory.html'>m_memory</a>(mem)  
 </h3></div>
     <div class="card-body">
           
@@ -377,7 +380,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~25"></span>
+              <span class="anchor" id="variable-mem"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -398,7 +401,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_memory_details"></span><h3>public  subroutine <a href='../proc/m_memory_details.html'>m_memory_details</a>(MemTotal, MemFree, Buffers, Cached, Slab, SReclaimable, MemLikelyFree)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_memory_details"></span> <h3>public  subroutine <a href='../proc/m_memory_details.html'>m_memory_details</a>(MemTotal, MemFree, Buffers, Cached, Slab, SReclaimable, MemLikelyFree)  
 </h3></div>
     <div class="card-body">
           
@@ -528,7 +531,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_mov"></span><h3>public  subroutine <a href='../proc/m_mov.html'>m_mov</a>(source, TARGET)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_mov"></span> <h3>public  subroutine <a href='../proc/m_mov.html'>m_mov</a>(source, TARGET)  
 </h3></div>
     <div class="card-body">
           
@@ -547,7 +550,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~83"></span>
+              <span class="anchor" id="variable-source"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -583,7 +586,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_hostnm"></span><h3>public  subroutine <a href='../proc/m_hostnm.html'>m_hostnm</a>(hname)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_hostnm"></span> <h3>public  subroutine <a href='../proc/m_hostnm.html'>m_hostnm</a>(hname)  
 </h3></div>
     <div class="card-body">
           
@@ -623,7 +626,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_getcwd"></span><h3>public  subroutine <a href='../proc/m_getcwd.html'>m_getcwd</a>(curdir)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_getcwd"></span> <h3>public  subroutine <a href='../proc/m_getcwd.html'>m_getcwd</a>(curdir)  
 </h3></div>
     <div class="card-body">
           
@@ -663,7 +666,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_chdir"></span><h3>public  subroutine <a href='../proc/m_chdir.html'>m_chdir</a>(dir, ierror)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_chdir"></span> <h3>public  subroutine <a href='../proc/m_chdir.html'>m_chdir</a>(dir, ierror)  
 </h3></div>
     <div class="card-body">
           
@@ -718,7 +721,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_getlog"></span><h3>public  subroutine <a href='../proc/m_getlog.html'>m_getlog</a>(user)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_getlog"></span> <h3>public  subroutine <a href='../proc/m_getlog.html'>m_getlog</a>(user)  
 </h3></div>
     <div class="card-body">
           
@@ -758,7 +761,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_getuid"></span><h3>public  subroutine <a href='../proc/m_getuid.html'>m_getuid</a>(uid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_getuid"></span> <h3>public  subroutine <a href='../proc/m_getuid.html'>m_getuid</a>(uid)  
 </h3></div>
     <div class="card-body">
           
@@ -798,7 +801,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_getpid"></span><h3>public  subroutine <a href='../proc/m_getpid.html'>m_getpid</a>(pid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_getpid"></span> <h3>public  subroutine <a href='../proc/m_getpid.html'>m_getpid</a>(pid)  
 </h3></div>
     <div class="card-body">
           
@@ -817,7 +820,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-pid~2"></span>
+              <span class="anchor" id="variable-pid~3"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -838,7 +841,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-m_getarg"></span><h3>public  subroutine <a href='../proc/m_getarg.html'>m_getarg</a>(i, arg)  
+    <div class="card-header codesum"><span class="anchor" id="proc-m_getarg"></span> <h3>public  subroutine <a href='../proc/m_getarg.html'>m_getarg</a>(i, arg)  
 </h3></div>
     <div class="card-body">
           
@@ -857,7 +860,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~3"></span>
+              <span class="anchor" id="variable-i~8"></span>
               integer,
             </td>
 <td>intent(in)</td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-modulen~60">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-modulen~52">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-randmat_counter~3">randmat_counter</a>
             <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-rand_seed_init~3">rand_seed_init</a>
         </div>
@@ -195,19 +198,19 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_blas_operations.html'>dbcsr_blas_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_test.html'>dbcsr_tas_test</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_io.html'>dbcsr_tensor_io</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_api.html'>dbcsr_api</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_blas_operations.html'>dbcsr_blas_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_test.html'>dbcsr_tas_test</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor.html'>dbcsr_tensor</a></li>
               </ul>
             </li>
         </ul>
@@ -232,7 +235,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~60"></span>
+              <span class="anchor" id="variable-modulen~52"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -319,7 +322,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~98"></span>
+              <span class="anchor" id="variable-tensor~93"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -334,7 +337,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~61"></span>
+              <span class="anchor" id="variable-array~60"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -374,7 +377,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~99"></span>
+              <span class="anchor" id="variable-tensor~94"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -389,7 +392,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~62"></span>
+              <span class="anchor" id="variable-array~61"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -429,7 +432,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~100"></span>
+              <span class="anchor" id="variable-tensor~95"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -444,7 +447,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~63"></span>
+              <span class="anchor" id="variable-array~62"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -473,7 +476,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_equal"></span><h3>private  function <a href='../proc/dbcsr_t_equal.html'>dbcsr_t_equal</a>(tensor1, tensor2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_equal"></span> <h3>private  function <a href='../proc/dbcsr_t_equal.html'>dbcsr_t_equal</a>(tensor1, tensor2)  
 </h3></div>
     <div class="card-body">
           
@@ -492,7 +495,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor1~3"></span>
+              <span class="anchor" id="variable-tensor1~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -507,7 +510,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor2~3"></span>
+              <span class="anchor" id="variable-tensor2~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -533,7 +536,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-blocks_equal"></span><h3>private pure function <a href='../proc/blocks_equal.html'>blocks_equal</a>(block1, block2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-blocks_equal"></span> <h3>private pure function <a href='../proc/blocks_equal.html'>blocks_equal</a>(block1, block2)  
 </h3></div>
     <div class="card-body">
           
@@ -593,7 +596,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-factorial"></span><h3>private pure function <a href='../proc/factorial.html'>factorial</a>(n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-factorial"></span> <h3>private pure function <a href='../proc/factorial.html'>factorial</a>(n)  
 </h3></div>
     <div class="card-body">
           
@@ -612,7 +615,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~52"></span>
+              <span class="anchor" id="variable-n~62"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -638,7 +641,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-sizes_2d"></span><h3>private  function <a href='../proc/sizes_2d.html'>sizes_2d</a>(nd_sizes, map1, map2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-sizes_2d"></span> <h3>private  function <a href='../proc/sizes_2d.html'>sizes_2d</a>(nd_sizes, map1, map2)  
 </h3></div>
     <div class="card-body">
           
@@ -672,7 +675,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map1"></span>
+              <span class="anchor" id="variable-map1~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -687,7 +690,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map2"></span>
+              <span class="anchor" id="variable-map2~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -713,7 +716,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_checksum"></span><h3>public  function <a href='../proc/dbcsr_t_checksum.html'>dbcsr_t_checksum</a>(tensor, local, pos)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_checksum"></span> <h3>public  function <a href='../proc/dbcsr_t_checksum.html'>dbcsr_t_checksum</a>(tensor, local, pos)  
 </h3></div>
     <div class="card-body">
           
@@ -747,7 +750,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local~11"></span>
+              <span class="anchor" id="variable-local~12"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -762,7 +765,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~28"></span>
+              <span class="anchor" id="variable-pos~27"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -793,7 +796,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-permute"></span><h3>private  subroutine <a href='../proc/permute.html'>permute</a>(n, p)  
+    <div class="card-header codesum"><span class="anchor" id="proc-permute"></span> <h3>private  subroutine <a href='../proc/permute.html'>permute</a>(n, p)  
 </h3></div>
     <div class="card-body">
           
@@ -812,7 +815,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~53"></span>
+              <span class="anchor" id="variable-n~63"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -827,7 +830,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~25"></span>
+              <span class="anchor" id="variable-p~40"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -848,7 +851,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_test_formats"></span><h3>public  subroutine <a href='../proc/dbcsr_t_test_formats.html'>dbcsr_t_test_formats</a>(ndims, mp_comm, unit_nr, verbose, blk_size_1, blk_size_2, blk_size_3, blk_size_4, blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_test_formats"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_test_formats.html'>dbcsr_t_test_formats</a>(ndims, mp_comm, unit_nr, verbose, blk_size_1, blk_size_2, blk_size_3, blk_size_4, blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)  
 </h3></div>
     <div class="card-body">
           
@@ -867,7 +870,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndims"></span>
+              <span class="anchor" id="variable-ndims~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -882,7 +885,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~23"></span>
+              <span class="anchor" id="variable-mp_comm~30"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -897,7 +900,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~10"></span>
+              <span class="anchor" id="variable-unit_nr~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -927,7 +930,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size_1~4"></span>
+              <span class="anchor" id="variable-blk_size_1~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -942,7 +945,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size_2~4"></span>
+              <span class="anchor" id="variable-blk_size_2~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -957,7 +960,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size_3~4"></span>
+              <span class="anchor" id="variable-blk_size_3~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -972,7 +975,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size_4~4"></span>
+              <span class="anchor" id="variable-blk_size_4~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -987,7 +990,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_ind_1~2"></span>
+              <span class="anchor" id="variable-blk_ind_1~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1002,7 +1005,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_ind_2~2"></span>
+              <span class="anchor" id="variable-blk_ind_2~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1053,7 +1056,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_setup_test_tensor"></span><h3>public  subroutine <a href='../proc/dbcsr_t_setup_test_tensor.html'>dbcsr_t_setup_test_tensor</a>(tensor, mp_comm, enumerate, blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_setup_test_tensor"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_setup_test_tensor.html'>dbcsr_t_setup_test_tensor</a>(tensor, mp_comm, enumerate, blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)  
 </h3></div>
     <div class="card-body">
           
@@ -1073,7 +1076,7 @@ on global properties of the tensor but not on distribution, matrix representatio
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~97"></span>
+              <span class="anchor" id="variable-tensor~92"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1088,7 +1091,7 @@ on global properties of the tensor but not on distribution, matrix representatio
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~7"></span>
+              <span class="anchor" id="variable-mp_comm~31"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1118,7 +1121,7 @@ on global properties of the tensor but not on distribution, matrix representatio
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_ind_1~3"></span>
+              <span class="anchor" id="variable-blk_ind_1~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1133,7 +1136,7 @@ on global properties of the tensor but not on distribution, matrix representatio
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_ind_2~3"></span>
+              <span class="anchor" id="variable-blk_ind_2~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1184,7 +1187,7 @@ on global properties of the tensor but not on distribution, matrix representatio
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-enumerate_block_elements"></span><h3>private  subroutine <a href='../proc/enumerate_block_elements.html'>enumerate_block_elements</a>(blk_size, blk_offset, tensor_size, blk_2, blk_3, blk_4)  
+    <div class="card-header codesum"><span class="anchor" id="proc-enumerate_block_elements"></span> <h3>private  subroutine <a href='../proc/enumerate_block_elements.html'>enumerate_block_elements</a>(blk_size, blk_offset, tensor_size, blk_2, blk_3, blk_4)  
 </h3></div>
     <div class="card-body">
           
@@ -1205,7 +1208,7 @@ on global properties of the tensor but not on distribution, matrix representatio
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size~6"></span>
+              <span class="anchor" id="variable-blk_size~34"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1222,7 +1225,7 @@ global tensor sizes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_offset~3"></span>
+              <span class="anchor" id="variable-blk_offset~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1307,7 +1310,7 @@ global tensor sizes</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dist_sparse_tensor_to_repl_dense_2d_array_r_dp"></span><h3>private  subroutine <a href='../proc/dist_sparse_tensor_to_repl_dense_2d_array_r_dp.html'>dist_sparse_tensor_to_repl_dense_2d_array_r_dp</a>(tensor, array)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dist_sparse_tensor_to_repl_dense_2d_array_r_dp"></span> <h3>private  subroutine <a href='../proc/dist_sparse_tensor_to_repl_dense_2d_array_r_dp.html'>dist_sparse_tensor_to_repl_dense_2d_array_r_dp</a>(tensor, array)  
 </h3></div>
     <div class="card-body">
           
@@ -1327,7 +1330,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~98"></span>
+              <span class="anchor" id="variable-tensor~93"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1342,7 +1345,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~61"></span>
+              <span class="anchor" id="variable-array~60"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1363,7 +1366,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dist_sparse_tensor_to_repl_dense_3d_array_r_dp"></span><h3>private  subroutine <a href='../proc/dist_sparse_tensor_to_repl_dense_3d_array_r_dp.html'>dist_sparse_tensor_to_repl_dense_3d_array_r_dp</a>(tensor, array)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dist_sparse_tensor_to_repl_dense_3d_array_r_dp"></span> <h3>private  subroutine <a href='../proc/dist_sparse_tensor_to_repl_dense_3d_array_r_dp.html'>dist_sparse_tensor_to_repl_dense_3d_array_r_dp</a>(tensor, array)  
 </h3></div>
     <div class="card-body">
           
@@ -1383,7 +1386,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~99"></span>
+              <span class="anchor" id="variable-tensor~94"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1398,7 +1401,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~62"></span>
+              <span class="anchor" id="variable-array~61"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1419,7 +1422,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dist_sparse_tensor_to_repl_dense_4d_array_r_dp"></span><h3>private  subroutine <a href='../proc/dist_sparse_tensor_to_repl_dense_4d_array_r_dp.html'>dist_sparse_tensor_to_repl_dense_4d_array_r_dp</a>(tensor, array)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dist_sparse_tensor_to_repl_dense_4d_array_r_dp"></span> <h3>private  subroutine <a href='../proc/dist_sparse_tensor_to_repl_dense_4d_array_r_dp.html'>dist_sparse_tensor_to_repl_dense_4d_array_r_dp</a>(tensor, array)  
 </h3></div>
     <div class="card-body">
           
@@ -1439,7 +1442,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~100"></span>
+              <span class="anchor" id="variable-tensor~95"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1454,7 +1457,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~63"></span>
+              <span class="anchor" id="variable-array~62"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1475,7 +1478,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_contract_test"></span><h3>public  subroutine <a href='../proc/dbcsr_t_contract_test.html'>dbcsr_t_contract_test</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, unit_nr, bounds_1, bounds_2, bounds_3, log_verbose, write_int)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_contract_test"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_contract_test.html'>dbcsr_t_contract_test</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, unit_nr, bounds_1, bounds_2, bounds_3, log_verbose, write_int)  
 </h3></div>
     <div class="card-body">
           
@@ -1494,7 +1497,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~53"></span>
+              <span class="anchor" id="variable-alpha~50"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1539,7 +1542,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~19"></span>
+              <span class="anchor" id="variable-beta~18"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1659,7 +1662,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~31"></span>
+              <span class="anchor" id="variable-unit_nr~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1719,7 +1722,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-log_verbose~5"></span>
+              <span class="anchor" id="variable-log_verbose~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1734,7 +1737,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-write_int~3"></span>
+              <span class="anchor" id="variable-write_int"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1755,7 +1758,7 @@ testing tensor contraction by matrix multiplication of dense arrays.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_reset_randmat_seed"></span><h3>public  subroutine <a href='../proc/dbcsr_t_reset_randmat_seed.html'>dbcsr_t_reset_randmat_seed</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_reset_randmat_seed"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_reset_randmat_seed.html'>dbcsr_t_reset_randmat_seed</a>()  
 </h3></div>
     <div class="card-body">
           

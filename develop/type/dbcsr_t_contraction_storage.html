@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -113,7 +116,7 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/dbcsr_t_contraction_storage.html#variable-nsplit_avg">nsplit_avg</a>
-            <a class="list-group-item" href="../type/dbcsr_t_contraction_storage.html#variable-ibatch">ibatch</a>
+            <a class="list-group-item" href="../type/dbcsr_t_contraction_storage.html#variable-ibatch~2">ibatch</a>
             <a class="list-group-item" href="../type/dbcsr_t_contraction_storage.html#variable-batch_ranges">batch_ranges</a>
             <a class="list-group-item" href="../type/dbcsr_t_contraction_storage.html#variable-static">static</a>
         </div>
@@ -145,7 +148,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public :: dbcsr_t_contraction_storage</h2>
+      <h2>
+        type, public :: dbcsr_t_contraction_storage</h2>
     
     <br>
 
@@ -180,7 +184,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ibatch"></span>
+              <span class="anchor" id="variable-ibatch~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -198,7 +202,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-batch_ranges"></span>
-              type(<a href='../type/array_list.html'>array_list</a>),
+              type(<a href='array_list.html'>array_list</a>),
             </td>
               <td>public</td>
             <td>

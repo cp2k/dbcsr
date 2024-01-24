@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,10 +114,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_mm_hostdrv.html#variable-modulen~65">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_hostdrv.html#variable-modulen~14">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_mm_hostdrv.html#variable-int_print">int_print</a>
-            <a class="list-group-item" href="../module/dbcsr_mm_hostdrv.html#variable-debug_mod~11">debug_mod</a>
-            <a class="list-group-item" href="../module/dbcsr_mm_hostdrv.html#variable-careful_mod~19">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_hostdrv.html#variable-debug_mod~2">debug_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_hostdrv.html#variable-careful_mod~3">careful_mod</a>
         </div>
       </div>
     </div>
@@ -193,12 +196,12 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
               </ul>
             </li>
         </ul>
@@ -223,7 +226,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~65"></span>
+              <span class="anchor" id="variable-modulen~14"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -257,7 +260,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-debug_mod~11"></span>
+              <span class="anchor" id="variable-debug_mod~2"></span>
               logical,
             </td>
               <td>private,</td>
@@ -274,7 +277,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~19"></span>
+              <span class="anchor" id="variable-careful_mod~3"></span>
               logical,
             </td>
               <td>private,</td>
@@ -325,7 +328,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area~9"></span>
+              <span class="anchor" id="variable-data_area"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
@@ -356,7 +359,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mm_hostdrv_lib_init"></span><h3>public  subroutine <a href='../proc/dbcsr_mm_hostdrv_lib_init.html'>dbcsr_mm_hostdrv_lib_init</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mm_hostdrv_lib_init"></span> <h3>public  subroutine <a href='../proc/dbcsr_mm_hostdrv_lib_init.html'>dbcsr_mm_hostdrv_lib_init</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -369,7 +372,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mm_hostdrv_lib_finalize"></span><h3>public  subroutine <a href='../proc/dbcsr_mm_hostdrv_lib_finalize.html'>dbcsr_mm_hostdrv_lib_finalize</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mm_hostdrv_lib_finalize"></span> <h3>public  subroutine <a href='../proc/dbcsr_mm_hostdrv_lib_finalize.html'>dbcsr_mm_hostdrv_lib_finalize</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -382,7 +385,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mm_hostdrv_init"></span><h3>public  subroutine <a href='../proc/dbcsr_mm_hostdrv_init.html'>dbcsr_mm_hostdrv_init</a>(this, product_wm)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mm_hostdrv_init"></span> <h3>public  subroutine <a href='../proc/dbcsr_mm_hostdrv_init.html'>dbcsr_mm_hostdrv_init</a>(this, product_wm)  
 </h3></div>
     <div class="card-body">
           
@@ -401,7 +404,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~55"></span>
+              <span class="anchor" id="variable-this~31"></span>
               type(<a href='../type/dbcsr_mm_hostdrv_type.html'>dbcsr_mm_hostdrv_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -416,7 +419,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-product_wm~7"></span>
+              <span class="anchor" id="variable-product_wm~3"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td></td>
@@ -437,7 +440,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mm_hostdrv_process"></span><h3>public  subroutine <a href='../proc/dbcsr_mm_hostdrv_process.html'>dbcsr_mm_hostdrv_process</a>(this, left, right, params, stack_size, stack_descr, success, used_smm)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_mm_hostdrv_process"></span> <h3>public  subroutine <a href='../proc/dbcsr_mm_hostdrv_process.html'>dbcsr_mm_hostdrv_process</a>(this, left, right, params, stack_size, stack_descr, success, used_smm)  
 </h3></div>
     <div class="card-body">
           
@@ -456,7 +459,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~56"></span>
+              <span class="anchor" id="variable-this~32"></span>
               type(<a href='../type/dbcsr_mm_hostdrv_type.html'>dbcsr_mm_hostdrv_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -471,7 +474,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left"></span>
+              <span class="anchor" id="variable-left~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -487,7 +490,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right"></span>
+              <span class="anchor" id="variable-right~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -503,7 +506,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-params"></span>
+              <span class="anchor" id="variable-params~2"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -518,7 +521,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~17"></span>
+              <span class="anchor" id="variable-stack_size~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -533,7 +536,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_descr~3"></span>
+              <span class="anchor" id="variable-stack_descr~2"></span>
               type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
             </td>
 <td>intent(in)</td>
@@ -548,7 +551,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-success~3"></span>
+              <span class="anchor" id="variable-success~2"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -584,7 +587,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-print_gemm_parameters"></span><h3>private  subroutine <a href='../proc/print_gemm_parameters.html'>print_gemm_parameters</a>(params)  
+    <div class="card-header codesum"><span class="anchor" id="proc-print_gemm_parameters"></span> <h3>private  subroutine <a href='../proc/print_gemm_parameters.html'>print_gemm_parameters</a>(params)  
 </h3></div>
     <div class="card-body">
           
@@ -603,7 +606,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~15"></span>
+              <span class="anchor" id="variable-params~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -624,7 +627,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-blas_process_mm_stack_d"></span><h3>private  subroutine <a href='../proc/blas_process_mm_stack_d.html'>blas_process_mm_stack_d</a>(params, stack_size, a_data, b_data, c_data)  
+    <div class="card-header codesum"><span class="anchor" id="proc-blas_process_mm_stack_d"></span> <h3>private  subroutine <a href='../proc/blas_process_mm_stack_d.html'>blas_process_mm_stack_d</a>(params, stack_size, a_data, b_data, c_data)  
 </h3></div>
     <div class="card-body">
           
@@ -643,7 +646,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~2"></span>
+              <span class="anchor" id="variable-params~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -658,7 +661,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size"></span>
+              <span class="anchor" id="variable-stack_size~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -726,7 +729,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-internal_process_mm_stack_d"></span><h3>private  subroutine <a href='../proc/internal_process_mm_stack_d.html'>internal_process_mm_stack_d</a>(params, stack_size, a_data, b_data, c_data)  
+    <div class="card-header codesum"><span class="anchor" id="proc-internal_process_mm_stack_d"></span> <h3>private  subroutine <a href='../proc/internal_process_mm_stack_d.html'>internal_process_mm_stack_d</a>(params, stack_size, a_data, b_data, c_data)  
 </h3></div>
     <div class="card-body">
           
@@ -745,7 +748,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~3"></span>
+              <span class="anchor" id="variable-params~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -760,7 +763,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~2"></span>
+              <span class="anchor" id="variable-stack_size~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -828,7 +831,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-smm_process_mm_stack_d"></span><h3>private  subroutine <a href='../proc/smm_process_mm_stack_d.html'>smm_process_mm_stack_d</a>(stack_descr, params, stack_size, a_data, b_data, c_data, used_smm)  
+    <div class="card-header codesum"><span class="anchor" id="proc-smm_process_mm_stack_d"></span> <h3>private  subroutine <a href='../proc/smm_process_mm_stack_d.html'>smm_process_mm_stack_d</a>(stack_descr, params, stack_size, a_data, b_data, c_data, used_smm)  
 </h3></div>
     <div class="card-body">
           
@@ -847,7 +850,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_descr~4"></span>
+              <span class="anchor" id="variable-stack_descr~3"></span>
               type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
             </td>
 <td>intent(in)</td>
@@ -862,7 +865,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~4"></span>
+              <span class="anchor" id="variable-params~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -877,7 +880,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~3"></span>
+              <span class="anchor" id="variable-stack_size~9"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -960,7 +963,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-internal_mm_d_nn"></span><h3>private pure subroutine <a href='../proc/internal_mm_d_nn.html'>internal_mm_d_nn</a>(M, N, K, A, B, C)  
+    <div class="card-header codesum"><span class="anchor" id="proc-internal_mm_d_nn"></span> <h3>private pure subroutine <a href='../proc/internal_mm_d_nn.html'>internal_mm_d_nn</a>(M, N, K, A, B, C)  
 </h3></div>
     <div class="card-body">
           
@@ -1075,7 +1078,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-blas_process_mm_stack_s"></span><h3>private  subroutine <a href='../proc/blas_process_mm_stack_s.html'>blas_process_mm_stack_s</a>(params, stack_size, a_data, b_data, c_data)  
+    <div class="card-header codesum"><span class="anchor" id="proc-blas_process_mm_stack_s"></span> <h3>private  subroutine <a href='../proc/blas_process_mm_stack_s.html'>blas_process_mm_stack_s</a>(params, stack_size, a_data, b_data, c_data)  
 </h3></div>
     <div class="card-body">
           
@@ -1094,7 +1097,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~5"></span>
+              <span class="anchor" id="variable-params~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1109,7 +1112,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~4"></span>
+              <span class="anchor" id="variable-stack_size~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1177,7 +1180,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-internal_process_mm_stack_s"></span><h3>private  subroutine <a href='../proc/internal_process_mm_stack_s.html'>internal_process_mm_stack_s</a>(params, stack_size, a_data, b_data, c_data)  
+    <div class="card-header codesum"><span class="anchor" id="proc-internal_process_mm_stack_s"></span> <h3>private  subroutine <a href='../proc/internal_process_mm_stack_s.html'>internal_process_mm_stack_s</a>(params, stack_size, a_data, b_data, c_data)  
 </h3></div>
     <div class="card-body">
           
@@ -1196,7 +1199,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~6"></span>
+              <span class="anchor" id="variable-params~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1211,7 +1214,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~5"></span>
+              <span class="anchor" id="variable-stack_size~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1279,7 +1282,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-smm_process_mm_stack_s"></span><h3>private  subroutine <a href='../proc/smm_process_mm_stack_s.html'>smm_process_mm_stack_s</a>(stack_descr, params, stack_size, a_data, b_data, c_data, used_smm)  
+    <div class="card-header codesum"><span class="anchor" id="proc-smm_process_mm_stack_s"></span> <h3>private  subroutine <a href='../proc/smm_process_mm_stack_s.html'>smm_process_mm_stack_s</a>(stack_descr, params, stack_size, a_data, b_data, c_data, used_smm)  
 </h3></div>
     <div class="card-body">
           
@@ -1298,7 +1301,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_descr~5"></span>
+              <span class="anchor" id="variable-stack_descr~4"></span>
               type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1313,7 +1316,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~7"></span>
+              <span class="anchor" id="variable-params~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1328,7 +1331,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~6"></span>
+              <span class="anchor" id="variable-stack_size~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1411,7 +1414,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-internal_mm_s_nn"></span><h3>private pure subroutine <a href='../proc/internal_mm_s_nn.html'>internal_mm_s_nn</a>(M, N, K, A, B, C)  
+    <div class="card-header codesum"><span class="anchor" id="proc-internal_mm_s_nn"></span> <h3>private pure subroutine <a href='../proc/internal_mm_s_nn.html'>internal_mm_s_nn</a>(M, N, K, A, B, C)  
 </h3></div>
     <div class="card-body">
           
@@ -1526,7 +1529,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-blas_process_mm_stack_z"></span><h3>private  subroutine <a href='../proc/blas_process_mm_stack_z.html'>blas_process_mm_stack_z</a>(params, stack_size, a_data, b_data, c_data)  
+    <div class="card-header codesum"><span class="anchor" id="proc-blas_process_mm_stack_z"></span> <h3>private  subroutine <a href='../proc/blas_process_mm_stack_z.html'>blas_process_mm_stack_z</a>(params, stack_size, a_data, b_data, c_data)  
 </h3></div>
     <div class="card-body">
           
@@ -1545,7 +1548,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~8"></span>
+              <span class="anchor" id="variable-params~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1560,7 +1563,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~7"></span>
+              <span class="anchor" id="variable-stack_size~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1628,7 +1631,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-internal_process_mm_stack_z"></span><h3>private  subroutine <a href='../proc/internal_process_mm_stack_z.html'>internal_process_mm_stack_z</a>(params, stack_size, a_data, b_data, c_data)  
+    <div class="card-header codesum"><span class="anchor" id="proc-internal_process_mm_stack_z"></span> <h3>private  subroutine <a href='../proc/internal_process_mm_stack_z.html'>internal_process_mm_stack_z</a>(params, stack_size, a_data, b_data, c_data)  
 </h3></div>
     <div class="card-body">
           
@@ -1647,7 +1650,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~9"></span>
+              <span class="anchor" id="variable-params~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1662,7 +1665,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~8"></span>
+              <span class="anchor" id="variable-stack_size~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1730,7 +1733,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-smm_process_mm_stack_z"></span><h3>private  subroutine <a href='../proc/smm_process_mm_stack_z.html'>smm_process_mm_stack_z</a>(stack_descr, params, stack_size, a_data, b_data, c_data, used_smm)  
+    <div class="card-header codesum"><span class="anchor" id="proc-smm_process_mm_stack_z"></span> <h3>private  subroutine <a href='../proc/smm_process_mm_stack_z.html'>smm_process_mm_stack_z</a>(stack_descr, params, stack_size, a_data, b_data, c_data, used_smm)  
 </h3></div>
     <div class="card-body">
           
@@ -1749,7 +1752,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_descr~6"></span>
+              <span class="anchor" id="variable-stack_descr~5"></span>
               type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1764,7 +1767,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~10"></span>
+              <span class="anchor" id="variable-params~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1779,7 +1782,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~9"></span>
+              <span class="anchor" id="variable-stack_size~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1862,7 +1865,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-internal_mm_z_nn"></span><h3>private pure subroutine <a href='../proc/internal_mm_z_nn.html'>internal_mm_z_nn</a>(M, N, K, A, B, C)  
+    <div class="card-header codesum"><span class="anchor" id="proc-internal_mm_z_nn"></span> <h3>private pure subroutine <a href='../proc/internal_mm_z_nn.html'>internal_mm_z_nn</a>(M, N, K, A, B, C)  
 </h3></div>
     <div class="card-body">
           
@@ -1977,7 +1980,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-blas_process_mm_stack_c"></span><h3>private  subroutine <a href='../proc/blas_process_mm_stack_c.html'>blas_process_mm_stack_c</a>(params, stack_size, a_data, b_data, c_data)  
+    <div class="card-header codesum"><span class="anchor" id="proc-blas_process_mm_stack_c"></span> <h3>private  subroutine <a href='../proc/blas_process_mm_stack_c.html'>blas_process_mm_stack_c</a>(params, stack_size, a_data, b_data, c_data)  
 </h3></div>
     <div class="card-body">
           
@@ -1996,7 +1999,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~11"></span>
+              <span class="anchor" id="variable-params~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2011,7 +2014,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~10"></span>
+              <span class="anchor" id="variable-stack_size~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2079,7 +2082,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-internal_process_mm_stack_c"></span><h3>private  subroutine <a href='../proc/internal_process_mm_stack_c.html'>internal_process_mm_stack_c</a>(params, stack_size, a_data, b_data, c_data)  
+    <div class="card-header codesum"><span class="anchor" id="proc-internal_process_mm_stack_c"></span> <h3>private  subroutine <a href='../proc/internal_process_mm_stack_c.html'>internal_process_mm_stack_c</a>(params, stack_size, a_data, b_data, c_data)  
 </h3></div>
     <div class="card-body">
           
@@ -2098,7 +2101,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~12"></span>
+              <span class="anchor" id="variable-params~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2113,7 +2116,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~11"></span>
+              <span class="anchor" id="variable-stack_size~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2181,7 +2184,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-smm_process_mm_stack_c"></span><h3>private  subroutine <a href='../proc/smm_process_mm_stack_c.html'>smm_process_mm_stack_c</a>(stack_descr, params, stack_size, a_data, b_data, c_data, used_smm)  
+    <div class="card-header codesum"><span class="anchor" id="proc-smm_process_mm_stack_c"></span> <h3>private  subroutine <a href='../proc/smm_process_mm_stack_c.html'>smm_process_mm_stack_c</a>(stack_descr, params, stack_size, a_data, b_data, c_data, used_smm)  
 </h3></div>
     <div class="card-body">
           
@@ -2200,7 +2203,7 @@ Right-matrix data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_descr~7"></span>
+              <span class="anchor" id="variable-stack_descr~6"></span>
               type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2215,7 +2218,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-params~13"></span>
+              <span class="anchor" id="variable-params~15"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2230,7 +2233,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~12"></span>
+              <span class="anchor" id="variable-stack_size~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2313,7 +2316,7 @@ Right-matrix data</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-internal_mm_c_nn"></span><h3>private pure subroutine <a href='../proc/internal_mm_c_nn.html'>internal_mm_c_nn</a>(M, N, K, A, B, C)  
+    <div class="card-header codesum"><span class="anchor" id="proc-internal_mm_c_nn"></span> <h3>private pure subroutine <a href='../proc/internal_mm_c_nn.html'>internal_mm_c_nn</a>(M, N, K, A, B, C)  
 </h3></div>
     <div class="card-body">
           

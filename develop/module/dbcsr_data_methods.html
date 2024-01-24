@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,9 +114,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_data_methods.html#variable-modulen~22">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_data_methods.html#variable-careful_mod~5">careful_mod</a>
-            <a class="list-group-item" href="../module/dbcsr_data_methods.html#variable-id~7">id</a>
+            <a class="list-group-item" href="../module/dbcsr_data_methods.html#variable-modulen~28">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_data_methods.html#variable-careful_mod~7">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_data_methods.html#variable-id~2">id</a>
         </div>
       </div>
     </div>
@@ -165,14 +168,14 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
               </ul>
             </li>
         </ul>
@@ -197,7 +200,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~22"></span>
+              <span class="anchor" id="variable-modulen~28"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -214,7 +217,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~5"></span>
+              <span class="anchor" id="variable-careful_mod~7"></span>
               logical,
             </td>
               <td>private,</td>
@@ -231,7 +234,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-id~7"></span>
+              <span class="anchor" id="variable-id~2"></span>
               integer,
             </td>
               <td>private,</td>
@@ -260,7 +263,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_host2dev"></span><h3>public  subroutine <a href='../proc/dbcsr_data_host2dev.html'>dbcsr_data_host2dev</a>(area)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_host2dev"></span> <h3>public  subroutine <a href='../proc/dbcsr_data_host2dev.html'>dbcsr_data_host2dev</a>(area)  
 </h3></div>
     <div class="card-body">
           
@@ -279,7 +282,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~53"></span>
+              <span class="anchor" id="variable-area~6"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -300,7 +303,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_dev2host"></span><h3>public  subroutine <a href='../proc/dbcsr_data_dev2host.html'>dbcsr_data_dev2host</a>(area)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_dev2host"></span> <h3>public  subroutine <a href='../proc/dbcsr_data_dev2host.html'>dbcsr_data_dev2host</a>(area)  
 </h3></div>
     <div class="card-body">
           
@@ -319,7 +322,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~54"></span>
+              <span class="anchor" id="variable-area~7"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -340,7 +343,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_new"></span><h3>public  subroutine <a href='../proc/dbcsr_data_new.html'>dbcsr_data_new</a>(area, data_type, data_size, data_size2, memory_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_new"></span> <h3>public  subroutine <a href='../proc/dbcsr_data_new.html'>dbcsr_data_new</a>(area, data_type, data_size, data_size2, memory_type)  
 </h3></div>
     <div class="card-body">
           
@@ -359,7 +362,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area"></span>
+              <span class="anchor" id="variable-area~8"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -374,7 +377,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~10"></span>
+              <span class="anchor" id="variable-data_type~36"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -389,7 +392,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size"></span>
+              <span class="anchor" id="variable-data_size~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -405,7 +408,7 @@ second dimension data size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size2"></span>
+              <span class="anchor" id="variable-data_size2~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -421,7 +424,7 @@ second dimension data size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~2"></span>
+              <span class="anchor" id="variable-memory_type~10"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -442,7 +445,7 @@ second dimension data size</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_ensure_size"></span><h3>public  subroutine <a href='../proc/dbcsr_data_ensure_size.html'>dbcsr_data_ensure_size</a>(area, data_size, nocopy, zero_pad, factor, area_resize)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_ensure_size"></span> <h3>public  subroutine <a href='../proc/dbcsr_data_ensure_size.html'>dbcsr_data_ensure_size</a>(area, data_size, nocopy, zero_pad, factor, area_resize)  
 </h3></div>
     <div class="card-body">
           
@@ -462,7 +465,7 @@ The data area must have been previously setup with dbcsr_data_new.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~2"></span>
+              <span class="anchor" id="variable-area~9"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -477,7 +480,7 @@ The data area must have been previously setup with dbcsr_data_new.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size~2"></span>
+              <span class="anchor" id="variable-data_size~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -492,7 +495,7 @@ The data area must have been previously setup with dbcsr_data_new.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy"></span>
+              <span class="anchor" id="variable-nocopy~8"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -508,7 +511,7 @@ pad new data with zeros</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad"></span>
+              <span class="anchor" id="variable-zero_pad~8"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -524,7 +527,7 @@ pad new data with zeros</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-factor"></span>
+              <span class="anchor" id="variable-factor~7"></span>
               real(kind=dp),
             </td>
 <td>intent(in),</td>
@@ -560,7 +563,7 @@ pad new data with zeros</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_release"></span><h3>public  subroutine <a href='../proc/dbcsr_data_release.html'>dbcsr_data_release</a>(area)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_data_release"></span> <h3>public  subroutine <a href='../proc/dbcsr_data_release.html'>dbcsr_data_release</a>(area)  
 </h3></div>
     <div class="card-body">
           
@@ -579,7 +582,7 @@ pad new data with zeros</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~3"></span>
+              <span class="anchor" id="variable-area~10"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>

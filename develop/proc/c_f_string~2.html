@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -77,15 +80,15 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api_c.F"> Source File</a>
+              <a href="../src/dbcsr_tensor_api_c.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api_c.f.html'>dbcsr_api_c.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tensor_api_c.f.html'>dbcsr_tensor_api_c.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></li>
             <li class="breadcrumb-item active" aria-current="page">c_f_string</li>
           </ol>
         </nav>
@@ -183,7 +186,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~2"></span>
+              <span class="anchor" id="variable-str~5"></span>
               character(kind=c_char, len=:),
             </td>
 <td>intent(out),</td>

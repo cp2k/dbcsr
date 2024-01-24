@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_error_handling.html#variable-modulen~48">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_error_handling.html#variable-modulen~55">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_error_handling.html#variable-warning_counter">warning_counter</a>
         </div>
       </div>
@@ -175,13 +178,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_print_messages.html'>dbcsr_print_messages</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_timings.html'>dbcsr_timings</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_print_messages.html'>dbcsr_print_messages</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_machine.html'>dbcsr_machine</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_log_handling.html'>dbcsr_log_handling</a></li>
               </ul>
             </li>
         </ul>
@@ -206,7 +209,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~48"></span>
+              <span class="anchor" id="variable-modulen~55"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -251,7 +254,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-next_linebreak"></span><h3>private  function <a href='../proc/next_linebreak.html'>next_linebreak</a>(message, pos, rowlen) result(ibreak)  
+    <div class="card-header codesum"><span class="anchor" id="proc-next_linebreak"></span> <h3>private  function <a href='../proc/next_linebreak.html'>next_linebreak</a>(message, pos, rowlen) result(ibreak)  
 </h3></div>
     <div class="card-body">
           
@@ -270,7 +273,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-message~7"></span>
+              <span class="anchor" id="variable-message~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -285,7 +288,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~24"></span>
+              <span class="anchor" id="variable-pos~28"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -331,7 +334,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_error_handling_setup"></span><h3>public  subroutine <a href='../proc/dbcsr_error_handling_setup.html'>dbcsr_error_handling_setup</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_error_handling_setup"></span> <h3>public  subroutine <a href='../proc/dbcsr_error_handling_setup.html'>dbcsr_error_handling_setup</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -344,7 +347,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_abort_handler"></span><h3>public  subroutine <a href='../proc/dbcsr_abort_handler.html'>dbcsr_abort_handler</a>(location, message)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_abort_handler"></span> <h3>public  subroutine <a href='../proc/dbcsr_abort_handler.html'>dbcsr_abort_handler</a>(location, message)  
 </h3></div>
     <div class="card-body">
           
@@ -363,7 +366,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-location~6"></span>
+              <span class="anchor" id="variable-location"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -378,7 +381,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-message~8"></span>
+              <span class="anchor" id="variable-message~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -399,7 +402,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_warn_handler"></span><h3>public  subroutine <a href='../proc/dbcsr_warn_handler.html'>dbcsr_warn_handler</a>(location, message)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_warn_handler"></span> <h3>public  subroutine <a href='../proc/dbcsr_warn_handler.html'>dbcsr_warn_handler</a>(location, message)  
 </h3></div>
     <div class="card-body">
           
@@ -418,7 +421,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-location~7"></span>
+              <span class="anchor" id="variable-location~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -433,7 +436,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-message~9"></span>
+              <span class="anchor" id="variable-message~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -454,7 +457,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-delay_non_master"></span><h3>private  subroutine <a href='../proc/delay_non_master.html'>delay_non_master</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-delay_non_master"></span> <h3>private  subroutine <a href='../proc/delay_non_master.html'>delay_non_master</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -467,7 +470,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-print_abort_message"></span><h3>private  subroutine <a href='../proc/print_abort_message.html'>print_abort_message</a>(message, location, output_unit)  
+    <div class="card-header codesum"><span class="anchor" id="proc-print_abort_message"></span> <h3>private  subroutine <a href='../proc/print_abort_message.html'>print_abort_message</a>(message, location, output_unit)  
 </h3></div>
     <div class="card-body">
           
@@ -486,7 +489,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-message~10"></span>
+              <span class="anchor" id="variable-message~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -501,7 +504,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-location~8"></span>
+              <span class="anchor" id="variable-location~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -516,7 +519,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-output_unit~5"></span>
+              <span class="anchor" id="variable-output_unit~8"></span>
               integer,
             </td>
 <td>intent(in)</td>

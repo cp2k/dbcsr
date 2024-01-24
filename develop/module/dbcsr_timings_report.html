@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -163,18 +166,18 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_list_routinereport.html'>dbcsr_list_routinereport</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_files.html'>dbcsr_files</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_timings_types.html'>dbcsr_timings_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_list.html'>dbcsr_list</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_list.html'>dbcsr_list</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_timings_types.html'>dbcsr_timings_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dict.html'>dbcsr_dict</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_timings.html'>dbcsr_timings</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_files.html'>dbcsr_files</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_list_routinereport.html'>dbcsr_list_routinereport</a></li>
               </ul>
             </li>
         </ul>
@@ -245,7 +248,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timings_report_print"></span><h3>public  subroutine <a href='../proc/timings_report_print.html'>timings_report_print</a>(iw, r_timings, sort_by_self_time, cost_type, report_maxloc, mp_env)  
+    <div class="card-header codesum"><span class="anchor" id="proc-timings_report_print"></span> <h3>public  subroutine <a href='../proc/timings_report_print.html'>timings_report_print</a>(iw, r_timings, sort_by_self_time, cost_type, report_maxloc, mp_env)  
 </h3></div>
     <div class="card-body">
           
@@ -264,7 +267,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iw~9"></span>
+              <span class="anchor" id="variable-iw~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -339,7 +342,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~9"></span>
+              <span class="anchor" id="variable-mp_env~31"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -360,7 +363,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-collect_reports_from_ranks"></span><h3>private  subroutine <a href='../proc/collect_reports_from_ranks.html'>collect_reports_from_ranks</a>(reports, cost_type, mp_env)  
+    <div class="card-header codesum"><span class="anchor" id="proc-collect_reports_from_ranks"></span> <h3>private  subroutine <a href='../proc/collect_reports_from_ranks.html'>collect_reports_from_ranks</a>(reports, cost_type, mp_env)  
 </h3></div>
     <div class="card-body">
           
@@ -379,7 +382,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-reports"></span>
+              <span class="anchor" id="variable-reports~2"></span>
               type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -409,7 +412,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~20"></span>
+              <span class="anchor" id="variable-mp_env~32"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -430,7 +433,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-print_reports"></span><h3>private  subroutine <a href='../proc/print_reports.html'>print_reports</a>(reports, iw, threshold, sort_by_exclusiv_cost, cost_type, report_maxloc, mp_env)  
+    <div class="card-header codesum"><span class="anchor" id="proc-print_reports"></span> <h3>private  subroutine <a href='../proc/print_reports.html'>print_reports</a>(reports, iw, threshold, sort_by_exclusiv_cost, cost_type, report_maxloc, mp_env)  
 </h3></div>
     <div class="card-body">
           
@@ -449,7 +452,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-reports~2"></span>
+              <span class="anchor" id="variable-reports~3"></span>
               type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
             </td>
 <td>intent(in)</td>
@@ -464,7 +467,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iw~10"></span>
+              <span class="anchor" id="variable-iw~25"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -479,7 +482,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-threshold~2"></span>
+              <span class="anchor" id="variable-threshold"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -539,7 +542,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~21"></span>
+              <span class="anchor" id="variable-mp_env~33"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -560,7 +563,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timings_report_callgraph"></span><h3>public  subroutine <a href='../proc/timings_report_callgraph.html'>timings_report_callgraph</a>(filename)  
+    <div class="card-header codesum"><span class="anchor" id="proc-timings_report_callgraph"></span> <h3>public  subroutine <a href='../proc/timings_report_callgraph.html'>timings_report_callgraph</a>(filename)  
 </h3></div>
     <div class="card-body">
           
@@ -580,7 +583,7 @@ http://kcachegrind.sourceforge.net/cgi-bin/show.cgi/KcacheGrindCalltreeFormat</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~5"></span>
+              <span class="anchor" id="variable-filename"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>

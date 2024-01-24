@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -183,8 +186,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -226,7 +229,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~7"></span>
+              <span class="anchor" id="variable-value~5"></span>
               type(<a href='../type/routine_report_type.html'>routine_report_type</a>),
             </td>
               <td>private,</td>
@@ -275,7 +278,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~11"></span>
+              <span class="anchor" id="variable-p~2"></span>
               type(<a href='../type/private_item_type_routinereport.html'>private_item_type_routinereport</a>),
             </td>
               <td>private,</td>
@@ -324,7 +327,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-arr~10"></span>
+              <span class="anchor" id="variable-arr"></span>
               type(<a href='../type/private_item_p_type_routinereport.html'>private_item_p_type_routinereport</a>),
             </td>
               <td>private,</td>
@@ -341,7 +344,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-size~2"></span>
+              <span class="anchor" id="variable-size"></span>
               integer,
             </td>
               <td>private</td>
@@ -371,7 +374,7 @@
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_isready"></span><h3>public  function <a href='../proc/list_routinereport_isready.html'>list_routinereport_isready</a>(list) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_isready"></span> <h3>public  function <a href='../proc/list_routinereport_isready.html'>list_routinereport_isready</a>(list) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -390,7 +393,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~16"></span>
+              <span class="anchor" id="variable-list~11"></span>
               type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
             </td>
 <td>intent(in)</td>
@@ -416,7 +419,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_peek"></span><h3>public  function <a href='../proc/list_routinereport_peek.html'>list_routinereport_peek</a>(list) result(value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_peek"></span> <h3>public  function <a href='../proc/list_routinereport_peek.html'>list_routinereport_peek</a>(list) result(value)  
 </h3></div>
     <div class="card-body">
           
@@ -462,7 +465,7 @@ Is equivalent to: list_routinereport_get(list, list_routinereport_size(list))</p
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_pop"></span><h3>public  function <a href='../proc/list_routinereport_pop.html'>list_routinereport_pop</a>(list) result(value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_pop"></span> <h3>public  function <a href='../proc/list_routinereport_pop.html'>list_routinereport_pop</a>(list) result(value)  
 </h3></div>
     <div class="card-body">
           
@@ -510,7 +513,7 @@ call list_routinereport_del(list, list_routinereport_size(list))</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_get"></span><h3>public  function <a href='../proc/list_routinereport_get.html'>list_routinereport_get</a>(list, pos) result(value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_get"></span> <h3>public  function <a href='../proc/list_routinereport_get.html'>list_routinereport_get</a>(list, pos) result(value)  
 </h3></div>
     <div class="card-body">
           
@@ -529,7 +532,7 @@ call list_routinereport_del(list, list_routinereport_size(list))</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~19"></span>
+              <span class="anchor" id="variable-list~20"></span>
               type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
             </td>
 <td>intent(in)</td>
@@ -544,7 +547,7 @@ call list_routinereport_del(list, list_routinereport_size(list))</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~8"></span>
+              <span class="anchor" id="variable-pos~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -570,7 +573,7 @@ call list_routinereport_del(list, list_routinereport_size(list))</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_size"></span><h3>public  function <a href='../proc/list_routinereport_size.html'>list_routinereport_size</a>(list) result(size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_size"></span> <h3>public  function <a href='../proc/list_routinereport_size.html'>list_routinereport_size</a>(list) result(size)  
 </h3></div>
     <div class="card-body">
           
@@ -589,7 +592,7 @@ call list_routinereport_del(list, list_routinereport_size(list))</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-list~20"></span>
+              <span class="anchor" id="variable-list~22"></span>
               type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
             </td>
 <td>intent(in)</td>
@@ -620,13 +623,348 @@ call list_routinereport_del(list, list_routinereport_size(list))</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_init"></span><h3>public  subroutine <a href='../proc/list_routinereport_init.html'>list_routinereport_init</a>(list, initial_capacity)  
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_init"></span> <h3>public  subroutine <a href='../proc/list_routinereport_init.html'>list_routinereport_init</a>(list, initial_capacity)  
 </h3></div>
     <div class="card-body">
           
   <p>Allocates the internal data-structures of the given list.
 This has to be called before any of the other routines.
 For deallocation call list_[valuetype]_destroy.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-list~12"></span>
+              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>list</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-initial_capacity"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>initial_capacity</strong></td>
+            <td>
+<p>The initial size of the internal array (default=11).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_destroy"></span> <h3>public  subroutine <a href='../proc/list_routinereport_destroy.html'>list_routinereport_destroy</a>(list)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocated the internal data-structures of the given list.
+Caution: If the stored values are pointers, their targets will
+not get deallocated by this routine.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-list~13"></span>
+              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>list</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_set"></span> <h3>public  subroutine <a href='../proc/list_routinereport_set.html'>list_routinereport_set</a>(list, value, pos)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Assings the given value to the given position in the list.
+Thereby, the former value at that position gets overwritten.
+If the position is out of bounds, the program stops.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-list~14"></span>
+              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>list</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-value~6"></span>
+              type(<a href='../type/routine_report_type.html'>routine_report_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>value</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+<p>Position in the list - must fulfill 0 &lt; pos &lt; list_size+1.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_push"></span> <h3>public  subroutine <a href='../proc/list_routinereport_push.html'>list_routinereport_push</a>(list, value)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Appends the given value at the end of the list.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-list~15"></span>
+              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>list</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-value~7"></span>
+              type(<a href='../type/routine_report_type.html'>routine_report_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>value</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_insert"></span> <h3>public  subroutine <a href='../proc/list_routinereport_insert.html'>list_routinereport_insert</a>(list, value, pos)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Inserts the given value at the given position within the list.
+Values which lay behind the insertion-position move one position up.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-list~16"></span>
+              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>list</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-value~8"></span>
+              type(<a href='../type/routine_report_type.html'>routine_report_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>value</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+<p>Position in the list - must fulfill 0 &lt; pos &lt; list_size+2 .</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_clear"></span> <h3>public  subroutine <a href='../proc/list_routinereport_clear.html'>list_routinereport_clear</a>(list)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Removes all values from the list. The list itself is not deallocated.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-list~19"></span>
+              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>list</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_del"></span> <h3>public  subroutine <a href='../proc/list_routinereport_del.html'>list_routinereport_del</a>(list, pos)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Removes the value at the given position from the list.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -656,59 +994,17 @@ For deallocation call list_[valuetype]_destroy.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initial_capacity~2"></span>
+              <span class="anchor" id="variable-pos~6"></span>
               integer,
             </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>initial_capacity</strong></td>
-            <td>
-<p>The initial size of the internal array (default=11).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_destroy"></span><h3>public  subroutine <a href='../proc/list_routinereport_destroy.html'>list_routinereport_destroy</a>(list)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocated the internal data-structures of the given list.
-Caution: If the stored values are pointers, their targets will
-not get deallocated by this routine.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-list~22"></span>
-              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
-            </td>
-<td>intent(inout)</td>
+<td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>list</strong></td>
+            <td><strong>pos</strong></td>
             <td>
-
+<p>Position in the list - must fulfill 0 &lt; pos &lt; list_size+1 .</p>
             </td>
         </tr>
     </tbody>
@@ -719,13 +1015,11 @@ not get deallocated by this routine.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_set"></span><h3>public  subroutine <a href='../proc/list_routinereport_set.html'>list_routinereport_set</a>(list, value, pos)  
+    <div class="card-header codesum"><span class="anchor" id="proc-change_capacity_routinereport"></span> <h3>private  subroutine <a href='../proc/change_capacity_routinereport.html'>change_capacity_routinereport</a>(list, new_capacity)  
 </h3></div>
     <div class="card-body">
           
-  <p>Assings the given value to the given position in the list.
-Thereby, the former value at that position gets overwritten.
-If the position is out of bounds, the program stops.</p>
+  <p>Internal routine for changing the size of the internal array.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -755,298 +1049,7 @@ If the position is out of bounds, the program stops.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~24"></span>
-              type(<a href='../type/routine_report_type.html'>routine_report_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              POINTER
-            </td>
-            <td>::</td>
-            <td><strong>value</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pos~6"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pos</strong></td>
-            <td>
-<p>Position in the list - must fulfill 0 &lt; pos &lt; list_size+1.</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_push"></span><h3>public  subroutine <a href='../proc/list_routinereport_push.html'>list_routinereport_push</a>(list, value)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Appends the given value at the end of the list.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-list~24"></span>
-              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>list</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-value~25"></span>
-              type(<a href='../type/routine_report_type.html'>routine_report_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              POINTER
-            </td>
-            <td>::</td>
-            <td><strong>value</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_insert"></span><h3>public  subroutine <a href='../proc/list_routinereport_insert.html'>list_routinereport_insert</a>(list, value, pos)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Inserts the given value at the given position within the list.
-Values which lay behind the insertion-position move one position up.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-list~25"></span>
-              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>list</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-value~26"></span>
-              type(<a href='../type/routine_report_type.html'>routine_report_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              POINTER
-            </td>
-            <td>::</td>
-            <td><strong>value</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pos~7"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pos</strong></td>
-            <td>
-<p>Position in the list - must fulfill 0 &lt; pos &lt; list_size+2 .</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_clear"></span><h3>public  subroutine <a href='../proc/list_routinereport_clear.html'>list_routinereport_clear</a>(list)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Removes all values from the list. The list itself is not deallocated.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-list~26"></span>
-              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>list</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-list_routinereport_del"></span><h3>public  subroutine <a href='../proc/list_routinereport_del.html'>list_routinereport_del</a>(list, pos)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Removes the value at the given position from the list.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-list~27"></span>
-              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>list</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pos~9"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pos</strong></td>
-            <td>
-<p>Position in the list - must fulfill 0 &lt; pos &lt; list_size+1 .</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-change_capacity_routinereport"></span><h3>private  subroutine <a href='../proc/change_capacity_routinereport.html'>change_capacity_routinereport</a>(list, new_capacity)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Internal routine for changing the size of the internal array.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-list~28"></span>
-              type(<a href='../type/list_routinereport_type.html'>list_routinereport_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>list</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-new_capacity~2"></span>
+              <span class="anchor" id="variable-new_capacity"></span>
               integer,
             </td>
 <td>intent(in)</td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -154,7 +157,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_s1"></span><h3>public  subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_s1"></span> <h3>public  subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
 </h3></div>
     <div class="card-body">
           
@@ -173,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~16"></span>
+              <span class="anchor" id="variable-sb~28"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -218,7 +221,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~16"></span>
+              <span class="anchor" id="variable-rb~28"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -233,7 +236,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~10"></span>
+              <span class="anchor" id="variable-rcount~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -248,7 +251,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~10"></span>
+              <span class="anchor" id="variable-rdispl~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -263,550 +266,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~3"></span>
-              type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mp_env</strong></td>
-            <td>
-<p>MP Environment</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-most_ptp~3"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>most_ptp</strong></td>
-            <td>
-<p>Use point-to-point for row/column; default is no
-Use point-to-point for remaining; default is no
-Use regular global collective; default is no</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-remainder_ptp~3"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>remainder_ptp</strong></td>
-            <td>
-<p>Use point-to-point for row/column; default is no
-Use point-to-point for remaining; default is no
-Use regular global collective; default is no</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-no_hybrid~3"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>no_hybrid</strong></td>
-            <td>
-<p>Use point-to-point for row/column; default is no
-Use point-to-point for remaining; default is no
-Use regular global collective; default is no</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_d1"></span><h3>public  subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Row/column and global all-to-all</p><a href="../proc/hybrid_alltoall_d1.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~15"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS, TARGET
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-scount~10"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>scount</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sdispl~9"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sdispl</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~15"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS, TARGET
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rcount~9"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rcount</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rdispl~9"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rdispl</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mp_env~2"></span>
-              type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mp_env</strong></td>
-            <td>
-<p>MP Environment</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-most_ptp~2"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>most_ptp</strong></td>
-            <td>
-<p>Use point-to-point for row/column; default is no
-Use point-to-point for remaining; default is no
-Use regular global collective; default is no</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-remainder_ptp~2"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>remainder_ptp</strong></td>
-            <td>
-<p>Use point-to-point for row/column; default is no
-Use point-to-point for remaining; default is no
-Use regular global collective; default is no</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-no_hybrid~2"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>no_hybrid</strong></td>
-            <td>
-<p>Use point-to-point for row/column; default is no
-Use point-to-point for remaining; default is no
-Use regular global collective; default is no</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_c1"></span><h3>public  subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Row/column and global all-to-all</p><a href="../proc/hybrid_alltoall_c1.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~18"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS, TARGET
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-scount~13"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>scount</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sdispl~12"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sdispl</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~18"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS, TARGET
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rcount~12"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rcount</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rdispl~12"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rdispl</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mp_env~5"></span>
-              type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mp_env</strong></td>
-            <td>
-<p>MP Environment</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-most_ptp~5"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>most_ptp</strong></td>
-            <td>
-<p>Use point-to-point for row/column; default is no
-Use point-to-point for remaining; default is no
-Use regular global collective; default is no</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-remainder_ptp~5"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>remainder_ptp</strong></td>
-            <td>
-<p>Use point-to-point for row/column; default is no
-Use point-to-point for remaining; default is no
-Use regular global collective; default is no</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-no_hybrid~5"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>no_hybrid</strong></td>
-            <td>
-<p>Use point-to-point for row/column; default is no
-Use point-to-point for remaining; default is no
-Use regular global collective; default is no</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_z1"></span><h3>public  subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Row/column and global all-to-all</p><a href="../proc/hybrid_alltoall_z1.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~17"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS, TARGET
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-scount~12"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>scount</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sdispl~11"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sdispl</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~17"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS, TARGET
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rcount~11"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rcount</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rdispl~11"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rdispl</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mp_env~4"></span>
+              <span class="anchor" id="variable-mp_env~52"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -878,7 +338,550 @@ Use regular global collective; default is no</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_i1"></span><h3>public  subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_d1"></span> <h3>public  subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Row/column and global all-to-all</p><a href="../proc/hybrid_alltoall_d1.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~27"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scount~10"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>scount</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sdispl~9"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sdispl</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~27"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcount~27"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rcount</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rdispl~27"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rdispl</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_env~51"></span>
+              type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_env</strong></td>
+            <td>
+<p>MP Environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-most_ptp~3"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>most_ptp</strong></td>
+            <td>
+<p>Use point-to-point for row/column; default is no
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-remainder_ptp~3"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>remainder_ptp</strong></td>
+            <td>
+<p>Use point-to-point for row/column; default is no
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-no_hybrid~3"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>no_hybrid</strong></td>
+            <td>
+<p>Use point-to-point for row/column; default is no
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_c1"></span> <h3>public  subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Row/column and global all-to-all</p><a href="../proc/hybrid_alltoall_c1.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~30"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scount~13"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>scount</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sdispl~12"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sdispl</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~30"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcount~30"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rcount</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rdispl~30"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rdispl</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_env~54"></span>
+              type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_env</strong></td>
+            <td>
+<p>MP Environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-most_ptp~6"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>most_ptp</strong></td>
+            <td>
+<p>Use point-to-point for row/column; default is no
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-remainder_ptp~6"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>remainder_ptp</strong></td>
+            <td>
+<p>Use point-to-point for row/column; default is no
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-no_hybrid~6"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>no_hybrid</strong></td>
+            <td>
+<p>Use point-to-point for row/column; default is no
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_z1"></span> <h3>public  subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Row/column and global all-to-all</p><a href="../proc/hybrid_alltoall_z1.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~29"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scount~12"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>scount</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sdispl~11"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sdispl</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~29"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcount~29"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rcount</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rdispl~29"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rdispl</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_env~53"></span>
+              type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_env</strong></td>
+            <td>
+<p>MP Environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-most_ptp~5"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>most_ptp</strong></td>
+            <td>
+<p>Use point-to-point for row/column; default is no
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-remainder_ptp~5"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>remainder_ptp</strong></td>
+            <td>
+<p>Use point-to-point for row/column; default is no
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-no_hybrid~5"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>no_hybrid</strong></td>
+            <td>
+<p>Use point-to-point for row/column; default is no
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_i1"></span> <h3>public  subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
 </h3></div>
     <div class="card-body">
           
@@ -897,7 +900,7 @@ Use regular global collective; default is no</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~14"></span>
+              <span class="anchor" id="variable-sb~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -942,7 +945,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~14"></span>
+              <span class="anchor" id="variable-rb~26"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -957,7 +960,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~8"></span>
+              <span class="anchor" id="variable-rcount~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -972,7 +975,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~8"></span>
+              <span class="anchor" id="variable-rdispl~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -987,7 +990,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env"></span>
+              <span class="anchor" id="variable-mp_env~50"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1002,7 +1005,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-most_ptp"></span>
+              <span class="anchor" id="variable-most_ptp~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1019,7 +1022,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-remainder_ptp"></span>
+              <span class="anchor" id="variable-remainder_ptp~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1036,7 +1039,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-no_hybrid"></span>
+              <span class="anchor" id="variable-no_hybrid~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1059,7 +1062,7 @@ Use regular global collective; default is no</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_any"></span><h3>public  subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrid_alltoall_any"></span> <h3>public  subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any</a>(sb, scount, sdispl, rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)  
 </h3></div>
     <div class="card-body">
           
@@ -1078,7 +1081,7 @@ Use regular global collective; default is no</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~13"></span>
+              <span class="anchor" id="variable-sb~25"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1123,7 +1126,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~13"></span>
+              <span class="anchor" id="variable-rb~25"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1138,7 +1141,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~7"></span>
+              <span class="anchor" id="variable-rcount~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1153,7 +1156,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~7"></span>
+              <span class="anchor" id="variable-rdispl~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1168,7 +1171,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~18"></span>
+              <span class="anchor" id="variable-mp_env~49"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1183,7 +1186,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-most_ptp~6"></span>
+              <span class="anchor" id="variable-most_ptp"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1198,7 +1201,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-remainder_ptp~6"></span>
+              <span class="anchor" id="variable-remainder_ptp"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1213,7 +1216,7 @@ Use regular global collective; default is no</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-no_hybrid~6"></span>
+              <span class="anchor" id="variable-no_hybrid"></span>
               logical,
             </td>
 <td>intent(in),</td>

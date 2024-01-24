@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tensor_io.html#variable-modulen~7">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_io.html#variable-modulen~65">moduleN</a>
         </div>
       </div>
     </div>
@@ -175,12 +178,12 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_io.html'>dbcsr_tas_io</a></li>
               </ul>
             </li>
         </ul>
@@ -205,7 +208,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~7"></span>
+              <span class="anchor" id="variable-modulen~65"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -233,7 +236,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-prep_output_unit"></span><h3>public  function <a href='../proc/prep_output_unit.html'>prep_output_unit</a>(unit_nr) result(unit_nr_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-prep_output_unit"></span> <h3>public  function <a href='../proc/prep_output_unit.html'>prep_output_unit</a>(unit_nr) result(unit_nr_out)  
 </h3></div>
     <div class="card-body">
           
@@ -252,7 +255,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~11"></span>
+              <span class="anchor" id="variable-unit_nr~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -283,7 +286,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_tensor_info"></span><h3>public  subroutine <a href='../proc/dbcsr_t_write_tensor_info.html'>dbcsr_t_write_tensor_info</a>(tensor, unit_nr, full_info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_tensor_info"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_write_tensor_info.html'>dbcsr_t_write_tensor_info</a>(tensor, unit_nr, full_info)  
 </h3></div>
     <div class="card-body">
           
@@ -302,7 +305,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~51"></span>
+              <span class="anchor" id="variable-tensor~97"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -317,7 +320,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~12"></span>
+              <span class="anchor" id="variable-unit_nr~25"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -353,7 +356,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_tensor_dist"></span><h3>public  subroutine <a href='../proc/dbcsr_t_write_tensor_dist.html'>dbcsr_t_write_tensor_dist</a>(tensor, unit_nr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_tensor_dist"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_write_tensor_dist.html'>dbcsr_t_write_tensor_dist</a>(tensor, unit_nr)  
 </h3></div>
     <div class="card-body">
           
@@ -372,7 +375,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~52"></span>
+              <span class="anchor" id="variable-tensor~98"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -387,7 +390,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~13"></span>
+              <span class="anchor" id="variable-unit_nr~26"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -408,7 +411,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_blocks"></span><h3>public  subroutine <a href='../proc/dbcsr_t_write_blocks.html'>dbcsr_t_write_blocks</a>(tensor, io_unit_master, io_unit_all, write_int)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_blocks"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_write_blocks.html'>dbcsr_t_write_blocks</a>(tensor, io_unit_master, io_unit_all, write_int)  
 </h3></div>
     <div class="card-body">
           
@@ -427,7 +430,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~53"></span>
+              <span class="anchor" id="variable-tensor~99"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -474,7 +477,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-write_int"></span>
+              <span class="anchor" id="variable-write_int~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -495,7 +498,7 @@ for local output</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_block"></span><h3>public  subroutine <a href='../proc/dbcsr_t_write_block.html'>dbcsr_t_write_block</a>(name, blk_size, blk_index, proc, unit_nr, blk_values_2, blk_values_3, blk_values_4, write_int)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_block"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_write_block.html'>dbcsr_t_write_block</a>(name, blk_size, blk_index, proc, unit_nr, blk_values_2, blk_values_3, blk_values_4, write_int)  
 </h3></div>
     <div class="card-body">
           
@@ -514,7 +517,7 @@ for local output</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~2"></span>
+              <span class="anchor" id="variable-name~34"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -529,7 +532,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size~2"></span>
+              <span class="anchor" id="variable-blk_size~43"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -544,7 +547,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_index"></span>
+              <span class="anchor" id="variable-blk_index~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -559,7 +562,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-proc"></span>
+              <span class="anchor" id="variable-proc~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -574,7 +577,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr"></span>
+              <span class="anchor" id="variable-unit_nr~27"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -589,7 +592,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_values_2"></span>
+              <span class="anchor" id="variable-blk_values_2~3"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -604,7 +607,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_values_3"></span>
+              <span class="anchor" id="variable-blk_values_3~3"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -619,7 +622,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_values_4"></span>
+              <span class="anchor" id="variable-blk_values_4~3"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -634,7 +637,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-write_int~2"></span>
+              <span class="anchor" id="variable-write_int~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -655,7 +658,7 @@ for local output</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_block_indices"></span><h3>public  subroutine <a href='../proc/dbcsr_t_write_block_indices.html'>dbcsr_t_write_block_indices</a>(tensor, io_unit_master, io_unit_all)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_block_indices"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_write_block_indices.html'>dbcsr_t_write_block_indices</a>(tensor, io_unit_master, io_unit_all)  
 </h3></div>
     <div class="card-body">
           
@@ -674,7 +677,7 @@ for local output</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~54"></span>
+              <span class="anchor" id="variable-tensor~100"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -725,7 +728,7 @@ for local output</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_split_info"></span><h3>public  subroutine <a href='../proc/dbcsr_t_write_split_info.html'>dbcsr_t_write_split_info</a>(pgrid, unit_nr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_write_split_info"></span> <h3>public  subroutine <a href='../proc/dbcsr_t_write_split_info.html'>dbcsr_t_write_split_info</a>(pgrid, unit_nr)  
 </h3></div>
     <div class="card-body">
           
@@ -744,7 +747,7 @@ for local output</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~11"></span>
+              <span class="anchor" id="variable-pgrid~40"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(in)</td>
@@ -759,7 +762,7 @@ for local output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~14"></span>
+              <span class="anchor" id="variable-unit_nr~28"></span>
               integer,
             </td>
 <td>intent(in)</td>

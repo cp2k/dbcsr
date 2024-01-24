@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -192,7 +195,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_i"></span><h3>private  subroutine <a href='../proc/mp_sum_i.html'>mp_sum_i</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_i"></span> <h3>private  subroutine <a href='../proc/mp_sum_i.html'>mp_sum_i</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -211,7 +214,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~16"></span>
+              <span class="anchor" id="variable-msg~23"></span>
               integer(kind=int_4),
             </td>
 <td>intent(inout)</td>
@@ -226,7 +229,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~10"></span>
+              <span class="anchor" id="variable-gid~20"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -247,7 +250,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_iv"></span><h3>private  subroutine <a href='../proc/mp_sum_iv.html'>mp_sum_iv</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_iv"></span> <h3>private  subroutine <a href='../proc/mp_sum_iv.html'>mp_sum_iv</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -266,7 +269,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~17"></span>
+              <span class="anchor" id="variable-msg~24"></span>
               integer(kind=int_4),
             </td>
 <td>intent(inout),</td>
@@ -281,7 +284,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~143"></span>
+              <span class="anchor" id="variable-gid~21"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -302,7 +305,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_im"></span><h3>private  subroutine <a href='../proc/mp_sum_im.html'>mp_sum_im</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_im"></span> <h3>private  subroutine <a href='../proc/mp_sum_im.html'>mp_sum_im</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -321,7 +324,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~19"></span>
+              <span class="anchor" id="variable-msg~26"></span>
               integer(kind=int_4),
             </td>
 <td>intent(inout),</td>
@@ -336,7 +339,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~145"></span>
+              <span class="anchor" id="variable-gid~23"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -357,7 +360,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_im3"></span><h3>private  subroutine <a href='../proc/mp_sum_im3.html'>mp_sum_im3</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_im3"></span> <h3>private  subroutine <a href='../proc/mp_sum_im3.html'>mp_sum_im3</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -376,7 +379,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~20"></span>
+              <span class="anchor" id="variable-msg~27"></span>
               integer(kind=int_4),
             </td>
 <td>intent(inout),</td>
@@ -391,7 +394,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~146"></span>
+              <span class="anchor" id="variable-gid~24"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -412,7 +415,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_im4"></span><h3>private  subroutine <a href='../proc/mp_sum_im4.html'>mp_sum_im4</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_im4"></span> <h3>private  subroutine <a href='../proc/mp_sum_im4.html'>mp_sum_im4</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -431,7 +434,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~21"></span>
+              <span class="anchor" id="variable-msg~28"></span>
               integer(kind=int_4),
             </td>
 <td>intent(inout),</td>
@@ -446,7 +449,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~147"></span>
+              <span class="anchor" id="variable-gid~25"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -467,7 +470,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_l"></span><h3>private  subroutine <a href='../proc/mp_sum_l.html'>mp_sum_l</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_l"></span> <h3>private  subroutine <a href='../proc/mp_sum_l.html'>mp_sum_l</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -486,7 +489,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~44"></span>
+              <span class="anchor" id="variable-msg~59"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout)</td>
@@ -501,7 +504,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~31"></span>
+              <span class="anchor" id="variable-gid~65"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -522,7 +525,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lv"></span><h3>private  subroutine <a href='../proc/mp_sum_lv.html'>mp_sum_lv</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lv"></span> <h3>private  subroutine <a href='../proc/mp_sum_lv.html'>mp_sum_lv</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -541,7 +544,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~45"></span>
+              <span class="anchor" id="variable-msg~60"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -556,7 +559,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~167"></span>
+              <span class="anchor" id="variable-gid~66"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -577,7 +580,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lm"></span><h3>private  subroutine <a href='../proc/mp_sum_lm.html'>mp_sum_lm</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lm"></span> <h3>private  subroutine <a href='../proc/mp_sum_lm.html'>mp_sum_lm</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -596,7 +599,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~47"></span>
+              <span class="anchor" id="variable-msg~62"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -611,7 +614,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~169"></span>
+              <span class="anchor" id="variable-gid~68"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -632,7 +635,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lm3"></span><h3>private  subroutine <a href='../proc/mp_sum_lm3.html'>mp_sum_lm3</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_lm3.html'>mp_sum_lm3</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -651,7 +654,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~48"></span>
+              <span class="anchor" id="variable-msg~63"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -666,7 +669,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~170"></span>
+              <span class="anchor" id="variable-gid~69"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -687,7 +690,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lm4"></span><h3>private  subroutine <a href='../proc/mp_sum_lm4.html'>mp_sum_lm4</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_lm4.html'>mp_sum_lm4</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -706,7 +709,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~49"></span>
+              <span class="anchor" id="variable-msg~64"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -721,7 +724,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~171"></span>
+              <span class="anchor" id="variable-gid~70"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -742,7 +745,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_r"></span><h3>private  subroutine <a href='../proc/mp_sum_r.html'>mp_sum_r</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_r"></span> <h3>private  subroutine <a href='../proc/mp_sum_r.html'>mp_sum_r</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -761,7 +764,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~100"></span>
+              <span class="anchor" id="variable-msg~131"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout)</td>
@@ -776,7 +779,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~73"></span>
+              <span class="anchor" id="variable-gid~155"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -797,7 +800,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rv"></span><h3>private  subroutine <a href='../proc/mp_sum_rv.html'>mp_sum_rv</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rv"></span> <h3>private  subroutine <a href='../proc/mp_sum_rv.html'>mp_sum_rv</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -816,7 +819,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~101"></span>
+              <span class="anchor" id="variable-msg~132"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -831,7 +834,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~215"></span>
+              <span class="anchor" id="variable-gid~156"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -852,7 +855,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rm"></span><h3>private  subroutine <a href='../proc/mp_sum_rm.html'>mp_sum_rm</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rm"></span> <h3>private  subroutine <a href='../proc/mp_sum_rm.html'>mp_sum_rm</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -871,7 +874,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~103"></span>
+              <span class="anchor" id="variable-msg~134"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -886,7 +889,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~217"></span>
+              <span class="anchor" id="variable-gid~158"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -907,7 +910,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rm3"></span><h3>private  subroutine <a href='../proc/mp_sum_rm3.html'>mp_sum_rm3</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_rm3.html'>mp_sum_rm3</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -926,7 +929,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~104"></span>
+              <span class="anchor" id="variable-msg~135"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -941,7 +944,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~218"></span>
+              <span class="anchor" id="variable-gid~159"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -962,7 +965,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rm4"></span><h3>private  subroutine <a href='../proc/mp_sum_rm4.html'>mp_sum_rm4</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_rm4.html'>mp_sum_rm4</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -981,7 +984,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~105"></span>
+              <span class="anchor" id="variable-msg~136"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -996,7 +999,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~219"></span>
+              <span class="anchor" id="variable-gid~160"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1017,7 +1020,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_d"></span><h3>private  subroutine <a href='../proc/mp_sum_d.html'>mp_sum_d</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_d"></span> <h3>private  subroutine <a href='../proc/mp_sum_d.html'>mp_sum_d</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1036,7 +1039,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~72"></span>
+              <span class="anchor" id="variable-msg~95"></span>
               real(kind=real_8),
             </td>
 <td>intent(inout)</td>
@@ -1051,7 +1054,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~52"></span>
+              <span class="anchor" id="variable-gid~110"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1072,7 +1075,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dv"></span><h3>private  subroutine <a href='../proc/mp_sum_dv.html'>mp_sum_dv</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dv"></span> <h3>private  subroutine <a href='../proc/mp_sum_dv.html'>mp_sum_dv</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1091,7 +1094,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~73"></span>
+              <span class="anchor" id="variable-msg~96"></span>
               real(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -1106,7 +1109,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~191"></span>
+              <span class="anchor" id="variable-gid~111"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1127,7 +1130,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dm"></span><h3>private  subroutine <a href='../proc/mp_sum_dm.html'>mp_sum_dm</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dm"></span> <h3>private  subroutine <a href='../proc/mp_sum_dm.html'>mp_sum_dm</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1146,7 +1149,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~75"></span>
+              <span class="anchor" id="variable-msg~98"></span>
               real(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -1161,7 +1164,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~193"></span>
+              <span class="anchor" id="variable-gid~113"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1182,7 +1185,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dm3"></span><h3>private  subroutine <a href='../proc/mp_sum_dm3.html'>mp_sum_dm3</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_dm3.html'>mp_sum_dm3</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1201,7 +1204,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~76"></span>
+              <span class="anchor" id="variable-msg~99"></span>
               real(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -1216,7 +1219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~194"></span>
+              <span class="anchor" id="variable-gid~114"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1237,7 +1240,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dm4"></span><h3>private  subroutine <a href='../proc/mp_sum_dm4.html'>mp_sum_dm4</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_dm4.html'>mp_sum_dm4</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1256,7 +1259,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~77"></span>
+              <span class="anchor" id="variable-msg~100"></span>
               real(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -1271,7 +1274,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~195"></span>
+              <span class="anchor" id="variable-gid~115"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1292,7 +1295,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_c"></span><h3>private  subroutine <a href='../proc/mp_sum_c.html'>mp_sum_c</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_c"></span> <h3>private  subroutine <a href='../proc/mp_sum_c.html'>mp_sum_c</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1311,7 +1314,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~156"></span>
+              <span class="anchor" id="variable-msg~203"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout)</td>
@@ -1326,7 +1329,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~115"></span>
+              <span class="anchor" id="variable-gid~245"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1347,7 +1350,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cv"></span><h3>private  subroutine <a href='../proc/mp_sum_cv.html'>mp_sum_cv</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cv"></span> <h3>private  subroutine <a href='../proc/mp_sum_cv.html'>mp_sum_cv</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1366,7 +1369,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~157"></span>
+              <span class="anchor" id="variable-msg~204"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -1381,7 +1384,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~263"></span>
+              <span class="anchor" id="variable-gid~246"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1402,7 +1405,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cm"></span><h3>private  subroutine <a href='../proc/mp_sum_cm.html'>mp_sum_cm</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cm"></span> <h3>private  subroutine <a href='../proc/mp_sum_cm.html'>mp_sum_cm</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1421,7 +1424,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~159"></span>
+              <span class="anchor" id="variable-msg~206"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -1436,7 +1439,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~265"></span>
+              <span class="anchor" id="variable-gid~248"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1457,7 +1460,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cm3"></span><h3>private  subroutine <a href='../proc/mp_sum_cm3.html'>mp_sum_cm3</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_cm3.html'>mp_sum_cm3</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1476,7 +1479,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~160"></span>
+              <span class="anchor" id="variable-msg~207"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -1491,7 +1494,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~266"></span>
+              <span class="anchor" id="variable-gid~249"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1512,7 +1515,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cm4"></span><h3>private  subroutine <a href='../proc/mp_sum_cm4.html'>mp_sum_cm4</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_cm4.html'>mp_sum_cm4</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1531,7 +1534,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~161"></span>
+              <span class="anchor" id="variable-msg~208"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -1546,7 +1549,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~267"></span>
+              <span class="anchor" id="variable-gid~250"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1567,7 +1570,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_z"></span><h3>private  subroutine <a href='../proc/mp_sum_z.html'>mp_sum_z</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_z"></span> <h3>private  subroutine <a href='../proc/mp_sum_z.html'>mp_sum_z</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1586,7 +1589,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~128"></span>
+              <span class="anchor" id="variable-msg~167"></span>
               complex(kind=real_8),
             </td>
 <td>intent(inout)</td>
@@ -1601,7 +1604,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~94"></span>
+              <span class="anchor" id="variable-gid~200"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1622,7 +1625,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zv"></span><h3>private  subroutine <a href='../proc/mp_sum_zv.html'>mp_sum_zv</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zv"></span> <h3>private  subroutine <a href='../proc/mp_sum_zv.html'>mp_sum_zv</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1641,7 +1644,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~129"></span>
+              <span class="anchor" id="variable-msg~168"></span>
               complex(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -1656,7 +1659,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~239"></span>
+              <span class="anchor" id="variable-gid~201"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1677,7 +1680,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zm"></span><h3>private  subroutine <a href='../proc/mp_sum_zm.html'>mp_sum_zm</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zm"></span> <h3>private  subroutine <a href='../proc/mp_sum_zm.html'>mp_sum_zm</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1696,7 +1699,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~131"></span>
+              <span class="anchor" id="variable-msg~170"></span>
               complex(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -1711,7 +1714,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~241"></span>
+              <span class="anchor" id="variable-gid~203"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1732,7 +1735,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zm3"></span><h3>private  subroutine <a href='../proc/mp_sum_zm3.html'>mp_sum_zm3</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_zm3.html'>mp_sum_zm3</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1751,7 +1754,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~132"></span>
+              <span class="anchor" id="variable-msg~171"></span>
               complex(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -1766,7 +1769,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~242"></span>
+              <span class="anchor" id="variable-gid~204"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1787,7 +1790,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zm4"></span><h3>private  subroutine <a href='../proc/mp_sum_zm4.html'>mp_sum_zm4</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_zm4.html'>mp_sum_zm4</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1806,7 +1809,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~133"></span>
+              <span class="anchor" id="variable-msg~172"></span>
               complex(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -1821,7 +1824,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~243"></span>
+              <span class="anchor" id="variable-gid~205"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1842,7 +1845,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_iv"></span><h3>private  subroutine <a href='../proc/mp_sum_root_iv.html'>mp_sum_root_iv</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_iv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_iv.html'>mp_sum_root_iv</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1862,7 +1865,7 @@ one.</p><a href="../proc/mp_sum_root_iv.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~22"></span>
+              <span class="anchor" id="variable-msg~29"></span>
               integer(kind=int_4),
             </td>
 <td>intent(inout),</td>
@@ -1877,7 +1880,7 @@ one.</p><a href="../proc/mp_sum_root_iv.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~39"></span>
+              <span class="anchor" id="variable-root~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1892,7 +1895,7 @@ one.</p><a href="../proc/mp_sum_root_iv.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~11"></span>
+              <span class="anchor" id="variable-gid~26"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1913,7 +1916,7 @@ one.</p><a href="../proc/mp_sum_root_iv.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_im"></span><h3>private  subroutine <a href='../proc/mp_sum_root_im.html'>mp_sum_root_im</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_im"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_im.html'>mp_sum_root_im</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -1933,7 +1936,7 @@ one.</p><a href="../proc/mp_sum_root_im.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~23"></span>
+              <span class="anchor" id="variable-msg~30"></span>
               integer(kind=int_4),
             </td>
 <td>intent(inout),</td>
@@ -1948,7 +1951,7 @@ one.</p><a href="../proc/mp_sum_root_im.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~40"></span>
+              <span class="anchor" id="variable-root~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1963,7 +1966,7 @@ one.</p><a href="../proc/mp_sum_root_im.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~148"></span>
+              <span class="anchor" id="variable-gid~27"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1984,7 +1987,7 @@ one.</p><a href="../proc/mp_sum_root_im.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_lv"></span><h3>private  subroutine <a href='../proc/mp_sum_root_lv.html'>mp_sum_root_lv</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_lv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_lv.html'>mp_sum_root_lv</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2004,7 +2007,7 @@ one.</p><a href="../proc/mp_sum_root_lv.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~50"></span>
+              <span class="anchor" id="variable-msg~65"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -2019,7 +2022,7 @@ one.</p><a href="../proc/mp_sum_root_lv.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~43"></span>
+              <span class="anchor" id="variable-root~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2034,7 +2037,7 @@ one.</p><a href="../proc/mp_sum_root_lv.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~32"></span>
+              <span class="anchor" id="variable-gid~71"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2055,7 +2058,7 @@ one.</p><a href="../proc/mp_sum_root_lv.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_lm"></span><h3>private  subroutine <a href='../proc/mp_sum_root_lm.html'>mp_sum_root_lm</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_lm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_lm.html'>mp_sum_root_lm</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2075,7 +2078,7 @@ one.</p><a href="../proc/mp_sum_root_lm.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~51"></span>
+              <span class="anchor" id="variable-msg~66"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -2090,7 +2093,7 @@ one.</p><a href="../proc/mp_sum_root_lm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~44"></span>
+              <span class="anchor" id="variable-root~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2105,7 +2108,7 @@ one.</p><a href="../proc/mp_sum_root_lm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~172"></span>
+              <span class="anchor" id="variable-gid~72"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2126,7 +2129,7 @@ one.</p><a href="../proc/mp_sum_root_lm.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_rv"></span><h3>private  subroutine <a href='../proc/mp_sum_root_rv.html'>mp_sum_root_rv</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_rv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_rv.html'>mp_sum_root_rv</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2146,7 +2149,7 @@ one.</p><a href="../proc/mp_sum_root_rv.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~106"></span>
+              <span class="anchor" id="variable-msg~137"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -2161,7 +2164,7 @@ one.</p><a href="../proc/mp_sum_root_rv.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~51"></span>
+              <span class="anchor" id="variable-root~29"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2176,7 +2179,7 @@ one.</p><a href="../proc/mp_sum_root_rv.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~74"></span>
+              <span class="anchor" id="variable-gid~161"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2197,7 +2200,7 @@ one.</p><a href="../proc/mp_sum_root_rv.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_rm"></span><h3>private  subroutine <a href='../proc/mp_sum_root_rm.html'>mp_sum_root_rm</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_rm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_rm.html'>mp_sum_root_rm</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2217,7 +2220,7 @@ one.</p><a href="../proc/mp_sum_root_rm.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~107"></span>
+              <span class="anchor" id="variable-msg~138"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -2232,7 +2235,7 @@ one.</p><a href="../proc/mp_sum_root_rm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~52"></span>
+              <span class="anchor" id="variable-root~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2247,7 +2250,7 @@ one.</p><a href="../proc/mp_sum_root_rm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~220"></span>
+              <span class="anchor" id="variable-gid~162"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2268,7 +2271,7 @@ one.</p><a href="../proc/mp_sum_root_rm.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_dv"></span><h3>private  subroutine <a href='../proc/mp_sum_root_dv.html'>mp_sum_root_dv</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_dv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_dv.html'>mp_sum_root_dv</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2288,7 +2291,7 @@ one.</p><a href="../proc/mp_sum_root_dv.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~78"></span>
+              <span class="anchor" id="variable-msg~101"></span>
               real(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -2303,149 +2306,7 @@ one.</p><a href="../proc/mp_sum_root_dv.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~47"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>root</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~53"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_dm"></span><h3>private  subroutine <a href='../proc/mp_sum_root_dm.html'>mp_sum_root_dm</a>(msg, root, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Element-wise sum of data from all processes with result left only on
-one.</p><a href="../proc/mp_sum_root_dm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msg~79"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msg</strong>(:,:)</td>
-            <td>
-<p>Matrix to sum (input) and (only on process root) result (output)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-root~48"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>root</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gid~196"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gid</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_cv"></span><h3>private  subroutine <a href='../proc/mp_sum_root_cv.html'>mp_sum_root_cv</a>(msg, root, gid)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Element-wise sum of data from all processes with result left only on
-one.</p><a href="../proc/mp_sum_root_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msg~162"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>msg</strong>(:)</td>
-            <td>
-<p>Vector to sum (input) and (only on process root) result (output)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-root~59"></span>
+              <span class="anchor" id="variable-root~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2481,7 +2342,149 @@ one.</p><a href="../proc/mp_sum_root_cv.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_cm"></span><h3>private  subroutine <a href='../proc/mp_sum_root_cm.html'>mp_sum_root_cm</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_dm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_dm.html'>mp_sum_root_dm</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_dm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~102"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~21"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~117"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_cv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_cv.html'>mp_sum_root_cv</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~209"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~47"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~251"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_cm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_cm.html'>mp_sum_root_cm</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2501,7 +2504,7 @@ one.</p><a href="../proc/mp_sum_root_cm.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~163"></span>
+              <span class="anchor" id="variable-msg~210"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -2516,7 +2519,7 @@ one.</p><a href="../proc/mp_sum_root_cm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~60"></span>
+              <span class="anchor" id="variable-root~48"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2531,7 +2534,7 @@ one.</p><a href="../proc/mp_sum_root_cm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~268"></span>
+              <span class="anchor" id="variable-gid~252"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2552,7 +2555,7 @@ one.</p><a href="../proc/mp_sum_root_cm.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_zv"></span><h3>private  subroutine <a href='../proc/mp_sum_root_zv.html'>mp_sum_root_zv</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_zv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_zv.html'>mp_sum_root_zv</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2572,7 +2575,7 @@ one.</p><a href="../proc/mp_sum_root_zv.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~134"></span>
+              <span class="anchor" id="variable-msg~173"></span>
               complex(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -2587,7 +2590,7 @@ one.</p><a href="../proc/mp_sum_root_zv.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~55"></span>
+              <span class="anchor" id="variable-root~38"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2602,7 +2605,7 @@ one.</p><a href="../proc/mp_sum_root_zv.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~95"></span>
+              <span class="anchor" id="variable-gid~206"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2623,7 +2626,7 @@ one.</p><a href="../proc/mp_sum_root_zv.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_zm"></span><h3>private  subroutine <a href='../proc/mp_sum_root_zm.html'>mp_sum_root_zm</a>(msg, root, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_zm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_zm.html'>mp_sum_root_zm</a>(msg, root, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2643,7 +2646,7 @@ one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~135"></span>
+              <span class="anchor" id="variable-msg~174"></span>
               complex(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -2658,7 +2661,7 @@ one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~56"></span>
+              <span class="anchor" id="variable-root~39"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2673,7 +2676,7 @@ one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~244"></span>
+              <span class="anchor" id="variable-gid~207"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2694,7 +2697,7 @@ one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_b"></span><h3>private  subroutine <a href='../proc/mp_sum_b.html'>mp_sum_b</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_b"></span> <h3>private  subroutine <a href='../proc/mp_sum_b.html'>mp_sum_b</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2713,7 +2716,7 @@ one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~3"></span>
+              <span class="anchor" id="variable-msg~7"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -2728,7 +2731,7 @@ one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~3"></span>
+              <span class="anchor" id="variable-gid~7"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2749,7 +2752,7 @@ one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_bv"></span><h3>private  subroutine <a href='../proc/mp_sum_bv.html'>mp_sum_bv</a>(msg, gid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_bv"></span> <h3>private  subroutine <a href='../proc/mp_sum_bv.html'>mp_sum_bv</a>(msg, gid)  
 </h3></div>
     <div class="card-body">
           
@@ -2768,7 +2771,7 @@ one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~4"></span>
+              <span class="anchor" id="variable-msg~8"></span>
               logical,
             </td>
 <td>intent(inout),</td>
@@ -2783,7 +2786,7 @@ one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~4"></span>
+              <span class="anchor" id="variable-gid~8"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>

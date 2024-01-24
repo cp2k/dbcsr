@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -152,7 +155,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-printmat_s"></span><h3>private  subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows, cols, iunit, title, tr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-printmat_s"></span> <h3>private  subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows, cols, iunit, title, tr)  
 </h3></div>
     <div class="card-body">
           
@@ -171,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~296"></span>
+              <span class="anchor" id="variable-matrix~385"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -186,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~7"></span>
+              <span class="anchor" id="variable-rows~43"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -202,7 +205,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cols~2"></span>
+              <span class="anchor" id="variable-cols~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -218,7 +221,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iunit~2"></span>
+              <span class="anchor" id="variable-iunit~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -234,7 +237,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-title"></span>
+              <span class="anchor" id="variable-title~2"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -249,7 +252,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~11"></span>
+              <span class="anchor" id="variable-tr~138"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -270,7 +273,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-printmat_d"></span><h3>private  subroutine <a href='../proc/printmat_d.html'>printmat_d</a>(matrix, rows, cols, iunit, title, tr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-printmat_d"></span> <h3>private  subroutine <a href='../proc/printmat_d.html'>printmat_d</a>(matrix, rows, cols, iunit, title, tr)  
 </h3></div>
     <div class="card-body">
           
@@ -289,7 +292,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~297"></span>
+              <span class="anchor" id="variable-matrix~386"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -304,122 +307,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~45"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rows</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-cols~7"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>cols</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iunit~6"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iunit</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-title~2"></span>
-              character(len=*),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>title</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tr~33"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tr</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-printmat_c"></span><h3>private  subroutine <a href='../proc/printmat_c.html'>printmat_c</a>(matrix, rows, cols, iunit, title, tr)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~298"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rows~46"></span>
+              <span class="anchor" id="variable-rows~44"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -479,7 +367,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~34"></span>
+              <span class="anchor" id="variable-tr~139"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -500,7 +388,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-printmat_z"></span><h3>private  subroutine <a href='../proc/printmat_z.html'>printmat_z</a>(matrix, rows, cols, iunit, title, tr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-printmat_c"></span> <h3>private  subroutine <a href='../proc/printmat_c.html'>printmat_c</a>(matrix, rows, cols, iunit, title, tr)  
 </h3></div>
     <div class="card-body">
           
@@ -519,8 +407,8 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~299"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-matrix~387"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -534,7 +422,7 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~47"></span>
+              <span class="anchor" id="variable-rows~45"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -594,7 +482,122 @@ the logical (possibly detransposed) matrix size, not the stored size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~35"></span>
+              <span class="anchor" id="variable-tr~140"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tr</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-printmat_z"></span> <h3>private  subroutine <a href='../proc/printmat_z.html'>printmat_z</a>(matrix, rows, cols, iunit, title, tr)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~388"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rows~46"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rows</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cols~10"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cols</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iunit~9"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iunit</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-title~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>title</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tr~141"></span>
               logical,
             </td>
 <td>intent(in),</td>

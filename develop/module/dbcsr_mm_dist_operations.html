@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -113,8 +116,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-idid">idid</a>
             <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-modulen~39">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-careful_mod~12">careful_mod</a>
-            <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-debug_mod~7">debug_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-careful_mod~15">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-debug_mod~10">debug_mod</a>
         </div>
       </div>
     </div>
@@ -181,14 +184,14 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
               </ul>
             </li>
         </ul>
@@ -247,7 +250,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~12"></span>
+              <span class="anchor" id="variable-careful_mod~15"></span>
               logical,
             </td>
               <td>private,</td>
@@ -264,7 +267,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-debug_mod~7"></span>
+              <span class="anchor" id="variable-debug_mod~10"></span>
               logical,
             </td>
               <td>private,</td>
@@ -293,7 +296,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_create_image_dist"></span><h3>public  subroutine <a href='../proc/dbcsr_create_image_dist.html'>dbcsr_create_image_dist</a>(imgdist, dist, match_row_pdist, match_row_idist, match_row_nbins, match_col_pdist, match_col_idist, match_col_nbins, nimages_rows, nimages_cols)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_create_image_dist"></span> <h3>public  subroutine <a href='../proc/dbcsr_create_image_dist.html'>dbcsr_create_image_dist</a>(imgdist, dist, match_row_pdist, match_row_idist, match_row_nbins, match_col_pdist, match_col_idist, match_col_nbins, nimages_rows, nimages_cols)  
 </h3></div>
     <div class="card-body">
           
@@ -312,7 +315,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-imgdist"></span>
+              <span class="anchor" id="variable-imgdist~5"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -327,7 +330,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~13"></span>
+              <span class="anchor" id="variable-dist~46"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -472,7 +475,7 @@ match the new column distribution to these column images</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_new_image_dist"></span><h3>private  subroutine <a href='../proc/dbcsr_new_image_dist.html'>dbcsr_new_image_dist</a>(imgdist, dist, template)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_new_image_dist"></span> <h3>private  subroutine <a href='../proc/dbcsr_new_image_dist.html'>dbcsr_new_image_dist</a>(imgdist, dist, template)  
 </h3></div>
     <div class="card-body">
           
@@ -491,7 +494,7 @@ match the new column distribution to these column images</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-imgdist~7"></span>
+              <span class="anchor" id="variable-imgdist~6"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -506,7 +509,7 @@ match the new column distribution to these column images</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~70"></span>
+              <span class="anchor" id="variable-dist~47"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -521,7 +524,7 @@ match the new column distribution to these column images</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-template~6"></span>
+              <span class="anchor" id="variable-template~4"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -542,7 +545,7 @@ match the new column distribution to these column images</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_dists_dense"></span><h3>public  subroutine <a href='../proc/dbcsr_make_dists_dense.html'>dbcsr_make_dists_dense</a>(product_dist, left_rdist, right_rdist, dense_product_dist, dense_left_rdist, dense_right_rdist, partial, m_map, k_vmap, n_map, old_m_sizes)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_dists_dense"></span> <h3>public  subroutine <a href='../proc/dbcsr_make_dists_dense.html'>dbcsr_make_dists_dense</a>(product_dist, left_rdist, right_rdist, dense_product_dist, dense_left_rdist, dense_right_rdist, partial, m_map, k_vmap, n_map, old_m_sizes)  
 </h3></div>
     <div class="card-body">
           
@@ -666,7 +669,7 @@ match the new column distribution to these column images</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m_map~2"></span>
+              <span class="anchor" id="variable-m_map~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -681,7 +684,7 @@ match the new column distribution to these column images</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k_vmap~2"></span>
+              <span class="anchor" id="variable-k_vmap~3"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -696,7 +699,7 @@ match the new column distribution to these column images</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_map~2"></span>
+              <span class="anchor" id="variable-n_map~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -732,7 +735,7 @@ match the new column distribution to these column images</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reset_locals"></span><h3>public  subroutine <a href='../proc/dbcsr_reset_locals.html'>dbcsr_reset_locals</a>(matrix)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reset_locals"></span> <h3>public  subroutine <a href='../proc/dbcsr_reset_locals.html'>dbcsr_reset_locals</a>(matrix)  
 </h3></div>
     <div class="card-body">
           
@@ -751,7 +754,7 @@ match the new column distribution to these column images</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~290"></span>
+              <span class="anchor" id="variable-matrix~350"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -772,7 +775,7 @@ match the new column distribution to these column images</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reset_vlocals"></span><h3>public  subroutine <a href='../proc/dbcsr_reset_vlocals.html'>dbcsr_reset_vlocals</a>(matrix, imgdist, do_rows)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reset_vlocals"></span> <h3>public  subroutine <a href='../proc/dbcsr_reset_vlocals.html'>dbcsr_reset_vlocals</a>(matrix, imgdist, do_rows)  
 </h3></div>
     <div class="card-body">
           
@@ -792,7 +795,7 @@ for images.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~291"></span>
+              <span class="anchor" id="variable-matrix~351"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -807,7 +810,7 @@ for images.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-imgdist~8"></span>
+              <span class="anchor" id="variable-imgdist~7"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -843,7 +846,7 @@ for images.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_local_vrows"></span><h3>public  subroutine <a href='../proc/dbcsr_get_local_vrows.html'>dbcsr_get_local_vrows</a>(imgdist, local_vrows, local_vprow)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_local_vrows"></span> <h3>public  subroutine <a href='../proc/dbcsr_get_local_vrows.html'>dbcsr_get_local_vrows</a>(imgdist, local_vrows, local_vprow)  
 </h3></div>
     <div class="card-body">
           
@@ -862,7 +865,7 @@ for images.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-imgdist~2"></span>
+              <span class="anchor" id="variable-imgdist~8"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -913,7 +916,7 @@ for images.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_local_vcols"></span><h3>public  subroutine <a href='../proc/dbcsr_get_local_vcols.html'>dbcsr_get_local_vcols</a>(imgdist, local_vcols, local_vpcol)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_local_vcols"></span> <h3>public  subroutine <a href='../proc/dbcsr_get_local_vcols.html'>dbcsr_get_local_vcols</a>(imgdist, local_vcols, local_vpcol)  
 </h3></div>
     <div class="card-body">
           
@@ -932,7 +935,7 @@ for images.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-imgdist~3"></span>
+              <span class="anchor" id="variable-imgdist~9"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -983,7 +986,7 @@ for images.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-image_calculator"></span><h3>public  subroutine <a href='../proc/image_calculator.html'>image_calculator</a>(image_dist, prow, rowi, pcol, coli, vprow, vpcol, myprow, mypcol, myrowi, mycoli, myvprow, myvpcol, vprow_shift, vpcol_shift, shifting)  
+    <div class="card-header codesum"><span class="anchor" id="proc-image_calculator"></span> <h3>public  subroutine <a href='../proc/image_calculator.html'>image_calculator</a>(image_dist, prow, rowi, pcol, coli, vprow, vpcol, myprow, mypcol, myrowi, mycoli, myvprow, myvpcol, vprow_shift, vpcol_shift, shifting)  
 </h3></div>
     <div class="card-body">
           
@@ -1002,7 +1005,7 @@ for images.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-image_dist~3"></span>
+              <span class="anchor" id="variable-image_dist"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1017,7 +1020,7 @@ for images.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prow~5"></span>
+              <span class="anchor" id="variable-prow~15"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1032,7 +1035,7 @@ for images.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowi~5"></span>
+              <span class="anchor" id="variable-rowi~6"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1047,7 +1050,7 @@ for images.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pcol~5"></span>
+              <span class="anchor" id="variable-pcol~15"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1062,7 +1065,7 @@ for images.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coli~5"></span>
+              <span class="anchor" id="variable-coli~6"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1248,7 +1251,7 @@ for images.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-make_sizes_dense"></span><h3>public  subroutine <a href='../proc/make_sizes_dense.html'>make_sizes_dense</a>(old_sizes, mapping, nel_new, new_sizes)  
+    <div class="card-header codesum"><span class="anchor" id="proc-make_sizes_dense"></span> <h3>public  subroutine <a href='../proc/make_sizes_dense.html'>make_sizes_dense</a>(old_sizes, mapping, nel_new, new_sizes)  
 </h3></div>
     <div class="card-body">
           
@@ -1333,7 +1336,7 @@ for images.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_1dist_dense"></span><h3>private  subroutine <a href='../proc/dbcsr_make_1dist_dense.html'>dbcsr_make_1dist_dense</a>(nbins, old_dist, dense_dist, dist_map, nsubdist, subdist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_make_1dist_dense"></span> <h3>private  subroutine <a href='../proc/dbcsr_make_1dist_dense.html'>dbcsr_make_1dist_dense</a>(nbins, old_dist, dense_dist, dist_map, nsubdist, subdist)  
 </h3></div>
     <div class="card-body">
           
@@ -1352,7 +1355,7 @@ for images.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nbins~4"></span>
+              <span class="anchor" id="variable-nbins~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1367,7 +1370,7 @@ for images.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_dist"></span>
+              <span class="anchor" id="variable-old_dist~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1450,7 +1453,7 @@ Map from current to dense distribution</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-v_to_p_i_dist"></span><h3>private pure subroutine <a href='../proc/v_to_p_i_dist.html'>v_to_p_i_dist</a>(nel, vdist, nim, pdist, idist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-v_to_p_i_dist"></span> <h3>private pure subroutine <a href='../proc/v_to_p_i_dist.html'>v_to_p_i_dist</a>(nel, vdist, nim, pdist, idist)  
 </h3></div>
     <div class="card-body">
           
@@ -1550,7 +1553,7 @@ Map from current to dense distribution</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-v_to_p_i_dist_o"></span><h3>private  subroutine <a href='../proc/v_to_p_i_dist_o.html'>v_to_p_i_dist_o</a>(vdist, nim, pdist, idist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-v_to_p_i_dist_o"></span> <h3>private  subroutine <a href='../proc/v_to_p_i_dist_o.html'>v_to_p_i_dist_o</a>(vdist, nim, pdist, idist)  
 </h3></div>
     <div class="card-body">
           
@@ -1635,7 +1638,7 @@ Map from current to dense distribution</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_global_row_map"></span><h3>private  subroutine <a href='../proc/dbcsr_get_global_row_map.html'>dbcsr_get_global_row_map</a>(dist, row_map)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_global_row_map"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_global_row_map.html'>dbcsr_get_global_row_map</a>(dist, row_map)  
 </h3></div>
     <div class="card-body">
           
@@ -1654,7 +1657,7 @@ Map from current to dense distribution</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~14"></span>
+              <span class="anchor" id="variable-dist~49"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1669,7 +1672,7 @@ Map from current to dense distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_map~6"></span>
+              <span class="anchor" id="variable-row_map~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1690,7 +1693,7 @@ Map from current to dense distribution</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_global_col_map"></span><h3>private  subroutine <a href='../proc/dbcsr_get_global_col_map.html'>dbcsr_get_global_col_map</a>(dist, col_map)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_global_col_map"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_global_col_map.html'>dbcsr_get_global_col_map</a>(dist, col_map)  
 </h3></div>
     <div class="card-body">
           
@@ -1709,7 +1712,7 @@ Map from current to dense distribution</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~15"></span>
+              <span class="anchor" id="variable-dist~50"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1724,7 +1727,7 @@ Map from current to dense distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_map~6"></span>
+              <span class="anchor" id="variable-col_map~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1745,7 +1748,7 @@ Map from current to dense distribution</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_global_vrow_map"></span><h3>private  subroutine <a href='../proc/dbcsr_get_global_vrow_map.html'>dbcsr_get_global_vrow_map</a>(imgdist, vrow_map)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_global_vrow_map"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_global_vrow_map.html'>dbcsr_get_global_vrow_map</a>(imgdist, vrow_map)  
 </h3></div>
     <div class="card-body">
           
@@ -1764,7 +1767,7 @@ Map from current to dense distribution</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-imgdist~4"></span>
+              <span class="anchor" id="variable-imgdist~10"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1800,7 +1803,7 @@ Map from current to dense distribution</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_global_vcol_map"></span><h3>private  subroutine <a href='../proc/dbcsr_get_global_vcol_map.html'>dbcsr_get_global_vcol_map</a>(imgdist, vcol_map)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_global_vcol_map"></span> <h3>private  subroutine <a href='../proc/dbcsr_get_global_vcol_map.html'>dbcsr_get_global_vcol_map</a>(imgdist, vcol_map)  
 </h3></div>
     <div class="card-body">
           
@@ -1819,7 +1822,7 @@ Map from current to dense distribution</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-imgdist~5"></span>
+              <span class="anchor" id="variable-imgdist~11"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1855,7 +1858,7 @@ Map from current to dense distribution</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-map_all_local_elements"></span><h3>private pure subroutine <a href='../proc/map_all_local_elements.html'>map_all_local_elements</a>(global_elements, bin_distribution, nbins)  
+    <div class="card-header codesum"><span class="anchor" id="proc-map_all_local_elements"></span> <h3>private pure subroutine <a href='../proc/map_all_local_elements.html'>map_all_local_elements</a>(global_elements, bin_distribution, nbins)  
 </h3></div>
     <div class="card-body">
           
@@ -1893,7 +1896,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bin_distribution~2"></span>
+              <span class="anchor" id="variable-bin_distribution"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1908,7 +1911,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nbins~5"></span>
+              <span class="anchor" id="variable-nbins~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1929,7 +1932,7 @@ look.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-reimage_distribution"></span><h3>private  subroutine <a href='../proc/reimage_distribution.html'>reimage_distribution</a>(images, my_bins, nbins, nimages)  
+    <div class="card-header codesum"><span class="anchor" id="proc-reimage_distribution"></span> <h3>private  subroutine <a href='../proc/reimage_distribution.html'>reimage_distribution</a>(images, my_bins, nbins, nimages)  
 </h3></div>
     <div class="card-body">
           
@@ -1949,7 +1952,7 @@ Multiplicity is being ignored, maybe this is a bug</p><a href="../proc/reimage_d
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-images~3"></span>
+              <span class="anchor" id="variable-images~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1979,7 +1982,7 @@ Multiplicity is being ignored, maybe this is a bug</p><a href="../proc/reimage_d
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nbins~6"></span>
+              <span class="anchor" id="variable-nbins~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1995,7 +1998,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nimages~2"></span>
+              <span class="anchor" id="variable-nimages"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2017,7 +2020,7 @@ number of images in the new distribution</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-make_vdistribution"></span><h3>private pure subroutine <a href='../proc/make_vdistribution.html'>make_vdistribution</a>(nelements, vbins, bins, decimation, images)  
+    <div class="card-header codesum"><span class="anchor" id="proc-make_vdistribution"></span> <h3>private pure subroutine <a href='../proc/make_vdistribution.html'>make_vdistribution</a>(nelements, vbins, bins, decimation, images)  
 </h3></div>
     <div class="card-body">
           
@@ -2036,7 +2039,7 @@ number of images in the new distribution</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nelements~2"></span>
+              <span class="anchor" id="variable-nelements"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2096,7 +2099,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-images~4"></span>
+              <span class="anchor" id="variable-images~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2117,7 +2120,7 @@ number of images in the new distribution</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-rebin_imaged_distribution"></span><h3>private  subroutine <a href='../proc/rebin_imaged_distribution.html'>rebin_imaged_distribution</a>(new_bins, images, source_bins, source_images, nbins, multiplicity, nimages)  
+    <div class="card-header codesum"><span class="anchor" id="proc-rebin_imaged_distribution"></span> <h3>private  subroutine <a href='../proc/rebin_imaged_distribution.html'>rebin_imaged_distribution</a>(new_bins, images, source_bins, source_images, nbins, multiplicity, nimages)  
 </h3></div>
     <div class="card-body">
           
@@ -2136,7 +2139,7 @@ number of images in the new distribution</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_bins~2"></span>
+              <span class="anchor" id="variable-new_bins"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2152,7 +2155,7 @@ new image distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-images~5"></span>
+              <span class="anchor" id="variable-images~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2168,7 +2171,7 @@ new image distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source_bins~2"></span>
+              <span class="anchor" id="variable-source_bins"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2200,7 +2203,7 @@ Basis for the new distribution and images</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nbins~7"></span>
+              <span class="anchor" id="variable-nbins~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2217,7 +2220,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multiplicity~2"></span>
+              <span class="anchor" id="variable-multiplicity"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2234,7 +2237,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nimages~3"></span>
+              <span class="anchor" id="variable-nimages~2"></span>
               integer,
             </td>
 <td>intent(in)</td>

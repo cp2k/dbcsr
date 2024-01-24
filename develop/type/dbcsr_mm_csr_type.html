@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -119,19 +122,19 @@
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps">m_size_maps</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps">n_size_maps</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps">k_size_maps</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_m~2">max_m</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_n~2">max_n</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_k~2">max_k</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_m">max_m</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_n">max_n</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-max_k">max_k</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-m_size_maps_size">m_size_maps_size</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-n_size_maps_size">n_size_maps_size</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-k_size_maps_size">k_size_maps_size</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stack_map">stack_map</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_descr">stacks_descr</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-product_wm~4">product_wm</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-product_wm~6">product_wm</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_data">stacks_data</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-stacks_fillcount">stacks_fillcount</a>
             <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-sched">sched</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-keep_product_data~5">keep_product_data</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_csr_type.html#variable-keep_product_data~8">keep_product_data</a>
         </div>
       </div>
     </div>
@@ -167,7 +170,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public :: dbcsr_mm_csr_type</h2>
+      <h2>
+        type, public :: dbcsr_mm_csr_type</h2>
     
     <br>
 
@@ -186,7 +190,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-c_hashes"></span>
-              type(<a href='../type/hash_table_type.html'>hash_table_type</a>),
+              type(<a href='hash_table_type.html'>hash_table_type</a>),
             </td>
               <td>private,</td>
             <td>
@@ -304,7 +308,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_m~2"></span>
+              <span class="anchor" id="variable-max_m"></span>
               integer,
             </td>
               <td>private</td>
@@ -321,7 +325,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_n~2"></span>
+              <span class="anchor" id="variable-max_n"></span>
               integer,
             </td>
               <td>private</td>
@@ -338,7 +342,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_k~2"></span>
+              <span class="anchor" id="variable-max_k"></span>
               integer,
             </td>
               <td>private</td>
@@ -424,7 +428,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-stacks_descr"></span>
-              type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
+              type(<a href='stack_descriptor_type.html'>stack_descriptor_type</a>),
             </td>
               <td>private,</td>
             <td>
@@ -440,8 +444,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-product_wm~4"></span>
-              type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
+              <span class="anchor" id="variable-product_wm~6"></span>
+              type(<a href='dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
               <td>private,</td>
             <td>
@@ -492,7 +496,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-sched"></span>
-              type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
+              type(<a href='dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
             </td>
               <td>private</td>
             <td>
@@ -508,7 +512,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_product_data~5"></span>
+              <span class="anchor" id="variable-keep_product_data~8"></span>
               logical,
             </td>
               <td>private</td>

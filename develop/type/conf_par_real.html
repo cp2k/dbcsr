@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -112,9 +115,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/conf_par_real.html#variable-source~77">source</a>
-            <a class="list-group-item" href="../type/conf_par_real.html#variable-name~7">name</a>
-            <a class="list-group-item" href="../type/conf_par_real.html#variable-val~6">val</a>
+            <a class="list-group-item" href="../type/conf_par_real.html#variable-source~131">source</a>
+            <a class="list-group-item" href="../type/conf_par_real.html#variable-name~35">name</a>
+            <a class="list-group-item" href="../type/conf_par_real.html#variable-val~8">val</a>
             <a class="list-group-item" href="../type/conf_par_real.html#variable-defval~4">defval</a>
         </div>
       </div>
@@ -164,7 +167,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private, extends(<a href='../type/conf_par.html'>CONF_PAR</a>) :: CONF_PAR_REAL</h2>
+      <h2>
+        type, private, extends(<a href='conf_par.html'>CONF_PAR</a>) :: CONF_PAR_REAL</h2>
     
     <br>
 
@@ -182,7 +186,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~77"></span>
+              <span class="anchor" id="variable-source~131"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -199,7 +203,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~7"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -216,7 +220,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~6"></span>
+              <span class="anchor" id="variable-val~8"></span>
               real(kind=real_8),
             </td>
               <td>public</td>
@@ -264,7 +268,7 @@
       <span class="anchor" id="boundprocedure-env_value"></span>
       <h3>
           procedure, public, non_overridable ::
-  <strong>env_value</strong> => <a href='../proc/conf_par_env_value.html'>conf_par_env_value</a>
+  <strong>env_value</strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/conf_par_env_value.html'>conf_par_env_value</a>
         
       </h3>
     </div>
@@ -291,7 +295,7 @@
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/conf_par.html'>CONF_PAR</a>),
+              class(<a href='conf_par.html'>CONF_PAR</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -365,7 +369,7 @@
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/conf_par.html'>CONF_PAR</a>),
+              class(<a href='conf_par.html'>CONF_PAR</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -397,7 +401,7 @@
       <span class="anchor" id="boundprocedure-set~4"></span>
       <h3>
           procedure, public ::
-  <strong>set</strong> => <a href='../proc/set_conf_par_real.html'>set_conf_par_real</a>
+  <strong>set</strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/set_conf_par_real.html'>set_conf_par_real</a>
         
       </h3>
     </div>
@@ -424,7 +428,7 @@
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/conf_par_real.html'>CONF_PAR_REAL</a>),
+              class(<a href='conf_par_real.html'>CONF_PAR_REAL</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -150,7 +153,7 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_api_c.html#proc-c_f_string~2">c_f_string</a>
+            <a class="list-group-item" href="../module/dbcsr_api_c.html#proc-c_f_string">c_f_string</a>
             <a class="list-group-item" href="../module/dbcsr_api_c.html#proc-c_dbcsr_clear_mempools">c_dbcsr_clear_mempools</a>
             <a class="list-group-item" href="../module/dbcsr_api_c.html#proc-c_dbcsr_init_lib">c_dbcsr_init_lib</a>
             <a class="list-group-item" href="../module/dbcsr_api_c.html#proc-c_dbcsr_finalise_lib">c_dbcsr_finalise_lib</a>
@@ -308,10 +311,10 @@ PUBLIC :: dbcsr_get_data_type</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_machine.html'>dbcsr_machine</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_api.html'>dbcsr_api</a></li>
               </ul>
             </li>
         </ul>
@@ -330,7 +333,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_blocks_left"></span><h3>private  function <a href='../proc/c_dbcsr_iterator_blocks_left.html'>c_dbcsr_iterator_blocks_left</a>(c_iterator) result(c_blocks_left) bind(C, name="c_dbcsr_iterator_blocks_left")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_blocks_left"></span> <h3>private  function <a href='../proc/c_dbcsr_iterator_blocks_left.html'>c_dbcsr_iterator_blocks_left</a>(c_iterator) result(c_blocks_left) bind(C, name="c_dbcsr_iterator_blocks_left")  
 </h3></div>
     <div class="card-body">
           
@@ -349,7 +352,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_iterator~6"></span>
+              <span class="anchor" id="variable-c_iterator~3"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -375,7 +378,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_checksum"></span><h3>private  function <a href='../proc/c_dbcsr_checksum.html'>c_dbcsr_checksum</a>(c_matrix, c_local, c_pos) result(c_checksum) bind(C, name="c_dbcsr_checksum")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_checksum"></span> <h3>private  function <a href='../proc/c_dbcsr_checksum.html'>c_dbcsr_checksum</a>(c_matrix, c_local, c_pos) result(c_checksum) bind(C, name="c_dbcsr_checksum")  
 </h3></div>
     <div class="card-body">
           
@@ -394,7 +397,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix"></span>
+              <span class="anchor" id="variable-c_matrix~53"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -450,7 +453,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_maxabs"></span><h3>private  function <a href='../proc/c_dbcsr_maxabs.html'>c_dbcsr_maxabs</a>(c_matrix) result(c_norm) bind(C, name="c_dbcsr_maxabs")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_maxabs"></span> <h3>private  function <a href='../proc/c_dbcsr_maxabs.html'>c_dbcsr_maxabs</a>(c_matrix) result(c_norm) bind(C, name="c_dbcsr_maxabs")  
 </h3></div>
     <div class="card-body">
           
@@ -469,7 +472,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~2"></span>
+              <span class="anchor" id="variable-c_matrix~54"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -495,7 +498,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_gershgorin_norm"></span><h3>private  function <a href='../proc/c_dbcsr_gershgorin_norm.html'>c_dbcsr_gershgorin_norm</a>(c_matrix) result(c_norm) bind(C, name="c_dbcsr_gershgorin_norm")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_gershgorin_norm"></span> <h3>private  function <a href='../proc/c_dbcsr_gershgorin_norm.html'>c_dbcsr_gershgorin_norm</a>(c_matrix) result(c_norm) bind(C, name="c_dbcsr_gershgorin_norm")  
 </h3></div>
     <div class="card-body">
           
@@ -514,7 +517,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~3"></span>
+              <span class="anchor" id="variable-c_matrix~55"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -540,7 +543,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_frobenius_norm"></span><h3>private  function <a href='../proc/c_dbcsr_frobenius_norm.html'>c_dbcsr_frobenius_norm</a>(c_matrix, c_local) result(c_norm) bind(C, name="c_dbcsr_frobenius_norm")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_frobenius_norm"></span> <h3>private  function <a href='../proc/c_dbcsr_frobenius_norm.html'>c_dbcsr_frobenius_norm</a>(c_matrix, c_local) result(c_norm) bind(C, name="c_dbcsr_frobenius_norm")  
 </h3></div>
     <div class="card-body">
           
@@ -559,7 +562,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~4"></span>
+              <span class="anchor" id="variable-c_matrix~56"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -600,7 +603,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nblkrows_total"></span><h3>private  function <a href='../proc/c_dbcsr_nblkrows_total.html'>c_dbcsr_nblkrows_total</a>(c_matrix) result(c_nblkrows_tot) bind(C, name="c_dbcsr_nblkrows_total")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nblkrows_total"></span> <h3>private  function <a href='../proc/c_dbcsr_nblkrows_total.html'>c_dbcsr_nblkrows_total</a>(c_matrix) result(c_nblkrows_tot) bind(C, name="c_dbcsr_nblkrows_total")  
 </h3></div>
     <div class="card-body">
           
@@ -619,7 +622,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~5"></span>
+              <span class="anchor" id="variable-c_matrix~61"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -645,7 +648,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nblkcols_total"></span><h3>private  function <a href='../proc/c_dbcsr_nblkcols_total.html'>c_dbcsr_nblkcols_total</a>(c_matrix) result(c_nblkcols_tot) bind(C, name="c_dbcsr_nblkcols_total")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nblkcols_total"></span> <h3>private  function <a href='../proc/c_dbcsr_nblkcols_total.html'>c_dbcsr_nblkcols_total</a>(c_matrix) result(c_nblkcols_tot) bind(C, name="c_dbcsr_nblkcols_total")  
 </h3></div>
     <div class="card-body">
           
@@ -664,7 +667,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~6"></span>
+              <span class="anchor" id="variable-c_matrix~62"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -690,7 +693,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nblkrows_local"></span><h3>private  function <a href='../proc/c_dbcsr_nblkrows_local.html'>c_dbcsr_nblkrows_local</a>(c_matrix) result(c_nblkrows_loc) bind(C, name="c_dbcsr_nblkrows_local")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nblkrows_local"></span> <h3>private  function <a href='../proc/c_dbcsr_nblkrows_local.html'>c_dbcsr_nblkrows_local</a>(c_matrix) result(c_nblkrows_loc) bind(C, name="c_dbcsr_nblkrows_local")  
 </h3></div>
     <div class="card-body">
           
@@ -709,7 +712,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~7"></span>
+              <span class="anchor" id="variable-c_matrix~63"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -735,7 +738,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nblkcols_local"></span><h3>private  function <a href='../proc/c_dbcsr_nblkcols_local.html'>c_dbcsr_nblkcols_local</a>(c_matrix) result(c_nblkcols_loc) bind(C, name="c_dbcsr_nblkcols_local")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nblkcols_local"></span> <h3>private  function <a href='../proc/c_dbcsr_nblkcols_local.html'>c_dbcsr_nblkcols_local</a>(c_matrix) result(c_nblkcols_loc) bind(C, name="c_dbcsr_nblkcols_local")  
 </h3></div>
     <div class="card-body">
           
@@ -754,7 +757,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~8"></span>
+              <span class="anchor" id="variable-c_matrix~64"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -780,7 +783,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_matrix_type"></span><h3>private  function <a href='../proc/c_dbcsr_get_matrix_type.html'>c_dbcsr_get_matrix_type</a>(c_matrix) result(c_matrix_type) bind(C, name="c_dbcsr_get_matrix_type")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_matrix_type"></span> <h3>private  function <a href='../proc/c_dbcsr_get_matrix_type.html'>c_dbcsr_get_matrix_type</a>(c_matrix) result(c_matrix_type) bind(C, name="c_dbcsr_get_matrix_type")  
 </h3></div>
     <div class="card-body">
           
@@ -799,7 +802,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~9"></span>
+              <span class="anchor" id="variable-c_matrix~79"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -825,7 +828,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_occupation"></span><h3>private  function <a href='../proc/c_dbcsr_get_occupation.html'>c_dbcsr_get_occupation</a>(c_matrix) result(c_occupation) bind(C, name="c_dbcsr_get_occupation")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_occupation"></span> <h3>private  function <a href='../proc/c_dbcsr_get_occupation.html'>c_dbcsr_get_occupation</a>(c_matrix) result(c_occupation) bind(C, name="c_dbcsr_get_occupation")  
 </h3></div>
     <div class="card-body">
           
@@ -844,7 +847,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~10"></span>
+              <span class="anchor" id="variable-c_matrix~80"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -870,7 +873,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_num_blocks"></span><h3>private  function <a href='../proc/c_dbcsr_get_num_blocks.html'>c_dbcsr_get_num_blocks</a>(c_matrix) result(c_num_blocks) bind(C, name="c_dbcsr_get_num_blocks")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_num_blocks"></span> <h3>private  function <a href='../proc/c_dbcsr_get_num_blocks.html'>c_dbcsr_get_num_blocks</a>(c_matrix) result(c_num_blocks) bind(C, name="c_dbcsr_get_num_blocks")  
 </h3></div>
     <div class="card-body">
           
@@ -889,7 +892,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~11"></span>
+              <span class="anchor" id="variable-c_matrix~81"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -915,7 +918,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_size"></span><h3>private  function <a href='../proc/c_dbcsr_get_data_size.html'>c_dbcsr_get_data_size</a>(c_matrix) result(c_data_size) bind(C, name="c_dbcsr_get_data_size")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_size"></span> <h3>private  function <a href='../proc/c_dbcsr_get_data_size.html'>c_dbcsr_get_data_size</a>(c_matrix) result(c_data_size) bind(C, name="c_dbcsr_get_data_size")  
 </h3></div>
     <div class="card-body">
           
@@ -934,7 +937,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~12"></span>
+              <span class="anchor" id="variable-c_matrix~82"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -960,7 +963,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_has_symmetry"></span><h3>private  function <a href='../proc/c_dbcsr_has_symmetry.html'>c_dbcsr_has_symmetry</a>(c_matrix) result(c_has_symmetry) bind(C, name="c_dbcsr_has_symmetry")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_has_symmetry"></span> <h3>private  function <a href='../proc/c_dbcsr_has_symmetry.html'>c_dbcsr_has_symmetry</a>(c_matrix) result(c_has_symmetry) bind(C, name="c_dbcsr_has_symmetry")  
 </h3></div>
     <div class="card-body">
           
@@ -979,7 +982,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~13"></span>
+              <span class="anchor" id="variable-c_matrix~83"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1005,7 +1008,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nfullrows_total"></span><h3>private  function <a href='../proc/c_dbcsr_nfullrows_total.html'>c_dbcsr_nfullrows_total</a>(c_matrix) result(c_nfullrows_total) bind(C, name="c_dbcsr_nfullrows_total")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nfullrows_total"></span> <h3>private  function <a href='../proc/c_dbcsr_nfullrows_total.html'>c_dbcsr_nfullrows_total</a>(c_matrix) result(c_nfullrows_total) bind(C, name="c_dbcsr_nfullrows_total")  
 </h3></div>
     <div class="card-body">
           
@@ -1024,7 +1027,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~14"></span>
+              <span class="anchor" id="variable-c_matrix~84"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1050,7 +1053,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nfullcols_total"></span><h3>private  function <a href='../proc/c_dbcsr_nfullcols_total.html'>c_dbcsr_nfullcols_total</a>(c_matrix) result(c_nfullcols_total) bind(C, name="c_dbcsr_nfullcols_total")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_nfullcols_total"></span> <h3>private  function <a href='../proc/c_dbcsr_nfullcols_total.html'>c_dbcsr_nfullcols_total</a>(c_matrix) result(c_nfullcols_total) bind(C, name="c_dbcsr_nfullcols_total")  
 </h3></div>
     <div class="card-body">
           
@@ -1069,7 +1072,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~15"></span>
+              <span class="anchor" id="variable-c_matrix~85"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1095,7 +1098,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_valid_index"></span><h3>private  function <a href='../proc/c_dbcsr_valid_index.html'>c_dbcsr_valid_index</a>(c_matrix) result(c_valid_index) bind(C, name="c_dbcsr_valid_index")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_valid_index"></span> <h3>private  function <a href='../proc/c_dbcsr_valid_index.html'>c_dbcsr_valid_index</a>(c_matrix) result(c_valid_index) bind(C, name="c_dbcsr_valid_index")  
 </h3></div>
     <div class="card-body">
           
@@ -1114,7 +1117,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~16"></span>
+              <span class="anchor" id="variable-c_matrix~86"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1140,7 +1143,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_type"></span><h3>private  function <a href='../proc/c_dbcsr_get_data_type.html'>c_dbcsr_get_data_type</a>(c_matrix) result(c_data_type) bind(C, name="c_dbcsr_get_data_type")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_type"></span> <h3>private  function <a href='../proc/c_dbcsr_get_data_type.html'>c_dbcsr_get_data_type</a>(c_matrix) result(c_data_type) bind(C, name="c_dbcsr_get_data_type")  
 </h3></div>
     <div class="card-body">
           
@@ -1159,7 +1162,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~17"></span>
+              <span class="anchor" id="variable-c_matrix~87"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1190,7 +1193,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_f_string~2"></span><h3>private  subroutine <a href='../proc/c_f_string~2.html'>c_f_string</a>(c_str, str)  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_f_string"></span> <h3>private  subroutine <a href='../proc/c_f_string.html'>c_f_string</a>(c_str, str)  
 </h3></div>
     <div class="card-body">
           
@@ -1209,7 +1212,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_str~2"></span>
+              <span class="anchor" id="variable-c_str"></span>
               type(c_ptr),
             </td>
 <td>intent(in)</td>
@@ -1224,7 +1227,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~2"></span>
+              <span class="anchor" id="variable-str"></span>
               character(kind=c_char, len=:),
             </td>
 <td>intent(out),</td>
@@ -1245,7 +1248,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_clear_mempools"></span><h3>private  subroutine <a href='../proc/c_dbcsr_clear_mempools.html'>c_dbcsr_clear_mempools</a>() bind(C, name="c_dbcsr_clear_mempools")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_clear_mempools"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_clear_mempools.html'>c_dbcsr_clear_mempools</a>() bind(C, name="c_dbcsr_clear_mempools")  
 </h3></div>
     <div class="card-body">
           
@@ -1258,7 +1261,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_init_lib"></span><h3>private  subroutine <a href='../proc/c_dbcsr_init_lib.html'>c_dbcsr_init_lib</a>(fcomm, io_unit) bind(C, name="c_dbcsr_init_lib_internal")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_init_lib"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_init_lib.html'>c_dbcsr_init_lib</a>(fcomm, io_unit) bind(C, name="c_dbcsr_init_lib_internal")  
 </h3></div>
     <div class="card-body">
           
@@ -1277,7 +1280,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fcomm~3"></span>
+              <span class="anchor" id="variable-fcomm"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in)</td>
@@ -1292,7 +1295,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~5"></span>
+              <span class="anchor" id="variable-io_unit~9"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -1313,7 +1316,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_finalise_lib"></span><h3>private  subroutine <a href='../proc/c_dbcsr_finalise_lib.html'>c_dbcsr_finalise_lib</a>() bind(C, name="c_dbcsr_finalize_lib")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_finalise_lib"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_finalise_lib.html'>c_dbcsr_finalise_lib</a>() bind(C, name="c_dbcsr_finalize_lib")  
 </h3></div>
     <div class="card-body">
           
@@ -1326,7 +1329,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_mp_grid_setup"></span><h3>private  subroutine <a href='../proc/c_dbcsr_mp_grid_setup.html'>c_dbcsr_mp_grid_setup</a>(c_dist) bind(C, name="c_dbcsr_mp_grid_setup")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_mp_grid_setup"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_mp_grid_setup.html'>c_dbcsr_mp_grid_setup</a>(c_dist) bind(C, name="c_dbcsr_mp_grid_setup")  
 </h3></div>
     <div class="card-body">
           
@@ -1345,7 +1348,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dist~5"></span>
+              <span class="anchor" id="variable-c_dist"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1366,7 +1369,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_print_statistics"></span><h3>private  subroutine <a href='../proc/c_dbcsr_print_statistics.html'>c_dbcsr_print_statistics</a>(c_print_timers, c_callgraph_filename) bind(C, name="c_dbcsr_print_statistics")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_print_statistics"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_print_statistics.html'>c_dbcsr_print_statistics</a>(c_print_timers, c_callgraph_filename) bind(C, name="c_dbcsr_print_statistics")  
 </h3></div>
     <div class="card-body">
           
@@ -1421,7 +1424,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribution_hold"></span><h3>private  subroutine <a href='../proc/c_dbcsr_distribution_hold.html'>c_dbcsr_distribution_hold</a>(c_dist) bind(C, name="c_dbcsr_distribution_hold")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribution_hold"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_distribution_hold.html'>c_dbcsr_distribution_hold</a>(c_dist) bind(C, name="c_dbcsr_distribution_hold")  
 </h3></div>
     <div class="card-body">
           
@@ -1440,7 +1443,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dist~6"></span>
+              <span class="anchor" id="variable-c_dist~2"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1461,7 +1464,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribution_new"></span><h3>private  subroutine <a href='../proc/c_dbcsr_distribution_new.html'>c_dbcsr_distribution_new</a>(c_dist, fcomm, c_row_dist, row_dist_size, c_col_dist, col_dist_size) bind(C, name="c_dbcsr_distribution_new_aux")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribution_new"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_distribution_new.html'>c_dbcsr_distribution_new</a>(c_dist, fcomm, c_row_dist, row_dist_size, c_col_dist, col_dist_size) bind(C, name="c_dbcsr_distribution_new_aux")  
 </h3></div>
     <div class="card-body">
           
@@ -1480,7 +1483,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dist~7"></span>
+              <span class="anchor" id="variable-c_dist~3"></span>
               type(c_ptr),
             </td>
 <td>intent(out)</td>
@@ -1495,7 +1498,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fcomm~4"></span>
+              <span class="anchor" id="variable-fcomm~2"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in)</td>
@@ -1576,7 +1579,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribution_release"></span><h3>private  subroutine <a href='../proc/c_dbcsr_distribution_release.html'>c_dbcsr_distribution_release</a>(c_dist) bind(C, name="c_dbcsr_distribution_release")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribution_release"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_distribution_release.html'>c_dbcsr_distribution_release</a>(c_dist) bind(C, name="c_dbcsr_distribution_release")  
 </h3></div>
     <div class="card-body">
           
@@ -1595,7 +1598,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dist~8"></span>
+              <span class="anchor" id="variable-c_dist~4"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -1616,7 +1619,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_release"></span><h3>private  subroutine <a href='../proc/c_dbcsr_release.html'>c_dbcsr_release</a>(c_matrix) bind(C, name="c_dbcsr_release")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_release"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_release.html'>c_dbcsr_release</a>(c_matrix) bind(C, name="c_dbcsr_release")  
 </h3></div>
     <div class="card-body">
           
@@ -1635,7 +1638,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~18"></span>
+              <span class="anchor" id="variable-c_matrix"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -1656,7 +1659,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_create_new"></span><h3>private  subroutine <a href='../proc/c_dbcsr_create_new.html'>c_dbcsr_create_new</a>(c_matrix, c_name, c_dist, c_matrix_type, c_row_blk_size, c_row_size, c_col_blk_size, c_col_size, c_nze, c_data_type, c_reuse, c_reuse_arrays, c_mutable_work, c_replication_type) bind(C, name="c_dbcsr_create_new")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_create_new"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_create_new.html'>c_dbcsr_create_new</a>(c_matrix, c_name, c_dist, c_matrix_type, c_row_blk_size, c_row_size, c_col_blk_size, c_col_size, c_nze, c_data_type, c_reuse, c_reuse_arrays, c_mutable_work, c_replication_type) bind(C, name="c_dbcsr_create_new")  
 </h3></div>
     <div class="card-body">
           
@@ -1675,7 +1678,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~19"></span>
+              <span class="anchor" id="variable-c_matrix~2"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -1690,7 +1693,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_name~5"></span>
+              <span class="anchor" id="variable-c_name"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1705,7 +1708,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dist~9"></span>
+              <span class="anchor" id="variable-c_dist~5"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1720,7 +1723,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix_type~2"></span>
+              <span class="anchor" id="variable-c_matrix_type"></span>
               character(kind=c_char, len=1),
             </td>
 <td>intent(in),</td>
@@ -1810,7 +1813,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data_type~4"></span>
+              <span class="anchor" id="variable-c_data_type"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -1891,7 +1894,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_create_template"></span><h3>private  subroutine <a href='../proc/c_dbcsr_create_template.html'>c_dbcsr_create_template</a>(c_matrix, c_name, c_template, c_dist, c_matrix_type, c_row_blk_size, c_row_size, C_col_blk_size, c_col_size, c_nze, c_data_type, c_reuse_arrays, c_mutable_work, c_replication_type) bind(C, name="c_dbcsr_create_template")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_create_template"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_create_template.html'>c_dbcsr_create_template</a>(c_matrix, c_name, c_template, c_dist, c_matrix_type, c_row_blk_size, c_row_size, C_col_blk_size, c_col_size, c_nze, c_data_type, c_reuse_arrays, c_mutable_work, c_replication_type) bind(C, name="c_dbcsr_create_template")  
 </h3></div>
     <div class="card-body">
           
@@ -1910,7 +1913,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~20"></span>
+              <span class="anchor" id="variable-c_matrix~3"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -1925,7 +1928,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_name~6"></span>
+              <span class="anchor" id="variable-c_name~2"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1955,7 +1958,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dist~10"></span>
+              <span class="anchor" id="variable-c_dist~6"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1970,7 +1973,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix_type~3"></span>
+              <span class="anchor" id="variable-c_matrix_type~2"></span>
               character(kind=c_char, len=1),
             </td>
 <td>intent(in),</td>
@@ -2060,7 +2063,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data_type~5"></span>
+              <span class="anchor" id="variable-c_data_type~2"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -2126,7 +2129,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_finalize"></span><h3>private  subroutine <a href='../proc/c_dbcsr_finalize.html'>c_dbcsr_finalize</a>(c_matrix) bind(C, name="c_dbcsr_finalize")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_finalize"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_finalize.html'>c_dbcsr_finalize</a>(c_matrix) bind(C, name="c_dbcsr_finalize")  
 </h3></div>
     <div class="card-body">
           
@@ -2145,7 +2148,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~21"></span>
+              <span class="anchor" id="variable-c_matrix~4"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -2166,7 +2169,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_set_d.html'>c_dbcsr_set_d</a>(c_matrix, c_alpha) bind(C, name="c_dbcsr_set_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_set_d.html'>c_dbcsr_set_d</a>(c_matrix, c_alpha) bind(C, name="c_dbcsr_set_d")  
 </h3></div>
     <div class="card-body">
           
@@ -2185,7 +2188,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~22"></span>
+              <span class="anchor" id="variable-c_matrix~5"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -2200,7 +2203,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~17"></span>
+              <span class="anchor" id="variable-c_alpha"></span>
               real(kind=c_double),
             </td>
 <td>intent(in),</td>
@@ -2221,7 +2224,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_add_d.html'>c_dbcsr_add_d</a>(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) bind(C, name="c_dbcsr_add_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_add_d.html'>c_dbcsr_add_d</a>(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) bind(C, name="c_dbcsr_add_d")  
 </h3></div>
     <div class="card-body">
           
@@ -2306,7 +2309,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_scale_d.html'>c_dbcsr_scale_d</a>(c_matrix_a, c_alpha_scalar, c_last_column) bind(C, name="c_dbcsr_scale_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_scale_d.html'>c_dbcsr_scale_d</a>(c_matrix_a, c_alpha_scalar, c_last_column) bind(C, name="c_dbcsr_scale_d")  
 </h3></div>
     <div class="card-body">
           
@@ -2376,7 +2379,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_by_vector_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_scale_by_vector_d.html'>c_dbcsr_scale_by_vector_d</a>(c_matrix_a, c_alpha, c_alpha_size, c_side) bind(C, name="c_dbcsr_scale_by_vector_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_by_vector_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_scale_by_vector_d.html'>c_dbcsr_scale_by_vector_d</a>(c_matrix_a, c_alpha, c_alpha_size, c_side) bind(C, name="c_dbcsr_scale_by_vector_d")  
 </h3></div>
     <div class="card-body">
           
@@ -2410,7 +2413,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~18"></span>
+              <span class="anchor" id="variable-c_alpha~2"></span>
               real(kind=c_double),
             </td>
 <td>intent(in)</td>
@@ -2461,7 +2464,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_multiply_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_multiply_d.html'>c_dbcsr_multiply_d</a>(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, c_first_row, c_last_row, c_first_column, c_last_column, c_first_k, c_last_k, c_retain_sparsity, c_filter_eps, c_flop) bind(C, name="c_dbcsr_multiply_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_multiply_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_multiply_d.html'>c_dbcsr_multiply_d</a>(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, c_first_row, c_last_row, c_first_column, c_last_column, c_first_k, c_last_k, c_retain_sparsity, c_filter_eps, c_flop) bind(C, name="c_dbcsr_multiply_d")  
 </h3></div>
     <div class="card-body">
           
@@ -2510,7 +2513,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~19"></span>
+              <span class="anchor" id="variable-c_alpha~3"></span>
               real(kind=c_double),
             </td>
 <td>intent(in),</td>
@@ -2555,7 +2558,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_beta~9"></span>
+              <span class="anchor" id="variable-c_beta"></span>
               real(kind=c_double),
             </td>
 <td>intent(in),</td>
@@ -2675,7 +2678,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_retain_sparsity~5"></span>
+              <span class="anchor" id="variable-c_retain_sparsity"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -2690,7 +2693,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_filter_eps~9"></span>
+              <span class="anchor" id="variable-c_filter_eps"></span>
               real(kind=c_double),
             </td>
 <td></td>
@@ -2705,7 +2708,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_flop~5"></span>
+              <span class="anchor" id="variable-c_flop"></span>
               integer(kind=c_long_long),
             </td>
 <td></td>
@@ -2726,7 +2729,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_on_diag_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_add_on_diag_d.html'>c_dbcsr_add_on_diag_d</a>(c_matrix, c_alpha_scalar) bind(C, name="c_dbcsr_add_on_diag_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_on_diag_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_add_on_diag_d.html'>c_dbcsr_add_on_diag_d</a>(c_matrix, c_alpha_scalar) bind(C, name="c_dbcsr_add_on_diag_d")  
 </h3></div>
     <div class="card-body">
           
@@ -2745,7 +2748,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~23"></span>
+              <span class="anchor" id="variable-c_matrix~6"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -2781,7 +2784,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_diag_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_set_diag_d.html'>c_dbcsr_set_diag_d</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_set_diag_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_diag_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_set_diag_d.html'>c_dbcsr_set_diag_d</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_set_diag_d")  
 </h3></div>
     <div class="card-body">
           
@@ -2800,7 +2803,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~24"></span>
+              <span class="anchor" id="variable-c_matrix~7"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -2851,7 +2854,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_diag_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_diag_d.html'>c_dbcsr_get_diag_d</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_get_diag_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_diag_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_diag_d.html'>c_dbcsr_get_diag_d</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_get_diag_d")  
 </h3></div>
     <div class="card-body">
           
@@ -2870,7 +2873,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~25"></span>
+              <span class="anchor" id="variable-c_matrix~8"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -2921,7 +2924,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_trace_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_trace_d.html'>c_dbcsr_trace_d</a>(c_matrix_a, c_trace) bind(C, name="c_dbcsr_trace_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_trace_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_trace_d.html'>c_dbcsr_trace_d</a>(c_matrix_a, c_trace) bind(C, name="c_dbcsr_trace_d")  
 </h3></div>
     <div class="card-body">
           
@@ -2976,7 +2979,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_dot_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_dot_d.html'>c_dbcsr_dot_d</a>(c_matrix_a, c_matrix_b, c_result) bind(C, name="c_dbcsr_dot_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_dot_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_dot_d.html'>c_dbcsr_dot_d</a>(c_matrix_a, c_matrix_b, c_result) bind(C, name="c_dbcsr_dot_d")  
 </h3></div>
     <div class="card-body">
           
@@ -3046,7 +3049,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_p_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_block_p_d.html'>c_dbcsr_get_block_p_d</a>(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_p_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_p_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_block_p_d.html'>c_dbcsr_get_block_p_d</a>(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_p_d")  
 </h3></div>
     <div class="card-body">
           
@@ -3065,7 +3068,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~26"></span>
+              <span class="anchor" id="variable-c_matrix~9"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -3110,7 +3113,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~37"></span>
+              <span class="anchor" id="variable-c_block"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -3140,7 +3143,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_found~25"></span>
+              <span class="anchor" id="variable-c_found"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(out)</td>
@@ -3191,7 +3194,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_notrans_p_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_block_notrans_p_d.html'>c_dbcsr_get_block_notrans_p_d</a>(c_matrix, c_row, c_col, c_block, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_notrans_p_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_notrans_p_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_block_notrans_p_d.html'>c_dbcsr_get_block_notrans_p_d</a>(c_matrix, c_row, c_col, c_block, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_notrans_p_d")  
 </h3></div>
     <div class="card-body">
           
@@ -3210,7 +3213,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~27"></span>
+              <span class="anchor" id="variable-c_matrix~10"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -3255,7 +3258,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~38"></span>
+              <span class="anchor" id="variable-c_block~2"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -3270,7 +3273,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_found~26"></span>
+              <span class="anchor" id="variable-c_found~2"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(out)</td>
@@ -3321,7 +3324,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_set_s.html'>c_dbcsr_set_s</a>(c_matrix, c_alpha) bind(C, name="c_dbcsr_set_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_set_s.html'>c_dbcsr_set_s</a>(c_matrix, c_alpha) bind(C, name="c_dbcsr_set_s")  
 </h3></div>
     <div class="card-body">
           
@@ -3340,7 +3343,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~28"></span>
+              <span class="anchor" id="variable-c_matrix~11"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -3355,7 +3358,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~20"></span>
+              <span class="anchor" id="variable-c_alpha~4"></span>
               real(kind=c_float),
             </td>
 <td>intent(in),</td>
@@ -3376,7 +3379,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_add_s.html'>c_dbcsr_add_s</a>(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) bind(C, name="c_dbcsr_add_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_add_s.html'>c_dbcsr_add_s</a>(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) bind(C, name="c_dbcsr_add_s")  
 </h3></div>
     <div class="card-body">
           
@@ -3461,7 +3464,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_scale_s.html'>c_dbcsr_scale_s</a>(c_matrix_a, c_alpha_scalar, c_last_column) bind(C, name="c_dbcsr_scale_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_scale_s.html'>c_dbcsr_scale_s</a>(c_matrix_a, c_alpha_scalar, c_last_column) bind(C, name="c_dbcsr_scale_s")  
 </h3></div>
     <div class="card-body">
           
@@ -3531,7 +3534,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_by_vector_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_scale_by_vector_s.html'>c_dbcsr_scale_by_vector_s</a>(c_matrix_a, c_alpha, c_alpha_size, c_side) bind(C, name="c_dbcsr_scale_by_vector_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_by_vector_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_scale_by_vector_s.html'>c_dbcsr_scale_by_vector_s</a>(c_matrix_a, c_alpha, c_alpha_size, c_side) bind(C, name="c_dbcsr_scale_by_vector_s")  
 </h3></div>
     <div class="card-body">
           
@@ -3565,7 +3568,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~21"></span>
+              <span class="anchor" id="variable-c_alpha~5"></span>
               real(kind=c_float),
             </td>
 <td>intent(in)</td>
@@ -3616,7 +3619,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_multiply_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_multiply_s.html'>c_dbcsr_multiply_s</a>(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, c_first_row, c_last_row, c_first_column, c_last_column, c_first_k, c_last_k, c_retain_sparsity, c_filter_eps, c_flop) bind(C, name="c_dbcsr_multiply_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_multiply_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_multiply_s.html'>c_dbcsr_multiply_s</a>(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, c_first_row, c_last_row, c_first_column, c_last_column, c_first_k, c_last_k, c_retain_sparsity, c_filter_eps, c_flop) bind(C, name="c_dbcsr_multiply_s")  
 </h3></div>
     <div class="card-body">
           
@@ -3665,7 +3668,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~22"></span>
+              <span class="anchor" id="variable-c_alpha~6"></span>
               real(kind=c_float),
             </td>
 <td>intent(in),</td>
@@ -3710,7 +3713,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_beta~10"></span>
+              <span class="anchor" id="variable-c_beta~2"></span>
               real(kind=c_float),
             </td>
 <td>intent(in),</td>
@@ -3830,7 +3833,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_retain_sparsity~6"></span>
+              <span class="anchor" id="variable-c_retain_sparsity~2"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -3845,7 +3848,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_filter_eps~10"></span>
+              <span class="anchor" id="variable-c_filter_eps~2"></span>
               real(kind=c_double),
             </td>
 <td></td>
@@ -3860,7 +3863,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_flop~6"></span>
+              <span class="anchor" id="variable-c_flop~2"></span>
               integer(kind=c_long_long),
             </td>
 <td></td>
@@ -3881,7 +3884,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_on_diag_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_add_on_diag_s.html'>c_dbcsr_add_on_diag_s</a>(c_matrix, c_alpha_scalar) bind(C, name="c_dbcsr_add_on_diag_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_on_diag_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_add_on_diag_s.html'>c_dbcsr_add_on_diag_s</a>(c_matrix, c_alpha_scalar) bind(C, name="c_dbcsr_add_on_diag_s")  
 </h3></div>
     <div class="card-body">
           
@@ -3900,7 +3903,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~29"></span>
+              <span class="anchor" id="variable-c_matrix~12"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -3936,7 +3939,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_diag_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_set_diag_s.html'>c_dbcsr_set_diag_s</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_set_diag_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_diag_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_set_diag_s.html'>c_dbcsr_set_diag_s</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_set_diag_s")  
 </h3></div>
     <div class="card-body">
           
@@ -3955,7 +3958,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~30"></span>
+              <span class="anchor" id="variable-c_matrix~13"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -4006,7 +4009,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_diag_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_diag_s.html'>c_dbcsr_get_diag_s</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_get_diag_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_diag_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_diag_s.html'>c_dbcsr_get_diag_s</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_get_diag_s")  
 </h3></div>
     <div class="card-body">
           
@@ -4025,7 +4028,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~31"></span>
+              <span class="anchor" id="variable-c_matrix~14"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -4076,7 +4079,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_trace_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_trace_s.html'>c_dbcsr_trace_s</a>(c_matrix_a, c_trace) bind(C, name="c_dbcsr_trace_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_trace_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_trace_s.html'>c_dbcsr_trace_s</a>(c_matrix_a, c_trace) bind(C, name="c_dbcsr_trace_s")  
 </h3></div>
     <div class="card-body">
           
@@ -4131,7 +4134,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_dot_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_dot_s.html'>c_dbcsr_dot_s</a>(c_matrix_a, c_matrix_b, c_result) bind(C, name="c_dbcsr_dot_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_dot_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_dot_s.html'>c_dbcsr_dot_s</a>(c_matrix_a, c_matrix_b, c_result) bind(C, name="c_dbcsr_dot_s")  
 </h3></div>
     <div class="card-body">
           
@@ -4201,7 +4204,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_p_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_block_p_s.html'>c_dbcsr_get_block_p_s</a>(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_p_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_p_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_block_p_s.html'>c_dbcsr_get_block_p_s</a>(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_p_s")  
 </h3></div>
     <div class="card-body">
           
@@ -4220,7 +4223,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~32"></span>
+              <span class="anchor" id="variable-c_matrix~15"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -4265,7 +4268,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~39"></span>
+              <span class="anchor" id="variable-c_block~3"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -4295,7 +4298,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_found~27"></span>
+              <span class="anchor" id="variable-c_found~3"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(out)</td>
@@ -4346,7 +4349,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_notrans_p_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_block_notrans_p_s.html'>c_dbcsr_get_block_notrans_p_s</a>(c_matrix, c_row, c_col, c_block, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_notrans_p_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_notrans_p_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_block_notrans_p_s.html'>c_dbcsr_get_block_notrans_p_s</a>(c_matrix, c_row, c_col, c_block, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_notrans_p_s")  
 </h3></div>
     <div class="card-body">
           
@@ -4365,7 +4368,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~33"></span>
+              <span class="anchor" id="variable-c_matrix~16"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -4410,7 +4413,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~40"></span>
+              <span class="anchor" id="variable-c_block~4"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -4425,7 +4428,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_found~28"></span>
+              <span class="anchor" id="variable-c_found~4"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(out)</td>
@@ -4476,7 +4479,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_set_z.html'>c_dbcsr_set_z</a>(c_matrix, c_alpha) bind(C, name="c_dbcsr_set_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_set_z.html'>c_dbcsr_set_z</a>(c_matrix, c_alpha) bind(C, name="c_dbcsr_set_z")  
 </h3></div>
     <div class="card-body">
           
@@ -4495,7 +4498,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~34"></span>
+              <span class="anchor" id="variable-c_matrix~17"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -4510,7 +4513,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~23"></span>
+              <span class="anchor" id="variable-c_alpha~7"></span>
               complex(kind=c_double_complex),
             </td>
 <td>intent(in),</td>
@@ -4531,7 +4534,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_add_z.html'>c_dbcsr_add_z</a>(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) bind(C, name="c_dbcsr_add_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_add_z.html'>c_dbcsr_add_z</a>(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) bind(C, name="c_dbcsr_add_z")  
 </h3></div>
     <div class="card-body">
           
@@ -4616,7 +4619,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_scale_z.html'>c_dbcsr_scale_z</a>(c_matrix_a, c_alpha_scalar, c_last_column) bind(C, name="c_dbcsr_scale_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_scale_z.html'>c_dbcsr_scale_z</a>(c_matrix_a, c_alpha_scalar, c_last_column) bind(C, name="c_dbcsr_scale_z")  
 </h3></div>
     <div class="card-body">
           
@@ -4686,7 +4689,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_by_vector_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_scale_by_vector_z.html'>c_dbcsr_scale_by_vector_z</a>(c_matrix_a, c_alpha, c_alpha_size, c_side) bind(C, name="c_dbcsr_scale_by_vector_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_by_vector_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_scale_by_vector_z.html'>c_dbcsr_scale_by_vector_z</a>(c_matrix_a, c_alpha, c_alpha_size, c_side) bind(C, name="c_dbcsr_scale_by_vector_z")  
 </h3></div>
     <div class="card-body">
           
@@ -4720,7 +4723,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~24"></span>
+              <span class="anchor" id="variable-c_alpha~8"></span>
               complex(kind=c_double_complex),
             </td>
 <td>intent(in)</td>
@@ -4771,7 +4774,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_multiply_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_multiply_z.html'>c_dbcsr_multiply_z</a>(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, c_first_row, c_last_row, c_first_column, c_last_column, c_first_k, c_last_k, c_retain_sparsity, c_filter_eps, c_flop) bind(C, name="c_dbcsr_multiply_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_multiply_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_multiply_z.html'>c_dbcsr_multiply_z</a>(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, c_first_row, c_last_row, c_first_column, c_last_column, c_first_k, c_last_k, c_retain_sparsity, c_filter_eps, c_flop) bind(C, name="c_dbcsr_multiply_z")  
 </h3></div>
     <div class="card-body">
           
@@ -4820,7 +4823,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~25"></span>
+              <span class="anchor" id="variable-c_alpha~9"></span>
               complex(kind=c_double_complex),
             </td>
 <td>intent(in),</td>
@@ -4865,7 +4868,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_beta~11"></span>
+              <span class="anchor" id="variable-c_beta~3"></span>
               complex(kind=c_double_complex),
             </td>
 <td>intent(in),</td>
@@ -4985,7 +4988,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_retain_sparsity~7"></span>
+              <span class="anchor" id="variable-c_retain_sparsity~3"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -5000,7 +5003,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_filter_eps~11"></span>
+              <span class="anchor" id="variable-c_filter_eps~3"></span>
               real(kind=c_double),
             </td>
 <td></td>
@@ -5015,7 +5018,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_flop~7"></span>
+              <span class="anchor" id="variable-c_flop~3"></span>
               integer(kind=c_long_long),
             </td>
 <td></td>
@@ -5036,7 +5039,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_on_diag_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_add_on_diag_z.html'>c_dbcsr_add_on_diag_z</a>(c_matrix, c_alpha_scalar) bind(C, name="c_dbcsr_add_on_diag_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_on_diag_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_add_on_diag_z.html'>c_dbcsr_add_on_diag_z</a>(c_matrix, c_alpha_scalar) bind(C, name="c_dbcsr_add_on_diag_z")  
 </h3></div>
     <div class="card-body">
           
@@ -5055,7 +5058,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~35"></span>
+              <span class="anchor" id="variable-c_matrix~18"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -5091,7 +5094,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_diag_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_set_diag_z.html'>c_dbcsr_set_diag_z</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_set_diag_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_diag_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_set_diag_z.html'>c_dbcsr_set_diag_z</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_set_diag_z")  
 </h3></div>
     <div class="card-body">
           
@@ -5110,7 +5113,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~36"></span>
+              <span class="anchor" id="variable-c_matrix~19"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -5161,7 +5164,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_diag_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_diag_z.html'>c_dbcsr_get_diag_z</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_get_diag_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_diag_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_diag_z.html'>c_dbcsr_get_diag_z</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_get_diag_z")  
 </h3></div>
     <div class="card-body">
           
@@ -5180,7 +5183,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~37"></span>
+              <span class="anchor" id="variable-c_matrix~20"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -5231,7 +5234,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_trace_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_trace_z.html'>c_dbcsr_trace_z</a>(c_matrix_a, c_trace) bind(C, name="c_dbcsr_trace_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_trace_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_trace_z.html'>c_dbcsr_trace_z</a>(c_matrix_a, c_trace) bind(C, name="c_dbcsr_trace_z")  
 </h3></div>
     <div class="card-body">
           
@@ -5286,7 +5289,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_dot_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_dot_z.html'>c_dbcsr_dot_z</a>(c_matrix_a, c_matrix_b, c_result) bind(C, name="c_dbcsr_dot_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_dot_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_dot_z.html'>c_dbcsr_dot_z</a>(c_matrix_a, c_matrix_b, c_result) bind(C, name="c_dbcsr_dot_z")  
 </h3></div>
     <div class="card-body">
           
@@ -5356,7 +5359,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_p_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_block_p_z.html'>c_dbcsr_get_block_p_z</a>(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_p_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_p_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_block_p_z.html'>c_dbcsr_get_block_p_z</a>(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_p_z")  
 </h3></div>
     <div class="card-body">
           
@@ -5375,7 +5378,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~38"></span>
+              <span class="anchor" id="variable-c_matrix~21"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -5420,7 +5423,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~41"></span>
+              <span class="anchor" id="variable-c_block~5"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -5450,7 +5453,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_found~29"></span>
+              <span class="anchor" id="variable-c_found~5"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(out)</td>
@@ -5501,7 +5504,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_notrans_p_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_block_notrans_p_z.html'>c_dbcsr_get_block_notrans_p_z</a>(c_matrix, c_row, c_col, c_block, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_notrans_p_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_notrans_p_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_block_notrans_p_z.html'>c_dbcsr_get_block_notrans_p_z</a>(c_matrix, c_row, c_col, c_block, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_notrans_p_z")  
 </h3></div>
     <div class="card-body">
           
@@ -5520,7 +5523,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~39"></span>
+              <span class="anchor" id="variable-c_matrix~22"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -5565,7 +5568,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~42"></span>
+              <span class="anchor" id="variable-c_block~6"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -5580,7 +5583,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_found~30"></span>
+              <span class="anchor" id="variable-c_found~6"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(out)</td>
@@ -5631,7 +5634,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_set_c.html'>c_dbcsr_set_c</a>(c_matrix, c_alpha) bind(C, name="c_dbcsr_set_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_set_c.html'>c_dbcsr_set_c</a>(c_matrix, c_alpha) bind(C, name="c_dbcsr_set_c")  
 </h3></div>
     <div class="card-body">
           
@@ -5650,7 +5653,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~40"></span>
+              <span class="anchor" id="variable-c_matrix~23"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -5665,7 +5668,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~26"></span>
+              <span class="anchor" id="variable-c_alpha~10"></span>
               complex(kind=c_float_complex),
             </td>
 <td>intent(in),</td>
@@ -5686,7 +5689,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_add_c.html'>c_dbcsr_add_c</a>(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) bind(C, name="c_dbcsr_add_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_add_c.html'>c_dbcsr_add_c</a>(c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) bind(C, name="c_dbcsr_add_c")  
 </h3></div>
     <div class="card-body">
           
@@ -5771,7 +5774,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_scale_c.html'>c_dbcsr_scale_c</a>(c_matrix_a, c_alpha_scalar, c_last_column) bind(C, name="c_dbcsr_scale_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_scale_c.html'>c_dbcsr_scale_c</a>(c_matrix_a, c_alpha_scalar, c_last_column) bind(C, name="c_dbcsr_scale_c")  
 </h3></div>
     <div class="card-body">
           
@@ -5841,7 +5844,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_by_vector_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_scale_by_vector_c.html'>c_dbcsr_scale_by_vector_c</a>(c_matrix_a, c_alpha, c_alpha_size, c_side) bind(C, name="c_dbcsr_scale_by_vector_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_scale_by_vector_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_scale_by_vector_c.html'>c_dbcsr_scale_by_vector_c</a>(c_matrix_a, c_alpha, c_alpha_size, c_side) bind(C, name="c_dbcsr_scale_by_vector_c")  
 </h3></div>
     <div class="card-body">
           
@@ -5875,7 +5878,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~27"></span>
+              <span class="anchor" id="variable-c_alpha~11"></span>
               complex(kind=c_float_complex),
             </td>
 <td>intent(in)</td>
@@ -5926,7 +5929,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_multiply_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_multiply_c.html'>c_dbcsr_multiply_c</a>(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, c_first_row, c_last_row, c_first_column, c_last_column, c_first_k, c_last_k, c_retain_sparsity, c_filter_eps, c_flop) bind(C, name="c_dbcsr_multiply_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_multiply_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_multiply_c.html'>c_dbcsr_multiply_c</a>(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, c_first_row, c_last_row, c_first_column, c_last_column, c_first_k, c_last_k, c_retain_sparsity, c_filter_eps, c_flop) bind(C, name="c_dbcsr_multiply_c")  
 </h3></div>
     <div class="card-body">
           
@@ -5975,7 +5978,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_alpha~28"></span>
+              <span class="anchor" id="variable-c_alpha~12"></span>
               complex(kind=c_float_complex),
             </td>
 <td>intent(in),</td>
@@ -6020,7 +6023,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_beta~12"></span>
+              <span class="anchor" id="variable-c_beta~4"></span>
               complex(kind=c_float_complex),
             </td>
 <td>intent(in),</td>
@@ -6140,7 +6143,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_retain_sparsity~8"></span>
+              <span class="anchor" id="variable-c_retain_sparsity~4"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -6155,7 +6158,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_filter_eps~12"></span>
+              <span class="anchor" id="variable-c_filter_eps~4"></span>
               real(kind=c_double),
             </td>
 <td></td>
@@ -6170,7 +6173,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_flop~8"></span>
+              <span class="anchor" id="variable-c_flop~4"></span>
               integer(kind=c_long_long),
             </td>
 <td></td>
@@ -6191,7 +6194,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_on_diag_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_add_on_diag_c.html'>c_dbcsr_add_on_diag_c</a>(c_matrix, c_alpha_scalar) bind(C, name="c_dbcsr_add_on_diag_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_add_on_diag_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_add_on_diag_c.html'>c_dbcsr_add_on_diag_c</a>(c_matrix, c_alpha_scalar) bind(C, name="c_dbcsr_add_on_diag_c")  
 </h3></div>
     <div class="card-body">
           
@@ -6210,7 +6213,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~41"></span>
+              <span class="anchor" id="variable-c_matrix~24"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -6246,7 +6249,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_diag_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_set_diag_c.html'>c_dbcsr_set_diag_c</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_set_diag_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_set_diag_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_set_diag_c.html'>c_dbcsr_set_diag_c</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_set_diag_c")  
 </h3></div>
     <div class="card-body">
           
@@ -6265,7 +6268,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~42"></span>
+              <span class="anchor" id="variable-c_matrix~25"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -6316,7 +6319,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_diag_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_diag_c.html'>c_dbcsr_get_diag_c</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_get_diag_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_diag_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_diag_c.html'>c_dbcsr_get_diag_c</a>(c_matrix, c_diag, c_diag_size) bind(C, name="c_dbcsr_get_diag_c")  
 </h3></div>
     <div class="card-body">
           
@@ -6335,7 +6338,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~43"></span>
+              <span class="anchor" id="variable-c_matrix~26"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -6386,7 +6389,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_trace_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_trace_c.html'>c_dbcsr_trace_c</a>(c_matrix_a, c_trace) bind(C, name="c_dbcsr_trace_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_trace_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_trace_c.html'>c_dbcsr_trace_c</a>(c_matrix_a, c_trace) bind(C, name="c_dbcsr_trace_c")  
 </h3></div>
     <div class="card-body">
           
@@ -6441,7 +6444,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_dot_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_dot_c.html'>c_dbcsr_dot_c</a>(c_matrix_a, c_matrix_b, c_result) bind(C, name="c_dbcsr_dot_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_dot_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_dot_c.html'>c_dbcsr_dot_c</a>(c_matrix_a, c_matrix_b, c_result) bind(C, name="c_dbcsr_dot_c")  
 </h3></div>
     <div class="card-body">
           
@@ -6511,7 +6514,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_p_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_block_p_c.html'>c_dbcsr_get_block_p_c</a>(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_p_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_p_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_block_p_c.html'>c_dbcsr_get_block_p_c</a>(c_matrix, c_row, c_col, c_block, c_tr, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_p_c")  
 </h3></div>
     <div class="card-body">
           
@@ -6530,7 +6533,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~44"></span>
+              <span class="anchor" id="variable-c_matrix~27"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -6575,7 +6578,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~43"></span>
+              <span class="anchor" id="variable-c_block~7"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -6605,7 +6608,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_found~31"></span>
+              <span class="anchor" id="variable-c_found~7"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(out)</td>
@@ -6656,7 +6659,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_notrans_p_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_block_notrans_p_c.html'>c_dbcsr_get_block_notrans_p_c</a>(c_matrix, c_row, c_col, c_block, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_notrans_p_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_notrans_p_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_block_notrans_p_c.html'>c_dbcsr_get_block_notrans_p_c</a>(c_matrix, c_row, c_col, c_block, c_found, c_row_size, c_col_size) bind(C, name="c_dbcsr_get_block_notrans_p_c")  
 </h3></div>
     <div class="card-body">
           
@@ -6675,7 +6678,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~45"></span>
+              <span class="anchor" id="variable-c_matrix~28"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -6720,7 +6723,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~44"></span>
+              <span class="anchor" id="variable-c_block~8"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -6735,7 +6738,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_found~32"></span>
+              <span class="anchor" id="variable-c_found~8"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(out)</td>
@@ -6786,7 +6789,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_complete_redistribute"></span><h3>private  subroutine <a href='../proc/c_dbcsr_complete_redistribute.html'>c_dbcsr_complete_redistribute</a>(c_matrix, c_redist, c_keep_sparsity, c_summation) bind(C, name="c_dbcsr_complete_redistribute")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_complete_redistribute"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_complete_redistribute.html'>c_dbcsr_complete_redistribute</a>(c_matrix, c_redist, c_keep_sparsity, c_summation) bind(C, name="c_dbcsr_complete_redistribute")  
 </h3></div>
     <div class="card-body">
           
@@ -6805,7 +6808,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~46"></span>
+              <span class="anchor" id="variable-c_matrix~29"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -6850,7 +6853,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_summation~16"></span>
+              <span class="anchor" id="variable-c_summation"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -6871,7 +6874,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_filter"></span><h3>private  subroutine <a href='../proc/c_dbcsr_filter.html'>c_dbcsr_filter</a>(c_matrix, c_eps, c_method, c_use_absolute, c_filter_diag) bind(C, name="c_dbcsr_filter")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_filter"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_filter.html'>c_dbcsr_filter</a>(c_matrix, c_eps, c_method, c_use_absolute, c_filter_diag) bind(C, name="c_dbcsr_filter")  
 </h3></div>
     <div class="card-body">
           
@@ -6890,7 +6893,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~47"></span>
+              <span class="anchor" id="variable-c_matrix~30"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -6905,7 +6908,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_eps~5"></span>
+              <span class="anchor" id="variable-c_eps"></span>
               real(kind=c_double),
             </td>
 <td>intent(in)</td>
@@ -6920,7 +6923,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_method~5"></span>
+              <span class="anchor" id="variable-c_method"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -6935,7 +6938,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_use_absolute~5"></span>
+              <span class="anchor" id="variable-c_use_absolute"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -6971,7 +6974,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_diag"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_block_diag.html'>c_dbcsr_get_block_diag</a>(c_matrix, c_diag) bind(C, name="c_dbcsr_get_block_diag")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_block_diag"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_block_diag.html'>c_dbcsr_get_block_diag</a>(c_matrix, c_diag) bind(C, name="c_dbcsr_get_block_diag")  
 </h3></div>
     <div class="card-body">
           
@@ -6990,7 +6993,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~48"></span>
+              <span class="anchor" id="variable-c_matrix~31"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -7026,7 +7029,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_transposed"></span><h3>private  subroutine <a href='../proc/c_dbcsr_transposed.html'>c_dbcsr_transposed</a>(c_transposed, c_normal, c_shallow_data_copy, c_transpose_data, c_transpose_distribution, c_use_distribution) bind(C, name="c_dbcsr_transposed")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_transposed"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_transposed.html'>c_dbcsr_transposed</a>(c_transposed, c_normal, c_shallow_data_copy, c_transpose_data, c_transpose_distribution, c_use_distribution) bind(C, name="c_dbcsr_transposed")  
 </h3></div>
     <div class="card-body">
           
@@ -7141,7 +7144,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_copy"></span><h3>private  subroutine <a href='../proc/c_dbcsr_copy.html'>c_dbcsr_copy</a>(c_matrix_b, c_matrix_a, c_name, c_keep_sparsity, c_shallow_data, c_keep_imaginary, c_matrix_type) bind(C, name="c_dbcsr_copy")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_copy"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_copy.html'>c_dbcsr_copy</a>(c_matrix_b, c_matrix_a, c_name, c_keep_sparsity, c_shallow_data, c_keep_imaginary, c_matrix_type) bind(C, name="c_dbcsr_copy")  
 </h3></div>
     <div class="card-body">
           
@@ -7190,7 +7193,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_name~7"></span>
+              <span class="anchor" id="variable-c_name~3"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -7250,7 +7253,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix_type~4"></span>
+              <span class="anchor" id="variable-c_matrix_type~3"></span>
               character(kind=c_char, len=1),
             </td>
 <td>intent(in),</td>
@@ -7271,7 +7274,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_copy_into_existing"></span><h3>private  subroutine <a href='../proc/c_dbcsr_copy_into_existing.html'>c_dbcsr_copy_into_existing</a>(c_matrix_b, c_matrix_a) bind(C, name="c_dbcsr_copy_into_existing")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_copy_into_existing"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_copy_into_existing.html'>c_dbcsr_copy_into_existing</a>(c_matrix_b, c_matrix_a) bind(C, name="c_dbcsr_copy_into_existing")  
 </h3></div>
     <div class="card-body">
           
@@ -7326,7 +7329,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_desymmetrize"></span><h3>private  subroutine <a href='../proc/c_dbcsr_desymmetrize.html'>c_dbcsr_desymmetrize</a>(c_matrix_a, c_matrix_b) bind(C, name="c_dbcsr_desymmetrize")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_desymmetrize"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_desymmetrize.html'>c_dbcsr_desymmetrize</a>(c_matrix_a, c_matrix_b) bind(C, name="c_dbcsr_desymmetrize")  
 </h3></div>
     <div class="card-body">
           
@@ -7381,7 +7384,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_clear"></span><h3>private  subroutine <a href='../proc/c_dbcsr_clear.html'>c_dbcsr_clear</a>(c_dbcsr_mat) bind(C, name="c_dbcsr_clear")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_clear"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_clear.html'>c_dbcsr_clear</a>(c_dbcsr_mat) bind(C, name="c_dbcsr_clear")  
 </h3></div>
     <div class="card-body">
           
@@ -7421,7 +7424,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_diag_blocks"></span><h3>private  subroutine <a href='../proc/c_dbcsr_reserve_diag_blocks.html'>c_dbcsr_reserve_diag_blocks</a>(c_matrix) bind(C, name="c_dbcsr_reserve_diag_blocks")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_diag_blocks"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_reserve_diag_blocks.html'>c_dbcsr_reserve_diag_blocks</a>(c_matrix) bind(C, name="c_dbcsr_reserve_diag_blocks")  
 </h3></div>
     <div class="card-body">
           
@@ -7440,7 +7443,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~49"></span>
+              <span class="anchor" id="variable-c_matrix~32"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -7461,7 +7464,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_blocks"></span><h3>private  subroutine <a href='../proc/c_dbcsr_reserve_blocks.html'>c_dbcsr_reserve_blocks</a>(c_matrix, c_rows, c_cols, c_size) bind(C, name="c_dbcsr_reserve_blocks")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_blocks"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_reserve_blocks.html'>c_dbcsr_reserve_blocks</a>(c_matrix, c_rows, c_cols, c_size) bind(C, name="c_dbcsr_reserve_blocks")  
 </h3></div>
     <div class="card-body">
           
@@ -7480,7 +7483,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~50"></span>
+              <span class="anchor" id="variable-c_matrix~33"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -7546,7 +7549,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_all_blocks"></span><h3>private  subroutine <a href='../proc/c_dbcsr_reserve_all_blocks.html'>c_dbcsr_reserve_all_blocks</a>(c_matrix) bind(C, name="c_dbcsr_reserve_all_blocks")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_all_blocks"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_reserve_all_blocks.html'>c_dbcsr_reserve_all_blocks</a>(c_matrix) bind(C, name="c_dbcsr_reserve_all_blocks")  
 </h3></div>
     <div class="card-body">
           
@@ -7565,7 +7568,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~51"></span>
+              <span class="anchor" id="variable-c_matrix~34"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -7586,7 +7589,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_block2d_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_reserve_block2d_d.html'>c_dbcsr_reserve_block2d_d</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_transposed, c_existed) bind(C, name="c_dbcsr_reserve_block2d_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_block2d_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_reserve_block2d_d.html'>c_dbcsr_reserve_block2d_d</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_transposed, c_existed) bind(C, name="c_dbcsr_reserve_block2d_d")  
 </h3></div>
     <div class="card-body">
           
@@ -7605,7 +7608,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~52"></span>
+              <span class="anchor" id="variable-c_matrix~35"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -7650,7 +7653,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~45"></span>
+              <span class="anchor" id="variable-c_block~9"></span>
               real(kind=c_double),
             </td>
 <td>intent(in),</td>
@@ -7731,7 +7734,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_block2d_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_reserve_block2d_s.html'>c_dbcsr_reserve_block2d_s</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_transposed, c_existed) bind(C, name="c_dbcsr_reserve_block2d_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_block2d_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_reserve_block2d_s.html'>c_dbcsr_reserve_block2d_s</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_transposed, c_existed) bind(C, name="c_dbcsr_reserve_block2d_s")  
 </h3></div>
     <div class="card-body">
           
@@ -7750,7 +7753,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~53"></span>
+              <span class="anchor" id="variable-c_matrix~36"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -7795,7 +7798,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~46"></span>
+              <span class="anchor" id="variable-c_block~10"></span>
               real(kind=c_float),
             </td>
 <td>intent(in),</td>
@@ -7876,7 +7879,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_block2d_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_reserve_block2d_z.html'>c_dbcsr_reserve_block2d_z</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_transposed, c_existed) bind(C, name="c_dbcsr_reserve_block2d_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_block2d_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_reserve_block2d_z.html'>c_dbcsr_reserve_block2d_z</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_transposed, c_existed) bind(C, name="c_dbcsr_reserve_block2d_z")  
 </h3></div>
     <div class="card-body">
           
@@ -7895,7 +7898,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~54"></span>
+              <span class="anchor" id="variable-c_matrix~37"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -7940,7 +7943,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~47"></span>
+              <span class="anchor" id="variable-c_block~11"></span>
               complex(kind=c_double_complex),
             </td>
 <td>intent(in),</td>
@@ -8021,7 +8024,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_block2d_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_reserve_block2d_c.html'>c_dbcsr_reserve_block2d_c</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_transposed, c_existed) bind(C, name="c_dbcsr_reserve_block2d_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_reserve_block2d_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_reserve_block2d_c.html'>c_dbcsr_reserve_block2d_c</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_transposed, c_existed) bind(C, name="c_dbcsr_reserve_block2d_c")  
 </h3></div>
     <div class="card-body">
           
@@ -8040,7 +8043,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~55"></span>
+              <span class="anchor" id="variable-c_matrix~38"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -8085,7 +8088,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~48"></span>
+              <span class="anchor" id="variable-c_block~12"></span>
               complex(kind=c_float_complex),
             </td>
 <td>intent(in),</td>
@@ -8166,7 +8169,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_stop"></span><h3>private  subroutine <a href='../proc/c_dbcsr_iterator_stop.html'>c_dbcsr_iterator_stop</a>(c_iterator) bind(C, name="c_dbcsr_iterator_stop")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_stop"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_iterator_stop.html'>c_dbcsr_iterator_stop</a>(c_iterator) bind(C, name="c_dbcsr_iterator_stop")  
 </h3></div>
     <div class="card-body">
           
@@ -8185,7 +8188,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_iterator~7"></span>
+              <span class="anchor" id="variable-c_iterator"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -8206,7 +8209,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_start"></span><h3>private  subroutine <a href='../proc/c_dbcsr_iterator_start.html'>c_dbcsr_iterator_start</a>(c_iterator, c_matrix, c_shared, c_dynamic, c_dynamic_byrows, c_contiguous_pointers, c_read_only) bind(C, name="c_dbcsr_iterator_start")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_start"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_iterator_start.html'>c_dbcsr_iterator_start</a>(c_iterator, c_matrix, c_shared, c_dynamic, c_dynamic_byrows, c_contiguous_pointers, c_read_only) bind(C, name="c_dbcsr_iterator_start")  
 </h3></div>
     <div class="card-body">
           
@@ -8225,7 +8228,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_iterator~8"></span>
+              <span class="anchor" id="variable-c_iterator~2"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -8240,7 +8243,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~56"></span>
+              <span class="anchor" id="variable-c_matrix~39"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -8336,7 +8339,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_block_index"></span><h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_block_index.html'>c_dbcsr_iterator_next_block_index</a>(c_iterator, c_row, c_column, c_blk, c_blk_p) bind(C, name="c_dbcsr_iterator_next_block_index")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_block_index"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_block_index.html'>c_dbcsr_iterator_next_block_index</a>(c_iterator, c_row, c_column, c_blk, c_blk_p) bind(C, name="c_dbcsr_iterator_next_block_index")  
 </h3></div>
     <div class="card-body">
           
@@ -8355,7 +8358,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_iterator~9"></span>
+              <span class="anchor" id="variable-c_iterator~4"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -8400,7 +8403,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_blk~2"></span>
+              <span class="anchor" id="variable-c_blk"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -8415,7 +8418,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_blk_p~2"></span>
+              <span class="anchor" id="variable-c_blk_p"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out),</td>
@@ -8436,7 +8439,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_2d_block_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_2d_block_d.html'>c_dbcsr_iterator_next_2d_block_d</a>(c_iterator, c_row, c_column, c_block, c_transposed, c_block_number, c_row_size, c_col_size, c_row_offset, c_col_offset) bind(C, name="c_dbcsr_iterator_next_2d_block_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_2d_block_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_2d_block_d.html'>c_dbcsr_iterator_next_2d_block_d</a>(c_iterator, c_row, c_column, c_block, c_transposed, c_block_number, c_row_size, c_col_size, c_row_offset, c_col_offset) bind(C, name="c_dbcsr_iterator_next_2d_block_d")  
 </h3></div>
     <div class="card-body">
           
@@ -8455,7 +8458,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_iterator~10"></span>
+              <span class="anchor" id="variable-c_iterator~5"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -8500,7 +8503,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~49"></span>
+              <span class="anchor" id="variable-c_block~13"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -8611,7 +8614,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_2d_block_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_2d_block_s.html'>c_dbcsr_iterator_next_2d_block_s</a>(c_iterator, c_row, c_column, c_block, c_transposed, c_block_number, c_row_size, c_col_size, c_row_offset, c_col_offset) bind(C, name="c_dbcsr_iterator_next_2d_block_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_2d_block_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_2d_block_s.html'>c_dbcsr_iterator_next_2d_block_s</a>(c_iterator, c_row, c_column, c_block, c_transposed, c_block_number, c_row_size, c_col_size, c_row_offset, c_col_offset) bind(C, name="c_dbcsr_iterator_next_2d_block_s")  
 </h3></div>
     <div class="card-body">
           
@@ -8630,7 +8633,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_iterator~11"></span>
+              <span class="anchor" id="variable-c_iterator~6"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -8675,7 +8678,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~50"></span>
+              <span class="anchor" id="variable-c_block~14"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -8786,7 +8789,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_2d_block_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_2d_block_z.html'>c_dbcsr_iterator_next_2d_block_z</a>(c_iterator, c_row, c_column, c_block, c_transposed, c_block_number, c_row_size, c_col_size, c_row_offset, c_col_offset) bind(C, name="c_dbcsr_iterator_next_2d_block_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_2d_block_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_2d_block_z.html'>c_dbcsr_iterator_next_2d_block_z</a>(c_iterator, c_row, c_column, c_block, c_transposed, c_block_number, c_row_size, c_col_size, c_row_offset, c_col_offset) bind(C, name="c_dbcsr_iterator_next_2d_block_z")  
 </h3></div>
     <div class="card-body">
           
@@ -8805,7 +8808,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_iterator~12"></span>
+              <span class="anchor" id="variable-c_iterator~7"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -8850,7 +8853,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~51"></span>
+              <span class="anchor" id="variable-c_block~15"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -8961,7 +8964,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_2d_block_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_2d_block_c.html'>c_dbcsr_iterator_next_2d_block_c</a>(c_iterator, c_row, c_column, c_block, c_transposed, c_block_number, c_row_size, c_col_size, c_row_offset, c_col_offset) bind(C, name="c_dbcsr_iterator_next_2d_block_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_iterator_next_2d_block_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_iterator_next_2d_block_c.html'>c_dbcsr_iterator_next_2d_block_c</a>(c_iterator, c_row, c_column, c_block, c_transposed, c_block_number, c_row_size, c_col_size, c_row_offset, c_col_offset) bind(C, name="c_dbcsr_iterator_next_2d_block_c")  
 </h3></div>
     <div class="card-body">
           
@@ -8980,7 +8983,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_iterator~13"></span>
+              <span class="anchor" id="variable-c_iterator~8"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -9025,7 +9028,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~52"></span>
+              <span class="anchor" id="variable-c_block~16"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -9136,7 +9139,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_put_block2d_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_put_block2d_d.html'>c_dbcsr_put_block2d_d</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation, c_scale) bind(C, name="c_dbcsr_put_block2d_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_put_block2d_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_put_block2d_d.html'>c_dbcsr_put_block2d_d</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation, c_scale) bind(C, name="c_dbcsr_put_block2d_d")  
 </h3></div>
     <div class="card-body">
           
@@ -9155,7 +9158,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~57"></span>
+              <span class="anchor" id="variable-c_matrix~40"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -9200,7 +9203,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~53"></span>
+              <span class="anchor" id="variable-c_block~17"></span>
               real(kind=c_double),
             </td>
 <td>intent(in)</td>
@@ -9245,7 +9248,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_summation~17"></span>
+              <span class="anchor" id="variable-c_summation~2"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -9260,7 +9263,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_scale~13"></span>
+              <span class="anchor" id="variable-c_scale"></span>
               real(kind=c_double),
             </td>
 <td>intent(in),</td>
@@ -9281,7 +9284,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_d"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_data_d.html'>c_dbcsr_get_data_d</a>(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) bind(C, name="c_dbcsr_get_data_d")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_d"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_data_d.html'>c_dbcsr_get_data_d</a>(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) bind(C, name="c_dbcsr_get_data_d")  
 </h3></div>
     <div class="card-body">
           
@@ -9300,7 +9303,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~58"></span>
+              <span class="anchor" id="variable-c_matrix~41"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -9315,7 +9318,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~17"></span>
+              <span class="anchor" id="variable-c_data~13"></span>
               type(c_ptr),
             </td>
 <td>intent(out)</td>
@@ -9330,7 +9333,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data_size~6"></span>
+              <span class="anchor" id="variable-c_data_size"></span>
               integer(kind=c_long_long),
             </td>
 <td>intent(out)</td>
@@ -9345,7 +9348,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_select_data_type~5"></span>
+              <span class="anchor" id="variable-c_select_data_type"></span>
               real(kind=c_double),
             </td>
 <td>intent(in)</td>
@@ -9360,7 +9363,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_lb~5"></span>
+              <span class="anchor" id="variable-c_lb"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -9375,7 +9378,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_ub~5"></span>
+              <span class="anchor" id="variable-c_ub"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -9396,7 +9399,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_put_block2d_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_put_block2d_s.html'>c_dbcsr_put_block2d_s</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation, c_scale) bind(C, name="c_dbcsr_put_block2d_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_put_block2d_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_put_block2d_s.html'>c_dbcsr_put_block2d_s</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation, c_scale) bind(C, name="c_dbcsr_put_block2d_s")  
 </h3></div>
     <div class="card-body">
           
@@ -9415,7 +9418,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~59"></span>
+              <span class="anchor" id="variable-c_matrix~42"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -9460,7 +9463,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~54"></span>
+              <span class="anchor" id="variable-c_block~18"></span>
               real(kind=c_float),
             </td>
 <td>intent(in)</td>
@@ -9505,7 +9508,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_summation~18"></span>
+              <span class="anchor" id="variable-c_summation~3"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -9520,7 +9523,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_scale~14"></span>
+              <span class="anchor" id="variable-c_scale~2"></span>
               real(kind=c_float),
             </td>
 <td>intent(in),</td>
@@ -9541,7 +9544,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_s"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_data_s.html'>c_dbcsr_get_data_s</a>(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) bind(C, name="c_dbcsr_get_data_s")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_s"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_data_s.html'>c_dbcsr_get_data_s</a>(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) bind(C, name="c_dbcsr_get_data_s")  
 </h3></div>
     <div class="card-body">
           
@@ -9560,7 +9563,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~60"></span>
+              <span class="anchor" id="variable-c_matrix~43"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -9575,7 +9578,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~18"></span>
+              <span class="anchor" id="variable-c_data~14"></span>
               type(c_ptr),
             </td>
 <td>intent(out)</td>
@@ -9590,7 +9593,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data_size~7"></span>
+              <span class="anchor" id="variable-c_data_size~2"></span>
               integer(kind=c_long_long),
             </td>
 <td>intent(out)</td>
@@ -9605,7 +9608,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_select_data_type~6"></span>
+              <span class="anchor" id="variable-c_select_data_type~2"></span>
               real(kind=c_float),
             </td>
 <td>intent(in)</td>
@@ -9620,7 +9623,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_lb~6"></span>
+              <span class="anchor" id="variable-c_lb~2"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -9635,7 +9638,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_ub~6"></span>
+              <span class="anchor" id="variable-c_ub~2"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -9656,7 +9659,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_put_block2d_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_put_block2d_z.html'>c_dbcsr_put_block2d_z</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation, c_scale) bind(C, name="c_dbcsr_put_block2d_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_put_block2d_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_put_block2d_z.html'>c_dbcsr_put_block2d_z</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation, c_scale) bind(C, name="c_dbcsr_put_block2d_z")  
 </h3></div>
     <div class="card-body">
           
@@ -9675,7 +9678,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~61"></span>
+              <span class="anchor" id="variable-c_matrix~44"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -9720,7 +9723,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~55"></span>
+              <span class="anchor" id="variable-c_block~19"></span>
               complex(kind=c_double_complex),
             </td>
 <td>intent(in)</td>
@@ -9765,7 +9768,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_summation~19"></span>
+              <span class="anchor" id="variable-c_summation~4"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -9780,7 +9783,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_scale~15"></span>
+              <span class="anchor" id="variable-c_scale~3"></span>
               complex(kind=c_double_complex),
             </td>
 <td>intent(in),</td>
@@ -9801,7 +9804,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_z"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_data_z.html'>c_dbcsr_get_data_z</a>(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) bind(C, name="c_dbcsr_get_data_z")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_z"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_data_z.html'>c_dbcsr_get_data_z</a>(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) bind(C, name="c_dbcsr_get_data_z")  
 </h3></div>
     <div class="card-body">
           
@@ -9820,7 +9823,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~62"></span>
+              <span class="anchor" id="variable-c_matrix~45"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -9835,7 +9838,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~19"></span>
+              <span class="anchor" id="variable-c_data~15"></span>
               type(c_ptr),
             </td>
 <td>intent(out)</td>
@@ -9850,7 +9853,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data_size~8"></span>
+              <span class="anchor" id="variable-c_data_size~3"></span>
               integer(kind=c_long_long),
             </td>
 <td>intent(out)</td>
@@ -9865,7 +9868,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_select_data_type~7"></span>
+              <span class="anchor" id="variable-c_select_data_type~3"></span>
               complex(kind=c_double_complex),
             </td>
 <td>intent(in)</td>
@@ -9880,7 +9883,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_lb~7"></span>
+              <span class="anchor" id="variable-c_lb~3"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -9895,7 +9898,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_ub~7"></span>
+              <span class="anchor" id="variable-c_ub~3"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -9916,7 +9919,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_put_block2d_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_put_block2d_c.html'>c_dbcsr_put_block2d_c</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation, c_scale) bind(C, name="c_dbcsr_put_block2d_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_put_block2d_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_put_block2d_c.html'>c_dbcsr_put_block2d_c</a>(c_matrix, c_row, c_col, c_block, c_row_size, c_col_size, c_summation, c_scale) bind(C, name="c_dbcsr_put_block2d_c")  
 </h3></div>
     <div class="card-body">
           
@@ -9935,7 +9938,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~63"></span>
+              <span class="anchor" id="variable-c_matrix~46"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -9980,7 +9983,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_block~56"></span>
+              <span class="anchor" id="variable-c_block~20"></span>
               complex(kind=c_float_complex),
             </td>
 <td>intent(in)</td>
@@ -10025,7 +10028,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_summation~20"></span>
+              <span class="anchor" id="variable-c_summation~5"></span>
               logical(kind=c_bool),
             </td>
 <td>intent(in),</td>
@@ -10040,7 +10043,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_scale~16"></span>
+              <span class="anchor" id="variable-c_scale~4"></span>
               complex(kind=c_float_complex),
             </td>
 <td>intent(in),</td>
@@ -10061,7 +10064,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_c"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_data_c.html'>c_dbcsr_get_data_c</a>(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) bind(C, name="c_dbcsr_get_data_c")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_data_c"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_data_c.html'>c_dbcsr_get_data_c</a>(c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) bind(C, name="c_dbcsr_get_data_c")  
 </h3></div>
     <div class="card-body">
           
@@ -10080,7 +10083,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~64"></span>
+              <span class="anchor" id="variable-c_matrix~47"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10095,7 +10098,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~20"></span>
+              <span class="anchor" id="variable-c_data~16"></span>
               type(c_ptr),
             </td>
 <td>intent(out)</td>
@@ -10110,7 +10113,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data_size~9"></span>
+              <span class="anchor" id="variable-c_data_size~4"></span>
               integer(kind=c_long_long),
             </td>
 <td>intent(out)</td>
@@ -10125,7 +10128,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_select_data_type~8"></span>
+              <span class="anchor" id="variable-c_select_data_type~4"></span>
               complex(kind=c_float_complex),
             </td>
 <td>intent(in)</td>
@@ -10140,7 +10143,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_lb~8"></span>
+              <span class="anchor" id="variable-c_lb~4"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -10155,7 +10158,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_ub~8"></span>
+              <span class="anchor" id="variable-c_ub~4"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -10176,7 +10179,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_replicate_all"></span><h3>private  subroutine <a href='../proc/c_dbcsr_replicate_all.html'>c_dbcsr_replicate_all</a>(c_matrix) bind(C, name="c_dbcsr_replicate_all")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_replicate_all"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_replicate_all.html'>c_dbcsr_replicate_all</a>(c_matrix) bind(C, name="c_dbcsr_replicate_all")  
 </h3></div>
     <div class="card-body">
           
@@ -10195,7 +10198,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~65"></span>
+              <span class="anchor" id="variable-c_matrix~48"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10216,7 +10219,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribute"></span><h3>private  subroutine <a href='../proc/c_dbcsr_distribute.html'>c_dbcsr_distribute</a>(c_matrix, c_fast) bind(C, name="c_dbcsr_distribute")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribute"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_distribute.html'>c_dbcsr_distribute</a>(c_matrix, c_fast) bind(C, name="c_dbcsr_distribute")  
 </h3></div>
     <div class="card-body">
           
@@ -10235,7 +10238,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~66"></span>
+              <span class="anchor" id="variable-c_matrix~49"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10271,7 +10274,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_sum_replicated"></span><h3>private  subroutine <a href='../proc/c_dbcsr_sum_replicated.html'>c_dbcsr_sum_replicated</a>(c_matrix) bind(C, name="c_dbcsr_sum_replicated")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_sum_replicated"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_sum_replicated.html'>c_dbcsr_sum_replicated</a>(c_matrix) bind(C, name="c_dbcsr_sum_replicated")  
 </h3></div>
     <div class="card-body">
           
@@ -10290,7 +10293,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~67"></span>
+              <span class="anchor" id="variable-c_matrix~50"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10311,7 +10314,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_hadamard_product"></span><h3>private  subroutine <a href='../proc/c_dbcsr_hadamard_product.html'>c_dbcsr_hadamard_product</a>(c_matrix_a, c_matrix_b, c_matrix_c, c_b_assume_value) bind(C, name="c_dbcsr_hadamard_product")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_hadamard_product"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_hadamard_product.html'>c_dbcsr_hadamard_product</a>(c_matrix_a, c_matrix_b, c_matrix_c, c_b_assume_value) bind(C, name="c_dbcsr_hadamard_product")  
 </h3></div>
     <div class="card-body">
           
@@ -10396,7 +10399,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_print"></span><h3>private  subroutine <a href='../proc/c_dbcsr_print.html'>c_dbcsr_print</a>(c_matrix) bind(C, name="c_dbcsr_print")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_print"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_print.html'>c_dbcsr_print</a>(c_matrix) bind(C, name="c_dbcsr_print")  
 </h3></div>
     <div class="card-body">
           
@@ -10415,7 +10418,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~68"></span>
+              <span class="anchor" id="variable-c_matrix~51"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10436,7 +10439,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_print_block_sum"></span><h3>private  subroutine <a href='../proc/c_dbcsr_print_block_sum.html'>c_dbcsr_print_block_sum</a>(c_matrix, c_unit_nr) bind(C, name="c_dbcsr_print_block_sum")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_print_block_sum"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_print_block_sum.html'>c_dbcsr_print_block_sum</a>(c_matrix, c_unit_nr) bind(C, name="c_dbcsr_print_block_sum")  
 </h3></div>
     <div class="card-body">
           
@@ -10455,7 +10458,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~69"></span>
+              <span class="anchor" id="variable-c_matrix~52"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10470,7 +10473,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_unit_nr~7"></span>
+              <span class="anchor" id="variable-c_unit_nr"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -10491,7 +10494,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_norm_scalar"></span><h3>private  subroutine <a href='../proc/c_dbcsr_norm_scalar.html'>c_dbcsr_norm_scalar</a>(c_matrix, c_which_norm, c_norm_scalar) bind(C, name="c_dbcsr_norm_scalar")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_norm_scalar"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_norm_scalar.html'>c_dbcsr_norm_scalar</a>(c_matrix, c_which_norm, c_norm_scalar) bind(C, name="c_dbcsr_norm_scalar")  
 </h3></div>
     <div class="card-body">
           
@@ -10510,7 +10513,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~70"></span>
+              <span class="anchor" id="variable-c_matrix~57"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10561,7 +10564,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_triu"></span><h3>private  subroutine <a href='../proc/c_dbcsr_triu.html'>c_dbcsr_triu</a>(c_matrix) bind(C, name="c_dbcsr_triu")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_triu"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_triu.html'>c_dbcsr_triu</a>(c_matrix) bind(C, name="c_dbcsr_triu")  
 </h3></div>
     <div class="card-body">
           
@@ -10580,7 +10583,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~71"></span>
+              <span class="anchor" id="variable-c_matrix~58"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10601,7 +10604,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_init_random"></span><h3>private  subroutine <a href='../proc/c_dbcsr_init_random.html'>c_dbcsr_init_random</a>(c_matrix, c_keep_sparsity) bind(C, name="c_dbcsr_init_random")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_init_random"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_init_random.html'>c_dbcsr_init_random</a>(c_matrix, c_keep_sparsity) bind(C, name="c_dbcsr_init_random")  
 </h3></div>
     <div class="card-body">
           
@@ -10620,7 +10623,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~72"></span>
+              <span class="anchor" id="variable-c_matrix~59"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10656,7 +10659,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_function_of_elements"></span><h3>private  subroutine <a href='../proc/c_dbcsr_function_of_elements.html'>c_dbcsr_function_of_elements</a>(c_matrix, c_func, c_a0, c_a1, c_a2) bind(C, name="c_dbcsr_function_of_elements")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_function_of_elements"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_function_of_elements.html'>c_dbcsr_function_of_elements</a>(c_matrix, c_func, c_a0, c_a1, c_a2) bind(C, name="c_dbcsr_function_of_elements")  
 </h3></div>
     <div class="card-body">
           
@@ -10675,7 +10678,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~73"></span>
+              <span class="anchor" id="variable-c_matrix~60"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10756,7 +10759,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_info"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_info.html'>c_dbcsr_get_info</a>(c_matrix, c_nblkrows_total, c_nblkcols_total, c_nfullrows_total, c_nfullcols_total, c_nblkrows_local, c_nblkcols_local, c_nfullrows_local, c_nfullcols_local, c_my_prow, c_my_pcol, c_local_rows, c_local_cols, c_proc_row_dist, c_proc_col_dist, c_row_blk_size, c_col_blk_size, c_row_blk_offset, c_col_blk_offset, c_distribution, c_name, c_matrix_type, c_data_type, c_group) bind(C, name="c_dbcsr_get_info")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_info"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_info.html'>c_dbcsr_get_info</a>(c_matrix, c_nblkrows_total, c_nblkcols_total, c_nfullrows_total, c_nfullcols_total, c_nblkrows_local, c_nblkcols_local, c_nfullrows_local, c_nfullcols_local, c_my_prow, c_my_pcol, c_local_rows, c_local_cols, c_proc_row_dist, c_proc_col_dist, c_row_blk_size, c_col_blk_size, c_row_blk_offset, c_col_blk_offset, c_distribution, c_name, c_matrix_type, c_data_type, c_group) bind(C, name="c_dbcsr_get_info")  
 </h3></div>
     <div class="card-body">
           
@@ -10775,7 +10778,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~74"></span>
+              <span class="anchor" id="variable-c_matrix~65"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10820,7 +10823,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_nfullrows_total~2"></span>
+              <span class="anchor" id="variable-c_nfullrows_total"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out),</td>
@@ -10835,7 +10838,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_nfullcols_total~2"></span>
+              <span class="anchor" id="variable-c_nfullcols_total"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out),</td>
@@ -10940,7 +10943,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_local_rows~2"></span>
+              <span class="anchor" id="variable-c_local_rows"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -10955,7 +10958,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_local_cols~2"></span>
+              <span class="anchor" id="variable-c_local_cols"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11060,7 +11063,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_distribution~2"></span>
+              <span class="anchor" id="variable-c_distribution"></span>
               type(c_ptr),
             </td>
 <td>intent(out),</td>
@@ -11075,7 +11078,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_name~8"></span>
+              <span class="anchor" id="variable-c_name~4"></span>
               type(c_ptr),
             </td>
 <td>intent(out),</td>
@@ -11090,7 +11093,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix_type~5"></span>
+              <span class="anchor" id="variable-c_matrix_type~4"></span>
               character(kind=c_char, len=1),
             </td>
 <td>intent(out),</td>
@@ -11105,7 +11108,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data_type~6"></span>
+              <span class="anchor" id="variable-c_data_type~3"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out),</td>
@@ -11141,7 +11144,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_local_rows"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_local_rows.html'>c_dbcsr_get_local_rows</a>(c_matrix, c_local_rows, c_size) bind(C, name="c_dbcsr_get_local_rows")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_local_rows"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_local_rows.html'>c_dbcsr_get_local_rows</a>(c_matrix, c_local_rows, c_size) bind(C, name="c_dbcsr_get_local_rows")  
 </h3></div>
     <div class="card-body">
           
@@ -11160,7 +11163,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~75"></span>
+              <span class="anchor" id="variable-c_matrix~66"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11175,7 +11178,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_local_rows~3"></span>
+              <span class="anchor" id="variable-c_local_rows~2"></span>
               integer(kind=c_int),
             </td>
 <td>intent(inout),</td>
@@ -11211,7 +11214,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_local_cols"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_local_cols.html'>c_dbcsr_get_local_cols</a>(c_matrix, c_local_cols, c_size) bind(C, name="c_dbcsr_get_local_cols")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_local_cols"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_local_cols.html'>c_dbcsr_get_local_cols</a>(c_matrix, c_local_cols, c_size) bind(C, name="c_dbcsr_get_local_cols")  
 </h3></div>
     <div class="card-body">
           
@@ -11230,7 +11233,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~76"></span>
+              <span class="anchor" id="variable-c_matrix~67"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11245,7 +11248,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_local_cols~3"></span>
+              <span class="anchor" id="variable-c_local_cols~2"></span>
               integer(kind=c_int),
             </td>
 <td>intent(inout),</td>
@@ -11281,7 +11284,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_proc_row_dist"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_proc_row_dist.html'>c_dbcsr_get_proc_row_dist</a>(c_matrix, c_proc_row_dist, c_size) bind(C, name="c_dbcsr_get_proc_row_dist")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_proc_row_dist"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_proc_row_dist.html'>c_dbcsr_get_proc_row_dist</a>(c_matrix, c_proc_row_dist, c_size) bind(C, name="c_dbcsr_get_proc_row_dist")  
 </h3></div>
     <div class="card-body">
           
@@ -11300,7 +11303,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~77"></span>
+              <span class="anchor" id="variable-c_matrix~68"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11351,7 +11354,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_proc_col_dist"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_proc_col_dist.html'>c_dbcsr_get_proc_col_dist</a>(c_matrix, c_proc_col_dist, c_size) bind(C, name="c_dbcsr_get_proc_col_dist")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_proc_col_dist"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_proc_col_dist.html'>c_dbcsr_get_proc_col_dist</a>(c_matrix, c_proc_col_dist, c_size) bind(C, name="c_dbcsr_get_proc_col_dist")  
 </h3></div>
     <div class="card-body">
           
@@ -11370,7 +11373,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~78"></span>
+              <span class="anchor" id="variable-c_matrix~69"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11421,7 +11424,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_row_blk_size"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_row_blk_size.html'>c_dbcsr_get_row_blk_size</a>(c_matrix, c_row_blk_size, c_size) bind(C, name="c_dbcsr_get_row_blk_size")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_row_blk_size"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_row_blk_size.html'>c_dbcsr_get_row_blk_size</a>(c_matrix, c_row_blk_size, c_size) bind(C, name="c_dbcsr_get_row_blk_size")  
 </h3></div>
     <div class="card-body">
           
@@ -11440,7 +11443,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~79"></span>
+              <span class="anchor" id="variable-c_matrix~70"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11491,7 +11494,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_col_blk_size"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_col_blk_size.html'>c_dbcsr_get_col_blk_size</a>(c_matrix, c_col_blk_size, c_size) bind(C, name="c_dbcsr_get_col_blk_size")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_col_blk_size"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_col_blk_size.html'>c_dbcsr_get_col_blk_size</a>(c_matrix, c_col_blk_size, c_size) bind(C, name="c_dbcsr_get_col_blk_size")  
 </h3></div>
     <div class="card-body">
           
@@ -11510,7 +11513,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~80"></span>
+              <span class="anchor" id="variable-c_matrix~71"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11561,7 +11564,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_row_blk_offset"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_row_blk_offset.html'>c_dbcsr_get_row_blk_offset</a>(c_matrix, c_row_blk_offset, c_size) bind(C, name="c_dbcsr_get_row_blk_offset")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_row_blk_offset"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_row_blk_offset.html'>c_dbcsr_get_row_blk_offset</a>(c_matrix, c_row_blk_offset, c_size) bind(C, name="c_dbcsr_get_row_blk_offset")  
 </h3></div>
     <div class="card-body">
           
@@ -11580,7 +11583,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~81"></span>
+              <span class="anchor" id="variable-c_matrix~72"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11631,7 +11634,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_col_blk_offset"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_col_blk_offset.html'>c_dbcsr_get_col_blk_offset</a>(c_matrix, c_col_blk_offset, c_size) bind(C, name="c_dbcsr_get_col_blk_offset")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_col_blk_offset"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_col_blk_offset.html'>c_dbcsr_get_col_blk_offset</a>(c_matrix, c_col_blk_offset, c_size) bind(C, name="c_dbcsr_get_col_blk_offset")  
 </h3></div>
     <div class="card-body">
           
@@ -11650,7 +11653,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~82"></span>
+              <span class="anchor" id="variable-c_matrix~73"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11701,7 +11704,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_name"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_name.html'>c_dbcsr_get_name</a>(c_matrix, c_name) bind(C, name="c_dbcsr_get_name")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_name"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_name.html'>c_dbcsr_get_name</a>(c_matrix, c_name) bind(C, name="c_dbcsr_get_name")  
 </h3></div>
     <div class="card-body">
           
@@ -11720,7 +11723,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~83"></span>
+              <span class="anchor" id="variable-c_matrix~74"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11735,7 +11738,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_name~9"></span>
+              <span class="anchor" id="variable-c_name~5"></span>
               type(c_ptr),
             </td>
 <td>intent(out)</td>
@@ -11756,7 +11759,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_group"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_group.html'>c_dbcsr_get_group</a>(c_matrix, c_group) bind(C, name="c_dbcsr_get_group_aux")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_group"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_group.html'>c_dbcsr_get_group</a>(c_matrix, c_group) bind(C, name="c_dbcsr_get_group_aux")  
 </h3></div>
     <div class="card-body">
           
@@ -11775,7 +11778,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~84"></span>
+              <span class="anchor" id="variable-c_matrix~75"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11811,7 +11814,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_distribution"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_distribution.html'>c_dbcsr_get_distribution</a>(c_matrix, c_dist) bind(C, name="c_dbcsr_get_distribution")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_distribution"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_distribution.html'>c_dbcsr_get_distribution</a>(c_matrix, c_dist) bind(C, name="c_dbcsr_get_distribution")  
 </h3></div>
     <div class="card-body">
           
@@ -11830,7 +11833,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~85"></span>
+              <span class="anchor" id="variable-c_matrix~76"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -11845,7 +11848,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dist~11"></span>
+              <span class="anchor" id="variable-c_dist~7"></span>
               type(c_ptr),
             </td>
 <td>intent(out)</td>
@@ -11866,7 +11869,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribution_get"></span><h3>private  subroutine <a href='../proc/c_dbcsr_distribution_get.html'>c_dbcsr_distribution_get</a>(c_dist, c_row_dist, c_col_dist, c_nrows, c_ncols, c_has_threads, c_group, c_mynode, c_numnodes, c_nprows, c_npcols, c_myprow, c_mypcol, c_pgrid, c_subgroups_defined, c_prow_group, c_pcol_group) bind(C, name="c_dbcsr_distribution_get_aux")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_distribution_get"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_distribution_get.html'>c_dbcsr_distribution_get</a>(c_dist, c_row_dist, c_col_dist, c_nrows, c_ncols, c_has_threads, c_group, c_mynode, c_numnodes, c_nprows, c_npcols, c_myprow, c_mypcol, c_pgrid, c_subgroups_defined, c_prow_group, c_pcol_group) bind(C, name="c_dbcsr_distribution_get_aux")  
 </h3></div>
     <div class="card-body">
           
@@ -11885,7 +11888,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dist~12"></span>
+              <span class="anchor" id="variable-c_dist~8"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -12080,7 +12083,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_pgrid~5"></span>
+              <span class="anchor" id="variable-c_pgrid"></span>
               type(c_ptr),
             </td>
 <td>intent(out),</td>
@@ -12146,7 +12149,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_stored_coordinates"></span><h3>private  subroutine <a href='../proc/c_dbcsr_get_stored_coordinates.html'>c_dbcsr_get_stored_coordinates</a>(c_matrix, row, col, processor) bind(C, name="c_dbcsr_get_stored_coordinates")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_get_stored_coordinates"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_get_stored_coordinates.html'>c_dbcsr_get_stored_coordinates</a>(c_matrix, row, col, processor) bind(C, name="c_dbcsr_get_stored_coordinates")  
 </h3></div>
     <div class="card-body">
           
@@ -12165,7 +12168,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~86"></span>
+              <span class="anchor" id="variable-c_matrix~77"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -12180,7 +12183,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~52"></span>
+              <span class="anchor" id="variable-row~93"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -12195,7 +12198,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~25"></span>
+              <span class="anchor" id="variable-col~75"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -12210,7 +12213,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-processor~3"></span>
+              <span class="anchor" id="variable-processor~2"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -12231,7 +12234,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_setname"></span><h3>private  subroutine <a href='../proc/c_dbcsr_setname.html'>c_dbcsr_setname</a>(c_matrix, c_newname) bind(C, name="c_dbcsr_setname")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_setname"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_setname.html'>c_dbcsr_setname</a>(c_matrix, c_newname) bind(C, name="c_dbcsr_setname")  
 </h3></div>
     <div class="card-body">
           
@@ -12250,7 +12253,7 @@ PUBLIC :: dbcsr_get_data_type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_matrix~87"></span>
+              <span class="anchor" id="variable-c_matrix~78"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -12286,7 +12289,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_binary_write"></span><h3>private  subroutine <a href='../proc/c_dbcsr_binary_write.html'>c_dbcsr_binary_write</a>(c_matrix, c_filepath) bind(C, name="c_dbcsr_binary_write")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_binary_write"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_binary_write.html'>c_dbcsr_binary_write</a>(c_matrix, c_filepath) bind(C, name="c_dbcsr_binary_write")  
 </h3></div>
     <div class="card-body">
           
@@ -12341,7 +12344,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_binary_read"></span><h3>private  subroutine <a href='../proc/c_dbcsr_binary_read.html'>c_dbcsr_binary_read</a>(c_filepath, c_distribution, c_matrix_new) bind(C, name="c_dbcsr_binary_read")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_dbcsr_binary_read"></span> <h3>private  subroutine <a href='../proc/c_dbcsr_binary_read.html'>c_dbcsr_binary_read</a>(c_filepath, c_distribution, c_matrix_new) bind(C, name="c_dbcsr_binary_read")  
 </h3></div>
     <div class="card-body">
           
@@ -12375,7 +12378,7 @@ PUBLIC :: dbcsr_get_data_type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_distribution~3"></span>
+              <span class="anchor" id="variable-c_distribution~2"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -12411,7 +12414,7 @@ PUBLIC :: dbcsr_get_data_type</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-c_free_string"></span><h3>private  subroutine <a href='../proc/c_free_string.html'>c_free_string</a>(c_string) bind(C, name="c_free_string")  
+    <div class="card-header codesum"><span class="anchor" id="proc-c_free_string"></span> <h3>private  subroutine <a href='../proc/c_free_string.html'>c_free_string</a>(c_string) bind(C, name="c_free_string")  
 </h3></div>
     <div class="card-body">
           

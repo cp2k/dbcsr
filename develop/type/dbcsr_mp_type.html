@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -112,17 +115,17 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mynode">mynode</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-numnodes">numnodes</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-myprow">myprow</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mypcol">mypcol</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mp_group">mp_group</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-pgrid">pgrid</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-refcount">refcount</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-subgroups_defined">subgroups_defined</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-prow_group">prow_group</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-pcol_group">pcol_group</a>
-            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-source~76">source</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mynode~52">mynode</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-numnodes~48">numnodes</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-myprow~7">myprow</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mypcol~7">mypcol</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-mp_group~23">mp_group</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-pgrid~37">pgrid</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-refcount~10">refcount</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-subgroups_defined~3">subgroups_defined</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-prow_group~2">prow_group</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-pcol_group~2">pcol_group</a>
+            <a class="list-group-item" href="../type/dbcsr_mp_type.html#variable-source~130">source</a>
         </div>
       </div>
     </div>
@@ -158,7 +161,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private :: dbcsr_mp_type</h2>
+      <h2>
+        type, private :: dbcsr_mp_type</h2>
     <p>A processor (process) grid distribution</p>
     <br>
 
@@ -176,7 +180,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mynode"></span>
+              <span class="anchor" id="variable-mynode~52"></span>
               integer,
             </td>
               <td>public</td>
@@ -193,7 +197,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes"></span>
+              <span class="anchor" id="variable-numnodes~48"></span>
               integer,
             </td>
               <td>public</td>
@@ -210,7 +214,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-myprow"></span>
+              <span class="anchor" id="variable-myprow~7"></span>
               integer,
             </td>
               <td>public</td>
@@ -227,7 +231,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mypcol"></span>
+              <span class="anchor" id="variable-mypcol~7"></span>
               integer,
             </td>
               <td>public</td>
@@ -244,8 +248,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+              <span class="anchor" id="variable-mp_group~23"></span>
+              type(<a href='mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -261,7 +265,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid"></span>
+              <span class="anchor" id="variable-pgrid~37"></span>
               integer,
             </td>
               <td>public,</td>
@@ -278,7 +282,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount"></span>
+              <span class="anchor" id="variable-refcount~10"></span>
               integer,
             </td>
               <td>public</td>
@@ -295,7 +299,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-subgroups_defined"></span>
+              <span class="anchor" id="variable-subgroups_defined~3"></span>
               logical,
             </td>
               <td>public</td>
@@ -312,8 +316,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prow_group"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+              <span class="anchor" id="variable-prow_group~2"></span>
+              type(<a href='mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -329,8 +333,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pcol_group"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+              <span class="anchor" id="variable-pcol_group~2"></span>
+              type(<a href='mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -346,7 +350,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~76"></span>
+              <span class="anchor" id="variable-source~130"></span>
               integer,
             </td>
               <td>public</td>

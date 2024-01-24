@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -161,7 +164,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~79"></span>
+              <span class="anchor" id="variable-matrix~375"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -176,7 +179,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dense_data~2"></span>
+              <span class="anchor" id="variable-dense_data~4"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -191,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nfullrows~2"></span>
+              <span class="anchor" id="variable-nfullrows~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -207,7 +210,7 @@ number of full columns in local submatrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nfullcols~2"></span>
+              <span class="anchor" id="variable-nfullcols~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -223,7 +226,7 @@ number of full columns in local submatrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dense_row_blk_offsets~2"></span>
+              <span class="anchor" id="variable-dense_row_blk_offsets~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -241,7 +244,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dense_col_blk_offsets~2"></span>
+              <span class="anchor" id="variable-dense_col_blk_offsets~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -259,7 +262,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_map~5"></span>
+              <span class="anchor" id="variable-row_map~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -277,7 +280,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_map~5"></span>
+              <span class="anchor" id="variable-col_map~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -295,7 +298,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_internal_offsets"></span>
+              <span class="anchor" id="variable-row_internal_offsets~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -313,7 +316,7 @@ mapping from undense to dense rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_internal_offsets"></span>
+              <span class="anchor" id="variable-col_internal_offsets~4"></span>
               integer,
             </td>
 <td>intent(in),</td>

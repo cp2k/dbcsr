@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -161,7 +164,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_i"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_i.html'>mp_file_write_at_i</a>(fh, offset, msg)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_i"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_i.html'>mp_file_write_at_i</a>(fh, offset, msg)  
 </h3></div>
     <div class="card-body">
           
@@ -180,7 +183,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fh~14"></span>
+              <span class="anchor" id="variable-fh~9"></span>
               type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
             </td>
 <td>intent(in)</td>
@@ -195,7 +198,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~14"></span>
+              <span class="anchor" id="variable-offset~20"></span>
               integer(kind=file_offset),
             </td>
 <td>intent(in)</td>
@@ -210,7 +213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~186"></span>
+              <span class="anchor" id="variable-msg~44"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in)</td>
@@ -231,480 +234,12 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_iv"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_iv.html'>mp_file_write_at_iv</a>(fh, offset, msg, msglen)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_iv"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_iv.html'>mp_file_write_at_iv</a>(fh, offset, msg, msglen)  
 </h3></div>
     <div class="card-body">
           
   <p>(parallel) Blocking individual file write using explicit offsets
 (serial) Unformatted stream write</p><a href="../proc/mp_file_write_at_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fh~5"></span>
-              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fh</strong></td>
-            <td>
-<p>file handle (file storage unit)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-offset"></span>
-              integer(kind=file_offset),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>offset</strong></td>
-            <td>
-<p>file offset (position)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msg~33"></span>
-              integer(kind=int_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msg</strong>(:)</td>
-            <td>
-<p>data to be written to the file</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msglen"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msglen</strong></td>
-            <td>
-<p>number of the elements of data</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_l"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_l.html'>mp_file_write_at_l</a>(fh, offset, msg)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fh~19"></span>
-              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fh</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-offset~19"></span>
-              integer(kind=file_offset),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msg~194"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msg</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_lv"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_lv.html'>mp_file_write_at_lv</a>(fh, offset, msg, msglen)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>(parallel) Blocking individual file write using explicit offsets
-(serial) Unformatted stream write</p><a href="../proc/mp_file_write_at_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fh~6"></span>
-              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fh</strong></td>
-            <td>
-<p>file handle (file storage unit)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-offset~2"></span>
-              integer(kind=file_offset),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>offset</strong></td>
-            <td>
-<p>file offset (position)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msg~61"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msg</strong>(:)</td>
-            <td>
-<p>data to be written to the file</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msglen~2"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msglen</strong></td>
-            <td>
-<p>number of the elements of data</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_d"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_d.html'>mp_file_write_at_d</a>(fh, offset, msg)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fh~24"></span>
-              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fh</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-offset~24"></span>
-              integer(kind=file_offset),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msg~202"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msg</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_dv"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_dv.html'>mp_file_write_at_dv</a>(fh, offset, msg, msglen)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>(parallel) Blocking individual file write using explicit offsets
-(serial) Unformatted stream write</p><a href="../proc/mp_file_write_at_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fh~7"></span>
-              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fh</strong></td>
-            <td>
-<p>file handle (file storage unit)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-offset~3"></span>
-              integer(kind=file_offset),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>offset</strong></td>
-            <td>
-<p>file offset (position)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msg~89"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msg</strong>(:)</td>
-            <td>
-<p>data to be written to the file</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msglen~3"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msglen</strong></td>
-            <td>
-<p>number of the elements of data</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_r"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_r.html'>mp_file_write_at_r</a>(fh, offset, msg)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fh~29"></span>
-              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fh</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-offset~29"></span>
-              integer(kind=file_offset),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msg~210"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>msg</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_rv"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_rv.html'>mp_file_write_at_rv</a>(fh, offset, msg, msglen)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>(parallel) Blocking individual file write using explicit offsets
-(serial) Unformatted stream write</p><a href="../proc/mp_file_write_at_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -734,7 +269,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~4"></span>
+              <span class="anchor" id="variable-offset~19"></span>
               integer(kind=file_offset),
             </td>
 <td>intent(in)</td>
@@ -749,8 +284,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~117"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-msg~43"></span>
+              integer(kind=int_4),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -764,7 +299,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msglen~4"></span>
+              <span class="anchor" id="variable-msglen~32"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -785,7 +320,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_z"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_z.html'>mp_file_write_at_z</a>(fh, offset, msg)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_l"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_l.html'>mp_file_write_at_l</a>(fh, offset, msg)  
 </h3></div>
     <div class="card-body">
           
@@ -804,7 +339,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fh~34"></span>
+              <span class="anchor" id="variable-fh~15"></span>
               type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
             </td>
 <td>intent(in)</td>
@@ -819,7 +354,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~34"></span>
+              <span class="anchor" id="variable-offset~26"></span>
               integer(kind=file_offset),
             </td>
 <td>intent(in)</td>
@@ -834,7 +369,475 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~218"></span>
+              <span class="anchor" id="variable-msg~80"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_lv"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_lv.html'>mp_file_write_at_lv</a>(fh, offset, msg, msglen)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>(parallel) Blocking individual file write using explicit offsets
+(serial) Unformatted stream write</p><a href="../proc/mp_file_write_at_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fh~14"></span>
+              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fh</strong></td>
+            <td>
+<p>file handle (file storage unit)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-offset~25"></span>
+              integer(kind=file_offset),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>offset</strong></td>
+            <td>
+<p>file offset (position)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~79"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>data to be written to the file</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msglen~61"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msglen</strong></td>
+            <td>
+<p>number of the elements of data</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_d"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_d.html'>mp_file_write_at_d</a>(fh, offset, msg)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fh~21"></span>
+              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fh</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-offset~32"></span>
+              integer(kind=file_offset),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~116"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_dv"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_dv.html'>mp_file_write_at_dv</a>(fh, offset, msg, msglen)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>(parallel) Blocking individual file write using explicit offsets
+(serial) Unformatted stream write</p><a href="../proc/mp_file_write_at_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fh~20"></span>
+              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fh</strong></td>
+            <td>
+<p>file handle (file storage unit)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-offset~31"></span>
+              integer(kind=file_offset),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>offset</strong></td>
+            <td>
+<p>file offset (position)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~115"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>data to be written to the file</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msglen~90"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msglen</strong></td>
+            <td>
+<p>number of the elements of data</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_r"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_r.html'>mp_file_write_at_r</a>(fh, offset, msg)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fh~27"></span>
+              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fh</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-offset~38"></span>
+              integer(kind=file_offset),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~152"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_rv"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_rv.html'>mp_file_write_at_rv</a>(fh, offset, msg, msglen)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>(parallel) Blocking individual file write using explicit offsets
+(serial) Unformatted stream write</p><a href="../proc/mp_file_write_at_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fh~26"></span>
+              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fh</strong></td>
+            <td>
+<p>file handle (file storage unit)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-offset~37"></span>
+              integer(kind=file_offset),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>offset</strong></td>
+            <td>
+<p>file offset (position)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~151"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>data to be written to the file</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msglen~119"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msglen</strong></td>
+            <td>
+<p>number of the elements of data</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_z"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_z.html'>mp_file_write_at_z</a>(fh, offset, msg)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fh~33"></span>
+              type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fh</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-offset~44"></span>
+              integer(kind=file_offset),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~188"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -855,7 +858,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_zv"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_zv.html'>mp_file_write_at_zv</a>(fh, offset, msg, msglen)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_zv"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_zv.html'>mp_file_write_at_zv</a>(fh, offset, msg, msglen)  
 </h3></div>
     <div class="card-body">
           
@@ -875,7 +878,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fh~9"></span>
+              <span class="anchor" id="variable-fh~32"></span>
               type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
             </td>
 <td>intent(in)</td>
@@ -890,7 +893,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~5"></span>
+              <span class="anchor" id="variable-offset~43"></span>
               integer(kind=file_offset),
             </td>
 <td>intent(in)</td>
@@ -905,7 +908,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~145"></span>
+              <span class="anchor" id="variable-msg~187"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -920,7 +923,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msglen~5"></span>
+              <span class="anchor" id="variable-msglen~148"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -941,7 +944,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_c"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_c.html'>mp_file_write_at_c</a>(fh, offset, msg)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_c"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_c.html'>mp_file_write_at_c</a>(fh, offset, msg)  
 </h3></div>
     <div class="card-body">
           
@@ -975,7 +978,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~39"></span>
+              <span class="anchor" id="variable-offset~50"></span>
               integer(kind=file_offset),
             </td>
 <td>intent(in)</td>
@@ -990,7 +993,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~226"></span>
+              <span class="anchor" id="variable-msg~224"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -1011,7 +1014,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_cv"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_cv.html'>mp_file_write_at_cv</a>(fh, offset, msg, msglen)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_cv"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_cv.html'>mp_file_write_at_cv</a>(fh, offset, msg, msglen)  
 </h3></div>
     <div class="card-body">
           
@@ -1031,7 +1034,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fh~10"></span>
+              <span class="anchor" id="variable-fh~38"></span>
               type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1046,7 +1049,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~6"></span>
+              <span class="anchor" id="variable-offset~49"></span>
               integer(kind=file_offset),
             </td>
 <td>intent(in)</td>
@@ -1061,7 +1064,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~173"></span>
+              <span class="anchor" id="variable-msg~223"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -1076,7 +1079,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msglen~6"></span>
+              <span class="anchor" id="variable-msglen~177"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1097,7 +1100,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_ch"></span><h3>private  subroutine <a href='../proc/mp_file_write_at_ch.html'>mp_file_write_at_ch</a>(fh, offset, msg)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_file_write_at_ch"></span> <h3>private  subroutine <a href='../proc/mp_file_write_at_ch.html'>mp_file_write_at_ch</a>(fh, offset, msg)  
 </h3></div>
     <div class="card-body">
           
@@ -1116,7 +1119,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fh~11"></span>
+              <span class="anchor" id="variable-fh~5"></span>
               type(<a href='../type/mp_file_type.html'>mp_file_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1131,7 +1134,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~11"></span>
+              <span class="anchor" id="variable-offset~16"></span>
               integer(kind=file_offset),
             </td>
 <td>intent(in)</td>
@@ -1146,7 +1149,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~180"></span>
+              <span class="anchor" id="variable-msg~10"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>

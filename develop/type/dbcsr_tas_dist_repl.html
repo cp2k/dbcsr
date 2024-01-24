@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -114,10 +117,10 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-nprowcol">nprowcol</a>
             <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-nmrowcol">nmrowcol</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-dist_vec~3">dist_vec</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-dist_vec~2">dist_vec</a>
             <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-nmrowcol_local">nmrowcol_local</a>
             <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-n_repl">n_repl</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-dist_size">dist_size</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#variable-dist_size~2">dist_size</a>
         </div>
       </div>
     </div>
@@ -155,8 +158,8 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#boundprocedure-dist~26">dist</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#boundprocedure-rowcols~6">rowcols</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#boundprocedure-dist~24">dist</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_dist_repl.html#boundprocedure-rowcols~4">rowcols</a>
         </div>
       </div>
     </div>
@@ -170,7 +173,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public, extends(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>) :: dbcsr_tas_dist_repl</h2>
+      <h2>
+        type, public, extends(<a href='dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>) :: dbcsr_tas_dist_repl</h2>
     
     <br>
 
@@ -222,7 +226,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_vec~3"></span>
+              <span class="anchor" id="variable-dist_vec~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -273,7 +277,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_size"></span>
+              <span class="anchor" id="variable-dist_size~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -324,7 +328,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_vec~4"></span>
+              <span class="anchor" id="variable-dist_vec~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -339,7 +343,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nprowcol~4"></span>
+              <span class="anchor" id="variable-nprowcol~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -354,7 +358,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nmrowcol~5"></span>
+              <span class="anchor" id="variable-nmrowcol~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -369,7 +373,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_repl~2"></span>
+              <span class="anchor" id="variable-n_repl~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -384,7 +388,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_size~2"></span>
+              <span class="anchor" id="variable-dist_size~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -402,7 +406,7 @@
 
     <h4>
     Return Value
-    <small>type(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>)</small>
+    <small>type(<a href='dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>)</small>
     </h4>
     
 
@@ -419,10 +423,10 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-dist~26"></span>
+      <span class="anchor" id="boundprocedure-dist~24"></span>
       <h3>
           procedure, public ::
-  <strong>dist</strong> => <a href='../proc/repl_dist.html'>repl_dist</a>
+  <strong>dist</strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/repl_dist.html'>repl_dist</a>
         
       </h3>
     </div>
@@ -449,7 +453,7 @@
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),
+              class(<a href='dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -493,10 +497,10 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-rowcols~6"></span>
+      <span class="anchor" id="boundprocedure-rowcols~4"></span>
       <h3>
           procedure, public ::
-  <strong>rowcols</strong> => <a href='../proc/repl_rowcols.html'>repl_rowcols</a>
+  <strong>rowcols</strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/repl_rowcols.html'>repl_rowcols</a>
         
       </h3>
     </div>
@@ -523,7 +527,7 @@
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),
+              class(<a href='dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>

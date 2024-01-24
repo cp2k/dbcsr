@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_acc_timings.html#variable-modulen~74">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_acc_timings.html#variable-modulen~13">moduleN</a>
         </div>
       </div>
     </div>
@@ -161,7 +164,7 @@
             <li class="list-group-item">
               <ul class="list-inline">
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -186,7 +189,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~74"></span>
+              <span class="anchor" id="variable-modulen~13"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -215,7 +218,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-f_dbcsr_timeset"></span><h3>private  subroutine <a href='../proc/f_dbcsr_timeset.html'>f_dbcsr_timeset</a>(routineN, routineN_len, handle) bind(C, name="c_dbcsr_timeset")  
+    <div class="card-header codesum"><span class="anchor" id="proc-f_dbcsr_timeset"></span> <h3>private  subroutine <a href='../proc/f_dbcsr_timeset.html'>f_dbcsr_timeset</a>(routineN, routineN_len, handle) bind(C, name="c_dbcsr_timeset")  
 </h3></div>
     <div class="card-body">
           
@@ -234,7 +237,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-routinen~8"></span>
+              <span class="anchor" id="variable-routinen~24"></span>
               type(C_PTR),
             </td>
 <td>intent(in)</td>
@@ -264,7 +267,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~17"></span>
+              <span class="anchor" id="variable-handle~18"></span>
               integer(kind=C_INT),
             </td>
 <td>intent(out)</td>
@@ -285,7 +288,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-f_dbcsr_timestop"></span><h3>private  subroutine <a href='../proc/f_dbcsr_timestop.html'>f_dbcsr_timestop</a>(handle) bind(C, name="c_dbcsr_timestop")  
+    <div class="card-header codesum"><span class="anchor" id="proc-f_dbcsr_timestop"></span> <h3>private  subroutine <a href='../proc/f_dbcsr_timestop.html'>f_dbcsr_timestop</a>(handle) bind(C, name="c_dbcsr_timestop")  
 </h3></div>
     <div class="card-body">
           
@@ -304,7 +307,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~18"></span>
+              <span class="anchor" id="variable-handle~19"></span>
               integer(kind=C_INT),
             </td>
 <td>intent(in)</td>

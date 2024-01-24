@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -115,10 +118,10 @@
             <a class="list-group-item" href="../type/dgemm_join~2.html#variable-p_a">p_a</a>
             <a class="list-group-item" href="../type/dgemm_join~2.html#variable-p_b">p_b</a>
             <a class="list-group-item" href="../type/dgemm_join~2.html#variable-p_c">p_c</a>
-            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-last_k~2">last_k</a>
+            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-last_k~5">last_k</a>
             <a class="list-group-item" href="../type/dgemm_join~2.html#variable-last_n">last_n</a>
-            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-alpha~8">alpha</a>
-            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-beta~3">beta</a>
+            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-alpha~14">alpha</a>
+            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-beta~6">beta</a>
         </div>
       </div>
     </div>
@@ -154,7 +157,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private :: dgemm_join</h2>
+      <h2>
+        type, private :: dgemm_join</h2>
     
     <br>
 
@@ -223,7 +227,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_k~2"></span>
+              <span class="anchor" id="variable-last_k~5"></span>
               integer,
             </td>
               <td>public</td>
@@ -257,8 +261,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~8"></span>
-              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
+              <span class="anchor" id="variable-alpha~14"></span>
+              type(<a href='dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -274,8 +278,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~3"></span>
-              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
+              <span class="anchor" id="variable-beta~6"></span>
+              type(<a href='dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
               <td>public</td>
             <td>

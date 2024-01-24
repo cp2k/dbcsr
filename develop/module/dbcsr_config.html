@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~29">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~67">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-default_resize_factor">default_resize_factor</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-max_paramter_name_len">max_paramter_name_len</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-max_paramter_value_len">max_paramter_value_len</a>
@@ -220,11 +223,11 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -249,7 +252,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~29"></span>
+              <span class="anchor" id="variable-modulen~67"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -708,7 +711,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~77"></span>
+              <span class="anchor" id="variable-source~131"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -725,7 +728,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~7"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -751,7 +754,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public, non_overridable ::
-  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='../proc/conf_par_env_value.html'>conf_par_env_value</a></td>
+  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/conf_par_env_value.html'>conf_par_env_value</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -789,7 +792,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~77"></span>
+              <span class="anchor" id="variable-source~131"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -806,7 +809,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~7"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -823,7 +826,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~3"></span>
+              <span class="anchor" id="variable-val~5"></span>
               integer,
             </td>
               <td>public</td>
@@ -883,7 +886,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public, non_overridable ::
-  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='../proc/conf_par_env_value.html'>conf_par_env_value</a></td>
+  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/conf_par_env_value.html'>conf_par_env_value</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -893,7 +896,7 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/conf_par_int.html#boundprocedure-set'>set</a></strong> => <a href='../proc/set_conf_par_int.html'>set_conf_par_int</a></td>
+  <strong><a href='../type/conf_par_int.html#boundprocedure-set'>set</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/set_conf_par_int.html'>set_conf_par_int</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -926,7 +929,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~77"></span>
+              <span class="anchor" id="variable-source~131"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -943,7 +946,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~7"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -960,7 +963,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~4"></span>
+              <span class="anchor" id="variable-val~6"></span>
               integer,
             </td>
               <td>public</td>
@@ -1003,7 +1006,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public, non_overridable ::
-  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='../proc/conf_par_env_value.html'>conf_par_env_value</a></td>
+  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/conf_par_env_value.html'>conf_par_env_value</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -1013,7 +1016,7 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/conf_par_mm_driver.html#boundprocedure-set~2'>set</a></strong> => <a href='../proc/set_conf_par_mm_driver.html'>set_conf_par_mm_driver</a></td>
+  <strong><a href='../type/conf_par_mm_driver.html#boundprocedure-set~2'>set</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/set_conf_par_mm_driver.html'>set_conf_par_mm_driver</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1046,7 +1049,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~77"></span>
+              <span class="anchor" id="variable-source~131"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -1063,7 +1066,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~7"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -1080,7 +1083,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~5"></span>
+              <span class="anchor" id="variable-val~7"></span>
               logical,
             </td>
               <td>public</td>
@@ -1123,7 +1126,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public, non_overridable ::
-  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='../proc/conf_par_env_value.html'>conf_par_env_value</a></td>
+  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/conf_par_env_value.html'>conf_par_env_value</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -1133,7 +1136,7 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/conf_par_logical.html#boundprocedure-set~3'>set</a></strong> => <a href='../proc/set_conf_par_logical.html'>set_conf_par_logical</a></td>
+  <strong><a href='../type/conf_par_logical.html#boundprocedure-set~3'>set</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/set_conf_par_logical.html'>set_conf_par_logical</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1166,7 +1169,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~77"></span>
+              <span class="anchor" id="variable-source~131"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -1183,7 +1186,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~7"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -1200,7 +1203,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~6"></span>
+              <span class="anchor" id="variable-val~8"></span>
               real(kind=real_8),
             </td>
               <td>public</td>
@@ -1243,7 +1246,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public, non_overridable ::
-  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='../proc/conf_par_env_value.html'>conf_par_env_value</a></td>
+  <strong><a href='../type/conf_par.html#boundprocedure-env_value'>env_value</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/conf_par_env_value.html'>conf_par_env_value</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -1253,7 +1256,7 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/conf_par_real.html#boundprocedure-set~4'>set</a></strong> => <a href='../proc/set_conf_par_real.html'>set_conf_par_real</a></td>
+  <strong><a href='../type/conf_par_real.html#boundprocedure-set~4'>set</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/set_conf_par_real.html'>set_conf_par_real</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1673,7 +1676,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-print_source"></span><h3>private  function <a href='../proc/print_source.html'>print_source</a>(this)  
+    <div class="card-header codesum"><span class="anchor" id="proc-print_source"></span> <h3>private  function <a href='../proc/print_source.html'>print_source</a>(this)  
 </h3></div>
     <div class="card-body">
           
@@ -1692,7 +1695,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~5"></span>
+              <span class="anchor" id="variable-this~59"></span>
               class(<a href='../type/conf_par.html'>CONF_PAR</a>),
             </td>
 <td>intent(in)</td>
@@ -1718,7 +1721,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-conf_par_env_value"></span><h3>private  function <a href='../proc/conf_par_env_value.html'>conf_par_env_value</a>(this, env_val) result(status)  
+    <div class="card-header codesum"><span class="anchor" id="proc-conf_par_env_value"></span> <h3>private  function <a href='../proc/conf_par_env_value.html'>conf_par_env_value</a>(this, env_val) result(status)  
 </h3></div>
     <div class="card-body">
           
@@ -1737,7 +1740,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~4"></span>
+              <span class="anchor" id="variable-this~60"></span>
               class(<a href='../type/conf_par.html'>CONF_PAR</a>),
             </td>
 <td>intent(inout)</td>
@@ -1778,7 +1781,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_accdrv_active_device_id"></span><h3>public  function <a href='../proc/get_accdrv_active_device_id.html'>get_accdrv_active_device_id</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_accdrv_active_device_id"></span> <h3>public  function <a href='../proc/get_accdrv_active_device_id.html'>get_accdrv_active_device_id</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -1801,7 +1804,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-set_conf_par_int"></span><h3>private  subroutine <a href='../proc/set_conf_par_int.html'>set_conf_par_int</a>(this, integer_val)  
+    <div class="card-header codesum"><span class="anchor" id="proc-set_conf_par_int"></span> <h3>private  subroutine <a href='../proc/set_conf_par_int.html'>set_conf_par_int</a>(this, integer_val)  
 </h3></div>
     <div class="card-body">
           
@@ -1820,7 +1823,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~6"></span>
+              <span class="anchor" id="variable-this~61"></span>
               class(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
 <td>intent(inout)</td>
@@ -1856,7 +1859,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-set_conf_par_mm_driver"></span><h3>private  subroutine <a href='../proc/set_conf_par_mm_driver.html'>set_conf_par_mm_driver</a>(this, mm_driver)  
+    <div class="card-header codesum"><span class="anchor" id="proc-set_conf_par_mm_driver"></span> <h3>private  subroutine <a href='../proc/set_conf_par_mm_driver.html'>set_conf_par_mm_driver</a>(this, mm_driver)  
 </h3></div>
     <div class="card-body">
           
@@ -1875,7 +1878,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~7"></span>
+              <span class="anchor" id="variable-this~62"></span>
               class(<a href='../type/conf_par_mm_driver.html'>CONF_PAR_MM_DRIVER</a>),
             </td>
 <td>intent(inout)</td>
@@ -1911,7 +1914,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-set_conf_par_logical"></span><h3>private  subroutine <a href='../proc/set_conf_par_logical.html'>set_conf_par_logical</a>(this, logical_val)  
+    <div class="card-header codesum"><span class="anchor" id="proc-set_conf_par_logical"></span> <h3>private  subroutine <a href='../proc/set_conf_par_logical.html'>set_conf_par_logical</a>(this, logical_val)  
 </h3></div>
     <div class="card-body">
           
@@ -1930,7 +1933,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~8"></span>
+              <span class="anchor" id="variable-this~63"></span>
               class(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
 <td>intent(inout)</td>
@@ -1966,7 +1969,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-set_conf_par_real"></span><h3>private  subroutine <a href='../proc/set_conf_par_real.html'>set_conf_par_real</a>(this, real_val)  
+    <div class="card-header codesum"><span class="anchor" id="proc-set_conf_par_real"></span> <h3>private  subroutine <a href='../proc/set_conf_par_real.html'>set_conf_par_real</a>(this, real_val)  
 </h3></div>
     <div class="card-body">
           
@@ -1985,7 +1988,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~9"></span>
+              <span class="anchor" id="variable-this~64"></span>
               class(<a href='../type/conf_par_real.html'>CONF_PAR_REAL</a>),
             </td>
 <td>intent(inout)</td>
@@ -2021,7 +2024,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_config"></span><h3>public  subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)  
 </h3></div>
     <div class="card-body">
           
@@ -2115,7 +2118,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nstacks"></span>
+              <span class="anchor" id="variable-nstacks~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2376,7 +2379,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_default_config"></span><h3>public  subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_default_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)  
 </h3></div>
     <div class="card-body">
           
@@ -2455,7 +2458,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nstacks~2"></span>
+              <span class="anchor" id="variable-nstacks~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2485,7 +2488,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-num_layers_3d~4"></span>
+              <span class="anchor" id="variable-num_layers_3d~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2716,7 +2719,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_print_config"></span><h3>public  subroutine <a href='../proc/dbcsr_print_config.html'>dbcsr_print_config</a>(unit_nr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_print_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_print_config.html'>dbcsr_print_config</a>(unit_nr)  
 </h3></div>
     <div class="card-body">
           
@@ -2735,7 +2738,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~20"></span>
+              <span class="anchor" id="variable-unit_nr~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2756,7 +2759,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-set_accdrv_active_device_id"></span><h3>public  subroutine <a href='../proc/set_accdrv_active_device_id.html'>set_accdrv_active_device_id</a>(in_accdrv_active_device_id)  
+    <div class="card-header codesum"><span class="anchor" id="proc-set_accdrv_active_device_id"></span> <h3>public  subroutine <a href='../proc/set_accdrv_active_device_id.html'>set_accdrv_active_device_id</a>(in_accdrv_active_device_id)  
 </h3></div>
     <div class="card-body">
           
@@ -2796,7 +2799,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-reset_accdrv_active_device_id"></span><h3>public  subroutine <a href='../proc/reset_accdrv_active_device_id.html'>reset_accdrv_active_device_id</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-reset_accdrv_active_device_id"></span> <h3>public  subroutine <a href='../proc/reset_accdrv_active_device_id.html'>reset_accdrv_active_device_id</a>()  
 </h3></div>
     <div class="card-body">
           

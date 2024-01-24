@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -116,8 +119,8 @@
             <a class="list-group-item" href="../type/dbcsr_mutable_type.html#variable-btree_d">btree_d</a>
             <a class="list-group-item" href="../type/dbcsr_mutable_type.html#variable-btree_c">btree_c</a>
             <a class="list-group-item" href="../type/dbcsr_mutable_type.html#variable-btree_z">btree_z</a>
-            <a class="list-group-item" href="../type/dbcsr_mutable_type.html#variable-refcount~5">refcount</a>
-            <a class="list-group-item" href="../type/dbcsr_mutable_type.html#variable-data_type~2">data_type</a>
+            <a class="list-group-item" href="../type/dbcsr_mutable_type.html#variable-refcount~14">refcount</a>
+            <a class="list-group-item" href="../type/dbcsr_mutable_type.html#variable-data_type~84">data_type</a>
         </div>
       </div>
     </div>
@@ -153,7 +156,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private :: dbcsr_mutable_type</h2>
+      <h2>
+        type, private :: dbcsr_mutable_type</h2>
     <p>Data area with random access reads, insertions, and deletions.</p>
     <br>
 
@@ -172,7 +176,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-btree_s"></span>
-              type(<a href='../type/btree_i8_sp2d.html'>btree_i8_sp2d</a>),
+              type(<a href='btree_i8_sp2d.html'>btree_i8_sp2d</a>),
             </td>
               <td>public</td>
             <td>
@@ -189,7 +193,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-btree_d"></span>
-              type(<a href='../type/btree_i8_dp2d.html'>btree_i8_dp2d</a>),
+              type(<a href='btree_i8_dp2d.html'>btree_i8_dp2d</a>),
             </td>
               <td>public</td>
             <td>
@@ -206,7 +210,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-btree_c"></span>
-              type(<a href='../type/btree_i8_cp2d.html'>btree_i8_cp2d</a>),
+              type(<a href='btree_i8_cp2d.html'>btree_i8_cp2d</a>),
             </td>
               <td>public</td>
             <td>
@@ -223,7 +227,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-btree_z"></span>
-              type(<a href='../type/btree_i8_zp2d.html'>btree_i8_zp2d</a>),
+              type(<a href='btree_i8_zp2d.html'>btree_i8_zp2d</a>),
             </td>
               <td>public</td>
             <td>
@@ -239,7 +243,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~5"></span>
+              <span class="anchor" id="variable-refcount~14"></span>
               integer,
             </td>
               <td>public</td>
@@ -256,7 +260,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~2"></span>
+              <span class="anchor" id="variable-data_type~84"></span>
               integer,
             </td>
               <td>public</td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -112,24 +115,24 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-data~39">DATA</a>
+            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-data~65">DATA</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-data_before_resize">data_before_resize</a>
-            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-trs_stackbuf">trs_stackbuf</a>
-            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-vprow">vprow</a>
-            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-vpcol">vpcol</a>
-            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-myproc">myproc</a>
-            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-grp">grp</a>
+            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-trs_stackbuf~2">trs_stackbuf</a>
+            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-vprow~3">vprow</a>
+            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-vpcol~3">vpcol</a>
+            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-myproc~9">myproc</a>
+            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-grp~12">grp</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-subgrp">subgrp</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-data_win">data_win</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-meta_win">meta_win</a>
-            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-meta~6">meta</a>
+            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-meta~9">meta</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-meta_before_resize">meta_before_resize</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-meta_red3d">meta_red3D</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-get_requests">get_requests</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-meta_size">meta_size</a>
-            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-num_layers_3d~2">num_layers_3D</a>
+            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-num_layers_3d~3">num_layers_3D</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-coord3d">coord3D</a>
-            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-matrix~112">matrix</a>
+            <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-matrix~417">matrix</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-is_valid">is_valid</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-is_comm">is_comm</a>
             <a class="list-group-item" href="../type/dbcsr_buffer.html#variable-has_rma_win">has_rma_win</a>
@@ -168,7 +171,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private :: dbcsr_buffer</h2>
+      <h2>
+        type, private :: dbcsr_buffer</h2>
     
     <br>
 
@@ -186,8 +190,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~39"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              <span class="anchor" id="variable-data~65"></span>
+              type(<a href='dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
             <td>
@@ -204,7 +208,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-data_before_resize"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              type(<a href='dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
             <td>
@@ -220,8 +224,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trs_stackbuf"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              <span class="anchor" id="variable-trs_stackbuf~2"></span>
+              type(<a href='dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
             <td>
@@ -237,7 +241,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vprow"></span>
+              <span class="anchor" id="variable-vprow~3"></span>
               integer,
             </td>
               <td>public</td>
@@ -254,7 +258,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vpcol"></span>
+              <span class="anchor" id="variable-vpcol~3"></span>
               integer,
             </td>
               <td>public</td>
@@ -271,7 +275,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-myproc"></span>
+              <span class="anchor" id="variable-myproc~9"></span>
               integer,
             </td>
               <td>public</td>
@@ -288,8 +292,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-grp"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+              <span class="anchor" id="variable-grp~12"></span>
+              type(<a href='mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -306,7 +310,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-subgrp"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+              type(<a href='mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -323,7 +327,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-data_win"></span>
-              type(<a href='../type/mp_win_type.html'>mp_win_type</a>),
+              type(<a href='mp_win_type.html'>mp_win_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -340,7 +344,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-meta_win"></span>
-              type(<a href='../type/mp_win_type.html'>mp_win_type</a>),
+              type(<a href='mp_win_type.html'>mp_win_type</a>),
             </td>
               <td>public</td>
             <td>
@@ -356,7 +360,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-meta~6"></span>
+              <span class="anchor" id="variable-meta~9"></span>
               integer,
             </td>
               <td>public,</td>
@@ -408,7 +412,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-get_requests"></span>
-              type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
+              type(<a href='mp_request_type.html'>mp_request_type</a>),
             </td>
               <td>public,</td>
             <td>
@@ -441,7 +445,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-num_layers_3d~2"></span>
+              <span class="anchor" id="variable-num_layers_3d~3"></span>
               integer,
             </td>
               <td>public</td>
@@ -475,8 +479,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~112"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~417"></span>
+              type(<a href='dbcsr_type.html'>dbcsr_type</a>),
             </td>
               <td>public</td>
             <td>

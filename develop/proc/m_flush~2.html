@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -77,15 +80,15 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_machine_internal.F"> Source File</a>
+              <a href="../src/dbcsr_machine.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_machine_internal.f.html'>dbcsr_machine_internal.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_machine.f.html'>dbcsr_machine.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
             <li class="breadcrumb-item active" aria-current="page">m_flush</li>
           </ol>
         </nav>
@@ -135,7 +138,11 @@
 </h2>
     
 
-    <p>Flush a given unit</p>
+    <p>flushes units if the &amp;GLOBAL flag is set accordingly</p>
+<div class="alert alert-info">
+<p class="alert-title h4">Note</p>
+<p>flushing might degrade performance significantly (30% and more)</p>
+</div>
 
 
     <h3>Arguments</h3>

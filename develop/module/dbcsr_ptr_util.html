@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,8 +114,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-modulen~59">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-careful_mod~17">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-modulen~18">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-careful_mod~5">careful_mod</a>
         </div>
       </div>
     </div>
@@ -241,12 +244,12 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -271,7 +274,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~59"></span>
+              <span class="anchor" id="variable-modulen~18"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -288,7 +291,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~17"></span>
+              <span class="anchor" id="variable-careful_mod~5"></span>
               logical,
             </td>
               <td>private,</td>
@@ -340,7 +343,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~41"></span>
+              <span class="anchor" id="variable-array~22"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -370,7 +373,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~21"></span>
+              <span class="anchor" id="variable-lb~37"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -385,591 +388,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~11"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-<p>desired array upper bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-factor~6"></span>
-              real(kind=dp),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>factor</strong></td>
-            <td>
-<p>factor by which to exaggerate enlargements</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nocopy~7"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nocopy</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-memory_type~9"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>memory_type</strong></td>
-            <td>
-<p>use special memory</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-zero_pad~7"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>zero_pad</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private  subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_l</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
-
-    </h3>
-    
-  <p>Ensures that an array is appropriately large.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array~42"></span>
-              integer(kind=int_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>array</strong></td>
-            <td>
-<p>array to verify and possibly resize</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array_resize~6"></span>
-              integer(kind=int_8),
-            </td>
-<td></td>
-              <td>optional,</td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>array_resize</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~23"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-<p>desired array lower bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~13"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-<p>desired array upper bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-factor~7"></span>
-              real(kind=dp),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>factor</strong></td>
-            <td>
-<p>factor by which to exaggerate enlargements</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nocopy~8"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nocopy</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-memory_type~10"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>memory_type</strong></td>
-            <td>
-<p>use special memory</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-zero_pad~8"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>zero_pad</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private  subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_s</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
-
-    </h3>
-    
-  <p>Ensures that an array is appropriately large.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array~38"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>array</strong></td>
-            <td>
-<p>array to verify and possibly resize</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array_resize~2"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td>optional,</td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>array_resize</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~15"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-<p>desired array lower bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~5"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-<p>desired array upper bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-factor~3"></span>
-              real(kind=dp),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>factor</strong></td>
-            <td>
-<p>factor by which to exaggerate enlargements</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nocopy~4"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nocopy</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-memory_type~6"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>memory_type</strong></td>
-            <td>
-<p>use special memory</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-zero_pad~4"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>zero_pad</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private  subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_d</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
-
-    </h3>
-    
-  <p>Ensures that an array is appropriately large.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array~37"></span>
-              real(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>array</strong></td>
-            <td>
-<p>array to verify and possibly resize</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array_resize"></span>
-              real(kind=real_8),
-            </td>
-<td></td>
-              <td>optional,</td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>array_resize</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~13"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-<p>desired array lower bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~3"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-<p>desired array upper bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-factor~2"></span>
-              real(kind=dp),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>factor</strong></td>
-            <td>
-<p>factor by which to exaggerate enlargements</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nocopy~3"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nocopy</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-memory_type~5"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>memory_type</strong></td>
-            <td>
-<p>use special memory</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-zero_pad~3"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>zero_pad</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private  subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_c</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
-
-    </h3>
-    
-  <p>Ensures that an array is appropriately large.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array~40"></span>
-              complex(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>array</strong></td>
-            <td>
-<p>array to verify and possibly resize</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array_resize~4"></span>
-              complex(kind=real_4),
-            </td>
-<td></td>
-              <td>optional,</td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>array_resize</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~19"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-<p>desired array lower bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~9"></span>
+              <span class="anchor" id="variable-ub~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1015,7 +434,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~8"></span>
+              <span class="anchor" id="variable-memory_type~6"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1051,7 +470,7 @@ zero new allocations; default is to write nothing</p>
           </li>
           <li class="list-group-item">
                 <h3>
-    private  subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_z</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+    private  subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_l</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
 
     </h3>
     
@@ -1070,8 +489,8 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~39"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-array~23"></span>
+              integer(kind=int_8),
             </td>
 <td></td>
               <td></td>            <td>
@@ -1085,8 +504,8 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array_resize~3"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-array_resize~6"></span>
+              integer(kind=int_8),
             </td>
 <td></td>
               <td>optional,</td>            <td>
@@ -1100,7 +519,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~17"></span>
+              <span class="anchor" id="variable-lb~39"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1115,7 +534,445 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~7"></span>
+              <span class="anchor" id="variable-ub~34"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+<p>desired array upper bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factor~6"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+<p>factor by which to exaggerate enlargements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nocopy~7"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nocopy</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-memory_type~7"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>memory_type</strong></td>
+            <td>
+<p>use special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-zero_pad~7"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zero_pad</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_s</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+
+    </h3>
+    
+  <p>Ensures that an array is appropriately large.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~19"></span>
+              real(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+<p>array to verify and possibly resize</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array_resize~2"></span>
+              real(kind=real_4),
+            </td>
+<td></td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>array_resize</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~31"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+<p>desired array lower bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~26"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+<p>desired array upper bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factor~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+<p>factor by which to exaggerate enlargements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nocopy~3"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nocopy</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-memory_type~3"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>memory_type</strong></td>
+            <td>
+<p>use special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-zero_pad~3"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zero_pad</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_d</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+
+    </h3>
+    
+  <p>Ensures that an array is appropriately large.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~18"></span>
+              real(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+<p>array to verify and possibly resize</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array_resize"></span>
+              real(kind=real_8),
+            </td>
+<td></td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>array_resize</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~29"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+<p>desired array lower bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~24"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+<p>desired array upper bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factor"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+<p>factor by which to exaggerate enlargements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nocopy~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nocopy</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-memory_type~2"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>memory_type</strong></td>
+            <td>
+<p>use special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-zero_pad~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zero_pad</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_c</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+
+    </h3>
+    
+  <p>Ensures that an array is appropriately large.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~21"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+<p>array to verify and possibly resize</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array_resize~4"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>array_resize</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~35"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+<p>desired array lower bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1161,7 +1018,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~7"></span>
+              <span class="anchor" id="variable-memory_type~5"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1177,6 +1034,152 @@ zero new allocations; default is to write nothing</p>
         <tr>
             <td>
               <span class="anchor" id="variable-zero_pad~5"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zero_pad</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_z</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+
+    </h3>
+    
+  <p>Ensures that an array is appropriately large.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~20"></span>
+              complex(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+<p>array to verify and possibly resize</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array_resize~3"></span>
+              complex(kind=real_8),
+            </td>
+<td></td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>array_resize</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~33"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+<p>desired array lower bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~28"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+<p>desired array upper bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factor~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+<p>factor by which to exaggerate enlargements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nocopy~4"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nocopy</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-memory_type~4"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>memory_type</strong></td>
+            <td>
+<p>use special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-zero_pad~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1242,7 +1245,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~14"></span>
+              <span class="anchor" id="variable-lb~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1258,7 +1261,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~4"></span>
+              <span class="anchor" id="variable-ub~25"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1320,7 +1323,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~12"></span>
+              <span class="anchor" id="variable-lb~28"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1336,7 +1339,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~2"></span>
+              <span class="anchor" id="variable-ub~23"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1398,7 +1401,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~18"></span>
+              <span class="anchor" id="variable-lb~34"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1414,7 +1417,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~8"></span>
+              <span class="anchor" id="variable-ub~29"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1476,7 +1479,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~16"></span>
+              <span class="anchor" id="variable-lb~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1492,7 +1495,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~6"></span>
+              <span class="anchor" id="variable-ub~27"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1554,7 +1557,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~20"></span>
+              <span class="anchor" id="variable-lb~36"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1570,7 +1573,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~10"></span>
+              <span class="anchor" id="variable-ub~31"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1632,7 +1635,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~22"></span>
+              <span class="anchor" id="variable-lb~38"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1648,7 +1651,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~12"></span>
+              <span class="anchor" id="variable-ub~33"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1709,7 +1712,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~6"></span>
+              <span class="anchor" id="variable-area~5"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1724,7 +1727,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~7"></span>
+              <span class="anchor" id="variable-offset~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2313,7 +2316,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~18"></span>
+              <span class="anchor" id="variable-dst~37"></span>
               integer(kind=int_4),
             </td>
 <td>intent(out),</td>
@@ -2328,7 +2331,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~14"></span>
+              <span class="anchor" id="variable-src~31"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in),</td>
@@ -2382,7 +2385,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~20"></span>
+              <span class="anchor" id="variable-dst~39"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -2397,7 +2400,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~15"></span>
+              <span class="anchor" id="variable-src~32"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
@@ -2451,7 +2454,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~12"></span>
+              <span class="anchor" id="variable-dst~31"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -2466,7 +2469,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~11"></span>
+              <span class="anchor" id="variable-src~28"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -2520,7 +2523,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~10"></span>
+              <span class="anchor" id="variable-dst~29"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -2535,7 +2538,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~10"></span>
+              <span class="anchor" id="variable-src~27"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -2589,7 +2592,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~16"></span>
+              <span class="anchor" id="variable-dst~35"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -2604,7 +2607,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~13"></span>
+              <span class="anchor" id="variable-src~30"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -2658,7 +2661,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~14"></span>
+              <span class="anchor" id="variable-dst~33"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -2673,7 +2676,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~12"></span>
+              <span class="anchor" id="variable-src~29"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -2737,7 +2740,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~19"></span>
+              <span class="anchor" id="variable-dst~38"></span>
               integer(kind=int_4),
             </td>
 <td>intent(out),</td>
@@ -2791,7 +2794,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~21"></span>
+              <span class="anchor" id="variable-dst~40"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -2845,7 +2848,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~13"></span>
+              <span class="anchor" id="variable-dst~32"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -2899,7 +2902,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~11"></span>
+              <span class="anchor" id="variable-dst~30"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -2953,7 +2956,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~17"></span>
+              <span class="anchor" id="variable-dst~36"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -3007,7 +3010,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~15"></span>
+              <span class="anchor" id="variable-dst~34"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -3071,7 +3074,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~17"></span>
+              <span class="anchor" id="variable-mem~18"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -3101,7 +3104,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~17"></span>
+              <span class="anchor" id="variable-mem_type~22"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3140,7 +3143,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~21"></span>
+              <span class="anchor" id="variable-mem~22"></span>
               integer(kind=int_8),
             </td>
 <td></td>
@@ -3170,7 +3173,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~21"></span>
+              <span class="anchor" id="variable-mem_type~27"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3209,7 +3212,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~5"></span>
+              <span class="anchor" id="variable-mem~6"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -3239,7 +3242,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~5"></span>
+              <span class="anchor" id="variable-mem_type~7"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3278,7 +3281,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem"></span>
+              <span class="anchor" id="variable-mem~2"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -3308,7 +3311,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type"></span>
+              <span class="anchor" id="variable-mem_type~2"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3347,7 +3350,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~13"></span>
+              <span class="anchor" id="variable-mem~14"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -3377,7 +3380,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~13"></span>
+              <span class="anchor" id="variable-mem_type~17"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3416,7 +3419,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~9"></span>
+              <span class="anchor" id="variable-mem~10"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -3446,7 +3449,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~9"></span>
+              <span class="anchor" id="variable-mem_type~12"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3485,7 +3488,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~18"></span>
+              <span class="anchor" id="variable-mem~19"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -3500,7 +3503,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~32"></span>
+              <span class="anchor" id="variable-sizes~44"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3515,7 +3518,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~18"></span>
+              <span class="anchor" id="variable-mem_type~23"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3554,7 +3557,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~22"></span>
+              <span class="anchor" id="variable-mem~23"></span>
               integer(kind=int_8),
             </td>
 <td></td>
@@ -3569,7 +3572,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~33"></span>
+              <span class="anchor" id="variable-sizes~45"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3584,7 +3587,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~22"></span>
+              <span class="anchor" id="variable-mem_type~28"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3623,7 +3626,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~6"></span>
+              <span class="anchor" id="variable-mem~7"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -3638,7 +3641,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~29"></span>
+              <span class="anchor" id="variable-sizes~41"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3653,7 +3656,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~6"></span>
+              <span class="anchor" id="variable-mem_type~8"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3692,7 +3695,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~2"></span>
+              <span class="anchor" id="variable-mem~3"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -3707,7 +3710,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~28"></span>
+              <span class="anchor" id="variable-sizes~40"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3722,7 +3725,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~2"></span>
+              <span class="anchor" id="variable-mem_type~3"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3761,7 +3764,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~14"></span>
+              <span class="anchor" id="variable-mem~15"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -3776,7 +3779,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~31"></span>
+              <span class="anchor" id="variable-sizes~43"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3791,7 +3794,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~14"></span>
+              <span class="anchor" id="variable-mem_type~18"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3830,7 +3833,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~10"></span>
+              <span class="anchor" id="variable-mem~11"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -3845,7 +3848,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~30"></span>
+              <span class="anchor" id="variable-sizes~42"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3860,7 +3863,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~10"></span>
+              <span class="anchor" id="variable-mem_type~13"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3909,7 +3912,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~19"></span>
+              <span class="anchor" id="variable-mem~20"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -3924,7 +3927,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~19"></span>
+              <span class="anchor" id="variable-mem_type~24"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3963,7 +3966,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~23"></span>
+              <span class="anchor" id="variable-mem~24"></span>
               integer(kind=int_8),
             </td>
 <td></td>
@@ -3978,7 +3981,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~23"></span>
+              <span class="anchor" id="variable-mem_type~29"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4017,7 +4020,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~7"></span>
+              <span class="anchor" id="variable-mem~8"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -4032,7 +4035,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~7"></span>
+              <span class="anchor" id="variable-mem_type~9"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4071,7 +4074,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~3"></span>
+              <span class="anchor" id="variable-mem~4"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -4086,7 +4089,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~3"></span>
+              <span class="anchor" id="variable-mem_type~4"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4125,7 +4128,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~15"></span>
+              <span class="anchor" id="variable-mem~16"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -4140,7 +4143,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~15"></span>
+              <span class="anchor" id="variable-mem_type~19"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4179,7 +4182,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~11"></span>
+              <span class="anchor" id="variable-mem~12"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -4194,7 +4197,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~11"></span>
+              <span class="anchor" id="variable-mem_type~14"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4233,7 +4236,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~20"></span>
+              <span class="anchor" id="variable-mem~21"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -4248,7 +4251,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~20"></span>
+              <span class="anchor" id="variable-mem_type~25"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4287,7 +4290,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~24"></span>
+              <span class="anchor" id="variable-mem~25"></span>
               integer(kind=int_8),
             </td>
 <td></td>
@@ -4302,7 +4305,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~24"></span>
+              <span class="anchor" id="variable-mem_type~30"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4341,7 +4344,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~8"></span>
+              <span class="anchor" id="variable-mem~9"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -4356,7 +4359,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~8"></span>
+              <span class="anchor" id="variable-mem_type~10"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4395,7 +4398,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~4"></span>
+              <span class="anchor" id="variable-mem~5"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -4410,7 +4413,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~4"></span>
+              <span class="anchor" id="variable-mem_type~5"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4449,7 +4452,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~16"></span>
+              <span class="anchor" id="variable-mem~17"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -4464,7 +4467,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~16"></span>
+              <span class="anchor" id="variable-mem_type~20"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4503,7 +4506,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~12"></span>
+              <span class="anchor" id="variable-mem~13"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -4518,7 +4521,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~12"></span>
+              <span class="anchor" id="variable-mem_type~15"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4547,7 +4550,7 @@ rank remapping.</p>
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_a"></span><h3>private  function <a href='../proc/pointer_view_a.html'>pointer_view_a</a>(new_area, area, offset, len) result(narea2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_a"></span> <h3>private  function <a href='../proc/pointer_view_a.html'>pointer_view_a</a>(new_area, area, offset, len) result(narea2)  
 </h3></div>
     <div class="card-body">
           
@@ -4581,7 +4584,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~6"></span>
+              <span class="anchor" id="variable-area~5"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4596,7 +4599,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~7"></span>
+              <span class="anchor" id="variable-offset~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4637,7 +4640,7 @@ rank remapping.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_d"></span><h3>private  function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(original, lb, ub) result(view)  
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_d"></span> <h3>private  function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(original, lb, ub) result(view)  
 </h3></div>
     <div class="card-body">
           
@@ -4672,7 +4675,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~12"></span>
+              <span class="anchor" id="variable-lb~28"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4688,7 +4691,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~2"></span>
+              <span class="anchor" id="variable-ub~23"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4716,7 +4719,7 @@ new pointer</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_s"></span><h3>private  function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(original, lb, ub) result(view)  
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_s"></span> <h3>private  function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(original, lb, ub) result(view)  
 </h3></div>
     <div class="card-body">
           
@@ -4751,7 +4754,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~14"></span>
+              <span class="anchor" id="variable-lb~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4767,7 +4770,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~4"></span>
+              <span class="anchor" id="variable-ub~25"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4795,7 +4798,7 @@ new pointer</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_z"></span><h3>private  function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(original, lb, ub) result(view)  
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_z"></span> <h3>private  function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(original, lb, ub) result(view)  
 </h3></div>
     <div class="card-body">
           
@@ -4830,7 +4833,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~16"></span>
+              <span class="anchor" id="variable-lb~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4846,7 +4849,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~6"></span>
+              <span class="anchor" id="variable-ub~27"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4874,7 +4877,7 @@ new pointer</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_c"></span><h3>private  function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(original, lb, ub) result(view)  
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_c"></span> <h3>private  function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(original, lb, ub) result(view)  
 </h3></div>
     <div class="card-body">
           
@@ -4909,7 +4912,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~18"></span>
+              <span class="anchor" id="variable-lb~34"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4925,7 +4928,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~8"></span>
+              <span class="anchor" id="variable-ub~29"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4953,7 +4956,7 @@ new pointer</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_i"></span><h3>private  function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(original, lb, ub) result(view)  
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_i"></span> <h3>private  function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(original, lb, ub) result(view)  
 </h3></div>
     <div class="card-body">
           
@@ -4988,7 +4991,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~20"></span>
+              <span class="anchor" id="variable-lb~36"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5004,7 +5007,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~10"></span>
+              <span class="anchor" id="variable-ub~31"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5032,7 +5035,7 @@ new pointer</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_l"></span><h3>private  function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(original, lb, ub) result(view)  
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_view_l"></span> <h3>private  function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(original, lb, ub) result(view)  
 </h3></div>
     <div class="card-body">
           
@@ -5067,7 +5070,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~22"></span>
+              <span class="anchor" id="variable-lb~38"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5083,7 +5086,7 @@ lower and upper bound for the new pointer view</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~12"></span>
+              <span class="anchor" id="variable-ub~33"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5116,7 +5119,7 @@ new pointer</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_d"></span><h3>private  subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_d</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_d"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_d</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
 </h3></div>
     <div class="card-body">
           
@@ -5135,7 +5138,7 @@ new pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~37"></span>
+              <span class="anchor" id="variable-array~18"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -5165,7 +5168,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~13"></span>
+              <span class="anchor" id="variable-lb~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5180,7 +5183,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~3"></span>
+              <span class="anchor" id="variable-ub~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5195,7 +5198,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-factor~2"></span>
+              <span class="anchor" id="variable-factor"></span>
               real(kind=dp),
             </td>
 <td>intent(in),</td>
@@ -5210,7 +5213,7 @@ new pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~3"></span>
+              <span class="anchor" id="variable-nocopy~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5226,7 +5229,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~5"></span>
+              <span class="anchor" id="variable-memory_type~2"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -5241,7 +5244,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~3"></span>
+              <span class="anchor" id="variable-zero_pad~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5263,7 +5266,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_d"></span><h3>private  subroutine <a href='../proc/mem_copy_d.html'>mem_copy_d</a>(dst, src, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_d"></span> <h3>private  subroutine <a href='../proc/mem_copy_d.html'>mem_copy_d</a>(dst, src, n)  
 </h3></div>
     <div class="card-body">
           
@@ -5282,7 +5285,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~10"></span>
+              <span class="anchor" id="variable-dst~29"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -5297,7 +5300,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~10"></span>
+              <span class="anchor" id="variable-src~27"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -5333,7 +5336,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_d"></span><h3>private  subroutine <a href='../proc/mem_zero_d.html'>mem_zero_d</a>(dst, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_d"></span> <h3>private  subroutine <a href='../proc/mem_zero_d.html'>mem_zero_d</a>(dst, n)  
 </h3></div>
     <div class="card-body">
           
@@ -5352,7 +5355,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~11"></span>
+              <span class="anchor" id="variable-dst~30"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -5388,7 +5391,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_d"></span><h3>private  subroutine <a href='../proc/mem_alloc_d.html'>mem_alloc_d</a>(mem, n, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_d.html'>mem_alloc_d</a>(mem, n, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -5407,7 +5410,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem"></span>
+              <span class="anchor" id="variable-mem~2"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -5437,76 +5440,6 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_d_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_d_2d.html'>mem_alloc_d_2d</a>(mem, sizes, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~2"></span>
-              real(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~28"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-mem_type~2"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
@@ -5528,11 +5461,11 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_d"></span><h3>private  subroutine <a href='../proc/mem_dealloc_d.html'>mem_dealloc_d</a>(mem, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_d_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_d_2d.html'>mem_alloc_d_2d</a>(mem, sizes, mem_type)  
 </h3></div>
     <div class="card-body">
           
-  <p>Deallocates memory</p>
+  <p>Allocates memory</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -5552,12 +5485,27 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
+              DIMENSION(:, :), POINTER
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
             <td>
 <p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizes~40"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
             </td>
         </tr>
         <tr>
@@ -5583,7 +5531,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_d_2d"></span><h3>private  subroutine <a href='../proc/mem_dealloc_d_2d.html'>mem_dealloc_d_2d</a>(mem, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_d"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_d.html'>mem_dealloc_d</a>(mem, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -5607,7 +5555,7 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:, :), POINTER
+              DIMENSION(:), POINTER, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
@@ -5638,7 +5586,62 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_d_rank_remap2"></span><h3>private  subroutine <a href='../proc/pointer_d_rank_remap2.html'>pointer_d_rank_remap2</a>(r2p, d1, d2, r1p)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_d_2d"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_d_2d.html'>mem_dealloc_d_2d</a>(mem, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~5"></span>
+              real(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~5"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_d_rank_remap2"></span> <h3>private  subroutine <a href='../proc/pointer_d_rank_remap2.html'>pointer_d_rank_remap2</a>(r2p, d1, d2, r1p)  
 </h3></div>
     <div class="card-body">
           
@@ -5724,7 +5727,7 @@ rank remapping.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_s"></span><h3>private  subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_s</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_s"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_s</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
 </h3></div>
     <div class="card-body">
           
@@ -5743,7 +5746,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~38"></span>
+              <span class="anchor" id="variable-array~19"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -5773,7 +5776,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~15"></span>
+              <span class="anchor" id="variable-lb~31"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5788,7 +5791,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~5"></span>
+              <span class="anchor" id="variable-ub~26"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5803,7 +5806,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-factor~3"></span>
+              <span class="anchor" id="variable-factor~2"></span>
               real(kind=dp),
             </td>
 <td>intent(in),</td>
@@ -5818,7 +5821,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~4"></span>
+              <span class="anchor" id="variable-nocopy~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5834,7 +5837,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~6"></span>
+              <span class="anchor" id="variable-memory_type~3"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -5849,7 +5852,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~4"></span>
+              <span class="anchor" id="variable-zero_pad~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5871,7 +5874,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_s"></span><h3>private  subroutine <a href='../proc/mem_copy_s.html'>mem_copy_s</a>(dst, src, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_s"></span> <h3>private  subroutine <a href='../proc/mem_copy_s.html'>mem_copy_s</a>(dst, src, n)  
 </h3></div>
     <div class="card-body">
           
@@ -5890,7 +5893,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~12"></span>
+              <span class="anchor" id="variable-dst~31"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -5905,7 +5908,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~11"></span>
+              <span class="anchor" id="variable-src~28"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -5941,7 +5944,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_s"></span><h3>private  subroutine <a href='../proc/mem_zero_s.html'>mem_zero_s</a>(dst, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_s"></span> <h3>private  subroutine <a href='../proc/mem_zero_s.html'>mem_zero_s</a>(dst, n)  
 </h3></div>
     <div class="card-body">
           
@@ -5960,7 +5963,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~13"></span>
+              <span class="anchor" id="variable-dst~32"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -5996,7 +5999,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_s"></span><h3>private  subroutine <a href='../proc/mem_alloc_s.html'>mem_alloc_s</a>(mem, n, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_s"></span> <h3>private  subroutine <a href='../proc/mem_alloc_s.html'>mem_alloc_s</a>(mem, n, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -6015,7 +6018,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~5"></span>
+              <span class="anchor" id="variable-mem~6"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -6045,131 +6048,6 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~5"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_s_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_s_2d.html'>mem_alloc_s_2d</a>(mem, sizes, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~6"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~29"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~6"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_s"></span><h3>private  subroutine <a href='../proc/mem_dealloc_s.html'>mem_dealloc_s</a>(mem, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~7"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-mem_type~7"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
@@ -6191,11 +6069,11 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_s_2d"></span><h3>private  subroutine <a href='../proc/mem_dealloc_s_2d.html'>mem_dealloc_s_2d</a>(mem, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_s_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_s_2d.html'>mem_alloc_s_2d</a>(mem, sizes, mem_type)  
 </h3></div>
     <div class="card-body">
           
-  <p>Deallocates memory</p>
+  <p>Allocates memory</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -6210,7 +6088,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~8"></span>
+              <span class="anchor" id="variable-mem~7"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -6221,6 +6099,21 @@ zero new allocations; default is to write nothing</p>
             <td><strong>mem</strong></td>
             <td>
 <p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizes~41"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
             </td>
         </tr>
         <tr>
@@ -6246,7 +6139,117 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_s_rank_remap2"></span><h3>private  subroutine <a href='../proc/pointer_s_rank_remap2.html'>pointer_s_rank_remap2</a>(r2p, d1, d2, r1p)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_s"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_s.html'>mem_dealloc_s</a>(mem, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~8"></span>
+              real(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~9"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_s_2d"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_s_2d.html'>mem_dealloc_s_2d</a>(mem, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~9"></span>
+              real(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~10"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_s_rank_remap2"></span> <h3>private  subroutine <a href='../proc/pointer_s_rank_remap2.html'>pointer_s_rank_remap2</a>(r2p, d1, d2, r1p)  
 </h3></div>
     <div class="card-body">
           
@@ -6332,7 +6335,7 @@ rank remapping.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_z"></span><h3>private  subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_z</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_z"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_z</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
 </h3></div>
     <div class="card-body">
           
@@ -6351,7 +6354,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~39"></span>
+              <span class="anchor" id="variable-array~20"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -6381,7 +6384,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~17"></span>
+              <span class="anchor" id="variable-lb~33"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6396,7 +6399,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~7"></span>
+              <span class="anchor" id="variable-ub~28"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -6411,7 +6414,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-factor~4"></span>
+              <span class="anchor" id="variable-factor~3"></span>
               real(kind=dp),
             </td>
 <td>intent(in),</td>
@@ -6426,7 +6429,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~5"></span>
+              <span class="anchor" id="variable-nocopy~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6442,7 +6445,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~7"></span>
+              <span class="anchor" id="variable-memory_type~4"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -6457,7 +6460,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~5"></span>
+              <span class="anchor" id="variable-zero_pad~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6479,7 +6482,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_z"></span><h3>private  subroutine <a href='../proc/mem_copy_z.html'>mem_copy_z</a>(dst, src, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_z"></span> <h3>private  subroutine <a href='../proc/mem_copy_z.html'>mem_copy_z</a>(dst, src, n)  
 </h3></div>
     <div class="card-body">
           
@@ -6498,7 +6501,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~14"></span>
+              <span class="anchor" id="variable-dst~33"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -6513,7 +6516,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~12"></span>
+              <span class="anchor" id="variable-src~29"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -6549,7 +6552,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_z"></span><h3>private  subroutine <a href='../proc/mem_zero_z.html'>mem_zero_z</a>(dst, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_z"></span> <h3>private  subroutine <a href='../proc/mem_zero_z.html'>mem_zero_z</a>(dst, n)  
 </h3></div>
     <div class="card-body">
           
@@ -6568,7 +6571,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~15"></span>
+              <span class="anchor" id="variable-dst~34"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -6604,7 +6607,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_z"></span><h3>private  subroutine <a href='../proc/mem_alloc_z.html'>mem_alloc_z</a>(mem, n, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_z"></span> <h3>private  subroutine <a href='../proc/mem_alloc_z.html'>mem_alloc_z</a>(mem, n, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -6623,7 +6626,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~9"></span>
+              <span class="anchor" id="variable-mem~10"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -6653,7 +6656,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~9"></span>
+              <span class="anchor" id="variable-mem_type~12"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6674,81 +6677,11 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_z_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_z_2d.html'>mem_alloc_z_2d</a>(mem, sizes, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_z_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_z_2d.html'>mem_alloc_z_2d</a>(mem, sizes, mem_type)  
 </h3></div>
     <div class="card-body">
           
   <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~10"></span>
-              complex(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~30"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~10"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_z"></span><h3>private  subroutine <a href='../proc/mem_dealloc_z.html'>mem_dealloc_z</a>(mem, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocates memory</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -6768,7 +6701,7 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
+              DIMENSION(:, :), POINTER
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
@@ -6778,7 +6711,22 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~11"></span>
+              <span class="anchor" id="variable-sizes~42"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~13"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6799,7 +6747,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_z_2d"></span><h3>private  subroutine <a href='../proc/mem_dealloc_z_2d.html'>mem_dealloc_z_2d</a>(mem, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_z"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_z.html'>mem_dealloc_z</a>(mem, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -6823,7 +6771,7 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:, :), POINTER
+              DIMENSION(:), POINTER, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
@@ -6833,7 +6781,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~12"></span>
+              <span class="anchor" id="variable-mem_type~14"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6854,7 +6802,62 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_z_rank_remap2"></span><h3>private  subroutine <a href='../proc/pointer_z_rank_remap2.html'>pointer_z_rank_remap2</a>(r2p, d1, d2, r1p)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_z_2d"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_z_2d.html'>mem_dealloc_z_2d</a>(mem, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~13"></span>
+              complex(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~15"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_z_rank_remap2"></span> <h3>private  subroutine <a href='../proc/pointer_z_rank_remap2.html'>pointer_z_rank_remap2</a>(r2p, d1, d2, r1p)  
 </h3></div>
     <div class="card-body">
           
@@ -6940,7 +6943,7 @@ rank remapping.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_c"></span><h3>private  subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_c</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_c"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_c</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
 </h3></div>
     <div class="card-body">
           
@@ -6959,7 +6962,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~40"></span>
+              <span class="anchor" id="variable-array~21"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -6989,7 +6992,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~19"></span>
+              <span class="anchor" id="variable-lb~35"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -7004,7 +7007,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~9"></span>
+              <span class="anchor" id="variable-ub~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -7019,7 +7022,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-factor~5"></span>
+              <span class="anchor" id="variable-factor~4"></span>
               real(kind=dp),
             </td>
 <td>intent(in),</td>
@@ -7034,7 +7037,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~6"></span>
+              <span class="anchor" id="variable-nocopy~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7050,7 +7053,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~8"></span>
+              <span class="anchor" id="variable-memory_type~5"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -7065,7 +7068,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~6"></span>
+              <span class="anchor" id="variable-zero_pad~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7087,7 +7090,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_c"></span><h3>private  subroutine <a href='../proc/mem_copy_c.html'>mem_copy_c</a>(dst, src, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_c"></span> <h3>private  subroutine <a href='../proc/mem_copy_c.html'>mem_copy_c</a>(dst, src, n)  
 </h3></div>
     <div class="card-body">
           
@@ -7106,7 +7109,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~16"></span>
+              <span class="anchor" id="variable-dst~35"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -7121,7 +7124,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~13"></span>
+              <span class="anchor" id="variable-src~30"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -7157,7 +7160,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_c"></span><h3>private  subroutine <a href='../proc/mem_zero_c.html'>mem_zero_c</a>(dst, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_c"></span> <h3>private  subroutine <a href='../proc/mem_zero_c.html'>mem_zero_c</a>(dst, n)  
 </h3></div>
     <div class="card-body">
           
@@ -7176,7 +7179,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~17"></span>
+              <span class="anchor" id="variable-dst~36"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -7212,7 +7215,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_c"></span><h3>private  subroutine <a href='../proc/mem_alloc_c.html'>mem_alloc_c</a>(mem, n, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_c"></span> <h3>private  subroutine <a href='../proc/mem_alloc_c.html'>mem_alloc_c</a>(mem, n, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -7231,7 +7234,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~13"></span>
+              <span class="anchor" id="variable-mem~14"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -7261,7 +7264,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~13"></span>
+              <span class="anchor" id="variable-mem_type~17"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7282,81 +7285,11 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_c_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_c_2d.html'>mem_alloc_c_2d</a>(mem, sizes, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_c_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_c_2d.html'>mem_alloc_c_2d</a>(mem, sizes, mem_type)  
 </h3></div>
     <div class="card-body">
           
   <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~14"></span>
-              complex(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~31"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~14"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_c"></span><h3>private  subroutine <a href='../proc/mem_dealloc_c.html'>mem_dealloc_c</a>(mem, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocates memory</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -7376,7 +7309,7 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
+              DIMENSION(:, :), POINTER
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
@@ -7386,7 +7319,22 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~15"></span>
+              <span class="anchor" id="variable-sizes~43"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~18"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7407,7 +7355,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_c_2d"></span><h3>private  subroutine <a href='../proc/mem_dealloc_c_2d.html'>mem_dealloc_c_2d</a>(mem, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_c"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_c.html'>mem_dealloc_c</a>(mem, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -7431,7 +7379,7 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:, :), POINTER
+              DIMENSION(:), POINTER, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
@@ -7441,7 +7389,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~16"></span>
+              <span class="anchor" id="variable-mem_type~19"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7462,7 +7410,62 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_c_rank_remap2"></span><h3>private  subroutine <a href='../proc/pointer_c_rank_remap2.html'>pointer_c_rank_remap2</a>(r2p, d1, d2, r1p)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_c_2d"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_c_2d.html'>mem_dealloc_c_2d</a>(mem, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~17"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~20"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_c_rank_remap2"></span> <h3>private  subroutine <a href='../proc/pointer_c_rank_remap2.html'>pointer_c_rank_remap2</a>(r2p, d1, d2, r1p)  
 </h3></div>
     <div class="card-body">
           
@@ -7548,7 +7551,7 @@ rank remapping.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_i"></span><h3>private  subroutine <a href='../proc/ensure_array_size_i.html'>ensure_array_size_i</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_i"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_i.html'>ensure_array_size_i</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
 </h3></div>
     <div class="card-body">
           
@@ -7567,7 +7570,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~41"></span>
+              <span class="anchor" id="variable-array~22"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -7597,7 +7600,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~21"></span>
+              <span class="anchor" id="variable-lb~37"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -7612,7 +7615,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~11"></span>
+              <span class="anchor" id="variable-ub~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -7627,7 +7630,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-factor~6"></span>
+              <span class="anchor" id="variable-factor~5"></span>
               real(kind=dp),
             </td>
 <td>intent(in),</td>
@@ -7642,7 +7645,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~7"></span>
+              <span class="anchor" id="variable-nocopy~6"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7658,7 +7661,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~9"></span>
+              <span class="anchor" id="variable-memory_type~6"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -7673,7 +7676,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~7"></span>
+              <span class="anchor" id="variable-zero_pad~6"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7695,7 +7698,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_i"></span><h3>private  subroutine <a href='../proc/mem_copy_i.html'>mem_copy_i</a>(dst, src, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_i"></span> <h3>private  subroutine <a href='../proc/mem_copy_i.html'>mem_copy_i</a>(dst, src, n)  
 </h3></div>
     <div class="card-body">
           
@@ -7714,7 +7717,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~18"></span>
+              <span class="anchor" id="variable-dst~37"></span>
               integer(kind=int_4),
             </td>
 <td>intent(out),</td>
@@ -7729,7 +7732,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~14"></span>
+              <span class="anchor" id="variable-src~31"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in),</td>
@@ -7765,7 +7768,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_i"></span><h3>private  subroutine <a href='../proc/mem_zero_i.html'>mem_zero_i</a>(dst, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_i"></span> <h3>private  subroutine <a href='../proc/mem_zero_i.html'>mem_zero_i</a>(dst, n)  
 </h3></div>
     <div class="card-body">
           
@@ -7784,7 +7787,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~19"></span>
+              <span class="anchor" id="variable-dst~38"></span>
               integer(kind=int_4),
             </td>
 <td>intent(out),</td>
@@ -7820,7 +7823,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_i"></span><h3>private  subroutine <a href='../proc/mem_alloc_i.html'>mem_alloc_i</a>(mem, n, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_i"></span> <h3>private  subroutine <a href='../proc/mem_alloc_i.html'>mem_alloc_i</a>(mem, n, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -7839,7 +7842,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~17"></span>
+              <span class="anchor" id="variable-mem~18"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -7869,7 +7872,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~17"></span>
+              <span class="anchor" id="variable-mem_type~22"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7890,81 +7893,11 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_i_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_i_2d.html'>mem_alloc_i_2d</a>(mem, sizes, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_i_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_i_2d.html'>mem_alloc_i_2d</a>(mem, sizes, mem_type)  
 </h3></div>
     <div class="card-body">
           
   <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~18"></span>
-              integer(kind=int_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~32"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~18"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_i"></span><h3>private  subroutine <a href='../proc/mem_dealloc_i.html'>mem_dealloc_i</a>(mem, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocates memory</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -7984,7 +7917,7 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
+              DIMENSION(:, :), POINTER
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
@@ -7994,7 +7927,22 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~19"></span>
+              <span class="anchor" id="variable-sizes~44"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~23"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8015,7 +7963,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_i_2d"></span><h3>private  subroutine <a href='../proc/mem_dealloc_i_2d.html'>mem_dealloc_i_2d</a>(mem, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_i"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_i.html'>mem_dealloc_i</a>(mem, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -8039,7 +7987,7 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:, :), POINTER
+              DIMENSION(:), POINTER, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
@@ -8049,7 +7997,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~20"></span>
+              <span class="anchor" id="variable-mem_type~24"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8070,7 +8018,62 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_i_rank_remap2"></span><h3>private  subroutine <a href='../proc/pointer_i_rank_remap2.html'>pointer_i_rank_remap2</a>(r2p, d1, d2, r1p)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_i_2d"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_i_2d.html'>mem_dealloc_i_2d</a>(mem, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~21"></span>
+              integer(kind=int_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~25"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_i_rank_remap2"></span> <h3>private  subroutine <a href='../proc/pointer_i_rank_remap2.html'>pointer_i_rank_remap2</a>(r2p, d1, d2, r1p)  
 </h3></div>
     <div class="card-body">
           
@@ -8156,7 +8159,7 @@ rank remapping.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_l"></span><h3>private  subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_l</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_l"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_l</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
 </h3></div>
     <div class="card-body">
           
@@ -8175,7 +8178,7 @@ rank remapping.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~42"></span>
+              <span class="anchor" id="variable-array~23"></span>
               integer(kind=int_8),
             </td>
 <td></td>
@@ -8205,7 +8208,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~23"></span>
+              <span class="anchor" id="variable-lb~39"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -8220,7 +8223,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~13"></span>
+              <span class="anchor" id="variable-ub~34"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -8235,7 +8238,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-factor~7"></span>
+              <span class="anchor" id="variable-factor~6"></span>
               real(kind=dp),
             </td>
 <td>intent(in),</td>
@@ -8250,7 +8253,7 @@ rank remapping.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~8"></span>
+              <span class="anchor" id="variable-nocopy~7"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8266,7 +8269,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~10"></span>
+              <span class="anchor" id="variable-memory_type~7"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -8281,7 +8284,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~8"></span>
+              <span class="anchor" id="variable-zero_pad~7"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8303,7 +8306,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_l"></span><h3>private  subroutine <a href='../proc/mem_copy_l.html'>mem_copy_l</a>(dst, src, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_copy_l"></span> <h3>private  subroutine <a href='../proc/mem_copy_l.html'>mem_copy_l</a>(dst, src, n)  
 </h3></div>
     <div class="card-body">
           
@@ -8322,7 +8325,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~20"></span>
+              <span class="anchor" id="variable-dst~39"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -8337,7 +8340,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~15"></span>
+              <span class="anchor" id="variable-src~32"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
@@ -8373,7 +8376,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_l"></span><h3>private  subroutine <a href='../proc/mem_zero_l.html'>mem_zero_l</a>(dst, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_zero_l"></span> <h3>private  subroutine <a href='../proc/mem_zero_l.html'>mem_zero_l</a>(dst, n)  
 </h3></div>
     <div class="card-body">
           
@@ -8392,7 +8395,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~21"></span>
+              <span class="anchor" id="variable-dst~40"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -8428,7 +8431,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_l"></span><h3>private  subroutine <a href='../proc/mem_alloc_l.html'>mem_alloc_l</a>(mem, n, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_l"></span> <h3>private  subroutine <a href='../proc/mem_alloc_l.html'>mem_alloc_l</a>(mem, n, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -8447,7 +8450,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem~21"></span>
+              <span class="anchor" id="variable-mem~22"></span>
               integer(kind=int_8),
             </td>
 <td></td>
@@ -8477,7 +8480,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~21"></span>
+              <span class="anchor" id="variable-mem_type~27"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8498,81 +8501,11 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_l_2d"></span><h3>private  subroutine <a href='../proc/mem_alloc_l_2d.html'>mem_alloc_l_2d</a>(mem, sizes, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_alloc_l_2d"></span> <h3>private  subroutine <a href='../proc/mem_alloc_l_2d.html'>mem_alloc_l_2d</a>(mem, sizes, mem_type)  
 </h3></div>
     <div class="card-body">
           
   <p>Allocates memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem~22"></span>
-              integer(kind=int_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>mem</strong></td>
-            <td>
-<p>memory to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~33"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-<p>length of elements to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mem_type~22"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mem_type</strong></td>
-            <td>
-<p>memory type</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_l"></span><h3>private  subroutine <a href='../proc/mem_dealloc_l.html'>mem_dealloc_l</a>(mem, mem_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Deallocates memory</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -8592,7 +8525,7 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
+              DIMENSION(:, :), POINTER
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
@@ -8602,7 +8535,22 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~23"></span>
+              <span class="anchor" id="variable-sizes~45"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+<p>length of elements to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~28"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8623,7 +8571,7 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_l_2d"></span><h3>private  subroutine <a href='../proc/mem_dealloc_l_2d.html'>mem_dealloc_l_2d</a>(mem, mem_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_l"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_l.html'>mem_dealloc_l</a>(mem, mem_type)  
 </h3></div>
     <div class="card-body">
           
@@ -8647,7 +8595,7 @@ zero new allocations; default is to write nothing</p>
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:, :), POINTER
+              DIMENSION(:), POINTER, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>mem</strong></td>
@@ -8657,7 +8605,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mem_type~24"></span>
+              <span class="anchor" id="variable-mem_type~29"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8678,7 +8626,62 @@ zero new allocations; default is to write nothing</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pointer_l_rank_remap2"></span><h3>private  subroutine <a href='../proc/pointer_l_rank_remap2.html'>pointer_l_rank_remap2</a>(r2p, d1, d2, r1p)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mem_dealloc_l_2d"></span> <h3>private  subroutine <a href='../proc/mem_dealloc_l_2d.html'>mem_dealloc_l_2d</a>(mem, mem_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Deallocates memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem~25"></span>
+              integer(kind=int_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mem</strong></td>
+            <td>
+<p>memory to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mem_type~30"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mem_type</strong></td>
+            <td>
+<p>memory type</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-pointer_l_rank_remap2"></span> <h3>private  subroutine <a href='../proc/pointer_l_rank_remap2.html'>pointer_l_rank_remap2</a>(r2p, d1, d2, r1p)  
 </h3></div>
     <div class="card-body">
           

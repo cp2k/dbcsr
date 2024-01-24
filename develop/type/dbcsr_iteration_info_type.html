@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -112,13 +115,13 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-ref_count~2">ref_count</a>
+            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-ref_count~4">ref_count</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-id_nr~3">id_nr</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-print_level~3">print_level</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-n_rlevel">n_rlevel</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-iteration">iteration</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-last_iter">last_iter</a>
-            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-project_name~2">project_name</a>
+            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-project_name">project_name</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-level_name">level_name</a>
         </div>
       </div>
@@ -155,7 +158,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public :: dbcsr_iteration_info_type</h2>
+      <h2>
+        type, public :: dbcsr_iteration_info_type</h2>
     <p>contains the information about the current state of the program
 to be able to decide if output is necessary</p>
     <br>
@@ -174,7 +178,7 @@ to be able to decide if output is necessary</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ref_count~2"></span>
+              <span class="anchor" id="variable-ref_count~4"></span>
               integer,
             </td>
               <td>public</td>
@@ -276,7 +280,7 @@ to be able to decide if output is necessary</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-project_name~2"></span>
+              <span class="anchor" id="variable-project_name"></span>
               character(len=default_string_length),
             </td>
               <td>public</td>

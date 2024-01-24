@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -150,7 +153,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_area_block"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_area_block.html'>dbcsr_tas_iterator_next_area_block</a>(iterator, row, column, block, transposed, block_number, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_area_block"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_area_block.html'>dbcsr_tas_iterator_next_area_block</a>(iterator, row, column, block, transposed, block_number, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -169,7 +172,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~23"></span>
+              <span class="anchor" id="variable-iterator~35"></span>
               type(<a href='../type/dbcsr_tas_iterator.html'>dbcsr_tas_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -184,7 +187,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~58"></span>
+              <span class="anchor" id="variable-row~139"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -214,7 +217,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~100"></span>
+              <span class="anchor" id="variable-block~179"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -229,7 +232,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~26"></span>
+              <span class="anchor" id="variable-transposed~43"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -244,7 +247,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~13"></span>
+              <span class="anchor" id="variable-block_number~19"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -259,7 +262,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~33"></span>
+              <span class="anchor" id="variable-row_size~80"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -274,7 +277,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~31"></span>
+              <span class="anchor" id="variable-col_size~75"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -295,7 +298,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_block_index"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_block_index.html'>dbcsr_tas_iterator_next_block_index</a>(iterator, row, column, block_number, transposed, blk_p, row_size, col_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_iterator_next_block_index"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_iterator_next_block_index.html'>dbcsr_tas_iterator_next_block_index</a>(iterator, row, column, block_number, transposed, blk_p, row_size, col_size)  
 </h3></div>
     <div class="card-body">
           
@@ -314,7 +317,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~24"></span>
+              <span class="anchor" id="variable-iterator~36"></span>
               type(<a href='../type/dbcsr_tas_iterator.html'>dbcsr_tas_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -329,7 +332,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~7"></span>
+              <span class="anchor" id="variable-row~140"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -345,7 +348,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~5"></span>
+              <span class="anchor" id="variable-column~25"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -361,7 +364,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~14"></span>
+              <span class="anchor" id="variable-block_number~20"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -376,7 +379,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~27"></span>
+              <span class="anchor" id="variable-transposed~44"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -391,7 +394,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~21"></span>
+              <span class="anchor" id="variable-blk_p~14"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -406,7 +409,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~34"></span>
+              <span class="anchor" id="variable-row_size~81"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -421,7 +424,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~32"></span>
+              <span class="anchor" id="variable-col_size~76"></span>
               integer,
             </td>
 <td>intent(out),</td>

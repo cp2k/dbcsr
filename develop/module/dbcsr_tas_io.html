@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tas_io.html#variable-modulen~71">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tas_io.html#variable-modulen~68">moduleN</a>
         </div>
       </div>
     </div>
@@ -172,13 +175,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
               </ul>
             </li>
         </ul>
@@ -203,7 +206,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~71"></span>
+              <span class="anchor" id="variable-modulen~68"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -231,7 +234,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-prep_output_unit~2"></span><h3>public  function <a href='../proc/prep_output_unit~2.html'>prep_output_unit</a>(unit_nr) result(unit_nr_out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-prep_output_unit~2"></span> <h3>public  function <a href='../proc/prep_output_unit~2.html'>prep_output_unit</a>(unit_nr) result(unit_nr_out)  
 </h3></div>
     <div class="card-body">
           
@@ -250,7 +253,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~32"></span>
+              <span class="anchor" id="variable-unit_nr~34"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -281,7 +284,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_write_matrix_info"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_write_matrix_info.html'>dbcsr_tas_write_matrix_info</a>(matrix, unit_nr, full_info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_write_matrix_info"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_write_matrix_info.html'>dbcsr_tas_write_matrix_info</a>(matrix, unit_nr, full_info)  
 </h3></div>
     <div class="card-body">
           
@@ -300,7 +303,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~330"></span>
+              <span class="anchor" id="variable-matrix~408"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -315,7 +318,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~33"></span>
+              <span class="anchor" id="variable-unit_nr~31"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -351,7 +354,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_write_dist"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_write_dist.html'>dbcsr_tas_write_dist</a>(matrix, unit_nr, full_info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_write_dist"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_write_dist.html'>dbcsr_tas_write_dist</a>(matrix, unit_nr, full_info)  
 </h3></div>
     <div class="card-body">
           
@@ -370,7 +373,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~331"></span>
+              <span class="anchor" id="variable-matrix~409"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -385,7 +388,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~34"></span>
+              <span class="anchor" id="variable-unit_nr~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -421,7 +424,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_write_split_info"></span><h3>public  subroutine <a href='../proc/dbcsr_tas_write_split_info.html'>dbcsr_tas_write_split_info</a>(info, unit_nr, name)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_write_split_info"></span> <h3>public  subroutine <a href='../proc/dbcsr_tas_write_split_info.html'>dbcsr_tas_write_split_info</a>(info, unit_nr, name)  
 </h3></div>
     <div class="card-body">
           
@@ -440,7 +443,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~14"></span>
+              <span class="anchor" id="variable-info~24"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -455,7 +458,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~35"></span>
+              <span class="anchor" id="variable-unit_nr~33"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -470,7 +473,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~27"></span>
+              <span class="anchor" id="variable-name~38"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>

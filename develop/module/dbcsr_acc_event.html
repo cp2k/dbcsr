@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -111,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_acc_event.html#variable-modulen~23">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_acc_event.html#variable-modulen~47">moduleN</a>
         </div>
       </div>
     </div>
@@ -185,10 +188,10 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -213,7 +216,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~23"></span>
+              <span class="anchor" id="variable-modulen~47"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -294,7 +297,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_query"></span><h3>public  function <a href='../proc/acc_event_query.html'>acc_event_query</a>(this) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_query"></span> <h3>public  function <a href='../proc/acc_event_query.html'>acc_event_query</a>(this) result(res)  
 </h3></div>
     <div class="card-body">
           
@@ -313,7 +316,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~41"></span>
+              <span class="anchor" id="variable-this~51"></span>
               type(<a href='../type/acc_event_type.html'>acc_event_type</a>),
             </td>
 <td>intent(in)</td>
@@ -344,7 +347,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_wait_event"></span><h3>public  subroutine <a href='../proc/acc_stream_wait_event.html'>acc_stream_wait_event</a>(stream, event)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_stream_wait_event"></span> <h3>public  subroutine <a href='../proc/acc_stream_wait_event.html'>acc_stream_wait_event</a>(stream, event)  
 </h3></div>
     <div class="card-body">
           
@@ -364,7 +367,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stream~22"></span>
+              <span class="anchor" id="variable-stream~47"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td>intent(in)</td>
@@ -400,7 +403,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_record"></span><h3>public  subroutine <a href='../proc/acc_event_record.html'>acc_event_record</a>(this, stream)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_record"></span> <h3>public  subroutine <a href='../proc/acc_event_record.html'>acc_event_record</a>(this, stream)  
 </h3></div>
     <div class="card-body">
           
@@ -419,7 +422,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~42"></span>
+              <span class="anchor" id="variable-this~48"></span>
               type(<a href='../type/acc_event_type.html'>acc_event_type</a>),
             </td>
 <td>intent(in)</td>
@@ -434,7 +437,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stream~23"></span>
+              <span class="anchor" id="variable-stream~48"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td>intent(in)</td>
@@ -455,7 +458,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_create"></span><h3>public  subroutine <a href='../proc/acc_event_create.html'>acc_event_create</a>(this)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_create"></span> <h3>public  subroutine <a href='../proc/acc_event_create.html'>acc_event_create</a>(this)  
 </h3></div>
     <div class="card-body">
           
@@ -474,7 +477,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~43"></span>
+              <span class="anchor" id="variable-this~49"></span>
               type(<a href='../type/acc_event_type.html'>acc_event_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -495,7 +498,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_destroy"></span><h3>public  subroutine <a href='../proc/acc_event_destroy.html'>acc_event_destroy</a>(this)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_destroy"></span> <h3>public  subroutine <a href='../proc/acc_event_destroy.html'>acc_event_destroy</a>(this)  
 </h3></div>
     <div class="card-body">
           
@@ -514,7 +517,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~44"></span>
+              <span class="anchor" id="variable-this~50"></span>
               type(<a href='../type/acc_event_type.html'>acc_event_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -535,7 +538,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_synchronize"></span><h3>public  subroutine <a href='../proc/acc_event_synchronize.html'>acc_event_synchronize</a>(this)  
+    <div class="card-header codesum"><span class="anchor" id="proc-acc_event_synchronize"></span> <h3>public  subroutine <a href='../proc/acc_event_synchronize.html'>acc_event_synchronize</a>(this)  
 </h3></div>
     <div class="card-body">
           
@@ -554,7 +557,7 @@ Because of fortran circular dependency restriction this can not go into acc_stre
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~45"></span>
+              <span class="anchor" id="variable-this~52"></span>
               type(<a href='../type/acc_event_type.html'>acc_event_type</a>),
             </td>
 <td>intent(in)</td>

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -116,7 +119,7 @@
             <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#variable-nimages~4">nimages</a>
             <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#variable-nexchanged">nexchanged</a>
             <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#variable-nfiltered">nfiltered</a>
-            <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#variable-data_size~11">data_size</a>
+            <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#variable-data_size~21">data_size</a>
             <a class="list-group-item" href="../type/dbcsr_mpi_statistics_type.html#variable-data_size_breakdown">data_size_breakdown</a>
         </div>
       </div>
@@ -153,7 +156,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public :: dbcsr_mpi_statistics_type</h2>
+      <h2>
+        type, public :: dbcsr_mpi_statistics_type</h2>
     <p>DBCSR MPI statistics</p>
     <br>
 
@@ -239,7 +243,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size~11"></span>
+              <span class="anchor" id="variable-data_size~21"></span>
               real,
             </td>
               <td>public,</td>

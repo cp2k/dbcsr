@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -196,8 +199,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -290,7 +293,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~2"></span>
+              <span class="anchor" id="variable-key~4"></span>
               integer(kind=keyt),
             </td>
               <td>public</td>
@@ -307,7 +310,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~10"></span>
+              <span class="anchor" id="variable-value~14"></span>
               integer(kind=valt),
             </td>
               <td>public</td>
@@ -356,7 +359,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-node"></span>
+              <span class="anchor" id="variable-node~5"></span>
               type(<a href='../type/dbcsr_heap_node.html'>dbcsr_heap_node</a>),
             </td>
               <td>public</td>
@@ -422,7 +425,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~8"></span>
+              <span class="anchor" id="variable-index~15"></span>
               integer,
             </td>
               <td>public,</td>
@@ -439,7 +442,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes~2"></span>
+              <span class="anchor" id="variable-nodes~3"></span>
               type(<a href='../type/dbcsr_heap_node_e.html'>dbcsr_heap_node_e</a>),
             </td>
               <td>public,</td>
@@ -469,7 +472,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_parent"></span><h3>private elemental function <a href='../proc/get_parent.html'>get_parent</a>(n) result(parent)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_parent"></span> <h3>private elemental function <a href='../proc/get_parent.html'>get_parent</a>(n) result(parent)  
 </h3></div>
     <div class="card-body">
           
@@ -488,7 +491,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~47"></span>
+              <span class="anchor" id="variable-n~37"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -514,7 +517,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_left_child"></span><h3>private elemental function <a href='../proc/get_left_child.html'>get_left_child</a>(n) result(child)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_left_child"></span> <h3>private elemental function <a href='../proc/get_left_child.html'>get_left_child</a>(n) result(child)  
 </h3></div>
     <div class="card-body">
           
@@ -533,7 +536,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~48"></span>
+              <span class="anchor" id="variable-n~38"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -559,7 +562,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_value"></span><h3>private elemental function <a href='../proc/get_value.html'>get_value</a>(heap, n) result(value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_value"></span> <h3>private elemental function <a href='../proc/get_value.html'>get_value</a>(heap, n) result(value)  
 </h3></div>
     <div class="card-body">
           
@@ -593,7 +596,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~49"></span>
+              <span class="anchor" id="variable-n~39"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -624,7 +627,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_new"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_new.html'>dbcsr_heap_new</a>(heap, n)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_new"></span> <h3>public  subroutine <a href='../proc/dbcsr_heap_new.html'>dbcsr_heap_new</a>(heap, n)  
 </h3></div>
     <div class="card-body">
           
@@ -658,7 +661,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~50"></span>
+              <span class="anchor" id="variable-n~40"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -679,7 +682,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_release"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_release.html'>dbcsr_heap_release</a>(heap)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_release"></span> <h3>public  subroutine <a href='../proc/dbcsr_heap_release.html'>dbcsr_heap_release</a>(heap)  
 </h3></div>
     <div class="card-body">
           
@@ -719,7 +722,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_fill"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_fill.html'>dbcsr_heap_fill</a>(heap, values)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_fill"></span> <h3>public  subroutine <a href='../proc/dbcsr_heap_fill.html'>dbcsr_heap_fill</a>(heap, values)  
 </h3></div>
     <div class="card-body">
           
@@ -753,7 +756,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-values~5"></span>
+              <span class="anchor" id="variable-values~2"></span>
               integer(kind=valt),
             </td>
 <td>intent(in),</td>
@@ -774,7 +777,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_get_first"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_get_first.html'>dbcsr_heap_get_first</a>(heap, key, value, found)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_get_first"></span> <h3>public  subroutine <a href='../proc/dbcsr_heap_get_first.html'>dbcsr_heap_get_first</a>(heap, key, value, found)  
 </h3></div>
     <div class="card-body">
           
@@ -808,7 +811,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~7"></span>
+              <span class="anchor" id="variable-key~5"></span>
               integer(kind=keyt),
             </td>
 <td>intent(out)</td>
@@ -823,7 +826,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~43"></span>
+              <span class="anchor" id="variable-value~16"></span>
               integer(kind=valt),
             </td>
 <td>intent(out)</td>
@@ -838,7 +841,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~67"></span>
+              <span class="anchor" id="variable-found~109"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -859,7 +862,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_pop"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_pop.html'>dbcsr_heap_pop</a>(heap, key, value, found)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_pop"></span> <h3>public  subroutine <a href='../proc/dbcsr_heap_pop.html'>dbcsr_heap_pop</a>(heap, key, value, found)  
 </h3></div>
     <div class="card-body">
           
@@ -894,7 +897,7 @@ the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~8"></span>
+              <span class="anchor" id="variable-key~6"></span>
               integer(kind=keyt),
             </td>
 <td>intent(out)</td>
@@ -909,7 +912,7 @@ the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~44"></span>
+              <span class="anchor" id="variable-value~17"></span>
               integer(kind=valt),
             </td>
 <td>intent(out)</td>
@@ -924,7 +927,7 @@ the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~68"></span>
+              <span class="anchor" id="variable-found~110"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -945,7 +948,7 @@ the heap.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_reset_node"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_reset_node.html'>dbcsr_heap_reset_node</a>(heap, key, value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_reset_node"></span> <h3>public  subroutine <a href='../proc/dbcsr_heap_reset_node.html'>dbcsr_heap_reset_node</a>(heap, key, value)  
 </h3></div>
     <div class="card-body">
           
@@ -980,7 +983,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~9"></span>
+              <span class="anchor" id="variable-key~7"></span>
               integer(kind=keyt),
             </td>
 <td>intent(in)</td>
@@ -995,7 +998,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~45"></span>
+              <span class="anchor" id="variable-value~18"></span>
               integer(kind=valt),
             </td>
 <td>intent(in)</td>
@@ -1016,7 +1019,7 @@ rebalances the heap.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_reset_first"></span><h3>public  subroutine <a href='../proc/dbcsr_heap_reset_first.html'>dbcsr_heap_reset_first</a>(heap, value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_reset_first"></span> <h3>public  subroutine <a href='../proc/dbcsr_heap_reset_first.html'>dbcsr_heap_reset_first</a>(heap, value)  
 </h3></div>
     <div class="card-body">
           
@@ -1050,7 +1053,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~46"></span>
+              <span class="anchor" id="variable-value~19"></span>
               integer(kind=valt),
             </td>
 <td>intent(in)</td>
@@ -1071,7 +1074,7 @@ rebalances the heap.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_swap"></span><h3>private pure subroutine <a href='../proc/dbcsr_heap_swap.html'>dbcsr_heap_swap</a>(heap, e1, e2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_swap"></span> <h3>private pure subroutine <a href='../proc/dbcsr_heap_swap.html'>dbcsr_heap_swap</a>(heap, e1, e2)  
 </h3></div>
     <div class="card-body">
           
@@ -1141,7 +1144,7 @@ rebalances the heap.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_copy_node"></span><h3>private pure subroutine <a href='../proc/dbcsr_heap_copy_node.html'>dbcsr_heap_copy_node</a>(heap, e1, e2)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_heap_copy_node"></span> <h3>private pure subroutine <a href='../proc/dbcsr_heap_copy_node.html'>dbcsr_heap_copy_node</a>(heap, e1, e2)  
 </h3></div>
     <div class="card-body">
           
@@ -1211,7 +1214,7 @@ rebalances the heap.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-bubble_down"></span><h3>private  subroutine <a href='../proc/bubble_down.html'>bubble_down</a>(heap, first)  
+    <div class="card-header codesum"><span class="anchor" id="proc-bubble_down"></span> <h3>private  subroutine <a href='../proc/bubble_down.html'>bubble_down</a>(heap, first)  
 </h3></div>
     <div class="card-body">
           
@@ -1245,7 +1248,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first"></span>
+              <span class="anchor" id="variable-first~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1266,7 +1269,7 @@ rebalances the heap.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-bubble_up"></span><h3>private  subroutine <a href='../proc/bubble_up.html'>bubble_up</a>(heap, first, new_pos)  
+    <div class="card-header codesum"><span class="anchor" id="proc-bubble_up"></span> <h3>private  subroutine <a href='../proc/bubble_up.html'>bubble_up</a>(heap, first, new_pos)  
 </h3></div>
     <div class="card-body">
           
@@ -1300,7 +1303,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~2"></span>
+              <span class="anchor" id="variable-first~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1315,7 +1318,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_pos"></span>
+              <span class="anchor" id="variable-new_pos~2"></span>
               integer,
             </td>
 <td>intent(out)</td>

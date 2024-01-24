@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -152,7 +155,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-btree_add_i8_sp2d"></span><h3>private  subroutine <a href='../proc/btree_add_i8_sp2d.html'>btree_add_i8_sp2d</a>(tree, key, value, exists, existing_value, replace)  
+    <div class="card-header codesum"><span class="anchor" id="proc-btree_add_i8_sp2d"></span> <h3>private  subroutine <a href='../proc/btree_add_i8_sp2d.html'>btree_add_i8_sp2d</a>(tree, key, value, exists, existing_value, replace)  
 </h3></div>
     <div class="card-body">
           
@@ -171,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tree~7"></span>
+              <span class="anchor" id="variable-tree~4"></span>
               type(<a href='../type/btree_i8_sp2d.html'>btree_i8_sp2d</a>),
             </td>
 <td>intent(inout)</td>
@@ -186,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~22"></span>
+              <span class="anchor" id="variable-key~8"></span>
               integer(kind=keyt),
             </td>
 <td>intent(in)</td>
@@ -201,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~53"></span>
+              <span class="anchor" id="variable-value~20"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -216,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists"></span>
+              <span class="anchor" id="variable-exists~5"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -267,7 +270,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-btree_add_i8_dp2d"></span><h3>private  subroutine <a href='../proc/btree_add_i8_dp2d.html'>btree_add_i8_dp2d</a>(tree, key, value, exists, existing_value, replace)  
+    <div class="card-header codesum"><span class="anchor" id="proc-btree_add_i8_dp2d"></span> <h3>private  subroutine <a href='../proc/btree_add_i8_dp2d.html'>btree_add_i8_dp2d</a>(tree, key, value, exists, existing_value, replace)  
 </h3></div>
     <div class="card-body">
           
@@ -286,7 +289,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tree~18"></span>
+              <span class="anchor" id="variable-tree~16"></span>
               type(<a href='../type/btree_i8_dp2d.html'>btree_i8_dp2d</a>),
             </td>
 <td>intent(inout)</td>
@@ -301,7 +304,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~34"></span>
+              <span class="anchor" id="variable-key~20"></span>
               integer(kind=keyt),
             </td>
 <td>intent(in)</td>
@@ -316,7 +319,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~60"></span>
+              <span class="anchor" id="variable-value~27"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -331,7 +334,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~3"></span>
+              <span class="anchor" id="variable-exists~7"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -382,7 +385,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-btree_add_i8_cp2d"></span><h3>private  subroutine <a href='../proc/btree_add_i8_cp2d.html'>btree_add_i8_cp2d</a>(tree, key, value, exists, existing_value, replace)  
+    <div class="card-header codesum"><span class="anchor" id="proc-btree_add_i8_cp2d"></span> <h3>private  subroutine <a href='../proc/btree_add_i8_cp2d.html'>btree_add_i8_cp2d</a>(tree, key, value, exists, existing_value, replace)  
 </h3></div>
     <div class="card-body">
           
@@ -401,7 +404,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tree~29"></span>
+              <span class="anchor" id="variable-tree~28"></span>
               type(<a href='../type/btree_i8_cp2d.html'>btree_i8_cp2d</a>),
             </td>
 <td>intent(inout)</td>
@@ -416,7 +419,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~46"></span>
+              <span class="anchor" id="variable-key~32"></span>
               integer(kind=keyt),
             </td>
 <td>intent(in)</td>
@@ -431,7 +434,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~67"></span>
+              <span class="anchor" id="variable-value~34"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -446,7 +449,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~5"></span>
+              <span class="anchor" id="variable-exists~9"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -497,7 +500,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-btree_add_i8_zp2d"></span><h3>private  subroutine <a href='../proc/btree_add_i8_zp2d.html'>btree_add_i8_zp2d</a>(tree, key, value, exists, existing_value, replace)  
+    <div class="card-header codesum"><span class="anchor" id="proc-btree_add_i8_zp2d"></span> <h3>private  subroutine <a href='../proc/btree_add_i8_zp2d.html'>btree_add_i8_zp2d</a>(tree, key, value, exists, existing_value, replace)  
 </h3></div>
     <div class="card-body">
           
@@ -531,7 +534,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~58"></span>
+              <span class="anchor" id="variable-key~44"></span>
               integer(kind=keyt),
             </td>
 <td>intent(in)</td>
@@ -546,7 +549,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~74"></span>
+              <span class="anchor" id="variable-value~41"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -561,7 +564,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~7"></span>
+              <span class="anchor" id="variable-exists~11"></span>
               logical,
             </td>
 <td>intent(out),</td>

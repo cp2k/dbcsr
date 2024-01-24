@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -153,7 +156,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_any"></span><h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_any.html'>dbcsr_set_block_pointer_any</a>(matrix, pointer_any, rsize, csize, main_tr, base_offset)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_any"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_any.html'>dbcsr_set_block_pointer_any</a>(matrix, pointer_any, rsize, csize, main_tr, base_offset)  
 </h3></div>
     <div class="card-body">
           
@@ -172,7 +175,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~49"></span>
+              <span class="anchor" id="variable-matrix~113"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -202,7 +205,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rsize"></span>
+              <span class="anchor" id="variable-rsize~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -218,7 +221,7 @@ Column sizes of block to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csize"></span>
+              <span class="anchor" id="variable-csize~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -270,7 +273,7 @@ Column sizes of block to point to</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_2d_s"></span><h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_2d_s.html'>dbcsr_set_block_pointer_2d_s</a>(matrix, pointer_any, rsize, csize, base_offset)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_2d_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_2d_s.html'>dbcsr_set_block_pointer_2d_s</a>(matrix, pointer_any, rsize, csize, base_offset)  
 </h3></div>
     <div class="card-body">
           
@@ -289,7 +292,7 @@ Column sizes of block to point to</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~61"></span>
+              <span class="anchor" id="variable-matrix~125"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -319,7 +322,7 @@ Column sizes of block to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rsize~3"></span>
+              <span class="anchor" id="variable-rsize~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -335,7 +338,7 @@ Column size of block to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csize~3"></span>
+              <span class="anchor" id="variable-csize~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -372,7 +375,7 @@ Column size of block to point to</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_2d_d"></span><h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_2d_d.html'>dbcsr_set_block_pointer_2d_d</a>(matrix, pointer_any, rsize, csize, base_offset)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_2d_d"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_2d_d.html'>dbcsr_set_block_pointer_2d_d</a>(matrix, pointer_any, rsize, csize, base_offset)  
 </h3></div>
     <div class="card-body">
           
@@ -391,7 +394,7 @@ Column size of block to point to</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~55"></span>
+              <span class="anchor" id="variable-matrix~119"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -408,108 +411,6 @@ Column size of block to point to</p>
             <td>
               <span class="anchor" id="variable-pointer_any~2"></span>
               real(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>pointer_any</strong></td>
-            <td>
-<p>The pointer to set</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rsize~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rsize</strong></td>
-            <td>
-<p>Row size of block to point to
-Column size of block to point to</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-csize~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>csize</strong></td>
-            <td>
-<p>Row size of block to point to
-Column size of block to point to</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-base_offset~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>base_offset</strong></td>
-            <td>
-<p>The block pointer</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_2d_c"></span><h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_2d_c.html'>dbcsr_set_block_pointer_2d_c</a>(matrix, pointer_any, rsize, csize, base_offset)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Sets a pointer, possibly using the buffers.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~73"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-<p>Matrix to use</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pointer_any~5"></span>
-              complex(kind=real_4),
             </td>
 <td></td>
               <td></td>            <td>
@@ -555,6 +456,108 @@ Column size of block to point to</p>
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-base_offset~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>base_offset</strong></td>
+            <td>
+<p>The block pointer</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_2d_c"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_2d_c.html'>dbcsr_set_block_pointer_2d_c</a>(matrix, pointer_any, rsize, csize, base_offset)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Sets a pointer, possibly using the buffers.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~137"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+<p>Matrix to use</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pointer_any~5"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>pointer_any</strong></td>
+            <td>
+<p>The pointer to set</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rsize~14"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rsize</strong></td>
+            <td>
+<p>Row size of block to point to
+Column size of block to point to</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-csize~14"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>csize</strong></td>
+            <td>
+<p>Row size of block to point to
+Column size of block to point to</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-base_offset~5"></span>
               integer,
             </td>
@@ -576,7 +579,7 @@ Column size of block to point to</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_2d_z"></span><h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_2d_z.html'>dbcsr_set_block_pointer_2d_z</a>(matrix, pointer_any, rsize, csize, base_offset)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_block_pointer_2d_z"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_block_pointer_2d_z.html'>dbcsr_set_block_pointer_2d_z</a>(matrix, pointer_any, rsize, csize, base_offset)  
 </h3></div>
     <div class="card-body">
           
@@ -595,7 +598,7 @@ Column size of block to point to</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~67"></span>
+              <span class="anchor" id="variable-matrix~131"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -625,7 +628,7 @@ Column size of block to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rsize~4"></span>
+              <span class="anchor" id="variable-rsize~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -641,7 +644,7 @@ Column size of block to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csize~4"></span>
+              <span class="anchor" id="variable-csize~11"></span>
               integer,
             </td>
 <td>intent(in)</td>

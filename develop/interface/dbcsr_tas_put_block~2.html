@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -152,7 +155,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_r_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_r_dp.html'>dbcsr_tas_put_block_r_dp</a>(matrix, row, col, block, transposed, summation, scale)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_r_dp"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_r_dp.html'>dbcsr_tas_put_block_r_dp</a>(matrix, row, col, block, transposed, summation, scale)  
 </h3></div>
     <div class="card-body">
           
@@ -171,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~144"></span>
+              <span class="anchor" id="variable-matrix~333"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -186,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~66"></span>
+              <span class="anchor" id="variable-row~148"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -201,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~34"></span>
+              <span class="anchor" id="variable-col~113"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -216,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~107"></span>
+              <span class="anchor" id="variable-block~186"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -231,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~34"></span>
+              <span class="anchor" id="variable-transposed~51"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -246,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~34"></span>
+              <span class="anchor" id="variable-summation~45"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -261,7 +264,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~31"></span>
+              <span class="anchor" id="variable-scale~40"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -282,7 +285,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_r_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_r_sp.html'>dbcsr_tas_put_block_r_sp</a>(matrix, row, col, block, transposed, summation, scale)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_r_sp"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_r_sp.html'>dbcsr_tas_put_block_r_sp</a>(matrix, row, col, block, transposed, summation, scale)  
 </h3></div>
     <div class="card-body">
           
@@ -301,7 +304,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~145"></span>
+              <span class="anchor" id="variable-matrix~334"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -316,7 +319,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~67"></span>
+              <span class="anchor" id="variable-row~149"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -331,7 +334,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~35"></span>
+              <span class="anchor" id="variable-col~114"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -346,7 +349,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~108"></span>
+              <span class="anchor" id="variable-block~187"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -361,7 +364,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~35"></span>
+              <span class="anchor" id="variable-transposed~52"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -376,7 +379,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~35"></span>
+              <span class="anchor" id="variable-summation~46"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -391,7 +394,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~32"></span>
+              <span class="anchor" id="variable-scale~41"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -412,7 +415,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_c_dp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_c_dp.html'>dbcsr_tas_put_block_c_dp</a>(matrix, row, col, block, transposed, summation, scale)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_c_dp"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_c_dp.html'>dbcsr_tas_put_block_c_dp</a>(matrix, row, col, block, transposed, summation, scale)  
 </h3></div>
     <div class="card-body">
           
@@ -431,7 +434,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~146"></span>
+              <span class="anchor" id="variable-matrix~335"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -446,7 +449,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~68"></span>
+              <span class="anchor" id="variable-row~150"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -461,7 +464,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~36"></span>
+              <span class="anchor" id="variable-col~115"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -476,7 +479,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~109"></span>
+              <span class="anchor" id="variable-block~188"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -491,7 +494,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~36"></span>
+              <span class="anchor" id="variable-transposed~53"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -506,7 +509,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~36"></span>
+              <span class="anchor" id="variable-summation~47"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -521,7 +524,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~33"></span>
+              <span class="anchor" id="variable-scale~42"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -542,7 +545,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_c_sp"></span><h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_c_sp.html'>dbcsr_tas_put_block_c_sp</a>(matrix, row, col, block, transposed, summation, scale)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_put_block_c_sp"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_put_block_c_sp.html'>dbcsr_tas_put_block_c_sp</a>(matrix, row, col, block, transposed, summation, scale)  
 </h3></div>
     <div class="card-body">
           
@@ -561,7 +564,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~147"></span>
+              <span class="anchor" id="variable-matrix~336"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -576,7 +579,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~69"></span>
+              <span class="anchor" id="variable-row~151"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -591,7 +594,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~37"></span>
+              <span class="anchor" id="variable-col~116"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -606,7 +609,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~110"></span>
+              <span class="anchor" id="variable-block~189"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -621,7 +624,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~37"></span>
+              <span class="anchor" id="variable-transposed~54"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -636,7 +639,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~37"></span>
+              <span class="anchor" id="variable-summation~48"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -651,7 +654,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~34"></span>
+              <span class="anchor" id="variable-scale~43"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>

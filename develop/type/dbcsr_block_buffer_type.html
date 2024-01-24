@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -112,13 +115,13 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_block_buffer_type.html#variable-refcount~4">refcount</a>
+            <a class="list-group-item" href="../type/dbcsr_block_buffer_type.html#variable-refcount~13">refcount</a>
             <a class="list-group-item" href="../type/dbcsr_block_buffer_type.html#variable-dirty">dirty</a>
             <a class="list-group-item" href="../type/dbcsr_block_buffer_type.html#variable-buffers">buffers</a>
             <a class="list-group-item" href="../type/dbcsr_block_buffer_type.html#variable-rcb">rcb</a>
             <a class="list-group-item" href="../type/dbcsr_block_buffer_type.html#variable-main~2">main</a>
             <a class="list-group-item" href="../type/dbcsr_block_buffer_type.html#variable-backing">backing</a>
-            <a class="list-group-item" href="../type/dbcsr_block_buffer_type.html#variable-data_type">data_type</a>
+            <a class="list-group-item" href="../type/dbcsr_block_buffer_type.html#variable-data_type~83">data_type</a>
         </div>
       </div>
     </div>
@@ -154,7 +157,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private :: dbcsr_block_buffer_type</h2>
+      <h2>
+        type, private :: dbcsr_block_buffer_type</h2>
     <p>Buffer for blocks</p>
     <br>
 
@@ -172,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~4"></span>
+              <span class="anchor" id="variable-refcount~13"></span>
               integer,
             </td>
               <td>public</td>
@@ -207,7 +211,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-buffers"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              type(<a href='dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public,</td>
             <td>
@@ -241,7 +245,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-main~2"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              type(<a href='dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
             <td>
@@ -258,7 +262,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-backing"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              type(<a href='dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public,</td>
             <td>
@@ -274,7 +278,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type"></span>
+              <span class="anchor" id="variable-data_type~83"></span>
               integer,
             </td>
               <td>public</td>

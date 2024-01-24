@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -150,7 +153,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-csr_create_new"></span><h3>public  subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_mat, nrows_total, ncols_total, nze_total, nze_local, nrows_local, mp_group, data_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-csr_create_new~2"></span> <h3>public  subroutine <a href='../proc/csr_create_new~2.html'>csr_create_new</a>(csr_mat, nrows_total, ncols_total, nze_total, nze_local, nrows_local, mp_group, data_type)  
 </h3></div>
     <div class="card-body">
           
@@ -169,7 +172,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat"></span>
+              <span class="anchor" id="variable-csr_mat~6"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -184,7 +187,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows_total~2"></span>
+              <span class="anchor" id="variable-nrows_total~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -200,7 +203,7 @@ total number of columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ncols_total~2"></span>
+              <span class="anchor" id="variable-ncols_total~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -216,7 +219,7 @@ total number of columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze_total~2"></span>
+              <span class="anchor" id="variable-nze_total~3"></span>
               integer(kind=int_8)
             </td>
 <td></td>
@@ -231,7 +234,7 @@ total number of columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze_local~2"></span>
+              <span class="anchor" id="variable-nze_local~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -247,7 +250,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows_local~2"></span>
+              <span class="anchor" id="variable-nrows_local~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -263,7 +266,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~12"></span>
+              <span class="anchor" id="variable-mp_group~14"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -278,7 +281,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~14"></span>
+              <span class="anchor" id="variable-data_type~52"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -299,7 +302,7 @@ local number of rows</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-csr_create_template"></span><h3>public  subroutine <a href='../proc/csr_create_template.html'>csr_create_template</a>(matrix_b, matrix_a)  
+    <div class="card-header codesum"><span class="anchor" id="proc-csr_create_template"></span> <h3>public  subroutine <a href='../proc/csr_create_template.html'>csr_create_template</a>(matrix_b, matrix_a)  
 </h3></div>
     <div class="card-body">
           
@@ -319,7 +322,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~23"></span>
+              <span class="anchor" id="variable-matrix_b~63"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -334,7 +337,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~33"></span>
+              <span class="anchor" id="variable-matrix_a~108"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(in)</td>

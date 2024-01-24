@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -193,8 +196,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_machine.html'>dbcsr_machine</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
               </ul>
             </li>
         </ul>
@@ -336,7 +339,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-message~5"></span>
+              <span class="anchor" id="variable-message~10"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -399,7 +402,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-message~6"></span>
+              <span class="anchor" id="variable-message~11"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -447,7 +450,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-routinen~7"></span>
+              <span class="anchor" id="variable-routinen~713"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -462,7 +465,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~15"></span>
+              <span class="anchor" id="variable-handle~595"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -510,7 +513,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~16"></span>
+              <span class="anchor" id="variable-handle~596"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -539,7 +542,7 @@
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr__l"></span><h3>public  function <a href='../proc/dbcsr__l.html'>dbcsr__l</a>(filename, lineNr) result(location)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr__l"></span> <h3>public  function <a href='../proc/dbcsr__l.html'>dbcsr__l</a>(filename, lineNr) result(location)  
 </h3></div>
     <div class="card-body">
           
@@ -558,7 +561,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename"></span>
+              <span class="anchor" id="variable-filename~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -573,7 +576,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-linenr"></span>
+              <span class="anchor" id="variable-linenr~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -604,7 +607,7 @@
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_abort"></span><h3>public  subroutine <a href='../proc/dbcsr_abort.html'>dbcsr_abort</a>(location, message)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_abort"></span> <h3>public  subroutine <a href='../proc/dbcsr_abort.html'>dbcsr_abort</a>(location, message)  
 </h3></div>
     <div class="card-body">
           
@@ -623,7 +626,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-location~2"></span>
+              <span class="anchor" id="variable-location~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -638,7 +641,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-message"></span>
+              <span class="anchor" id="variable-message~12"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -659,7 +662,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_warn"></span><h3>public  subroutine <a href='../proc/dbcsr_warn.html'>dbcsr_warn</a>(location, message)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_warn"></span> <h3>public  subroutine <a href='../proc/dbcsr_warn.html'>dbcsr_warn</a>(location, message)  
 </h3></div>
     <div class="card-body">
           
@@ -678,7 +681,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-location~3"></span>
+              <span class="anchor" id="variable-location~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -693,7 +696,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-message~2"></span>
+              <span class="anchor" id="variable-message~13"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -714,7 +717,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timeset"></span><h3>public  subroutine <a href='../proc/timeset.html'>timeset</a>(routineN, handle)  
+    <div class="card-header codesum"><span class="anchor" id="proc-timeset"></span> <h3>public  subroutine <a href='../proc/timeset.html'>timeset</a>(routineN, handle)  
 </h3></div>
     <div class="card-body">
           
@@ -733,7 +736,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-routinen~6"></span>
+              <span class="anchor" id="variable-routinen~714"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -748,7 +751,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~13"></span>
+              <span class="anchor" id="variable-handle~597"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -769,7 +772,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-timestop"></span><h3>public  subroutine <a href='../proc/timestop.html'>timestop</a>(handle)  
+    <div class="card-header codesum"><span class="anchor" id="proc-timestop"></span> <h3>public  subroutine <a href='../proc/timestop.html'>timestop</a>(handle)  
 </h3></div>
     <div class="card-body">
           
@@ -788,7 +791,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~14"></span>
+              <span class="anchor" id="variable-handle~598"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -809,66 +812,11 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr__a"></span><h3>public  subroutine <a href='../proc/dbcsr__a.html'>dbcsr__a</a>(filename, lineNr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr__a"></span> <h3>public  subroutine <a href='../proc/dbcsr__a.html'>dbcsr__a</a>(filename, lineNr)  
 </h3></div>
     <div class="card-body">
           
   <p>DBCSR_ASSERT handler</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-filename~2"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>filename</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-linenr~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lineNr</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr__b"></span><h3>public  subroutine <a href='../proc/dbcsr__b.html'>dbcsr__b</a>(filename, lineNr, message)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>DBCSR_ABORT handler</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -898,7 +846,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-linenr~3"></span>
+              <span class="anchor" id="variable-linenr"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -911,21 +859,6 @@
 
             </td>
         </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-message~3"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>message</strong></td>
-            <td>
-
-            </td>
-        </tr>
     </tbody>
   </table>
 
@@ -934,11 +867,11 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr__w"></span><h3>public  subroutine <a href='../proc/dbcsr__w.html'>dbcsr__w</a>(filename, lineNr, message)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr__b"></span> <h3>public  subroutine <a href='../proc/dbcsr__b.html'>dbcsr__b</a>(filename, lineNr, message)  
 </h3></div>
     <div class="card-body">
           
-  <p>DBCSR_WARN handler</p>
+  <p>DBCSR_ABORT handler</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -968,7 +901,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-linenr~4"></span>
+              <span class="anchor" id="variable-linenr~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -983,7 +916,77 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-message~4"></span>
+              <span class="anchor" id="variable-message~14"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>message</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr__w"></span> <h3>public  subroutine <a href='../proc/dbcsr__w.html'>dbcsr__w</a>(filename, lineNr, message)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>DBCSR_WARN handler</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-filename~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>filename</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-linenr~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lineNr</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-message~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>

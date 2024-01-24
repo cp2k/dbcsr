@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -150,7 +153,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-dbcsr_tas_mp_comm"></span><h3>private  interface <a href='../interface/dbcsr_tas_mp_comm.html'>dbcsr_tas_mp_comm</a>()  
+    <div class="card-header codesum"><span class="anchor" id="interface-dbcsr_tas_mp_comm"></span> <h3>private  interface <a href='dbcsr_tas_mp_comm.html'>dbcsr_tas_mp_comm</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -163,7 +166,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_mp_comm_from_matrix_sizes"></span><h3>private  function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcsr_tas_mp_comm_from_matrix_sizes</a>(mp_comm, nblkrows, nblkcols) result(mp_comm_new)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_mp_comm_from_matrix_sizes"></span> <h3>private  function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcsr_tas_mp_comm_from_matrix_sizes</a>(mp_comm, nblkrows, nblkcols) result(mp_comm_new)  
 </h3></div>
     <div class="card-body">
           
@@ -183,7 +186,7 @@ dense matrices only</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~10"></span>
+              <span class="anchor" id="variable-mp_comm~37"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -198,7 +201,7 @@ dense matrices only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows"></span>
+              <span class="anchor" id="variable-nblkrows~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -214,7 +217,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols"></span>
+              <span class="anchor" id="variable-nblkcols~5"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>

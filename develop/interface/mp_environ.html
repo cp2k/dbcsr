@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -151,7 +154,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_environ_l"></span><h3>private recursive subroutine <a href='../proc/mp_environ_l.html'>mp_environ_l</a>(numtask, taskid, groupid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_environ_l"></span> <h3>private recursive subroutine <a href='../proc/mp_environ_l.html'>mp_environ_l</a>(numtask, taskid, groupid)  
 </h3></div>
     <div class="card-body">
           
@@ -222,7 +225,7 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_environ_c"></span><h3>private  subroutine <a href='../proc/mp_environ_c.html'>mp_environ_c</a>(numtask, dims, task_coor, groupid)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_environ_c"></span> <h3>private  subroutine <a href='../proc/mp_environ_c.html'>mp_environ_c</a>(numtask, dims, task_coor, groupid)  
 </h3></div>
     <div class="card-body">
           
@@ -256,7 +259,7 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~15"></span>
+              <span class="anchor" id="variable-dims~7"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -271,7 +274,7 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-task_coor~2"></span>
+              <span class="anchor" id="variable-task_coor"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -286,7 +289,7 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-groupid~3"></span>
+              <span class="anchor" id="variable-groupid~2"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -307,7 +310,7 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_environ_c2"></span><h3>private  subroutine <a href='../proc/mp_environ_c2.html'>mp_environ_c2</a>(comm, ndims, dims, task_coor, periods)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_environ_c2"></span> <h3>private  subroutine <a href='../proc/mp_environ_c2.html'>mp_environ_c2</a>(comm, ndims, dims, task_coor, periods)  
 </h3></div>
     <div class="card-body">
           
@@ -326,7 +329,7 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~35"></span>
+              <span class="anchor" id="variable-comm~3"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -356,7 +359,7 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~16"></span>
+              <span class="anchor" id="variable-dims~8"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -371,7 +374,7 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-task_coor~3"></span>
+              <span class="anchor" id="variable-task_coor~2"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -386,7 +389,7 @@ simple and cartesian version.. recursive needed in case of failing mpi_comm_rank
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periods"></span>
+              <span class="anchor" id="variable-periods~2"></span>
               logical,
             </td>
 <td>intent(out)</td>

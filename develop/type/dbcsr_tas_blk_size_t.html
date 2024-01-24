@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +18,8 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -114,8 +117,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/dbcsr_tas_blk_size_t.html#variable-nmrowcol~2">nmrowcol</a>
             <a class="list-group-item" href="../type/dbcsr_tas_blk_size_t.html#variable-nfullrowcol">nfullrowcol</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_t.html#variable-dims~9">dims</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_t.html#variable-blk_size~7">blk_size</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_t.html#variable-dims~16">dims</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_t.html#variable-blk_size~24">blk_size</a>
         </div>
       </div>
     </div>
@@ -153,7 +156,7 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_t.html#boundprocedure-data">data</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_blk_size_t.html#boundprocedure-data~5">data</a>
         </div>
       </div>
     </div>
@@ -167,7 +170,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private, extends(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>) :: dbcsr_tas_blk_size_t</h2>
+      <h2>
+        type, private, extends(<a href='dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>) :: dbcsr_tas_blk_size_t</h2>
     
     <br>
 
@@ -219,7 +223,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~9"></span>
+              <span class="anchor" id="variable-dims~16"></span>
               integer,
             </td>
               <td>public,</td>
@@ -236,8 +240,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size~7"></span>
-              type(<a href='../type/array_list.html'>array_list</a>),
+              <span class="anchor" id="variable-blk_size~24"></span>
+              type(<a href='array_list.html'>array_list</a>),
             </td>
               <td>public</td>
             <td>
@@ -288,8 +292,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size~3"></span>
-              type(<a href='../type/array_list.html'>array_list</a>),
+              <span class="anchor" id="variable-blk_size~25"></span>
+              type(<a href='array_list.html'>array_list</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -304,7 +308,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-map_blks~2"></span>
-              type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
+              type(<a href='nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -336,7 +340,7 @@
 
     <h4>
     Return Value
-    <small>type(<a href='../type/dbcsr_tas_blk_size_t.html'>dbcsr_tas_blk_size_t</a>)</small>
+    <small>type(<a href='dbcsr_tas_blk_size_t.html'>dbcsr_tas_blk_size_t</a>)</small>
     </h4>
     
 
@@ -353,10 +357,10 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-data"></span>
+      <span class="anchor" id="boundprocedure-data~5"></span>
       <h3>
           procedure, public ::
-  <strong>data</strong> => <a href='../proc/tas_blk_size_t.html'>tas_blk_size_t</a>
+  <strong>data</strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/tas_blk_size_t.html'>tas_blk_size_t</a>
         
       </h3>
     </div>
@@ -383,7 +387,7 @@
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/dbcsr_tas_blk_size_t.html'>dbcsr_tas_blk_size_t</a>),
+              class(<a href='dbcsr_tas_blk_size_t.html'>dbcsr_tas_blk_size_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
