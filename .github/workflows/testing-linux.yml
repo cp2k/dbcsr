@@ -176,10 +176,10 @@ jobs:
         mkdir -p build
         cd build
         cmake -G Ninja \
-          -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_BUILD_TYPE=Release \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_ACCEL=hip \
-          -DWITH_GPU=Mi100 \
+          -DWITH_GPU=Mi250 \
           -DWITH_EXAMPLES=ON \
           -DCMAKE_PREFIX_PATH=/opt/rocm \
           ..
