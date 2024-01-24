@@ -12,7 +12,7 @@ jobs:
       image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
 

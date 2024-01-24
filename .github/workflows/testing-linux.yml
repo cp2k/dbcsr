@@ -15,7 +15,7 @@ jobs:
     container:
       image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Run pre-commit
       run: |
         git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -40,7 +40,7 @@ jobs:
             mpi_suffix: mpich
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: true
@@ -100,7 +100,7 @@ jobs:
         use_openmp: [OPENMP=ON]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: true
@@ -134,7 +134,7 @@ jobs:
         use_smm: [SMM=libxsmm]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: true
@@ -166,7 +166,7 @@ jobs:
         use_openmp: [OPENMP=ON]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: true
@@ -194,7 +194,7 @@ jobs:
       image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Download coverage data
         uses: actions/download-artifact@v3
