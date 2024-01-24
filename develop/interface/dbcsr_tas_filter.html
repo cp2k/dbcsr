@@ -174,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~345"></span>
+              <span class="anchor" id="variable-matrix~192"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -191,6 +191,91 @@
             <td>
               <span class="anchor" id="variable-eps~11"></span>
               real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-method~6"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>method</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_absolute~7"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_absolute</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_filter_r_sp"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_filter_r_sp.html'>dbcsr_tas_filter_r_sp</a>(matrix, eps, method, use_absolute)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>As dbcsr_filter</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~193"></span>
+              type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eps~12"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -240,7 +325,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_filter_r_sp"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_filter_r_sp.html'>dbcsr_tas_filter_r_sp</a>(matrix, eps, method, use_absolute)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_filter_c_dp"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_filter_c_dp.html'>dbcsr_tas_filter_c_dp</a>(matrix, eps, method, use_absolute)  
 </h3></div>
     <div class="card-body">
           
@@ -259,7 +344,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~346"></span>
+              <span class="anchor" id="variable-matrix~194"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -274,8 +359,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~12"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-eps~13"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -325,91 +410,6 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_filter_c_dp"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_filter_c_dp.html'>dbcsr_tas_filter_c_dp</a>(matrix, eps, method, use_absolute)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>As dbcsr_filter</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~347"></span>
-              type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-eps~13"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>eps</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-method~9"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>method</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-use_absolute~10"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>use_absolute</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_tas_filter_c_sp"></span> <h3>private  subroutine <a href='../proc/dbcsr_tas_filter_c_sp.html'>dbcsr_tas_filter_c_sp</a>(matrix, eps, method, use_absolute)  
 </h3></div>
     <div class="card-body">
@@ -429,7 +429,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~348"></span>
+              <span class="anchor" id="variable-matrix~195"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -459,7 +459,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~10"></span>
+              <span class="anchor" id="variable-method~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -474,7 +474,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~11"></span>
+              <span class="anchor" id="variable-use_absolute~10"></span>
               logical,
             </td>
 <td>intent(in),</td>
