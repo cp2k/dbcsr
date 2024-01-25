@@ -9,6 +9,7 @@
 
 #include "libsmm_acc_init.h"
 #include "../acc_libsmm.h"
+#include "../cuda_hip/acc_utils.h"
 
 #if defined(_OPENMP)
 #  include <omp.h>
@@ -100,15 +101,6 @@ int libsmm_acc_check_gpu_warp_size_consistency() {
       warp_size, acc_warp_size);
   }
   return 0;
-}
-
-//===========================================================================
-int acc_get_gpu_warp_size() {
-  int device = 0;
-  ACC(DeviceProp) prop;
-  ACC_API_CALL(GetDevice, (&device));
-  ACC_API_CALL(GetDeviceProperties, (&prop, device));
-  return prop.warpSize;
 }
 
 //===========================================================================

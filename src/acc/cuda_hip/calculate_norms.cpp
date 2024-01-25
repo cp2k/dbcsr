@@ -42,7 +42,7 @@
 #elif defined(__HIP)
 #  include "../hip/acc_hip.h"
 #endif
-#include "libsmm_acc_init.h"
+#include "acc_utils.h"
 
 template<int warpsz, int blocksz>
 __global__ void calculate_norms_d(

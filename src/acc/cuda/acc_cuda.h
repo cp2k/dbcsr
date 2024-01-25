@@ -14,6 +14,7 @@
 #include <cuda_runtime.h>
 #include <nvrtc.h>
 #include <cublas_v2.h>
+#include <stdio.h>
 
 #define ACC(x) cuda##x
 #define ACC_DRV(x) CU##x

@@ -114,6 +114,7 @@ set(DBCSR_HIP_AND_CUDA_SRCS
     acc/cuda_hip/acc_dev.cpp
     acc/cuda_hip/acc_error.cpp
     acc/cuda_hip/acc_event.cpp
+    acc/cuda_hip/acc_utils.cpp
     acc/cuda_hip/acc_init.cpp
     acc/cuda_hip/acc_mem.cpp
     acc/cuda_hip/acc_stream.cpp)
