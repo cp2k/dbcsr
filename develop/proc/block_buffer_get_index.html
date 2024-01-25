@@ -75,20 +75,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.0% of total for procedures.">7 statements</a>
+                 title=" 0.0% of total for procedures.">12 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_tensor_reshape.F"> Source File</a>
+              <a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
             <li class="breadcrumb-item active" aria-current="page">block_buffer_get_index</li>
           </ol>
         </nav>
@@ -138,7 +138,7 @@
 </h2>
     
 
-    <p>Get all indices from buffer</p>
+    <p>get all indices from buffer</p>
 
 
     <h3>Arguments</h3>
@@ -154,7 +154,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~14"></span>
+              <span class="anchor" id="variable-buffer"></span>
               type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),
             </td>
 <td>intent(in)</td>
@@ -169,12 +169,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~10"></span>
-              integer,
+              <span class="anchor" id="variable-index~2"></span>
+              integer(kind=int_8),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
-              DIMENSION(:, :), ALLOCATABLE
+              ALLOCATABLE, DIMENSION(:, :)
             </td>
             <td>::</td>
             <td><strong>index</strong></td>

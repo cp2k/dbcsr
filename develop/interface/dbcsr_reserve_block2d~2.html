@@ -75,20 +75,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 36 statements,  0.1% of total for procedures.">4 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 239 statements,  0.4% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_block_access.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_block_access.f.html'>dbcsr_block_access.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_reserve_block2d</li>
           </ol>
         </nav>
@@ -132,8 +132,8 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_d~2">dbcsr_reserve_block2d_d</a>
             <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_s~2">dbcsr_reserve_block2d_s</a>
+            <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_d~2">dbcsr_reserve_block2d_d</a>
             <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_c~2">dbcsr_reserve_block2d_c</a>
             <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_z~2">dbcsr_reserve_block2d_z</a>
         </div>
@@ -155,126 +155,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_d~2.html'>dbcsr_reserve_block2d_d</a>(matrix, row, col, block, transposed, existed)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~229"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~120"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col~81"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~135"></span>
-              real(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~43"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-existed~6"></span>
-              logical,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>existed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_s~2.html'>dbcsr_reserve_block2d_s</a>(matrix, row, col, block, transposed, existed)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Put a 2-D block in a DBCSR matrix using the btree</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -289,8 +174,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~242"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~364"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -299,12 +184,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~131"></span>
+              <span class="anchor" id="variable-row~171"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -314,12 +199,13 @@
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~88"></span>
+              <span class="anchor" id="variable-col~101"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -329,12 +215,13 @@
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~146"></span>
+              <span class="anchor" id="variable-block~193"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -344,12 +231,12 @@
             <td>::</td>
             <td><strong>block</strong></td>
             <td>
-
+<p>the block to reserve; added if not NULL</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~46"></span>
+              <span class="anchor" id="variable-transposed~65"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -359,12 +246,12 @@
             <td>::</td>
             <td><strong>transposed</strong></td>
             <td>
-
+<p>the block holds transposed data</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-existed~7"></span>
+              <span class="anchor" id="variable-existed~10"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -374,7 +261,7 @@
             <td>::</td>
             <td><strong>existed</strong></td>
             <td>
-
+<p>block already existed</p>
             </td>
         </tr>
     </tbody>
@@ -385,11 +272,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_c~2.html'>dbcsr_reserve_block2d_c</a>(matrix, row, col, block, transposed, existed)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_d~2.html'>dbcsr_reserve_block2d_d</a>(matrix, row, col, block, transposed, existed)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Put a 2-D block in a DBCSR matrix using the btree</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -404,8 +291,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~268"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~358"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -414,12 +301,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~153"></span>
+              <span class="anchor" id="variable-row~166"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -429,12 +316,13 @@
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~102"></span>
+              <span class="anchor" id="variable-col~96"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -444,13 +332,14 @@
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~168"></span>
-              complex(kind=real_4),
+              <span class="anchor" id="variable-block~188"></span>
+              real(kind=real_8),
             </td>
 <td></td>
               <td></td>            <td>
@@ -459,12 +348,12 @@
             <td>::</td>
             <td><strong>block</strong></td>
             <td>
-
+<p>the block to reserve; added if not NULL</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~52"></span>
+              <span class="anchor" id="variable-transposed~62"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -474,7 +363,7 @@
             <td>::</td>
             <td><strong>transposed</strong></td>
             <td>
-
+<p>the block holds transposed data</p>
             </td>
         </tr>
         <tr>
@@ -489,7 +378,7 @@
             <td>::</td>
             <td><strong>existed</strong></td>
             <td>
-
+<p>block already existed</p>
             </td>
         </tr>
     </tbody>
@@ -500,11 +389,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_z~2.html'>dbcsr_reserve_block2d_z</a>(matrix, row, col, block, transposed, existed)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_c~2.html'>dbcsr_reserve_block2d_c</a>(matrix, row, col, block, transposed, existed)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Put a 2-D block in a DBCSR matrix using the btree</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -519,8 +408,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~255"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~376"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -529,12 +418,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~142"></span>
+              <span class="anchor" id="variable-row~181"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -544,12 +433,13 @@
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~95"></span>
+              <span class="anchor" id="variable-col~111"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -559,13 +449,14 @@
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~157"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-block~203"></span>
+              complex(kind=real_4),
             </td>
 <td></td>
               <td></td>            <td>
@@ -574,12 +465,12 @@
             <td>::</td>
             <td><strong>block</strong></td>
             <td>
-
+<p>the block to reserve; added if not NULL</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~49"></span>
+              <span class="anchor" id="variable-transposed~71"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -589,12 +480,12 @@
             <td>::</td>
             <td><strong>transposed</strong></td>
             <td>
-
+<p>the block holds transposed data</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-existed~8"></span>
+              <span class="anchor" id="variable-existed~12"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -604,7 +495,124 @@
             <td>::</td>
             <td><strong>existed</strong></td>
             <td>
+<p>block already existed</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_z~2.html'>dbcsr_reserve_block2d_z</a>(matrix, row, col, block, transposed, existed)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Put a 2-D block in a DBCSR matrix using the btree</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~370"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+<p>DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~176"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col~106"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~198"></span>
+              complex(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+<p>the block to reserve; added if not NULL</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~68"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+<p>the block holds transposed data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-existed~11"></span>
+              logical,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>existed</strong></td>
+            <td>
+<p>block already existed</p>
             </td>
         </tr>
     </tbody>
