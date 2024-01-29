@@ -105,12 +105,12 @@ def read_log_file(log_folder, m, n, k):
                         "threads": match.group(9),
                         "grouping": match.group(10),
                         "minblocks": match.group(11),
-                        "tile_m": match.group(5)
-                        if match.group(5) is not None
-                        else None,
-                        "tile_n": match.group(6)
-                        if match.group(6) is not None
-                        else None,
+                        "tile_m": (
+                            match.group(5) if match.group(5) is not None else None
+                        ),
+                        "tile_n": (
+                            match.group(6) if match.group(6) is not None else None
+                        ),
                         "w": match.group(7) if match.group(7) is not None else None,
                         "v": match.group(8) if match.group(8) is not None else None,
                         "perf (Gflop/s)": match.group(12),

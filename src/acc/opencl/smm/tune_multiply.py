@@ -367,9 +367,11 @@ class SmmTuner(MeasurementInterface):
                 key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
                 value = (
                     data["S"] if "S" in data else 0,  # pseudo key component
-                    data["GFLOPS"]
-                    if "GFLOPS" in data and not self.args.nogflops
-                    else 0,
+                    (
+                        data["GFLOPS"]
+                        if "GFLOPS" in data and not self.args.nogflops
+                        else 0
+                    ),
                     data["BS"],
                     data["BM"],
                     data["BN"],
@@ -525,9 +527,11 @@ class SmmTuner(MeasurementInterface):
                 gflops = data["GFLOPS"] if data and "GFLOPS" in data else 0
                 filename = os.path.join(
                     self.args.jsondir,
-                    "{}-{}gflops.json".format(self.args.label, round(gflops))
-                    if 0 < gflops
-                    else "{}.json".format(self.args.label),
+                    (
+                        "{}-{}gflops.json".format(self.args.label, round(gflops))
+                        if 0 < gflops
+                        else "{}.json".format(self.args.label)
+                    ),
                 )
                 try:
                     os.rename(filedot, filename)
