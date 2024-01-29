@@ -601,6 +601,9 @@
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">USE_MEMPOOLS_CPU</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">USE_MPI_ALLOCATOR</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">TAS_SPLIT_FACTOR</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_REAL</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_real_8</span><span class="p">)</span>
+<span class="cp">#if defined(__DBCSR_ACC_G2G)</span>
+<span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">USE_ACC_G2G</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="cp">#endif</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_config_type</span>
 </pre></div>
 

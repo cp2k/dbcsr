@@ -167,6 +167,9 @@ MODULE dbcsr_config
       SET_PARAMETER_DEFAULT(USE_MEMPOOLS_CPU, CONF_PAR_LOGICAL, .FALSE.)
       SET_PARAMETER_DEFAULT(USE_MPI_ALLOCATOR, CONF_PAR_LOGICAL, .FALSE.)
       SET_PARAMETER_DEFAULT(TAS_SPLIT_FACTOR, CONF_PAR_REAL, 1.0_real_8)
+#if defined(__DBCSR_ACC_G2G)
+      SET_PARAMETER_DEFAULT(USE_ACC_G2G, CONF_PAR_LOGICAL, .TRUE.)
+#endif
    END TYPE dbcsr_config_type
 
    TYPE(dbcsr_config_type), PROTECTED, SAVE :: dbcsr_cfg = dbcsr_config_type() ! defaults
@@ -375,6 +378,7 @@ CONTAINS
                                                             accdrv_binning_binsize
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_mempools_cpu
       REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: tas_split_factor
+      LOGICAL, INTENT(IN), OPTIONAL                      :: use_acc_g2g
 
       INTEGER, SAVE                                      :: nthreads = 0
 
@@ -396,6 +400,11 @@ CONTAINS
       CALL dbcsr_cfg%accdrv_binning_binsize%set(accdrv_binning_binsize)
       CALL dbcsr_cfg%use_mempools_cpu%set(use_mempools_cpu)
       CALL dbcsr_cfg%tas_split_factor%set(tas_split_factor)
+#if defined(__DBCSR_ACC_G2G)
+      CALL dbcsr_cfg%use_acc_g2g%set(use_acc_g2g)
+#else
+      MARK_USED(use_acc_g2g)
+#endif
 
       IF (0 == nthreads) THEN
          nthreads = 1
@@ -456,6 +465,7 @@ CONTAINS
                                                             accdrv_binning_binsize
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_mempools_cpu
       REAL(KIND=real_8), INTENT(OUT), OPTIONAL           :: tas_split_factor
+      LOGICAL, INTENT(OUT), OPTIONAL                     :: use_acc_g2g
 
       IF (PRESENT(use_mpi_allocator)) use_mpi_allocator = dbcsr_cfg%use_mpi_allocator%defval
       IF (PRESENT(mm_stack_size)) mm_stack_size = dbcsr_cfg%mm_stack_size%defval
@@ -478,6 +488,11 @@ CONTAINS
       IF (PRESENT(use_mempools_cpu)) use_mempools_cpu = dbcsr_cfg%use_mempools_cpu%defval
       IF (PRESENT(nstacks)) nstacks = dbcsr_cfg%n_stacks%defval
       IF (PRESENT(tas_split_factor)) tas_split_factor = dbcsr_cfg%tas_split_factor%defval
+#if defined(__DBCSR_ACC_G2G)
+      IF (PRESENT(use_acc_g2g)) use_acc_g2g = dbcsr_cfg%use_acc_g2g%defval
+#else
+      MARK_USED(use_acc_g2g)
+#endif
 
    END SUBROUTINE dbcsr_get_default_config
 
@@ -606,6 +621,11 @@ CONTAINS
          WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
             "DBCSR| ACC: Min. flop for processing", dbcsr_cfg%accdrv_min_flop_process%val, &
             dbcsr_cfg%accdrv_min_flop_process%print_source()
+#if defined(__DBCSR_ACC_G2G)
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1,A4)') &
+            "DBCSR| ACC: Use G2G algorithm", dbcsr_cfg%use_acc_g2g%val, &
+            dbcsr_cfg%use_acc_g2g%print_source()
+#endif
          IF (dbcsr_cfg%accdrv_stack_sort%val) THEN
             WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
                "DBCSR| ACC: Min. flop for sorting", dbcsr_cfg%accdrv_min_flop_sort%val, &

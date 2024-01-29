@@ -75,7 +75,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.1% of total for procedures.">39 statements</a>
+                 title=" 0.1% of total for procedures.">45 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -530,6 +530,7 @@
 <span class="w">                                                            </span><span class="n">accdrv_binning_binsize</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">use_mempools_cpu</span>
 <span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">tas_split_factor</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">use_acc_g2g</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">))</span><span class="w"> </span><span class="n">use_mpi_allocator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_allocator</span><span class="p">%</span><span class="n">defval</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span><span class="w"> </span><span class="n">mm_stack_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span><span class="p">%</span><span class="n">defval</span>
@@ -552,6 +553,11 @@
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mempools_cpu</span><span class="p">))</span><span class="w"> </span><span class="n">use_mempools_cpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span><span class="p">%</span><span class="n">defval</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span><span class="w"> </span><span class="n">nstacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">n_stacks</span><span class="p">%</span><span class="n">defval</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">tas_split_factor</span><span class="p">))</span><span class="w"> </span><span class="n">tas_split_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">tas_split_factor</span><span class="p">%</span><span class="n">defval</span>
+<span class="cp">#if defined(__DBCSR_ACC_G2G)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_acc_g2g</span><span class="p">))</span><span class="w"> </span><span class="n">use_acc_g2g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_acc_g2g</span><span class="p">%</span><span class="n">defval</span>
+<span class="cp">#else</span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">use_acc_g2g</span><span class="p">)</span>
+<span class="cp">#endif</span>
 
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_default_config</span>
 </pre></div>

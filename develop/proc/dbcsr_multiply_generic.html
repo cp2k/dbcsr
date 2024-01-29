@@ -184,7 +184,7 @@ as well with the same epsilon value.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~5"></span>
+              <span class="anchor" id="variable-transa"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -202,7 +202,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~5"></span>
+              <span class="anchor" id="variable-transb"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -220,7 +220,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~12"></span>
+              <span class="anchor" id="variable-alpha"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -235,7 +235,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~7"></span>
+              <span class="anchor" id="variable-matrix_a"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -251,7 +251,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~7"></span>
+              <span class="anchor" id="variable-matrix_b"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -267,7 +267,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~8"></span>
+              <span class="anchor" id="variable-beta"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -282,7 +282,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~6"></span>
+              <span class="anchor" id="variable-matrix_c"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -297,7 +297,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first_row~5"></span>
+              <span class="anchor" id="variable-first_row"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -317,7 +317,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_row~5"></span>
+              <span class="anchor" id="variable-last_row"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -337,7 +337,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first_column~5"></span>
+              <span class="anchor" id="variable-first_column"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -357,7 +357,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_column~5"></span>
+              <span class="anchor" id="variable-last_column"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -377,7 +377,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first_k~5"></span>
+              <span class="anchor" id="variable-first_k"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -397,7 +397,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_k~6"></span>
+              <span class="anchor" id="variable-last_k"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -417,7 +417,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~5"></span>
+              <span class="anchor" id="variable-retain_sparsity"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -432,7 +432,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~6"></span>
+              <span class="anchor" id="variable-filter_eps"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -447,7 +447,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~5"></span>
+              <span class="anchor" id="variable-flop"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1051,7 +1051,7 @@ last full column of limiting inner product</p>
 <span class="w">      </span><span class="k">ELSE</span>
 <span class="k">         </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
 <span class="cp">#if defined (__DBCSR_ACC_G2G)</span>
-<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_acc_g2g</span><span class="p">%</span><span class="n">val</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="w">            </span><span class="c">! If G2G is enabled, norms have to be calculated on the GPU.</span>
 <span class="w">            </span><span class="c">! Since the norms kernel expects only real_8 type data, we</span>
 <span class="w">            </span><span class="c">! avoid using G2G for all other data types</span>
