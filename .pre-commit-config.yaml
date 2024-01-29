@@ -15,7 +15,7 @@ repos:
         .cp2k/.*|
       )$
 - repo: https://github.com/psf/black
-  rev: 23.12.1
+  rev: 24.1.1
   hooks:
   - id: black
     name: Reformat Python files with the black code formatter
