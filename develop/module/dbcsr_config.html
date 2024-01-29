@@ -114,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~75">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~61">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-default_resize_factor">default_resize_factor</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-max_paramter_name_len">max_paramter_name_len</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-max_paramter_value_len">max_paramter_value_len</a>
@@ -252,7 +252,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~75"></span>
+              <span class="anchor" id="variable-modulen~61"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -711,7 +711,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~136"></span>
+              <span class="anchor" id="variable-source~135"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -728,7 +728,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~42"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -792,7 +792,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~136"></span>
+              <span class="anchor" id="variable-source~135"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -809,7 +809,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~42"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -929,7 +929,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~136"></span>
+              <span class="anchor" id="variable-source~135"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -946,7 +946,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~42"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -1049,7 +1049,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~136"></span>
+              <span class="anchor" id="variable-source~135"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -1066,7 +1066,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~42"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -1169,7 +1169,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~136"></span>
+              <span class="anchor" id="variable-source~135"></span>
               character(len=1),
             </td>
               <td>public</td>
@@ -1186,7 +1186,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~42"></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -2024,7 +2024,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor, use_acc_g2g)  
 </h3></div>
     <div class="card-body">
           
@@ -2371,6 +2371,21 @@ parameter
 
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_acc_g2g"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_acc_g2g</strong></td>
+            <td>
+
+            </td>
+        </tr>
     </tbody>
   </table>
 
@@ -2379,7 +2394,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_default_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_default_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor, use_acc_g2g)  
 </h3></div>
     <div class="card-body">
           
@@ -2711,6 +2726,21 @@ parameter
 
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_acc_g2g~2"></span>
+              logical,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_acc_g2g</strong></td>
+            <td>
+
+            </td>
+        </tr>
     </tbody>
   </table>
 
@@ -2738,7 +2768,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~38"></span>
+              <span class="anchor" id="variable-unit_nr~33"></span>
               integer,
             </td>
 <td>intent(in)</td>

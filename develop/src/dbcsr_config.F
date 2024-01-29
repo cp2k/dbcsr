@@ -350,7 +350,8 @@ CONTAINS
       accdrv_binning_nbins, &
       accdrv_binning_binsize, &
       use_mempools_cpu, &
-      tas_split_factor)
+      tas_split_factor, &
+      use_acc_g2g)
 
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: mm_driver
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_mpi_allocator
@@ -445,7 +446,8 @@ CONTAINS
       accdrv_binning_nbins, &
       accdrv_binning_binsize, &
       use_mempools_cpu, &
-      tas_split_factor)
+      tas_split_factor, &
+      use_acc_g2g)
 !
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_mpi_allocator
       INTEGER, INTENT(OUT), OPTIONAL                     :: mm_stack_size, avg_elements_images, &
