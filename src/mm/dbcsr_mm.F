@@ -907,7 +907,7 @@ CONTAINS
       ELSE
          data_type = dbcsr_get_data_type(product_matrix)
 #if defined (__DBCSR_ACC_G2G)
-         IF (data_type .NE. dbcsr_type_real_8) THEN
+         IF (data_type .NE. dbcsr_type_real_8 .OR. (.NOT. dbcsr_cfg%use_acc_g2g%val)) THEN
             ! If G2G is enabled, norms have to be calculated on the GPU.
             ! Since the norms kernel expects only real_8 type data, we
             ! avoid using G2G for all other data types
