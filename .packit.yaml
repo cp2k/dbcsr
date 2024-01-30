@@ -1,0 +1,48 @@
+specfile_path: tools/fedora/dbcsr.spec
+files_to_sync:
+  - src: tools/fedora/
+    dest: ./
+    delete: true
+    filters:
+      - "protect .git*"
+      - "protect sources"
+      - "protect changelog"
+  - .packit.yaml
+upstream_package_name: dbcsr
+downstream_package_name: dbcsr
+upstream_tag_template: v{version}
+
+targets:
+  - fedora-development-x86_64
+  - fedora-development-aarch64
+
+_:
+  # Job templates
+  - &build-in-packit
+    job: copr_build
+  - &build-at-lecris
+    <<: *build-in-packit
+    owner: lecris
+
+jobs:
+  - <<: *build-at-lecris
+    trigger: release
+    project: release
+  - <<: *build-at-lecris
+    trigger: commit
+    branch: master
+    project: nightly
+  - <<: *build-in-packit
+    trigger: pull_request
+  - job: propose_downstream
+    trigger: release
+    dist_git_branches:
+      - fedora-rawhide
+  - job: koji_build
+    trigger: commit
+    dist_git_branches:
+      - fedora-all
+  - job: bodhi_update
+    trigger: commit
+    dist_git_branches:
+      - fedora-branched
