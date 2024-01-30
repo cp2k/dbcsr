@@ -462,24 +462,21 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A)
         BARRIER(CLK_LOCAL_MEM_FENCE);
 #    endif
-#    if (WRK == SM) && (SM <= SGS || SM <= SWG) && !defined(SLM_A) && !defined(REG_A)
+#    if defined(ACC_OPENCL_VERSION) && (200 /*2.0*/ <= ACC_OPENCL_VERSION) && (!defined(GPU) || (0 != GPU)) && !defined(SLM_A) && \
+      !defined(REG_A) && (WRK == SM) && (SM <= SGS || SM <= SWG) /* use ACC_OPENCL_VERSION rather than ACC_OPENCL_C_VERSION */
         const T a = AMK(idx, k);
-#    endif
         UNROLL_FORCE(SM)
         for (SINT m = 0; m < SM; ++m) {
-#    if (200 /*CL_VERSION_2_0*/ <= __OPENCL_VERSION__) && !defined(SLM_A) && !defined(REG_A) && (WRK == SM) && \
-      (SM <= SGS || SM <= SWG)
 #      if (SM <= SGS)
-          /* size of subgroup is sufficient */
-          CNM(idx, m) = MAD(sub_group_broadcast(a, m), b, CNM(idx, m));
+          CNM(idx, m) = MAD(sub_group_broadcast(a, m), b, CNM(idx, m)); /* size of subgroup is sufficient */
 #      else
-          /* size of workgroup is sufficient */
-          CNM(idx, m) = MAD(work_group_broadcast(a, m), b, CNM(idx, m));
+          CNM(idx, m) = MAD(work_group_broadcast(a, m), b, CNM(idx, m)); /* size of workgroup is sufficient */
 #      endif
-#    else
-          CNM(idx, m) = MAD(AMK(m, k), b, CNM(idx, m)); /* fallback */
-#    endif
         }
+#    else
+        UNROLL_FORCE(SM)
+        for (SINT m = 0; m < SM; ++m) CNM(idx, m) = MAD(AMK(m, k), b, CNM(idx, m)); /* fallback */
+#    endif
 #    if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A)
         BARRIER(CLK_LOCAL_MEM_FENCE);
 #    endif

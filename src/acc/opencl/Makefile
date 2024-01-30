@@ -136,7 +136,7 @@ ifneq (0,$(DBG))
     CFLAGS += -O0
   endif
 else
-  CFLAGS += -O2 -DNDEBUG -DNDBGDEV
+  CFLAGS += -O2 -DNDEBUG
   SYM := 0
 endif
 ifneq (0,$(SYM))
@@ -199,15 +199,19 @@ else
     CUDA_LIBDIR := $(if $(wildcard $(CUDATOOLKIT_HOME)/lib64),lib64,lib)
     ifeq (,$(wildcard $(OPENCL_INC)))
       CLINC := $(strip $(lastword $(sort $(wildcard $(CUDATOOLKIT_HOME)/../cuda/*/targets/x86_64-linux/include/CL/cl.h))))
-      ifneq (,$(CLINC))
-        OPENCL_INC := $(abspath $(dir $(CLINC))/..)
-      else
-        CFLAGS += -I$(CUDATOOLKIT_HOME)/include
-      endif
+      OPENCL_INC := $(if $(CLINC),$(abspath $(dir $(CLINC))/..),$(CUDATOOLKIT_HOME)/include)
     endif
     ifeq (,$(wildcard $(OPENCL_LIB)))
       LDFLAGS += -L$(CUDATOOLKIT_HOME)/$(CUDA_LIBDIR)
       LDFLAGS += -Wl,-rpath=$(CUDATOOLKIT_HOME)/$(CUDA_LIBDIR)
+    endif
+  else ifeq (,$(OPENCL_INC))
+    ifneq (,$(wildcard $(OPENCL_ROOT)/include/CL/cl.h))
+      OPENCL_INC := $(OPENCL_ROOT)/include
+      LDFLAGS += -L$(OPENCL_ROOT)/lib64
+    else ifneq (,$(wildcard $(OCL_ROOT)/include/CL/cl.h))
+      OPENCL_INC := $(OCL_ROOT)/include
+      LDFLAGS += -L$(OCL_ROOT)/lib64
     endif
   endif
   # OPENCL_INC: directory containing CL/cl.h.

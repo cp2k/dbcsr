@@ -499,7 +499,7 @@ int main(int argc, char* argv[]) {
                 if (maxdiff < epsilon && NULL != file) maxdiff = epsilon;
                 if (0 < epsilon) {
                   if (LIBXSMM_NOTNAN(diff.v_tst)) {
-                    PRINTF(" (%g != %g)\n", diff.v_ref, diff.v_tst);
+                    PRINTF(" (|%g-%g|=%g)\n", diff.v_ref, diff.v_tst, fabs(diff.v_ref - diff.v_tst));
                   }
                   else {
                     PRINTF(" (%g)\n", diff.v_tst);
