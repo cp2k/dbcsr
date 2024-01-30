@@ -192,6 +192,7 @@ if (USE_SMM MATCHES "libxsmm")
     target_link_libraries(dbcsr PRIVATE PkgConfig::LIBXSMMEXT)
   endif ()
   target_link_libraries(dbcsr PRIVATE PkgConfig::LIBXSMM)
+  target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES})
 endif ()
 
 if (BLAS_LIBRARIES MATCHES "mkl_")

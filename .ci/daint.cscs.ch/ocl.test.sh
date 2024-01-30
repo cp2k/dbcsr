@@ -31,6 +31,9 @@ export LD_LIBRARY_PATH=${HOME}/libxsmm/lib:${LD_LIBRARY_PATH}
 export OMP_PROC_BIND=TRUE # set thread affinity
 # OMP_NUM_THREADS is set by cmake
 
+# use default parameters (omit loading tuned parameters)
+export OPENCL_LIBSMM_SMM_PARAMS=0
+
 # document the current environment
 env |& tee -a "${STAGE_NAME}.out"
 
