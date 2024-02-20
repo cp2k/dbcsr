@@ -182,7 +182,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~19"></span>
+              <span class="anchor" id="variable-msgin~23"></span>
               integer(kind=int_4)
             </td>
 <td></td>
@@ -197,7 +197,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~6"></span>
+              <span class="anchor" id="variable-dest~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -212,7 +212,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~19"></span>
+              <span class="anchor" id="variable-msgout~21"></span>
               integer(kind=int_4)
             </td>
 <td></td>
@@ -227,7 +227,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~54"></span>
+              <span class="anchor" id="variable-source~61"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -242,154 +242,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~17"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>comm</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-send_request"></span>
-              type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>send_request</strong></td>
-            <td>
-<p>Request handle for the send
-Request handle for the receive</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-recv_request"></span>
-              type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>recv_request</strong></td>
-            <td>
-<p>Request handle for the send
-Request handle for the receive</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tag~10"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tag</strong></td>
-            <td>
-<p>tag to differentiate requests</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_iv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_iv.html'>mp_isendrecv_iv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgin~20"></span>
-              integer(kind=int_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>msgin</strong></td>
-            <td>
-<p>Vector data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dest~7"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dest</strong></td>
-            <td>
-<p>Which process to send to</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-msgout~20"></span>
-              integer(kind=int_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>msgout</strong></td>
-            <td>
-<p>Receive data into this pointer</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-source~55"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>source</strong></td>
-            <td>
-<p>Process to receive from</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-comm~18"></span>
+              <span class="anchor" id="variable-comm~22"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -436,7 +289,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~11"></span>
+              <span class="anchor" id="variable-tag~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -457,11 +310,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_l"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_l.html'>mp_isendrecv_l</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_iv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_iv.html'>mp_isendrecv_iv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_l.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -476,22 +329,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~39"></span>
-              integer(kind=int_8)
+              <span class="anchor" id="variable-msgin~24"></span>
+              integer(kind=int_4),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Scalar data to send</p>
+<p>Vector data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~13"></span>
+              <span class="anchor" id="variable-dest~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -506,12 +359,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~39"></span>
-              integer(kind=int_8)
+              <span class="anchor" id="variable-msgout~22"></span>
+              integer(kind=int_4),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -521,7 +374,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~68"></span>
+              <span class="anchor" id="variable-source~62"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -536,7 +389,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~26"></span>
+              <span class="anchor" id="variable-comm~23"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -583,7 +436,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~20"></span>
+              <span class="anchor" id="variable-tag~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -604,11 +457,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_lv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_lv.html'>mp_isendrecv_lv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_l"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_l.html'>mp_isendrecv_l</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_l.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -623,22 +476,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~40"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-msgin~43"></span>
+              integer(kind=int_8)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Vector data to send</p>
+<p>Scalar data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~14"></span>
+              <span class="anchor" id="variable-dest~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -653,12 +506,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~40"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-msgout~41"></span>
+              integer(kind=int_8)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -668,7 +521,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~69"></span>
+              <span class="anchor" id="variable-source~75"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -683,7 +536,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~27"></span>
+              <span class="anchor" id="variable-comm~31"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -730,7 +583,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~21"></span>
+              <span class="anchor" id="variable-tag~27"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -751,11 +604,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_d"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_d.html'>mp_isendrecv_d</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_lv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_lv.html'>mp_isendrecv_lv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -770,22 +623,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~59"></span>
-              real(kind=real_8)
+              <span class="anchor" id="variable-msgin~44"></span>
+              integer(kind=int_8),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Scalar data to send</p>
+<p>Vector data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~20"></span>
+              <span class="anchor" id="variable-dest~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -800,12 +653,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~59"></span>
-              real(kind=real_8)
+              <span class="anchor" id="variable-msgout~42"></span>
+              integer(kind=int_8),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -815,7 +668,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~82"></span>
+              <span class="anchor" id="variable-source~76"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -830,7 +683,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~35"></span>
+              <span class="anchor" id="variable-comm~32"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -877,7 +730,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~30"></span>
+              <span class="anchor" id="variable-tag~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -898,11 +751,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_dv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_dv.html'>mp_isendrecv_dv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_d"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_d.html'>mp_isendrecv_d</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -917,22 +770,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~60"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-msgin~63"></span>
+              real(kind=real_8)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Vector data to send</p>
+<p>Scalar data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~21"></span>
+              <span class="anchor" id="variable-dest~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -947,12 +800,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~60"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-msgout~61"></span>
+              real(kind=real_8)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -962,7 +815,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~83"></span>
+              <span class="anchor" id="variable-source~89"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -977,7 +830,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~36"></span>
+              <span class="anchor" id="variable-comm~40"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1024,7 +877,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~31"></span>
+              <span class="anchor" id="variable-tag~37"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1045,11 +898,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_r"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_r.html'>mp_isendrecv_r</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_dv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_dv.html'>mp_isendrecv_dv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1064,22 +917,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~79"></span>
-              real(kind=real_4)
+              <span class="anchor" id="variable-msgin~64"></span>
+              real(kind=real_8),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Scalar data to send</p>
+<p>Vector data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~27"></span>
+              <span class="anchor" id="variable-dest~25"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1094,12 +947,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~79"></span>
-              real(kind=real_4)
+              <span class="anchor" id="variable-msgout~62"></span>
+              real(kind=real_8),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -1109,7 +962,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~96"></span>
+              <span class="anchor" id="variable-source~90"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1124,7 +977,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~44"></span>
+              <span class="anchor" id="variable-comm~41"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1171,7 +1024,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~40"></span>
+              <span class="anchor" id="variable-tag~38"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1192,11 +1045,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_rv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_rv.html'>mp_isendrecv_rv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_r"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_r.html'>mp_isendrecv_r</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1211,22 +1064,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~80"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-msgin~83"></span>
+              real(kind=real_4)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Vector data to send</p>
+<p>Scalar data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~28"></span>
+              <span class="anchor" id="variable-dest~31"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1241,12 +1094,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~80"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-msgout~81"></span>
+              real(kind=real_4)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -1256,7 +1109,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~97"></span>
+              <span class="anchor" id="variable-source~103"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1271,7 +1124,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~45"></span>
+              <span class="anchor" id="variable-comm~49"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1318,7 +1171,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~41"></span>
+              <span class="anchor" id="variable-tag~47"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1339,11 +1192,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_z"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_z.html'>mp_isendrecv_z</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_rv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_rv.html'>mp_isendrecv_rv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1358,22 +1211,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~99"></span>
-              complex(kind=real_8)
+              <span class="anchor" id="variable-msgin~84"></span>
+              real(kind=real_4),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Scalar data to send</p>
+<p>Vector data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~34"></span>
+              <span class="anchor" id="variable-dest~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1388,12 +1241,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~99"></span>
-              complex(kind=real_8)
+              <span class="anchor" id="variable-msgout~82"></span>
+              real(kind=real_4),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -1403,7 +1256,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~110"></span>
+              <span class="anchor" id="variable-source~104"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1418,7 +1271,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~53"></span>
+              <span class="anchor" id="variable-comm~50"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1465,7 +1318,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~50"></span>
+              <span class="anchor" id="variable-tag~48"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1486,11 +1339,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_zv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_zv.html'>mp_isendrecv_zv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_z"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_z.html'>mp_isendrecv_z</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1505,22 +1358,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~100"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-msgin~103"></span>
+              complex(kind=real_8)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Vector data to send</p>
+<p>Scalar data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~35"></span>
+              <span class="anchor" id="variable-dest~38"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1535,12 +1388,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~100"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-msgout~101"></span>
+              complex(kind=real_8)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -1550,7 +1403,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~111"></span>
+              <span class="anchor" id="variable-source~117"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1565,7 +1418,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~54"></span>
+              <span class="anchor" id="variable-comm~58"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1612,7 +1465,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~51"></span>
+              <span class="anchor" id="variable-tag~57"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1633,11 +1486,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_c"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_c.html'>mp_isendrecv_c</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_zv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_zv.html'>mp_isendrecv_zv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1652,22 +1505,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~119"></span>
-              complex(kind=real_4)
+              <span class="anchor" id="variable-msgin~104"></span>
+              complex(kind=real_8),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Scalar data to send</p>
+<p>Vector data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~41"></span>
+              <span class="anchor" id="variable-dest~39"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1682,12 +1535,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~119"></span>
-              complex(kind=real_4)
+              <span class="anchor" id="variable-msgout~102"></span>
+              complex(kind=real_8),
             </td>
 <td></td>
               <td></td>            <td>
-              
+              CONTIGUOUS, DIMENSION(:)
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -1697,7 +1550,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~124"></span>
+              <span class="anchor" id="variable-source~118"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1712,7 +1565,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~62"></span>
+              <span class="anchor" id="variable-comm~59"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1759,7 +1612,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~60"></span>
+              <span class="anchor" id="variable-tag~58"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1780,11 +1633,11 @@ Request handle for the receive</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_cv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_cv.html'>mp_isendrecv_cv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_c"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_c.html'>mp_isendrecv_c</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
 </h3></div>
     <div class="card-body">
           
-  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>Non-blocking send and receive of a scalar</p><a href="../proc/mp_isendrecv_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1799,22 +1652,22 @@ Request handle for the receive</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgin~120"></span>
-              complex(kind=real_4),
+              <span class="anchor" id="variable-msgin~123"></span>
+              complex(kind=real_4)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgin</strong></td>
             <td>
-<p>Vector data to send</p>
+<p>Scalar data to send</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~42"></span>
+              <span class="anchor" id="variable-dest~45"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1829,12 +1682,12 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-msgout~120"></span>
-              complex(kind=real_4),
+              <span class="anchor" id="variable-msgout~121"></span>
+              complex(kind=real_4)
             </td>
 <td></td>
               <td></td>            <td>
-              CONTIGUOUS, DIMENSION(:)
+              
             </td>
             <td>::</td>
             <td><strong>msgout</strong></td>
@@ -1844,7 +1697,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~125"></span>
+              <span class="anchor" id="variable-source~131"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1859,7 +1712,7 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~63"></span>
+              <span class="anchor" id="variable-comm~67"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1906,7 +1759,154 @@ Request handle for the receive</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~61"></span>
+              <span class="anchor" id="variable-tag~67"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tag</strong></td>
+            <td>
+<p>tag to differentiate requests</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_isendrecv_cv"></span> <h3>private  subroutine <a href='../proc/mp_isendrecv_cv.html'>mp_isendrecv_cv</a>(msgin, dest, msgout, source, comm, send_request, recv_request, tag)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Non-blocking send and receive of a vector</p><a href="../proc/mp_isendrecv_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgin~124"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              CONTIGUOUS, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>msgin</strong></td>
+            <td>
+<p>Vector data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dest~46"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dest</strong></td>
+            <td>
+<p>Which process to send to</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msgout~122"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              CONTIGUOUS, DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>msgout</strong></td>
+            <td>
+<p>Receive data into this pointer</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-source~132"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>source</strong></td>
+            <td>
+<p>Process to receive from</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comm~68"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>comm</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-send_request~13"></span>
+              type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>send_request</strong></td>
+            <td>
+<p>Request handle for the send
+Request handle for the receive</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-recv_request~13"></span>
+              type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>recv_request</strong></td>
+            <td>
+<p>Request handle for the send
+Request handle for the receive</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tag~68"></span>
               integer,
             </td>
 <td>intent(in),</td>
