@@ -270,7 +270,7 @@ typedef struct c_dbcsr_acc_opencl_device_t {
   cl_int (*clSetKernelArgMemPointerINTEL)(cl_kernel, cl_uint, const void*);
   cl_int (*clEnqueueMemFillINTEL)(cl_command_queue, void*, const void*, size_t, size_t, cl_uint, const cl_event*, cl_event*);
   cl_int (*clEnqueueMemcpyINTEL)(cl_command_queue, cl_bool, void*, const void*, size_t, cl_uint, const cl_event*, cl_event*);
-  void* (*clDeviceMemAllocINTEL)(cl_context, cl_device_id, const void/*cl_mem_properties_intel*/*, size_t, cl_uint, cl_int*);
+  void* (*clDeviceMemAllocINTEL)(cl_context, cl_device_id, const void /*cl_mem_properties_intel*/*, size_t, cl_uint, cl_int*);
   cl_int (*clMemFreeINTEL)(cl_context, void*);
 } c_dbcsr_acc_opencl_device_t;
 
