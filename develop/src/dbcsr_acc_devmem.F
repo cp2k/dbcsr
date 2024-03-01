@@ -11,7 +11,7 @@
 MODULE dbcsr_acc_devmem
    !! Accelerator support
 #if  defined (__DBCSR_ACC)
-   USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_NULL_PTR
+   USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_NULL_PTR, C_ASSOCIATED
 #endif
    USE dbcsr_kinds, ONLY: int_4, &
                           int_4_size, &
@@ -256,6 +256,10 @@ CONTAINS
       LOGICAL                                            :: res
          !! true if device memory is allocated, false otherwise
 
+#if defined (__DBCSR_ACC)
+      DBCSR_ASSERT(C_ASSOCIATED(this%cptr) .OR. this%size_in_bytes <= 0)
+#endif
+
       res = this%size_in_bytes >= 0
    END FUNCTION acc_devmem_allocated
 
@@ -498,9 +502,9 @@ CONTAINS
    END SUBROUTINE dev2host_raw
 #endif
 
-# 506 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 510 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_i4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -553,7 +557,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_i4_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_i8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -606,7 +610,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_i8_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_r4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -659,7 +663,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_r4_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_r8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -712,7 +716,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_r8_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_c4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -765,7 +769,7 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_c4_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_c8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -818,6 +822,6 @@ CONTAINS
 #endif
       END SUBROUTINE dev2host_c8_1D
 
-# 561 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 565 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 END MODULE dbcsr_acc_devmem
