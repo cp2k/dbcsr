@@ -95,7 +95,8 @@ __global__ void calculate_norms_d(
   }
 }
 
-extern "C" int c_calculate_norms(double* mat, int nblks, int* offsets, int* nelems, float* norms, void* stream_ptr) {
+extern "C" int c_calculate_norms(
+  const double* mat, int nblks, const int* offsets, const int* nelems, float* norms, void* stream_ptr) {
   int warp_size = acc_get_gpu_warp_size();
 
   dim3 grid(nblks);

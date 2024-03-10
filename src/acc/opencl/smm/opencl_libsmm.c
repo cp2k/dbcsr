@@ -1563,7 +1563,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
 }
 
 
-int c_calculate_norms(double* mat, int nblks, int* offsets, int* nelems, float* norms, void* stream_ptr) {
+int c_calculate_norms(const double* mat, int nblks, const int* offsets, const int* nelems, float* norms, void* stream_ptr) {
   LIBXSMM_UNUSED(mat);
   LIBXSMM_UNUSED(nblks);
   LIBXSMM_UNUSED(offsets);
