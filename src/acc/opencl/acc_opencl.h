@@ -9,6 +9,11 @@
 #ifndef ACC_OPENCL_H
 #define ACC_OPENCL_H
 
+/* Support for other libraries, e.g., CP2K's DBM/DBT */
+#if defined(__OFFLOAD_OPENCL) && !defined(__OPENCL)
+#  define __OPENCL
+#endif
+
 #if defined(__OPENCL)
 #  if !defined(CL_TARGET_OPENCL_VERSION)
 #    define CL_TARGET_OPENCL_VERSION 220
@@ -116,6 +121,10 @@
 #  define ACC_OPENCL_PROFILE
 #endif
 
+#if defined(__OFFLOAD_OPENCL) && !defined(ACC_OPENCL_MEM_DEVPTR)
+#  error Support for ACC_OPENCL_MEM_DEVPTR is required!
+#endif
+
 /* attaching c_dbcsr_acc_opencl_stream_t is needed */
 #define ACC_OPENCL_STREAM(A) ((const c_dbcsr_acc_opencl_stream_t*)(A))
 /* incompatible with c_dbcsr_acc_event_record */
@@ -159,11 +168,6 @@
 #  define ACC_OPENCL_STREAM_PROPERTIES_TYPE cl_int
 #  define ACC_OPENCL_CREATE_COMMAND_QUEUE(CTX, DEV, PROPS, RESULT) \
     clCreateCommandQueue(CTX, DEV, (cl_command_queue_properties)(NULL != (PROPS) ? ((PROPS)[1]) : 0), RESULT)
-#endif
-
-/* Support for other libraries, e.g., CP2K's DBM/DBT */
-#if defined(ACC_OPENCL_MEM_DEVPTR) && defined(__OFFLOAD_OPENCL) && !defined(__OPENCL)
-#  define __OPENCL
 #endif
 
 #if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
