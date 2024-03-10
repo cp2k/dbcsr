@@ -56,7 +56,7 @@
 #endif
 
 #define MAX(A, B) ((B) < (A) ? (A) : (B))
-#define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT)-1)) & ~((NPOT)-1))
+#define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT) - 1)) & ~((NPOT) - 1))
 #define CHECK(EXPR, RPTR) \
   if ((NULL != ((const void*)(RPTR)) && EXIT_SUCCESS != *((const int*)(RPTR))) || \
       EXIT_SUCCESS != (NULL != ((const void*)(RPTR)) ? (*((int*)(RPTR)) = (EXPR)) : (EXPR))) \
