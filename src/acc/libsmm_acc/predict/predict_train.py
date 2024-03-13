@@ -1184,9 +1184,9 @@ def get_predive_model_performances(
 
         perf_chosen_idx = [np.argmax(y_pred[idx_mnk])]
         perf_effective = y_true.iloc[idx_mnk].iloc[perf_chosen_idx].values.item()
-        predictive_model_perf_scaled[
-            (m, n, k)
-        ] = perf_effective  # 'scaled' between 0 and 1
+        predictive_model_perf_scaled[(m, n, k)] = (
+            perf_effective  # 'scaled' between 0 and 1
+        )
 
     predictive_model_perf = dict(
         zip(

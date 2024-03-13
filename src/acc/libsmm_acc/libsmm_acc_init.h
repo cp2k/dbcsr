@@ -25,8 +25,6 @@ int libsmm_acc_gpu_blas_init();
 
 int libsmm_acc_check_gpu_warp_size_consistency(void);
 
-int acc_get_gpu_warp_size(void);
-
 extern "C" int libsmm_acc_is_thread_safe(void);
 
 extern std::vector<ACC_BLAS(Handle_t)*> acc_blashandles;

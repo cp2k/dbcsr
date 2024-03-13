@@ -1,5 +1,6 @@
 !--------------------------------------------------------------------------------------------------!
 ! Copyright (C) by the DBCSR developers group - All rights reserved                                !
+! Copyright (C) 2022 Advanced Micro Devices, Inc. - All rights reserved                            !
 ! This file is part of the DBCSR library.                                                          !
 !                                                                                                  !
 ! For information on the license, see the LICENSE file.                                            !
@@ -12,16 +13,22 @@ MODULE dbcsr_mm_common
    !! <b>Modification history:</b>
    !! - 2016-08    Code organization (Alfio Lazzaro).
 
+   USE ISO_C_BINDING, ONLY: C_PTR, C_INT
+
    USE dbcsr_acc_event, ONLY: acc_event_record, &
                               acc_event_synchronize, &
                               acc_stream_wait_event
-   USE dbcsr_acc_stream, ONLY: acc_stream_type
+   USE dbcsr_acc_stream, ONLY: acc_stream_type, &
+                               acc_stream_synchronize, &
+                               acc_stream_cptr
+   USE dbcsr_acc_devmem, ONLY: acc_devmem_cptr
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_hold
    USE dbcsr_acc_operations, ONLY: dbcsr_acc_transpose
    USE dbcsr_data_methods, ONLY: dbcsr_data_ensure_size, &
                                  dbcsr_data_get_size, &
                                  dbcsr_data_host2dev, &
+                                 dbcsr_data_dev2host, &
                                  dbcsr_data_set_size_referenced, &
                                  dbcsr_get_data_p_c, &
                                  dbcsr_get_data_p_d, &
@@ -67,6 +74,8 @@ MODULE dbcsr_mm_common
 
    TYPE(dbcsr_memtype_type), SAVE  :: memtype_abpanel_1, memtype_abpanel_2, &
                                       memtype_trsbuffer_1, memtype_trsbuffer_2, &
+                                      memtype_normsbuf, memtype_offsetsbuf, &
+                                      memtype_nelemsbuf, &
                                       memtype_mpi_buffer, memtype_mpi_product
    TYPE(acc_stream_type), SAVE     :: stream_1, stream_2
    ! ab-panels and streams are shared between all threads
@@ -83,6 +92,8 @@ MODULE dbcsr_mm_common
 
    PUBLIC :: memtype_abpanel_1, memtype_abpanel_2, &
              memtype_trsbuffer_1, memtype_trsbuffer_2, &
+             memtype_normsbuf, memtype_offsetsbuf, &
+             memtype_nelemsbuf, &
              memtype_mpi_buffer, memtype_mpi_product
    PUBLIC :: stream_1, stream_2
 
@@ -93,12 +104,31 @@ MODULE dbcsr_mm_common
    PUBLIC :: enumerate_blk_sizes
 
    PUBLIC :: acc_transpose_blocks
+   PUBLIC :: acc_calculate_norms
 
    PUBLIC :: product_matrix_size_guess
 
    PUBLIC :: calculate_norms
    PUBLIC :: huge_norm
    PUBLIC :: local_filter
+
+#if defined (__DBCSR_ACC)
+   INTERFACE
+      FUNCTION acc_interface_calculate_norms(mat, nblks, offsets, nelems, norms, stream_ptr) RESULT(istat) &
+         BIND(C, name="c_calculate_norms")
+         IMPORT
+         TYPE(C_PTR), INTENT(IN), VALUE           :: mat
+         TYPE(C_PTR), INTENT(IN), VALUE           :: offsets
+         TYPE(C_PTR), INTENT(IN), VALUE           :: nelems
+         TYPE(C_PTR), VALUE                       :: norms
+         INTEGER(KIND=C_INT), INTENT(IN), &
+            VALUE                                  :: nblks
+         TYPE(C_PTR), VALUE                       :: stream_ptr
+         INTEGER(KIND=C_INT)                      :: istat
+
+      END FUNCTION acc_interface_calculate_norms
+   END INTERFACE
+#endif
 
 CONTAINS
 
@@ -462,6 +492,101 @@ CONTAINS
 
       CALL timestop(handle)
    END SUBROUTINE acc_transpose_blocks
+
+   SUBROUTINE acc_calculate_norms(matrix, norms, normsbuf, offsetsbuf, nelemsbuf, row_blk_sizes, col_blk_sizes)
+      !! calculate norms for a set of blocks in matrix whose row and col sizes are given
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+      REAL(kind=sp), DIMENSION(:), INTENT(OUT)           :: norms
+      TYPE(dbcsr_data_obj), INTENT(INOUT), TARGET        :: normsbuf
+      TYPE(dbcsr_data_obj), INTENT(INOUT), TARGET        :: offsetsbuf
+      TYPE(dbcsr_data_obj), INTENT(INOUT), TARGET        :: nelemsbuf
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, INTENT(IN) :: row_blk_sizes, col_blk_sizes
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'acc_calculate_norms'
+
+      INTEGER                                            :: nblks, blk_p, handle, i
+      INTEGER                                            :: nblks_final, j
+      INTEGER                                            :: data_type
+      INTEGER                                            :: row, col
+      INTEGER, DIMENSION(:), POINTER                     :: blk_index
+      REAL, DIMENSION(:), POINTER, CONTIGUOUS            :: normsbuf_ptr
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: offsetsbuf_ptr
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: nelemsbuf_ptr
+#if defined (__DBCSR_ACC)
+      INTEGER                                            :: istat
+#endif
+
+      CALL timeset(routineN, handle)
+
+      blk_index => matrix%coo_l
+      nblks = matrix%nblks
+      data_type = dbcsr_get_data_type(matrix)
+
+      if (nblks > 0 .and. data_type .eq. dbcsr_type_real_8) then
+
+         IF (normsbuf%d%data_type /= dbcsr_type_real_4) &
+            DBCSR_ABORT("acc_calculate_norms: normsbuf has wrong datatype")
+         IF (offsetsbuf%d%data_type /= dbcsr_type_int_4) &
+            DBCSR_ABORT("acc_calculate_norms: offsetsbuf has wrong datatype")
+         IF (nelemsbuf%d%data_type /= dbcsr_type_int_4) &
+            DBCSR_ABORT("acc_calculate_norms: nelemsbuf has wrong datatype")
+
+         NULLIFY (normsbuf_ptr)
+         NULLIFY (offsetsbuf_ptr)
+         NULLIFY (nelemsbuf_ptr)
+         CALL dbcsr_data_ensure_size(normsbuf, data_size=nblks, nocopy=.TRUE.)
+         CALL dbcsr_data_set_size_referenced(normsbuf, nblks)
+         normsbuf_ptr => normsbuf%d%r_sp
+         CALL dbcsr_data_ensure_size(offsetsbuf, data_size=nblks, nocopy=.TRUE.)
+         CALL dbcsr_data_set_size_referenced(offsetsbuf, nblks)
+         offsetsbuf_ptr => offsetsbuf%d%i4
+         CALL dbcsr_data_ensure_size(nelemsbuf, data_size=nblks, nocopy=.TRUE.)
+         CALL dbcsr_data_set_size_referenced(nelemsbuf, nblks)
+         nelemsbuf_ptr => nelemsbuf%d%i4
+
+         j = 1
+         DO i = 1, nblks
+            blk_p = blk_index(3*i)
+            IF (blk_p == 0) CYCLE
+            offsetsbuf_ptr(j) = blk_p - 1
+            row = blk_index(3*i - 2)
+            col = blk_index(3*i - 1)
+            nelemsbuf_ptr(j) = row_blk_sizes(row)*col_blk_sizes(col)
+            j = j + 1
+         END DO
+         nblks_final = j - 1
+
+         ! copy offsets to GPU buffer, launch kernel, copy norms back to host
+         ! offsetsbuf, nelemsbuf and normsbuf share the same stream, so no need
+         ! to synchronize stream until norms are copied back to host
+         CALL dbcsr_data_host2dev(offsetsbuf)
+         CALL dbcsr_data_host2dev(nelemsbuf)
+#if defined (__DBCSR_ACC)
+         istat = acc_interface_calculate_norms(acc_devmem_cptr(matrix%data_area%d%acc_devmem), &
+                                               INT(nblks_final, KIND=C_INT), &
+                                               acc_devmem_cptr(offsetsbuf%d%acc_devmem), &
+                                               acc_devmem_cptr(nelemsbuf%d%acc_devmem), &
+                                               acc_devmem_cptr(normsbuf%d%acc_devmem), &
+                                               acc_stream_cptr(normsbuf%d%memory_type%acc_stream))
+         IF (istat == -1) &
+            DBCSR_ABORT("acc_calculate_norms: warp size obtained is unexpected")
+#endif
+         CALL dbcsr_data_dev2host(normsbuf)
+         CALL acc_stream_synchronize(normsbuf%d%memory_type%acc_stream)
+
+         j = 1
+         DO i = 1, nblks
+            blk_p = blk_index(3*i)
+            IF (blk_p == 0) CYCLE
+            norms(i) = normsbuf_ptr(j)
+            j = j + 1
+         END DO
+      else
+         ! call CPU function to calculate norms
+         CALL calculate_norms(matrix, norms, row_blk_sizes, col_blk_sizes)
+      end if
+      CALL timestop(handle)
+   END SUBROUTINE acc_calculate_norms
 
    FUNCTION product_matrix_size_guess(matrix_left, matrix_right, product_matrix, &
       !! Guess the size of the product matrix from the A and B sparsities

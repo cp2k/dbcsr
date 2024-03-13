@@ -67,6 +67,7 @@ MODULE dbcsr_acc_operations
          TYPE(C_PTR), VALUE                       :: stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
       END FUNCTION libsmm_acc_transpose_cu
+
    END INTERFACE
 #endif
 

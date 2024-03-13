@@ -12,13 +12,9 @@
 #include "../../acc_libsmm.h"
 #include "../acc_opencl.h"
 
-/* Inplace-transpose by default (similar environment variable exists for runtime) */
+/* Inplace-transpose by default (corresponding environment variable exists also) */
 #if !defined(OPENCL_LIBSMM_TRANS_INPLACE) && 0
 #  define OPENCL_LIBSMM_TRANS_INPLACE
-#endif
-/* Suitability check by default (similar environment variable exists for runtime) */
-#if !defined(OPENCL_LIBSMM_SUITABLE) && 0
-#  define OPENCL_LIBSMM_SUITABLE
 #endif
 /* Validate kernels (1: OPENCL_LIBSMM_VALIDATE_SMM, 2: OPENCL_LIBSMM_VALIDATE_TRANS) */
 #if !defined(OPENCL_LIBSMM_VALIDATE) && 0
@@ -65,7 +61,7 @@ typedef struct opencl_libsmm_smm_t {
   size_t wgsize[2];
   double gflops;
   /* (pseudo-)parameters (either pretuned or determined) */
-  int s, bs, bm, bn, bk, ws, wg, lu, nz, al, tb, tc, ap, aa, ab, ac;
+  int s, bs, bm, bn, bk, ws, wg, lu, nz, al, tb, tc, ap, aa, ab, ac, flags;
 } opencl_libsmm_smm_t;
 
 /** Type to collect statistics about tuned SMM-kernels */

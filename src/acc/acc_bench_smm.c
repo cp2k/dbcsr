@@ -72,6 +72,9 @@
 #if !defined(NREPEAT)
 #  define NREPEAT 3
 #endif
+#if !defined(XREPEAT)
+#  define XREPEAT 66
+#endif
 #if !defined(TRANSPOSE)
 #  define TRANSPOSE
 #endif
@@ -86,10 +89,10 @@
 #endif
 
 #define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
-#define ACC_BENCH_SMM_EPSILON_double 3E-3
-#define ACC_BENCH_SMM_EPSILON_float 3E-3
+#define ACC_BENCH_SMM_EPSILON_double 1E-3
+#define ACC_BENCH_SMM_EPSILON_float 2E-3
 
-#define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT)-1)) & ~((NPOT)-1))
+#define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT) - 1)) & ~((NPOT) - 1))
 #define CHECK(EXPR, RPTR, VALUE) \
   do { \
     if (NULL != ((const void*)(RPTR))) { \
@@ -213,7 +216,7 @@ int main(int argc, char* argv[]) {
   const char *snc = NULL, *sna = NULL, *snb = NULL;
   FILE* file = NULL;
 #if defined(USE_LIBXSMM) && defined(VALIDATE)
-  double maxerror = 0;
+  double maxdiff = 0;
 #else
   DBCSR_MARK_USED(check);
 #endif
@@ -292,7 +295,8 @@ int main(int argc, char* argv[]) {
       double duration = 0;
 #endif
       const char* const env_stack_size = getenv("SMM_BATCHSIZE");
-      int nrepeat = (0 < inr ? inr : NREPEAT);
+      const int xrepeat = (0 != check ? NREPEAT : XREPEAT);
+      int nrepeat = (0 < inr ? inr : xrepeat);
       int stack_size, na, nb, nc, nr, r;
       if (NULL == env_stack_size) {
         stack_size = 0;
@@ -325,7 +329,7 @@ int main(int argc, char* argv[]) {
           const int r = rnd[nok % NRAND], ss = -stack_size, bs = (1 < ss ? ss : BATCHSIZE);
           const int limit = (BATCHGRAIN < ss ? ((bs + BATCHGRAIN - 1) / BATCHGRAIN) : ss);
           stack_size = (r % limit + 1) * BATCHGRAIN;
-          nrepeat = MAX((BATCHSIZE * nrepeat + stack_size - 1) / stack_size, NREPEAT);
+          nrepeat = MAX((BATCHSIZE * nrepeat + stack_size - 1) / stack_size, xrepeat);
         }
         else stack_size = BATCHSIZE; /* plain default */
       }
@@ -480,18 +484,22 @@ int main(int argc, char* argv[]) {
             /* transfer result from device to host for validation */
             CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
             CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
-#    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+#    if defined(USE_LIBXSMM)
             if (EXIT_SUCCESS == result) {
               libxsmm_matdiff_info diff;
               /* validate result buffers at once (including excess/padded space) */
               result = libxsmm_matdiff(&diff, LIBXSMM_DATATYPE(ELEM_TYPE), mn, nc, gold_hst, cmat_hst, &mn, &mn);
               if (EXIT_SUCCESS == result) {
-                const double relerror = 1.0 - diff.rsq;
-                PRINTF("rel.error: %g", relerror);
-                if (maxerror < relerror && NULL != file) maxerror = relerror;
-                if (0 < relerror) {
+#      if defined(USE_LIBXSMM) && LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+                const double epsilon = libxsmm_matdiff_epsilon(&diff); /* 1.0 - diff.rsq */
+#      else
+                const double epsilon = diff.normf_rel;
+#      endif
+                PRINTF("diff.cur: %g", epsilon);
+                if (maxdiff < epsilon && NULL != file) maxdiff = epsilon;
+                if (0 < epsilon) {
                   if (LIBXSMM_NOTNAN(diff.v_tst)) {
-                    PRINTF(" (%g != %g)\n", diff.v_ref, diff.v_tst);
+                    PRINTF(" (|%g-%g|=%g)\n", diff.v_ref, diff.v_tst, fabs(diff.v_ref - diff.v_tst));
                   }
                   else {
                     PRINTF(" (%g)\n", diff.v_tst);
@@ -500,7 +508,7 @@ int main(int argc, char* argv[]) {
                 else {
                   PRINTF("\n");
                 }
-                if (0 < check && check < relerror) result = EXIT_FAILURE;
+                if (0 < check && check < epsilon) result = EXIT_FAILURE;
               }
             }
 #    endif
@@ -546,7 +554,7 @@ int main(int argc, char* argv[]) {
 #endif
   CHECK(c_dbcsr_acc_finalize(), NULL, check);
 #if defined(USE_LIBXSMM) && defined(VALIDATE)
-  if (1 < nok) printf("\nmax.error: %g\n", maxerror);
+  if (1 < nok) printf("\ndiff.max: %g\n", maxdiff);
 #endif
   if (EXIT_SUCCESS != result) {
     if (NULL != file) fclose(file);

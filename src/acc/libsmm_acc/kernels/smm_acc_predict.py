@@ -42,7 +42,7 @@ derived_parameters = {
         "size_b",
         "size_c",
         # 'nblks', 'nthreads',  # constant value for largeDB, since the grouping is always = 16
-        "sm_desired"
+        "sm_desired",
         # 'warps_per_blk', 'nwarps',  # linearly dependent on threads, nthreads
         # 'ru_param_stack_unroll_factor',  # constant values for each algo
     ],

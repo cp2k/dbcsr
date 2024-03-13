@@ -769,7 +769,9 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
+!$OMP     MASTER
       NULLIFY (old_blk_p, old_col_i, old_row_p)
+!$OMP     END MASTER
 
 !$OMP     BARRIER
       ! If the matrix is not marked as dirty then skip the work.

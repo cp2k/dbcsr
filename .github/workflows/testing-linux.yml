@@ -13,9 +13,9 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Run pre-commit
       run: |
         git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -27,7 +27,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
 
     strategy:
       matrix:
@@ -40,7 +40,7 @@ jobs:
             mpi_suffix: mpich
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: true
@@ -55,7 +55,7 @@ jobs:
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_${{ matrix.use_smm }} \
           -DMPI_EXECUTABLE_SUFFIX=.${{ matrix.mpi_suffix }} \
-          -DMPIEXEC_PREFLAGS="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && echo "-mca btl ^openib --allow-run-as-root")" \
+          -DMPIEXEC_PREFLAGS="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && echo "-mca btl ^openib --allow-run-as-root --oversubscribe")" \
           -DLCOV_ARGS="--test-name;${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu" \
           ..
 
@@ -93,14 +93,14 @@ jobs:
   build-on-cuda:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04-cuda:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04-cuda:develop
 
     strategy:
       matrix:
         use_openmp: [OPENMP=ON]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: true
@@ -126,7 +126,7 @@ jobs:
   build-on-opencl:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04-cuda:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04-cuda:develop
 
     strategy:
       matrix:
@@ -134,7 +134,7 @@ jobs:
         use_smm: [SMM=libxsmm]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: true
@@ -164,9 +164,10 @@ jobs:
     strategy:
       matrix:
         use_openmp: [OPENMP=ON]
+        use_g2g: [G2G=ON, G2G=OFF]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: true
@@ -176,10 +177,11 @@ jobs:
         mkdir -p build
         cd build
         cmake -G Ninja \
-          -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_BUILD_TYPE=Release \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_ACCEL=hip \
-          -DWITH_GPU=Mi100 \
+          -DWITH_GPU=Mi250 \
+          -DWITH_${{ matrix.use_g2g }} \
           -DWITH_EXAMPLES=ON \
           -DCMAKE_PREFIX_PATH=/opt/rocm \
           ..
@@ -191,10 +193,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test
     container:
-      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04:develop
+      image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-22.04:develop
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Download coverage data
         uses: actions/download-artifact@v3

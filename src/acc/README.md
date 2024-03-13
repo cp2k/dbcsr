@@ -1,27 +1,32 @@
-# ACCelerator Interfaces
+# ACCelerator Interface
 
-## Overview
+## Backends
 
-This folder contains the ISO_C_BINDING based Fortran code of DBCSR's [ACC-backend interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h) and [LIBSMM/ACC-interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h). It also contains the CUDA (for Nvidia GPUs), the HIP (for AMD GPUs), and the OpenCL accelerator backends.
+The accelerator interface (ACC) consists of ISO_C_BINDING based Fortran code of DBCSR's [ACC-backend interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h) and [LIBSMM/ACC-interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h). The interface is implemented by CUDA (for Nvidia GPUs), the HIP (for AMD GPUs), and the OpenCL accelerator backends.
 
-Further, two stand-alone sample codes are given exercising both interfaces (benchmarks).
+The code for both the CUDA and the HIP backend is unified, and can be found in the `cuda` directory. At compile-time either one or the other backend is chosen per macro (`__CUDA` or `__HIP`). Similarly, the code for the OpenCL backend is activated by a build-time macro (`__OPENCL`).
 
-## CUDA and HIP backends
+## Drivers
 
-The code for both the CUDA and HIP backends is unified, and can be found in the `cuda` directory.
-At compile-time either one or the other backend is chosen per macro (`__CUDA` or `__HIP`).
+There are two stand-alone sample codes or drivers exercising the ACC-interface. The driver code (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except runtime libraries such as CUDA, HIP, OpenCL). For OpenCL, the LIBXSMM library is mandatory and preferred as baseline and for validation in any case. To build LIBXSMM, a folder `libxsmm` in parallel to DBCSR's root directory (`dbcsr`) is expected to be present and prebuilt.
 
-## OpenCL backend
+```bash
+git clone -b main https://github.com/libxsmm/libxsmm.git
+cd libxsmm
+make GNU=1 -j
+```
 
-The code for both the OpenCL backends is enabled with a build-time macro (`__OPENCL`).
+To build the driver code (`opencl` in below example), change into the respective backend folder (`cuda` or `opencl`), and invoke `make` (`DBG=0|1|2` is supported among other optional key-value pairs).
 
-## Benchmarks
+```bash
+git clone https://github.com/cp2k/dbcsr.git
+cd dbcsr/src/acc/opencl
+make
+```
 
-Two stand-alone drivers (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except runtime libraries such as CUDA, HIP, OpenCL/LIBXSMM). For OpenCL, a folder `libxsmm` parallel to DBCSR's root directory (`dbcsr`) is expected to be present and prebuilt (`make` in LIBXSMM's root directory is enough). To build the driver code, change into the respective backend folder (`cuda` or `opencl`), and invoke `make` (`DBG=0|1|2`, and a few other key-value pairs are optional). When building the code is completed, change back into the parent folder and invoke either `acc_bench_trans` or `acc_bench_smm`.
+**NOTE**: To activate a certain device, the drivers consider an environment variable called `DEVICE`. For example, `DEVICE=1 ./acc_bench_trans` activates the second device (at least two devices must be discovered). This environment variable is implemented by the driver code and meant to work across backends, i.e., the OpenCL backend also supports `ACC_OPENCL_DEVICE=1` (see Developer Guide for the OpenCL backend).
 
-**NOTE**: To activate a certain device, an environment variable `DEVICE` can be used. For example, `DEVICE=1 ./acc_bench_trans` activates the second device (at least two devices must be discovered).
-
-The drivers support a few command line options (_nrepeat_, _stack_size_, _m_, _n_, ...). Command line arguments are positional but allow `0` as placeholder to access the default value (`acc_bench_smm 0 0 5 13 5` performs the default number of repetitions with the default stacksize when running the 5x13x5-kernel). For example, running the tranpose benchmark may look like:
+The drivers support command line options (_nrepeat_, _stack_size_, _m_, _n_, ...). Command line arguments are positional but allow `0` as placeholder to refer to the default value (`acc_bench_smm 0 0 5 13 5` performs the default number of repetitions with the default stacksize when running the 5x13x5-kernel). For example, running the tranpose benchmark may look like:
 
 ```bash
 $ OMP_PROC_BIND=TRUE ./acc_bench_trans 5 30000 23 23
@@ -36,19 +41,17 @@ errors: 0
 For timing, comparison (host code), and validation, LIBXSMM is required. The drivers exercise the respective backend. For example with the CUDA backend:
 
 ```bash
-cd cuda
-make DBG=0 WITH_GPU=P100
-cd ..
+cd src/acc/cuda
+make WITH_GPU=P100
+../acc_bench_smm
 ```
 
 For the OpenCL backend:
 
 ```bash
-cd opencl
-make DBG=0
-cd ..
+cd src/acc/opencl
+make
+../acc_bench_smm
 ```
 
-In either of the above cases, `acc_bench_trans` and `acc_bench_smm` are built using the respective backends.
-Both driver codes can be instantiated for at least double- and single-precision using a build-time macro (`ELEM_TYPE`).
-Several build-time settings can be made on the build-line (`-D`) or inside of the source files (`acc_bench_trans.c` or `acc_bench_smm.c`).
+In above cases, `acc_bench_trans` and `acc_bench_smm` are built using the respective backend. Both driver codes can be built for double-precision (default) or single-precision using a build-time macro (`make ELEM_TYPE=float` or `-DELEM_TYPE=float` in general).

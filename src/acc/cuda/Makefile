@@ -30,6 +30,7 @@ UNAME := $(shell uname)
 HEADERONLY ?= 0
 STATIC ?= 1
 INTEL ?= 0
+GNU ?= 0
 DEV ?= 0
 
 # select from set of predefined triplet specifications
@@ -109,6 +110,15 @@ else ifneq (0,$(INTEL))
   CXX := icpx
   CC := icx
   AR := xiar
+else ifneq (0,$(GNU))
+  override CXX := g++
+  override CC := gcc
+  ifneq (Darwin,$(UNAME))
+    override AR := gcc-ar
+  else
+    override AR := ar
+  endif
+  override LD_LIBRARY_DIRS := $(NULL)
 else
   CXX := g++
   CC := gcc
@@ -184,8 +194,9 @@ ifneq (,$(LIBXSMMROOT))
 endif
 
 ifneq (,$(CUDA_PATH))
-  LDFLAGS += -L$(CUDA_PATH)/lib64/stubs -Wl,-rpath=$(CUDA_PATH)/lib64/stubs
-  LDFLAGS += -L$(CUDA_PATH)/lib64 -Wl,-rpath=$(CUDA_PATH)/lib64
+  CUDA_LIBDIR := $(if $(wildcard $(CUDA_PATH)/lib64),lib64,lib)
+  LDFLAGS += -L$(CUDA_PATH)/$(CUDA_LIBDIR)/stubs -Wl,-rpath=$(CUDA_PATH)/$(CUDA_LIBDIR)/stubs
+  LDFLAGS += -L$(CUDA_PATH)/$(CUDA_LIBDIR) -Wl,-rpath=$(CUDA_PATH)/$(CUDA_LIBDIR)
   CUDAINC := $(strip $(lastword $(sort $(wildcard $(CUDA_PATH)/../cuda/*/targets/x86_64-linux/include/cuda.h))))
   ifneq (,$(CUDAINC))
     CFLAGS += -I$(abspath $(dir $(CUDAINC)))
@@ -195,9 +206,9 @@ ifneq (,$(CUDA_PATH))
 endif
 
 # Collect all paths in LD_LIBRARY_PATH and LD_LIBRARY_PATH/stubs, and append to LDFLAGS
-LD_LIBRARY_PATH := $(wildcard $(subst :, ,$(LD_LIBRARY_PATH)))
-LD_LIBSTUB_PATH := $(wildcard $(patsubst %,%/stubs,$(LD_LIBRARY_PATH)))
-LIBPATHS := $(foreach DIR,$(LD_LIBRARY_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
+LD_LIBRARY_DIRS := $(wildcard $(subst :, ,$(LD_LIBRARY_PATH)))
+LD_LIBSTUB_PATH := $(wildcard $(patsubst %,%/stubs,$(LD_LIBRARY_DIRS)))
+LIBPATHS := $(foreach DIR,$(LD_LIBRARY_DIRS),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
 LIBSTUBS := $(foreach DIR,$(LD_LIBSTUB_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
 LDFLAGS += $(LIBPATHS) $(LIBSTUBS) -lcudart -lcublas -lnvrtc -lcuda
 CXXFLAGS += -std=c++11 $(CFLAGS)
@@ -291,7 +302,7 @@ $(ACCDIR)/dbcsr_acc_smm.a: $(OBJSMM)
 %.o: %.cpp $(INCALL) $(MAKDIR)/Makefile
 	$(CXX) $(DFLAGS) $(CXXFLAGS) $(CFLAGS_XSMM) -c $< -o $@
 
-$(DIRSMM)/calculate_norms.o: $(DIRSMM)/calculate_norms.cpp $(INCALL) $(MAKDIR)/Makefile
+$(ACCDIR)/cuda_hip/calculate_norms.o: $(ACCDIR)/cuda_hip/calculate_norms.cpp $(INCALL) $(MAKDIR)/Makefile
 	$(NVCC) $(DFLAGS) -x cu -allow-unsupported-compiler \
 		--compiler-options="$(filter-out -pedantic,$(CXXFLAGS)) $(CFLAGS_XSMM)" -c $< -o $@
 

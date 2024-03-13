@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)
+
 # include our cmake snippets
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -111,7 +113,13 @@ set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
 
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
+option(WITH_G2G "Enable GPU aware MPI within CUDA/HIP backends" OFF)
 
+if (WITH_G2G AND ((NOT USE_ACCEL) OR ((NOT USE_ACCEL MATCHES "cuda")
+                                      AND (NOT USE_ACCEL MATCHES "hip"))))
+  message(
+    FATAL_ERROR "GPU aware MPI can only be enabled for HIP/CUDA GPU backends")
+endif ()
 # =================================================================================================
 # LANGUAGES AND TESTING
 enable_language(Fortran)
@@ -236,6 +244,7 @@ if (USE_ACCEL MATCHES "cuda|hip")
 endif ()
 
 if (USE_ACCEL MATCHES "cuda")
+  enable_language(CUDA)
   find_package(CUDAToolkit REQUIRED)
 
   if (CUDAToolkit_VERSION LESS 5.5)
@@ -257,9 +266,15 @@ if (USE_ACCEL MATCHES "cuda")
   message(STATUS "Kernel parameters: " ${WITH_GPU_PARAMS})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "GPU profiling enabled: " ${WITH_CUDA_PROFILING})
+  message(STATUS "GPU aware MPI enabled: " ${WITH_G2G})
 endif ()
 
 if (USE_ACCEL MATCHES "hip")
+  if (NOT CMAKE_HIP_ARCHITECTURES)
+    set(CMAKE_HIP_ARCHITECTURES OFF)
+  endif ()
+  enable_language(HIP)
+
   # Make sure the GPU required is supported
   list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
   if (GPU_SUPPORTED EQUAL -1)
@@ -296,6 +311,7 @@ if (USE_ACCEL MATCHES "hip")
   message(STATUS "Kernel parameters: " ${WITH_GPU_PARAMS})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "GPU profiling enabled: " ${WITH_HIP_PROFILING})
+  message(STATUS "GPU aware MPI enabled: " ${WITH_G2G})
 
   # =================================== BLAS on GPU backend
   find_package(hipblas CONFIG REQUIRED HINTS ${ROCM_PATH})
@@ -339,3 +355,6 @@ endif ()
 add_subdirectory(docs)
 
 include(CustomTargets)
+
+# Disable LTO
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)

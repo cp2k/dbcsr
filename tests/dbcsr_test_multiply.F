@@ -70,7 +70,7 @@ CONTAINS
       !! processor grids
 
       CHARACTER(len=*), INTENT(IN)                       :: test_name
-      TYPE(mp_comm_type), INTENT(IN)                                :: mp_group
+      TYPE(mp_comm_type), INTENT(IN)                     :: mp_group
          !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
@@ -208,7 +208,7 @@ CONTAINS
                CALL dbcsr_make_random_block_sizes(sizes_k, matrix_sizes(3), bs_k)
 
                !
-               ! if we have symmetry the row and column block sizes hae to match
+               ! if we have symmetry the row and column block sizes have to match
                IF (c_symm .NE. dbcsr_type_no_symmetry .AND. a_symm .NE. dbcsr_type_no_symmetry .AND. &
                    b_symm .NE. dbcsr_type_no_symmetry) THEN
                   my_sizes_m => sizes_m
@@ -750,8 +750,8 @@ CONTAINS
          DBCSR_ABORT("Incorrect or 1-D data type")
       END SELECT
 
-      eps_norm = residual/((a_norm + b_norm + c_norm_in)*REAL(n, real_8)*eps)
       IF (mynode .EQ. 0) THEN
+         eps_norm = residual/((a_norm + b_norm + c_norm_in)*REAL(n, real_8)*eps)
          IF (eps_norm .GT. 10.0_real_8) THEN
             success = .FALSE.
          ELSE
@@ -761,6 +761,7 @@ CONTAINS
       !
       ! synchronize the result...
       CALL mp_bcast(success, 0, mp_group)
+      CALL mp_bcast(eps_norm, 0, mp_group)
       !
       ! printing
       IF (io_unit .GT. 0) THEN

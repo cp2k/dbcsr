@@ -10,7 +10,7 @@
 MODULE dbcsr_acc_devmem
    !! Accelerator support
 #if  defined (__DBCSR_ACC)
-   USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_NULL_PTR
+   USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_NULL_PTR, C_ASSOCIATED
 #endif
    USE dbcsr_kinds, ONLY: int_4, &
                           int_4_size, &
@@ -254,6 +254,10 @@ CONTAINS
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
       LOGICAL                                            :: res
          !! true if device memory is allocated, false otherwise
+
+#if defined (__DBCSR_ACC)
+      DBCSR_ASSERT(C_ASSOCIATED(this%cptr) .OR. this%size_in_bytes <= 0)
+#endif
 
       res = this%size_in_bytes >= 0
    END FUNCTION acc_devmem_allocated

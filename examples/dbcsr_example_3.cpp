@@ -53,8 +53,8 @@ int main(int argc, char* argv[]) {
 
   for (int i = 0; i != mpi_size; ++i) {
     if (mpi_rank == i) {
-      std::cout << "I'm processor " << mpi_rank << " over " << mpi_size << " proc"
-                << ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid" << std::endl;
+      std::cout << "I'm processor " << mpi_rank << " over " << mpi_size << " proc" << ", (" << coord[0] << ", " << coord[1]
+                << ") in the 2D grid" << std::endl;
     }
     MPI_Barrier(MPI_COMM_WORLD);
   }

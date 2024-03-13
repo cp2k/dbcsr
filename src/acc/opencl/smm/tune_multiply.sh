@@ -42,6 +42,9 @@ then
     -u|--update)
       UPDATE=1
       shift 1;;
+    -d|--delete)
+      DELETE=1
+      shift 1;;
     -a|--tuning-level)
       TLEVEL=$2
       shift 2;;
@@ -117,6 +120,9 @@ then
   if [ "0" != "$((NPARTS<PART))" ]; then
     >&2 echo "ERROR: part-number ${PART} is larger than the requested ${NPARTS} parts!"
     exit 1
+  elif [ "0" != "$((1>PART))" ]; then
+    >&2 echo "ERROR: part-number must be 1-based!"
+    exit 1
   fi
   HERE=$(cd "$(dirname "$0")" && pwd -P)
   JSONS=$(${LS} -1 ${JSONDIR}/tune_multiply-*-*x*x*-*gflops.json 2>/dev/null)
@@ -126,7 +132,7 @@ then
   elif [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
     if [ "${UPDATE}" ] && [ "0" != "${UPDATE}" ]; then
       if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=1; fi
-      MNKS=$(echo "${JSONS}" | ${SED} -n "s/.*tune_multiply-..*-\(..*x..*x.[^-]*\)-..*gflops\.json/\1/p" \
+      MNKS=$(${SED} -n "s/.*tune_multiply-..*-\(..*x..*x.[^-]*\)-..*gflops\.json/\1/p" <<<"${JSONS}" \
          | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3)
     elif [ "${SPECID}" ]; then
       MNKS=$(eval "${HERE}/../../acc_triplets.sh -k ${SPECID} 2>/dev/null")
@@ -140,7 +146,7 @@ then
     if [ "${BOUNDL}" ] || [ "${BOUNDU}" ]; then
       if [ ! "${BOUNDL}" ]; then BOUNDL=0; elif [ ! "${BOUNDU}" ]; then BOUNDU=0; fi
       if [ "0" != "$((0<=BOUNDL))" ]; then
-        for MNK in $(echo "${MNKS}" | ${SED} "s/x/*/g"); do
+        for MNK in $(${SED} "s/x/*/g" <<<"${MNKS}"); do
           S=$((MNK))
           if [ "0" != "$((BOUNDL<BOUNDU))" ]; then
             if [ "0" != "$((BOUNDL**3<S&&S<=BOUNDU**3))" ]; then TMP="${TMP} ${MNK}"; fi
@@ -148,13 +154,13 @@ then
             if [ "0" != "$((BOUNDL**3<S))" ]; then TMP="${TMP} ${MNK}"; fi
           fi
         done
-        MNKS=$(echo "${TMP}" | ${SED} "s/*/x/g")
+        MNKS=$(${SED} "s/*/x/g" <<<"${TMP}")
       fi
     fi
     if [ "${MNKS}" ] && [ "${MAXEXT}" ] && [ "0" != "$((0<MAXEXT))" ]; then
       TMP=""
       for MNK in ${MNKS}; do
-        for EXT in $(echo "${MNK}" | ${SED} "s/x/ /g"); do
+        for EXT in $(${SED} "s/x/ /g" <<<"${MNK}"); do
           if [ "0" != "$((MAXEXT<EXT))" ]; then continue 2; fi
         done
         TMP="${TMP} ${MNK}"
@@ -164,15 +170,15 @@ then
     if [ "${REVERSE}" ] && [ "0" != "${REVERSE}" ] && \
        [ "$(command -v tr)" ] && [ "$(command -v tac)" ];
     then
-      MNKS=$(echo "${MNKS}" | tr ' ' '\n' | tac | tr '\n' ' '; echo)
+      MNKS=$(tr ' ' '\n' <<<"${MNKS}" | tac | tr '\n' ' '; echo)
     fi
     if [ "${MNKS}" ] && [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then
-      MNKS=$(echo "${MNKS}" | ${XARGS} -n1 | ${HEAD} -n"${MAXNUM}" | ${XARGS})
+      MNKS=$(${XARGS} -n1 <<<"${MNKS}" | ${HEAD} -n"${MAXNUM}" | ${XARGS})
     else
-      MNKS=$(echo "${MNKS}" | ${XARGS})
+      MNKS=$(${XARGS} <<<"${MNKS}")
     fi
   fi
-  NTRIPLETS=$(echo "${MNKS}" | ${WC} -w)
+  NTRIPLETS=$(${WC} -w <<<"${MNKS}")
   if [ "0" != "$((0==NTRIPLETS))" ]; then
     if [ "${HELP}" ] || [ "0" = "${HELP}" ]; then exit 0; fi
     >&2 echo "ERROR: invalid or no <triplet-spec> given!"
@@ -202,7 +208,8 @@ then
   else
     echo "Tuning ${PARTSIZE} kernels will take an unknown time (no limit given)."
   fi
-  NJSONS=$(echo "${JSONS}" | ${WC} -l)
+  if [ "${DELETE}" ] && [ "0" != "${DELETE}" ]; then DELETE=-d; fi
+  NJSONS=$(${WC} -l <<<"${JSONS}")
   if [ "0" != "${NJSONS}" ]; then
     if [ ! "${UPDATE}" ] || [ "0" = "${UPDATE}" ]; then
       echo "Already found ${NJSONS} (unrelated?) JSON-files."
@@ -217,14 +224,14 @@ then
     sleep ${WAIT}
   fi
   N=0
-  MNKPART=$(echo "${MNKS}" | ${CUT} -d' ' -f $((PARTOFFS+1))-$((PARTOFFS+PARTSIZE)))
+  MNKPART=$(${CUT} -d' ' -f $((PARTOFFS+1))-$((PARTOFFS+PARTSIZE)) <<<"${MNKS}")
   for MNK in ${MNKPART}; do
     if [ "0" != "$(((N)<PARTSIZE))" ]; then
       echo
       echo "[$((N+1))/${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf ./opentuner.db
-      eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
+      eval "${HERE}/tune_multiply.py ${MNK} ${DELETE} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
       RESULT=$?
       # environment var. CONTINUE allows to proceed with next kernel
       # even if tune_multiply.py returned non-zero exit code

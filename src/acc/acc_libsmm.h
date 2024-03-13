@@ -46,7 +46,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
   const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max, int max_kernel_dim,
   c_dbcsr_acc_bool_t def_mnk, void* stack_stream, void* c_stream);
 
-int c_calculate_norms(double* mat, int nblks, int* offsets, int* nelems, float* norms, void* stream_ptr);
+int c_calculate_norms(const double* mat, int nblks, const int* offsets, const int* nelems, float* norms, void* stream_ptr);
 
 static const char libsmm_acc_transpose_routine_name_str[] = "jit_kernel_transpose";
 static const char* const libsmm_acc_transpose_routine_name_ptr = libsmm_acc_transpose_routine_name_str;
