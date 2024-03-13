@@ -114,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_dist_methods.html#variable-modulen~33">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_dist_methods.html#variable-modulen~16">moduleN</a>
         </div>
       </div>
     </div>
@@ -178,8 +178,8 @@
             <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_new_template">dbcsr_distribution_new_template</a>
             <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_new_obj">dbcsr_distribution_new_obj</a>
             <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_new_low">dbcsr_distribution_new_low</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_get~2">dbcsr_distribution_get</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_hold~2">dbcsr_distribution_hold</a>
+            <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_get">dbcsr_distribution_get</a>
+            <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_hold">dbcsr_distribution_hold</a>
             <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_make_threads">dbcsr_distribution_make_threads</a>
             <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-make_threads">make_threads</a>
             <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_no_threads">dbcsr_distribution_no_threads</a>
@@ -208,16 +208,16 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
                   <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_min_heap.html'>dbcsr_min_heap</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
               </ul>
             </li>
         </ul>
@@ -242,7 +242,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~33"></span>
+              <span class="anchor" id="variable-modulen~16"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -294,7 +294,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~32"></span>
+              <span class="anchor" id="variable-dist~34"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -309,7 +309,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-template~4"></span>
+              <span class="anchor" id="variable-template~3"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -324,7 +324,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~15"></span>
+              <span class="anchor" id="variable-group~5"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in),</td>
@@ -339,7 +339,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~18"></span>
+              <span class="anchor" id="variable-pgrid~15"></span>
               integer,
             </td>
 <td></td>
@@ -354,7 +354,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~23"></span>
+              <span class="anchor" id="variable-row_dist~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -369,7 +369,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~23"></span>
+              <span class="anchor" id="variable-col_dist~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -384,7 +384,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~4"></span>
+              <span class="anchor" id="variable-reuse_arrays~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -424,7 +424,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~33"></span>
+              <span class="anchor" id="variable-dist~35"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -439,7 +439,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~15"></span>
+              <span class="anchor" id="variable-mp_env~4"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -484,7 +484,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~11"></span>
+              <span class="anchor" id="variable-local_rows~6"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -499,7 +499,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols~9"></span>
+              <span class="anchor" id="variable-local_cols~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -538,7 +538,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~34"></span>
+              <span class="anchor" id="variable-dist~36"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -553,7 +553,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~16"></span>
+              <span class="anchor" id="variable-mp_env~5"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -598,7 +598,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~12"></span>
+              <span class="anchor" id="variable-local_rows~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -613,7 +613,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols~10"></span>
+              <span class="anchor" id="variable-local_cols~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -628,7 +628,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~5"></span>
+              <span class="anchor" id="variable-reuse_arrays~6"></span>
               logical,
             </td>
 <td></td>
@@ -676,7 +676,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~37"></span>
+              <span class="anchor" id="variable-dist~39"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -721,7 +721,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~38"></span>
+              <span class="anchor" id="variable-dist~40"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -766,7 +766,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~39"></span>
+              <span class="anchor" id="variable-dist~41"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -811,7 +811,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~40"></span>
+              <span class="anchor" id="variable-dist~42"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -856,7 +856,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~41"></span>
+              <span class="anchor" id="variable-dist~43"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -901,7 +901,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~42"></span>
+              <span class="anchor" id="variable-dist~44"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -946,7 +946,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~43"></span>
+              <span class="anchor" id="variable-dist~45"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -991,7 +991,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~44"></span>
+              <span class="anchor" id="variable-dist~46"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1036,7 +1036,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~45"></span>
+              <span class="anchor" id="variable-dist~47"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1081,7 +1081,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~46"></span>
+              <span class="anchor" id="variable-dist~48"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1126,7 +1126,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~47"></span>
+              <span class="anchor" id="variable-dist~49"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1171,7 +1171,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~48"></span>
+              <span class="anchor" id="variable-dist~50"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1216,7 +1216,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~49"></span>
+              <span class="anchor" id="variable-dist~51"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1261,7 +1261,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~50"></span>
+              <span class="anchor" id="variable-dist~52"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1276,7 +1276,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~201"></span>
+              <span class="anchor" id="variable-row~41"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1291,7 +1291,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~140"></span>
+              <span class="anchor" id="variable-col~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1336,7 +1336,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~51"></span>
+              <span class="anchor" id="variable-dist~53"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1381,7 +1381,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~52"></span>
+              <span class="anchor" id="variable-dist~54"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1426,7 +1426,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~53"></span>
+              <span class="anchor" id="variable-dist~55"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1488,7 +1488,7 @@ Number of column processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblocks~4"></span>
+              <span class="anchor" id="variable-nblocks~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1505,7 +1505,7 @@ Number of column processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nprows~11"></span>
+              <span class="anchor" id="variable-nprows~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1522,7 +1522,7 @@ Number of column processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-npcols~10"></span>
+              <span class="anchor" id="variable-npcols~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1574,7 +1574,7 @@ Number of column processors</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~32"></span>
+              <span class="anchor" id="variable-dist~34"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1589,7 +1589,7 @@ Number of column processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-template~4"></span>
+              <span class="anchor" id="variable-template~3"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1604,7 +1604,7 @@ Number of column processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~15"></span>
+              <span class="anchor" id="variable-group~5"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1619,7 +1619,7 @@ Number of column processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~18"></span>
+              <span class="anchor" id="variable-pgrid~15"></span>
               integer,
             </td>
 <td></td>
@@ -1634,7 +1634,7 @@ Number of column processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~23"></span>
+              <span class="anchor" id="variable-row_dist~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1649,7 +1649,7 @@ Number of column processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~23"></span>
+              <span class="anchor" id="variable-col_dist~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1664,7 +1664,7 @@ Number of column processors</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~4"></span>
+              <span class="anchor" id="variable-reuse_arrays~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1705,7 +1705,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~33"></span>
+              <span class="anchor" id="variable-dist~35"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1720,7 +1720,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~15"></span>
+              <span class="anchor" id="variable-mp_env~4"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1765,7 +1765,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~11"></span>
+              <span class="anchor" id="variable-local_rows~6"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1780,7 +1780,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols~9"></span>
+              <span class="anchor" id="variable-local_cols~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1820,7 +1820,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~34"></span>
+              <span class="anchor" id="variable-dist~36"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1835,7 +1835,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~16"></span>
+              <span class="anchor" id="variable-mp_env~5"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1880,7 +1880,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~12"></span>
+              <span class="anchor" id="variable-local_rows~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1895,7 +1895,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols~10"></span>
+              <span class="anchor" id="variable-local_cols~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1910,7 +1910,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~5"></span>
+              <span class="anchor" id="variable-reuse_arrays~6"></span>
               logical,
             </td>
 <td></td>
@@ -1931,7 +1931,7 @@ Workaround for CCE compilation</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_distribution_get~2"></span> <h3>public  subroutine <a href='../proc/dbcsr_distribution_get~2.html'>dbcsr_distribution_get</a>(dist, row_dist, col_dist, nrows, ncols, has_threads, group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, subgroups_defined, prow_group, pcol_group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_distribution_get"></span> <h3>public  subroutine <a href='../proc/dbcsr_distribution_get.html'>dbcsr_distribution_get</a>(dist, row_dist, col_dist, nrows, ncols, has_threads, group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, subgroups_defined, prow_group, pcol_group)  
 </h3></div>
     <div class="card-body">
           
@@ -1950,7 +1950,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~35"></span>
+              <span class="anchor" id="variable-dist~37"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1965,7 +1965,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~24"></span>
+              <span class="anchor" id="variable-row_dist~11"></span>
               integer,
             </td>
 <td></td>
@@ -1980,7 +1980,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~24"></span>
+              <span class="anchor" id="variable-col_dist~11"></span>
               integer,
             </td>
 <td></td>
@@ -2010,7 +2010,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ncols~5"></span>
+              <span class="anchor" id="variable-ncols"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2025,7 +2025,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_threads~3"></span>
+              <span class="anchor" id="variable-has_threads~2"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -2040,7 +2040,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~16"></span>
+              <span class="anchor" id="variable-group~6"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out),</td>
@@ -2055,7 +2055,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mynode~40"></span>
+              <span class="anchor" id="variable-mynode~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2070,7 +2070,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~40"></span>
+              <span class="anchor" id="variable-numnodes~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2085,7 +2085,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nprows~10"></span>
+              <span class="anchor" id="variable-nprows~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2100,7 +2100,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-npcols~9"></span>
+              <span class="anchor" id="variable-npcols~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2115,7 +2115,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-myprow~12"></span>
+              <span class="anchor" id="variable-myprow"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2130,7 +2130,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mypcol~12"></span>
+              <span class="anchor" id="variable-mypcol"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2145,7 +2145,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~19"></span>
+              <span class="anchor" id="variable-pgrid~16"></span>
               integer,
             </td>
 <td></td>
@@ -2175,7 +2175,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prow_group~2"></span>
+              <span class="anchor" id="variable-prow_group"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out),</td>
@@ -2190,7 +2190,7 @@ Workaround for CCE compilation</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pcol_group~2"></span>
+              <span class="anchor" id="variable-pcol_group"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out),</td>
@@ -2211,7 +2211,7 @@ Workaround for CCE compilation</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_distribution_hold~2"></span> <h3>public  subroutine <a href='../proc/dbcsr_distribution_hold~2.html'>dbcsr_distribution_hold</a>(dist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_distribution_hold"></span> <h3>public  subroutine <a href='../proc/dbcsr_distribution_hold.html'>dbcsr_distribution_hold</a>(dist)  
 </h3></div>
     <div class="card-body">
           
@@ -2230,7 +2230,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~36"></span>
+              <span class="anchor" id="variable-dist~38"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -2270,7 +2270,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~54"></span>
+              <span class="anchor" id="variable-dist~56"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout),</td>
@@ -2325,7 +2325,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~55"></span>
+              <span class="anchor" id="variable-dist~57"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td></td>
@@ -2380,7 +2380,7 @@ Workaround for CCE compilation</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~56"></span>
+              <span class="anchor" id="variable-dist~58"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
