@@ -28,7 +28,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0-rc1</small></a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -114,7 +114,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~12">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~70">moduleN</a>
         </div>
       </div>
     </div>
@@ -240,9 +240,9 @@ function objects, leaving up to the caller how to efficiently store global data.
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
               </ul>
             </li>
         </ul>
@@ -267,7 +267,7 @@ function objects, leaving up to the caller how to efficiently store global data.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~12"></span>
+              <span class="anchor" id="variable-modulen~70"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -547,7 +547,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_size~2"></span>
+              <span class="anchor" id="variable-dist_size~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -780,7 +780,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~6"></span>
+              <span class="anchor" id="variable-t~17"></span>
               class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
 <td>intent(in)</td>
@@ -846,7 +846,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~7"></span>
+              <span class="anchor" id="variable-t~18"></span>
               class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
 <td>intent(in)</td>
@@ -861,7 +861,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~20"></span>
+              <span class="anchor" id="variable-dist~99"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -912,7 +912,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~8"></span>
+              <span class="anchor" id="variable-t~19"></span>
               class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
             </td>
 <td>intent(in)</td>
@@ -1026,12 +1026,12 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure(<a href='../interface/rowcol_dist.html'>rowcol_dist</a>), public, deferred ::
-  <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-dist~16'>dist</a></strong></td>
+  <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-dist~95'>dist</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure(<a href='../interface/dist_rowcols.html'>dist_rowcols</a>), public, deferred ::
-  <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-rowcols~2'>rowcols</a></strong></td>
+  <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-rowcols~3'>rowcols</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1141,12 +1141,12 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-dist~17'>dist</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/cyclic_dist.html'>cyclic_dist</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-dist~96'>dist</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/cyclic_dist.html'>cyclic_dist</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-rowcols~3'>rowcols</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/cyclic_rowcols.html'>cyclic_rowcols</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-rowcols~4'>rowcols</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/cyclic_rowcols.html'>cyclic_rowcols</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1256,12 +1256,12 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-dist~18'>dist</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/arb_dist.html'>arb_dist</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-dist~97'>dist</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/arb_dist.html'>arb_dist</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-rowcols~4'>rowcols</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/arb_rowcols.html'>arb_rowcols</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-rowcols~5'>rowcols</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/arb_rowcols.html'>arb_rowcols</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1379,7 +1379,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_size"></span>
+              <span class="anchor" id="variable-dist_size~5"></span>
               integer,
             </td>
               <td>public</td>
@@ -1422,12 +1422,12 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-dist~19'>dist</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/repl_dist.html'>repl_dist</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-dist~98'>dist</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/repl_dist.html'>repl_dist</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-rowcols~5'>rowcols</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/repl_rowcols.html'>repl_rowcols</a></td>
+  <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-rowcols~6'>rowcols</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/repl_rowcols.html'>repl_rowcols</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1503,7 +1503,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure(<a href='../interface/rowcol_data.html'>rowcol_data</a>), public, deferred ::
-  <strong><a href='../type/dbcsr_tas_rowcol_data.html#boundprocedure-data'>DATA</a></strong></td>
+  <strong><a href='../type/dbcsr_tas_rowcol_data.html#boundprocedure-data~61'>DATA</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1613,7 +1613,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_blk_size_arb.html#boundprocedure-data~2'>DATA</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_arb.html'>blk_size_arb</a></td>
+  <strong><a href='../type/dbcsr_tas_blk_size_arb.html#boundprocedure-data~62'>DATA</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_arb.html'>blk_size_arb</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1740,7 +1740,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~3'>DATA</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_repl.html'>blk_size_repl</a></td>
+  <strong><a href='../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~63'>DATA</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_repl.html'>blk_size_repl</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1833,7 +1833,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbcsr_tas_blk_size_one.html#boundprocedure-data~4'>DATA</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_one.html'>blk_size_one</a></td>
+  <strong><a href='../type/dbcsr_tas_blk_size_one.html#boundprocedure-data~64'>DATA</a></strong> => <a href='/__w/dbcsr/dbcsr/build/doc/proc/blk_size_one.html'>blk_size_one</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1866,7 +1866,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~9"></span>
+              <span class="anchor" id="variable-t~20"></span>
               class(<a href='../type/dbcsr_tas_blk_size_arb.html'>dbcsr_tas_blk_size_arb</a>),
             </td>
 <td>intent(in)</td>
@@ -1926,7 +1926,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~10"></span>
+              <span class="anchor" id="variable-t~21"></span>
               class(<a href='../type/dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>),
             </td>
 <td>intent(in)</td>
@@ -1986,7 +1986,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~11"></span>
+              <span class="anchor" id="variable-t~22"></span>
               class(<a href='../type/dbcsr_tas_blk_size_one.html'>dbcsr_tas_blk_size_one</a>),
             </td>
 <td>intent(in)</td>
@@ -2196,7 +2196,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~12"></span>
+              <span class="anchor" id="variable-t~23"></span>
               class(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>),
             </td>
 <td>intent(in)</td>
@@ -2256,7 +2256,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~13"></span>
+              <span class="anchor" id="variable-t~24"></span>
               class(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),
             </td>
 <td>intent(in)</td>
@@ -2316,7 +2316,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~14"></span>
+              <span class="anchor" id="variable-t~25"></span>
               class(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),
             </td>
 <td>intent(in)</td>
@@ -2331,7 +2331,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~21"></span>
+              <span class="anchor" id="variable-dist~100"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2376,7 +2376,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~15"></span>
+              <span class="anchor" id="variable-t~26"></span>
               class(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>),
             </td>
 <td>intent(in)</td>
@@ -2391,7 +2391,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~22"></span>
+              <span class="anchor" id="variable-dist~101"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2619,7 +2619,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_sizes"></span>
+              <span class="anchor" id="variable-block_sizes~4"></span>
               class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
             </td>
 <td>intent(in)</td>
@@ -2724,7 +2724,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_size~2"></span>
+              <span class="anchor" id="variable-dist_size~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2769,7 +2769,7 @@ Only for small dimensions since distribution is created as an array</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~16"></span>
+              <span class="anchor" id="variable-t~27"></span>
               class(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),
             </td>
 <td>intent(in)</td>
@@ -2829,7 +2829,7 @@ Only for small dimensions since distribution is created as an array</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~17"></span>
+              <span class="anchor" id="variable-t~28"></span>
               class(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),
             </td>
 <td>intent(in)</td>
@@ -2844,7 +2844,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~25"></span>
+              <span class="anchor" id="variable-dist~104"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2894,7 +2894,7 @@ Only for small dimensions since distribution is created as an array</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblk~9"></span>
+              <span class="anchor" id="variable-nblk~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2909,7 +2909,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nproc~6"></span>
+              <span class="anchor" id="variable-nproc~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2924,7 +2924,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_size~29"></span>
+              <span class="anchor" id="variable-blk_size~44"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2939,7 +2939,7 @@ Only for small dimensions since distribution is created as an array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~23"></span>
+              <span class="anchor" id="variable-dist~102"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2981,7 +2981,7 @@ load balanced distribution is obtained by using LPT algorithm together with rand
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nel"></span>
+              <span class="anchor" id="variable-nel~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3026,7 +3026,7 @@ load balanced distribution is obtained by using LPT algorithm together with rand
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~24"></span>
+              <span class="anchor" id="variable-dist~103"></span>
               integer,
             </td>
 <td>intent(out),</td>

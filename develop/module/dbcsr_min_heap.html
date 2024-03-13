@@ -28,7 +28,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.6.0</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0-rc1</small></a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -199,8 +199,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
               </ul>
             </li>
         </ul>
@@ -293,7 +293,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~2"></span>
+              <span class="anchor" id="variable-key"></span>
               integer(kind=keyt),
             </td>
               <td>public</td>
@@ -310,7 +310,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~8"></span>
+              <span class="anchor" id="variable-value~2"></span>
               integer(kind=valt),
             </td>
               <td>public</td>
@@ -359,7 +359,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-node"></span>
+              <span class="anchor" id="variable-node~5"></span>
               type(<a href='../type/dbcsr_heap_node.html'>dbcsr_heap_node</a>),
             </td>
               <td>public</td>
@@ -408,7 +408,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~10"></span>
+              <span class="anchor" id="variable-n~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -425,7 +425,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~15"></span>
+              <span class="anchor" id="variable-index"></span>
               integer,
             </td>
               <td>public,</td>
@@ -442,7 +442,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes~4"></span>
+              <span class="anchor" id="variable-nodes~2"></span>
               type(<a href='../type/dbcsr_heap_node_e.html'>dbcsr_heap_node_e</a>),
             </td>
               <td>public,</td>
@@ -491,7 +491,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~11"></span>
+              <span class="anchor" id="variable-n~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -536,7 +536,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~12"></span>
+              <span class="anchor" id="variable-n~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -596,7 +596,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~13"></span>
+              <span class="anchor" id="variable-n~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -661,7 +661,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~14"></span>
+              <span class="anchor" id="variable-n~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -756,7 +756,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-values~5"></span>
+              <span class="anchor" id="variable-values~2"></span>
               integer(kind=valt),
             </td>
 <td>intent(in),</td>
@@ -811,7 +811,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~3"></span>
+              <span class="anchor" id="variable-key~2"></span>
               integer(kind=keyt),
             </td>
 <td>intent(out)</td>
@@ -826,7 +826,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~10"></span>
+              <span class="anchor" id="variable-value~4"></span>
               integer(kind=valt),
             </td>
 <td>intent(out)</td>
@@ -841,7 +841,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~51"></span>
+              <span class="anchor" id="variable-found~22"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -897,7 +897,7 @@ the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~4"></span>
+              <span class="anchor" id="variable-key~3"></span>
               integer(kind=keyt),
             </td>
 <td>intent(out)</td>
@@ -912,7 +912,7 @@ the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~11"></span>
+              <span class="anchor" id="variable-value~5"></span>
               integer(kind=valt),
             </td>
 <td>intent(out)</td>
@@ -927,7 +927,7 @@ the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~52"></span>
+              <span class="anchor" id="variable-found~23"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -983,7 +983,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~5"></span>
+              <span class="anchor" id="variable-key~4"></span>
               integer(kind=keyt),
             </td>
 <td>intent(in)</td>
@@ -998,7 +998,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~12"></span>
+              <span class="anchor" id="variable-value~6"></span>
               integer(kind=valt),
             </td>
 <td>intent(in)</td>
@@ -1053,7 +1053,7 @@ rebalances the heap.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~13"></span>
+              <span class="anchor" id="variable-value~7"></span>
               integer(kind=valt),
             </td>
 <td>intent(in)</td>
