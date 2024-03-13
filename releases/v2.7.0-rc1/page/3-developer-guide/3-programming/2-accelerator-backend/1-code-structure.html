@@ -1,0 +1,211 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../../../../favicon.png">
+
+    <title>Code Structure &ndash; DBCSR</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../../../../css/pygments.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../../../css/local.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../../../../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.7.0-rc1</small></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../../../index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../../../../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>Code Structure</h1>
+    <div class="container p-2 mb-4 bg-light border rounded-3">
+      <div class="row align-items-center justify-content-between">
+        <div class="col">
+          <ul class="list-inline" style="margin-bottom:0px; display:inline">
+          </ul>
+        </div>
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../../../index.html'>Guide</a></li>
+                <li class="breadcrumb-item"><a href='../../index.html'>Developer Guide</a></li>
+                <li class="breadcrumb-item"><a href='../index.html'>Programming</a></li>
+                <li class="breadcrumb-item"><a href='index.html'>Accelerator Backend</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Code Structure</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="col-3">
+        <div class="card card-body bg-light" id="sidebar-toc">
+          <ul class="nav flex-column align-items">
+            <li class="nav-item">
+              <a class="nav-link" href="../../../index.html">Guide</a>
+            </li>
+          </ul>
+          <hr>
+          <nav class="nav nav-pills flex-column">
+              <a class="nav-link" href="../../../1-DBCSR/index.html">DBCSR</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../1-DBCSR/publications.html">Publications</a>
+
+                </nav>
+              <a class="nav-link" href="../../../2-user-guide/index.html">User Guide</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../2-user-guide/1-installation/index.html">Install</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../2-user-guide/1-installation/1-cmake-build-recipes.html">CMake Build Recipes</a>
+              <a class="nav-link" href="../../../2-user-guide/1-installation/2-supported-compilers.html">Supported Compilers</a>
+              <a class="nav-link" href="../../../2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html">Using DBCSR in a CMake project</a>
+              <a class="nav-link" href="../../../2-user-guide/1-installation/4-docker.html">Docker Images</a>
+
+                </nav>
+              <a class="nav-link" href="../../../2-user-guide/2-tests/index.html">Tests</a>
+              <a class="nav-link" href="../../../2-user-guide/3-examples/index.html">Examples</a>
+              <a class="nav-link" href="../../../2-user-guide/4-gpu/index.html">GPUs</a>
+
+                </nav>
+              <a class="nav-link" href="../../index.html">Developer Guide</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../1-tooling/index.html">Tooling</a>
+              <a class="nav-link" href="../../2-documentation/index.html">Documentation</a>
+              <a class="nav-link" href="../index.html">Programming</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../1-overview/index.html">Overview</a>
+              <a class="nav-link" href="index.html">Accelerator Backend</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link active disabled" href="1-code-structure.html">Code Structure</a>
+              <a class="nav-link" href="2-libsmm_acc/index.html">CUDA/HIP</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="2-libsmm_acc/1-kernels.html">Kernels</a>
+              <a class="nav-link" href="2-libsmm_acc/2-parameters.html">Kernel Parameters</a>
+              <a class="nav-link" href="2-libsmm_acc/3-tune.html">Autotuning Framework</a>
+              <a class="nav-link" href="2-libsmm_acc/4-predict.html">Predictive Modeling Framework</a>
+              <a class="nav-link" href="2-libsmm_acc/5-notebooks.html">Notebooks</a>
+
+                </nav>
+              <a class="nav-link" href="3-libsmm_ocl/index.html">OpenCL</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="3-libsmm_ocl/1-autotune.html">Autotune</a>
+              <a class="nav-link" href="3-libsmm_ocl/2-bulktune.html">Parameters</a>
+
+                </nav>
+
+                </nav>
+
+                </nav>
+              <a class="nav-link" href="../../4-performance/index.html">Performance</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../4-performance/1-insights.html">Insights</a>
+              <a class="nav-link" href="../../4-performance/2-just-in-time-compilation.html">JIT</a>
+
+                </nav>
+
+                </nav>
+          </nav>
+        </div>
+      </div>
+
+    <div class="col-9" id='text'>
+      <h1>GPU Backend Code Architecture</h1>
+<div class="codehilite"><pre><span></span><code><span class="nx">dbcsr</span><span class="o">/</span>
+<span class="o">--</span><span class="w"> </span><span class="nx">src</span><span class="o">/</span>
+<span class="o">----</span><span class="w"> </span><span class="nx">acc</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">contains</span><span class="w"> </span><span class="nx">interfaces</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">ACC</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">LIBSMM</span><span class="w"> </span><span class="p">(</span><span class="nx">top</span><span class="o">-</span><span class="nx">level</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">well</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">backends</span><span class="w"> </span><span class="p">(</span><span class="nx">subdirectories</span><span class="p">)</span>
+<span class="o">------</span><span class="w"> </span><span class="nx">cuda</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">CUDA</span><span class="w"> </span><span class="nx">backend</span>
+<span class="o">------</span><span class="w"> </span><span class="nx">hip</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">HIP</span><span class="w"> </span><span class="nx">backend</span>
+<span class="o">------</span><span class="w"> </span><span class="nx">cuda_hip</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">common</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">CUDA</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">HIP</span>
+<span class="o">------</span><span class="w"> </span><span class="nx">libsmm_acc</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">small</span><span class="w"> </span><span class="nx">matrix</span><span class="o">-</span><span class="nx">matrix</span><span class="w"> </span><span class="nx">operations</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">GPU</span><span class="w"> </span><span class="p">(</span><span class="nx">can</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">either</span><span class="w"> </span><span class="nx">cuda</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">hip</span><span class="w"> </span><span class="kd">interface</span><span class="p">)</span>
+<span class="o">------</span><span class="w"> </span><span class="nx">opencl</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">OpenCL</span><span class="w"> </span><span class="nx">backend</span>
+<span class="o">------</span><span class="w"> </span><span class="nx">opencl</span><span class="o">/</span><span class="nx">smm</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">LIBSMM</span><span class="w"> </span><span class="nx">implementation</span><span class="w"> </span><span class="nx">based</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">OpenCL</span>
+</code></pre></div>
+    </div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  </body>
+</html>
