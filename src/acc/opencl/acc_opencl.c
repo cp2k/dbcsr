@@ -1290,7 +1290,7 @@ int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo,
       }
       assert(NULL != atomic_exp);
       /* compose build parameters and flags */
-      result = LIBXSMM_SNPRINTF(flags, flags_maxlen, "-DTAN=%i %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s", kind, atomic_type,
+      result = LIBXSMM_SNPRINTF(flags, flags_maxlen, " -DTAN=%i %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s", kind, atomic_type,
         atomic_ops, atomic_exp, barrier_expr);
     }
   }

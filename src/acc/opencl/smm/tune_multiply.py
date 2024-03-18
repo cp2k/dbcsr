@@ -15,7 +15,6 @@ from opentuner import MeasurementInterface
 from opentuner import Result
 from signal import signal, SIGINT
 import tempfile
-import socket
 import shutil
 import copy
 import json
@@ -176,16 +175,15 @@ class SmmTuner(MeasurementInterface):
         ):  # setup database (DB)
             if args.database is None:  # adjust DB-location
                 envrank = os.getenv("PMI_RANK", os.getenv("OMPI_COMM_WORLD_LOCAL_RANK"))
+                directory = "{}-{}".format(dbdir, os.getenv("HOSTNAME"))
                 if envrank:
                     self.idevice = int(envrank) % self.ndevices
-                    directory = "{}-{}.db".format(dbdir, self.idevice)
-                else:
-                    directory = "{}.db".format(dbdir)
+                    directory += ".{}".format(self.idevice)
                 if os.path.isdir(directory):
                     shutil.rmtree(directory)
                 os.mkdir(directory)
                 self.args.database = "sqlite:///" + os.path.join(
-                    directory, "{}.db".format(socket.gethostname())
+                    directory, "{}.db".format(os.getpid())
                 )
             if not self.args.label:  # label for DB-session
                 self.args.label = "{}-{}-{}-s{}".format(
@@ -436,7 +434,7 @@ class SmmTuner(MeasurementInterface):
                         s = 0
                         if 0 < gflops:
                             g = int(filename.split("-")[-1].split("g")[0])
-                            s = gflops / g  # slowdown
+                            s = gflops / g if 0 < g else 0  # slowdown
                         if mtime < os.path.getmtime(filename):
                             if 0 < s:
                                 retsld[1] = retsld[1] + math.log(s)
@@ -842,6 +840,8 @@ if __name__ == "__main__":
     # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
     if os.getenv("OPENCL_LIBSMM_SMM_WS") not in default_enable_tune:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
+    if os.getenv("OPENCL_LIBSMM_SMM_AL") not in default_enable_tune:
+        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
