@@ -6,7 +6,7 @@ fail_fast: false
 minimum_pre_commit_version: 3.2.0
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: 'v0.3.2'
+  rev: 'v0.3.3'
   hooks:
   - id: ruff
     args: [ --fix, --exit-non-zero-on-fix ]
@@ -15,7 +15,7 @@ repos:
         .cp2k/.*|
       )$
 - repo: https://github.com/psf/black
-  rev: 24.2.0
+  rev: 24.3.0
   hooks:
   - id: black
     name: Reformat Python files with the black code formatter
