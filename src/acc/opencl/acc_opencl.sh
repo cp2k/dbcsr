@@ -37,7 +37,6 @@ trap_exit() {
 
 process_pre() {
   if [ "$1" ]; then
-    GUARD=$(${BASENAME} "$1" | ${TR} '[:lower:]' '[:upper:]' | ${TR} '.' '_')
     if [ "${CPP}" ] && \
        [ "$(eval "${CPP} ${CPPBASEFLAGS} $1" 2>/dev/null >/dev/null && echo "YES")" ];
     then
@@ -51,8 +50,13 @@ process_pre() {
     else # fallback to sed
       ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' "$1"
     fi | \
-    if [ "${GUARD}" ] && [[ (! "$2" || "0" = "$2") ]]; then # strip include guards
-      ${SED} "/${GUARD}/d;\${/\s*\#\s*endif/d}"
+    if [ ! "$2" ] || [ "0" = "$2" ]; then # strip include guards
+      GUARD=$(${BASENAME} "$1" | ${TR} '[:lower:]' '[:upper:]' | ${TR} '.' '_')
+      if [ "${GUARD}" ] && [ "$(${SED} -n "/${GUARD}/p" "$1")" ]; then
+        ${SED} "/${GUARD}/d;\${/\s*\#\s*endif/d}"
+      else
+        ${CAT}
+      fi
     else
       ${CAT}
     fi
