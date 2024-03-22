@@ -1262,8 +1262,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   0 == new_config.ac ? "" : (1 == slm_c ? "-DSLM_C=1" : "-DSLM_C=2"));
                 /* apply support for FP-atomics */
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
-                  nchar = c_dbcsr_acc_opencl_flags_atomics(&c_dbcsr_acc_opencl_config.device, tkind, extensions,
-                    &nextensions, build_params + nchar, sizeof(build_params) - nchar);
+                  nchar = c_dbcsr_acc_opencl_flags_atomics(&c_dbcsr_acc_opencl_config.device, tkind, extensions, &nextensions,
+                    build_params + nchar, sizeof(build_params) - nchar);
                 }
                 else result = EXIT_FAILURE;
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
