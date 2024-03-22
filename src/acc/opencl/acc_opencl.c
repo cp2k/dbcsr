@@ -1150,16 +1150,17 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max
 
 
 int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo, c_dbcsr_acc_opencl_atomic_fp_t kind,
-  const char* exts[], int exts_maxlen, char flags[], size_t flags_maxlen) {
+  const char* exts[], size_t* exts_maxlen, char flags[], size_t flags_maxlen) {
   cl_device_id device_id = NULL;
-  int result = 0, ext1, ext2;
-  for (ext1 = 0; ext1 < exts_maxlen; ++ext1) {
+  size_t ext1, ext2;
+  int result = 0;
+  for (ext1 = 0; ext1 < (NULL != exts_maxlen ? *exts_maxlen : 0); ++ext1) {
     if (NULL == exts[ext1] || '\0' == *exts[ext1]) break;
   }
-  for (ext2 = ext1 + 1; ext2 < exts_maxlen; ++ext2) {
+  for (ext2 = ext1 + 1; ext2 < (NULL != exts_maxlen ? *exts_maxlen : 0); ++ext2) {
     if (NULL == exts[ext2] || '\0' == *exts[ext2]) break;
   }
-  if (NULL != devinfo && ext2 < exts_maxlen &&
+  if (NULL != devinfo && NULL != exts_maxlen && ext2 < *exts_maxlen &&
       EXIT_SUCCESS == clGetContextInfo(devinfo->context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device_id, NULL))
   {
     const char* atomic_type = "";
@@ -1227,8 +1228,9 @@ int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo,
                                 &fp_atomics, NULL) &&
               0 != (/*add*/ (1 << 1) & fp_atomics))
           {
-#  if 0 /* enabling this permitted extension in source code causes compiler warning */
             exts[ext2] = "cl_ext_float_atomics";
+#  if 1 /* enabling this permitted extension in source code causes compiler warning */
+            *exts_maxlen = ext2; /* quietly report extension by reducing exts_maxlen */
 #  endif
             atomic_exp = (c_dbcsr_acc_opencl_atomic_fp_64 == kind
                             ? "atomic_fetch_add_explicit((GLOBAL_VOLATILE(atomic_double)*)A,B,"
@@ -1323,7 +1325,7 @@ int c_dbcsr_acc_opencl_flags(
 
 
 int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
-  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts,
+  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], size_t num_exts,
   cl_kernel* kernel) {
   char buffer[ACC_OPENCL_BUFFERSIZE] = "", buffer_name[ACC_OPENCL_MAXSTRLEN * 2];
   int ok = EXIT_SUCCESS, source_is_cl = 1, nchar;

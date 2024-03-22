@@ -260,7 +260,7 @@ typedef struct c_dbcsr_acc_opencl_device_t {
   c_dbcsr_acc_opencl_stream_t stream;
   /** OpenCL compiler flag (language standard). */
   char std_flag[16];
-  /** OpenCL support-level of device. */
+  /** OpenCL support-level (major and minor). */
   cl_int std_level[2], std_clevel[2];
   /** Kind of device (GPU, CPU, or other). */
   cl_device_type type;
@@ -389,13 +389,13 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max
  * are are meant to be compiler-flags.
  */
 int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
-  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts,
+  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], size_t num_exts,
   cl_kernel* kernel);
 /** Per-thread variant of c_dbcsr_acc_device_synchronize. */
 int c_dbcsr_acc_opencl_device_synchronize(ACC_OPENCL_LOCKTYPE* lock, int thread_id);
 /** Assemble flags to support atomic operations. */
 int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo, c_dbcsr_acc_opencl_atomic_fp_t kind,
-  const char* exts[], int exts_maxlen, char flags[], size_t flags_maxlen);
+  const char* exts[], size_t* exts_maxlen, char flags[], size_t flags_maxlen);
 /** Combines build-params and build-options, optional flags (try_build_options). */
 int c_dbcsr_acc_opencl_flags(
   const char build_params[], const char build_options[], const char try_build_options[], char buffer[], size_t buffer_size);
