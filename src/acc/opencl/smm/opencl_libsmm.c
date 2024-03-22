@@ -1065,7 +1065,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             const char *extensions[] = {NULL, NULL}, *const env_devid = getenv("OPENCL_LIBSMM_SMM_DEVID");
             const unsigned int devuid = (NULL == env_devid || '\0' == *env_devid) ? c_dbcsr_acc_opencl_config.device.uid
                                                                                   : (unsigned int)strtoul(env_devid, NULL, 0);
-            size_t wgsize_max, wgsize_prf, sgs = 0;
+            size_t nextensions = sizeof(extensions) / sizeof(*extensions), wgsize_max, wgsize_prf, sgs = 0;
             opencl_libsmm_smm_t new_config;
             if (NULL == config) {
               memset(&new_config, 0, sizeof(new_config));
@@ -1263,7 +1263,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 /* apply support for FP-atomics */
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   nchar = c_dbcsr_acc_opencl_flags_atomics(&c_dbcsr_acc_opencl_config.device, tkind, extensions,
-                    sizeof(extensions) / sizeof(*extensions), build_params + nchar, sizeof(build_params) - nchar);
+                    &nextensions, build_params + nchar, sizeof(build_params) - nchar);
                 }
                 else result = EXIT_FAILURE;
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
@@ -1290,7 +1290,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               const char* const env_kernel = getenv("OPENCL_LIBSMM_SMM_KERNEL");
               result = c_dbcsr_acc_opencl_kernel(NULL == env_kernel ? 0 : 1,
                 NULL == env_kernel ? OPENCL_KERNELS_SOURCE_MULTIPLY : env_kernel, fname, build_params, buffer, NULL /*cl_try*/,
-                NULL /*cl_try_ok*/, extensions, sizeof(extensions) / sizeof(*extensions), new_config.kernel + kernel_idx);
+                NULL /*cl_try_ok*/, extensions, nextensions, new_config.kernel + kernel_idx);
               if (EXIT_SUCCESS == result) {
                 size_t wgsize_max_kernel = wgsize_max;
                 result = c_dbcsr_acc_opencl_wgsize(
