@@ -14,6 +14,7 @@ DIRNAME=$(command -v dirname)
 HEAD=$(command -v head)
 SORT=$(command -v sort)
 SED=$(command -v gsed)
+CAT=$(command -v cat)
 CPP=$(command -v cpp)
 TR=$(command -v tr)
 RM=$(command -v rm)
@@ -35,18 +36,26 @@ trap_exit() {
 }
 
 process_pre() {
-  if [ "${CPP}" ] && \
-     [ "$(eval "${CPP} ${CPPBASEFLAGS} $1" 2>/dev/null >/dev/null && echo "YES")" ];
-  then
-    if [ "${CPPFLAGS}" ] && \
-       [ "$(eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} $1" 2>/dev/null >/dev/null && echo "YES")" ];
+  if [ "$1" ]; then
+    GUARD=$(${BASENAME} "$1" | ${TR} '[:lower:]' '[:upper:]' | ${TR} '.' '_')
+    if [ "${CPP}" ] && \
+       [ "$(eval "${CPP} ${CPPBASEFLAGS} $1" 2>/dev/null >/dev/null && echo "YES")" ];
     then
-      eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} $1" 2>/dev/null
+      if [ "${CPPFLAGS}" ] && \
+         [ "$(eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} $1" 2>/dev/null >/dev/null && echo "YES")" ];
+      then
+        eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} $1" 2>/dev/null
+      else
+        eval "${CPP} ${CPPBASEFLAGS} $1" 2>/dev/null
+      fi
+    else # fallback to sed
+      ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' "$1"
+    fi | \
+    if [ "${GUARD}" ] && [[ (! "$2" || "0" = "$2") ]]; then # strip include guards
+      ${SED} "/${GUARD}/d;\${/\s*\#\s*endif/d}"
     else
-      eval "${CPP} ${CPPBASEFLAGS} $1" 2>/dev/null
+      ${CAT}
     fi
-  else # fallback to sed
-    ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' "$1"
   fi
 }
 
@@ -59,7 +68,7 @@ process() {
       CLPATH=$(${DIRNAME} "$1")
       FILE=${CLPATH}/${CLINC}
       if [ "${FILE}" ] && [ -e "${FILE}" ]; then
-        process_pre "${FILE}" | process "${FILE}"
+        process_pre "${FILE}" "$2" | process "${FILE}" "$2"
       else
         >&2 echo "ERROR: header file ${FILE} not found!"
         exit 1
@@ -74,13 +83,16 @@ process() {
 }
 
 if [ "${BASENAME}" ] && [ "${DIRNAME}" ] && [ "${HEAD}" ] && [ "${SORT}" ] && \
-   [ "${SED}" ] && [ "${TR}" ] && [ "${RM}" ] && [ "${WC}" ];
+   [ "${SED}" ] && [ "${CAT}" ] && [ "${TR}" ] && [ "${RM}" ] && [ "${WC}" ];
 then
   for OFILE in "$@"; do :; done
   while test $# -gt 0; do
     case "$1" in
     -h|--help)
       shift $#;;
+    -k|--keep)
+      KEEP=1
+      shift;;
     -b|--banner)
       BANNER=$2
       shift 2;;
@@ -119,13 +131,20 @@ then
       fi
     fi
     trap 'trap_exit' EXIT
-    RNAME=$(${BASENAME} "$(${DIRNAME} "$1")")
+    RNAME=$(${BASENAME} "$(cd "$(${DIRNAME} "$1")" && pwd -P)")
     ANAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${RNAME}")
     NFILES_OCL=0
     for CLFILE in ${*:1:${#@}-1}; do
       if [ "${CLFILE##*.}" = "cl" ]; then
+        CLEXT=".cl"
+      elif [ "${CLFILE##*.}" = "h" ]; then
+        CLEXT=".h"
+      else
+        CLEXT=""
+      fi
+      if [ "${CLEXT}" ]; then
         if [ -e "${CLFILE}" ]; then
-          CNAME=$(${BASENAME} "${CLFILE}" .cl | ${SED} "s/${RNAME}_//")
+          CNAME=$(${BASENAME} "${CLFILE}" "${CLEXT}" | ${SED} "s/${RNAME}_//;s/_opencl//")
           BNAME=$(${TR} '[:lower:]' '[:upper:]' <<<"${CNAME}")
           SNAME=OPENCL_${ANAME}_STRING_${BNAME}
           VNAME=opencl_${RNAME}_source_${CNAME}
@@ -137,7 +156,7 @@ then
           fi
           echo "#define ${MNAME} ${VNAME}"
           echo "#define ${SNAME} \\"
-          process_pre "${CLFILE}" | process "${CLFILE}"
+          process_pre "${CLFILE}" "${KEEP}" | process "${CLFILE}" "${KEEP}"
           echo "  \"\""
           echo "static const char ${VNAME}[] = ${SNAME};"
           NFILES_OCL=$((NFILES_OCL+1))
@@ -227,6 +246,7 @@ then
   else
     echo "Usage: $0 infile.cl [infile2.cl .. infileN.cl] [infile.csv [.. infileN.csv]] outfile.h"
     echo "       At least one OpenCL file and one header file must be supplied."
+    echo "       -k|--keep: do not strip include guards (stripped even if necessary)"
     echo "       -b|--banner N: number of lines used as banner (default: 0)"
     echo "       -p|--params P: directory-path to CSV-files (can be \"\")"
     echo "             default: ${PARAMDIR}"
