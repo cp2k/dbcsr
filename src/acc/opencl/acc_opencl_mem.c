@@ -301,12 +301,8 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
   assert(NULL != dev_mem && NULL != context);
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
   if (NULL != c_dbcsr_acc_opencl_config.device.clDeviceMemAllocINTEL) {
-    cl_device_id device = NULL;
-    result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
-    if (EXIT_SUCCESS == result) {
-      *dev_mem = memptr = c_dbcsr_acc_opencl_config.device.clDeviceMemAllocINTEL(
-        context, device, NULL /*properties*/, nbytes, 0 /*alignment*/, &result);
-    }
+    *dev_mem = memptr = c_dbcsr_acc_opencl_config.device.clDeviceMemAllocINTEL(
+      context, c_dbcsr_acc_opencl_config.device.id, NULL /*properties*/, nbytes, 0 /*alignment*/, &result);
     if (EXIT_SUCCESS != result) *dev_mem = NULL;
   }
   else
@@ -397,12 +393,7 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
     memory = (cl_mem)dev_mem;
 #  else
     if (NULL != c_dbcsr_acc_opencl_config.device.clMemFreeINTEL) {
-      cl_device_id device = NULL;
-      assert(NULL != c_dbcsr_acc_opencl_config.device.context);
-      result = clGetContextInfo(c_dbcsr_acc_opencl_config.device.context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
-      if (EXIT_SUCCESS == result) {
-        result = c_dbcsr_acc_opencl_config.device.clMemFreeINTEL(c_dbcsr_acc_opencl_config.device.context, dev_mem);
-      }
+      result = c_dbcsr_acc_opencl_config.device.clMemFreeINTEL(c_dbcsr_acc_opencl_config.device.context, dev_mem);
     }
     else {
       c_dbcsr_acc_opencl_info_memptr_t* info = NULL;
@@ -606,13 +597,8 @@ int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nb
     assert(NULL != str && NULL != str->queue);
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
     if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemFillINTEL) {
-      cl_device_id device = NULL;
-      assert(NULL != c_dbcsr_acc_opencl_config.device.context);
-      result = clGetContextInfo(c_dbcsr_acc_opencl_config.device.context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
-      if (EXIT_SUCCESS == result) {
-        result = c_dbcsr_acc_opencl_config.device.clEnqueueMemFillINTEL(
-          str->queue, (char*)dev_mem + offset, &value, size_of_value, nbytes, 0, NULL, &event);
-      }
+      result = c_dbcsr_acc_opencl_config.device.clEnqueueMemFillINTEL(
+        str->queue, (char*)dev_mem + offset, &value, size_of_value, nbytes, 0, NULL, &event);
     }
     else
 #  endif
@@ -649,6 +635,9 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
 int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t* mem_total, size_t* mem_local, int* mem_unified) {
   int result = EXIT_SUCCESS, unified = 0;
   size_t size_free = 0, size_total = 0, size_local = 0;
+  cl_device_local_mem_type cl_local_type = CL_GLOBAL;
+  cl_ulong cl_size_total = 0, cl_size_local = 0;
+  cl_bool cl_unified = CL_FALSE;
 #  if defined(_WIN32)
   MEMORYSTATUSEX mem_status;
   mem_status.dwLength = sizeof(mem_status);
@@ -688,28 +677,23 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t
         size_free = size_page * (size_t)pages_free;
       }
 #  endif
-  if (NULL != device) {
-    cl_device_local_mem_type cl_local_type = CL_GLOBAL;
-    cl_ulong cl_size_total = 0, cl_size_local = 0;
-    cl_bool cl_unified = CL_FALSE;
-    ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, sizeof(cl_ulong), &cl_size_total, NULL),
-      "retrieve amount of global memory", result);
-    ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, sizeof(cl_device_local_mem_type), &cl_local_type, NULL),
-      "retrieve kind of local memory", result);
-    if (CL_LOCAL == cl_local_type) {
-      ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, sizeof(cl_ulong), &cl_size_local, NULL),
-        "retrieve amount of local memory", result);
-    }
-    ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool), &cl_unified, NULL),
-      "retrieve if host memory is unified", result);
-    if (EXIT_SUCCESS == result) {
-      if (cl_size_total < size_total) size_total = cl_size_total;
-      if (size_total < size_free) size_free = size_total;
-      size_local = cl_size_local;
-      unified = cl_unified;
-    }
+  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, sizeof(cl_ulong), &cl_size_total, NULL),
+    "retrieve amount of global memory", result);
+  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, sizeof(cl_device_local_mem_type), &cl_local_type, NULL),
+    "retrieve kind of local memory", result);
+  if (CL_LOCAL == cl_local_type) {
+    ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, sizeof(cl_ulong), &cl_size_local, NULL),
+      "retrieve amount of local memory", result);
   }
-  result = (size_free <= size_total ? EXIT_SUCCESS : EXIT_FAILURE);
+  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool), &cl_unified, NULL),
+    "retrieve if host memory is unified", result);
+  if (EXIT_SUCCESS == result) {
+    if (cl_size_total < size_total) size_total = cl_size_total;
+    if (size_total < size_free) size_free = size_total;
+    size_local = cl_size_local;
+    unified = cl_unified;
+    assert(size_free <= size_total);
+  }
   assert(NULL != mem_local || NULL != mem_total || NULL != mem_free || NULL != mem_unified);
   if (NULL != mem_unified) *mem_unified = unified;
   if (NULL != mem_local) *mem_local = size_local;
@@ -720,19 +704,16 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t
 
 
 int c_dbcsr_acc_dev_mem_info(size_t* mem_free, size_t* mem_total) {
-  cl_device_id device = NULL;
-  int result = (0 < c_dbcsr_acc_opencl_config.ndevices ? clGetContextInfo(c_dbcsr_acc_opencl_config.device.context,
-                                                           CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL)
-                                                       : EXIT_FAILURE);
+  int result;
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   int routine_handle;
   static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
   static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
-  if (EXIT_SUCCESS == result) {
-    result = c_dbcsr_acc_opencl_info_devmem(device, mem_free, mem_total, NULL /*mem_local*/, NULL /*mem_unified*/);
-  }
+  assert(0 < c_dbcsr_acc_opencl_config.ndevices || NULL == c_dbcsr_acc_opencl_config.device.id);
+  result = c_dbcsr_acc_opencl_info_devmem(
+    c_dbcsr_acc_opencl_config.device.id, mem_free, mem_total, NULL /*mem_local*/, NULL /*mem_unified*/);
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #  endif
