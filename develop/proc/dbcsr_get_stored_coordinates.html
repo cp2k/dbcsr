@@ -75,20 +75,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.0% of total for procedures.">6 statements</a>
+                 title=" 0.0% of total for procedures.">12 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_dist_operations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_get_stored_coordinates</li>
           </ol>
         </nav>
@@ -140,10 +140,13 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine dbcsr_get_stored_coordinates(matrix, row, column, processor)  
+    <h2>public pure subroutine dbcsr_get_stored_coordinates(matrix, row, column, processor)  
 </h2>
     
 
+    <p>Sets the correct source matrix, row, column and possible data
+transposition for a given matrix and matrix logical row and
+column.</p>
 
 
     <h3>Arguments</h3>
@@ -159,8 +162,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~15"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~80"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -169,12 +172,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-                
+                <p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~20"></span>
+              <span class="anchor" id="variable-row~41"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -184,12 +187,13 @@
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-                
+                <p>input is logical row
+input is logical column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~3"></span>
+              <span class="anchor" id="variable-column~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -199,12 +203,13 @@
             <td>::</td>
             <td><strong>column</strong></td>
             <td>
-                
+                <p>input is logical row
+input is logical column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-processor"></span>
+              <span class="anchor" id="variable-processor~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -214,7 +219,7 @@
             <td>::</td>
             <td><strong>processor</strong></td>
             <td>
-                
+                <p>returns the processor on which this block resides</p>
             </td>
         </tr>
     </tbody>
@@ -234,13 +239,32 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="n">processor</span><span class="p">)</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">processor</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">PURE SUBROUTINE </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="n">processor</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Sets the correct source matrix, row, column and possible data</span>
+<span class="w">      </span><span class="c">!! transposition for a given matrix and matrix logical row and</span>
+<span class="w">      </span><span class="c">!! column.</span>
 
-<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_get_stored_coordinates_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="n">processor</span><span class="p">)</span>
-<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_stored_coordinates</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
+<span class="w">         </span><span class="c">!! DBCSR matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span>
+<span class="w">         </span><span class="c">!! input is logical row</span>
+<span class="w">         </span><span class="c">!! input is logical column</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">processor</span>
+<span class="w">         </span><span class="c">!! returns the processor on which this block resides</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+<span class="c">! SM-compatible way</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">processor</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">symmetry</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">checker_tr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">            </span><span class="c">! The transposed way.</span>
+<span class="w">            </span><span class="n">processor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_processor</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">)</span>
+<span class="w">         </span><span class="k">ELSE</span>
+<span class="w">            </span><span class="c">! The default way.</span>
+<span class="w">            </span><span class="n">processor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_processor</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">)</span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END IF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_get_stored_coordinates</span>
 </pre></div>
 
     </section>
