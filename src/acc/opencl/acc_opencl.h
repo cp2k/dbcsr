@@ -262,8 +262,16 @@ typedef struct c_dbcsr_acc_opencl_device_t {
   char std_flag[16];
   /** OpenCL support-level (major and minor). */
   cl_int std_level[2], std_clevel[2];
+  /**
+   * Maximum size of workgroup (WG), preferred multiple of WG-size (PM),
+   * and size of subgoup (SG) only if larger-equal than PM. SG is signaled
+   * smaller if an alternative SG-size exists (SG is zero if no support).
+   */
+  size_t wgsize[3];
   /** Kind of device (GPU, CPU, or other). */
   cl_device_type type;
+  /** OpenCL device-ID. */
+  cl_device_id id;
   /** Whether host memory is unified. */
   cl_int unified;
   /** Device-ID. */
@@ -381,8 +389,6 @@ int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char* const extname
 int c_dbcsr_acc_opencl_create_context(cl_device_id device_id, cl_context* context);
 /** Internal variant of c_dbcsr_acc_set_active_device. */
 int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_id);
-/** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
-int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max_value, size_t* preferred_multiple);
 /**
  * Build kernel from source with given kernel_name, build_params and build_options.
  * The build_params are meant to instantiate the kernel (-D) whereas build_options
