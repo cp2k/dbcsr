@@ -75,20 +75,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.9% of total for derived types.</p>Including implementation: 10 statements,  0.6% of total for derived types.">10 statements</a>
+                 title="<p> 1.0% of total for derived types.</p>Including implementation: 11 statements,  0.6% of total for derived types.">11 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a>
+              <a href="../src/dbcsr_tensor_reshape.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
             <li class="breadcrumb-item active" aria-current="page">block_buffer_type</li>
           </ol>
         </nav>
@@ -115,13 +115,14 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/block_buffer_type.html#variable-nblock~3">nblock</a>
+            <a class="list-group-item" href="../type/block_buffer_type.html#variable-ndim~2">ndim</a>
+            <a class="list-group-item" href="../type/block_buffer_type.html#variable-nblock">nblock</a>
             <a class="list-group-item" href="../type/block_buffer_type.html#variable-indx">indx</a>
             <a class="list-group-item" href="../type/block_buffer_type.html#variable-msg_r_dp">msg_r_dp</a>
             <a class="list-group-item" href="../type/block_buffer_type.html#variable-msg_r_sp">msg_r_sp</a>
             <a class="list-group-item" href="../type/block_buffer_type.html#variable-msg_c_dp">msg_c_dp</a>
             <a class="list-group-item" href="../type/block_buffer_type.html#variable-msg_c_sp">msg_c_sp</a>
-            <a class="list-group-item" href="../type/block_buffer_type.html#variable-data_type~78">data_type</a>
+            <a class="list-group-item" href="../type/block_buffer_type.html#variable-data_type~30">data_type</a>
             <a class="list-group-item" href="../type/block_buffer_type.html#variable-endpos">endpos</a>
         </div>
       </div>
@@ -171,7 +172,24 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblock~3"></span>
+              <span class="anchor" id="variable-ndim~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndim</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblock"></span>
               integer,
             </td>
               <td>public</td>
@@ -189,7 +207,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-indx"></span>
-              integer(kind=int_8),
+              integer,
             </td>
               <td>public,</td>
             <td>
@@ -273,7 +291,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~78"></span>
+              <span class="anchor" id="variable-data_type~30"></span>
               integer,
             </td>
               <td>public</td>
