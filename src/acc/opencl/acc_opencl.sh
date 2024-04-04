@@ -74,13 +74,14 @@ process() {
       if [ "${FILE}" ] && [ -e "${FILE}" ]; then
         process_pre "${FILE}" "$2" | process "${FILE}" "$2"
       else
-        >&2 echo "ERROR: header file ${FILE} not found!"
-        exit 1
+        >&2 echo "WARNING: header file ${FILE} not found!"
+        #exit 1
       fi
     else
       ${SED} <<<"${LINE}" \
         -e '/^[[:space:]]*$/d' -e 's/[[:space:]]*$//' \
-        -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/  "/' -e 's/$/\\n" \\/'
+        -e 's/[[:space:]]*\\/ \\\\/g' -e 's/"/\\"/g' \
+        -e 's/^/  "/' -e 's/$/\\n" \\/'
     fi
   done
   unset IFS
