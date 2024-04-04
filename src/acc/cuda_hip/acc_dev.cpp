@@ -45,7 +45,11 @@ extern "C" int c_dbcsr_acc_set_active_device(int device_id) {
   ACC_API_CALL(Free, (0));
 
 #if defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
-  ACC_API_CALL(DeviceSetLimit, (ACC(LimitPrintfFifoSize), (size_t)1000000000));
+  static bool once = false;
+  if (!once) {
+    ACC_API_CALL(DeviceSetLimit, (ACC(LimitPrintfFifoSize), (size_t)1000000000));
+    once = true;
+  }
 #endif
 
   return 0;
