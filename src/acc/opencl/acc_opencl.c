@@ -22,10 +22,16 @@
 #  if defined(__DBCSR_ACC)
 #    include "../acc_libsmm.h"
 #  endif
-
+#  include <fcntl.h>
 #  include <sys/stat.h>
 #  if !defined(S_ISDIR) && defined(S_IFMT) && defined(S_IFDIR)
 #    define S_ISDIR(A) ((S_IFMT & (A)) == S_IFDIR)
+#  endif
+#  if !defined(S_IREAD)
+#    define S_IREAD S_IRUSR
+#  endif
+#  if !defined(S_IWRITE)
+#    define S_IWRITE S_IWUSR
 #  endif
 
 #  if !defined(ACC_OPENCL_NLOCKS)
@@ -1430,73 +1436,82 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
       }
       buffer[0] = '\0'; /* reset to empty */
     }
-    /* consider preprocessing kernel for analysis (cpp); failure does not matter (result) */
-#  if defined(ACC_OPENCL_CPPBIN)
+    /* cpp: consider to preprocess kernel (failure does not impact result code) */
     if (0 != c_dbcsr_acc_opencl_config.dump && NULL == file_src) {
-      nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), ACC_OPENCL_TEMPDIR "/.%s.XXXXXX", kernel_name);
-      if (0 < nchar && (int)sizeof(buffer_name) > nchar) {
-        FILE* const file_cpp = fopen(ACC_OPENCL_CPPBIN, "rb");
-        const char* sed_pattern = "";
-#    if defined(ACC_OPENCL_SEDBIN)
-        FILE* const file_sed = fopen(ACC_OPENCL_SEDBIN, "rb");
-        if (NULL != file_sed) {
-          sed_pattern = "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*\\(\\/\\/.*\\)*$/d'";
-          fclose(file_sed); /* existence-check */
-        }
-#    endif
+      char dump_filename[ACC_OPENCL_MAXSTRLEN];
+      nchar = LIBXSMM_SNPRINTF(dump_filename, sizeof(dump_filename), "%s.cl", kernel_name);
+      if (0 < nchar && (int)sizeof(dump_filename) > nchar) {
+        const int std_flag_len = (int)strlen(c_dbcsr_acc_opencl_config.device.std_flag);
+        const char* const env_cpp = getenv("ACC_OPENCL_CPP");
+        const int cpp = (NULL == env_cpp ? 1 /*default*/ : atoi(env_cpp));
+#  if defined(ACC_OPENCL_CPPBIN)
+        FILE* const file_cpp = (0 != cpp ? fopen(ACC_OPENCL_CPPBIN, "rb") : NULL);
+#  else
+        FILE* const file_cpp = NULL;
+#  endif
+        int file_dmp = -1;
         if (NULL != file_cpp) {
-          const int file_tmp = mkstemp(buffer_name);
+          nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), ACC_OPENCL_TEMPDIR "/.%s.XXXXXX", kernel_name);
+          if (0 < nchar && (int)sizeof(buffer_name) > nchar) file_dmp = mkstemp(buffer_name);
           fclose(file_cpp); /* existence-check */
-          if (0 <= file_tmp) {
-            const int std_clevel = 100 * c_dbcsr_acc_opencl_config.device.std_clevel[0] +
-                                   10 * c_dbcsr_acc_opencl_config.device.std_clevel[1];
-            const int std_level = 100 * c_dbcsr_acc_opencl_config.device.std_level[0] +
-                                  10 * c_dbcsr_acc_opencl_config.device.std_level[1];
-            const int std_flag_len = (int)strlen(c_dbcsr_acc_opencl_config.device.std_flag);
-            nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer),
-              ACC_OPENCL_CPPBIN " -P -C -nostdinc -DACC_OPENCL_VERSION=%u -DACC_OPENCL_C_VERSION=%u %s %s %s %s >%s.cl", std_level,
-              std_clevel, 0 == c_dbcsr_acc_opencl_config.device.nv ? "" : "-D__NV_CL_C_VERSION",
-              NULL != build_params ? build_params : "", buffer_name, sed_pattern, kernel_name);
-            if (0 < nchar && (int)sizeof(buffer) > nchar &&
-                (0 == std_flag_len || (3 == write(file_tmp, "/*\n", 3) &&
-                                        std_flag_len == write(file_tmp, c_dbcsr_acc_opencl_config.device.std_flag, std_flag_len) &&
-                                        4 == write(file_tmp, "\n*/\n", 4))) &&
-                size_src == (size_t)write(file_tmp, ext_source, size_src))
-            {
-              if (EXIT_SUCCESS == system(buffer)) {
-                nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s.cl", kernel_name);
-                if (0 < nchar && (int)sizeof(buffer) > nchar) {
-                  FILE* const file = fopen(buffer, "r");
-                  if (NULL != file) {
-                    const long int size = (EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_END) ? ftell(file) : 0);
-                    char* const src = (char*)(EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_SET)
-                                                ? libxsmm_aligned_scratch(size + 1 /*terminator*/, 0 /*auto-align*/)
-                                                : NULL);
-                    if (NULL != src) {
-                      if ((size_t)size == fread(src, 1 /*sizeof(char)*/, size /*count*/, file)) {
-                        if (source != ext_source) {
-                          void* p = NULL;
-                          LIBXSMM_ASSIGN127(&p, &ext_source);
-                          libxsmm_free(p);
-                        }
-                        src[size] = '\0';
-                        ext_source = src;
-                      }
-                      else libxsmm_free(src);
-                    }
-                    ACC_OPENCL_EXPECT(EXIT_SUCCESS == fclose(file));
-                  }
-                }
-              }
-            }
-            buffer[0] = '\0'; /* reset to empty */
-            ACC_OPENCL_EXPECT(EXIT_SUCCESS == unlink(buffer_name));
-            ACC_OPENCL_EXPECT(EXIT_SUCCESS == close(file_tmp));
-          }
         }
+        else file_dmp = open(dump_filename, O_CREAT | O_TRUNC | O_RDWR, S_IREAD | S_IWRITE);
+        if (0 <= file_dmp) {
+          if ((0 != std_flag_len && (3 != write(file_dmp, "/*\n", 3) ||
+                                      std_flag_len != write(file_dmp, c_dbcsr_acc_opencl_config.device.std_flag, std_flag_len) ||
+                                      4 != write(file_dmp, "\n*/\n", 4))) ||
+              size_src != (size_t)write(file_dmp, ext_source, size_src))
+          {
+            file_dmp = -1;
+          }
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS == close(file_dmp));
+        }
+#  if defined(ACC_OPENCL_CPPBIN)
+        if (NULL != file_cpp && 0 <= file_dmp) { /* preprocess source-code */
+          const int std_clevel = 100 * c_dbcsr_acc_opencl_config.device.std_clevel[0] +
+                                 10 * c_dbcsr_acc_opencl_config.device.std_clevel[1];
+          const int std_level = 100 * c_dbcsr_acc_opencl_config.device.std_level[0] +
+                                10 * c_dbcsr_acc_opencl_config.device.std_level[1];
+          const char* sed_pattern = "";
+#    if defined(ACC_OPENCL_SEDBIN)
+          FILE* const file_sed = fopen(ACC_OPENCL_SEDBIN, "rb");
+          if (NULL != file_sed) {
+            sed_pattern = "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*\\(\\/\\/.*\\)*$/d'";
+            fclose(file_sed); /* existence-check */
+          }
+#    endif
+          nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer),
+            ACC_OPENCL_CPPBIN " -P -C -nostdinc -DACC_OPENCL_VERSION=%u -DACC_OPENCL_C_VERSION=%u %s %s %s %s >%s", std_level,
+            std_clevel, 0 == c_dbcsr_acc_opencl_config.device.nv ? "" : "-D__NV_CL_C_VERSION",
+            NULL != build_params ? build_params : "", buffer_name, sed_pattern, dump_filename);
+          if (0 < nchar && (int)sizeof(buffer) > nchar && EXIT_SUCCESS == system(buffer)) {
+            FILE* const file = fopen(dump_filename, "r");
+            if (NULL != file) {
+              const long int size = (EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_END) ? ftell(file) : 0);
+              char* const src = (char*)(EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_SET)
+                                          ? libxsmm_aligned_scratch(size + 1 /*terminator*/, 0 /*auto-align*/)
+                                          : NULL);
+              if (NULL != src) {
+                if ((size_t)size == fread(src, 1 /*sizeof(char)*/, size /*count*/, file)) {
+                  if (source != ext_source) {
+                    void* p = NULL;
+                    LIBXSMM_ASSIGN127(&p, &ext_source);
+                    libxsmm_free(p);
+                  }
+                  src[size] = '\0';
+                  ext_source = src;
+                }
+                else libxsmm_free(src);
+              }
+              ACC_OPENCL_EXPECT(EXIT_SUCCESS == fclose(file));
+            }
+          }
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS == unlink(buffer_name)); /* remove temporary file */
+          buffer[0] = '\0'; /* reset to empty */
+        }
+#  endif
       }
     }
-#  endif
     program = clCreateProgramWithSource(c_dbcsr_acc_opencl_config.device.context, 1 /*nlines*/, &ext_source, NULL, &result);
     if (EXIT_SUCCESS == result) {
       assert(NULL != program);
