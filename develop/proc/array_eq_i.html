@@ -73,22 +73,21 @@
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
-                 title=" 0.0% of total for procedures.">7 statements</a>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.0% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_array_list_methods.F"> Source File</a>
+              <a href="../src/dbcsr_tas_util.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_array_list_methods.f.html'>dbcsr_array_list_methods.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tas_util.f.html'>dbcsr_tas_util.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
             <li class="breadcrumb-item active" aria-current="page">array_eq_i</li>
           </ol>
         </nav>
@@ -134,11 +133,10 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure function array_eq_i(arr1, arr2)  
+    <h2>private pure function array_eq_i(arr1, arr2)  
 </h2>
     
 
-    <p>check whether two arrays are equal</p>
 
 
     <h3>Arguments</h3>
@@ -154,7 +152,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-arr1~2"></span>
+              <span class="anchor" id="variable-arr1"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -169,7 +167,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-arr2~2"></span>
+              <span class="anchor" id="variable-arr2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -187,7 +185,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-array_eq_i~3"></span>
+          <span class="anchor" id="variable-array_eq_i"></span>
           logical
         </small>
       </h3>
@@ -213,7 +211,10 @@
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2024 
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2024 
 </p>
           </div>
           <div class="col">

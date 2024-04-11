@@ -73,8 +73,7 @@
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 1.3% of total for derived types.</p>Including implementation: 15 statements,  0.9% of total for derived types.">15 statements</a>
             </li>
 
@@ -116,12 +115,12 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-c_has_symmetry">c_has_symmetry</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-keep_sparsity~11">keep_sparsity</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-keep_product_data~9">keep_product_data</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-keep_sparsity~4">keep_sparsity</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-keep_product_data~3">keep_product_data</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-use_eps">use_eps</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-m_sizes~4">m_sizes</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-n_sizes~4">n_sizes</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-k_sizes~4">k_sizes</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-m_sizes">m_sizes</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-n_sizes">n_sizes</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-k_sizes">k_sizes</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-m_global_sizes">m_global_sizes</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-n_global_sizes">n_global_sizes</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-c_local_rows">c_local_rows</a>
@@ -129,13 +128,13 @@
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-k_locals">k_locals</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-c_global_rows">c_global_rows</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-c_global_cols">c_global_cols</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-row_max_epss~4">row_max_epss</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-row_max_epss">row_max_epss</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-a_norms">a_norms</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-b_norms">b_norms</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-eps~20">eps</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-eps~9">eps</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-original_lastblk">original_lastblk</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-flop~22">flop</a>
-            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-product_wm~6">product_wm</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-flop~19">flop</a>
+            <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-product_wm~3">product_wm</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-csr">csr</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-new_row_max_epss">new_row_max_epss</a>
             <a class="list-group-item" href="../type/dbcsr_mm_multrec_type.html#variable-initialized">initialized</a>
@@ -174,7 +173,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public :: dbcsr_mm_multrec_type</h2>
     <p>Used to carry data among the various calls.  Each thread has
 its own private copy.</p>
@@ -213,7 +212,7 @@ Use on-the-fly filtering</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_sparsity~11"></span>
+              <span class="anchor" id="variable-keep_sparsity~4"></span>
               logical,
             </td>
               <td>private</td>
@@ -232,7 +231,7 @@ Use on-the-fly filtering</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_product_data~9"></span>
+              <span class="anchor" id="variable-keep_product_data~3"></span>
               logical,
             </td>
               <td>private</td>
@@ -270,7 +269,7 @@ Use on-the-fly filtering</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m_sizes~4"></span>
+              <span class="anchor" id="variable-m_sizes"></span>
               integer,
             </td>
               <td>private,</td>
@@ -289,7 +288,7 @@ Block sizes of A matrix columns and B matrix rows, indexed locally</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_sizes~4"></span>
+              <span class="anchor" id="variable-n_sizes"></span>
               integer,
             </td>
               <td>private,</td>
@@ -308,7 +307,7 @@ Block sizes of A matrix columns and B matrix rows, indexed locally</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k_sizes~4"></span>
+              <span class="anchor" id="variable-k_sizes"></span>
               integer,
             </td>
               <td>private,</td>
@@ -466,7 +465,7 @@ C and B matrix global columns.  Map from global columns (index) to local columns
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_max_epss~4"></span>
+              <span class="anchor" id="variable-row_max_epss"></span>
               real(kind=sp),
             </td>
               <td>private,</td>
@@ -523,7 +522,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~20"></span>
+              <span class="anchor" id="variable-eps~9"></span>
               real(kind=real_8),
             </td>
               <td>private</td>
@@ -557,7 +556,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~22"></span>
+              <span class="anchor" id="variable-flop~19"></span>
               integer(kind=int_8),
             </td>
               <td>private</td>
@@ -574,7 +573,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-product_wm~6"></span>
+              <span class="anchor" id="variable-product_wm~3"></span>
               type(<a href='dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
               <td>private,</td>
@@ -699,7 +698,10 @@ Norms of B matrix blocks.</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2024 
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2024 
 </p>
           </div>
           <div class="col">
