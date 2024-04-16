@@ -113,7 +113,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-modulen~68">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-modulen~65">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-rowsplit">rowsplit</a>
             <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-colsplit">colsplit</a>
             <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_pdims_accept_ratio">default_pdims_accept_ratio</a>
@@ -203,10 +203,10 @@ Basically, we are splitting process grid and each subgrid holds its own DBCSR ma
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
@@ -234,7 +234,7 @@ Basically, we are splitting process grid and each subgrid holds its own DBCSR ma
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~68"></span>
+              <span class="anchor" id="variable-modulen~65"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -367,7 +367,7 @@ dense matrices only</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~37"></span>
+              <span class="anchor" id="variable-mp_comm~45"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -382,7 +382,7 @@ dense matrices only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows~6"></span>
+              <span class="anchor" id="variable-nblkrows~7"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -398,7 +398,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols~5"></span>
+              <span class="anchor" id="variable-nblkcols~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -454,7 +454,7 @@ of dbcsr_tas_create_split
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~36"></span>
+              <span class="anchor" id="variable-mp_comm~44"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -469,7 +469,7 @@ of dbcsr_tas_create_split
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~6"></span>
+              <span class="anchor" id="variable-split_rowcol~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -484,7 +484,7 @@ of dbcsr_tas_create_split
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~15"></span>
+              <span class="anchor" id="variable-nsplit~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -544,7 +544,7 @@ of dbcsr_tas_create_split
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~7"></span>
+              <span class="anchor" id="variable-split_rowcol~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -559,7 +559,7 @@ of dbcsr_tas_create_split
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~16"></span>
+              <span class="anchor" id="variable-nsplit~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -621,7 +621,7 @@ Desired split factor</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~17"></span>
+              <span class="anchor" id="variable-nsplit~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -698,7 +698,7 @@ dense matrices only</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~37"></span>
+              <span class="anchor" id="variable-mp_comm~45"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -713,7 +713,7 @@ dense matrices only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows~6"></span>
+              <span class="anchor" id="variable-nblkrows~7"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -729,7 +729,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols~5"></span>
+              <span class="anchor" id="variable-nblkcols~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -775,7 +775,7 @@ total number of block columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~18"></span>
+              <span class="anchor" id="variable-dims~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -835,7 +835,7 @@ total number of block columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~27"></span>
+              <span class="anchor" id="variable-array~64"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -850,7 +850,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-el~12"></span>
+              <span class="anchor" id="variable-el~9"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -945,7 +945,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~35"></span>
+              <span class="anchor" id="variable-mp_comm~43"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -960,7 +960,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ngroup~2"></span>
+              <span class="anchor" id="variable-ngroup~3"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -975,7 +975,7 @@ total number of block columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-igroup~7"></span>
+              <span class="anchor" id="variable-igroup~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -991,7 +991,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~5"></span>
+              <span class="anchor" id="variable-split_rowcol~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1007,7 +1007,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-own_comm"></span>
+              <span class="anchor" id="variable-own_comm~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1062,7 +1062,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~38"></span>
+              <span class="anchor" id="variable-mp_comm~46"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1077,7 +1077,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~9"></span>
+              <span class="anchor" id="variable-split_rowcol~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1092,7 +1092,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~19"></span>
+              <span class="anchor" id="variable-nsplit~22"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1107,7 +1107,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-own_comm~2"></span>
+              <span class="anchor" id="variable-own_comm~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1162,7 +1162,7 @@ split rows or columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~18"></span>
+              <span class="anchor" id="variable-info~21"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -1177,7 +1177,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~39"></span>
+              <span class="anchor" id="variable-mp_comm~47"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1192,7 +1192,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~20"></span>
+              <span class="anchor" id="variable-nsplit~23"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1211,7 +1211,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-igroup~9"></span>
+              <span class="anchor" id="variable-igroup~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1230,7 +1230,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm_group~5"></span>
+              <span class="anchor" id="variable-mp_comm_group~6"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1245,7 +1245,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~10"></span>
+              <span class="anchor" id="variable-split_rowcol~11"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1384,7 +1384,7 @@ split rows or columns</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iproc~13"></span>
+              <span class="anchor" id="variable-iproc~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1399,7 +1399,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pdims~17"></span>
+              <span class="anchor" id="variable-pdims~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1414,7 +1414,7 @@ split rows or columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~11"></span>
+              <span class="anchor" id="variable-split_rowcol~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1430,7 +1430,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_split_size"></span>
+              <span class="anchor" id="variable-pgrid_split_size~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1446,7 +1446,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-igroup~10"></span>
+              <span class="anchor" id="variable-igroup~11"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1516,7 +1516,7 @@ how many process rows/cols per group</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iproc~14"></span>
+              <span class="anchor" id="variable-iproc~15"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1531,7 +1531,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pdims~18"></span>
+              <span class="anchor" id="variable-pdims~24"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1546,7 +1546,7 @@ how many process rows/cols per group</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~12"></span>
+              <span class="anchor" id="variable-split_rowcol~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1564,7 +1564,7 @@ local process ID</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_split_size~2"></span>
+              <span class="anchor" id="variable-pgrid_split_size~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1582,7 +1582,7 @@ local process ID</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-igroup~11"></span>
+              <span class="anchor" id="variable-igroup~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1643,7 +1643,7 @@ local process ID</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~19"></span>
+              <span class="anchor" id="variable-info~22"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -1658,7 +1658,7 @@ local process ID</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~92"></span>
+              <span class="anchor" id="variable-dist~97"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1705,7 +1705,7 @@ group local column block index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~218"></span>
+              <span class="anchor" id="variable-row~177"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1721,7 +1721,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~47"></span>
+              <span class="anchor" id="variable-column~33"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1762,7 +1762,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~20"></span>
+              <span class="anchor" id="variable-info~23"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -1777,7 +1777,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~93"></span>
+              <span class="anchor" id="variable-dist~98"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1792,7 +1792,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~219"></span>
+              <span class="anchor" id="variable-row~178"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
@@ -1807,7 +1807,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~48"></span>
+              <span class="anchor" id="variable-column~34"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
@@ -1877,7 +1877,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~21"></span>
+              <span class="anchor" id="variable-info~24"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -1907,7 +1907,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-igroup~12"></span>
+              <span class="anchor" id="variable-igroup~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1922,7 +1922,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcols~5"></span>
+              <span class="anchor" id="variable-rowcols~6"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1962,7 +1962,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~22"></span>
+              <span class="anchor" id="variable-info~25"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(inout)</td>
