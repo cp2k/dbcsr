@@ -3417,13 +3417,13 @@ have to be allocated.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/c_f_string.html'>c_f_string</a></td>
-                 <td><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></td>
+                 <td><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/c_f_string~2.html'>c_f_string</a></td>
-                 <td><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></td>
+                 <td><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -3779,15 +3779,15 @@ in order to prepare conversion.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/csr_create_new.html'>csr_create_new</a></td>
-                 <td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Create a new CSR matrix and allocate all internal data (excluding dbcsr_mapping)</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/csr_create_new~2.html'>csr_create_new</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Subroutine</td>
                  <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/csr_create_new~2.html'>csr_create_new</a></td>
+                 <td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Create a new CSR matrix and allocate all internal data (excluding dbcsr_mapping)</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/csr_create_nzerow.html'>csr_create_nzerow</a></td>
@@ -4349,15 +4349,15 @@ There are no checks done for correctness!</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_checksum.html'>dbcsr_checksum</a></td>
-                 <td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td>
-                 <td>Function</td>
-                 <td><p>Calculates the checksum of a DBCSR matrix.</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_checksum~2.html'>dbcsr_checksum</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_checksum~2.html'>dbcsr_checksum</a></td>
+                 <td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td>
+                 <td>Function</td>
+                 <td><p>Calculates the checksum of a DBCSR matrix.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_clear.html'>dbcsr_clear</a></td>
@@ -7655,16 +7655,16 @@ been</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Subroutine</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_run_tests~2.html'>dbcsr_run_tests</a></td>
                  <td><a href='../module/dbcsr_tests.html'>dbcsr_tests</a></td>
                  <td>Subroutine</td>
                  <td><p>Performs a variety of matrix multiplies of same matrices on different
 processor grids</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_run_tests~2.html'>dbcsr_run_tests</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../interface/dbcsr_scalar.html'>dbcsr_scalar</a></td>
@@ -8731,12 +8731,6 @@ tensor dimension.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a></td>
-                 <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
-                 <td>Function</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_t_nd_mp_comm~2.html'>dbcsr_t_nd_mp_comm</a></td>
                  <td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td>
                  <td>Function</td>
                  <td><p>Create a default nd process topology that is consistent with a given 2d topology.
@@ -8744,6 +8738,12 @@ Purpose: a nd tensor defined on the returned process grid can be represented as 
 matrix with the given 2d topology.
 This is needed to enable contraction of 2 tensors (must have the same 2d process grid).
 \return with nd cartesian grid</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_t_nd_mp_comm~2.html'>dbcsr_t_nd_mp_comm</a></td>
+                 <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
+                 <td>Function</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_t_nd_mp_free.html'>dbcsr_t_nd_mp_free</a></td>
@@ -8765,24 +8765,18 @@ This is needed to enable contraction of 2 tensors (must have the same 2d process
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td>
-                 <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
-                 <td>Subroutine</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_t_pgrid_create~2.html'>dbcsr_t_pgrid_create</a></td>
                  <td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgrid_create_expert</a></td>
+                 <td><a href='../proc/dbcsr_t_pgrid_create~2.html'>dbcsr_t_pgrid_create</a></td>
                  <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/dbcsr_t_pgrid_create_expert~2.html'>dbcsr_t_pgrid_create_expert</a></td>
+                 <td><a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgrid_create_expert</a></td>
                  <td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td>
                  <td>Subroutine</td>
                  <td><p>Create an n-dimensional process grid.
@@ -8796,6 +8790,12 @@ Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2
 (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
 coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
 cartesian grid.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_t_pgrid_create_expert~2.html'>dbcsr_t_pgrid_create_expert</a></td>
+                 <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_t_pgrid_destroy.html'>dbcsr_t_pgrid_destroy</a></td>
@@ -9752,14 +9752,14 @@ processor grids</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_to_csr_filter.html'>dbcsr_to_csr_filter</a></td>
-                 <td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Subroutine</td>
                  <td><p>Apply filtering threshold eps to DBCSR blocks in order to improve
 CSR sparsity (currently only used for testing purposes)</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_to_csr_filter~2.html'>dbcsr_to_csr_filter</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td>
                  <td>Subroutine</td>
                  <td><p>Apply filtering threshold eps to DBCSR blocks in order to improve
 CSR sparsity (currently only used for testing purposes)</p></td>
@@ -9955,15 +9955,15 @@ CSR sparsity (currently only used for testing purposes)</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_verify_matrix.html'>dbcsr_verify_matrix</a></td>
-                 <td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Verify the correctness of a BCSR matrix.</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_verify_matrix~2.html'>dbcsr_verify_matrix</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Subroutine</td>
                  <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_verify_matrix~2.html'>dbcsr_verify_matrix</a></td>
+                 <td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Verify the correctness of a BCSR matrix.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_warn.html'>dbcsr_warn</a></td>
@@ -10917,13 +10917,13 @@ supplied string.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a></td>
-                 <td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td>
+                 <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/invert_transpose_flag~2.html'>invert_transpose_flag</a></td>
-                 <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
+                 <td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -15641,13 +15641,13 @@ rank remapping.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/prep_output_unit.html'>prep_output_unit</a></td>
-                 <td><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></td>
+                 <td><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/prep_output_unit~2.html'>prep_output_unit</a></td>
-                 <td><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></td>
+                 <td><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
