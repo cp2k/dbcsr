@@ -73,6 +73,7 @@ c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_devptr_modify(
   assert(0 < elsize);
   if (NULL != memory) {
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     if (NULL == c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL) {
       const char* const pointer = (const char*)memory;
       const size_t n = ACC_OPENCL_MAXNITEMS * c_dbcsr_acc_opencl_config.nthreads;
@@ -140,6 +141,7 @@ int c_dbcsr_acc_opencl_info_devptr_lock(c_dbcsr_acc_opencl_info_memptr_t* info, 
   devptr = c_dbcsr_acc_opencl_info_devptr_modify(lock, non_const, elsize, amount, offset);
   if (NULL != devptr) {
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     if (NULL == c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL) {
       LIBXSMM_ASSIGN127(info, devptr);
     }
@@ -178,6 +180,11 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
   }
   nbytes += alignment + size_meminfo - 1;
   assert(NULL != host_mem);
+#  if !defined(ACC_OPENCL_ACTIVATE)
+  if (NULL == c_dbcsr_acc_opencl_config.device.context) {
+    ACC_OPENCL_EXPECT(EXIT_SUCCESS == c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, 0 /*device_id*/));
+  }
+#  endif
   memory = clCreateBuffer(c_dbcsr_acc_opencl_config.device.context, CL_MEM_ALLOC_HOST_PTR, nbytes, NULL /*host_ptr*/, &result);
   if (EXIT_SUCCESS == result) {
     const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
@@ -289,7 +296,7 @@ int c_dbcsr_acc_opencl_memcpy_d2h(
 int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
   int result = EXIT_SUCCESS;
   /* assume no lock is needed to protect against context/device changes */
-  const cl_context context = c_dbcsr_acc_opencl_config.device.context;
+  cl_context context = c_dbcsr_acc_opencl_config.device.context;
   cl_mem memory = NULL;
   void* memptr = NULL;
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
@@ -297,6 +304,12 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
   static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
   static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+#  endif
+#  if !defined(ACC_OPENCL_ACTIVATE)
+  if (NULL == context) {
+    ACC_OPENCL_EXPECT(EXIT_SUCCESS == c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, 0 /*device_id*/));
+    context = c_dbcsr_acc_opencl_config.device.context;
+  }
 #  endif
   assert(NULL != dev_mem && NULL != context);
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
@@ -392,6 +405,7 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
 #  if !defined(ACC_OPENCL_MEM_DEVPTR)
     memory = (cl_mem)dev_mem;
 #  else
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     if (NULL != c_dbcsr_acc_opencl_config.device.clMemFreeINTEL) {
       result = c_dbcsr_acc_opencl_config.device.clMemFreeINTEL(c_dbcsr_acc_opencl_config.device.context, dev_mem);
     }
@@ -458,6 +472,7 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
   c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
 #  endif
   assert((NULL != host_mem && NULL != dev_mem) || 0 == nbytes);
+  assert(NULL != c_dbcsr_acc_opencl_config.device.context);
   if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
     const c_dbcsr_acc_opencl_stream_t* const str =
       (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream(NULL /*lock*/, ACC_OPENCL_OMP_TID()));
@@ -547,6 +562,7 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
     cl_event event = NULL;
     assert(NULL != str && NULL != str->queue);
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL) {
       result = c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL(
         str->queue, CL_FALSE /*blocking*/, devmem_dst, devmem_src, nbytes, 0, NULL, &event);
@@ -596,6 +612,7 @@ int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nb
     else if (0 == LIBXSMM_MOD2(nbytes, 2)) size_of_value = 2;
     assert(NULL != str && NULL != str->queue);
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemFillINTEL) {
       result = c_dbcsr_acc_opencl_config.device.clEnqueueMemFillINTEL(
         str->queue, (char*)dev_mem + offset, &value, size_of_value, nbytes, 0, NULL, &event);
