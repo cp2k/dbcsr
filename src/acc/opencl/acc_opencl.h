@@ -116,6 +116,10 @@
 #if !defined(ACC_OPENCL_OMPLOCKS) && 1
 #  define ACC_OPENCL_OMPLOCKS
 #endif
+/* Activate device by default */
+#if !defined(ACC_OPENCL_ACTIVATE) && 0
+#  define ACC_OPENCL_ACTIVATE 0
+#endif
 /* Use DBCSR's profile for detailed timings */
 #if !defined(ACC_OPENCL_PROFILE) && 0
 #  define ACC_OPENCL_PROFILE

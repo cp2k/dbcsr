@@ -40,6 +40,7 @@ const c_dbcsr_acc_opencl_stream_t* c_dbcsr_acc_opencl_stream(ACC_OPENCL_LOCKTYPE
     else break; /* error */
   }
   if (NULL == result) { /* fallback */
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     result = (NULL != result_main ? result_main : &c_dbcsr_acc_opencl_config.device.stream);
   }
   if (NULL != lock) ACC_OPENCL_RELEASE(lock);
@@ -103,7 +104,19 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   }
   else offset = c_dbcsr_acc_opencl_stream_counter_base++;
 #  endif
-  if (NULL != c_dbcsr_acc_opencl_config.device.context) {
+  if (NULL == c_dbcsr_acc_opencl_config.device.context)
+#  if defined(ACC_OPENCL_ACTIVATE)
+  {
+    result = EXIT_FAILURE;
+  }
+  else
+#  else
+  {
+    result = c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, 0 /*device*/);
+  }
+  if (NULL != c_dbcsr_acc_opencl_config.device.context)
+#  endif
+  {
     if (0 != (2 & c_dbcsr_acc_opencl_config.xhints) && 0 != c_dbcsr_acc_opencl_config.device.intel) { /* enable queue families */
       struct {
         cl_command_queue_properties properties;
@@ -135,9 +148,6 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
     }
     queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(
       c_dbcsr_acc_opencl_config.device.context, c_dbcsr_acc_opencl_config.device.id, properties, &result);
-  }
-  else {
-    result = EXIT_FAILURE;
   }
   if (EXIT_SUCCESS == result) { /* register stream */
     assert(NULL != c_dbcsr_acc_opencl_config.streams && NULL != queue);
@@ -211,6 +221,7 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
   if (0 < c_dbcsr_acc_opencl_config.ndevices) {
     char buffer[ACC_OPENCL_BUFFERSIZE];
     cl_platform_id platform = NULL;
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     ACC_OPENCL_CHECK(
       clGetDeviceInfo(c_dbcsr_acc_opencl_config.device.id, CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL),
       "retrieve platform associated with active device", result);

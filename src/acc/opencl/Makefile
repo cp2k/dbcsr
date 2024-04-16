@@ -15,7 +15,7 @@ KERNEL := $(wildcard $(MAKDIR)/smm/kernels/*.cl)
 
 INCALL := $(INCACC) $(INCSMM)
 
-LIBXSMMROOT := $(wildcard $(ACCDIR)/../../../libxsmm)
+LIBXSMMROOT := $(wildcard $(ACCDIR)/../../../../../libxsmm)
 ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
@@ -89,7 +89,7 @@ else ifneq (0,$(GNU))
   else
     override AR := ar
   endif
-  override LD_LIBRARY_DIRS := $(NULL)
+  #override LD_LIBRARY_DIRS := $(NULL)
 else
   CXX := g++
   CC := gcc
