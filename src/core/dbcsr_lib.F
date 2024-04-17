@@ -220,7 +220,7 @@ CONTAINS
             ! Use round-robin assignment per rank
             CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
          ELSE
-            DBCSR_ABORT("dbcsr_init_lib: No recongnized GPU devices")
+            DBCSR_ABORT("dbcsr_init_lib: No recognized GPU devices")
          END IF
          CALL acc_init()
       END IF
