@@ -160,7 +160,7 @@ Prepares the DBCSR library for use.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~27"></span>
+              <span class="anchor" id="variable-mp_comm~31"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -175,7 +175,7 @@ Prepares the DBCSR library for use.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~9"></span>
+              <span class="anchor" id="variable-io_unit~15"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -190,7 +190,7 @@ Prepares the DBCSR library for use.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_active_device_id~4"></span>
+              <span class="anchor" id="variable-accdrv_active_device_id~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -267,7 +267,7 @@ Prepares the DBCSR library for use.</p>
 <span class="w">            </span><span class="c">! Use round-robin assignment per rank</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_acc_get_ndevices</span><span class="p">()))</span>
 <span class="w">         </span><span class="k">ELSE</span>
-<span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_init_lib: No recongnized GPU devices&quot;</span><span class="p">)</span>
+<span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_init_lib: No recognized GPU devices&quot;</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         CALL </span><span class="n">acc_init</span><span class="p">()</span>
 <span class="w">      </span><span class="k">END IF</span>
