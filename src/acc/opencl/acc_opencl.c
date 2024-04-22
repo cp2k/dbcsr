@@ -295,7 +295,7 @@ int c_dbcsr_acc_init(void) {
       int j = strlen(zex_nccs);
       for (i = 0; i < ACC_OPENCL_MAXNDEVS; ++i) {
         const char* const istr = (0 < i ? ",%u:%i" : "%u:%i");
-        const int n = LIBXSMM_SNPRINTF(zex_nccs + j, sizeof(zex_nccs) - j, istr, i, LIBXSMM_MAX(nccs, 1));
+        const int n = LIBXSMM_SNPRINTF(zex_nccs + j, sizeof(zex_nccs) - j, istr, i, LIBXSMM_CLMP(nccs, 1, 0 != wa ? 2 : 4));
         if (0 < n) j += n;
         else {
           j = 0;
