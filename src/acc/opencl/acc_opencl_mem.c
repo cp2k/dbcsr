@@ -182,7 +182,8 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
   assert(NULL != host_mem);
 #  if !defined(ACC_OPENCL_ACTIVATE)
   if (NULL == c_dbcsr_acc_opencl_config.device.context) {
-    ACC_OPENCL_EXPECT(EXIT_SUCCESS == c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, 0 /*device_id*/));
+    ACC_OPENCL_EXPECT(
+      EXIT_SUCCESS == c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, (int)c_dbcsr_acc_opencl_config.device.uid));
   }
 #  endif
   memory = clCreateBuffer(c_dbcsr_acc_opencl_config.device.context, CL_MEM_ALLOC_HOST_PTR, nbytes, NULL /*host_ptr*/, &result);
@@ -307,7 +308,8 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
 #  endif
 #  if !defined(ACC_OPENCL_ACTIVATE)
   if (NULL == context) {
-    ACC_OPENCL_EXPECT(EXIT_SUCCESS == c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, 0 /*device_id*/));
+    ACC_OPENCL_EXPECT(
+      EXIT_SUCCESS == c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, (int)c_dbcsr_acc_opencl_config.device.uid));
     context = c_dbcsr_acc_opencl_config.device.context;
   }
 #  endif

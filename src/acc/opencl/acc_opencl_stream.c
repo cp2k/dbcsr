@@ -112,7 +112,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   else
 #  else
   {
-    result = c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, 0 /*device*/);
+    result = c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, (int)c_dbcsr_acc_opencl_config.device.uid);
   }
   if (NULL != c_dbcsr_acc_opencl_config.device.context)
 #  endif
