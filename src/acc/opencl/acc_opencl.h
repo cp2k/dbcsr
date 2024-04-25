@@ -278,7 +278,7 @@ typedef struct c_dbcsr_acc_opencl_device_t {
   cl_device_id id;
   /** Whether host memory is unified. */
   cl_int unified;
-  /** Device-ID. */
+  /** Device-UID. */
   cl_uint uid;
   /** Main vendor? */
   cl_int intel, amd, nv;
