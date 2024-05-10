@@ -9,13 +9,13 @@
 #include "../../common/opencl_atomics.h"
 
 #if !defined(AL) || (SM != SN) || (SM != BM) || (SN != SK) || (1 == BS)
-#  define ADX(M, K) adata[SM * K + M + a0] /* transposed */
-#  define BDX(K, N) bdata[SN * K + N + b0] /* linear */
-#  define CDX(M, N) cdata[SM * N + M + c0] /* transposed */
+#  define ADX(M, K) adata[IDT(M, K, SM, SK) + a0] /* transposed */
+#  define BDX(K, N) bdata[IDX(K, N, SK, SN) + b0] /* linear */
+#  define CDX(M, N) cdata[IDT(M, N, SM, SN) + c0] /* transposed */
 #else
-#  define ADX(M, K) adata[SK * M + K + a0] /* linear */
-#  define BDX(K, N) bdata[SK * N + K + b0] /* transposed */
-#  define CDX(M, N) cdata[SN * M + N + c0] /* linear */
+#  define ADX(M, K) adata[IDX(M, K, SM, SK) + a0] /* linear */
+#  define BDX(K, N) bdata[IDT(K, N, SK, SN) + b0] /* transposed */
+#  define CDX(M, N) cdata[IDX(M, N, SM, SN) + c0] /* linear */
 #endif
 
 #if defined(SLM_A)
@@ -63,8 +63,8 @@
 #  define REPEAT 1
 #endif
 
-#define NBM ((SM + BM - 1) / BM)
-#define NBN ((SN + BN - 1) / BN)
+#define NBM DIVUP(SM, BM)
+#define NBN DIVUP(SN, BN)
 #define WRK (NBM * NBN)
 
 #define UM (SM / BK)

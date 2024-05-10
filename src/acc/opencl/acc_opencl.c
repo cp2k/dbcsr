@@ -679,7 +679,7 @@ int c_dbcsr_acc_finalize(void) {
 #  endif
   assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_MAXNDEVS);
   if (0 != c_dbcsr_acc_opencl_config.ndevices && NULL != cleanup) {
-    if (0 != c_dbcsr_acc_opencl_config.verbosity) {
+    if (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
       int d;
       fprintf(stderr, "INFO ACC/OpenCL: pid=%u nthreads=%i", libxsmm_get_pid(), c_dbcsr_acc_opencl_config.nthreads);
       if (NULL != c_dbcsr_acc_opencl_config.device.context &&
