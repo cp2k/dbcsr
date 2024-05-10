@@ -48,7 +48,7 @@
 #  define MAD fma
 #endif
 
-#define DIVUP(A, B) (((A) + (B)-1) / (B))
+#define DIVUP(A, B) (((A) + (B) - 1) / (B))
 #define NUP(N, UP) (DIVUP(N, UP) * (UP))
 #define BLR(N, BN) (NUP(N, BN) - (N))
 
