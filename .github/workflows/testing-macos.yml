@@ -8,7 +8,7 @@ on:
 
 # Workaround issue in Xcode 14.1/2
 env:
-  DEVELOPER_DIR: /Applications/Xcode_14.0.1.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
 
 jobs:
   build-and-test:
@@ -45,7 +45,7 @@ jobs:
         mkdir -p build
         cd build
         env \
-          CC=gcc-12 CXX=g++-12 FC=gfortran-12 \
+          CC=gcc-13 CXX=g++-12 FC=gfortran-12 \
           cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Release \
           -DUSE_${{ matrix.use_mpi }} \
