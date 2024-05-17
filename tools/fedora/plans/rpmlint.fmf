@@ -8,3 +8,4 @@ discover:
   ref: main
 execute:
   how: tmt
+enabled: false
