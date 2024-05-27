@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">8 statements</a>
+                 title=" 0.0% of total for procedures.">13 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_block_access.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_block_access.f.html'>dbcsr_block_access.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_put_block2d_d</li>
           </ol>
         </nav>
@@ -139,10 +139,11 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private  subroutine dbcsr_put_block2d_d(matrix, row, col, block, summation, scale)  
+    <h2>private  subroutine dbcsr_put_block2d_d(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
 </h2>
     
 
+    <p>Put a 2-D block in a DBCSR matrix</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +159,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~234"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~65"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -168,12 +169,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-                
+                <p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~115"></span>
+              <span class="anchor" id="variable-row~56"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -183,12 +184,13 @@
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-                
+                <p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~64"></span>
+              <span class="anchor" id="variable-col~44"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -198,27 +200,59 @@
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-                
+                <p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~142"></span>
+              <span class="anchor" id="variable-block~36"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:, :)
+              DIMENSION(:, :), CONTIGUOUS, TARGET
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
+            <td>
+                <p>the block to put</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb_row_col~3"></span>
+              integer,
+            </td>
+<td>intent(inout),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>lb_row_col</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~29"></span>
+              <span class="anchor" id="variable-transposed~4"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+                <p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-summation~8"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -228,12 +262,28 @@
             <td>::</td>
             <td><strong>summation</strong></td>
             <td>
+                <p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-flop~10"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>flop</strong></td>
+            <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~23"></span>
+              <span class="anchor" id="variable-scale~2"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -243,7 +293,7 @@
             <td>::</td>
             <td><strong>scale</strong></td>
             <td>
-                
+                <p>scale the block being added</p>
             </td>
         </tr>
     </tbody>
@@ -263,15 +313,33 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_put_block2d_d</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                                  </span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">)</span>
-<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
-<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span>
-<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="k">block</span>
-<span class="k">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">summation</span>
-<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_put_block2d_d</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                  </span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">)</span>
+<span class="w">     </span><span class="c">!! Put a 2-D block in a DBCSR matrix</span>
 
-<span class="nb">         </span><span class="k">CALL </span><span class="n">dbcsr_put_block_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">summation</span><span class="o">=</span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">)</span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
+<span class="w">        </span><span class="c">!! DBCSR matrix</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span>
+<span class="w">        </span><span class="c">!! the row</span>
+<span class="w">        </span><span class="c">!! the column</span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">TARGET</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="k">block</span>
+<span class="w">        </span><span class="c">!! the block to put</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lb_row_col</span>
+<span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="n">summation</span>
+<span class="w">        </span><span class="c">!! the block is transposed</span>
+<span class="w">        </span><span class="c">!! if block exists, then sum the new block to the old one instead of replacing it</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span>
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span>
+<span class="w">        </span><span class="c">!! scale the block being added</span>
+
+<span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">block_1d</span>
+
+<span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">block_1d</span><span class="p">)</span>
+
+<span class="w">         </span><span class="n">block_1d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">SIZE</span><span class="p">(</span><span class="k">block</span><span class="p">))</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">block</span>
+
+<span class="k">         CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_put_block2d_d</span>
 </pre></div>
 
