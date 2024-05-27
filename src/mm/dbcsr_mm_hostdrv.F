@@ -103,7 +103,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: success, used_smm
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_process'
-      LOGICAL, PARAMETER                                 :: careful = careful_mod, dbg = .FALSE.
+      LOGICAL, PARAMETER                                 :: careful = careful_mod, dbg = debug_mod
 
       INTEGER                                            :: error_handle, sp
       REAL(KIND=dp)                                      :: rnd
