@@ -351,6 +351,8 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_int debug;
   /** Dump level. */
   cl_int dump;
+  /** WA level */
+  cl_int wa;
 } c_dbcsr_acc_opencl_config_t;
 
 /** Global configuration setup in c_dbcsr_acc_init. */
