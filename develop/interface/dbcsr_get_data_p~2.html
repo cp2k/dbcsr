@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 107 statements,  0.2% of total for procedures.">3 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 31 statements,  0.1% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_data_methods_low.F"> Source File</a>
+              <a href="../src/dbcsr_api.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_data_methods_low.f.html'>dbcsr_data_methods_low.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_get_data_p</li>
           </ol>
         </nav>
@@ -131,10 +131,10 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c_s">dbcsr_get_data_c_s</a>
-            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c_c">dbcsr_get_data_c_c</a>
-            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c_d">dbcsr_get_data_c_d</a>
-            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c_z">dbcsr_get_data_c_z</a>
+            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_s">dbcsr_get_data_s</a>
+            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c">dbcsr_get_data_c</a>
+            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_d">dbcsr_get_data_d</a>
+            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_z">dbcsr_get_data_z</a>
         </div>
       </div>
     </div>
@@ -154,11 +154,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c_s"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c_s.html'>dbcsr_get_data_c_s</a>(area, select_data_type, lb, ub) result(DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_s"></span> <h3>private  function <a href='../proc/dbcsr_get_data_s.html'>dbcsr_get_data_s</a>(matrix, select_data_type, lb, ub) result(DATA)  
 </h3></div>
     <div class="card-body">
           
-  <p>Returns the single/double precision real/complex data</p><a href="../proc/dbcsr_get_data_c_s.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -173,22 +173,22 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~28"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              <span class="anchor" id="variable-matrix~122"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>area</strong></td>
+            <td><strong>matrix</strong></td>
             <td>
-<p>data area</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~10"></span>
+              <span class="anchor" id="variable-select_data_type~8"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -198,99 +198,7 @@
             <td>::</td>
             <td><strong>select_data_type</strong></td>
             <td>
-<p>force datatype</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~17"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-<p>lower bound for pointer
-upper bound for pointer</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~17"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-<p>lower bound for pointer
-upper bound for pointer</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
 
-    <h4>
-    Return Value
-    <small>real(kind=real_4), DIMENSION(:), POINTER</small>
-    </h4>
-    <p>pointer to data</p>
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c_c"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c_c.html'>dbcsr_get_data_c_c</a>(area, select_data_type, lb, ub) result(DATA)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Returns the single/double precision real/complex data</p><a href="../proc/dbcsr_get_data_c_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-area~42"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>area</strong></td>
-            <td>
-<p>data area</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-select_data_type~12"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>select_data_type</strong></td>
-            <td>
-<p>force datatype</p>
             </td>
         </tr>
         <tr>
@@ -305,8 +213,7 @@ upper bound for pointer</p>
             <td>::</td>
             <td><strong>lb</strong></td>
             <td>
-<p>lower bound for pointer
-upper bound for pointer</p>
+
             </td>
         </tr>
         <tr>
@@ -321,8 +228,97 @@ upper bound for pointer</p>
             <td>::</td>
             <td><strong>ub</strong></td>
             <td>
-<p>lower bound for pointer
-upper bound for pointer</p>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real_4), DIMENSION(:), POINTER</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c.html'>dbcsr_get_data_c</a>(matrix, select_data_type, lb, ub) result(DATA)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~148"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-select_data_type~12"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>select_data_type</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~31"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~31"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+
             </td>
         </tr>
     </tbody>
@@ -332,17 +328,17 @@ upper bound for pointer</p>
     Return Value
     <small>complex(kind=real_4), DIMENSION(:), POINTER</small>
     </h4>
-    <p>pointer to data</p>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c_d"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c_d.html'>dbcsr_get_data_c_d</a>(area, select_data_type, lb, ub) result(DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_d"></span> <h3>private  function <a href='../proc/dbcsr_get_data_d.html'>dbcsr_get_data_d</a>(matrix, select_data_type, lb, ub) result(DATA)  
 </h3></div>
     <div class="card-body">
           
-  <p>Returns the single/double precision real/complex data</p><a href="../proc/dbcsr_get_data_c_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -357,22 +353,22 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~21"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              <span class="anchor" id="variable-matrix~109"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>area</strong></td>
+            <td><strong>matrix</strong></td>
             <td>
-<p>data area</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~9"></span>
+              <span class="anchor" id="variable-select_data_type~6"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -382,12 +378,12 @@ upper bound for pointer</p>
             <td>::</td>
             <td><strong>select_data_type</strong></td>
             <td>
-<p>force datatype</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~12"></span>
+              <span class="anchor" id="variable-lb~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -397,13 +393,12 @@ upper bound for pointer</p>
             <td>::</td>
             <td><strong>lb</strong></td>
             <td>
-<p>lower bound for pointer
-upper bound for pointer</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~12"></span>
+              <span class="anchor" id="variable-ub~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -413,8 +408,7 @@ upper bound for pointer</p>
             <td>::</td>
             <td><strong>ub</strong></td>
             <td>
-<p>lower bound for pointer
-upper bound for pointer</p>
+
             </td>
         </tr>
     </tbody>
@@ -424,17 +418,17 @@ upper bound for pointer</p>
     Return Value
     <small>real(kind=real_8), DIMENSION(:), POINTER</small>
     </h4>
-    <p>pointer to data</p>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c_z"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c_z.html'>dbcsr_get_data_c_z</a>(area, select_data_type, lb, ub) result(DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_z"></span> <h3>private  function <a href='../proc/dbcsr_get_data_z.html'>dbcsr_get_data_z</a>(matrix, select_data_type, lb, ub) result(DATA)  
 </h3></div>
     <div class="card-body">
           
-  <p>Returns the single/double precision real/complex data</p><a href="../proc/dbcsr_get_data_c_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -449,22 +443,22 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~35"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              <span class="anchor" id="variable-matrix~135"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>area</strong></td>
+            <td><strong>matrix</strong></td>
             <td>
-<p>data area</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~11"></span>
+              <span class="anchor" id="variable-select_data_type~10"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -474,12 +468,12 @@ upper bound for pointer</p>
             <td>::</td>
             <td><strong>select_data_type</strong></td>
             <td>
-<p>force datatype</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~22"></span>
+              <span class="anchor" id="variable-lb~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -489,13 +483,12 @@ upper bound for pointer</p>
             <td>::</td>
             <td><strong>lb</strong></td>
             <td>
-<p>lower bound for pointer
-upper bound for pointer</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~22"></span>
+              <span class="anchor" id="variable-ub~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -505,8 +498,7 @@ upper bound for pointer</p>
             <td>::</td>
             <td><strong>ub</strong></td>
             <td>
-<p>lower bound for pointer
-upper bound for pointer</p>
+
             </td>
         </tr>
     </tbody>
@@ -516,7 +508,7 @@ upper bound for pointer</p>
     Return Value
     <small>complex(kind=real_8), DIMENSION(:), POINTER</small>
     </h4>
-    <p>pointer to data</p>
+    
 
     </div>
   </div>
