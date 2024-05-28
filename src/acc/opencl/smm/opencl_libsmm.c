@@ -1087,6 +1087,15 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             else { /* preserve kernels, performance counters, etc. */
               memcpy(&new_config, config, sizeof(opencl_libsmm_smm_t));
             }
+            if (NULL == env_xf || '\0' == *env_xf) {
+              if (0 == c_dbcsr_acc_opencl_config.device.intel || CL_DEVICE_TYPE_GPU != c_dbcsr_acc_opencl_config.device.type ||
+                  NULL == env_cl || NULL == strstr(env_cl, intel_xf))
+              {
+                new_config.flags = (NULL == config ? /*default*/ 0 : config->flags);
+              }
+              else new_config.flags = 1;
+            }
+            else new_config.flags = atoi(env_xf);
             new_config.lu = unroll;
             /* two defaults for new_config parameters: 1st - regular, 2nd - BS=1 kernel */
             new_config.bm = (0 >= blockm ? (0 == kernel_idx ? (NULL == config ? LIBXSMM_MIN(OPENCL_LIBSMM_DEFAULT_BM, m_max)
@@ -1110,8 +1119,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                            : atoi(env_nz),
               0, 1);
             new_config.al = LIBXSMM_CLMP(/* bug: AL=1 */
-              (NULL == env_al || '\0' == *env_al) ? 0 /*(0 == kernel_idx ? (NULL == config ? 0 : config->al) : 0)*/
-                                                  : atoi(env_al),
+              (NULL == env_al || '\0' == *env_al)
+                ? (0 == (8 & c_dbcsr_acc_opencl_config.wa) ? (0 == kernel_idx ? (NULL == config ? 0 : config->al) : 0) : 0)
+                : atoi(env_al),
               0, 1);
             new_config.tb = LIBXSMM_CLMP((NULL == env_tb || '\0' == *env_tb)
                                            ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->tb) : /*default*/ 0)
@@ -1125,30 +1135,18 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                            ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->ap) : /*default*/ 0)
                                            : atoi(env_ap),
               0, 1);
-            new_config.aa = LIBXSMM_CLMP(
-              (NULL == env_aa || '\0' == *env_aa)
-                ? (0 == kernel_idx ? (NULL == config ? /*default*/ default_aa : config->aa) : /*default*/ default_aa)
-                : atoi(env_aa),
+            new_config.aa = LIBXSMM_CLMP(/* bug: AA=2 XF=1 */
+              (NULL == env_aa || '\0' == *env_aa) ? (0 == kernel_idx ? (NULL == config ? default_aa : config->aa) : default_aa)
+                                                  : atoi(env_aa),
+              0, (0 == (16 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
+            new_config.ab = LIBXSMM_CLMP((NULL == env_ab || '\0' == *env_ab)
+                                           ? (0 == kernel_idx ? (NULL == config ? default_ab : config->ab) : default_ab)
+                                           : atoi(env_ab),
               0, 2);
-            new_config.ab = LIBXSMM_CLMP(
-              (NULL == env_ab || '\0' == *env_ab)
-                ? (0 == kernel_idx ? (NULL == config ? /*default*/ default_ab : config->ab) : /*default*/ default_ab)
-                : atoi(env_ab),
-              0, 2);
-            new_config.ac = LIBXSMM_CLMP(
-              (NULL == env_ac || '\0' == *env_ac)
-                ? (0 == kernel_idx ? (NULL == config ? /*default*/ default_ac : config->ac) : /*default*/ default_ac)
-                : atoi(env_ac),
+            new_config.ac = LIBXSMM_CLMP((NULL == env_ac || '\0' == *env_ac)
+                                           ? (0 == kernel_idx ? (NULL == config ? default_ac : config->ac) : default_ac)
+                                           : atoi(env_ac),
               0, 1);
-            if (NULL == env_xf || '\0' == *env_xf) {
-              if (0 == c_dbcsr_acc_opencl_config.device.intel || CL_DEVICE_TYPE_GPU != c_dbcsr_acc_opencl_config.device.type ||
-                  NULL == env_cl || NULL == strstr(env_cl, intel_xf))
-              {
-                new_config.flags = (NULL == config ? /*default*/ 0 : config->flags);
-              }
-              else new_config.flags = 1;
-            }
-            else new_config.flags = atoi(env_xf);
             if (0 >= new_config.s) new_config.s = stack_size;
             if (0 == kernel_idx || 1 >= new_config.bs) new_config.bs = bs;
             nbm = (m_max + new_config.bm - 1) / new_config.bm;
