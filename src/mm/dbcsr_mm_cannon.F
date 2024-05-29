@@ -32,7 +32,7 @@ MODULE dbcsr_mm_cannon
                                      dbcsr_block_transpose_aa, &
                                      dbcsr_block_transpose
    USE dbcsr_config, ONLY: dbcsr_cfg, &
-                           has_acc
+                           use_acc
    USE dbcsr_data_methods, ONLY: &
       dbcsr_data_clear_pointer, dbcsr_data_ensure_size, dbcsr_data_get_size, &
       dbcsr_data_get_size_referenced, dbcsr_data_hold, dbcsr_data_host2dev, dbcsr_data_init, &
@@ -1172,7 +1172,7 @@ CONTAINS
       !!
       ! Evaluate sizes for workspaces
       IF (.NOT. keep_sparsity) THEN
-         IF (has_acc) THEN
+         IF (use_acc()) THEN
             size_guess_init = product_matrix_size_guess(left_set%mats(1, 1), right_set%mats(1, 1), product_matrix, &
                                                         left_max_nze, right_max_nze, &
                                                         left_col_nimages, right_row_nimages, &
@@ -1214,7 +1214,7 @@ CONTAINS
       IF (ASSOCIATED(memtype_abpanel_2%pool)) &
          CALL dbcsr_mempool_limit_capacity(memtype_abpanel_2%pool, &
                                            capacity=left_row_mult*left_col_nimages + right_row_nimages*right_col_mult + 1)
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          ! enumerate the blocksizes to keep the following 2D-arrays small.
          CALL enumerate_blk_sizes(right_set%mats(1, 1)%row_blk_size%low%data, &
                                   dbcsr_max_row_size(right_set%mats(1, 1)), &
@@ -1319,7 +1319,7 @@ CONTAINS
       CALL dbcsr_data_new(right_data_rp, data_type)
 
       ! Setup transpose stackbuffers
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          CALL dbcsr_data_init(trs_stackbuf_1)
          CALL dbcsr_data_init(trs_stackbuf_2)
          CALL dbcsr_data_new(trs_stackbuf_1, data_type=dbcsr_type_int_4, &
@@ -1422,7 +1422,7 @@ CONTAINS
                                      vprow_shift=metronome + right_row_nimages, &
                                      shifting='R')
                !
-               IF (has_acc) THEN
+               IF (use_acc()) THEN
                   CALL timeset(routineN//"_acc_sync_right", handle3)
                   CALL acc_event_synchronize(right_buffer_comm%mats(v_ki + 1, 1)%data_area%d%acc_ready)
                   CALL timestop(handle3)
@@ -1545,7 +1545,7 @@ CONTAINS
                                      vpcol_shift=metronome + left_col_nimages, &
                                      shifting='L')
                !
-               IF (has_acc) THEN
+               IF (use_acc()) THEN
                   CALL timeset(routineN//"_acc_sync_left", handle3)
                   CALL acc_event_synchronize(left_buffer_comm%mats(1, v_ki + 1)%data_area%d%acc_ready)
                   CALL timestop(handle3)
@@ -1617,7 +1617,7 @@ CONTAINS
                            array_data(right_buffer_calc%mats(v_ki_right, 1)%local_rows), &
                            k_sizes)
          !
-         IF (has_acc) THEN
+         IF (use_acc()) THEN
             CALL dbcsr_data_host2dev(left_buffer_calc%mats(1, v_ki_left)%data_area)
             CALL dbcsr_data_host2dev(right_buffer_calc%mats(v_ki_right, 1)%data_area)
             CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki_right, 1), trs_stackbuf_calc, &
@@ -1637,7 +1637,7 @@ CONTAINS
          END IF
 
          ! Wait for left and right buffers transfer to device before proceeding
-         IF (has_acc) THEN
+         IF (use_acc()) THEN
             CALL timeset(routineN//"_sync_h2d", handle2)
             CALL acc_device_synchronize()
             CALL timestop(handle2)
@@ -1716,7 +1716,7 @@ CONTAINS
       CALL m_memory(mem)
       max_memory = MAX(max_memory, REAL(mem))
 
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          CALL dbcsr_data_release(trs_stackbuf_1)
          CALL dbcsr_data_release(trs_stackbuf_2)
          DEALLOCATE (row_blk_sizes2enum, enum2row_blk_sizes)
@@ -2121,7 +2121,7 @@ CONTAINS
       !!
       ! Evaluate sizes for workspaces
       IF (.NOT. keep_sparsity) THEN
-         IF (has_acc) THEN
+         IF (use_acc()) THEN
             size_guess_init = product_matrix_size_guess(left_set%mats(1, 1), right_set%mats(1, 1), product_matrix, &
                                                         left_max_nze, right_max_nze, &
                                                         left_col_nimages, right_row_nimages, &
@@ -2163,7 +2163,7 @@ CONTAINS
       IF (ASSOCIATED(memtype_abpanel_2%pool)) &
          CALL dbcsr_mempool_limit_capacity(memtype_abpanel_2%pool, &
                                            capacity=left_row_mult*left_col_nimages + right_row_nimages*right_col_mult + 1)
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          ! enumerate the blocksizes to keep the following 2D-arrays small.
          CALL enumerate_blk_sizes(right_set%mats(1, 1)%row_blk_size%low%data, &
                                   dbcsr_max_row_size(right_set%mats(1, 1)), &
@@ -2226,7 +2226,7 @@ CONTAINS
          IF (stat .NE. 0) otf_filtering = .FALSE.
 
       END IF
-      IF (has_acc .and. otf_filtering) THEN
+      IF (use_acc() .and. otf_filtering) THEN
          max_nblks = MAX(left_max_nblks, right_max_nblks)
          CALL dbcsr_data_init(normsbuf)
          CALL dbcsr_data_new(normsbuf, data_type=dbcsr_type_real_4, &
@@ -2295,7 +2295,7 @@ CONTAINS
       CALL dbcsr_data_new(right_data_rp, data_type)
 
       ! Setup transpose stackbuffers
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          CALL dbcsr_data_init(trs_stackbuf_1)
          CALL dbcsr_data_init(trs_stackbuf_2)
          CALL dbcsr_data_new(trs_stackbuf_1, data_type=dbcsr_type_int_4, &
@@ -2389,7 +2389,7 @@ CONTAINS
                            k_sizes)
          !
          ! Transfer left and right buffers from host to GPU memory
-         IF (has_acc) THEN
+         IF (use_acc()) THEN
             IF (copy_left) THEN
                ! copy left buffer images to device
                DO v_ki = 1, left_col_nimages
@@ -2493,7 +2493,7 @@ CONTAINS
                                      vprow_shift=metronome + right_row_nimages, &
                                      shifting='R')
                !
-               IF (has_acc) THEN
+               IF (use_acc()) THEN
                   CALL timeset(routineN//"_acc_sync_right", handle3)
                   CALL acc_event_synchronize(right_buffer_comm%mats(v_ki + 1, 1)%data_area%d%acc_ready)
                   CALL timestop(handle3)
@@ -2522,7 +2522,7 @@ CONTAINS
                END IF
                !
                CALL timeset(routineN//"_metrocomm2", handle2)
-               IF (.not. has_acc) THEN
+               IF (.not. use_acc()) THEN
                   CALL dbcsr_irecv_any(right_data_rp, right_recv_p, &
                                        grp, right_data_rr(v_ki + 1), tag=right_src_vrow)
                ELSE
@@ -2538,7 +2538,7 @@ CONTAINS
                END IF
                CALL mp_irecv(right_index_rp, right_recv_p, &
                              grp, right_index_rr(v_ki + 1), tag=right_src_vrow)
-               IF (.not. has_acc) THEN
+               IF (.not. use_acc()) THEN
                   CALL dbcsr_isend_any(right_data_sp, right_send_p, &
                                        grp, right_data_sr(v_ki + 1), tag=right_dst_vrow)
                ELSE
@@ -2620,7 +2620,7 @@ CONTAINS
                                      vpcol_shift=metronome + left_col_nimages, &
                                      shifting='L')
                !
-               IF (has_acc) THEN
+               IF (use_acc()) THEN
                   CALL timeset(routineN//"_acc_sync_left", handle3)
                   CALL acc_event_synchronize(left_buffer_comm%mats(1, v_ki + 1)%data_area%d%acc_ready)
                   CALL timestop(handle3)
@@ -2649,7 +2649,7 @@ CONTAINS
                END IF
                !
                CALL timeset(routineN//"_metrocomm4", handle2)
-               IF (.not. has_acc) THEN
+               IF (.not. use_acc()) THEN
                   CALL dbcsr_irecv_any(left_data_rp, left_recv_p, &
                                        grp, left_data_rr(v_ki + 1), tag=left_src_vcol)
                ELSE
@@ -2665,7 +2665,7 @@ CONTAINS
                END IF
                CALL mp_irecv(left_index_rp, left_recv_p, &
                              grp, left_index_rr(v_ki + 1), tag=left_src_vcol)
-               IF (.not. has_acc) THEN
+               IF (.not. use_acc()) THEN
                   CALL dbcsr_isend_any(left_data_sp, left_send_p, &
                                        grp, left_data_sr(v_ki + 1), tag=left_dst_vcol)
                ELSE
@@ -2693,7 +2693,7 @@ CONTAINS
          ! Do multiplication
 
          ! If no GPU backend, calculate norms on the CPU
-         IF (otf_filtering .and. .not. has_acc) THEN
+         IF (otf_filtering .and. .not. use_acc()) THEN
             left_norms(:) = huge_norm
             right_norms(:) = huge_norm
             CALL calculate_norms(right_buffer_calc%mats(v_ki_right, 1), &
@@ -2776,7 +2776,7 @@ CONTAINS
       CALL m_memory(mem)
       max_memory = MAX(max_memory, REAL(mem))
 
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          CALL dbcsr_data_release(trs_stackbuf_1)
          CALL dbcsr_data_release(trs_stackbuf_2)
          DEALLOCATE (row_blk_sizes2enum, enum2row_blk_sizes)
