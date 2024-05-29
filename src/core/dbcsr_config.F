@@ -153,6 +153,7 @@ MODULE dbcsr_config
       SET_PARAMETER_DEFAULT(COMM_THREAD_LOAD, CONF_PAR_INT, 100)
       SET_PARAMETER_DEFAULT(MM_DENSE, CONF_PAR_LOGICAL,.NOT. has_acc)
       SET_PARAMETER_DEFAULT(MULTREC_LIMIT, CONF_PAR_INT, 512)
+      SET_PARAMETER_DEFAULT(TURN_OFF_ACC, CONF_PAR_LOGICAL, .FALSE.)
       SET_PARAMETER_DEFAULT(ACCDRV_THREAD_BUFFERS, CONF_PAR_INT, 8)
       TYPE(CONF_PAR_LOGICAL) :: ACCDRV_AVOID_AFTER_BUSY = &
                                 CONF_PAR_LOGICAL(name="ACCDRV_AVOID_AFTER_BUSY", val=.FALSE., defval=.FALSE.)
@@ -184,6 +185,7 @@ MODULE dbcsr_config
    PUBLIC :: dbcsr_set_config, dbcsr_get_default_config, dbcsr_print_config
    PUBLIC :: max_kernel_dim
    PUBLIC :: get_accdrv_active_device_id, set_accdrv_active_device_id, reset_accdrv_active_device_id
+   PUBLIC :: use_acc
 
 CONTAINS
 
@@ -340,6 +342,7 @@ CONTAINS
       comm_thread_load, &
       mm_dense, &
       multrec_limit, &
+      turn_off_acc, &
       accdrv_thread_buffers, &
       accdrv_avoid_after_busy, &
       accdrv_min_flop_process, &
@@ -368,6 +371,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_comm_thread
       INTEGER, INTENT(IN), OPTIONAL                      :: comm_thread_load
       LOGICAL, INTENT(IN), OPTIONAL                      :: mm_dense
+      LOGICAL, INTENT(IN), OPTIONAL                      :: turn_off_acc
       INTEGER, INTENT(IN), OPTIONAL                      :: multrec_limit, accdrv_thread_buffers
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_avoid_after_busy
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_min_flop_process
@@ -389,7 +393,7 @@ CONTAINS
       CALL dbcsr_cfg%num_layers_3D%set(num_layers_3D)
       CALL dbcsr_cfg%use_comm_thread%set(use_comm_thread)
       CALL dbcsr_cfg%multrec_limit%set(multrec_limit)
-      CALL dbcsr_cfg%mm_dense%set(mm_dense)
+      CALL dbcsr_cfg%turn_off_acc%set(turn_off_acc)
       CALL dbcsr_cfg%accdrv_thread_buffers%set(accdrv_thread_buffers)
       CALL dbcsr_cfg%accdrv_avoid_after_busy%set(accdrv_avoid_after_busy)
       CALL dbcsr_cfg%accdrv_min_flop_process%set(accdrv_min_flop_process)
@@ -419,8 +423,21 @@ CONTAINS
       CALL dbcsr_cfg%comm_thread_load%set(comm_thread_load)
 
       CALL dbcsr_cfg%n_stacks%set(nstacks)
-      CALL dbcsr_cfg%mm_stack_size%set(mm_stack_size)
       CALL dbcsr_cfg%mm_driver%set(mm_driver)
+
+      ! If ACC is turned-off, use the CPU defaults
+      IF (.NOT. PRESENT(mm_stack_size) .AND. dbcsr_cfg%turn_off_acc%val) THEN
+         CALL dbcsr_cfg%mm_stack_size%set(1000)
+      ELSE
+         CALL dbcsr_cfg%mm_stack_size%set(mm_stack_size)
+      END IF
+
+      IF (.NOT. PRESENT(mm_stack_size) .AND. dbcsr_cfg%turn_off_acc%val) THEN
+         CALL dbcsr_cfg%mm_dense%set(.TRUE.)
+      ELSE
+         CALL dbcsr_cfg%mm_dense%set(mm_dense)
+      END IF
+
 
    END SUBROUTINE dbcsr_set_config
 
@@ -435,6 +452,7 @@ CONTAINS
       use_comm_thread, &
       comm_thread_load, &
       mm_dense, &
+      turn_off_acc, &
       multrec_limit, &
       accdrv_thread_buffers, &
       accdrv_avoid_after_busy, &
@@ -455,7 +473,7 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: num_layers_3D
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_comm_thread
       INTEGER, INTENT(OUT), OPTIONAL                     :: comm_thread_load
-      LOGICAL, INTENT(OUT), OPTIONAL                     :: mm_dense
+      LOGICAL, INTENT(OUT), OPTIONAL                     :: mm_dense, turn_off_acc
       INTEGER, INTENT(OUT), OPTIONAL                     :: multrec_limit, accdrv_thread_buffers
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_avoid_after_busy
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_min_flop_process
@@ -478,6 +496,7 @@ CONTAINS
       IF (PRESENT(comm_thread_load)) comm_thread_load = dbcsr_cfg%comm_thread_load%defval
       IF (PRESENT(mm_dense)) mm_dense = dbcsr_cfg%mm_dense%defval
       IF (PRESENT(multrec_limit)) multrec_limit = dbcsr_cfg%multrec_limit%defval
+      IF (PRESENT(turn_off_acc)) turn_off_acc = dbcsr_cfg%turn_off_acc%defval
       IF (PRESENT(accdrv_thread_buffers)) accdrv_thread_buffers = dbcsr_cfg%accdrv_thread_buffers%defval
       IF (PRESENT(accdrv_avoid_after_busy)) accdrv_avoid_after_busy = dbcsr_cfg%accdrv_avoid_after_busy%defval
       IF (PRESENT(accdrv_min_flop_process)) accdrv_min_flop_process = dbcsr_cfg%accdrv_min_flop_process%defval
@@ -607,7 +626,12 @@ CONTAINS
          END IF
       END BLOCK
 
-      IF (has_acc) THEN
+      IF (dbcsr_cfg%turn_off_acc%val) THEN
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T81,A4)') &
+            "DBCSR| ACC is turned off: only CPU is used", dbcsr_cfg%turn_off_acc%print_source() 
+      END IF
+
+      IF (use_acc()) THEN
          WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
             "DBCSR| ACC: Number of devices/node", dbcsr_acc_get_ndevices()
          WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
@@ -670,5 +694,15 @@ CONTAINS
    SUBROUTINE reset_accdrv_active_device_id()
       accdrv_active_device_id = default_accdrv_active_device_id
    END SUBROUTINE reset_accdrv_active_device_id
+
+   FUNCTION use_acc()
+      LOGICAL :: use_acc
+
+      IF (has_acc .AND. .NOT. dbcsr_cfg%turn_off_acc%val) THEN
+         use_acc = .TRUE.
+      ELSE
+         use_acc = .FALSE.
+      END IF
+   END FUNCTION use_acc
 
 END MODULE dbcsr_config

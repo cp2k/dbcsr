@@ -26,7 +26,7 @@ MODULE dbcsr_mm
    USE dbcsr_config, ONLY: dbcsr_cfg, &
                            dbcsr_set_config, &
                            default_resize_factor, &
-                           has_acc
+                           use_acc
    USE dbcsr_data_methods, ONLY: dbcsr_data_set_size_referenced, &
                                  dbcsr_scalar_are_equal, &
                                  dbcsr_scalar_one, &
@@ -153,7 +153,7 @@ CONTAINS
 
       ! Each thread has its own working-matrix and its own mempool
       ALLOCATE (memtype_product_wm(ithread)%p)
-      CALL dbcsr_memtype_setup(memtype_product_wm(ithread)%p, has_pool=dbcsr_cfg%use_mempools_cpu%val .OR. has_acc)
+      CALL dbcsr_memtype_setup(memtype_product_wm(ithread)%p, has_pool=dbcsr_cfg%use_mempools_cpu%val .OR. use_acc())
       CALL dbcsr_mempool_limit_capacity(memtype_product_wm(ithread)%p%pool, capacity=MAX(1, dbcsr_cfg%num_layers_3D%val))
    END SUBROUTINE dbcsr_multiply_lib_init
 
@@ -438,7 +438,7 @@ CONTAINS
       CALL array_nullify(dense_row_sizes)
 
       ! Reset GPU errors
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          CALL dbcsr_acc_clear_errors()
       END IF
 
@@ -447,12 +447,12 @@ CONTAINS
       ! give any performance benefit)
       CALL check_openmpi_rma()
 
-      use_mempools = dbcsr_cfg%use_mempools_cpu%val .OR. has_acc
+      use_mempools = dbcsr_cfg%use_mempools_cpu%val .OR. use_acc()
 
       ! setup driver-dependent memory-types and their memory-pools ---------------
 
       ! the ab_buffers are shared by all threads
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          IF (.NOT. acc_stream_associated(stream_1)) THEN
             CALL acc_stream_create(stream_1, "MemCpy (odd ticks)")
             CALL acc_stream_create(stream_2, "MemCpy (even ticks)")
@@ -616,7 +616,7 @@ CONTAINS
       END IF
       ab_dense = use_dense_mult
       ! Use memory pools when no dense
-      IF (.NOT. has_acc) THEN
+      IF (.NOT. use_acc()) THEN
          CALL dbcsr_memtype_setup(memtype_abpanel_1, has_pool=.NOT. ab_dense .AND. use_mempools, mpi=.TRUE.)
          CALL dbcsr_memtype_setup(memtype_abpanel_2, has_pool=.NOT. ab_dense .AND. use_mempools, mpi=.TRUE.)
       END IF
