@@ -227,7 +227,7 @@ int main(int argc, char* argv[]) {
     int ndevices = 0;
     result = c_dbcsr_acc_get_ndevices(&ndevices);
     if (0 < ndevices && (0 == device || EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device))) {
-      PRINTF("Activated device%i (ndevices=%i)\n", device, ndevices);
+      printf("Activated device%i (ndevices=%i)\n", device, ndevices);
     }
     else {
       if (0 >= ndevices) {
