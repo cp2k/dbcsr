@@ -81,8 +81,8 @@ MODULE dbcsr_config
    INTEGER, PARAMETER :: mm_stack_default_size = mm_stack_default_size_cpu
 #endif
 
-   LOGICAL, PARAMETER :: mm_dense_default_cpu =  .TRUE.
-   LOGICAL, PARAMETER :: mm_dense_default_gpu =  .FALSE.
+   LOGICAL, PARAMETER :: mm_dense_default_cpu = .TRUE.
+   LOGICAL, PARAMETER :: mm_dense_default_gpu = .FALSE.
 #if defined (__DBCSR_ACC)
    LOGICAL, PARAMETER :: mm_dense_default = mm_dense_default_gpu
 #else
@@ -447,7 +447,6 @@ CONTAINS
       ELSE
          CALL dbcsr_cfg%mm_dense%set(mm_dense)
       END IF
-
 
    END SUBROUTINE dbcsr_set_config
 
