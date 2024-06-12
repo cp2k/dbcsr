@@ -16,7 +16,7 @@ MODULE dbcsr_lib
    USE dbcsr_config, ONLY: set_accdrv_active_device_id, &
                            reset_accdrv_active_device_id, &
                            dbcsr_set_config, &
-                           has_acc
+                           use_acc
    USE dbcsr_kinds, ONLY: int_1_size, &
                           int_2_size, &
                           int_4_size, &
@@ -214,7 +214,7 @@ CONTAINS
 #endif
 
       ! Initialize Acc and set active device
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          IF (PRESENT(accdrv_active_device_id)) THEN
             CALL set_accdrv_active_device_id(accdrv_active_device_id)
          ELSEIF (dbcsr_acc_get_ndevices() > 0) THEN
@@ -314,7 +314,7 @@ CONTAINS
 #endif
       ! Reset Acc ID
       CALL reset_accdrv_active_device_id()
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          CALL acc_finalize()
       END IF
 

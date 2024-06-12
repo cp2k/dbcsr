@@ -202,7 +202,7 @@ Cleans up after the DBCSR library.  Used to deallocate persistent objects.</p>
 <span class="cp">#endif</span>
 <span class="w">      </span><span class="c">! Reset Acc ID</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">acc_finalize</span><span class="p">()</span>
 <span class="w">      </span><span class="k">END IF</span>
 

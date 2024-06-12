@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.6% of total for modules and submodules.">381 statements</a>
+                 title=" 0.6% of total for modules and submodules.">408 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -113,7 +113,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~67">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~60">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-default_resize_factor">default_resize_factor</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-max_paramter_name_len">max_paramter_name_len</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-max_paramter_value_len">max_paramter_value_len</a>
@@ -132,12 +132,17 @@
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-has_xsmm">has_xsmm</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-has_acc">has_acc</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-has_mpi">has_MPI</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#variable-mm_stack_default_size_cpu">mm_stack_default_size_cpu</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#variable-mm_stack_default_size_gpu">mm_stack_default_size_gpu</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-mm_stack_default_size">mm_stack_default_size</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#variable-mm_dense_default_cpu">mm_dense_default_cpu</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#variable-mm_dense_default_gpu">mm_dense_default_gpu</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#variable-mm_dense_default">mm_dense_default</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-mm_default_driver">mm_default_driver</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-dbcsr_cfg">dbcsr_cfg</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-max_kernel_dim">max_kernel_dim</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#variable-default_accdrv_active_device_id">default_accdrv_active_device_id</a>
-            <a class="list-group-item" href="../module/dbcsr_config.html#variable-accdrv_active_device_id">accdrv_active_device_id</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#variable-accdrv_active_device_id~4">accdrv_active_device_id</a>
         </div>
       </div>
     </div>
@@ -177,6 +182,7 @@
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-print_source">print_source</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-conf_par_env_value">conf_par_env_value</a>
             <a class="list-group-item" href="../module/dbcsr_config.html#proc-get_accdrv_active_device_id">get_accdrv_active_device_id</a>
+            <a class="list-group-item" href="../module/dbcsr_config.html#proc-use_acc">use_acc</a>
         </div>
       </div>
     </div>
@@ -222,11 +228,11 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
                   <li class="list-inline-item"><a href='dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -251,7 +257,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~67"></span>
+              <span class="anchor" id="variable-modulen~60"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -574,6 +580,40 @@ parameter
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-mm_stack_default_size_cpu"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>mm_stack_default_size_cpu</strong></td>
+<td> =</td>
+                <td>1000</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mm_stack_default_size_gpu"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>mm_stack_default_size_gpu</strong></td>
+<td> =</td>
+                <td>30000</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-mm_stack_default_size"></span>
               integer,
             </td>
@@ -584,7 +624,58 @@ parameter
             <td>::</td>
             <td><strong>mm_stack_default_size</strong></td>
 <td> =</td>
-                <td>1000</td>
+                <td>mm_stack_default_size_cpu</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mm_dense_default_cpu"></span>
+              logical,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>mm_dense_default_cpu</strong></td>
+<td> =</td>
+                <td>.TRUE.</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mm_dense_default_gpu"></span>
+              logical,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>mm_dense_default_gpu</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mm_dense_default"></span>
+              logical,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>mm_dense_default</strong></td>
+<td> =</td>
+                <td>mm_dense_default_cpu</td>
             <td>
                 
             </td>
@@ -659,7 +750,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_active_device_id"></span>
+              <span class="anchor" id="variable-accdrv_active_device_id~4"></span>
               integer,
             </td>
               <td>private</td>
@@ -727,7 +818,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~41"></span>
+              <span class="anchor" id="variable-name~34"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -808,7 +899,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~41"></span>
+              <span class="anchor" id="variable-name~34"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -825,7 +916,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~7"></span>
+              <span class="anchor" id="variable-val~8"></span>
               integer,
             </td>
               <td>public</td>
@@ -945,7 +1036,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~41"></span>
+              <span class="anchor" id="variable-name~34"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -962,7 +1053,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~8"></span>
+              <span class="anchor" id="variable-val~9"></span>
               integer,
             </td>
               <td>public</td>
@@ -1065,7 +1156,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~41"></span>
+              <span class="anchor" id="variable-name~34"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -1082,7 +1173,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~9"></span>
+              <span class="anchor" id="variable-val~10"></span>
               logical,
             </td>
               <td>public</td>
@@ -1185,7 +1276,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~41"></span>
+              <span class="anchor" id="variable-name~34"></span>
               character(len=max_paramter_name_len),
             </td>
               <td>public</td>
@@ -1202,7 +1293,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~10"></span>
+              <span class="anchor" id="variable-val~11"></span>
               real(kind=real_8),
             </td>
               <td>public</td>
@@ -1451,7 +1542,7 @@ parameter
             <td>::</td>
             <td><strong>MM_DENSE</strong></td>
 <td> =</td>
-                <td>CONF_PAR_LOGICAL(name=&#34;MM_DENSE&#34;, val=.NOT.has_acc, defval=.NOT.has_acc)</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;MM_DENSE&#34;, val=mm_dense_default, defval=mm_dense_default)</td>
             <td>
 
             </td>
@@ -1469,6 +1560,23 @@ parameter
             <td><strong>MULTREC_LIMIT</strong></td>
 <td> =</td>
                 <td>CONF_PAR_INT(name=&#34;MULTREC_LIMIT&#34;, val=512, defval=512)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-run_on_gpu"></span>
+              type(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>RUN_ON_GPU</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;RUN_ON_GPU&#34;, val=.TRUE., defval=.TRUE.)</td>
             <td>
 
             </td>
@@ -1694,7 +1802,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~64"></span>
+              <span class="anchor" id="variable-this~30"></span>
               class(<a href='../type/conf_par.html'>CONF_PAR</a>),
             </td>
 <td>intent(in)</td>
@@ -1739,7 +1847,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~65"></span>
+              <span class="anchor" id="variable-this~31"></span>
               class(<a href='../type/conf_par.html'>CONF_PAR</a>),
             </td>
 <td>intent(inout)</td>
@@ -1797,6 +1905,24 @@ parameter
     </div>
   </div>
 
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-use_acc"></span> <h3>public  function <a href='../proc/use_acc.html'>use_acc</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
         </section>
         <br>
 
@@ -1822,7 +1948,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~66"></span>
+              <span class="anchor" id="variable-this~32"></span>
               class(<a href='../type/conf_par_int.html'>CONF_PAR_INT</a>),
             </td>
 <td>intent(inout)</td>
@@ -1877,7 +2003,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~67"></span>
+              <span class="anchor" id="variable-this~33"></span>
               class(<a href='../type/conf_par_mm_driver.html'>CONF_PAR_MM_DRIVER</a>),
             </td>
 <td>intent(inout)</td>
@@ -1932,7 +2058,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~68"></span>
+              <span class="anchor" id="variable-this~34"></span>
               class(<a href='../type/conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
             </td>
 <td>intent(inout)</td>
@@ -1987,7 +2113,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~69"></span>
+              <span class="anchor" id="variable-this~35"></span>
               class(<a href='../type/conf_par_real.html'>CONF_PAR_REAL</a>),
             </td>
 <td>intent(inout)</td>
@@ -2023,7 +2149,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor, use_acc_g2g)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, run_on_gpu, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor, use_acc_g2g)  
 </h3></div>
     <div class="card-body">
           
@@ -2222,6 +2348,21 @@ parameter
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-run_on_gpu"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>run_on_gpu</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-accdrv_thread_buffers"></span>
               integer,
             </td>
@@ -2393,7 +2534,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_default_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor, use_acc_g2g)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_default_config"></span> <h3>public  subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, run_on_gpu, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor, use_acc_g2g)  
 </h3></div>
     <div class="card-body">
           
@@ -2556,6 +2697,21 @@ parameter
             </td>
             <td>::</td>
             <td><strong>mm_dense</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-run_on_gpu~2"></span>
+              logical,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>run_on_gpu</strong></td>
             <td>
 
             </td>
@@ -2767,7 +2923,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~38"></span>
+              <span class="anchor" id="variable-unit_nr~31"></span>
               integer,
             </td>
 <td>intent(in)</td>

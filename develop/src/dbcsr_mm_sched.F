@@ -21,7 +21,7 @@ MODULE dbcsr_mm_sched
    USE dbcsr_block_operations, ONLY: dbcsr_data_clear
    USE dbcsr_config, ONLY: dbcsr_cfg, &
                            default_resize_factor, &
-                           has_acc
+                           use_acc
    USE dbcsr_data_methods, ONLY: dbcsr_data_ensure_size, &
                                  dbcsr_data_get_size
    USE dbcsr_kinds, ONLY: int_4, int_8, real_8
@@ -195,7 +195,7 @@ CONTAINS
 
       CALL dbcsr_mm_hostdrv_init(this%hostdrv, product_wm)
 
-      IF (has_acc) &
+      IF (use_acc()) &
          CALL dbcsr_mm_accdrv_init(this%accdrv, product_wm, nlayers, keep_product_data)
 
       CALL timestop(handle)
@@ -216,7 +216,7 @@ CONTAINS
       CALL ensure_product_wm_cleared(this)
 
       !CALL dbcsr_mm_hostdrv_finalize(this%hostdrv) ! not needed
-      IF (has_acc) &
+      IF (use_acc()) &
          CALL dbcsr_mm_accdrv_finalize(this%accdrv)
 
       CALL timestop(handle)
@@ -233,7 +233,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      IF (has_acc) &
+      IF (use_acc()) &
          CALL dbcsr_mm_accdrv_dev2host_init(this%accdrv)
 
       CALL timestop(handle)
@@ -259,7 +259,7 @@ CONTAINS
 
 !CALL dbcsr_mm_hostdrv_barrier(this%hostdrv) ! not needed
 
-      IF (has_acc) &
+      IF (use_acc()) &
          CALL dbcsr_mm_accdrv_barrier()
 
    END SUBROUTINE dbcsr_mm_sched_barrier
@@ -325,7 +325,7 @@ CONTAINS
       flop_per_entry = INT(2, KIND=int_8)*stack_descr%max_m*stack_descr%max_n*stack_descr%max_k
       total_flop = stack_fillcount*flop_per_entry
 
-      IF (has_acc .AND. &
+      IF (use_acc() .AND. &
           flop_per_entry > dbcsr_cfg%accdrv_min_flop_process%val .AND. &
           (.NOT. this%avoid_accdrv) .AND. &
           (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogenous%val)) THEN

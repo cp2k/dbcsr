@@ -168,7 +168,7 @@
 
 <span class="c">!CALL dbcsr_mm_hostdrv_barrier(this%hostdrv) ! not needed</span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mm_accdrv_barrier</span><span class="p">()</span>
 
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_sched_barrier</span>

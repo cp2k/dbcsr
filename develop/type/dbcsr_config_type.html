@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 2.1% of total for derived types.</p>Including implementation: 24 statements,  1.4% of total for derived types.">24 statements</a>
+                 title="<p> 2.2% of total for derived types.</p>Including implementation: 25 statements,  1.5% of total for derived types.">25 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -125,6 +125,7 @@
             <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-comm_thread_load">COMM_THREAD_LOAD</a>
             <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-mm_dense">MM_DENSE</a>
             <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-multrec_limit">MULTREC_LIMIT</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-run_on_gpu">RUN_ON_GPU</a>
             <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_thread_buffers">ACCDRV_THREAD_BUFFERS</a>
             <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_avoid_after_busy">ACCDRV_AVOID_AFTER_BUSY</a>
             <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_min_flop_process">ACCDRV_MIN_FLOP_PROCESS</a>
@@ -353,7 +354,7 @@
             <td>::</td>
             <td><strong>MM_DENSE</strong></td>
 <td> =</td>
-                <td>CONF_PAR_LOGICAL(name=&#34;MM_DENSE&#34;, val=.NOT.has_acc, defval=.NOT.has_acc)</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;MM_DENSE&#34;, val=mm_dense_default, defval=mm_dense_default)</td>
             <td>
                 
             </td>
@@ -371,6 +372,23 @@
             <td><strong>MULTREC_LIMIT</strong></td>
 <td> =</td>
                 <td>CONF_PAR_INT(name=&#34;MULTREC_LIMIT&#34;, val=512, defval=512)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-run_on_gpu"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>RUN_ON_GPU</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;RUN_ON_GPU&#34;, val=.TRUE., defval=.TRUE.)</td>
             <td>
                 
             </td>
@@ -585,8 +603,9 @@
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">NUM_LAYERS_3D</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">USE_COMM_THREAD</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">COMM_THREAD_LOAD</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
-<span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">MM_DENSE</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">has_acc</span><span class="p">)</span>
+<span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">MM_DENSE</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="n">mm_dense_default</span><span class="p">)</span>
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">MULTREC_LIMIT</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">512</span><span class="p">)</span>
+<span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">RUN_ON_GPU</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">ACCDRV_THREAD_BUFFERS</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">CONF_PAR_LOGICAL</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ACCDRV_AVOID_AFTER_BUSY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ACCDRV_AVOID_AFTER_BUSY&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span><span class="w"> </span><span class="n">defval</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>

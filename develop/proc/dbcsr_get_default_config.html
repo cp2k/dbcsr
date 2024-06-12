@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">45 statements</a>
+                 title=" 0.1% of total for procedures.">46 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -139,7 +139,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine dbcsr_get_default_config(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor, use_acc_g2g)  
+    <h2>public  subroutine dbcsr_get_default_config(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_dense, run_on_gpu, multrec_limit, accdrv_thread_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor, use_acc_g2g)  
 </h2>
     
 
@@ -302,6 +302,21 @@
             </td>
             <td>::</td>
             <td><strong>mm_dense</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-run_on_gpu~2"></span>
+              logical,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>run_on_gpu</strong></td>
             <td>
                 
             </td>
@@ -514,6 +529,7 @@
 <span class="w">      </span><span class="n">use_comm_thread</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">      </span><span class="n">comm_thread_load</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">      </span><span class="n">mm_dense</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">run_on_gpu</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">      </span><span class="n">multrec_limit</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">      </span><span class="n">accdrv_thread_buffers</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">      </span><span class="n">accdrv_avoid_after_busy</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -534,7 +550,7 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">num_layers_3D</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">use_comm_thread</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">comm_thread_load</span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">mm_dense</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">mm_dense</span><span class="p">,</span><span class="w"> </span><span class="n">run_on_gpu</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">multrec_limit</span><span class="p">,</span><span class="w"> </span><span class="n">accdrv_thread_buffers</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">accdrv_avoid_after_busy</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">accdrv_min_flop_process</span>
@@ -557,6 +573,7 @@
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">comm_thread_load</span><span class="p">))</span><span class="w"> </span><span class="n">comm_thread_load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="p">%</span><span class="n">defval</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_dense</span><span class="p">))</span><span class="w"> </span><span class="n">mm_dense</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_dense</span><span class="p">%</span><span class="n">defval</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">multrec_limit</span><span class="p">))</span><span class="w"> </span><span class="n">multrec_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span><span class="p">%</span><span class="n">defval</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">run_on_gpu</span><span class="p">))</span><span class="w"> </span><span class="n">run_on_gpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">run_on_gpu</span><span class="p">%</span><span class="n">defval</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_thread_buffers</span><span class="p">))</span><span class="w"> </span><span class="n">accdrv_thread_buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_thread_buffers</span><span class="p">%</span><span class="n">defval</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_avoid_after_busy</span><span class="p">))</span><span class="w"> </span><span class="n">accdrv_avoid_after_busy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span><span class="p">%</span><span class="n">defval</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_process</span><span class="p">))</span><span class="w"> </span><span class="n">accdrv_min_flop_process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span><span class="p">%</span><span class="n">defval</span>

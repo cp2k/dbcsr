@@ -164,7 +164,7 @@
 <a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_mm_hostdrv</span>
 <a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">   </span><span class="c">!! Stacks of small matrix multiplications</span>
 <a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">                           </span><span class="n">has_acc</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">                           </span><span class="n">use_acc</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">                           </span><span class="n">mm_driver_blas</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">                           </span><span class="n">mm_driver_matmul</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">                           </span><span class="n">mm_driver_smm</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -262,7 +262,7 @@
 <a id="ln-109" name="ln-109" href="#ln-109"></a><span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span>
 <a id="ln-110" name="ln-110" href="#ln-110"></a><span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">rnd</span>
 <a id="ln-111" name="ln-111" href="#ln-111"></a>
-<a id="ln-112" name="ln-112" href="#ln-112"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span><span class="c">!for cpu-only runs this is called too often</span>
+<a id="ln-112" name="ln-112" href="#ln-112"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span><span class="c">!for cpu-only runs this is called too often</span>
 <a id="ln-113" name="ln-113" href="#ln-113"></a><span class="w">         </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span>
 <a id="ln-114" name="ln-114" href="#ln-114"></a>
 <a id="ln-115" name="ln-115" href="#ln-115"></a><span class="w">      </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span><span class="w"> </span><span class="c">!host driver never fails...hopefully</span>
@@ -390,7 +390,7 @@
 <a id="ln-237" name="ln-237" href="#ln-237"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid multiplication driver&quot;</span><span class="p">)</span>
 <a id="ln-238" name="ln-238" href="#ln-238"></a><span class="w">      </span><span class="k">END SELECT</span>
 <a id="ln-239" name="ln-239" href="#ln-239"></a>
-<a id="ln-240" name="ln-240" href="#ln-240"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span><span class="c">!for cpu-only runs this is called too often</span>
+<a id="ln-240" name="ln-240" href="#ln-240"></a><span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span><span class="c">!for cpu-only runs this is called too often</span>
 <a id="ln-241" name="ln-241" href="#ln-241"></a><span class="w">         </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
 <a id="ln-242" name="ln-242" href="#ln-242"></a>
 <a id="ln-243" name="ln-243" href="#ln-243"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_hostdrv_process</span>

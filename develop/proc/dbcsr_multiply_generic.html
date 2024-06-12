@@ -183,7 +183,7 @@ as well with the same epsilon value.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~9"></span>
+              <span class="anchor" id="variable-transa"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -201,7 +201,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~9"></span>
+              <span class="anchor" id="variable-transb"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -219,7 +219,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~37"></span>
+              <span class="anchor" id="variable-alpha~6"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -234,7 +234,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~56"></span>
+              <span class="anchor" id="variable-matrix_a~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -250,7 +250,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~36"></span>
+              <span class="anchor" id="variable-matrix_b~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -266,7 +266,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~12"></span>
+              <span class="anchor" id="variable-beta~5"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -281,7 +281,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~11"></span>
+              <span class="anchor" id="variable-matrix_c~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -296,7 +296,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first_row~5"></span>
+              <span class="anchor" id="variable-first_row"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -316,7 +316,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_row~6"></span>
+              <span class="anchor" id="variable-last_row"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -336,7 +336,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first_column~5"></span>
+              <span class="anchor" id="variable-first_column"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -356,7 +356,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_column~9"></span>
+              <span class="anchor" id="variable-last_column"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -376,7 +376,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first_k~6"></span>
+              <span class="anchor" id="variable-first_k~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -396,7 +396,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_k~7"></span>
+              <span class="anchor" id="variable-last_k~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -416,7 +416,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~10"></span>
+              <span class="anchor" id="variable-retain_sparsity~8"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -431,7 +431,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~17"></span>
+              <span class="anchor" id="variable-filter_eps~5"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -446,7 +446,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~22"></span>
+              <span class="anchor" id="variable-flop~4"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -581,7 +581,7 @@ last full column of limiting inner product</p>
 <span class="w">      </span><span class="k">CALL </span><span class="n">array_nullify</span><span class="p">(</span><span class="n">dense_row_sizes</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Reset GPU errors</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_acc_clear_errors</span><span class="p">()</span>
 <span class="w">      </span><span class="k">END IF</span>
 
@@ -590,12 +590,12 @@ last full column of limiting inner product</p>
 <span class="w">      </span><span class="c">! give any performance benefit)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">check_openmpi_rma</span><span class="p">()</span>
 
-<span class="w">      </span><span class="n">use_mempools</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span><span class="p">%</span><span class="n">val</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">has_acc</span>
+<span class="w">      </span><span class="n">use_mempools</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span><span class="p">%</span><span class="n">val</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">use_acc</span><span class="p">()</span>
 
 <span class="w">      </span><span class="c">! setup driver-dependent memory-types and their memory-pools ---------------</span>
 
 <span class="w">      </span><span class="c">! the ab_buffers are shared by all threads</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">acc_stream_associated</span><span class="p">(</span><span class="n">stream_1</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">acc_stream_create</span><span class="p">(</span><span class="n">stream_1</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;MemCpy (odd ticks)&quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">acc_stream_create</span><span class="p">(</span><span class="n">stream_2</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;MemCpy (even ticks)&quot;</span><span class="p">)</span>
@@ -759,7 +759,7 @@ last full column of limiting inner product</p>
 <span class="k">      END IF</span>
 <span class="k">      </span><span class="n">ab_dense</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">use_dense_mult</span>
 <span class="w">      </span><span class="c">! Use memory pools when no dense</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">,</span><span class="w"> </span><span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">ab_dense</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">use_mempools</span><span class="p">,</span><span class="w"> </span><span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_2</span><span class="p">,</span><span class="w"> </span><span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">ab_dense</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">use_mempools</span><span class="p">,</span><span class="w"> </span><span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <span class="w">      </span><span class="k">END IF</span>

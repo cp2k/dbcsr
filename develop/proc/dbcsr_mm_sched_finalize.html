@@ -159,7 +159,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~3"></span>
+              <span class="anchor" id="variable-this~43"></span>
               type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -203,7 +203,7 @@
 <span class="w">      </span><span class="k">CALL </span><span class="n">ensure_product_wm_cleared</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">!CALL dbcsr_mm_hostdrv_finalize(this%hostdrv) ! not needed</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mm_accdrv_finalize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">accdrv</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>

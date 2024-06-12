@@ -11,7 +11,7 @@
 MODULE dbcsr_mm_hostdrv
    !! Stacks of small matrix multiplications
    USE dbcsr_config, ONLY: dbcsr_cfg, &
-                           has_acc, &
+                           use_acc, &
                            mm_driver_blas, &
                            mm_driver_matmul, &
                            mm_driver_smm, &
@@ -109,7 +109,7 @@ CONTAINS
       INTEGER                                            :: error_handle, sp
       REAL(KIND=dp)                                      :: rnd
 
-      IF (has_acc) & !for cpu-only runs this is called too often
+      IF (use_acc()) & !for cpu-only runs this is called too often
          CALL timeset(routineN, error_handle)
 
       success = .TRUE. !host driver never fails...hopefully
@@ -237,7 +237,7 @@ CONTAINS
          DBCSR_ABORT("Invalid multiplication driver")
       END SELECT
 
-      IF (has_acc) & !for cpu-only runs this is called too often
+      IF (use_acc()) & !for cpu-only runs this is called too often
          CALL timestop(error_handle)
 
    END SUBROUTINE dbcsr_mm_hostdrv_process

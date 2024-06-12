@@ -191,7 +191,7 @@ production runs.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_left~2"></span>
+              <span class="anchor" id="variable-matrix_left~3"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -206,7 +206,7 @@ production runs.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_right~2"></span>
+              <span class="anchor" id="variable-matrix_right~3"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -236,7 +236,7 @@ production runs.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~9"></span>
+              <span class="anchor" id="variable-retain_sparsity~7"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -251,7 +251,7 @@ production runs.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~16"></span>
+              <span class="anchor" id="variable-filter_eps~4"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -266,7 +266,7 @@ production runs.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~11"></span>
+              <span class="anchor" id="variable-flop~3"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -281,7 +281,7 @@ production runs.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_product_data~5"></span>
+              <span class="anchor" id="variable-keep_product_data"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -614,7 +614,7 @@ production runs.</p>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_abpanel_2</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_abpanel_2</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                           </span><span class="n">capacity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="w">         </span><span class="c">! enumerate the blocksizes to keep the following 2D-arrays small.</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">enumerate_blk_sizes</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                  </span><span class="n">dbcsr_max_row_size</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
@@ -722,7 +722,7 @@ production runs.</p>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="c">! Evaluate sizes for workspaces</span>
 <span class="w">      </span><span class="n">size_guess_init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">size_guess_init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">product_matrix_size_guess</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_right</span><span class="p">,</span><span class="w"> </span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                     </span><span class="n">left_max_data_size</span><span class="p">,</span><span class="w"> </span><span class="n">right_max_data_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                     </span><span class="n">left_col_nimages</span><span class="p">,</span><span class="w"> </span><span class="n">right_row_nimages</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -911,7 +911,7 @@ production runs.</p>
 <span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">is_not_comm</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="w">                     </span><span class="c">! Right</span>
 <span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_comm_right</span><span class="p">(</span><span class="n">icol3D</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                        IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                        IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                           CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_acc_sync_right&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">handle2</span><span class="p">)</span>
 <span class="w">                           </span><span class="k">CALL </span><span class="n">acc_event_synchronize</span><span class="p">(</span><span class="n">right_buffer_p</span><span class="p">%</span><span class="k">data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
 <span class="w">                           </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
@@ -927,7 +927,7 @@ production runs.</p>
 <span class="w">                     </span><span class="k">END IF</span>
 <span class="w">                     </span><span class="c">! Left</span>
 <span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_comm_left</span><span class="p">(</span><span class="n">irow3D</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                        IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                        IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                           CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_acc_sync_left&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">handle2</span><span class="p">)</span>
 <span class="w">                           </span><span class="k">CALL </span><span class="n">acc_event_synchronize</span><span class="p">(</span><span class="n">left_buffer_p</span><span class="p">%</span><span class="k">data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
 <span class="w">                           </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
@@ -1145,7 +1145,7 @@ production runs.</p>
 <span class="w">               </span><span class="n">ileft_buffer_calc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MIN</span><span class="p">(</span><span class="n">ileft_buffer_calc</span><span class="p">,</span><span class="w"> </span><span class="n">nbuffers_norms</span><span class="p">)</span>
 <span class="w">               </span><span class="c">! check if right matrix was already initialized</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">right_buffer_p</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="n">valid</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">dbcsr_data_host2dev</span><span class="p">(</span><span class="n">right_buffer_p</span><span class="p">%</span><span class="k">data</span><span class="p">)</span>
+<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">CALL </span><span class="n">dbcsr_data_host2dev</span><span class="p">(</span><span class="n">right_buffer_p</span><span class="p">%</span><span class="k">data</span><span class="p">)</span>
 <span class="w">                  </span><span class="c">! Repoint indices of matrices</span>
 <span class="w">                  </span><span class="k">CALL </span><span class="n">make_meta</span><span class="p">(</span><span class="n">right_buffer_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="n">right_row_total_nimages</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -1163,7 +1163,7 @@ production runs.</p>
 <span class="w">                                          </span><span class="n">right_norms</span><span class="p">(:,</span><span class="w"> </span><span class="n">iright_buffer_calc</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                          </span><span class="n">k_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="p">(</span><span class="n">icol3D</span><span class="p">)%</span><span class="n">sizes</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">END IF</span>
-<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                     CALL </span><span class="n">acc_transpose_blocks</span><span class="p">(</span><span class="n">right_buffer_p</span><span class="p">%</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                               </span><span class="n">right_buffer_p</span><span class="p">%</span><span class="n">trs_stackbuf</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                               </span><span class="n">k_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">n_sizes</span><span class="p">(</span><span class="n">icol3D</span><span class="p">)%</span><span class="n">sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -1174,7 +1174,7 @@ production runs.</p>
 <span class="k">               END IF</span>
 <span class="w">               </span><span class="c">! check if left matrix was already initialized</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">left_buffer_p</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="n">valid</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">dbcsr_data_host2dev</span><span class="p">(</span><span class="n">left_buffer_p</span><span class="p">%</span><span class="k">data</span><span class="p">)</span>
+<span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">CALL </span><span class="n">dbcsr_data_host2dev</span><span class="p">(</span><span class="n">left_buffer_p</span><span class="p">%</span><span class="k">data</span><span class="p">)</span>
 <span class="w">                  </span><span class="c">! Repoint indices of matrices</span>
 <span class="w">                  </span><span class="k">CALL </span><span class="n">make_meta</span><span class="p">(</span><span class="n">left_buffer_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="n">left_col_total_nimages</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -1190,7 +1190,7 @@ production runs.</p>
 <span class="w">                  </span><span class="k">END IF</span>
 <span class="k">               END IF</span>
 <span class="w">               </span><span class="c">!  Wait for left and right buffers transfer to device before proceeding</span>
-<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_sync_h2d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">handle2</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">CALL </span><span class="n">acc_device_synchronize</span><span class="p">()</span>
 <span class="w">                  </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
@@ -1402,7 +1402,7 @@ production runs.</p>
 <span class="k">         CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">right_buffers</span><span class="p">(</span><span class="n">v_ki</span><span class="p">)%</span><span class="k">data</span><span class="p">)</span>
 <span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">right_buffers</span><span class="p">(</span><span class="n">v_ki</span><span class="p">)%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">right_buffers</span><span class="p">(</span><span class="n">v_ki</span><span class="p">)%</span><span class="n">matrix</span><span class="p">)</span>
-<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">right_buffers</span><span class="p">(</span><span class="n">v_ki</span><span class="p">)%</span><span class="n">trs_stackbuf</span><span class="p">)</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">right_buffers</span><span class="p">(</span><span class="n">v_ki</span><span class="p">)%</span><span class="n">trs_stackbuf</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_devalloc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">acc_event_destroy</span><span class="p">(</span><span class="n">right_buffers</span><span class="p">(</span><span class="n">v_ki</span><span class="p">)%</span><span class="n">trs_stackbuf</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
@@ -1413,7 +1413,7 @@ production runs.</p>
 <span class="k">      DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">left_buffers</span><span class="p">,</span><span class="w"> </span><span class="n">right_buffers</span><span class="p">)</span>
 <span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">do_comm_left</span><span class="p">,</span><span class="w"> </span><span class="n">do_comm_right</span><span class="p">)</span>
 <span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">right_vcol</span><span class="p">,</span><span class="w"> </span><span class="n">left_vrow</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">has_acc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">use_acc</span><span class="p">())</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">row_blk_sizes2enum</span><span class="p">,</span><span class="w"> </span><span class="n">enum2row_blk_sizes</span><span class="p">)</span>
 <span class="w">         </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">col_blk_sizes2enum</span><span class="p">,</span><span class="w"> </span><span class="n">enum2col_blk_sizes</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
