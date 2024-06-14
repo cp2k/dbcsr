@@ -99,7 +99,7 @@ set(USE_ACCEL
     CACHE STRING "Build with acceleration support (default: none)")
 set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
 
-set(SUPPORTED_CUDA_ARCHITECTURES K20X K40 K80 P100 V100 A100)
+set(SUPPORTED_CUDA_ARCHITECTURES K20X K40 K80 P100 V100 A100 H100)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250)
 set(WITH_GPU
     $<IF:$<STREQUAL:${USE_ACCEL},"opencl">,"","P100">
@@ -107,7 +107,12 @@ set(WITH_GPU
       STRING
       "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
 )
-set(WITH_GPU_PARAMS "${WITH_GPU}")
+# TODO: Update for H100 when tuned parameters will be available
+if("${WITH_GPU}" STREQUAL "H100")
+  set(WITH_GPU_PARAMS "A100")
+else()
+  set(WITH_GPU_PARAMS "${WITH_GPU}")
+endif()
 set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
                                      ${SUPPORTED_HIP_ARCHITECTURES})
 
@@ -238,6 +243,7 @@ if (USE_ACCEL MATCHES "cuda|hip")
   set(GPU_ARCH_NUMBER_P100 60)
   set(GPU_ARCH_NUMBER_V100 70)
   set(GPU_ARCH_NUMBER_A100 80)
+  set(GPU_ARCH_NUMBER_H100 90)
   set(GPU_ARCH_NUMBER_Mi50 gfx906)
   set(GPU_ARCH_NUMBER_Mi100 gfx908)
   set(GPU_ARCH_NUMBER_Mi250 gfx90a)
