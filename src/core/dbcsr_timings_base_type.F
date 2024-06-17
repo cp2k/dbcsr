@@ -30,7 +30,7 @@ MODULE dbcsr_timings_base_type
       REAL(kind=dp) :: incl_energy_accu = -1.0_dp
       INTEGER       :: active_calls = -1
       INTEGER       :: total_calls = -1
-      INTEGER       :: stackdepth_accu = -1 
+      INTEGER       :: stackdepth_accu = -1
       LOGICAL       :: trace = .FALSE.
    END TYPE routine_stat_type
 

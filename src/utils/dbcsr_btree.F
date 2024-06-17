@@ -76,14 +76,14 @@ MODULE dbcsr_btree
 
       TYPE btree_node_structure_${nametype}$
          INTEGER :: min_fill = -1, max_fill = -1
-         INTEGER :: n = - 1
+         INTEGER :: n = -1
          INTEGER :: lastid = -1
          INTEGER :: refcount = -1
          TYPE(btree_node_${nametype}$), POINTER :: root => NULL()
       END TYPE btree_node_structure_${nametype}$
 
       TYPE btree_${nametype}$
-         TYPE(btree_node_structure_${nametype}$) :: b = btree_node_structure_${nametype}$()
+         TYPE(btree_node_structure_${nametype}$) :: b = btree_node_structure_${nametype}$ ()
       END TYPE btree_${nametype}$
    #:endfor
 

@@ -37,8 +37,8 @@ MODULE dbcsr_dict
       !for use during change_capacity().
       TYPE private_item_type_${keytype}$_${valuetype}$
          PRIVATE
-         ${keytype_fort}$                            :: key ${key_assign}$ ${default_key}$
-         ${valuetype_fort}$                          :: value ${value_assign}$ ${default_value}$
+         ${keytype_fort}$                            :: key ${key_assign}$${default_key}$
+         ${valuetype_fort}$                          :: value ${value_assign}$${default_value}$
          INTEGER(KIND=int_8)                         :: hash = -1_int_8
          TYPE(private_item_type_${keytype}$_${valuetype}$), POINTER          :: next => Null()
       END TYPE private_item_type_${keytype}$_${valuetype}$
@@ -58,8 +58,8 @@ MODULE dbcsr_dict
 
       ! this is a public type, its returned by dict_items()
       TYPE dict_${keytype}$_${valuetype}$_item_type
-         ${keytype_fort}$        :: key ${key_assign}$ ${default_key}$
-         ${valuetype_fort}$      :: value ${value_assign}$ ${default_value}$
+         ${keytype_fort}$        :: key ${key_assign}$${default_key}$
+         ${valuetype_fort}$      :: value ${value_assign}$${default_value}$
       END TYPE dict_${keytype}$_${valuetype}$_item_type
    #:endfor
 
