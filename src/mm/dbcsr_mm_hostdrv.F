@@ -57,7 +57,7 @@ MODULE dbcsr_mm_hostdrv
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
    TYPE dbcsr_mm_hostdrv_type
-      TYPE(dbcsr_data_obj)          :: data_area
+      TYPE(dbcsr_data_obj)          :: data_area = dbcsr_data_obj()
    END TYPE dbcsr_mm_hostdrv_type
 
 CONTAINS

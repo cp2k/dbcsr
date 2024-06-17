@@ -108,7 +108,7 @@ MODULE dbcsr_work_operations
    END INTERFACE
 
    TYPE i_array_p
-      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: p
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: p => NULL()
    END TYPE i_array_p
 
 CONTAINS

@@ -11,32 +11,32 @@
 
 #:def type2setup_1_get()
 TYPE btree_data_sp2d
-REAL(KIND=sp), DIMENSION(:,:), POINTER :: p
-LOGICAL :: tr
+REAL(KIND=sp), DIMENSION(:,:), POINTER :: p => NULL()
+LOGICAL :: tr = .FALSE.
 END TYPE btree_data_sp2d
 PUBLIC :: btree_data_sp2d
 #:enddef
 
 #:def type2setup_2_get()
 TYPE btree_data_dp2d
-REAL(KIND=dp), DIMENSION(:,:), POINTER :: p
-LOGICAL :: tr
+REAL(KIND=dp), DIMENSION(:,:), POINTER :: p => NULL()
+LOGICAL :: tr = .FALSE.
 END TYPE btree_data_dp2d
 PUBLIC :: btree_data_dp2d
 #:enddef
 
 #:def type2setup_3_get()
 TYPE btree_data_cp2d
-COMPLEX(KIND=sp), DIMENSION(:,:), POINTER :: p
-LOGICAL :: tr
+COMPLEX(KIND=sp), DIMENSION(:,:), POINTER :: p => NULL()
+LOGICAL :: tr = .FALSE.
 END TYPE btree_data_cp2d
 PUBLIC :: btree_data_cp2d
 #:enddef
 
 #:def type2setup_4_get()
 TYPE btree_data_zp2d
-COMPLEX(KIND=dp), DIMENSION(:,:), POINTER :: p
-LOGICAL :: tr
+COMPLEX(KIND=dp), DIMENSION(:,:), POINTER :: p => NULL()
+LOGICAL :: tr = .FALSE.
 END TYPE btree_data_zp2d
 PUBLIC :: btree_data_zp2d
 #:enddef

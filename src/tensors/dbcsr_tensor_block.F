@@ -62,10 +62,10 @@ MODULE dbcsr_tensor_block
       ndims_iterator
 
    TYPE dbcsr_t_iterator_type
-      TYPE(dbcsr_tas_iterator)      :: iter
-      TYPE(nd_to_2d_mapping)      :: nd_index_blk
-      TYPE(nd_to_2d_mapping)      :: nd_index
-      TYPE(array_list)            :: blk_sizes, blk_offsets
+      TYPE(dbcsr_tas_iterator)      :: iter = dbcsr_tas_iterator()
+      TYPE(nd_to_2d_mapping)      :: nd_index_blk = nd_to_2d_mapping()
+      TYPE(nd_to_2d_mapping)      :: nd_index = nd_to_2d_mapping()
+      TYPE(array_list)            :: blk_sizes = array_list(), blk_offsets = array_list()
    END TYPE dbcsr_t_iterator_type
 
    #:for dparam, dtype, dsuffix in dtype_float_list

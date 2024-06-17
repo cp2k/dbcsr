@@ -18,6 +18,8 @@
 #:set valuetype_fort = ['INTEGER(kind=int_4)', 'TYPE(call_stat_type), POINTER']
 #:set key_assign = ['=', '=']
 #:set value_assign = ['=', '=>']
+#:set default_key = ['""', '-1_int_4']
+#:set default_value = ['-1_int_4', 'NULL()']
 
 #:def isequal_str(k1, k2)
 ${k1}$ == ${k2}$
@@ -68,7 +70,7 @@ END FUNCTION hash_i4tuple
 #:set usetimings = ['call_stat_type']
 
 
-#:set inst_params = list(zip(keytype, valuetype, keytype_fort, valuetype_fort, key_assign, value_assign, isequal))
+#:set inst_params = list(zip(keytype, valuetype, keytype_fort, valuetype_fort, key_assign, value_assign, isequal, default_key, default_value))
 
 #:def uselist(list_in)
 #!    comma-separated list of unique entries of list_in

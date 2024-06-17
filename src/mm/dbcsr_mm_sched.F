@@ -71,8 +71,8 @@ MODULE dbcsr_mm_sched
    TYPE dbcsr_mm_sched_type
       PRIVATE
       TYPE(dbcsr_work_type), POINTER  :: product_wm => Null()
-      TYPE(dbcsr_mm_accdrv_type)      :: accdrv
-      TYPE(dbcsr_mm_hostdrv_type)     :: hostdrv
+      TYPE(dbcsr_mm_accdrv_type)      :: accdrv = dbcsr_mm_accdrv_type()
+      TYPE(dbcsr_mm_hostdrv_type)     :: hostdrv = dbcsr_mm_hostdrv_type()
       LOGICAL                         :: avoid_accdrv = .FALSE.
       LOGICAL                         :: product_wm_cleared = .FALSE.
       LOGICAL                         :: keep_product_data = .TRUE.
@@ -92,7 +92,7 @@ MODULE dbcsr_mm_sched
       INTEGER(kind=int_8)                              :: max_acc_flop = 0
       INTEGER(kind=int_8), DIMENSION(:, :), ALLOCATABLE :: num_mnk_stacks
       ! ensure that array-elements are on different cache lines
-      INTEGER(kind=int_4), DIMENSION(64)               :: padding
+      INTEGER(kind=int_4), DIMENSION(64)               :: padding = -1_int_4
    END TYPE stats_type
 
    TYPE(stats_type), DIMENSION(:), ALLOCATABLE, TARGET, SAVE :: stats_per_thread

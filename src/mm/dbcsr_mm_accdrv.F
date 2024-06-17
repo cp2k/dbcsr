@@ -79,7 +79,7 @@ MODULE dbcsr_mm_accdrv
    TYPE dbcsr_mm_accdrv_type
       PRIVATE
       TYPE(dbcsr_work_type), POINTER           :: product_wm => Null()
-      TYPE(dbcsr_data_obj)                     :: c_buffer
+      TYPE(dbcsr_data_obj)                     :: c_buffer = dbcsr_data_obj()
       LOGICAL                                  :: c_area_copy = .TRUE.
       LOGICAL                                  :: keep_product_data = .TRUE.
       LOGICAL                                  :: do_gpu_c_redux = .FALSE.
@@ -100,18 +100,18 @@ MODULE dbcsr_mm_accdrv
    ! Therefore, the memory is allocated once and stored in global variables.
 
    TYPE stack_buffer_type
-      TYPE(acc_devmem_type)                  :: devmem
+      TYPE(acc_devmem_type)                  :: devmem = acc_devmem_type()
       INTEGER, DIMENSION(:, :), POINTER       :: hostmem => Null()
-      TYPE(acc_event_type)                   :: ready
-      TYPE(acc_event_type)                   :: calculated
-      TYPE(acc_stream_type)                  :: stream
+      TYPE(acc_event_type)                   :: ready = acc_event_type()
+      TYPE(acc_event_type)                   :: calculated = acc_event_type()
+      TYPE(acc_stream_type)                  :: stream = acc_stream_type()
    END TYPE stack_buffer_type
 
    TYPE thread_private_type
       TYPE(stack_buffer_type), DIMENSION(:), POINTER     :: stack_buffers => Null()
-      TYPE(dbcsr_memtype_type)                           :: memtype_cbuffer
+      TYPE(dbcsr_memtype_type)                           :: memtype_cbuffer = dbcsr_memtype_type()
       ! ensure that array-elements are on different cache lines
-      INTEGER(kind=int_4), DIMENSION(64)                 :: padding
+      INTEGER(kind=int_4), DIMENSION(64)                 :: padding = -1_int_4
    END TYPE thread_private_type
 
    TYPE(thread_private_type), SAVE, DIMENSION(:), ALLOCATABLE, TARGET :: all_thread_privates

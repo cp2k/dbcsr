@@ -38,9 +38,9 @@ MODULE dbcsr_tas_global
    ! abstract type for distribution vectors along one dimension
    TYPE, ABSTRACT :: dbcsr_tas_distribution
       ! number of process rows / columns:
-      INTEGER :: nprowcol
+      INTEGER :: nprowcol = -1
       ! number of matrix rows / columns:
-      INTEGER(KIND=int_8) :: nmrowcol
+      INTEGER(KIND=int_8) :: nmrowcol = -1_int_8
    CONTAINS
       ! map matrix rows/cols to distribution rows/cols:
       PROCEDURE(rowcol_dist), deferred :: dist
@@ -52,7 +52,7 @@ MODULE dbcsr_tas_global
    ! - may not be load balanced for arbitrary block sizes
    ! - memory efficient for large dimensions
    TYPE, EXTENDS(dbcsr_tas_distribution) :: dbcsr_tas_dist_cyclic
-      INTEGER :: split_size
+      INTEGER :: split_size = -1
    CONTAINS
       PROCEDURE :: dist => cyclic_dist
       PROCEDURE :: rowcols => cyclic_rowcols
@@ -73,9 +73,9 @@ MODULE dbcsr_tas_global
    ! - memory efficient for large dimensions
    TYPE, EXTENDS(dbcsr_tas_distribution) :: dbcsr_tas_dist_repl
       INTEGER, DIMENSION(:), ALLOCATABLE :: dist_vec
-      INTEGER :: nmrowcol_local
-      INTEGER :: n_repl
-      INTEGER :: dist_size
+      INTEGER :: nmrowcol_local = -1
+      INTEGER :: n_repl = -1
+      INTEGER :: dist_size = -1
    CONTAINS
       PROCEDURE :: dist => repl_dist
       PROCEDURE :: rowcols => repl_rowcols
@@ -84,9 +84,9 @@ MODULE dbcsr_tas_global
    ! abstract type for integer data (e.g. block sizes) along one dimension
    TYPE, ABSTRACT :: dbcsr_tas_rowcol_data
       ! number of matrix rows / columns (blocks):
-      INTEGER(KIND=int_8) :: nmrowcol
+      INTEGER(KIND=int_8) :: nmrowcol = -1_int_8
       ! number of matrix rows / columns (elements):
-      INTEGER(KIND=int_8) :: nfullrowcol
+      INTEGER(KIND=int_8) :: nfullrowcol = -1_int_8
    CONTAINS
       ! integer data for each block row / col
       PROCEDURE(rowcol_data), deferred :: DATA
@@ -106,7 +106,7 @@ MODULE dbcsr_tas_global
    ! - memory efficient for large dimensions
    TYPE, EXTENDS(dbcsr_tas_rowcol_data) :: dbcsr_tas_blk_size_repl
       INTEGER, DIMENSION(:), ALLOCATABLE :: blk_size_vec
-      INTEGER :: nmrowcol_local
+      INTEGER :: nmrowcol_local = -1
    CONTAINS
       PROCEDURE :: DATA => blk_size_repl
    END TYPE
