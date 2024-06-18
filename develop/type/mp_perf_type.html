@@ -114,8 +114,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/mp_perf_type.html#variable-name~20">name</a>
-            <a class="list-group-item" href="../type/mp_perf_type.html#variable-count~6">count</a>
+            <a class="list-group-item" href="../type/mp_perf_type.html#variable-name~9">name</a>
+            <a class="list-group-item" href="../type/mp_perf_type.html#variable-count~2">count</a>
             <a class="list-group-item" href="../type/mp_perf_type.html#variable-msg_size">msg_size</a>
         </div>
       </div>
@@ -171,7 +171,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~20"></span>
+              <span class="anchor" id="variable-name~9"></span>
               character(len=20),
             </td>
               <td>public</td>
@@ -180,15 +180,15 @@
             </td>
             <td>::</td>
             <td><strong>name</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>&#34;&#34;</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-count~6"></span>
+              <span class="anchor" id="variable-count~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -197,8 +197,8 @@
             </td>
             <td>::</td>
             <td><strong>count</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -214,8 +214,8 @@
             </td>
             <td>::</td>
             <td><strong>msg_size</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1.0_dp</td>
             <td>
                 
             </td>
@@ -232,9 +232,9 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">mp_perf_type</span>
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">count</span>
-<span class="nb">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">msg_size</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">msg_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">mp_perf_type</span>
 </pre></div>
 

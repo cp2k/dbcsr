@@ -189,8 +189,8 @@
             </td>
             <td>::</td>
             <td><strong>type_handle</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>mp_datatype_null_handle</td>
             <td>
                 
             </td>
@@ -206,8 +206,8 @@
             </td>
             <td>::</td>
             <td><strong>length</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -223,8 +223,8 @@
             </td>
             <td>::</td>
             <td><strong>data_i</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -240,8 +240,8 @@
             </td>
             <td>::</td>
             <td><strong>data_l</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -257,8 +257,8 @@
             </td>
             <td>::</td>
             <td><strong>data_r</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -274,8 +274,8 @@
             </td>
             <td>::</td>
             <td><strong>data_d</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -291,8 +291,8 @@
             </td>
             <td>::</td>
             <td><strong>data_c</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -308,8 +308,8 @@
             </td>
             <td>::</td>
             <td><strong>data_z</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -325,8 +325,8 @@
             </td>
             <td>::</td>
             <td><strong>subtype</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -342,8 +342,8 @@
             </td>
             <td>::</td>
             <td><strong>vector_descriptor</strong>(2)</td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -359,8 +359,8 @@
             </td>
             <td>::</td>
             <td><strong>has_indexing</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>.FALSE.</td>
             <td>
                 
             </td>
@@ -376,8 +376,8 @@
             </td>
             <td>::</td>
             <td><strong>index_descriptor</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>mp_indexing_meta_type()</td>
             <td>
                 
             </td>
@@ -394,21 +394,21 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">mp_type_descriptor_type</span>
-<span class="w">      </span><span class="n">MPI_DATA_TYPE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">type_handle</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">length</span>
+<span class="w">      </span><span class="n">MPI_DATA_TYPE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">type_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_datatype_null_handle</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="cp">#if defined(__parallel)</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">mpi_address_kind</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">base</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">mpi_address_kind</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1_mpi_address_kind</span>
 <span class="cp">#endif</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_i</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_l</span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_r</span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_d</span>
-<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_c</span>
-<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_z</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_type_descriptor_type</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subtype</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vector_descriptor</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">has_indexing</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_indexing_meta_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">index_descriptor</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_i</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_l</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_r</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_d</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_c</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">data_z</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_type_descriptor_type</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subtype</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vector_descriptor</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">has_indexing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_indexing_meta_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">index_descriptor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_indexing_meta_type</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">mp_type_descriptor_type</span>
 </pre></div>
 

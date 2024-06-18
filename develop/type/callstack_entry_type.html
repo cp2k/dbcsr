@@ -180,8 +180,8 @@
             </td>
             <td>::</td>
             <td><strong>routine_id</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -197,8 +197,8 @@
             </td>
             <td>::</td>
             <td><strong>walltime_start</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1.0_dp</td>
             <td>
                 
             </td>
@@ -214,8 +214,8 @@
             </td>
             <td>::</td>
             <td><strong>energy_start</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1.0_dp</td>
             <td>
                 
             </td>
@@ -232,9 +232,9 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">callstack_entry_type</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">routine_id</span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">walltime_start</span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">energy_start</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">routine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">walltime_start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">energy_start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">callstack_entry_type</span>
 </pre></div>
 

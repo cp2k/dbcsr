@@ -114,9 +114,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-n~52">n</a>
-            <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-index~15">index</a>
-            <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-nodes">nodes</a>
+            <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-n~48">n</a>
+            <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-index~5">index</a>
+            <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-nodes~3">nodes</a>
         </div>
       </div>
     </div>
@@ -171,7 +171,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~52"></span>
+              <span class="anchor" id="variable-n~48"></span>
               integer,
             </td>
               <td>public</td>
@@ -180,15 +180,15 @@
             </td>
             <td>::</td>
             <td><strong>n</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~15"></span>
+              <span class="anchor" id="variable-index~5"></span>
               integer,
             </td>
               <td>public,</td>
@@ -197,15 +197,15 @@
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes"></span>
+              <span class="anchor" id="variable-nodes~3"></span>
               type(<a href='dbcsr_heap_node_e.html'>dbcsr_heap_node_e</a>),
             </td>
               <td>public,</td>
@@ -214,8 +214,8 @@
             </td>
             <td>::</td>
             <td><strong>nodes</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -232,9 +232,9 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_heap_type</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span>
-<span class="nb">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_heap_node_e</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nodes</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_heap_node_e</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nodes</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_heap_type</span>
 </pre></div>
 

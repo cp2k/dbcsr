@@ -114,14 +114,14 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-data_area~9">data_area</a>
-            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-row_i~9">row_i</a>
-            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-col_i~10">col_i</a>
-            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-blk_p~38">blk_p</a>
-            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-lastblk~6">lastblk</a>
-            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-datasize~3">datasize</a>
+            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-data_area~5">data_area</a>
+            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-row_i~2">row_i</a>
+            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-col_i~7">col_i</a>
+            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-blk_p~31">blk_p</a>
+            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-lastblk~5">lastblk</a>
+            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-datasize">datasize</a>
             <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-datasize_after_filtering">datasize_after_filtering</a>
-            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-mutable~6">mutable</a>
+            <a class="list-group-item" href="../type/dbcsr_work_type.html#variable-mutable">mutable</a>
         </div>
       </div>
     </div>
@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area~9"></span>
+              <span class="anchor" id="variable-data_area~5"></span>
               type(<a href='dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
@@ -185,15 +185,15 @@
             </td>
             <td>::</td>
             <td><strong>data_area</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_data_obj()</td>
             <td>
                 <p>holds actual values.</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_i~9"></span>
+              <span class="anchor" id="variable-row_i~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -210,7 +210,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~10"></span>
+              <span class="anchor" id="variable-col_i~7"></span>
               integer,
             </td>
               <td>public,</td>
@@ -227,7 +227,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~38"></span>
+              <span class="anchor" id="variable-blk_p~31"></span>
               integer,
             </td>
               <td>public,</td>
@@ -244,7 +244,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lastblk~6"></span>
+              <span class="anchor" id="variable-lastblk~5"></span>
               integer,
             </td>
               <td>public</td>
@@ -261,7 +261,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-datasize~3"></span>
+              <span class="anchor" id="variable-datasize"></span>
               integer,
             </td>
               <td>public</td>
@@ -295,7 +295,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mutable~6"></span>
+              <span class="anchor" id="variable-mutable"></span>
               type(<a href='dbcsr_mutable_obj.html'>dbcsr_mutable_obj</a>),
             </td>
               <td>public</td>
@@ -304,8 +304,8 @@
             </td>
             <td>::</td>
             <td><strong>mutable</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_mutable_obj()</td>
             <td>
                 <p>the final bcsr matrix</p>
             </td>
@@ -324,7 +324,7 @@
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_work_type</span>
 <span class="w">      </span><span class="c">!! Used for assembling a real matrix.</span>
 
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">data_area</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">data_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_data_obj</span><span class="p">()</span>
 <span class="w">         </span><span class="c">!! holds actual values.</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">row_i</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
 <span class="w">         </span><span class="c">!! the row index of all of the blocks.</span>
@@ -337,9 +337,9 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">datasize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">         </span><span class="c">!! the actual size of data present in the data element</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">datasize_after_filtering</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
-<span class="w">      </span><span class="c">!TYPE(btree_i8_dp2d)                       :: tree</span>
+<span class="w">      </span><span class="c">!TYPE(btree_i8_dp2d)                       :: tree = btree_i8_dp2d()</span>
 <span class="w">         </span><span class="c">!! tree used to index data blocks (alternative to the row_i, col_i, and blk_p indices when index is scattered).</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mutable_obj</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mutable</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mutable_obj</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mutable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mutable_obj</span><span class="p">()</span>
 <span class="w">         </span><span class="c">!! the final bcsr matrix</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_work_type</span>
 </pre></div>

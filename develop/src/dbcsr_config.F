@@ -100,7 +100,7 @@ MODULE dbcsr_config
 
    TYPE, ABSTRACT :: CONF_PAR
       CHARACTER :: source = 'D' ! Possible values are: D=Default, E=Environment, U=User code
-      CHARACTER(len=max_paramter_name_len) :: name
+      CHARACTER(len=max_paramter_name_len) :: name = ""
 
    CONTAINS
 
@@ -110,7 +110,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_INT
-      INTEGER :: val, defval
+      INTEGER :: val = -1, defval = -1
       LOGICAL :: ensure_positive = .TRUE.
 
    CONTAINS
@@ -120,7 +120,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR_INT
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_MM_DRIVER
-      INTEGER :: val, defval
+      INTEGER :: val = -1, defval = -1
 
    CONTAINS
 
@@ -129,7 +129,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR_MM_DRIVER
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_LOGICAL
-      LOGICAL :: val, defval
+      LOGICAL :: val = .FALSE., defval = .FALSE.
 
    CONTAINS
 
@@ -138,7 +138,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR_LOGICAL
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_REAL
-      REAL(KIND=real_8) :: val, defval
+      REAL(KIND=real_8) :: val = -1, defval = -1
 
    CONTAINS
 

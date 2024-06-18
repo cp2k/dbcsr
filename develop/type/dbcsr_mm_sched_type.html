@@ -201,8 +201,8 @@
             </td>
             <td>::</td>
             <td><strong>accdrv</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_mm_accdrv_type()</td>
             <td>
                 
             </td>
@@ -218,8 +218,8 @@
             </td>
             <td>::</td>
             <td><strong>hostdrv</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_mm_hostdrv_type()</td>
             <td>
                 
             </td>
@@ -306,8 +306,8 @@
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_mm_sched_type</span>
 <span class="w">      </span><span class="k">PRIVATE</span>
 <span class="k">      TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">product_wm</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_accdrv_type</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">accdrv</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_hostdrv_type</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">hostdrv</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_accdrv_type</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">accdrv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mm_accdrv_type</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_hostdrv_type</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">hostdrv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mm_hostdrv_type</span><span class="p">()</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">avoid_accdrv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">product_wm_cleared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">keep_product_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>

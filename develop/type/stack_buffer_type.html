@@ -115,10 +115,10 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/stack_buffer_type.html#variable-devmem">devmem</a>
-            <a class="list-group-item" href="../type/stack_buffer_type.html#variable-hostmem">hostmem</a>
+            <a class="list-group-item" href="../type/stack_buffer_type.html#variable-hostmem~19">hostmem</a>
             <a class="list-group-item" href="../type/stack_buffer_type.html#variable-ready">ready</a>
             <a class="list-group-item" href="../type/stack_buffer_type.html#variable-calculated">calculated</a>
-            <a class="list-group-item" href="../type/stack_buffer_type.html#variable-stream~2">stream</a>
+            <a class="list-group-item" href="../type/stack_buffer_type.html#variable-stream~47">stream</a>
         </div>
       </div>
     </div>
@@ -182,15 +182,15 @@
             </td>
             <td>::</td>
             <td><strong>devmem</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>acc_devmem_type()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmem"></span>
+              <span class="anchor" id="variable-hostmem~19"></span>
               integer,
             </td>
               <td>public,</td>
@@ -216,8 +216,8 @@
             </td>
             <td>::</td>
             <td><strong>ready</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>acc_event_type()</td>
             <td>
                 
             </td>
@@ -233,15 +233,15 @@
             </td>
             <td>::</td>
             <td><strong>calculated</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>acc_event_type()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stream~2"></span>
+              <span class="anchor" id="variable-stream~47"></span>
               type(<a href='acc_stream_type.html'>acc_stream_type</a>),
             </td>
               <td>public</td>
@@ -250,8 +250,8 @@
             </td>
             <td>::</td>
             <td><strong>stream</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>acc_stream_type()</td>
             <td>
                 
             </td>
@@ -268,11 +268,11 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">stack_buffer_type</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">devmem</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">devmem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_devmem_type</span><span class="p">()</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">hostmem</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">ready</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">calculated</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">stream</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_event_type</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">calculated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_event_type</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_stream_type</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">stack_buffer_type</span>
 </pre></div>
 

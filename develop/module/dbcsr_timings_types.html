@@ -153,9 +153,9 @@ into the separate module timings_base_type.F</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='dbcsr_list_callstackentry.html'>dbcsr_list_callstackentry</a></li>
                   <li class="list-inline-item"><a href='dbcsr_list_routinestat.html'>dbcsr_list_routinestat</a></li>
                   <li class="list-inline-item"><a href='dbcsr_dict.html'>dbcsr_dict</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_list_callstackentry.html'>dbcsr_list_callstackentry</a></li>
               </ul>
             </li>
         </ul>
@@ -197,7 +197,7 @@ into the separate module timings_base_type.F</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ref_count"></span>
+              <span class="anchor" id="variable-ref_count~4"></span>
               integer,
             </td>
               <td>public</td>
@@ -206,15 +206,15 @@ into the separate module timings_base_type.F</p>
             </td>
             <td>::</td>
             <td><strong>ref_count</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-routine_names"></span>
+              <span class="anchor" id="variable-routine_names~2"></span>
               type(<a href='../type/dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
               <td>public</td>
@@ -223,8 +223,8 @@ into the separate module timings_base_type.F</p>
             </td>
             <td>::</td>
             <td><strong>routine_names</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dict_str_i4_type()</td>
             <td>
 
             </td>
@@ -240,8 +240,8 @@ into the separate module timings_base_type.F</p>
             </td>
             <td>::</td>
             <td><strong>routine_stats</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>list_routinestat_type()</td>
             <td>
 
             </td>
@@ -257,8 +257,8 @@ into the separate module timings_base_type.F</p>
             </td>
             <td>::</td>
             <td><strong>callstack</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>list_callstackentry_type()</td>
             <td>
 
             </td>
@@ -274,15 +274,15 @@ into the separate module timings_base_type.F</p>
             </td>
             <td>::</td>
             <td><strong>callgraph</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dict_i4tuple_callstat_type()</td>
             <td>
 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trace_max"></span>
+              <span class="anchor" id="variable-trace_max~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -291,8 +291,8 @@ into the separate module timings_base_type.F</p>
             </td>
             <td>::</td>
             <td><strong>trace_max</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
 
             </td>
@@ -308,15 +308,15 @@ into the separate module timings_base_type.F</p>
             </td>
             <td>::</td>
             <td><strong>trace_unit</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trace_str"></span>
+              <span class="anchor" id="variable-trace_str~2"></span>
               character(len=13),
             </td>
               <td>public</td>
@@ -325,8 +325,8 @@ into the separate module timings_base_type.F</p>
             </td>
             <td>::</td>
             <td><strong>trace_str</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>&#34;&#34;</td>
             <td>
 
             </td>
@@ -342,8 +342,8 @@ into the separate module timings_base_type.F</p>
             </td>
             <td>::</td>
             <td><strong>trace_all</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>.FALSE.</td>
             <td>
 
             </td>

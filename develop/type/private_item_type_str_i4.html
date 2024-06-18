@@ -114,8 +114,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/private_item_type_str_i4.html#variable-key~49">key</a>
-            <a class="list-group-item" href="../type/private_item_type_str_i4.html#variable-value~30">value</a>
+            <a class="list-group-item" href="../type/private_item_type_str_i4.html#variable-key~50">key</a>
+            <a class="list-group-item" href="../type/private_item_type_str_i4.html#variable-value~52">value</a>
             <a class="list-group-item" href="../type/private_item_type_str_i4.html#variable-hash">hash</a>
             <a class="list-group-item" href="../type/private_item_type_str_i4.html#variable-next~2">next</a>
         </div>
@@ -172,7 +172,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~49"></span>
+              <span class="anchor" id="variable-key~50"></span>
               character(len=default_string_length),
             </td>
               <td>private</td>
@@ -181,15 +181,15 @@
             </td>
             <td>::</td>
             <td><strong>key</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>&#34;&#34;</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~30"></span>
+              <span class="anchor" id="variable-value~52"></span>
               integer(kind=int_4),
             </td>
               <td>private</td>
@@ -198,8 +198,8 @@
             </td>
             <td>::</td>
             <td><strong>value</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1_int_4</td>
             <td>
                 
             </td>
@@ -215,8 +215,8 @@
             </td>
             <td>::</td>
             <td><strong>hash</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1_int_8</td>
             <td>
                 
             </td>
@@ -251,9 +251,9 @@
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">TYPE </span><span class="n">private_item_type_str_i4</span>
 <span class="w">         </span><span class="k">PRIVATE</span>
-<span class="k">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
-<span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span>
+<span class="k">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="o">=-</span><span class="mi">1_int_4</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1_int_8</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">private_item_type_str_i4</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
 <span class="w">      </span><span class="k">END TYPE </span><span class="n">private_item_type_str_i4</span>
 </pre></div>

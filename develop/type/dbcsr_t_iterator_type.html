@@ -114,10 +114,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#variable-iter~68">iter</a>
+            <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#variable-iter~25">iter</a>
             <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#variable-nd_index_blk">nd_index_blk</a>
             <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#variable-nd_index~2">nd_index</a>
-            <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#variable-blk_sizes~4">blk_sizes</a>
+            <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#variable-blk_sizes">blk_sizes</a>
             <a class="list-group-item" href="../type/dbcsr_t_iterator_type.html#variable-blk_offsets">blk_offsets</a>
         </div>
       </div>
@@ -173,7 +173,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iter~68"></span>
+              <span class="anchor" id="variable-iter~25"></span>
               type(<a href='dbcsr_tas_iterator.html'>dbcsr_tas_iterator</a>),
             </td>
               <td>public</td>
@@ -182,8 +182,8 @@
             </td>
             <td>::</td>
             <td><strong>iter</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_tas_iterator()</td>
             <td>
                 
             </td>
@@ -199,8 +199,8 @@
             </td>
             <td>::</td>
             <td><strong>nd_index_blk</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>nd_to_2d_mapping()</td>
             <td>
                 
             </td>
@@ -216,15 +216,15 @@
             </td>
             <td>::</td>
             <td><strong>nd_index</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>nd_to_2d_mapping()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_sizes~4"></span>
+              <span class="anchor" id="variable-blk_sizes"></span>
               type(<a href='array_list.html'>array_list</a>),
             </td>
               <td>public</td>
@@ -233,8 +233,8 @@
             </td>
             <td>::</td>
             <td><strong>blk_sizes</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>array_list()</td>
             <td>
                 
             </td>
@@ -250,8 +250,8 @@
             </td>
             <td>::</td>
             <td><strong>blk_offsets</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>array_list()</td>
             <td>
                 
             </td>
@@ -268,10 +268,10 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_t_iterator_type</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_iterator</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index_blk</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">blk_offsets</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_iterator</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_tas_iterator</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nd_to_2d_mapping</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nd_to_2d_mapping</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_sizes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_list</span><span class="p">(),</span><span class="w"> </span><span class="n">blk_offsets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_list</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_t_iterator_type</span>
 </pre></div>
 

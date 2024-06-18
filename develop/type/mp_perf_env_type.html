@@ -180,8 +180,8 @@
             </td>
             <td>::</td>
             <td><strong>ref_count</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -197,8 +197,8 @@
             </td>
             <td>::</td>
             <td><strong>id_nr</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -214,8 +214,8 @@
             </td>
             <td>::</td>
             <td><strong>mp_perfs</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>mp_perf_type()</td>
             <td>
                 
             </td>
@@ -233,8 +233,8 @@
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">mp_perf_env_type</span>
 <span class="w">      </span><span class="c">!private</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ref_count</span><span class="p">,</span><span class="w"> </span><span class="n">id_nr</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_perf_type</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">MAX_PERF</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_perfs</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ref_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">id_nr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_perf_type</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="n">MAX_PERF</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_perfs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_perf_type</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">mp_perf_env_type</span>
 </pre></div>
 

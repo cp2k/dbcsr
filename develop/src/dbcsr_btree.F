@@ -40,9 +40,9 @@ MODULE dbcsr_btree
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
 TYPE btree_data_sp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
-REAL(KIND=sp), DIMENSION(:,:), POINTER :: p
+REAL(KIND=sp), DIMENSION(:,:), POINTER :: p => NULL()
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
-LOGICAL :: tr
+LOGICAL :: tr = .FALSE.
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
 END TYPE btree_data_sp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
@@ -50,9 +50,9 @@ PUBLIC :: btree_data_sp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
 TYPE btree_data_dp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
-REAL(KIND=dp), DIMENSION(:,:), POINTER :: p
+REAL(KIND=dp), DIMENSION(:,:), POINTER :: p => NULL()
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
-LOGICAL :: tr
+LOGICAL :: tr = .FALSE.
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
 END TYPE btree_data_dp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
@@ -60,9 +60,9 @@ PUBLIC :: btree_data_dp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
 TYPE btree_data_cp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
-COMPLEX(KIND=sp), DIMENSION(:,:), POINTER :: p
+COMPLEX(KIND=sp), DIMENSION(:,:), POINTER :: p => NULL()
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
-LOGICAL :: tr
+LOGICAL :: tr = .FALSE.
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
 END TYPE btree_data_cp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
@@ -70,9 +70,9 @@ PUBLIC :: btree_data_cp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
 TYPE btree_data_zp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
-COMPLEX(KIND=dp), DIMENSION(:,:), POINTER :: p
+COMPLEX(KIND=dp), DIMENSION(:,:), POINTER :: p => NULL()
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
-LOGICAL :: tr
+LOGICAL :: tr = .FALSE.
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
 END TYPE btree_data_zp2d
 # 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
@@ -141,103 +141,103 @@ PUBLIC :: btree_data_zp2d
 
 # 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
       TYPE btree_node_i8_sp2d
-         INTEGER id
-         INTEGER :: filled
-         INTEGER(KIND=keyt), DIMENSION(:), POINTER :: keys
-         TYPE(btree_data_sp2d), DIMENSION(:), POINTER :: values
-         TYPE(btree_node_p_i8_sp2d), DIMENSION(:), POINTER :: subtrees
-         TYPE(btree_node_i8_sp2d), POINTER :: parent
+         INTEGER :: id = -1
+         INTEGER :: filled = -1
+         INTEGER(KIND=keyt), DIMENSION(:), POINTER :: keys => NULL()
+         TYPE(btree_data_sp2d), DIMENSION(:), POINTER :: values => NULL()
+         TYPE(btree_node_p_i8_sp2d), DIMENSION(:), POINTER :: subtrees => NULL()
+         TYPE(btree_node_i8_sp2d), POINTER :: parent => NULL()
       END TYPE btree_node_i8_sp2d
 
       TYPE btree_node_p_i8_sp2d
-         TYPE(btree_node_i8_sp2d), POINTER :: node
+         TYPE(btree_node_i8_sp2d), POINTER :: node => NULL()
       END TYPE btree_node_p_i8_sp2d
 
       TYPE btree_node_structure_i8_sp2d
-         INTEGER :: min_fill, max_fill
-         INTEGER :: n
-         INTEGER :: lastid
-         INTEGER :: refcount
-         TYPE(btree_node_i8_sp2d), POINTER :: root
+         INTEGER :: min_fill = -1, max_fill = -1
+         INTEGER :: n = -1
+         INTEGER :: lastid = -1
+         INTEGER :: refcount = -1
+         TYPE(btree_node_i8_sp2d), POINTER :: root => NULL()
       END TYPE btree_node_structure_i8_sp2d
 
       TYPE btree_i8_sp2d
-         TYPE(btree_node_structure_i8_sp2d) :: b
+         TYPE(btree_node_structure_i8_sp2d) :: b = btree_node_structure_i8_sp2d ()
       END TYPE btree_i8_sp2d
 # 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
       TYPE btree_node_i8_dp2d
-         INTEGER id
-         INTEGER :: filled
-         INTEGER(KIND=keyt), DIMENSION(:), POINTER :: keys
-         TYPE(btree_data_dp2d), DIMENSION(:), POINTER :: values
-         TYPE(btree_node_p_i8_dp2d), DIMENSION(:), POINTER :: subtrees
-         TYPE(btree_node_i8_dp2d), POINTER :: parent
+         INTEGER :: id = -1
+         INTEGER :: filled = -1
+         INTEGER(KIND=keyt), DIMENSION(:), POINTER :: keys => NULL()
+         TYPE(btree_data_dp2d), DIMENSION(:), POINTER :: values => NULL()
+         TYPE(btree_node_p_i8_dp2d), DIMENSION(:), POINTER :: subtrees => NULL()
+         TYPE(btree_node_i8_dp2d), POINTER :: parent => NULL()
       END TYPE btree_node_i8_dp2d
 
       TYPE btree_node_p_i8_dp2d
-         TYPE(btree_node_i8_dp2d), POINTER :: node
+         TYPE(btree_node_i8_dp2d), POINTER :: node => NULL()
       END TYPE btree_node_p_i8_dp2d
 
       TYPE btree_node_structure_i8_dp2d
-         INTEGER :: min_fill, max_fill
-         INTEGER :: n
-         INTEGER :: lastid
-         INTEGER :: refcount
-         TYPE(btree_node_i8_dp2d), POINTER :: root
+         INTEGER :: min_fill = -1, max_fill = -1
+         INTEGER :: n = -1
+         INTEGER :: lastid = -1
+         INTEGER :: refcount = -1
+         TYPE(btree_node_i8_dp2d), POINTER :: root => NULL()
       END TYPE btree_node_structure_i8_dp2d
 
       TYPE btree_i8_dp2d
-         TYPE(btree_node_structure_i8_dp2d) :: b
+         TYPE(btree_node_structure_i8_dp2d) :: b = btree_node_structure_i8_dp2d ()
       END TYPE btree_i8_dp2d
 # 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
       TYPE btree_node_i8_cp2d
-         INTEGER id
-         INTEGER :: filled
-         INTEGER(KIND=keyt), DIMENSION(:), POINTER :: keys
-         TYPE(btree_data_cp2d), DIMENSION(:), POINTER :: values
-         TYPE(btree_node_p_i8_cp2d), DIMENSION(:), POINTER :: subtrees
-         TYPE(btree_node_i8_cp2d), POINTER :: parent
+         INTEGER :: id = -1
+         INTEGER :: filled = -1
+         INTEGER(KIND=keyt), DIMENSION(:), POINTER :: keys => NULL()
+         TYPE(btree_data_cp2d), DIMENSION(:), POINTER :: values => NULL()
+         TYPE(btree_node_p_i8_cp2d), DIMENSION(:), POINTER :: subtrees => NULL()
+         TYPE(btree_node_i8_cp2d), POINTER :: parent => NULL()
       END TYPE btree_node_i8_cp2d
 
       TYPE btree_node_p_i8_cp2d
-         TYPE(btree_node_i8_cp2d), POINTER :: node
+         TYPE(btree_node_i8_cp2d), POINTER :: node => NULL()
       END TYPE btree_node_p_i8_cp2d
 
       TYPE btree_node_structure_i8_cp2d
-         INTEGER :: min_fill, max_fill
-         INTEGER :: n
-         INTEGER :: lastid
-         INTEGER :: refcount
-         TYPE(btree_node_i8_cp2d), POINTER :: root
+         INTEGER :: min_fill = -1, max_fill = -1
+         INTEGER :: n = -1
+         INTEGER :: lastid = -1
+         INTEGER :: refcount = -1
+         TYPE(btree_node_i8_cp2d), POINTER :: root => NULL()
       END TYPE btree_node_structure_i8_cp2d
 
       TYPE btree_i8_cp2d
-         TYPE(btree_node_structure_i8_cp2d) :: b
+         TYPE(btree_node_structure_i8_cp2d) :: b = btree_node_structure_i8_cp2d ()
       END TYPE btree_i8_cp2d
 # 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
       TYPE btree_node_i8_zp2d
-         INTEGER id
-         INTEGER :: filled
-         INTEGER(KIND=keyt), DIMENSION(:), POINTER :: keys
-         TYPE(btree_data_zp2d), DIMENSION(:), POINTER :: values
-         TYPE(btree_node_p_i8_zp2d), DIMENSION(:), POINTER :: subtrees
-         TYPE(btree_node_i8_zp2d), POINTER :: parent
+         INTEGER :: id = -1
+         INTEGER :: filled = -1
+         INTEGER(KIND=keyt), DIMENSION(:), POINTER :: keys => NULL()
+         TYPE(btree_data_zp2d), DIMENSION(:), POINTER :: values => NULL()
+         TYPE(btree_node_p_i8_zp2d), DIMENSION(:), POINTER :: subtrees => NULL()
+         TYPE(btree_node_i8_zp2d), POINTER :: parent => NULL()
       END TYPE btree_node_i8_zp2d
 
       TYPE btree_node_p_i8_zp2d
-         TYPE(btree_node_i8_zp2d), POINTER :: node
+         TYPE(btree_node_i8_zp2d), POINTER :: node => NULL()
       END TYPE btree_node_p_i8_zp2d
 
       TYPE btree_node_structure_i8_zp2d
-         INTEGER :: min_fill, max_fill
-         INTEGER :: n
-         INTEGER :: lastid
-         INTEGER :: refcount
-         TYPE(btree_node_i8_zp2d), POINTER :: root
+         INTEGER :: min_fill = -1, max_fill = -1
+         INTEGER :: n = -1
+         INTEGER :: lastid = -1
+         INTEGER :: refcount = -1
+         TYPE(btree_node_i8_zp2d), POINTER :: root => NULL()
       END TYPE btree_node_structure_i8_zp2d
 
       TYPE btree_i8_zp2d
-         TYPE(btree_node_structure_i8_zp2d) :: b
+         TYPE(btree_node_structure_i8_zp2d) :: b = btree_node_structure_i8_zp2d ()
       END TYPE btree_i8_zp2d
 # 89 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"
 

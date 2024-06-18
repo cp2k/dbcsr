@@ -115,8 +115,8 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-info~24">info</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-dist~69">dist</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-iter~64">iter</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-dist~58">dist</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-iter~67">iter</a>
         </div>
       </div>
     </div>
@@ -180,15 +180,15 @@
             </td>
             <td>::</td>
             <td><strong>info</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_tas_split_info()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~69"></span>
+              <span class="anchor" id="variable-dist~58"></span>
               type(<a href='dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
               <td>public</td>
@@ -197,15 +197,15 @@
             </td>
             <td>::</td>
             <td><strong>dist</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_tas_distribution_type()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iter~64"></span>
+              <span class="anchor" id="variable-iter~67"></span>
               type(<a href='dbcsr_iterator.html'>dbcsr_iterator</a>),
             </td>
               <td>public</td>
@@ -214,8 +214,8 @@
             </td>
             <td>::</td>
             <td><strong>iter</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_iterator()</td>
             <td>
                 
             </td>
@@ -232,9 +232,9 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_tas_iterator</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_split_info</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">info</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_distribution_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_split_info</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_tas_split_info</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_distribution_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_tas_distribution_type</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_iterator</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_tas_iterator</span>
 </pre></div>
 

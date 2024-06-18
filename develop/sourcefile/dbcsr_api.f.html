@@ -460,7 +460,7 @@
 <a id="ln-307" name="ln-307" href="#ln-307"></a>
 <a id="ln-308" name="ln-308" href="#ln-308"></a><span class="w">   </span><span class="c">! -----------------------------------------------------------------------------------------------</span>
 <a id="ln-309" name="ln-309" href="#ln-309"></a><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_type</span>
-<a id="ln-310" name="ln-310" href="#ln-310"></a><span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_prv_type</span><span class="p">),</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">prv</span>
+<a id="ln-310" name="ln-310" href="#ln-310"></a><span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_prv_type</span><span class="p">),</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_prv_type</span><span class="p">()</span>
 <a id="ln-311" name="ln-311" href="#ln-311"></a><span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_type</span>
 <a id="ln-312" name="ln-312" href="#ln-312"></a>
 <a id="ln-313" name="ln-313" href="#ln-313"></a><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_p_type</span>
@@ -470,11 +470,11 @@
 <a id="ln-317" name="ln-317" href="#ln-317"></a><span class="w">   </span><span class="c">! the components of this type must remain private to encapsulate better the internals</span>
 <a id="ln-318" name="ln-318" href="#ln-318"></a><span class="w">   </span><span class="c">! of the dbcsr library.</span>
 <a id="ln-319" name="ln-319" href="#ln-319"></a><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_distribution_type</span>
-<a id="ln-320" name="ln-320" href="#ln-320"></a><span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_dist_prv_obj</span><span class="p">),</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">prv</span>
+<a id="ln-320" name="ln-320" href="#ln-320"></a><span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_dist_prv_obj</span><span class="p">),</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_dist_prv_obj</span><span class="p">()</span>
 <a id="ln-321" name="ln-321" href="#ln-321"></a><span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_distribution_type</span>
 <a id="ln-322" name="ln-322" href="#ln-322"></a>
 <a id="ln-323" name="ln-323" href="#ln-323"></a><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_iterator_type</span>
-<a id="ln-324" name="ln-324" href="#ln-324"></a><span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator_prv</span><span class="p">),</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">prv</span>
+<a id="ln-324" name="ln-324" href="#ln-324"></a><span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator_prv</span><span class="p">),</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_iterator_prv</span><span class="p">()</span>
 <a id="ln-325" name="ln-325" href="#ln-325"></a><span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_iterator_type</span>
 <a id="ln-326" name="ln-326" href="#ln-326"></a>
 <a id="ln-327" name="ln-327" href="#ln-327"></a><span class="w">   </span><span class="k">INTERFACE </span><span class="n">dbcsr_create</span>

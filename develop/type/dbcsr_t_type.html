@@ -120,13 +120,13 @@
             <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-blk_sizes~5">blk_sizes</a>
             <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-blk_offsets~2">blk_offsets</a>
             <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-nd_dist">nd_dist</a>
-            <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-pgrid~40">pgrid</a>
+            <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-pgrid~34">pgrid</a>
             <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-blks_local">blks_local</a>
             <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-nblks_local~6">nblks_local</a>
             <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-nfull_local~2">nfull_local</a>
-            <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-valid~14">valid</a>
+            <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-valid~12">valid</a>
             <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-owns_matrix">owns_matrix</a>
-            <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-name~38">name</a>
+            <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-name~37">name</a>
             <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-refcount~14">refcount</a>
             <a class="list-group-item" href="../type/dbcsr_t_type.html#variable-contraction_storage">contraction_storage</a>
         </div>
@@ -209,8 +209,8 @@
             </td>
             <td>::</td>
             <td><strong>nd_index_blk</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>nd_to_2d_mapping()</td>
             <td>
                 
             </td>
@@ -226,8 +226,8 @@
             </td>
             <td>::</td>
             <td><strong>nd_index</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>nd_to_2d_mapping()</td>
             <td>
                 
             </td>
@@ -243,8 +243,8 @@
             </td>
             <td>::</td>
             <td><strong>blk_sizes</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>array_list()</td>
             <td>
                 
             </td>
@@ -260,8 +260,8 @@
             </td>
             <td>::</td>
             <td><strong>blk_offsets</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>array_list()</td>
             <td>
                 
             </td>
@@ -277,15 +277,15 @@
             </td>
             <td>::</td>
             <td><strong>nd_dist</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>array_list()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~40"></span>
+              <span class="anchor" id="variable-pgrid~34"></span>
               type(<a href='dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
               <td>public</td>
@@ -294,8 +294,8 @@
             </td>
             <td>::</td>
             <td><strong>pgrid</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_t_pgrid_type()</td>
             <td>
                 
             </td>
@@ -311,8 +311,8 @@
             </td>
             <td>::</td>
             <td><strong>blks_local</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>array_list()</td>
             <td>
                 
             </td>
@@ -353,7 +353,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid~14"></span>
+              <span class="anchor" id="variable-valid~12"></span>
               logical,
             </td>
               <td>public</td>
@@ -387,7 +387,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~38"></span>
+              <span class="anchor" id="variable-name~37"></span>
               character(len=default_string_length),
             </td>
               <td>public</td>
@@ -396,8 +396,8 @@
             </td>
             <td>::</td>
             <td><strong>name</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>&#34;&#34;</td>
             <td>
                 
             </td>
@@ -449,18 +449,18 @@
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_t_type</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_rep</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index_blk</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_sizes</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_offsets</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_dist</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_t_pgrid_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">pgrid</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">blks_local</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nd_to_2d_mapping</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nd_to_2d_mapping</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_sizes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_list</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_offsets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_list</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">nd_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_list</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_t_pgrid_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">pgrid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_t_pgrid_type</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">array_list</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">blks_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array_list</span><span class="p">()</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">nblks_local</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">nfull_local</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">owns_matrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
 <span class="w">      </span><span class="c">! lightweight reference counting for communicators:</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">refcount</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_t_contraction_storage</span><span class="p">),</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">contraction_storage</span>

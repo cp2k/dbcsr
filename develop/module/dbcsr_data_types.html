@@ -113,7 +113,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-modulen~12">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-modulen~24">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-dbcsr_memtype_default">dbcsr_memtype_default</a>
             <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-dbcsr_type_real_4">dbcsr_type_real_4</a>
             <a class="list-group-item" href="../module/dbcsr_data_types.html#variable-dbcsr_type_real_8">dbcsr_type_real_8</a>
@@ -190,11 +190,11 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
                   <li class="list-inline-item"><a href='dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
                   <li class="list-inline-item"><a href='dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
               </ul>
             </li>
         </ul>
@@ -219,7 +219,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~12"></span>
+              <span class="anchor" id="variable-modulen~24"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -491,7 +491,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_sp~2"></span>
+              <span class="anchor" id="variable-r_sp~8"></span>
               real(kind=real_4),
             </td>
               <td>public</td>
@@ -500,15 +500,15 @@ parameter
             </td>
             <td>::</td>
             <td><strong>r_sp</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1.0_real_4</td>
             <td>
 <p>stores real values in single precision</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_dp~2"></span>
+              <span class="anchor" id="variable-r_dp~8"></span>
               real(kind=real_8),
             </td>
               <td>public</td>
@@ -517,15 +517,15 @@ parameter
             </td>
             <td>::</td>
             <td><strong>r_dp</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1.0_real_8</td>
             <td>
 <p>stores real values in double precision</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_sp~2"></span>
+              <span class="anchor" id="variable-c_sp~8"></span>
               complex(kind=real_4),
             </td>
               <td>public</td>
@@ -534,15 +534,15 @@ parameter
             </td>
             <td>::</td>
             <td><strong>c_sp</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>(-1.0_real_4, -1.0_real_4)</td>
             <td>
 <p>stores complex values in single precision</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dp~2"></span>
+              <span class="anchor" id="variable-c_dp~8"></span>
               complex(kind=real_8),
             </td>
               <td>public</td>
@@ -551,15 +551,15 @@ parameter
             </td>
             <td>::</td>
             <td><strong>c_dp</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>(-1.0_real_8, -1.0_real_8)</td>
             <td>
 <p>stores complex values in double precision</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~6"></span>
+              <span class="anchor" id="variable-data_type~32"></span>
               integer,
             </td>
               <td>public</td>
@@ -568,8 +568,8 @@ parameter
             </td>
             <td>::</td>
             <td><strong>data_type</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
 <p>which of the data types is actually used</p>
             </td>
@@ -657,7 +657,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~5"></span>
+              <span class="anchor" id="variable-root~56"></span>
               type(<a href='../type/dbcsr_mempool_entry_type.html'>dbcsr_mempool_entry_type</a>),
             </td>
               <td>public,</td>
@@ -674,7 +674,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-capacity~2"></span>
+              <span class="anchor" id="variable-capacity"></span>
               integer,
             </td>
               <td>public</td>
@@ -723,7 +723,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~2"></span>
+              <span class="anchor" id="variable-area"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
@@ -732,8 +732,8 @@ parameter
             </td>
             <td>::</td>
             <td><strong>area</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_data_obj()</td>
             <td>
 
             </td>
@@ -789,7 +789,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mpi~2"></span>
+              <span class="anchor" id="variable-mpi"></span>
               logical,
             </td>
               <td>public</td>
@@ -806,7 +806,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-acc_hostalloc~2"></span>
+              <span class="anchor" id="variable-acc_hostalloc"></span>
               logical,
             </td>
               <td>public</td>
@@ -823,7 +823,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-acc_devalloc~2"></span>
+              <span class="anchor" id="variable-acc_devalloc"></span>
               logical,
             </td>
               <td>public</td>
@@ -840,7 +840,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-acc_stream~2"></span>
+              <span class="anchor" id="variable-acc_stream"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
               <td>public</td>
@@ -857,7 +857,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pool~8"></span>
+              <span class="anchor" id="variable-pool"></span>
               type(<a href='../type/dbcsr_mempool_type.html'>dbcsr_mempool_type</a>),
             </td>
               <td>public,</td>
@@ -874,7 +874,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-oversize_factor~2"></span>
+              <span class="anchor" id="variable-oversize_factor"></span>
               real(kind=dp),
             </td>
               <td>public</td>
@@ -957,7 +957,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_sp~3"></span>
+              <span class="anchor" id="variable-r_sp~9"></span>
               real(kind=real_4),
             </td>
               <td>public,</td>
@@ -974,7 +974,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_dp~3"></span>
+              <span class="anchor" id="variable-r_dp~9"></span>
               real(kind=real_8),
             </td>
               <td>public,</td>
@@ -991,7 +991,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_sp~3"></span>
+              <span class="anchor" id="variable-c_sp~9"></span>
               complex(kind=real_4),
             </td>
               <td>public,</td>
@@ -1008,7 +1008,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dp~3"></span>
+              <span class="anchor" id="variable-c_dp~9"></span>
               complex(kind=real_8),
             </td>
               <td>public,</td>
@@ -1110,7 +1110,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~5"></span>
+              <span class="anchor" id="variable-refcount~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -1127,7 +1127,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-id~5"></span>
+              <span class="anchor" id="variable-id"></span>
               integer,
             </td>
               <td>public</td>
@@ -1161,7 +1161,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~7"></span>
+              <span class="anchor" id="variable-data_type~33"></span>
               integer,
             </td>
               <td>public</td>
@@ -1187,8 +1187,8 @@ parameter
             </td>
             <td>::</td>
             <td><strong>acc_devmem</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>acc_devmem_type()</td>
             <td>
 
             </td>
@@ -1204,8 +1204,8 @@ parameter
             </td>
             <td>::</td>
             <td><strong>acc_ready</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>acc_event_type()</td>
             <td>
 
             </td>
@@ -1244,7 +1244,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-datatype~2"></span>
+              <span class="anchor" id="variable-datatype"></span>
               integer,
             </td>
 <td>intent(in)</td>

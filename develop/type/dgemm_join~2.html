@@ -119,8 +119,8 @@
             <a class="list-group-item" href="../type/dgemm_join~2.html#variable-p_c~2">p_c</a>
             <a class="list-group-item" href="../type/dgemm_join~2.html#variable-last_k~15">last_k</a>
             <a class="list-group-item" href="../type/dgemm_join~2.html#variable-last_n~2">last_n</a>
-            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-alpha~48">alpha</a>
-            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-beta~20">beta</a>
+            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-alpha~47">alpha</a>
+            <a class="list-group-item" href="../type/dgemm_join~2.html#variable-beta~19">beta</a>
         </div>
       </div>
     </div>
@@ -184,8 +184,8 @@
             </td>
             <td>::</td>
             <td><strong>p_a</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -201,8 +201,8 @@
             </td>
             <td>::</td>
             <td><strong>p_b</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -218,8 +218,8 @@
             </td>
             <td>::</td>
             <td><strong>p_c</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -235,8 +235,8 @@
             </td>
             <td>::</td>
             <td><strong>last_k</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -252,15 +252,15 @@
             </td>
             <td>::</td>
             <td><strong>last_n</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~48"></span>
+              <span class="anchor" id="variable-alpha~47"></span>
               type(<a href='dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
               <td>public</td>
@@ -269,15 +269,15 @@
             </td>
             <td>::</td>
             <td><strong>alpha</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_scalar_type()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~20"></span>
+              <span class="anchor" id="variable-beta~19"></span>
               type(<a href='dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
               <td>public</td>
@@ -286,8 +286,8 @@
             </td>
             <td>::</td>
             <td><strong>beta</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dbcsr_scalar_type()</td>
             <td>
                 
             </td>
@@ -304,9 +304,9 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dgemm_join</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p_a</span><span class="p">,</span><span class="w"> </span><span class="n">p_b</span><span class="p">,</span><span class="w"> </span><span class="n">p_c</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">last_k</span><span class="p">,</span><span class="w"> </span><span class="n">last_n</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">p_b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">p_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">last_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">last_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_scalar_type</span><span class="p">(),</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_scalar_type</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dgemm_join</span>
 </pre></div>
 

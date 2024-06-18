@@ -196,8 +196,8 @@
             </td>
             <td>::</td>
             <td><strong>padding</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1_int_4</td>
             <td>
                 
             </td>
@@ -216,7 +216,7 @@
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_memtype_type_p</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
 <span class="w">      </span><span class="c">! ensure that array-elements are on different cache lines</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">padding</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1_int_4</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_memtype_type_p</span>
 </pre></div>
 

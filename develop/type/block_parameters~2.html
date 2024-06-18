@@ -114,11 +114,11 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/block_parameters~2.html#variable-tr~127">tr</a>
+            <a class="list-group-item" href="../type/block_parameters~2.html#variable-tr~132">tr</a>
             <a class="list-group-item" href="../type/block_parameters~2.html#variable-logical_rows~2">logical_rows</a>
             <a class="list-group-item" href="../type/block_parameters~2.html#variable-logical_cols~2">logical_cols</a>
-            <a class="list-group-item" href="../type/block_parameters~2.html#variable-offset~48">offset</a>
-            <a class="list-group-item" href="../type/block_parameters~2.html#variable-nze~56">nze</a>
+            <a class="list-group-item" href="../type/block_parameters~2.html#variable-offset~46">offset</a>
+            <a class="list-group-item" href="../type/block_parameters~2.html#variable-nze~52">nze</a>
         </div>
       </div>
     </div>
@@ -173,7 +173,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~127"></span>
+              <span class="anchor" id="variable-tr~132"></span>
               logical,
             </td>
               <td>public</td>
@@ -182,8 +182,8 @@
             </td>
             <td>::</td>
             <td><strong>tr</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>.FALSE.</td>
             <td>
                 
             </td>
@@ -199,8 +199,8 @@
             </td>
             <td>::</td>
             <td><strong>logical_rows</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -216,15 +216,15 @@
             </td>
             <td>::</td>
             <td><strong>logical_cols</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~48"></span>
+              <span class="anchor" id="variable-offset~46"></span>
               integer,
             </td>
               <td>public</td>
@@ -233,15 +233,15 @@
             </td>
             <td>::</td>
             <td><strong>offset</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~56"></span>
+              <span class="anchor" id="variable-nze~52"></span>
               integer,
             </td>
               <td>public</td>
@@ -250,8 +250,8 @@
             </td>
             <td>::</td>
             <td><strong>nze</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -268,9 +268,9 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">block_parameters</span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">logical_rows</span><span class="p">,</span><span class="w"> </span><span class="n">logical_cols</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">logical_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">logical_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">block_parameters</span>
 </pre></div>
 

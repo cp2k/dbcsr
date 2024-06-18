@@ -114,8 +114,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_heap_node.html#variable-key~65">key</a>
-            <a class="list-group-item" href="../type/dbcsr_heap_node.html#variable-value~65">value</a>
+            <a class="list-group-item" href="../type/dbcsr_heap_node.html#variable-key~66">key</a>
+            <a class="list-group-item" href="../type/dbcsr_heap_node.html#variable-value~62">value</a>
         </div>
       </div>
     </div>
@@ -170,7 +170,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~65"></span>
+              <span class="anchor" id="variable-key~66"></span>
               integer(kind=keyt),
             </td>
               <td>public</td>
@@ -179,15 +179,15 @@
             </td>
             <td>::</td>
             <td><strong>key</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1_keyt</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~65"></span>
+              <span class="anchor" id="variable-value~62"></span>
               integer(kind=valt),
             </td>
               <td>public</td>
@@ -196,8 +196,8 @@
             </td>
             <td>::</td>
             <td><strong>value</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1_valt</td>
             <td>
                 
             </td>
@@ -214,9 +214,9 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_heap_node</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">keyt</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">valt</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
-<span class="k">   END TYPE </span><span class="n">dbcsr_heap_node</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">keyt</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1_keyt</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">valt</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1_valt</span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_heap_node</span>
 </pre></div>
 
     </section>

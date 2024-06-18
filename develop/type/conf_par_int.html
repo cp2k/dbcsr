@@ -116,7 +116,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/conf_par_int.html#variable-source">source</a>
             <a class="list-group-item" href="../type/conf_par_int.html#variable-name">name</a>
-            <a class="list-group-item" href="../type/conf_par_int.html#variable-val~2">val</a>
+            <a class="list-group-item" href="../type/conf_par_int.html#variable-val~3">val</a>
             <a class="list-group-item" href="../type/conf_par_int.html#variable-defval">defval</a>
             <a class="list-group-item" href="../type/conf_par_int.html#variable-ensure_positive">ensure_positive</a>
         </div>
@@ -212,15 +212,15 @@
             </td>
             <td>::</td>
             <td><strong>name</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>&#34;&#34;</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~2"></span>
+              <span class="anchor" id="variable-val~3"></span>
               integer,
             </td>
               <td>public</td>
@@ -229,8 +229,8 @@
             </td>
             <td>::</td>
             <td><strong>val</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -246,8 +246,8 @@
             </td>
             <td>::</td>
             <td><strong>defval</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -486,7 +486,7 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE</span><span class="p">,</span><span class="w"> </span><span class="k">EXTENDS</span><span class="p">(</span><span class="n">CONF_PAR</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">CONF_PAR_INT</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">defval</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">defval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ensure_positive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 
 <span class="w">   </span><span class="k">CONTAINS</span>

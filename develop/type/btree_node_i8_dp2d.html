@@ -114,10 +114,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/btree_node_i8_dp2d.html#variable-id~2">id</a>
+            <a class="list-group-item" href="../type/btree_node_i8_dp2d.html#variable-id~4">id</a>
             <a class="list-group-item" href="../type/btree_node_i8_dp2d.html#variable-filled~2">filled</a>
             <a class="list-group-item" href="../type/btree_node_i8_dp2d.html#variable-keys~2">keys</a>
-            <a class="list-group-item" href="../type/btree_node_i8_dp2d.html#variable-values~2">values</a>
+            <a class="list-group-item" href="../type/btree_node_i8_dp2d.html#variable-values~4">values</a>
             <a class="list-group-item" href="../type/btree_node_i8_dp2d.html#variable-subtrees~2">subtrees</a>
             <a class="list-group-item" href="../type/btree_node_i8_dp2d.html#variable-parent~2">parent</a>
         </div>
@@ -174,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-id~2"></span>
+              <span class="anchor" id="variable-id~4"></span>
               integer,
             </td>
               <td>public</td>
@@ -183,8 +183,8 @@
             </td>
             <td>::</td>
             <td><strong>id</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -200,8 +200,8 @@
             </td>
             <td>::</td>
             <td><strong>filled</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -217,15 +217,15 @@
             </td>
             <td>::</td>
             <td><strong>keys</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-values~2"></span>
+              <span class="anchor" id="variable-values~4"></span>
               type(<a href='btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
               <td>public,</td>
@@ -234,8 +234,8 @@
             </td>
             <td>::</td>
             <td><strong>values</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -251,8 +251,8 @@
             </td>
             <td>::</td>
             <td><strong>subtrees</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -268,8 +268,8 @@
             </td>
             <td>::</td>
             <td><strong>parent</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -286,12 +286,12 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">TYPE </span><span class="n">btree_node_i8_dp2d</span>
-<span class="w">         </span><span class="kt">INTEGER </span><span class="n">id</span>
-<span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filled</span>
-<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">keyt</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">keys</span>
-<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_data_dp2d</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">values</span>
-<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_p_i8_dp2d</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subtrees</span>
-<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_i8_dp2d</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">parent</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">keyt</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">keys</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_data_dp2d</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_p_i8_dp2d</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subtrees</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_i8_dp2d</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">parent</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
 <span class="w">      </span><span class="k">END TYPE </span><span class="n">btree_node_i8_dp2d</span>
 </pre></div>
 

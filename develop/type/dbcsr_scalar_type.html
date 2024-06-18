@@ -114,11 +114,11 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-r_sp~2">r_sp</a>
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-r_dp~2">r_dp</a>
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-c_sp~2">c_sp</a>
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-c_dp~2">c_dp</a>
-            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-data_type~6">data_type</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-r_sp~8">r_sp</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-r_dp~8">r_dp</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-c_sp~8">c_sp</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-c_dp~8">c_dp</a>
+            <a class="list-group-item" href="../type/dbcsr_scalar_type.html#variable-data_type~32">data_type</a>
         </div>
       </div>
     </div>
@@ -175,7 +175,7 @@ Easier routine interfaces</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_sp~2"></span>
+              <span class="anchor" id="variable-r_sp~8"></span>
               real(kind=real_4),
             </td>
               <td>public</td>
@@ -184,15 +184,15 @@ Easier routine interfaces</p>
             </td>
             <td>::</td>
             <td><strong>r_sp</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1.0_real_4</td>
             <td>
                 <p>stores real values in single precision</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_dp~2"></span>
+              <span class="anchor" id="variable-r_dp~8"></span>
               real(kind=real_8),
             </td>
               <td>public</td>
@@ -201,15 +201,15 @@ Easier routine interfaces</p>
             </td>
             <td>::</td>
             <td><strong>r_dp</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1.0_real_8</td>
             <td>
                 <p>stores real values in double precision</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_sp~2"></span>
+              <span class="anchor" id="variable-c_sp~8"></span>
               complex(kind=real_4),
             </td>
               <td>public</td>
@@ -218,15 +218,15 @@ Easier routine interfaces</p>
             </td>
             <td>::</td>
             <td><strong>c_sp</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>(-1.0_real_4, -1.0_real_4)</td>
             <td>
                 <p>stores complex values in single precision</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dp~2"></span>
+              <span class="anchor" id="variable-c_dp~8"></span>
               complex(kind=real_8),
             </td>
               <td>public</td>
@@ -235,15 +235,15 @@ Easier routine interfaces</p>
             </td>
             <td>::</td>
             <td><strong>c_dp</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>(-1.0_real_8, -1.0_real_8)</td>
             <td>
                 <p>stores complex values in double precision</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~6"></span>
+              <span class="anchor" id="variable-data_type~32"></span>
               integer,
             </td>
               <td>public</td>
@@ -252,8 +252,8 @@ Easier routine interfaces</p>
             </td>
             <td>::</td>
             <td><strong>data_type</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 <p>which of the data types is actually used</p>
             </td>
@@ -275,15 +275,15 @@ Easier routine interfaces</p>
 <span class="w">      </span><span class="c">!! Reasoning</span>
 <span class="w">      </span><span class="c">!! Easier routine interfaces</span>
 
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">r_sp</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">r_sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_real_4</span>
 <span class="w">         </span><span class="c">!! stores real values in single precision</span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">r_dp</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">r_dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_real_8</span>
 <span class="w">         </span><span class="c">!! stores real values in double precision</span>
-<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c_sp</span>
+<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c_sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mf">1.0_real_4</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_real_4</span><span class="p">)</span>
 <span class="w">         </span><span class="c">!! stores complex values in single precision</span>
-<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c_dp</span>
+<span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c_dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mf">1.0_real_8</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_real_8</span><span class="p">)</span>
 <span class="w">         </span><span class="c">!! stores complex values in double precision</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">         </span><span class="c">!! which of the data types is actually used</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_scalar_type</span>
 </pre></div>

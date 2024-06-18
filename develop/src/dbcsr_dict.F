@@ -11,7 +11,7 @@
 # 1 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.fypp"
 
-# 79 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.fypp"
+# 81 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.fypp"
 # 11 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F" 2
 MODULE dbcsr_dict
    !! A dictionary (also known as hashtable or hashmap).
@@ -20,7 +20,7 @@ MODULE dbcsr_dict
    !! size will be allocated and the items are then copied over.
    !! This ensures that the dictionary will perform operations in O(1).
 
-   USE dbcsr_kinds, ONLY: int_8, default_string_length, int_4
+   USE dbcsr_kinds, ONLY: int_4, int_8, default_string_length
    USE dbcsr_timings_base_type, ONLY: call_stat_type
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -45,9 +45,9 @@ MODULE dbcsr_dict
       !for use during change_capacity().
       TYPE private_item_type_str_i4
          PRIVATE
-         CHARACTER(LEN=default_string_length)                            :: key
-         INTEGER(kind=int_4)                          :: value
-         INTEGER(KIND=int_8)                         :: hash
+         CHARACTER(LEN=default_string_length)                            :: key =""
+         INTEGER(kind=int_4)                          :: value =-1_int_4
+         INTEGER(KIND=int_8)                         :: hash = -1_int_8
          TYPE(private_item_type_str_i4), POINTER          :: next => Null()
       END TYPE private_item_type_str_i4
 
@@ -66,8 +66,8 @@ MODULE dbcsr_dict
 
       ! this is a public type, its returned by dict_items()
       TYPE dict_str_i4_item_type
-         CHARACTER(LEN=default_string_length)        :: key
-         INTEGER(kind=int_4)      :: value
+         CHARACTER(LEN=default_string_length)        :: key =""
+         INTEGER(kind=int_4)      :: value =-1_int_4
       END TYPE dict_str_i4_item_type
 # 35 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
       !this is an internal type
@@ -75,9 +75,9 @@ MODULE dbcsr_dict
       !for use during change_capacity().
       TYPE private_item_type_i4tuple_callstat
          PRIVATE
-         INTEGER(kind=int_4), dimension(2)                            :: key
-         TYPE(call_stat_type), POINTER                          :: value
-         INTEGER(KIND=int_8)                         :: hash
+         INTEGER(kind=int_4), dimension(2)                            :: key =-1_int_4
+         TYPE(call_stat_type), POINTER                          :: value =>NULL()
+         INTEGER(KIND=int_8)                         :: hash = -1_int_8
          TYPE(private_item_type_i4tuple_callstat), POINTER          :: next => Null()
       END TYPE private_item_type_i4tuple_callstat
 
@@ -96,8 +96,8 @@ MODULE dbcsr_dict
 
       ! this is a public type, its returned by dict_items()
       TYPE dict_i4tuple_callstat_item_type
-         INTEGER(kind=int_4), dimension(2)        :: key
-         TYPE(call_stat_type), POINTER      :: value
+         INTEGER(kind=int_4), dimension(2)        :: key =-1_int_4
+         TYPE(call_stat_type), POINTER      :: value =>NULL()
       END TYPE dict_i4tuple_callstat_item_type
 # 65 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 

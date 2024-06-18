@@ -114,14 +114,14 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/timer_env_type.html#variable-ref_count">ref_count</a>
-            <a class="list-group-item" href="../type/timer_env_type.html#variable-routine_names">routine_names</a>
+            <a class="list-group-item" href="../type/timer_env_type.html#variable-ref_count~4">ref_count</a>
+            <a class="list-group-item" href="../type/timer_env_type.html#variable-routine_names~2">routine_names</a>
             <a class="list-group-item" href="../type/timer_env_type.html#variable-routine_stats">routine_stats</a>
             <a class="list-group-item" href="../type/timer_env_type.html#variable-callstack">callstack</a>
             <a class="list-group-item" href="../type/timer_env_type.html#variable-callgraph">callgraph</a>
-            <a class="list-group-item" href="../type/timer_env_type.html#variable-trace_max">trace_max</a>
+            <a class="list-group-item" href="../type/timer_env_type.html#variable-trace_max~2">trace_max</a>
             <a class="list-group-item" href="../type/timer_env_type.html#variable-trace_unit">trace_unit</a>
-            <a class="list-group-item" href="../type/timer_env_type.html#variable-trace_str">trace_str</a>
+            <a class="list-group-item" href="../type/timer_env_type.html#variable-trace_str~2">trace_str</a>
             <a class="list-group-item" href="../type/timer_env_type.html#variable-trace_all">trace_all</a>
         </div>
       </div>
@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ref_count"></span>
+              <span class="anchor" id="variable-ref_count~4"></span>
               integer,
             </td>
               <td>public</td>
@@ -186,15 +186,15 @@
             </td>
             <td>::</td>
             <td><strong>ref_count</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-routine_names"></span>
+              <span class="anchor" id="variable-routine_names~2"></span>
               type(<a href='dict_str_i4_type.html'>dict_str_i4_type</a>),
             </td>
               <td>public</td>
@@ -203,8 +203,8 @@
             </td>
             <td>::</td>
             <td><strong>routine_names</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dict_str_i4_type()</td>
             <td>
                 
             </td>
@@ -220,8 +220,8 @@
             </td>
             <td>::</td>
             <td><strong>routine_stats</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>list_routinestat_type()</td>
             <td>
                 
             </td>
@@ -237,8 +237,8 @@
             </td>
             <td>::</td>
             <td><strong>callstack</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>list_callstackentry_type()</td>
             <td>
                 
             </td>
@@ -254,15 +254,15 @@
             </td>
             <td>::</td>
             <td><strong>callgraph</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>dict_i4tuple_callstat_type()</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trace_max"></span>
+              <span class="anchor" id="variable-trace_max~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -271,8 +271,8 @@
             </td>
             <td>::</td>
             <td><strong>trace_max</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -288,15 +288,15 @@
             </td>
             <td>::</td>
             <td><strong>trace_unit</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trace_str"></span>
+              <span class="anchor" id="variable-trace_str~2"></span>
               character(len=13),
             </td>
               <td>public</td>
@@ -305,8 +305,8 @@
             </td>
             <td>::</td>
             <td><strong>trace_str</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>&#34;&#34;</td>
             <td>
                 
             </td>
@@ -322,8 +322,8 @@
             </td>
             <td>::</td>
             <td><strong>trace_all</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>.FALSE.</td>
             <td>
                 
             </td>
@@ -340,15 +340,15 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">timer_env_type</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">ref_count</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dict_str_i4_type</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">routine_names</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">list_routinestat_type</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">routine_stats</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">callstack</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dict_i4tuple_callstat_type</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">callgraph</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">trace_max</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">trace_unit</span>
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">trace_str</span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">trace_all</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">ref_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dict_str_i4_type</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">routine_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dict_str_i4_type</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">list_routinestat_type</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">routine_stats</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list_routinestat_type</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">callstack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list_callstackentry_type</span><span class="p">()</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dict_i4tuple_callstat_type</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">callgraph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dict_i4tuple_callstat_type</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">trace_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">trace_unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">trace_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                          </span><span class="kd">::</span><span class="w"> </span><span class="n">trace_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">timer_env_type</span>
 </pre></div>
 

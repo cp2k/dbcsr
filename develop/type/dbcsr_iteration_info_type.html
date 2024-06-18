@@ -115,8 +115,8 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-ref_count~3">ref_count</a>
-            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-id_nr~3">id_nr</a>
-            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-print_level">print_level</a>
+            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-id_nr~4">id_nr</a>
+            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-print_level~3">print_level</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-n_rlevel">n_rlevel</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-iteration">iteration</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-last_iter">last_iter</a>
@@ -186,15 +186,15 @@ to be able to decide if output is necessary</p>
             </td>
             <td>::</td>
             <td><strong>ref_count</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-id_nr~3"></span>
+              <span class="anchor" id="variable-id_nr~4"></span>
               integer,
             </td>
               <td>public</td>
@@ -203,15 +203,15 @@ to be able to decide if output is necessary</p>
             </td>
             <td>::</td>
             <td><strong>id_nr</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-print_level"></span>
+              <span class="anchor" id="variable-print_level~3"></span>
               integer,
             </td>
               <td>public</td>
@@ -220,8 +220,8 @@ to be able to decide if output is necessary</p>
             </td>
             <td>::</td>
             <td><strong>print_level</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -237,8 +237,8 @@ to be able to decide if output is necessary</p>
             </td>
             <td>::</td>
             <td><strong>n_rlevel</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -254,8 +254,8 @@ to be able to decide if output is necessary</p>
             </td>
             <td>::</td>
             <td><strong>iteration</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -271,8 +271,8 @@ to be able to decide if output is necessary</p>
             </td>
             <td>::</td>
             <td><strong>last_iter</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -288,8 +288,8 @@ to be able to decide if output is necessary</p>
             </td>
             <td>::</td>
             <td><strong>project_name</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>&#34;&#34;</td>
             <td>
                 
             </td>
@@ -305,8 +305,8 @@ to be able to decide if output is necessary</p>
             </td>
             <td>::</td>
             <td><strong>level_name</strong></td>
-                <td></td>
-                <td></td>
+<td>=&gt; </td>
+                <td>NULL()</td>
             <td>
                 
             </td>
@@ -326,13 +326,13 @@ to be able to decide if output is necessary</p>
 <span class="w">      </span><span class="c">!! contains the information about the current state of the program</span>
 <span class="w">      </span><span class="c">!! to be able to decide if output is necessary</span>
 
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">ref_count</span><span class="p">,</span><span class="w"> </span><span class="n">id_nr</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">print_level</span><span class="p">,</span><span class="w"> </span><span class="n">n_rlevel</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">iteration</span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">last_iter</span>
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">project_name</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">ref_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">id_nr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">print_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n_rlevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">last_iter</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">project_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">level_name</span>
+<span class="w">         </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">level_name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_iteration_info_type</span>
 </pre></div>
 

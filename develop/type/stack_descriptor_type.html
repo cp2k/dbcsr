@@ -114,12 +114,12 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-m~6">m</a>
-            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-n~15">n</a>
-            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-k~2">k</a>
-            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-max_m">max_m</a>
-            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-max_n">max_n</a>
-            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-max_k">max_k</a>
+            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-m~26">m</a>
+            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-n~58">n</a>
+            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-k~13">k</a>
+            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-max_m~2">max_m</a>
+            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-max_n~2">max_n</a>
+            <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-max_k~2">max_k</a>
             <a class="list-group-item" href="../type/stack_descriptor_type.html#variable-defined_mnk">defined_mnk</a>
         </div>
       </div>
@@ -175,7 +175,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~6"></span>
+              <span class="anchor" id="variable-m~26"></span>
               integer,
             </td>
               <td>public</td>
@@ -184,15 +184,15 @@
             </td>
             <td>::</td>
             <td><strong>m</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~15"></span>
+              <span class="anchor" id="variable-n~58"></span>
               integer,
             </td>
               <td>public</td>
@@ -201,15 +201,15 @@
             </td>
             <td>::</td>
             <td><strong>n</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~2"></span>
+              <span class="anchor" id="variable-k~13"></span>
               integer,
             </td>
               <td>public</td>
@@ -218,15 +218,15 @@
             </td>
             <td>::</td>
             <td><strong>k</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_m"></span>
+              <span class="anchor" id="variable-max_m~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -235,15 +235,15 @@
             </td>
             <td>::</td>
             <td><strong>max_m</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_n"></span>
+              <span class="anchor" id="variable-max_n~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -252,15 +252,15 @@
             </td>
             <td>::</td>
             <td><strong>max_n</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_k"></span>
+              <span class="anchor" id="variable-max_k~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -269,8 +269,8 @@
             </td>
             <td>::</td>
             <td><strong>max_k</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -286,8 +286,8 @@
             </td>
             <td>::</td>
             <td><strong>defined_mnk</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>.FALSE.</td>
             <td>
                 
             </td>
@@ -304,8 +304,8 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">stack_descriptor_type</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">max_m</span><span class="p">,</span><span class="w"> </span><span class="n">max_n</span><span class="p">,</span><span class="w"> </span><span class="n">max_k</span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">defined_mnk</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">max_m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">max_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">max_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">defined_mnk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">stack_descriptor_type</span>
 </pre></div>
 

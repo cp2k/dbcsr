@@ -114,14 +114,14 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-grp~13">grp</a>
+            <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-grp~2">grp</a>
             <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-grp3d">grp3D</a>
             <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-rowgrp3d">rowgrp3D</a>
             <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-num_layers_3d~4">num_layers_3D</a>
             <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-max_num_layers_3d">max_num_layers_3D</a>
             <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-side3d">side3D</a>
             <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-data_red3d">data_red3D</a>
-            <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-data_type~88">data_type</a>
+            <a class="list-group-item" href="../type/dbcsr_layers_3d_c_reduction.html#variable-data_type~65">data_type</a>
         </div>
       </div>
     </div>
@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-grp~13"></span>
+              <span class="anchor" id="variable-grp~2"></span>
               type(<a href='mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
@@ -295,7 +295,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~88"></span>
+              <span class="anchor" id="variable-data_type~65"></span>
               integer,
             </td>
               <td>public</td>
@@ -304,8 +304,8 @@
             </td>
             <td>::</td>
             <td><strong>data_type</strong></td>
-                <td></td>
-                <td></td>
+<td> =</td>
+                <td>-1</td>
             <td>
                 
             </td>
@@ -331,7 +331,7 @@
 <span class="w">      </span><span class="c">! Use a buffer per each thread</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">data_red3D</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_layers_3D_C_reduction</span>
 </pre></div>
 
