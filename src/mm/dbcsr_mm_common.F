@@ -62,7 +62,7 @@ MODULE dbcsr_mm_common
    TYPE dbcsr_memtype_type_p
       TYPE(dbcsr_memtype_type), POINTER :: p => Null()
       ! ensure that array-elements are on different cache lines
-      INTEGER(kind=int_4), DIMENSION(64)    :: padding
+      INTEGER(kind=int_4), DIMENSION(64)    :: padding = -1_int_4
    END TYPE dbcsr_memtype_type_p
 
    TYPE(dbcsr_memtype_type_p), DIMENSION(:), POINTER, SAVE :: memtype_product_wm => Null()

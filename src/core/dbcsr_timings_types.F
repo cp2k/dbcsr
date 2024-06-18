@@ -22,15 +22,15 @@ MODULE dbcsr_timings_types
    PRIVATE
 
    TYPE timer_env_type
-      INTEGER                                          :: ref_count
-      TYPE(dict_str_i4_type)                           :: routine_names
-      TYPE(list_routinestat_type)                      :: routine_stats
-      TYPE(list_callstackentry_type)                   :: callstack
-      TYPE(dict_i4tuple_callstat_type)                 :: callgraph
-      INTEGER                                          :: trace_max
-      INTEGER                                          :: trace_unit
-      CHARACTER(len=13)                                :: trace_str
-      LOGICAL                                          :: trace_all
+      INTEGER                                          :: ref_count = -1
+      TYPE(dict_str_i4_type)                           :: routine_names = dict_str_i4_type()
+      TYPE(list_routinestat_type)                      :: routine_stats = list_routinestat_type()
+      TYPE(list_callstackentry_type)                   :: callstack = list_callstackentry_type()
+      TYPE(dict_i4tuple_callstat_type)                 :: callgraph = dict_i4tuple_callstat_type()
+      INTEGER                                          :: trace_max = -1
+      INTEGER                                          :: trace_unit = -1
+      CHARACTER(len=13)                                :: trace_str = ""
+      LOGICAL                                          :: trace_all = .FALSE.
    END TYPE timer_env_type
 
    PUBLIC :: timer_env_type

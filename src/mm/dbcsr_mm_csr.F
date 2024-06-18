@@ -62,21 +62,21 @@ MODULE dbcsr_mm_csr
    TYPE dbcsr_mm_csr_type
       PRIVATE
       TYPE(hash_table_type), DIMENSION(:), POINTER  :: c_hashes => Null()
-      INTEGER                        :: nm_stacks, nn_stacks, nk_stacks
+      INTEGER                        :: nm_stacks = -1, nn_stacks = -1, nk_stacks = -1
       INTEGER(KIND=int_4), DIMENSION(:), POINTER :: m_size_maps => Null()
       INTEGER(KIND=int_4), DIMENSION(:), POINTER :: n_size_maps => Null()
       INTEGER(KIND=int_4), DIMENSION(:), POINTER :: k_size_maps => Null()
-      INTEGER                        :: max_m, max_n, max_k
-      INTEGER                        :: m_size_maps_size, &
-                                        n_size_maps_size, &
-                                        k_size_maps_size
+      INTEGER                        :: max_m = -1, max_n = -1, max_k = -1
+      INTEGER                        :: m_size_maps_size = -1, &
+                                        n_size_maps_size = -1, &
+                                        k_size_maps_size = -1
       INTEGER(KIND=int_1), DIMENSION(:, :, :), POINTER :: stack_map => Null()
       TYPE(stack_descriptor_type), DIMENSION(:), POINTER  :: stacks_descr => Null()
       TYPE(dbcsr_work_type), POINTER           :: product_wm => Null()
       INTEGER, DIMENSION(:, :, :), POINTER       :: stacks_data => Null()
       INTEGER, DIMENSION(:), POINTER           :: stacks_fillcount => Null()
-      TYPE(dbcsr_mm_sched_type)                      :: sched
-      LOGICAL                                  :: keep_product_data
+      TYPE(dbcsr_mm_sched_type)                      :: sched = dbcsr_mm_sched_type()
+      LOGICAL                                  :: keep_product_data = .FALSE.
    END TYPE dbcsr_mm_csr_type
 
 #include "utils/dbcsr_hash_table_types.f90"

@@ -31,15 +31,15 @@ MODULE dbcsr_dict
       PUBLIC :: dict_${keytype}$_${valuetype}$_item_type
    #:endfor
 
-   #:for keytype, valuetype, keytype_fort, valuetype_fort, key_assign, value_assign, isequal in inst_params
+   #:for keytype, valuetype, keytype_fort, valuetype_fort, key_assign, value_assign, isequal, default_key, default_value in inst_params
       !this is an internal type
       !Calculating hashes might be expensive, therefore they are stored
       !for use during change_capacity().
       TYPE private_item_type_${keytype}$_${valuetype}$
          PRIVATE
-         ${keytype_fort}$                            :: key
-         ${valuetype_fort}$                          :: value
-         INTEGER(KIND=int_8)                         :: hash
+         ${keytype_fort}$                            :: key ${key_assign}$${default_key}$
+         ${valuetype_fort}$                          :: value ${value_assign}$${default_value}$
+         INTEGER(KIND=int_8)                         :: hash = -1_int_8
          TYPE(private_item_type_${keytype}$_${valuetype}$), POINTER          :: next => Null()
       END TYPE private_item_type_${keytype}$_${valuetype}$
 
@@ -58,8 +58,8 @@ MODULE dbcsr_dict
 
       ! this is a public type, its returned by dict_items()
       TYPE dict_${keytype}$_${valuetype}$_item_type
-         ${keytype_fort}$        :: key
-         ${valuetype_fort}$      :: value
+         ${keytype_fort}$        :: key ${key_assign}$${default_key}$
+         ${valuetype_fort}$      :: value ${value_assign}$${default_value}$
       END TYPE dict_${keytype}$_${valuetype}$_item_type
    #:endfor
 
@@ -111,7 +111,7 @@ CONTAINS
       $:fct
    #:endfor
 
-   #:for keytype, valuetype, keytype_fort, valuetype_fort, key_assign, value_assign, isequal in inst_params
+   #:for keytype, valuetype, keytype_fort, valuetype_fort, key_assign, value_assign, isequal, default_key, default_value in inst_params
       SUBROUTINE dict_${keytype}$_${valuetype}$_init(dict, initial_capacity)
       !! Allocates the internal data-structures of the given dictionary.
 

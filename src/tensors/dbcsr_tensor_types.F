@@ -103,42 +103,42 @@ MODULE dbcsr_tensor_types
       dbcsr_t_copy_contraction_storage
 
    TYPE dbcsr_t_pgrid_type
-      TYPE(nd_to_2d_mapping)                  :: nd_index_grid
-      TYPE(mp_comm_type)                      :: mp_comm_2d
+      TYPE(nd_to_2d_mapping)                  :: nd_index_grid = nd_to_2d_mapping()
+      TYPE(mp_comm_type)                      :: mp_comm_2d = mp_comm_type()
       TYPE(dbcsr_tas_split_info), ALLOCATABLE :: tas_split_info
-      INTEGER                                 :: nproc
+      INTEGER                                 :: nproc = -1
    END TYPE
 
    TYPE dbcsr_t_contraction_storage
-      REAL(real_8) :: nsplit_avg
-      INTEGER :: ibatch
-      TYPE(array_list) :: batch_ranges
-      LOGICAL :: static
+      REAL(real_8) :: nsplit_avg = -1.0_real_8
+      INTEGER :: ibatch = -1
+      TYPE(array_list) :: batch_ranges = array_list()
+      LOGICAL :: static = .FALSE.
    END TYPE
 
    TYPE dbcsr_t_type
       TYPE(dbcsr_tas_type), POINTER        :: matrix_rep => NULL()
-      TYPE(nd_to_2d_mapping)               :: nd_index_blk
-      TYPE(nd_to_2d_mapping)               :: nd_index
-      TYPE(array_list)                     :: blk_sizes
-      TYPE(array_list)                     :: blk_offsets
-      TYPE(array_list)                     :: nd_dist
-      TYPE(dbcsr_t_pgrid_type)             :: pgrid
-      TYPE(array_list)                     :: blks_local
+      TYPE(nd_to_2d_mapping)               :: nd_index_blk = nd_to_2d_mapping()
+      TYPE(nd_to_2d_mapping)               :: nd_index = nd_to_2d_mapping()
+      TYPE(array_list)                     :: blk_sizes = array_list()
+      TYPE(array_list)                     :: blk_offsets = array_list()
+      TYPE(array_list)                     :: nd_dist = array_list()
+      TYPE(dbcsr_t_pgrid_type)             :: pgrid = dbcsr_t_pgrid_type()
+      TYPE(array_list)                     :: blks_local = array_list()
       INTEGER, DIMENSION(:), ALLOCATABLE   :: nblks_local
       INTEGER, DIMENSION(:), ALLOCATABLE   :: nfull_local
       LOGICAL                              :: valid = .FALSE.
       LOGICAL                              :: owns_matrix = .FALSE.
-      CHARACTER(LEN=default_string_length) :: name
+      CHARACTER(LEN=default_string_length) :: name = ""
       ! lightweight reference counting for communicators:
       INTEGER, POINTER                     :: refcount => NULL()
       TYPE(dbcsr_t_contraction_storage), ALLOCATABLE :: contraction_storage
    END TYPE dbcsr_t_type
 
    TYPE dbcsr_t_distribution_type
-      TYPE(dbcsr_tas_distribution_type) :: dist
-      TYPE(dbcsr_t_pgrid_type)      :: pgrid
-      TYPE(array_list)              :: nd_dist
+      TYPE(dbcsr_tas_distribution_type) :: dist = dbcsr_tas_distribution_type()
+      TYPE(dbcsr_t_pgrid_type)      :: pgrid = dbcsr_t_pgrid_type()
+      TYPE(array_list)              :: nd_dist = array_list()
       ! lightweight reference counting for communicators:
       INTEGER, POINTER :: refcount => NULL()
    END TYPE
@@ -150,7 +150,7 @@ MODULE dbcsr_tensor_types
       ! grid dimensions only for this matrix dimension:
       INTEGER, DIMENSION(:), ALLOCATABLE :: dims_grid
       ! dist only for tensor dimensions belonging to this matrix dimension:
-      TYPE(array_list)       :: nd_dist
+      TYPE(array_list)       :: nd_dist = array_list()
    CONTAINS
       ! map matrix index to process grid:
       PROCEDURE :: dist => tas_dist_t
@@ -163,7 +163,7 @@ MODULE dbcsr_tensor_types
       ! tensor dimensions only for this matrix dimension:
       INTEGER, DIMENSION(:), ALLOCATABLE :: dims
       ! block size only for this matrix dimension:
-      TYPE(array_list) :: blk_size
+      TYPE(array_list) :: blk_size = array_list()
    CONTAINS
       PROCEDURE :: data => tas_blk_size_t
    END TYPE

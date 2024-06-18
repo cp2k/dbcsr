@@ -57,34 +57,34 @@ MODULE dbcsr_mm_multrec
       !! its own private copy.
 
       PRIVATE
-      LOGICAL :: c_has_symmetry, keep_sparsity, keep_product_data, use_eps
+      LOGICAL :: c_has_symmetry = .FALSE., keep_sparsity = .FALSE., keep_product_data = .FALSE., use_eps = .FALSE.
          !! The product matrix has symmetry
          !! Sparsity of C matrix should be kept
          !! Use on-the-fly filtering
-      INTEGER, DIMENSION(:), POINTER :: m_sizes, n_sizes, k_sizes
+      INTEGER, DIMENSION(:), POINTER :: m_sizes => NULL(), n_sizes => NULL(), k_sizes => NULL()
          !! Block sizes of A and C matrix rows, indexed locally
          !! Block sizes of B and C matrix columns, indexed locally
          !! Block sizes of A matrix columns and B matrix rows, indexed locally
-      INTEGER, DIMENSION(:), POINTER :: m_global_sizes, n_global_sizes
-      INTEGER, DIMENSION(:), POINTER :: c_local_rows, c_local_cols, k_locals, &
-                                        c_global_rows, c_global_cols
+      INTEGER, DIMENSION(:), POINTER :: m_global_sizes => NULL(), n_global_sizes => NULL()
+      INTEGER, DIMENSION(:), POINTER :: c_local_rows => NULL(), c_local_cols => NULL(), k_locals => NULL(), &
+                                        c_global_rows => NULL(), c_global_cols => NULL()
          !! C and A matrix local rows.  Map from local row (index) to global row (value).
          !! C and B matrix local columns.  Map from local column (index) to global column (value).
          !! A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
          !! C and A matrix global rows.  Map from global rows (index) to local rows (value).
          !! C and B matrix global columns.  Map from global columns (index) to local columns (value).
 
-      REAL(KIND=sp), DIMENSION(:), POINTER :: row_max_epss, a_norms, b_norms
+      REAL(KIND=sp), DIMENSION(:), POINTER :: row_max_epss => NULL(), a_norms => NULL(), b_norms => NULL()
          !! Maximum eps to be used for one row.
          !! Norms of A matrix blocks.
          !! Norms of B matrix blocks.
-      REAL(KIND=real_8)     :: eps
-      INTEGER               :: original_lastblk
+      REAL(KIND=real_8)     :: eps = -1.0_real_8
+      INTEGER               :: original_lastblk = -1
          !! Number of work matrix blocks before addition
-      INTEGER(kind=int_8)   :: flop
+      INTEGER(kind=int_8)   :: flop = -1_int_8
          !! flop count
       TYPE(dbcsr_work_type), POINTER :: product_wm => Null()
-      TYPE(dbcsr_mm_csr_type)        :: csr
+      TYPE(dbcsr_mm_csr_type)        :: csr = dbcsr_mm_csr_type()
       LOGICAL                        :: new_row_max_epss = .FALSE.
       LOGICAL                        :: initialized = .FALSE.
    END TYPE dbcsr_mm_multrec_type

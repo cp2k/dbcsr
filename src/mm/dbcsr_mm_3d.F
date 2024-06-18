@@ -119,29 +119,29 @@ MODULE dbcsr_mm_3d
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
    TYPE dbcsr_buffer
-      TYPE(dbcsr_data_obj)                        :: DATA, &
-                                                     data_before_resize, &
-                                                     trs_stackbuf
-      INTEGER                                     :: vprow, vpcol
+      TYPE(dbcsr_data_obj)                        :: DATA = dbcsr_data_obj(), &
+                                                     data_before_resize = dbcsr_data_obj(), &
+                                                     trs_stackbuf = dbcsr_data_obj()
+      INTEGER                                     :: vprow = -1, vpcol = -1
       INTEGER                                     :: myproc = -1
       TYPE(mp_comm_type)                          :: grp = mp_comm_null, & ! Global communicator
                                                      subgrp = mp_comm_null ! Communicator for A and B
-      TYPE(mp_win_type)                           :: data_win, meta_win
+      TYPE(mp_win_type)                           :: data_win = mp_win_type(), meta_win = mp_win_type()
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS  :: meta => Null(), &
                                                      meta_before_resize => Null(), &
                                                      meta_red3D => Null()
       TYPE(mp_request_type), DIMENSION(2)         :: get_requests = mp_request_null
-      INTEGER                                     :: meta_size
+      INTEGER                                     :: meta_size = -1
       INTEGER                                     :: num_layers_3D = 1
       INTEGER                                     :: coord3D = 1
-      TYPE(dbcsr_type)                            :: matrix
+      TYPE(dbcsr_type)                            :: matrix = dbcsr_type()
       LOGICAL                                     :: is_valid = .FALSE., &
                                                      is_comm = .FALSE., &
                                                      has_rma_win = .FALSE.
    END TYPE dbcsr_buffer
 
    TYPE dbcsr_buffers
-      TYPE(dbcsr_buffer)                 :: left, right
+      TYPE(dbcsr_buffer)                 :: left = dbcsr_buffer(), right = dbcsr_buffer()
    END TYPE dbcsr_buffers
 
    TYPE mn_local_sizes
@@ -158,7 +158,7 @@ MODULE dbcsr_mm_3d
       ! Use a buffer per each thread
       TYPE(dbcsr_data_obj), &
          DIMENSION(:), ALLOCATABLE       :: data_red3D
-      INTEGER                            :: data_type
+      INTEGER                            :: data_type = -1
    END TYPE dbcsr_layers_3D_C_reduction
 
    ! Buffers

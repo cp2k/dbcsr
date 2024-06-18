@@ -24,18 +24,18 @@ MODULE dbcsr_min_heap
    INTEGER, PARAMETER         :: valt = int_4
 
    TYPE dbcsr_heap_node
-      INTEGER(KIND=keyt) :: key
-      INTEGER(KIND=valt) :: value
+      INTEGER(KIND=keyt) :: key = -1_keyt
+      INTEGER(KIND=valt) :: value = -1_valt
    END TYPE dbcsr_heap_node
 
    TYPE dbcsr_heap_node_e
-      TYPE(dbcsr_heap_node) :: node
+      TYPE(dbcsr_heap_node) :: node = dbcsr_heap_node()
    END TYPE dbcsr_heap_node_e
 
    TYPE dbcsr_heap_type
-      INTEGER :: n
-      INTEGER, DIMENSION(:), POINTER           :: index
-      TYPE(dbcsr_heap_node_e), DIMENSION(:), POINTER :: nodes
+      INTEGER :: n = -1
+      INTEGER, DIMENSION(:), POINTER           :: index => NULL()
+      TYPE(dbcsr_heap_node_e), DIMENSION(:), POINTER :: nodes => NULL()
    END TYPE dbcsr_heap_type
 
 CONTAINS
