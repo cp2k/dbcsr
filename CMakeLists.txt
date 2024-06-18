@@ -82,7 +82,7 @@ cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "USE_MPI" OFF
 )# all examples require MPI
 
 set(TEST_MPI_RANKS
-    "auto"
+    2
     CACHE STRING "Number of MPI ranks for testing")
 set(TEST_OMP_THREADS
     2

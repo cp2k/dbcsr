@@ -57,6 +57,7 @@ jobs:
           -DMPI_EXECUTABLE_SUFFIX=.${{ matrix.mpi_suffix }} \
           -DMPIEXEC_PREFLAGS="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && echo "-mca btl ^openib --allow-run-as-root --oversubscribe")" \
           -DLCOV_ARGS="--test-name;${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu" \
+          -DTEST_MPI_RANKS=auto \
           ..
 
     - name: Build
