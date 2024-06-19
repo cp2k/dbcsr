@@ -122,8 +122,7 @@ do
     %{?with_opencl:-DUSE_ACCEL=opencl -DUSE_SMM=libxsmm} \
     -DCMAKE_INSTALL_PREFIX:PATH=$MPI_HOME \
     -DCMAKE_INSTALL_LIBDIR:PATH=$MPI_LIB \
-    -DUSE_MPI_F08=ON \
-    -DTEST_MPI_RANKS=2
+    -DUSE_MPI_F08=ON
   %cmake_build
   module purge
 done
@@ -140,6 +139,8 @@ done
 
 
 %check
+# Backported from https://src.fedoraproject.org/rpms/openmpi/blob/rawhide/f/macros.openmpi
+export PRTE_MCA_rmaps_default_mapping_policy=:oversubscribe
 %ctest
 for mpi in %{mpi_list}
 do
