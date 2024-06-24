@@ -157,6 +157,10 @@ if (WITH_C_API)
     get_filename_component(dbcsr_test_cpp_name ${dbcsr_test_cpp_src} NAME_WE)
     add_executable(${dbcsr_test_cpp_name} ${dbcsr_test_cpp_src})
     target_link_libraries(${dbcsr_test_cpp_name} dbcsr_c MPI::MPI_CXX)
+    set_target_properties(${dbcsr_test_cpp_name} PROPERTIES LINKER_LANGUAGE CXX)
+    if (OpenMP_FOUND)
+      target_link_libraries(${dbcsr_test_cpp_name} OpenMP::OpenMP_CXX)
+    endif ()
     # register unittest executable with CMake
     if (USE_MPI)
       separate_arguments(MPIEXEC_PREFLAGS)
@@ -244,6 +248,11 @@ if (USE_ACCEL MATCHES "cuda|hip")
     target_link_libraries(
       ${libsmm_acc_test_name} dbcsr $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
       $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver> libsmm_acc)
+    set_target_properties(${libsmm_acc_test_name} PROPERTIES LINKER_LANGUAGE
+                                                             CXX)
+    if (OpenMP_FOUND)
+      target_link_libraries(${libsmm_acc_test_name} OpenMP::OpenMP_CXX)
+    endif ()
   endforeach ()
 
   # Comment for the moment, they are not parallelized, very slow... Check issue
