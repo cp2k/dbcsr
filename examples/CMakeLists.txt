@@ -8,6 +8,9 @@ foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS_FTN})
   get_filename_component(dbcsr_program_name ${dbcsr_program_src} NAME_WE)
   add_executable(${dbcsr_program_name} ${dbcsr_program_src})
   target_link_libraries(${dbcsr_program_name} dbcsr)
+  if (OpenMP_FOUND)
+    target_link_libraries(${dbcsr_program_name} OpenMP::OpenMP_Fortran)
+  endif ()
 
   # with the Intel compiler CMake 3.12 seems to forget that the source is
   # actually Fortran and needs to be told explicitly:
@@ -29,6 +32,10 @@ if (WITH_C_API)
     set(dbcsr_program_name ${dbcsr_program_name}_cpp)
     add_executable(${dbcsr_program_name} ${dbcsr_program_src})
     target_link_libraries(${dbcsr_program_name} dbcsr_c MPI::MPI_CXX)
+    set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE CXX)
+    if (OpenMP_FOUND)
+      target_link_libraries(${dbcsr_program_name} OpenMP::OpenMP_CXX)
+    endif ()
 
     if (CMAKE_CXX_COMPILER_ID STREQUAL "Cray")
       # for recent Cray compiler versions CMake doesn't know
