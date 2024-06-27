@@ -104,7 +104,7 @@ CONTAINS
       !! Initialize a stats_type
       TYPE(stats_type), INTENT(INOUT)                    :: stats
 
-      ALLOCATE (stats%num_mnk_stacks(1, 9))
+      ALLOCATE (stats%num_mnk_stacks(1, 10))
       stats%num_mnk_stacks(1, :) = 0 ! entry for the default stack
    END SUBROUTINE stats_init
 
@@ -274,7 +274,7 @@ CONTAINS
 
       INTEGER                                            :: ithread, sp, stacked_datasize
       INTEGER(kind=int_8)                                :: flop_per_entry, total_flop
-      LOGICAL                                            :: success, used_smm
+      LOGICAL                                            :: success, generated_acc_untuned, used_smm
       TYPE(stats_type), POINTER                          :: mystats
 
       IF (stack_fillcount <= 0) &
@@ -334,7 +334,8 @@ CONTAINS
             params=stack_data, &
             stack_size=stack_fillcount, &
             stack_descr=stack_descr, &
-            success=success)
+            success=success, &
+            generated_acc_untuned=generated_acc_untuned)
 
          IF (success) THEN
             ! update statistics
@@ -342,7 +343,8 @@ CONTAINS
             mystats%acc_flop = mystats%acc_flop + total_flop
             CALL stats_add(mystats, &
                            m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
-                           stacksize_acc=INT(stack_fillcount, kind=int_8))
+                           stacksize_acc=INT(stack_fillcount, kind=int_8), &
+                           generated_acc_untuned=generated_acc_untuned)
             RETURN
          ELSE
             this%avoid_accdrv = dbcsr_cfg%accdrv_avoid_after_busy%val
@@ -388,7 +390,7 @@ CONTAINS
    END SUBROUTINE dbcsr_mm_sched_set_orig_datasize
 
    SUBROUTINE stats_add(stats, m, n, k, stacksize_cpu, stacksize_smm, stacksize_acc, &
-                        nstacks_cpu, nstacks_smm, nstacks_acc)
+                        nstacks_cpu, nstacks_smm, nstacks_acc, generated_acc_untuned)
       !! Helper-routine used by dbcsr_mm_sched_process to supply statistics.
 
       TYPE(stats_type), INTENT(INOUT)                    :: stats
@@ -396,11 +398,13 @@ CONTAINS
       INTEGER(kind=int_8), OPTIONAL                      :: stacksize_cpu, stacksize_smm, &
                                                             stacksize_acc, nstacks_cpu, &
                                                             nstacks_smm, nstacks_acc
+      LOGICAL, OPTIONAL                                  :: generated_acc_untuned
 
       INTEGER                                            :: i, s
       INTEGER(kind=int_8)                                :: my_nstacks_acc, my_nstacks_cpu, &
                                                             my_nstacks_smm, my_stacksize_acc, &
-                                                            my_stacksize_cpu, my_stacksize_smm
+                                                            my_stacksize_cpu, my_stacksize_smm, &
+                                                            my_nstacks_acc_default
       INTEGER(kind=int_8), ALLOCATABLE, DIMENSION(:, :)  :: tmp
 
       my_stacksize_cpu = 0
@@ -413,9 +417,13 @@ CONTAINS
       my_nstacks_cpu = MERGE(1, 0, my_stacksize_cpu > 0)
       my_nstacks_smm = MERGE(1, 0, my_stacksize_smm > 0)
       my_nstacks_acc = MERGE(1, 0, my_stacksize_acc > 0)
+      my_nstacks_acc_default = 0
       IF (PRESENT(nstacks_cpu)) my_nstacks_cpu = nstacks_cpu
       IF (PRESENT(nstacks_smm)) my_nstacks_smm = nstacks_smm
       IF (PRESENT(nstacks_acc)) my_nstacks_acc = nstacks_acc
+      IF (PRESENT(generated_acc_untuned)) THEN
+         IF (generated_acc_untuned) my_nstacks_acc_default = 1
+      END IF
 
       DO i = 1, SIZE(stats%num_mnk_stacks, 1)
          IF (stats%num_mnk_stacks(i, 1) == m .AND. &
@@ -427,16 +435,17 @@ CONTAINS
             stats%num_mnk_stacks(i, 7) = stats%num_mnk_stacks(i, 7) + my_nstacks_cpu
             stats%num_mnk_stacks(i, 8) = stats%num_mnk_stacks(i, 8) + my_nstacks_smm
             stats%num_mnk_stacks(i, 9) = stats%num_mnk_stacks(i, 9) + my_nstacks_acc
+            stats%num_mnk_stacks(i, 10) = stats%num_mnk_stacks(i, 10) + my_nstacks_acc_default
             RETURN
          END IF
       END DO
 
       !not found, ok lets grow the list
       s = SIZE(stats%num_mnk_stacks, 1)
-      ALLOCATE (tmp(s, 9))
+      ALLOCATE (tmp(s, 10))
       tmp(:, :) = stats%num_mnk_stacks(:, :)
       DEALLOCATE (stats%num_mnk_stacks)
-      ALLOCATE (stats%num_mnk_stacks(s + 1, 9))
+      ALLOCATE (stats%num_mnk_stacks(s + 1, 10))
       stats%num_mnk_stacks(1:s, :) = tmp(:, :)
       stats%num_mnk_stacks(s + 1, 1) = m
       stats%num_mnk_stacks(s + 1, 2) = n
@@ -447,6 +456,7 @@ CONTAINS
       stats%num_mnk_stacks(s + 1, 7) = my_nstacks_cpu
       stats%num_mnk_stacks(s + 1, 8) = my_nstacks_smm
       stats%num_mnk_stacks(s + 1, 9) = my_nstacks_acc
+      stats%num_mnk_stacks(s + 1, 10) = my_nstacks_acc_default
       DEALLOCATE (tmp)
    END SUBROUTINE stats_add
 
@@ -483,7 +493,8 @@ CONTAINS
                            stacksize_acc=istats%num_mnk_stacks(j, 6), &
                            nstacks_cpu=istats%num_mnk_stacks(j, 7), &
                            nstacks_smm=istats%num_mnk_stacks(j, 8), &
-                           nstacks_acc=istats%num_mnk_stacks(j, 9))
+                           nstacks_acc=istats%num_mnk_stacks(j, 9), &
+                           generated_acc_untuned=istats%num_mnk_stacks(j, 10) .GT. 0)
          END DO
       END DO
 
@@ -538,7 +549,7 @@ CONTAINS
          DO i = 1, SIZE(report%num_mnk_stacks, 1)
             IF (ALL(report%num_mnk_stacks(i, 1:3) == mnk)) THEN
                IF (i <= SIZE(mnk_collected)) mnk_collected(i) = 1
-               CALL mp_sum(report%num_mnk_stacks(i, 4:9), group)
+               CALL mp_sum(report%num_mnk_stacks(i, 4:10), group)
             END IF
          END DO
       END DO
@@ -555,6 +566,8 @@ CONTAINS
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:)     :: sort_key
       INTEGER(KIND=int_8), DIMENSION(3)                  :: flops_homo
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: sort_idx
+      CHARACTER(LEN=4)                                   :: generated_acc_untuned_label
+      LOGICAL                                            :: has_acc_untuned_kernel
 
       IF (output_unit <= 0) RETURN
 
@@ -568,17 +581,30 @@ CONTAINS
 
       total_flops_homo = 0
       flops_homo(:) = 0
+      has_acc_untuned_kernel = .FALSE.
       DO i = 1, SIZE(sort_idx)
          j = sort_idx(i) + 1
          total = SUM(report%num_mnk_stacks(j, 4:6))
          flops = 2*total*PRODUCT(report%num_mnk_stacks(j, 1:3))
          total_flops_homo = total_flops_homo + flops
          flops_homo(:) = flops_homo(:) + 2*report%num_mnk_stacks(j, 4:6)*PRODUCT(report%num_mnk_stacks(j, 1:3))
-         WRITE (output_unit, "(A,I5,' x ',I5,' x ',I5,T30,I20,5X,F5.1,'%',4X,F5.1,'%',4X,F5.1,'%')") &
+         IF (report%num_mnk_stacks(j, 10) .EQ. 0) THEN
+            generated_acc_untuned_label = ""
+         ELSE
+            generated_acc_untuned_label = "(*)"
+            has_acc_untuned_kernel = .TRUE.
+         END IF
+
+         WRITE (output_unit, "(A,I5,' x ',I5,' x ',I5,T30,I20,5X,F5.1,'%',4X,F5.1,'%',4X,F5.1,'% ',A)") &
             " flops ", report%num_mnk_stacks(j, 1:3), &
             flops, &
-            100*REAL(report%num_mnk_stacks(j, 4:6))/REAL(MAX(INT(1, KIND=int_8), total))
+            100*REAL(report%num_mnk_stacks(j, 4:6))/REAL(MAX(INT(1, KIND=int_8), total)), &
+            generated_acc_untuned_label
       END DO
+
+      IF (has_acc_untuned_kernel) THEN
+         DBCSR_WARN(" (*) ACC Untuned kernels, consider to run the tuning procedure")
+      END IF
 
       total = report%cpu_flop + report%smm_flop + report%acc_flop
       WRITE (output_unit, "(A,T30,I20,5X,F5.1,'%',4X,F5.1,'%',4X,F5.1,'%')") &

@@ -195,30 +195,45 @@ inline void jit_kernel(ACC_DRV(function) & kern_func, libsmm_acc_algo algo, int 
 
 
 kernel_map_iterator add_kernel_handle_to_jitted_kernels(
-  ACC_DRV(function) kern_func, ACC_DRV(stream) stream, Triplet h_mnk, int& threads, int& grouping) {
+  ACC_DRV(function) kern_func, ACC_DRV(stream) stream, Triplet h_mnk, int& threads, int& grouping, bool& generated_acc_untuned) {
   kernel_map_iterator kernel_it = kernel_handles.end();
+
+  libsmm_acc_algo algo;
+  int tile_m, tile_n, w, v, minblocks;
 
   // Check whether autotuned parameters are given for this kernel, and if so, retrieve them
   if (ht.find(h_mnk) != ht.end()) {
     // Retrieve launching parameters
     const KernelParameters params = ht.at(h_mnk);
-    libsmm_acc_algo algo = libsmm_acc_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
-    int tile_m = params[1];
-    int tile_n = params[2];
-    int w = params[3];
-    int v = params[4];
+    algo = libsmm_acc_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
+    tile_m = params[1];
+    tile_n = params[2];
+    w = params[3];
+    v = params[4];
     threads = params[5];
     grouping = params[6];
-    int minblocks = params[7];
-
-    // JIT and validate the kernel
-    jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, h_mnk[0], h_mnk[1], h_mnk[2]);
-    validate_kernel(kern_func, stream, threads, grouping, h_mnk[0], h_mnk[1], h_mnk[2]);
-
-    // Store the handle to the JIT-ed kernel
-    auto kernel_it_emplaced = kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
-    kernel_it = kernel_it_emplaced.first;
+    minblocks = params[7];
+    generated_acc_untuned = false;
   }
+  else { // Use a default untuned kernel
+    algo = medium;
+    tile_m = 2;
+    tile_n = 2;
+    w = 0;
+    v = 0;
+    threads = 256;
+    grouping = 30;
+    minblocks = 2;
+    generated_acc_untuned = true;
+  }
+
+  // JIT and validate the kernel
+  jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, h_mnk[0], h_mnk[1], h_mnk[2]);
+  validate_kernel(kern_func, stream, threads, grouping, h_mnk[0], h_mnk[1], h_mnk[2]);
+
+  // Store the handle to the JIT-ed kernel
+  auto kernel_it_emplaced = kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
+  kernel_it = kernel_it_emplaced.first;
 
   return kernel_it;
 }
@@ -256,6 +271,8 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
   Triplet h_mnk = {m, n, k};
   kernel_map_iterator kernel_it;
 
+  bool generated_acc_untuned = false;
+
 #if defined _OPENMP
 #  pragma omp critical(jit_multiplication)
 #endif
@@ -264,7 +281,7 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
     kernel_it = kernel_handles.find(h_mnk);
     if (kernel_it == kernel_handles.end()) { // the kernel has not been JIT-ed yet
 
-      kernel_it = add_kernel_handle_to_jitted_kernels(kern_func, stream, h_mnk, threads, grouping);
+      kernel_it = add_kernel_handle_to_jitted_kernels(kern_func, stream, h_mnk, threads, grouping, generated_acc_untuned);
 
     } // if the kernel could be jited successfully, the kernel_it iterator now points to the kernel_launcher.
     // if this wasn't possible, is set to kernel_handles.end()
@@ -283,7 +300,9 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
     // Construct argument pointer list and launch kernel
     void* args[] = {&param_stack, &stack_size, &a_data, &b_data, &c_data};
 
-    return launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
+    int return_value = launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
+
+    return ((return_value != 0) or (!generated_acc_untuned)) ? return_value : 10; // return 10 for generated default untuned kernel
   }
 }
 
@@ -297,9 +316,10 @@ int libsmm_acc_process(const int* param_stack_host, const int* param_stack_dev, 
       // maximum size over any dimension
       return (libsmm_acc_process_blas((const int*)param_stack_host, stack_size, *((ACC_DRV(stream)*)c_stream), m, n, k,
         max_kernel_dim, (const double*)a_data, (const double*)b_data, (double*)c_data));
-    else
+    else {
       return (libsmm_acc_process_d((const int*)param_stack_dev, stack_size, *((ACC_DRV(stream)*)stack_stream), m, n, k,
         (const double*)a_data, (const double*)b_data, (double*)c_data));
+    }
   }
   return -10; // datatype not supported
 }

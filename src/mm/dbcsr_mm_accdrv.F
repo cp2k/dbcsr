@@ -432,14 +432,14 @@ CONTAINS
 
    SUBROUTINE dbcsr_mm_accdrv_process(this, left, right, params, stack_size, &
       !! Processes a given stack using accelerator
-                                      stack_descr, success)
+                                      stack_descr, success, generated_acc_untuned)
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
       TYPE(dbcsr_type), INTENT(IN)                       :: left, right
       INTEGER, INTENT(IN)                                :: stack_size
       INTEGER, DIMENSION(dbcsr_ps_width, stack_size), &
          INTENT(INOUT)                                   :: params
       TYPE(stack_descriptor_type), INTENT(IN)            :: stack_descr
-      LOGICAL, INTENT(OUT)                               :: success
+      LOGICAL, INTENT(OUT)                               :: success, generated_acc_untuned
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_process'
 
@@ -525,7 +525,8 @@ CONTAINS
                                  def_mnk=stack_descr%defined_mnk, &
                                  stack_stream=stackbuf%stream, &
                                  c_stream=c_area%memory_type%acc_stream, &
-                                 success=success)
+                                 success=success, &
+                                 generated_acc_untuned=generated_acc_untuned)
 
       IF (success) THEN
          CALL acc_event_record(stackbuf%calculated, stream=stackbuf%stream)
