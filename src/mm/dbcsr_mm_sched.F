@@ -567,7 +567,8 @@ CONTAINS
       INTEGER(KIND=int_8), DIMENSION(3)                  :: flops_homo
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: sort_idx
       CHARACTER(LEN=4)                                   :: generated_acc_untuned_label
-      LOGICAL                                            :: has_acc_untuned_kernel
+      LOGICAL                                            :: has_acc_untuned_kernel, &
+                                                            use_cpu_kernels
 
       IF (output_unit <= 0) RETURN
 
@@ -582,6 +583,8 @@ CONTAINS
       total_flops_homo = 0
       flops_homo(:) = 0
       has_acc_untuned_kernel = .FALSE.
+      use_cpu_kernels = .FALSE.
+
       DO i = 1, SIZE(sort_idx)
          j = sort_idx(i) + 1
          total = SUM(report%num_mnk_stacks(j, 4:6))
@@ -595,6 +598,10 @@ CONTAINS
             has_acc_untuned_kernel = .TRUE.
          END IF
 
+         IF (SUM(report%num_mnk_stacks(j, 4:5)) .GT. 0) THEN
+            use_cpu_kernels = .TRUE.
+         END IF
+
          WRITE (output_unit, "(A,I5,' x ',I5,' x ',I5,T30,I20,5X,F5.1,'%',4X,F5.1,'%',4X,F5.1,'% ',A)") &
             " flops ", report%num_mnk_stacks(j, 1:3), &
             flops, &
@@ -603,7 +610,13 @@ CONTAINS
       END DO
 
       IF (has_acc_untuned_kernel) THEN
-         DBCSR_WARN(" (*) ACC Untuned kernels, consider to run the tuning procedure")
+         CALL dbcsr_warn(__LOCATION__, &
+                         " (*) ACC Untuned kernels, consider to run the ACC tuning procedure for them")
+      END IF
+
+      IF (use_cpu_kernels .AND. use_acc()) THEN
+         CALL dbcsr_warn(__LOCATION__, &
+                         " Some kernels are running on the CPU, consider to run the ACC tuning procedure for them")
       END IF
 
       total = report%cpu_flop + report%smm_flop + report%acc_flop
