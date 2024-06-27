@@ -52,7 +52,7 @@ inline int launch_kernel_from_handle(
 }
 
 //===========================================================================
-inline void validate_kernel(ACC_DRV(function) & kern_func, ACC_DRV(stream) stream, int threads, int grouping, int m, int n, int k) {
+inline int validate_kernel(ACC_DRV(function) & kern_func, ACC_DRV(stream) stream, int threads, int grouping, int m, int n, int k) {
   libsmm_acc_benchmark_t* h;
   libsmm_acc_benchmark_init(&h, test, m, n, k);
 
@@ -79,10 +79,11 @@ inline void validate_kernel(ACC_DRV(function) & kern_func, ACC_DRV(stream) strea
   double sumGPU = checkSum(h->mat_c, h->n_c, m, n);
   libsmm_acc_benchmark_finalize(h);
   if (sumGPU != sumCPU) {
-    printf("Kernel validation failed for multiplication kernel %ix%ix%i\nchecksum CPU: %g, checksum GPU: %g\nchecksum_diff: %g\n",
-      m, n, k, sumCPU, sumGPU, sumGPU - sumCPU);
-    exit(1);
+    //    printf("Kernel validation failed for multiplication kernel %ix%ix%i\nchecksum CPU: %g, checksum GPU: %g\nchecksum_diff: %g\n",
+    //      m, n, k, sumCPU, sumGPU, sumGPU - sumCPU);
+    return 1;
   }
+  return 0;
 }
 
 //===========================================================================
@@ -198,6 +199,9 @@ kernel_map_iterator add_kernel_handle_to_jitted_kernels(
   ACC_DRV(function) kern_func, ACC_DRV(stream) stream, Triplet h_mnk, int& threads, int& grouping, bool& generated_acc_untuned) {
   kernel_map_iterator kernel_it = kernel_handles.end();
 
+  // Check if the kernel was already generated and failed
+  if (failed_acc_kernels.find(h_mnk) != failed_acc_kernels.end()) return kernel_it;
+
   libsmm_acc_algo algo;
   int tile_m, tile_n, w, v, minblocks;
 
@@ -229,11 +233,17 @@ kernel_map_iterator add_kernel_handle_to_jitted_kernels(
 
   // JIT and validate the kernel
   jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, h_mnk[0], h_mnk[1], h_mnk[2]);
-  validate_kernel(kern_func, stream, threads, grouping, h_mnk[0], h_mnk[1], h_mnk[2]);
-
-  // Store the handle to the JIT-ed kernel
-  auto kernel_it_emplaced = kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
-  kernel_it = kernel_it_emplaced.first;
+  if (validate_kernel(kern_func, stream, threads, grouping, h_mnk[0], h_mnk[1], h_mnk[2]) == 0) {
+    // Store the handle to the JIT-ed kernel
+    auto kernel_it_emplaced = kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
+    kernel_it = kernel_it_emplaced.first;
+  }
+  else {
+    // The generated kernel gave wrong values, discard it
+    free(kern_func);
+    generated_acc_untuned = false;
+    failed_acc_kernels.insert(h_mnk);
+  }
 
   return kernel_it;
 }
