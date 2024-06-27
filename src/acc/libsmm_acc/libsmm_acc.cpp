@@ -199,7 +199,7 @@ kernel_map_iterator add_kernel_handle_to_jitted_kernels(
   ACC_DRV(function) kern_func, ACC_DRV(stream) stream, Triplet h_mnk, int& threads, int& grouping, bool& generated_acc_untuned) {
   kernel_map_iterator kernel_it = kernel_handles.end();
 
-  // Check if the kernel was already generated and failed
+  // Check if the kernel was already generated and failed or if it is too big
   if (failed_acc_kernels.find(h_mnk) != failed_acc_kernels.end()) return kernel_it;
 
   libsmm_acc_algo algo;
@@ -219,7 +219,7 @@ kernel_map_iterator add_kernel_handle_to_jitted_kernels(
     minblocks = params[7];
     generated_acc_untuned = false;
   }
-  else { // Use a default untuned kernel
+  else if (h_mnk[0] < 50 && h_mnk[1] < 50 && h_mnk[2] < 50) { // Use a default untuned kernel
     algo = medium;
     tile_m = 2;
     tile_n = 2;
@@ -227,8 +227,12 @@ kernel_map_iterator add_kernel_handle_to_jitted_kernels(
     v = 0;
     threads = 256;
     grouping = 30;
-    minblocks = 2;
+    minblocks = 1;
     generated_acc_untuned = true;
+  }
+  else {
+    failed_acc_kernels.insert(h_mnk);
+    return kernel_it;
   }
 
   // JIT and validate the kernel

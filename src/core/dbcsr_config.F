@@ -701,7 +701,7 @@ CONTAINS
       accdrv_active_device_id = default_accdrv_active_device_id
    END SUBROUTINE reset_accdrv_active_device_id
 
-   FUNCTION use_acc()
+   PURE FUNCTION use_acc()
       LOGICAL :: use_acc
 
       IF (has_acc .AND. dbcsr_cfg%run_on_gpu%val) THEN
