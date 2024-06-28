@@ -82,18 +82,18 @@ MODULE dbcsr_csr_conversions
          !! index of this value is not in csr_to_brd_ind.
          !! same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
          !! brd_to_csr_ind(dbcsr_ind) is -1.
-      TYPE(dbcsr_type)                          :: brd_mat
+      TYPE(dbcsr_type)                          :: brd_mat = dbcsr_type()
          !! DBCSR     BRD matrix acting as an intermediate step in any conversion from and to DBCSR format.
 
       LOGICAL                                  :: has_dbcsr_block_data = .FALSE.
          !! whether dbcsr_* fields are defined
-      INTEGER                                  :: dbcsr_nblkcols_total, &
-                                                  dbcsr_nblkrows_total, &
-                                                  dbcsr_nblks_local
+      INTEGER                                  :: dbcsr_nblkcols_total = -1, &
+                                                  dbcsr_nblkrows_total = -1, &
+                                                  dbcsr_nblks_local = -1
          !! data from original DBCSR matrix (not block-row distributed),
          !! representing the original block structure.
-      INTEGER, DIMENSION(:), POINTER           :: dbcsr_row_p, dbcsr_col_i, &
-                                                  dbcsr_row_blk_size, dbcsr_col_blk_size
+      INTEGER, DIMENSION(:), POINTER           :: dbcsr_row_p => NULL(), dbcsr_col_i => NULL(), &
+                                                  dbcsr_row_blk_size => NULL(), dbcsr_col_blk_size => NULL()
          !! data from original DBCSR matrix (not block-row distributed),
          !! representing the original block structure.
    END TYPE
@@ -115,24 +115,24 @@ MODULE dbcsr_csr_conversions
    TYPE csr_type
       !! Type for CSR matrices
 
-      INTEGER                                  :: nrows_total, ncols_total, &
-                                                  nze_local, nrows_local
+      INTEGER                                  :: nrows_total = -1, ncols_total = -1, &
+                                                  nze_local = -1, nrows_local = -1
          !! total number of rows
          !! total number of columns
          !! local number of nonzero elements
          !! local number of rows
-      TYPE(mp_comm_type)                       :: mp_group
+      TYPE(mp_comm_type)                       :: mp_group = mp_comm_type()
          !! message-passing group ID
-      INTEGER(KIND=int_8)                      :: nze_total
+      INTEGER(KIND=int_8)                      :: nze_total = -1_int_8
          !! total number of nonzero elements
       INTEGER, DIMENSION(:), POINTER           :: rowptr_local => NULL(), &
                                                   colind_local => NULL(), &
                                                   nzerow_local => NULL()
          !! indices of elements inside nzval_local starting a row
          !! column indices of elements inside nzval_local
-      TYPE(csr_data_area_type)                 :: nzval_local
+      TYPE(csr_data_area_type)                 :: nzval_local = csr_data_area_type()
          !! values of local non-zero elements, row-wise ordering.
-      TYPE(csr_mapping_data)                   :: dbcsr_mapping
+      TYPE(csr_mapping_data)                   :: dbcsr_mapping = csr_mapping_data()
          !! mapping data relating indices of nzval_local to indices of a block-row distributed DBCSR matrix
       LOGICAL                                  :: has_mapping = .FALSE.
          !! whether dbcsr_mapping is defined
@@ -143,7 +143,7 @@ MODULE dbcsr_csr_conversions
    END TYPE csr_type
 
    TYPE csr_p_type
-      TYPE(csr_type), POINTER                  :: csr_mat
+      TYPE(csr_type), POINTER                  :: csr_mat => NULL()
    END TYPE csr_p_type
 
    PUBLIC :: csr_type, csr_p_type, convert_csr_to_dbcsr, &

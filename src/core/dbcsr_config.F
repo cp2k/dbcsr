@@ -73,10 +73,20 @@ MODULE dbcsr_config
    LOGICAL, PARAMETER :: has_MPI = .FALSE.
 #endif
 
+   INTEGER, PARAMETER :: mm_stack_default_size_cpu = 1000
+   INTEGER, PARAMETER :: mm_stack_default_size_gpu = 30000
 #if defined(__HAS_smm_vec) || defined (__DBCSR_ACC)
-   INTEGER, PARAMETER :: mm_stack_default_size = 30000
+   INTEGER, PARAMETER :: mm_stack_default_size = mm_stack_default_size_gpu
 #else
-   INTEGER, PARAMETER :: mm_stack_default_size = 1000
+   INTEGER, PARAMETER :: mm_stack_default_size = mm_stack_default_size_cpu
+#endif
+
+   LOGICAL, PARAMETER :: mm_dense_default_cpu = .TRUE.
+   LOGICAL, PARAMETER :: mm_dense_default_gpu = .FALSE.
+#if defined (__DBCSR_ACC)
+   LOGICAL, PARAMETER :: mm_dense_default = mm_dense_default_gpu
+#else
+   LOGICAL, PARAMETER :: mm_dense_default = mm_dense_default_cpu
 #endif
 
 #if defined(__LIBXSMM)
@@ -89,7 +99,7 @@ MODULE dbcsr_config
 
    TYPE, ABSTRACT :: CONF_PAR
       CHARACTER :: source = 'D' ! Possible values are: D=Default, E=Environment, U=User code
-      CHARACTER(len=max_paramter_name_len) :: name
+      CHARACTER(len=max_paramter_name_len) :: name = ""
 
    CONTAINS
 
@@ -99,7 +109,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_INT
-      INTEGER :: val, defval
+      INTEGER :: val = -1, defval = -1
       LOGICAL :: ensure_positive = .TRUE.
 
    CONTAINS
@@ -109,7 +119,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR_INT
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_MM_DRIVER
-      INTEGER :: val, defval
+      INTEGER :: val = -1, defval = -1
 
    CONTAINS
 
@@ -118,7 +128,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR_MM_DRIVER
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_LOGICAL
-      LOGICAL :: val, defval
+      LOGICAL :: val = .FALSE., defval = .FALSE.
 
    CONTAINS
 
@@ -127,7 +137,7 @@ MODULE dbcsr_config
    END TYPE CONF_PAR_LOGICAL
 
    TYPE, EXTENDS(CONF_PAR) :: CONF_PAR_REAL
-      REAL(KIND=real_8) :: val, defval
+      REAL(KIND=real_8) :: val = -1, defval = -1
 
    CONTAINS
 
@@ -151,8 +161,9 @@ MODULE dbcsr_config
       SET_PARAMETER_DEFAULT(NUM_LAYERS_3D, CONF_PAR_INT, 1)
       SET_PARAMETER_DEFAULT(USE_COMM_THREAD, CONF_PAR_LOGICAL, .TRUE.)
       SET_PARAMETER_DEFAULT(COMM_THREAD_LOAD, CONF_PAR_INT, 100)
-      SET_PARAMETER_DEFAULT(MM_DENSE, CONF_PAR_LOGICAL,.NOT. has_acc)
+      SET_PARAMETER_DEFAULT(MM_DENSE, CONF_PAR_LOGICAL, mm_dense_default)
       SET_PARAMETER_DEFAULT(MULTREC_LIMIT, CONF_PAR_INT, 512)
+      SET_PARAMETER_DEFAULT(RUN_ON_GPU, CONF_PAR_LOGICAL, .TRUE.)
       SET_PARAMETER_DEFAULT(ACCDRV_THREAD_BUFFERS, CONF_PAR_INT, 8)
       TYPE(CONF_PAR_LOGICAL) :: ACCDRV_AVOID_AFTER_BUSY = &
                                 CONF_PAR_LOGICAL(name="ACCDRV_AVOID_AFTER_BUSY", val=.FALSE., defval=.FALSE.)
@@ -184,6 +195,7 @@ MODULE dbcsr_config
    PUBLIC :: dbcsr_set_config, dbcsr_get_default_config, dbcsr_print_config
    PUBLIC :: max_kernel_dim
    PUBLIC :: get_accdrv_active_device_id, set_accdrv_active_device_id, reset_accdrv_active_device_id
+   PUBLIC :: use_acc
 
 CONTAINS
 
@@ -340,6 +352,7 @@ CONTAINS
       comm_thread_load, &
       mm_dense, &
       multrec_limit, &
+      run_on_gpu, &
       accdrv_thread_buffers, &
       accdrv_avoid_after_busy, &
       accdrv_min_flop_process, &
@@ -368,6 +381,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_comm_thread
       INTEGER, INTENT(IN), OPTIONAL                      :: comm_thread_load
       LOGICAL, INTENT(IN), OPTIONAL                      :: mm_dense
+      LOGICAL, INTENT(IN), OPTIONAL                      :: run_on_gpu
       INTEGER, INTENT(IN), OPTIONAL                      :: multrec_limit, accdrv_thread_buffers
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_avoid_after_busy
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_min_flop_process
@@ -389,7 +403,7 @@ CONTAINS
       CALL dbcsr_cfg%num_layers_3D%set(num_layers_3D)
       CALL dbcsr_cfg%use_comm_thread%set(use_comm_thread)
       CALL dbcsr_cfg%multrec_limit%set(multrec_limit)
-      CALL dbcsr_cfg%mm_dense%set(mm_dense)
+      CALL dbcsr_cfg%run_on_gpu%set(run_on_gpu)
       CALL dbcsr_cfg%accdrv_thread_buffers%set(accdrv_thread_buffers)
       CALL dbcsr_cfg%accdrv_avoid_after_busy%set(accdrv_avoid_after_busy)
       CALL dbcsr_cfg%accdrv_min_flop_process%set(accdrv_min_flop_process)
@@ -419,8 +433,20 @@ CONTAINS
       CALL dbcsr_cfg%comm_thread_load%set(comm_thread_load)
 
       CALL dbcsr_cfg%n_stacks%set(nstacks)
-      CALL dbcsr_cfg%mm_stack_size%set(mm_stack_size)
       CALL dbcsr_cfg%mm_driver%set(mm_driver)
+
+      ! If ACC is turned-off, use the CPU defaults
+      IF (.NOT. PRESENT(mm_stack_size) .AND. .NOT. dbcsr_cfg%run_on_gpu%val) THEN
+         CALL dbcsr_cfg%mm_stack_size%set(mm_stack_default_size_cpu)
+      ELSE
+         CALL dbcsr_cfg%mm_stack_size%set(mm_stack_size)
+      END IF
+
+      IF (.NOT. PRESENT(mm_dense) .AND. .NOT. dbcsr_cfg%run_on_gpu%val) THEN
+         CALL dbcsr_cfg%mm_dense%set(mm_dense_default_cpu)
+      ELSE
+         CALL dbcsr_cfg%mm_dense%set(mm_dense)
+      END IF
 
    END SUBROUTINE dbcsr_set_config
 
@@ -435,6 +461,7 @@ CONTAINS
       use_comm_thread, &
       comm_thread_load, &
       mm_dense, &
+      run_on_gpu, &
       multrec_limit, &
       accdrv_thread_buffers, &
       accdrv_avoid_after_busy, &
@@ -455,7 +482,7 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: num_layers_3D
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_comm_thread
       INTEGER, INTENT(OUT), OPTIONAL                     :: comm_thread_load
-      LOGICAL, INTENT(OUT), OPTIONAL                     :: mm_dense
+      LOGICAL, INTENT(OUT), OPTIONAL                     :: mm_dense, run_on_gpu
       INTEGER, INTENT(OUT), OPTIONAL                     :: multrec_limit, accdrv_thread_buffers
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_avoid_after_busy
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_min_flop_process
@@ -478,6 +505,7 @@ CONTAINS
       IF (PRESENT(comm_thread_load)) comm_thread_load = dbcsr_cfg%comm_thread_load%defval
       IF (PRESENT(mm_dense)) mm_dense = dbcsr_cfg%mm_dense%defval
       IF (PRESENT(multrec_limit)) multrec_limit = dbcsr_cfg%multrec_limit%defval
+      IF (PRESENT(run_on_gpu)) run_on_gpu = dbcsr_cfg%run_on_gpu%defval
       IF (PRESENT(accdrv_thread_buffers)) accdrv_thread_buffers = dbcsr_cfg%accdrv_thread_buffers%defval
       IF (PRESENT(accdrv_avoid_after_busy)) accdrv_avoid_after_busy = dbcsr_cfg%accdrv_avoid_after_busy%defval
       IF (PRESENT(accdrv_min_flop_process)) accdrv_min_flop_process = dbcsr_cfg%accdrv_min_flop_process%defval
@@ -638,6 +666,8 @@ CONTAINS
                "DBCSR| ACC: Size of binning bins", dbcsr_cfg%accdrv_binning_binsize%val, &
                dbcsr_cfg%accdrv_binning_binsize%print_source()
          END IF
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1,A4)') &
+            "DBCSR| ACC: GPU backend is enabled", dbcsr_cfg%run_on_gpu%val, dbcsr_cfg%run_on_gpu%print_source()
       END IF
 
       WRITE (UNIT=unit_nr, FMT='(1X,A,T74,ES7.1,A4)') &
@@ -670,5 +700,15 @@ CONTAINS
    SUBROUTINE reset_accdrv_active_device_id()
       accdrv_active_device_id = default_accdrv_active_device_id
    END SUBROUTINE reset_accdrv_active_device_id
+
+   PURE FUNCTION use_acc()
+      LOGICAL :: use_acc
+
+      IF (has_acc .AND. dbcsr_cfg%run_on_gpu%val) THEN
+         use_acc = .TRUE.
+      ELSE
+         use_acc = .FALSE.
+      END IF
+   END FUNCTION use_acc
 
 END MODULE dbcsr_config

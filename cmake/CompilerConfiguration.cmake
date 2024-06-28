@@ -1,9 +1,12 @@
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_Fortran_FLAGS          "${CMAKE_Fortran_FLAGS} -ffree-form -std=f2008ts -fimplicit-none -Werror=aliasing -Werror=ampersand -Werror=c-binding-type -Werror=intrinsic-shadow -Werror=intrinsics-std -Werror=line-truncation -Werror=tabs -Werror=target-lifetime -Werror=underflow -Werror=unused-but-set-parameter -Werror=unused-but-set-variable -Werror=unused-variable -Werror=unused-dummy-argument -Werror=conversion -Werror=zerotrip -Werror=uninitialized -Wno-maybe-uninitialized -Werror=unused-parameter")
-  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 10)
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Werror=argument-mismatch")  # gcc 10+ has this automatically
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffree-form -std=f2008ts -fimplicit-none -Werror=aliasing -Werror=ampersand -Werror=c-binding-type -Werror=intrinsic-shadow -Werror=intrinsics-std -Werror=line-truncation -Werror=tabs -Werror=target-lifetime -Werror=underflow -Werror=unused-but-set-parameter -Werror=unused-but-set-variable -Werror=unused-variable -Werror=unused-dummy-argument -Werror=conversion -Werror=zerotrip -Wno-maybe-uninitialized -Werror=unused-parameter")
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 10) # comparison against CXX version rather than GFortran version
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fallow-argument-mismatch") # required for 10+ (MPI wrap)
    else ()
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fallow-argument-mismatch") # requires for 10+ for the MPI wrap module
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Werror=argument-mismatch")  # gcc 10+ has this automatically
+  endif ()
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 13) # comparison against CXX version rather than GFortran version
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Wno-error=uninitialized") # false positive (allocatable array)
   endif ()
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -g -funroll-loops")
   set(CMAKE_Fortran_FLAGS_COVERAGE "-O0 -g --coverage -fno-omit-frame-pointer -fcheck=all,no-array-temps -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -Werror=realloc-lhs -finline-matmul-limit=0 -Werror")
@@ -48,6 +51,9 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   if ((NOT (USE_MPI)) OR (NOT ("${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI")))
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=leak")
   endif ()
+  if (USE_ACCEL MATCHES "hip" AND  hip_VERSION GREATER_EQUAL 6.0.0) # Remove deprecated function error with ROCm v6+
+     set(CMAKE_CXX_FLAGS            "${CMAKE_CXX_FLAGS} -Wno-error=deprecated-declarations")
+  endif	()
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -g --coverage")

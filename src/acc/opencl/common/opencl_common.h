@@ -4,7 +4,7 @@
 /*                                                                                                */
 /* For information on the license, see the LICENSE file.                                          */
 /* For further information please visit https://dbcsr.cp2k.org                                    */
-/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/* SPDX-License-Identifier: BSD-3-Clause                                                          */
 /*------------------------------------------------------------------------------------------------*/
 #ifndef OPENCL_COMMON_H
 #define OPENCL_COMMON_H
@@ -24,16 +24,6 @@
 #  define UNROLL_AUTO
 #endif
 
-#if !defined(MIN)
-#  define MIN(A, B) ((A) < (B) ? (A) : (B))
-#endif
-#if !defined(MAX)
-#  define MAX(A, B) ((A) < (B) ? (B) : (A))
-#endif
-#if !defined(MAD)
-#  define MAD fma
-#endif
-
 #if !defined(LU) || (-1 == LU)
 #  define UNROLL_OUTER(N)
 #  define UNROLL(N)
@@ -47,5 +37,22 @@
 #  endif
 #  define UNROLL(N) UNROLL_FORCE(N)
 #endif
+
+#if !defined(MIN)
+#  define MIN(A, B) ((A) < (B) ? (A) : (B))
+#endif
+#if !defined(MAX)
+#  define MAX(A, B) ((A) < (B) ? (B) : (A))
+#endif
+#if !defined(MAD)
+#  define MAD fma
+#endif
+
+#define DIVUP(A, B) (((A) + (B) - 1) / (B))
+#define NUP(N, UP) (DIVUP(N, UP) * (UP))
+#define BLR(N, BN) (NUP(N, BN) - (N))
+
+#define IDX(I, J, M, N) ((int)(I) * (N) + (J))
+#define IDT(I, J, M, N) IDX(J, I, N, M)
 
 #endif /*OPENCL_COMMON_H*/

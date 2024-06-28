@@ -15,9 +15,13 @@ if (USE_MPI)
   else ()
     set(num_ranks ${TEST_MPI_RANKS})
   endif ()
+  math(EXPR test_processors "${num_ranks} * ${NUM_THREADS}")
+
   message(
     "Tests will run with ${num_ranks} MPI ranks and ${NUM_THREADS} OpenMP threads each"
   )
+else ()
+  set(test_processors ${NUM_THREADS})
 endif ()
 
 # =================================== DBCSR PERF TESTS
@@ -52,8 +56,10 @@ foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
              COMMAND $<TARGET_FILE:dbcsr_perf>
                      "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   endif ()
-  set_tests_properties(dbcsr_perf:${dbcsr_perf_test}
-                       PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${NUM_THREADS})
+  set_tests_properties(
+    dbcsr_perf:${dbcsr_perf_test}
+    PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${NUM_THREADS} PROCESSORS
+               ${test_processors})
 endforeach ()
 
 # =================================== DBCSR CORRECTNESS TESTS Define all the
@@ -131,9 +137,10 @@ foreach (dbcsr_test ${DBCSR_TESTS_FTN})
   endif ()
   if (OpenMP_FOUND)
     target_link_libraries(${dbcsr_test} OpenMP::OpenMP_Fortran)
-    set_tests_properties(${dbcsr_test}
-                         PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${NUM_THREADS})
   endif ()
+  set_tests_properties(
+    ${dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${NUM_THREADS}
+                             PROCESSORS ${test_processors})
 endforeach ()
 
 # set the __SHORT_FILE__ per file for dbcsr sources
@@ -150,6 +157,10 @@ if (WITH_C_API)
     get_filename_component(dbcsr_test_cpp_name ${dbcsr_test_cpp_src} NAME_WE)
     add_executable(${dbcsr_test_cpp_name} ${dbcsr_test_cpp_src})
     target_link_libraries(${dbcsr_test_cpp_name} dbcsr_c MPI::MPI_CXX)
+    set_target_properties(${dbcsr_test_cpp_name} PROPERTIES LINKER_LANGUAGE CXX)
+    if (OpenMP_FOUND)
+      target_link_libraries(${dbcsr_test_cpp_name} OpenMP::OpenMP_CXX)
+    endif ()
     # register unittest executable with CMake
     if (USE_MPI)
       separate_arguments(MPIEXEC_PREFLAGS)
@@ -161,11 +172,10 @@ if (WITH_C_API)
     else ()
       add_test(NAME ${dbcsr_test_cpp_name} COMMAND ./${dbcsr_test_cpp_name})
     endif ()
-    if (OpenMP_FOUND)
-      set_tests_properties(
-        ${dbcsr_test_cpp_name} PROPERTIES ENVIRONMENT
-                                          OMP_NUM_THREADS=${NUM_THREADS})
-    endif ()
+    set_tests_properties(
+      ${dbcsr_test_cpp_name}
+      PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${NUM_THREADS} PROCESSORS
+                 ${test_processors})
   endforeach ()
 endif ()
 
@@ -178,11 +188,10 @@ if (NOT USE_MPI)
     target_link_libraries(${dbcsr_test_backend} PRIVATE dbcsr)
     # register unittest executable with CMake
     add_test(NAME ${dbcsr_test_backend} COMMAND ./${dbcsr_test_backend})
-    if (OpenMP_FOUND)
-      set_tests_properties(
-        ${dbcsr_test_backend} PROPERTIES ENVIRONMENT
-                                         OMP_NUM_THREADS=${NUM_THREADS})
-    endif ()
+    set_tests_properties(
+      ${dbcsr_test_backend}
+      PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${NUM_THREADS} PROCESSORS
+                 ${NUM_THREADS})
   endforeach ()
 endif ()
 
@@ -239,6 +248,11 @@ if (USE_ACCEL MATCHES "cuda|hip")
     target_link_libraries(
       ${libsmm_acc_test_name} dbcsr $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
       $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver> libsmm_acc)
+    set_target_properties(${libsmm_acc_test_name} PROPERTIES LINKER_LANGUAGE
+                                                             CXX)
+    if (OpenMP_FOUND)
+      target_link_libraries(${libsmm_acc_test_name} OpenMP::OpenMP_CXX)
+    endif ()
   endforeach ()
 
   # Comment for the moment, they are not parallelized, very slow... Check issue

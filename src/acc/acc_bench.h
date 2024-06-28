@@ -25,6 +25,10 @@
 #  define INLINE
 #endif
 
+#if !defined(MAX_KERNEL_DIM)
+#  define MAX_KERNEL_DIM 80
+#endif
+
 #define INIT_MAT(ELEM_TYPE, SEED, MAT, M, N, SCALE) \
   do { \
     const double init_mat_seed1_ = (SCALE) * (SEED) + (SCALE); \

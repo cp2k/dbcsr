@@ -4,18 +4,18 @@
 /*                                                                                                */
 /* For information on the license, see the LICENSE file.                                          */
 /* For further information please visit https://dbcsr.cp2k.org                                    */
-/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/* SPDX-License-Identifier: BSD-3-Clause                                                          */
 /*------------------------------------------------------------------------------------------------*/
 #include "../../common/opencl_atomics.h"
 
 #if !defined(AL) || (SM != SN) || (SM != BM) || (SN != SK) || (1 == BS)
-#  define ADX(M, K) adata[SM * K + M + a0] /* transposed */
-#  define BDX(K, N) bdata[SN * K + N + b0] /* linear */
-#  define CDX(M, N) cdata[SM * N + M + c0] /* transposed */
+#  define ADX(M, K) adata[IDT(M, K, SM, SK) + a0] /* transposed */
+#  define BDX(K, N) bdata[IDX(K, N, SK, SN) + b0] /* linear */
+#  define CDX(M, N) cdata[IDT(M, N, SM, SN) + c0] /* transposed */
 #else
-#  define ADX(M, K) adata[SK * M + K + a0] /* linear */
-#  define BDX(K, N) bdata[SK * N + K + b0] /* transposed */
-#  define CDX(M, N) cdata[SN * M + N + c0] /* linear */
+#  define ADX(M, K) adata[IDX(M, K, SM, SK) + a0] /* linear */
+#  define BDX(K, N) bdata[IDT(K, N, SK, SN) + b0] /* transposed */
+#  define CDX(M, N) cdata[IDX(M, N, SM, SN) + c0] /* linear */
 #endif
 
 #if defined(SLM_A)
@@ -63,8 +63,8 @@
 #  define REPEAT 1
 #endif
 
-#define NBM ((SM + BM - 1) / BM)
-#define NBN ((SN + BN - 1) / BN)
+#define NBM DIVUP(SM, BM)
+#define NBN DIVUP(SN, BN)
 #define WRK (NBM * NBN)
 
 #define UM (SM / BK)
@@ -144,8 +144,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #  if defined(SLM_C)
   local T cnm[SN][SM + SLM_C - 1]; /* tile in SLM */
   for (SINT n = (SINT)idx; n < SN; n += SWG) {
-    UNROLL_FORCE(SM)
-    for (SINT m = 0; m < SM; ++m) cnm[n][m] = ZERO;
+    UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) cnm[n][m] = ZERO;
   }
 #  elif (BM < SM || 1 != BN)
 #    if (1 != BN)
@@ -153,16 +152,13 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
   for (SINT bn = 0; bn < BN; ++bn)
 #    endif
   {
-    UNROLL_FORCE(BM)
-    for (SINT bm = 0; bm < BM; ++bm) CNM(bn, bm) = ZERO;
+    UNROLL_FORCE(BM) for (SINT bm = 0; bm < BM; ++bm) CNM(bn, bm) = ZERO;
   }
 #  else
-  UNROLL_FORCE(SM)
-  for (SINT m = 0; m < SM; ++m) cnm[m] = ZERO;
+  UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) cnm[m] = ZERO;
 #  endif
 #  if defined(SLM_P)
-  UNROLL_FORCE(3 * BS)
-  for (int i = idx; i < (3 * batchsize); i += SWG) params[i] = pbase[i] - 1;
+  UNROLL_FORCE(3 * BS) for (int i = idx; i < (3 * batchsize); i += SWG) params[i] = pbase[i] - 1;
 #  endif
 #  if defined(BARRIER) && (MAX(1, SGS) < SWG) && (defined(SLM_C) || defined(SLM_P))
   BARRIER(CLK_LOCAL_MEM_FENCE);
@@ -200,8 +196,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       for (; m < SM; m += WRK)
 #  endif
       {
-        UNROLL_FORCE(SK)
-        for (SINT k = 0; k < SK; ++k) amk[m][k] = ADX(m, k);
+        UNROLL_FORCE(SK) for (SINT k = 0; k < SK; ++k) amk[m][k] = ADX(m, k);
       }
     }
 #endif
@@ -213,8 +208,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       for (; n < SN; n += WRK)
 #  endif
       {
-        UNROLL(SK)
-        for (SINT k = 0; k < SK; ++k) bnk[n][k] = BDX(k, n);
+        UNROLL(SK) for (SINT k = 0; k < SK; ++k) bnk[n][k] = BDX(k, n);
       }
     }
 #elif defined(REG_B)
@@ -224,8 +218,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #  else
     { /* copy or transpose B-matrix into registers */
 #  endif
-      UNROLL(SK)
-      for (SINT k = 0; k < SK; ++k) {
+      UNROLL(SK) for (SINT k = 0; k < SK; ++k) {
 #  if (BM < SM || 1 != BN)
         SINT bn = 0;
 #    if (1 != BN)
@@ -256,7 +249,8 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
     { /* calculate result-tile using general tiles */
 #  if defined(REG_A) && !defined(SLM_A) && (1 != BK)
 #    if (1 == BS)
-      T cnm[BN] = {ZERO}; /* row */
+      T cnm[BN]; /* row */
+      UNROLL_FORCE(BN) for (SINT n = 0; n < BN; ++n) cnm[n] = ZERO;
 #    endif
       UNROLL(BM)
 #    if (SM % BM)
@@ -266,8 +260,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    endif
       { /* general BK, A in registers */
         SINT bn = 0;
-        UNROLL_FORCE(SK)
-        for (SINT k = 0; k < SK; ++k) amk[k] = ADX(m, k);
+        UNROLL_FORCE(SK) for (SINT k = 0; k < SK; ++k) amk[k] = ADX(m, k);
 #    if (1 != BN)
         UNROLL(BN)
         for (; bn < BN; ++bn)
@@ -287,8 +280,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    else
             const int mc = bn, nc = idx;
 #    endif
-            UNROLL_FORCE(SK)
-            for (SINT k = 0; k < SK; ++k) {
+            UNROLL_FORCE(SK) for (SINT k = 0; k < SK; ++k) {
               CNM(nc, mc) = MAD(AMK(m, k),
 #    if defined(REG_B)
                 BNK(bn, k),
@@ -318,16 +310,15 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       }
 #  elif (1 == BK)
 #    if (1 == BS)
-      T cnm[BM] = {ZERO}; /* column-block */
+      T cnm[BM]; /* column-block */
+      UNROLL_FORCE(BM) for (SINT m = 0; m < BM; ++m) cnm[m] = ZERO;
 #    endif
-      UNROLL(SK)
-      for (SINT k = 0; k < SK; ++k) {
+      UNROLL(SK) for (SINT k = 0; k < SK; ++k) {
 #    if (SN % BN) || !defined(REG_B) || (defined(SLM_C) && (1 < BS)) || (1 == BS) || (1 != BN)
         SINT bn = 0;
 #    endif
 #    if defined(REG_A) && !defined(SLM_A)
-        UNROLL_FORCE(BM)
-        for (SINT bm = 0; bm < BM; ++bm) amk[bm] = ADX(bm + m0, k);
+        UNROLL_FORCE(BM) for (SINT bm = 0; bm < BM; ++bm) amk[bm] = ADX(bm + m0, k);
 #    endif
 #    if (1 != BN)
         UNROLL(BN)
@@ -365,8 +356,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    endif
             }
 #    if (1 == BS)
-            UNROLL(BM)
-            for (SINT bm = 0; bm < BM; ++bm) {
+            UNROLL(BM) for (SINT bm = 0; bm < BM; ++bm) {
 #      if defined(ATOMIC_INC_NZ)
               if (ZERO != CNM(idx, bm))
 #      endif
@@ -394,7 +384,8 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    endif
       { /* general BK */
 #    if (1 == BS)
-        T cnm[BM] = {ZERO}; /* column-block */
+        T cnm[BM]; /* column-block */
+        UNROLL_FORCE(BM) for (SINT m = 0; m < BM; ++m) cnm[m] = ZERO;
 #    endif
         UNROLL(BM)
 #    if (SM % BM)
@@ -421,12 +412,10 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    else
           const int nb = n;
 #    endif
-          UNROLL_FORCE(SK)
-          for (SINT k = 0; k < SK; ++k) CNM(nc, mc) = MAD(AMK(m, k), BNK(nb, k), CNM(nc, mc));
+          UNROLL_FORCE(SK) for (SINT k = 0; k < SK; ++k) CNM(nc, mc) = MAD(AMK(m, k), BNK(nb, k), CNM(nc, mc));
         }
 #    if (1 == BS)
-        UNROLL(BM)
-        for (SINT bm = 0; bm < BM; ++bm) {
+        UNROLL(BM) for (SINT bm = 0; bm < BM; ++bm) {
 #      if defined(ATOMIC_INC_NZ)
           if (ZERO != CNM(idx, bm))
 #      endif
@@ -443,11 +432,11 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #else /* BM == SM && 1 == BN */
     { /* calculate result-tile using columns */
 #  if (1 == BS)
-      T cnm[UM] = {ZERO}; /* column-block */
+      T cnm[UM]; /* column-block */
+      UNROLL_FORCE(UM) for (SINT m = 0; m < UM; ++m) cnm[m] = ZERO;
 #  endif
 #  if (1 == BK)
-      UNROLL_OUTER(SK)
-      for (SINT k = 0; k < SK; ++k) {
+      UNROLL_OUTER(SK) for (SINT k = 0; k < SK; ++k) {
         const T b = BNK(idx, k);
 #    if defined(SLM_A)
 #      if (WRK != SM)
@@ -456,8 +445,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
         amk[idx] = ADX(idx, k);
 #      endif
 #    elif defined(REG_A)
-        UNROLL_FORCE(SM)
-        for (SINT m = 0; m < SM; ++m) amk[m] = ADX(m, k);
+        UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) amk[m] = ADX(m, k);
 #    endif
 #    if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A)
         BARRIER(CLK_LOCAL_MEM_FENCE);
@@ -465,8 +453,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    if defined(ACC_OPENCL_VERSION) && (200 /*2.0*/ <= ACC_OPENCL_VERSION) && (!defined(GPU) || (0 != GPU)) && !defined(SLM_A) && \
       !defined(REG_A) && (WRK == SM) && (SM <= SGS || SM <= SWG) /* use ACC_OPENCL_VERSION rather than ACC_OPENCL_C_VERSION */
         const T a = AMK(idx, k);
-        UNROLL_FORCE(SM)
-        for (SINT m = 0; m < SM; ++m) {
+        UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) {
 #      if (SM <= SGS)
           CNM(idx, m) = MAD(sub_group_broadcast(a, m), b, CNM(idx, m)); /* size of subgroup is sufficient */
 #      else
@@ -474,16 +461,14 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #      endif
         }
 #    else
-        UNROLL_FORCE(SM)
-        for (SINT m = 0; m < SM; ++m) CNM(idx, m) = MAD(AMK(m, k), b, CNM(idx, m)); /* fallback */
+        UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) CNM(idx, m) = MAD(AMK(m, k), b, CNM(idx, m)); /* fallback */
 #    endif
 #    if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A)
         BARRIER(CLK_LOCAL_MEM_FENCE);
 #    endif
       }
 #    if (1 == BS)
-      UNROLL(SM)
-      for (SINT m = 0; m < SM; ++m) {
+      UNROLL(SM) for (SINT m = 0; m < SM; ++m) {
 #      if defined(ATOMIC_INC_NZ)
         if (ZERO != CNM(idx, m))
 #      endif
@@ -512,13 +497,9 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
           const int vm = u;
 #    endif
 #    if defined(REG_A) && !defined(SLM_A)
-          UNROLL_FORCE(SK)
-          for (SINT k = 0; k < SK; ++k) amk[k] = ADX(um, k);
+          UNROLL_FORCE(SK) for (SINT k = 0; k < SK; ++k) amk[k] = ADX(um, k);
 #    endif
-          UNROLL_FORCE(SK)
-          for (SINT k = 0; k < SK; ++k) {
-            CNM(idx, vm) = MAD(AMK(um, k), BNK(idx, k), CNM(idx, vm));
-          }
+          UNROLL_FORCE(SK) for (SINT k = 0; k < SK; ++k) { CNM(idx, vm) = MAD(AMK(um, k), BNK(idx, k), CNM(idx, vm)); }
         }
 #    if (1 == BS)
         u = 0;
@@ -550,13 +531,9 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
         const int vm = u;
 #      endif
 #      if defined(REG_A) && !defined(SLM_A)
-        UNROLL_FORCE(SK)
-        for (SINT k = 0; k < SK; ++k) amk[k] = ADX(um, k);
+        UNROLL_FORCE(SK) for (SINT k = 0; k < SK; ++k) amk[k] = ADX(um, k);
 #      endif
-        UNROLL_FORCE(SK)
-        for (SINT k = 0; k < SK; ++k) {
-          CNM(idx, vm) = MAD(AMK(um, k), BNK(idx, k), CNM(idx, vm));
-        }
+        UNROLL_FORCE(SK) for (SINT k = 0; k < SK; ++k) { CNM(idx, vm) = MAD(AMK(um, k), BNK(idx, k), CNM(idx, vm)); }
       }
 #      if (1 == BS)
       u = 0;

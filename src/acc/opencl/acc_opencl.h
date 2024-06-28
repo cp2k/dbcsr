@@ -4,7 +4,7 @@
 /*                                                                                                */
 /* For information on the license, see the LICENSE file.                                          */
 /* For further information please visit https://dbcsr.cp2k.org                                    */
-/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/* SPDX-License-Identifier: BSD-3-Clause                                                          */
 /*------------------------------------------------------------------------------------------------*/
 #ifndef ACC_OPENCL_H
 #define ACC_OPENCL_H
@@ -115,6 +115,10 @@
 #endif
 #if !defined(ACC_OPENCL_OMPLOCKS) && 1
 #  define ACC_OPENCL_OMPLOCKS
+#endif
+/* Activate device by default */
+#if !defined(ACC_OPENCL_ACTIVATE) && 0
+#  define ACC_OPENCL_ACTIVATE 0
 #endif
 /* Use DBCSR's profile for detailed timings */
 #if !defined(ACC_OPENCL_PROFILE) && 0
@@ -260,13 +264,21 @@ typedef struct c_dbcsr_acc_opencl_device_t {
   c_dbcsr_acc_opencl_stream_t stream;
   /** OpenCL compiler flag (language standard). */
   char std_flag[16];
-  /** OpenCL support-level of device. */
+  /** OpenCL support-level (major and minor). */
   cl_int std_level[2], std_clevel[2];
+  /**
+   * Maximum size of workgroup (WG), preferred multiple of WG-size (PM),
+   * and size of subgoup (SG) only if larger-equal than PM. SG is signaled
+   * smaller if an alternative SG-size exists (SG is zero if no support).
+   */
+  size_t wgsize[3];
   /** Kind of device (GPU, CPU, or other). */
   cl_device_type type;
+  /** OpenCL device-ID. */
+  cl_device_id id;
   /** Whether host memory is unified. */
   cl_int unified;
-  /** Device-ID. */
+  /** Device-UID. */
   cl_uint uid;
   /** Main vendor? */
   cl_int intel, amd, nv;
@@ -339,6 +351,8 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_int debug;
   /** Dump level. */
   cl_int dump;
+  /** WA level */
+  cl_int wa;
 } c_dbcsr_acc_opencl_config_t;
 
 /** Global configuration setup in c_dbcsr_acc_init. */
@@ -381,21 +395,19 @@ int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char* const extname
 int c_dbcsr_acc_opencl_create_context(cl_device_id device_id, cl_context* context);
 /** Internal variant of c_dbcsr_acc_set_active_device. */
 int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_id);
-/** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
-int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max_value, size_t* preferred_multiple);
 /**
  * Build kernel from source with given kernel_name, build_params and build_options.
  * The build_params are meant to instantiate the kernel (-D) whereas build_options
  * are are meant to be compiler-flags.
  */
 int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
-  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts,
+  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], size_t num_exts,
   cl_kernel* kernel);
 /** Per-thread variant of c_dbcsr_acc_device_synchronize. */
 int c_dbcsr_acc_opencl_device_synchronize(ACC_OPENCL_LOCKTYPE* lock, int thread_id);
 /** Assemble flags to support atomic operations. */
 int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo, c_dbcsr_acc_opencl_atomic_fp_t kind,
-  const char* exts[], int exts_maxlen, char flags[], size_t flags_maxlen);
+  const char* exts[], size_t* exts_maxlen, char flags[], size_t flags_maxlen);
 /** Combines build-params and build-options, optional flags (try_build_options). */
 int c_dbcsr_acc_opencl_flags(
   const char build_params[], const char build_options[], const char try_build_options[], char buffer[], size_t buffer_size);

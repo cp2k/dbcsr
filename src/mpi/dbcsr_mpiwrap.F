@@ -110,6 +110,7 @@ MODULE dbcsr_mpiwrap
    MPI_WIN_TYPE, PARAMETER :: mp_win_null_handle = MPI_WIN_NULL
    MPI_FILE_TYPE, PARAMETER :: mp_file_null_handle = MPI_FILE_NULL
    MPI_INFO_TYPE, PARAMETER :: mp_info_null_handle = MPI_INFO_NULL
+   MPI_DATA_TYPE, PARAMETER :: mp_datatype_null_handle = MPI_DATATYPE_NULL
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = MPI_STATUS_SIZE
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = MPI_PROC_NULL
    ! Set max allocatable memory by MPI to 2 GiByte
@@ -136,6 +137,7 @@ MODULE dbcsr_mpiwrap
    MPI_WIN_TYPE, PARAMETER :: mp_win_null_handle = -5
    MPI_FILE_TYPE, PARAMETER :: mp_file_null_handle = -6
    MPI_INFO_TYPE, PARAMETER :: mp_info_null_handle = -7
+   MPI_DATA_TYPE, PARAMETER :: mp_datatype_null_handle = -13
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = -7
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = -8
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = 1
@@ -467,39 +469,39 @@ MODULE dbcsr_mpiwrap
 
 ! Type declarations
    TYPE mp_indexing_meta_type
-      INTEGER, DIMENSION(:), POINTER :: index, chunks
+      INTEGER, DIMENSION(:), POINTER :: index => NULL(), chunks => NULL()
    END TYPE mp_indexing_meta_type
 
    TYPE mp_type_descriptor_type
-      MPI_DATA_TYPE :: type_handle
-      INTEGER :: length
+      MPI_DATA_TYPE :: type_handle = mp_datatype_null_handle
+      INTEGER :: length = -1
 #if defined(__parallel)
-      INTEGER(kind=mpi_address_kind) :: base
+      INTEGER(kind=mpi_address_kind) :: base = -1_mpi_address_kind
 #endif
-      INTEGER(kind=int_4), DIMENSION(:), POINTER :: data_i
-      INTEGER(kind=int_8), DIMENSION(:), POINTER :: data_l
-      REAL(kind=real_4), DIMENSION(:), POINTER :: data_r
-      REAL(kind=real_8), DIMENSION(:), POINTER :: data_d
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER :: data_c
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER :: data_z
-      TYPE(mp_type_descriptor_type), DIMENSION(:), POINTER :: subtype
-      INTEGER :: vector_descriptor(2)
-      LOGICAL :: has_indexing
-      TYPE(mp_indexing_meta_type) :: index_descriptor
+      INTEGER(kind=int_4), DIMENSION(:), POINTER :: data_i => NULL()
+      INTEGER(kind=int_8), DIMENSION(:), POINTER :: data_l => NULL()
+      REAL(kind=real_4), DIMENSION(:), POINTER :: data_r => NULL()
+      REAL(kind=real_8), DIMENSION(:), POINTER :: data_d => NULL()
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER :: data_c => NULL()
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER :: data_z => NULL()
+      TYPE(mp_type_descriptor_type), DIMENSION(:), POINTER :: subtype => NULL()
+      INTEGER :: vector_descriptor(2) = -1
+      LOGICAL :: has_indexing = .FALSE.
+      TYPE(mp_indexing_meta_type) :: index_descriptor = mp_indexing_meta_type()
    END TYPE mp_type_descriptor_type
 
    TYPE mp_file_indexing_meta_type
-      INTEGER, DIMENSION(:), POINTER   :: index
+      INTEGER, DIMENSION(:), POINTER   :: index => NULL()
       INTEGER(kind=address_kind), &
-         DIMENSION(:), POINTER         :: chunks
+         DIMENSION(:), POINTER         :: chunks => NULL()
    END TYPE mp_file_indexing_meta_type
 
    ! type internally used to store message passing performance indicators
 ! **************************************************************************************************
    TYPE mp_perf_type
-      CHARACTER(LEN=20) :: name
-      INTEGER :: count
-      REAL(KIND=dp) :: msg_size
+      CHARACTER(LEN=20) :: name = ""
+      INTEGER :: count = -1
+      REAL(KIND=dp) :: msg_size = -1.0_dp
    END TYPE mp_perf_type
 
    INTEGER, PARAMETER :: MAX_PERF = 28
@@ -507,8 +509,8 @@ MODULE dbcsr_mpiwrap
 ! **************************************************************************************************
    TYPE mp_perf_env_type
       !private
-      INTEGER :: ref_count, id_nr
-      TYPE(mp_perf_type), DIMENSION(MAX_PERF) :: mp_perfs
+      INTEGER :: ref_count = -1, id_nr = -1
+      TYPE(mp_perf_type), DIMENSION(MAX_PERF) :: mp_perfs = mp_perf_type()
    END TYPE mp_perf_env_type
 
 ! **************************************************************************************************

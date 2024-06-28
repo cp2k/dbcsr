@@ -20,11 +20,6 @@
 #include <stdio.h>
 #include <math.h>
 
-// for debug purpose
-#if defined(__HIP_PLATFORM_NVCC__)
-static const int verbose_print = 1;
-#endif
-
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_get_ndevices(int* n_devices) {
   ACC_API_CALL(GetDeviceCount, (n_devices));
@@ -49,9 +44,11 @@ extern "C" int c_dbcsr_acc_set_active_device(int device_id) {
   // establish context
   ACC_API_CALL(Free, (0));
 
-#if defined(__HIP_PLATFORM_NVCC__)
-  if (verbose_print) {
+#if defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
+  static bool once = false;
+  if (!once) {
     ACC_API_CALL(DeviceSetLimit, (ACC(LimitPrintfFifoSize), (size_t)1000000000));
+    once = true;
   }
 #endif
 

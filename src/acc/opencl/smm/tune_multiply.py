@@ -15,7 +15,6 @@ from opentuner import MeasurementInterface
 from opentuner import Result
 from signal import signal, SIGINT
 import tempfile
-import socket
 import shutil
 import copy
 import json
@@ -53,7 +52,6 @@ class SmmTuner(MeasurementInterface):
     def __init__(self, args):
         """Setup common state and define search space"""
         super(SmmTuner, self).__init__(args)
-        dbdir = os.path.join(tempfile.gettempdir(), "opentuner")
         manipulator = ConfigurationManipulator()
         # parse and sanitize kernel shape argument
         if not self.args.mnk:
@@ -79,7 +77,7 @@ class SmmTuner(MeasurementInterface):
             os.path.dirname(sys.argv[0]), "..", "..", self.exename
         )
         self.run_result = (  # verbosity to capture device name and tuned parameters
-            self.launch(["ACC_OPENCL_VERBOSE=2", "CHECK=0"], nrep=1)
+            self.call_program(self.launch(["ACC_OPENCL_VERBOSE=2", "CHECK=0"], nrep=1))
             if (self.args.merge is None or 0 > self.args.merge)
             and (self.args.update is None or "" == self.args.update)
             else None
@@ -176,16 +174,15 @@ class SmmTuner(MeasurementInterface):
         ):  # setup database (DB)
             if args.database is None:  # adjust DB-location
                 envrank = os.getenv("PMI_RANK", os.getenv("OMPI_COMM_WORLD_LOCAL_RANK"))
+                tmpdir = os.path.join(tempfile.gettempdir(), "opentuner")
                 if envrank:
                     self.idevice = int(envrank) % self.ndevices
-                    directory = "{}-{}.db".format(dbdir, self.idevice)
-                else:
-                    directory = "{}.db".format(dbdir)
-                if os.path.isdir(directory):
-                    shutil.rmtree(directory)
-                os.mkdir(directory)
+                    tmpdir += str(self.idevice)
+                if os.path.isdir(tmpdir):
+                    shutil.rmtree(tmpdir)
+                os.mkdir(tmpdir)
                 self.args.database = "sqlite:///" + os.path.join(
-                    directory, "{}.db".format(socket.gethostname())
+                    tmpdir, "{}.db".format(os.getpid())
                 )
             if not self.args.label:  # label for DB-session
                 self.args.label = "{}-{}-{}-s{}".format(
@@ -252,7 +249,7 @@ class SmmTuner(MeasurementInterface):
             self.size if self.size else self.args.size,
             " ".join(map(str, self.mnk)),
         )
-        return self.call_program(env_exe_args)
+        return env_exe_args
 
     def seed_configurations(self):
         return [
@@ -293,17 +290,17 @@ class SmmTuner(MeasurementInterface):
         """Run a configuration and return performance"""
         config = desired_result.configuration.data
         cfgenv = self.environment(config)
-        self.run_result = self.launch(
+        runcmd = self.launch(
             cfgenv + ["CHECK={}".format(self.args.check)], verbose=self.args.verbose
         )
-        if 0 == self.run_result["returncode"]:
+        self.run_result = self.call_program(runcmd)
+        returncode = self.run_result["returncode"]
+        if 0 == returncode:
             performance = re.search(
                 "device:\\s+([0-9]+[^ ]*) ms\\s+([0-9]+[^ ]*)",
                 str(self.run_result["stdout"]),
             )
         else:
-            failed = " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
-            print("FAILED: {}".format(failed))
             performance = None
         if performance and performance.group(1) and performance.group(2):
             mseconds = float(performance.group(1))
@@ -320,6 +317,12 @@ class SmmTuner(MeasurementInterface):
             # gflops are reported as "accuracy" (console output)
             return Result(time=mseconds, accuracy=gflops, size=kernelreq)
         else:  # return non-competitive/bad result in case of an error
+            failed = (
+                " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
+                if not self.args.verbose
+                else runcmd
+            )
+            print("FAILED ({}): {}".format(returncode, failed), flush=True)
             return Result(time=float("inf"), accuracy=0.0, size=100.0)
 
     def update_jsons(self, filenames):
@@ -436,7 +439,7 @@ class SmmTuner(MeasurementInterface):
                         s = 0
                         if 0 < gflops:
                             g = int(filename.split("-")[-1].split("g")[0])
-                            s = gflops / g  # slowdown
+                            s = gflops / g if 0 < g else 0  # slowdown
                         if mtime < os.path.getmtime(filename):
                             if 0 < s:
                                 retsld[1] = retsld[1] + math.log(s)
@@ -469,7 +472,7 @@ class SmmTuner(MeasurementInterface):
                             msg = "Worse and older (delete {} @ {}x): {}"
                             rnd = [str(round(i, 2)) for i in delsld]
                             print(msg.format(num, "..".join(rnd), lst))
-                    else:
+                    else:  # delete outperformed parameter sets
                         for file in retain + delete:
                             try:
                                 os.remove(file)
@@ -501,7 +504,7 @@ class SmmTuner(MeasurementInterface):
         result = self.run_result["returncode"] if config and self.run_result else 1
         envchk = os.getenv("CHECK")  # conside CHECKing result unless CHECK=0
         if 0 == result and 0 == self.args.check and (envchk is None or "0" != envchk):
-            self.run_result = self.launch(cfgenv + ["CHECK=1"])
+            self.run_result = self.call_program(self.launch(cfgenv + ["CHECK=1"]))
             result = self.run_result["returncode"] if self.run_result else 1
         # extend result for easier reuse
         if config:
@@ -842,6 +845,8 @@ if __name__ == "__main__":
     # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
     if os.getenv("OPENCL_LIBSMM_SMM_WS") not in default_enable_tune:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
+    if os.getenv("OPENCL_LIBSMM_SMM_AL") not in default_enable_tune:
+        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)

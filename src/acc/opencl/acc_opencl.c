@@ -4,7 +4,7 @@
 /*                                                                                                */
 /* For information on the license, see the LICENSE file.                                          */
 /* For further information please visit https://dbcsr.cp2k.org                                    */
-/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/* SPDX-License-Identifier: BSD-3-Clause                                                          */
 /*------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
@@ -22,10 +22,16 @@
 #  if defined(__DBCSR_ACC)
 #    include "../acc_libsmm.h"
 #  endif
-
+#  include <fcntl.h>
 #  include <sys/stat.h>
 #  if !defined(S_ISDIR) && defined(S_IFMT) && defined(S_IFDIR)
 #    define S_ISDIR(A) ((S_IFMT & (A)) == S_IFDIR)
+#  endif
+#  if !defined(S_IREAD)
+#    define S_IREAD S_IRUSR
+#  endif
+#  if !defined(S_IWRITE)
+#    define S_IWRITE S_IWUSR
 #  endif
 
 #  if !defined(ACC_OPENCL_NLOCKS)
@@ -66,13 +72,6 @@ c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 #  if defined(ACC_OPENCL_CACHE_DID)
 int c_dbcsr_acc_opencl_active_id;
 #  endif
-
-
-void __wrap__gfortran_runtime_warning_at(const char* /*where*/, const char* /*message*/, ...);
-void __wrap__gfortran_runtime_warning_at(const char* where, const char* message, ...) {
-  LIBXSMM_UNUSED(message);
-  LIBXSMM_UNUSED(where);
-}
 
 
 void c_dbcsr_acc_opencl_notify(const char /*errinfo*/[], const void* /*private_info*/, size_t /*cb*/, void* /*user_data*/);
@@ -158,7 +157,7 @@ LIBXSMM_ATTRIBUTE_DTOR void c_dbcsr_acc_opencl_finalize(void) {
     for (i = 0; i < ACC_OPENCL_MAXNDEVS; ++i) {
       const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[i];
       if (NULL != device_id) {
-#  if defined(CL_VERSION_1_2) && defined(_DEBUG)
+#  if defined(CL_VERSION_1_2) && 0 /* avoid potential segfault */
         ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseDevice(device_id));
 #  endif
         /* c_dbcsr_acc_opencl_create_context scans for non-NULL devices */
@@ -223,7 +222,7 @@ int c_dbcsr_acc_init(void) {
     const int nccs = (NULL == env_nccs ? ACC_OPENCL_NCCS : atoi(env_nccs));
 #  endif
     const char *const env_neo = getenv("NEOReadDebugKeys"), *const env_wa = getenv("ACC_OPENCL_WA");
-    const int neo = (NULL == env_neo ? 1 : atoi(env_neo)), wa = neo * (NULL == env_wa ? 3 : atoi(env_wa));
+    const int neo = (NULL == env_neo ? 1 : atoi(env_neo));
 #  if defined(ACC_OPENCL_ASYNC)
     const char* const env_async = (ACC_OPENCL_ASYNC);
     const int async_default = 3;
@@ -268,6 +267,7 @@ int c_dbcsr_acc_init(void) {
     c_dbcsr_acc_opencl_config.async = (NULL == env_async ? async_default : atoi(env_async));
     c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/ 0 : atoi(env_dump));
     c_dbcsr_acc_opencl_config.debug = (NULL == env_debug ? c_dbcsr_acc_opencl_config.dump : atoi(env_debug));
+    c_dbcsr_acc_opencl_config.wa = neo * (NULL == env_wa ? 31 : atoi(env_wa));
     if (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_uid(NULL /*device*/, env_devmatch, &c_dbcsr_acc_opencl_config.devmatch)) {
       c_dbcsr_acc_opencl_config.devmatch = 1;
     }
@@ -284,12 +284,12 @@ int c_dbcsr_acc_init(void) {
       ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(ze_flat)); /* soft-error */
     }
 #  if defined(ACC_OPENCL_NCCS)
-    if (NULL == getenv("ZEX_NUMBER_OF_CCS") && 0 != nccs) {
+    if (NULL == getenv("ZEX_NUMBER_OF_CCS") && 0 != nccs && 0 == (1 & c_dbcsr_acc_opencl_config.wa)) {
       static char zex_nccs[ACC_OPENCL_MAXNDEVS * 8 + 32] = "ZEX_NUMBER_OF_CCS=";
       int j = strlen(zex_nccs);
       for (i = 0; i < ACC_OPENCL_MAXNDEVS; ++i) {
         const char* const istr = (0 < i ? ",%u:%i" : "%u:%i");
-        const int n = LIBXSMM_SNPRINTF(zex_nccs + j, sizeof(zex_nccs) - j, istr, i, LIBXSMM_MAX(nccs, 1));
+        const int n = LIBXSMM_SNPRINTF(zex_nccs + j, sizeof(zex_nccs) - j, istr, i, LIBXSMM_CLMP(nccs, 1, 4));
         if (0 < n) j += n;
         else {
           j = 0;
@@ -300,14 +300,14 @@ int c_dbcsr_acc_init(void) {
       if (0 < j) ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(zex_nccs)); /* soft-error */
     }
 #  endif
-    if (0 != wa) { /* environment is populated before touching the compute runtime */
+    if (~1 & c_dbcsr_acc_opencl_config.wa) { /* environment is populated before touching the compute runtime */
       static char* key_value[] = {
         "NEOReadDebugKeys=1", "EnableRecoverablePageFaults=0", "DirectSubmissionOverrideBlitterSupport=0"};
       if (NULL == env_neo) ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(key_value[0]));
-      if (0 != (1 & wa) && NULL == getenv("EnableRecoverablePageFaults")) {
+      if ((2 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("EnableRecoverablePageFaults")) {
         ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(key_value[1]));
       }
-      if (0 != (2 & wa) && NULL == getenv("DirectSubmissionOverrideBlitterSupport")) {
+      if ((4 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("DirectSubmissionOverrideBlitterSupport")) {
         ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(key_value[2]));
       }
     }
@@ -615,7 +615,16 @@ int c_dbcsr_acc_init(void) {
           result = EXIT_FAILURE;
         }
         if (EXIT_SUCCESS == result) { /* lastly, print active device and list of devices */
-          result = c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, device_id);
+#  if defined(ACC_OPENCL_ACTIVATE)
+          if (0 <= ACC_OPENCL_ACTIVATE && ACC_OPENCL_ACTIVATE < c_dbcsr_acc_opencl_config.ndevices) {
+            result = c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, ACC_OPENCL_ACTIVATE);
+          }
+          else {
+            result = c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, device_id);
+          }
+#  else
+          c_dbcsr_acc_opencl_config.device.uid = (cl_uint)device_id; /* hack */
+#  endif
           if (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
             char platform_name[ACC_OPENCL_BUFFERSIZE];
             for (i = 0; i < (cl_uint)c_dbcsr_acc_opencl_config.ndevices; ++i) {
@@ -664,14 +673,11 @@ int c_dbcsr_acc_finalize(void) {
 #  endif
   assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_MAXNDEVS);
   if (0 != c_dbcsr_acc_opencl_config.ndevices && NULL != cleanup) {
-    if (0 != c_dbcsr_acc_opencl_config.verbosity) {
-      cl_device_id device = NULL;
+    if (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
       int d;
       fprintf(stderr, "INFO ACC/OpenCL: pid=%u nthreads=%i", libxsmm_get_pid(), c_dbcsr_acc_opencl_config.nthreads);
       if (NULL != c_dbcsr_acc_opencl_config.device.context &&
-          EXIT_SUCCESS ==
-            clGetContextInfo(c_dbcsr_acc_opencl_config.device.context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL) &&
-          EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(device, NULL /*devid*/, &d))
+          EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(c_dbcsr_acc_opencl_config.device.id, NULL /*devid*/, &d))
       {
         fprintf(stderr, " device=%i", d);
       }
@@ -969,24 +975,29 @@ int c_dbcsr_acc_opencl_create_context(cl_device_id active_id, cl_context* contex
 
 
 int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_id) {
-  int result = EXIT_SUCCESS;
-  cl_device_id active_id = NULL, context_id = NULL;
-  assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_MAXNDEVS);
-  assert(0 <= device_id && device_id < c_dbcsr_acc_opencl_config.ndevices);
   /* accessing devices is thread-safe (array is fixed after initialization) */
-  active_id = c_dbcsr_acc_opencl_config.devices[device_id];
+  const cl_device_id active_id =
+    ((0 <= device_id && device_id < c_dbcsr_acc_opencl_config.ndevices) ? c_dbcsr_acc_opencl_config.devices[device_id] : NULL);
+  int result = EXIT_SUCCESS;
+  assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_MAXNDEVS);
   if (NULL != active_id) {
+    cl_device_id context_id = NULL;
     cl_context context = NULL;
     if (NULL != lock) ACC_OPENCL_ACQUIRE(lock);
     context = c_dbcsr_acc_opencl_config.device.context;
+    context_id = c_dbcsr_acc_opencl_config.device.id;
     if (NULL != context) {
-      result = clGetContextInfo(context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &context_id, NULL);
-      if (EXIT_SUCCESS == result && active_id != context_id) {
-        assert(NULL != context_id);
+      assert(NULL != context_id);
+      if (active_id != context_id) {
+#  if defined(CL_VERSION_1_2)
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseDevice(context_id));
+#  endif
         result = clReleaseContext(context);
+        context_id = NULL;
         context = NULL;
       }
     }
+    assert(NULL == context_id || active_id == context_id);
     if (EXIT_SUCCESS == result && active_id != context_id) {
       result = c_dbcsr_acc_opencl_create_context(active_id, &context);
       assert(NULL != context || EXIT_SUCCESS != result);
@@ -1001,6 +1012,8 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
         &c_dbcsr_acc_opencl_config.device.type);
       if (EXIT_SUCCESS == result) {
         char devname[ACC_OPENCL_BUFFERSIZE] = "";
+        const char* const sgexts[] = {"cl_intel_required_subgroup_size", "cl_intel_subgroups", "cl_khr_subgroups"};
+        size_t sgsizes[16], nbytes = 0, sgmin = (size_t)-1, i;
 #  if defined(ACC_OPENCL_CMDAGR)
         ACC_OPENCL_STREAM_PROPERTIES_TYPE properties[4] = {
           CL_QUEUE_PROPERTIES, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, 0 /* terminator */
@@ -1036,6 +1049,34 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
                               &c_dbcsr_acc_opencl_config.device.unified, NULL))
         {
           c_dbcsr_acc_opencl_config.device.unified = CL_FALSE;
+        }
+        if (EXIT_SUCCESS != clGetDeviceInfo(active_id, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t),
+                              c_dbcsr_acc_opencl_config.device.wgsize, NULL))
+        {
+          c_dbcsr_acc_opencl_config.device.wgsize[0] = 1;
+        }
+        if (EXIT_SUCCESS != clGetDeviceInfo(active_id, 4199 /*CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE*/, sizeof(size_t),
+                              c_dbcsr_acc_opencl_config.device.wgsize + 1, NULL)) /* CL_VERSION_3_0 */
+        {
+          c_dbcsr_acc_opencl_config.device.wgsize[1] = 1;
+        }
+        assert(0 == c_dbcsr_acc_opencl_config.device.wgsize[2]);
+        if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_id, sgexts, 2) &&
+            EXIT_SUCCESS ==
+              clGetDeviceInfo(active_id, 0x4108 /*CL_DEVICE_SUB_GROUP_SIZES_INTEL*/, sizeof(sgsizes), sgsizes, &nbytes))
+        {
+          for (i = 0; (i * sizeof(size_t)) < nbytes; ++i) {
+            const size_t sgsize = sgsizes[i];
+            if (sgsize < sgmin) sgmin = sgsize;
+            if (0 == (sgsize % c_dbcsr_acc_opencl_config.device.wgsize[1]) && c_dbcsr_acc_opencl_config.device.wgsize[2] < sgsize) {
+              if (c_dbcsr_acc_opencl_config.device.wgsize[1] < sgsize) c_dbcsr_acc_opencl_config.device.wgsize[1] = sgsize;
+              c_dbcsr_acc_opencl_config.device.wgsize[2] = sgsize;
+            }
+          }
+          if (0 != c_dbcsr_acc_opencl_config.device.wgsize[2]) c_dbcsr_acc_opencl_config.device.wgsize[2] = sgmin;
+        }
+        else {
+          c_dbcsr_acc_opencl_config.device.wgsize[2] = 0;
         }
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
         if (0 != (4 & c_dbcsr_acc_opencl_config.xhints) && 2 <= *c_dbcsr_acc_opencl_config.device.std_level &&
@@ -1076,7 +1117,12 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
         c_dbcsr_acc_opencl_config.device.stream.queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, active_id, properties, &result);
       }
       if (EXIT_SUCCESS == result) {
-        if (active_id != context_id) c_dbcsr_acc_opencl_config.device.context = context;
+        if (active_id != context_id) {
+          assert(active_id != c_dbcsr_acc_opencl_config.device.id);
+          c_dbcsr_acc_opencl_config.device.context = context;
+          c_dbcsr_acc_opencl_config.device.id = active_id;
+        }
+        assert(active_id == c_dbcsr_acc_opencl_config.device.id);
       }
       else memset(&c_dbcsr_acc_opencl_config.device, 0, sizeof(c_dbcsr_acc_opencl_config.device));
     }
@@ -1117,71 +1163,37 @@ int c_dbcsr_acc_set_active_device(int device_id) {
 }
 
 
-int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel, size_t* max_value, size_t* preferred_multiple) {
-  int result = (NULL != device && (NULL != preferred_multiple || NULL != max_value)) ? EXIT_SUCCESS : EXIT_FAILURE;
-  if (NULL != kernel) { /* kernel-specific */
-    if (NULL != max_value) {
-      ACC_OPENCL_CHECK(clGetKernelWorkGroupInfo(kernel, device, CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), max_value, NULL),
-        "query maximum WG-size of kernel", result);
-    }
-    if (NULL != preferred_multiple) {
-      ACC_OPENCL_CHECK(clGetKernelWorkGroupInfo(
-                         kernel, device, CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE, sizeof(size_t), preferred_multiple, NULL),
-        "query preferred multiple of WG-size of kernel", result);
-    }
-  }
-  else { /* device-specific */
-    if (NULL != max_value) {
-      ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t), max_value, NULL),
-        "query maximum WG-size of device", result);
-    }
-    if (NULL != preferred_multiple) {
-#  if defined(CL_VERSION_3_0)
-      ACC_OPENCL_CHECK(
-        clGetDeviceInfo(device, CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE, sizeof(size_t), preferred_multiple, NULL),
-        "query preferred multiple of WG-size of device", result);
-#  else
-      *preferred_multiple = 1;
-#  endif
-    }
-  }
-  return result;
-}
-
-
 int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo, c_dbcsr_acc_opencl_atomic_fp_t kind,
-  const char* exts[], int exts_maxlen, char flags[], size_t flags_maxlen) {
-  cl_device_id device_id = NULL;
-  int result = 0, ext1, ext2;
-  for (ext1 = 0; ext1 < exts_maxlen; ++ext1) {
+  const char* exts[], size_t* exts_maxlen, char flags[], size_t flags_maxlen) {
+  size_t ext1, ext2;
+  int result = 0;
+  for (ext1 = 0; ext1 < (NULL != exts_maxlen ? *exts_maxlen : 0); ++ext1) {
     if (NULL == exts[ext1] || '\0' == *exts[ext1]) break;
   }
-  for (ext2 = ext1 + 1; ext2 < exts_maxlen; ++ext2) {
+  for (ext2 = ext1 + 1; ext2 < (NULL != exts_maxlen ? *exts_maxlen : 0); ++ext2) {
     if (NULL == exts[ext2] || '\0' == *exts[ext2]) break;
   }
-  if (NULL != devinfo && ext2 < exts_maxlen &&
-      EXIT_SUCCESS == clGetContextInfo(devinfo->context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device_id, NULL))
-  {
+  if (NULL != devinfo && NULL != exts_maxlen && ext2 < *exts_maxlen) {
     const char* atomic_type = "";
     switch (kind) {
       case c_dbcsr_acc_opencl_atomic_fp_64: {
         exts[ext1] = "cl_khr_fp64 cl_khr_int64_base_atomics cl_khr_int64_extended_atomics";
-        if (2 <= *devinfo->std_level && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(device_id, exts, ext2)) {
+        if (2 <= *devinfo->std_level && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(devinfo->id, exts, ext2)) {
           atomic_type = "-DTA=long -DTA2=atomic_long -DTF=atomic_double";
         }
         else {
           exts[ext1] = "cl_khr_fp64 cl_khr_int64_base_atomics";
-          if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(device_id, exts, ext2)) {
+          if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(devinfo->id, exts, ext2)) {
             atomic_type = "-DTA=long";
           }
           else { /* fallback */
             exts[ext1] = "cl_khr_fp64 cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics";
-            if (2 <= *devinfo->std_level && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(device_id, exts, ext2)) {
+            if (2 <= *devinfo->std_level && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(devinfo->id, exts, ext2)) {
               atomic_type = "-DATOMIC32_ADD64 -DTA=int -DTA2=atomic_int -DTF=atomic_double";
             }
             else {
               exts[ext1] = "cl_khr_fp64 cl_khr_global_int32_base_atomics";
-              if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(device_id, exts, ext2)) {
+              if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(devinfo->id, exts, ext2)) {
                 atomic_type = "-DATOMIC32_ADD64 -DTA=int";
               }
               else kind = c_dbcsr_acc_opencl_atomic_fp_no;
@@ -1191,13 +1203,13 @@ int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo,
       } break;
       case c_dbcsr_acc_opencl_atomic_fp_32: {
         exts[ext1] = "cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics";
-        if (2 <= *devinfo->std_level && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(device_id, exts, ext2)) {
+        if (2 <= *devinfo->std_level && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(devinfo->id, exts, ext2)) {
           exts[ext2] = "cl_khr_int64_base_atomics cl_khr_int64_extended_atomics";
           atomic_type = "-DTA=int -DTA2=atomic_int -DTF=atomic_float";
         }
         else {
           exts[ext1] = "cl_khr_global_int32_base_atomics";
-          if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(device_id, exts, ext2)) {
+          if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(devinfo->id, exts, ext2)) {
             exts[ext2] = "cl_khr_int64_base_atomics";
             atomic_type = "-DTA=int";
           }
@@ -1222,13 +1234,14 @@ int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo,
         const int force_atomics = ((NULL == env_atomics || '\0' == *env_atomics) ? 0 : atoi(env_atomics));
         if (NULL == env_atomics || '\0' == *env_atomics || 0 != force_atomics) {
           cl_bitfield fp_atomics = 0;
-          if (EXIT_SUCCESS == clGetDeviceInfo(device_id,
+          if (EXIT_SUCCESS == clGetDeviceInfo(devinfo->id,
                                 (cl_device_info)(c_dbcsr_acc_opencl_atomic_fp_64 == kind ? 0x4232 : 0x4231), sizeof(cl_bitfield),
                                 &fp_atomics, NULL) &&
               0 != (/*add*/ (1 << 1) & fp_atomics))
           {
-#  if 0 /* enabling this permitted extension in source code causes compiler warning */
             exts[ext2] = "cl_ext_float_atomics";
+#  if 1 /* enabling this permitted extension in source code causes compiler warning */
+            *exts_maxlen = ext2; /* quietly report extension by reducing exts_maxlen */
 #  endif
             atomic_exp = (c_dbcsr_acc_opencl_atomic_fp_64 == kind
                             ? "atomic_fetch_add_explicit((GLOBAL_VOLATILE(atomic_double)*)A,B,"
@@ -1290,7 +1303,7 @@ int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo,
       }
       assert(NULL != atomic_exp);
       /* compose build parameters and flags */
-      result = LIBXSMM_SNPRINTF(flags, flags_maxlen, "-DTAN=%i %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s", kind, atomic_type,
+      result = LIBXSMM_SNPRINTF(flags, flags_maxlen, " -DTAN=%i %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s", kind, atomic_type,
         atomic_ops, atomic_exp, barrier_expr);
     }
   }
@@ -1301,6 +1314,7 @@ int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo,
 int c_dbcsr_acc_opencl_flags(
   const char build_params[], const char build_options[], const char try_build_options[], char buffer[], size_t buffer_size) {
   int result = EXIT_SUCCESS;
+  assert(NULL != c_dbcsr_acc_opencl_config.device.context);
   if (NULL != buffer) {
     const int std_clevel = 100 * c_dbcsr_acc_opencl_config.device.std_clevel[0] +
                            10 * c_dbcsr_acc_opencl_config.device.std_clevel[1];
@@ -1323,18 +1337,15 @@ int c_dbcsr_acc_opencl_flags(
 
 
 int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
-  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], int num_exts,
+  const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], size_t num_exts,
   cl_kernel* kernel) {
   char buffer[ACC_OPENCL_BUFFERSIZE] = "", buffer_name[ACC_OPENCL_MAXSTRLEN * 2];
   int ok = EXIT_SUCCESS, source_is_cl = 1, nchar;
-  cl_device_id active_id = NULL;
-  int result = ((NULL != source && NULL != kernel_name && '\0' != *kernel_name)
-                  ? clGetContextInfo(
-                      c_dbcsr_acc_opencl_config.device.context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &active_id, NULL)
-                  : EXIT_FAILURE);
+  int result = ((NULL != source && NULL != kernel_name && '\0' != *kernel_name) ? EXIT_SUCCESS : EXIT_FAILURE);
   cl_program program = NULL;
   FILE* file_src = NULL;
   size_t size_src = 0;
+  assert(NULL != c_dbcsr_acc_opencl_config.device.context);
   assert(NULL != kernel);
   *kernel = NULL;
   if (EXIT_SUCCESS == result && 0 != source_is_file) file_src = fopen(source, "rb");
@@ -1406,7 +1417,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
                   else break;
                 }
 #  if !defined(NDEBUG)
-                if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_id, (const char* const*)&ext, 1))
+                if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(c_dbcsr_acc_opencl_config.device.id, (const char* const*)&ext, 1))
 #  endif
                 { /* NDEBUG: assume given extension is supported (confirmed upfront) */
                   if (NULL == line) { /* extension is not already part of source */
@@ -1430,79 +1441,89 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
       }
       buffer[0] = '\0'; /* reset to empty */
     }
-    /* consider preprocessing kernel for analysis (cpp); failure does not matter (result) */
-#  if defined(ACC_OPENCL_CPPBIN)
+    /* cpp: consider to preprocess kernel (failure does not impact result code) */
     if (0 != c_dbcsr_acc_opencl_config.dump && NULL == file_src) {
-      nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), ACC_OPENCL_TEMPDIR "/.%s.XXXXXX", kernel_name);
-      if (0 < nchar && (int)sizeof(buffer_name) > nchar) {
-        FILE* const file_cpp = fopen(ACC_OPENCL_CPPBIN, "rb");
-        const char* sed_pattern = "";
-#    if defined(ACC_OPENCL_SEDBIN)
-        FILE* const file_sed = fopen(ACC_OPENCL_SEDBIN, "rb");
-        if (NULL != file_sed) {
-          sed_pattern = "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*\\(\\/\\/.*\\)*$/d'";
-          fclose(file_sed); /* existence-check */
-        }
-#    endif
+      char dump_filename[ACC_OPENCL_MAXSTRLEN];
+      nchar = LIBXSMM_SNPRINTF(dump_filename, sizeof(dump_filename), "%s.cl", kernel_name);
+      if (0 < nchar && (int)sizeof(dump_filename) > nchar) {
+        const int std_flag_len = (int)strlen(c_dbcsr_acc_opencl_config.device.std_flag);
+        const char* const env_cpp = getenv("ACC_OPENCL_CPP");
+        const int cpp = (NULL == env_cpp ? 1 /*default*/ : atoi(env_cpp));
+#  if defined(ACC_OPENCL_CPPBIN)
+        FILE* const file_cpp = (0 != cpp ? fopen(ACC_OPENCL_CPPBIN, "rb") : NULL);
+#  else
+        FILE* const file_cpp = NULL;
+#  endif
+        int file_dmp = -1;
         if (NULL != file_cpp) {
-          const int file_tmp = mkstemp(buffer_name);
+          nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), ACC_OPENCL_TEMPDIR "/.%s.XXXXXX", kernel_name);
+          if (0 < nchar && (int)sizeof(buffer_name) > nchar) file_dmp = mkstemp(buffer_name);
           fclose(file_cpp); /* existence-check */
-          if (0 <= file_tmp) {
-            const int std_clevel = 100 * c_dbcsr_acc_opencl_config.device.std_clevel[0] +
-                                   10 * c_dbcsr_acc_opencl_config.device.std_clevel[1];
-            const int std_level = 100 * c_dbcsr_acc_opencl_config.device.std_level[0] +
-                                  10 * c_dbcsr_acc_opencl_config.device.std_level[1];
-            const int std_flag_len = (int)strlen(c_dbcsr_acc_opencl_config.device.std_flag);
-            nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer),
-              ACC_OPENCL_CPPBIN " -P -C -nostdinc -DACC_OPENCL_VERSION=%u -DACC_OPENCL_C_VERSION=%u %s %s %s %s >%s.cl", std_level,
-              std_clevel, 0 == c_dbcsr_acc_opencl_config.device.nv ? "" : "-D__NV_CL_C_VERSION",
-              NULL != build_params ? build_params : "", buffer_name, sed_pattern, kernel_name);
-            if (0 < nchar && (int)sizeof(buffer) > nchar &&
-                (0 == std_flag_len || (3 == write(file_tmp, "/*\n", 3) &&
-                                        std_flag_len == write(file_tmp, c_dbcsr_acc_opencl_config.device.std_flag, std_flag_len) &&
-                                        4 == write(file_tmp, "\n*/\n", 4))) &&
-                size_src == (size_t)write(file_tmp, ext_source, size_src))
-            {
-              if (EXIT_SUCCESS == system(buffer)) {
-                nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s.cl", kernel_name);
-                if (0 < nchar && (int)sizeof(buffer) > nchar) {
-                  FILE* const file = fopen(buffer, "r");
-                  if (NULL != file) {
-                    const long int size = (EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_END) ? ftell(file) : 0);
-                    char* const src = (char*)(EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_SET)
-                                                ? libxsmm_aligned_scratch(size + 1 /*terminator*/, 0 /*auto-align*/)
-                                                : NULL);
-                    if (NULL != src) {
-                      if ((size_t)size == fread(src, 1 /*sizeof(char)*/, size /*count*/, file)) {
-                        if (source != ext_source) {
-                          void* p = NULL;
-                          LIBXSMM_ASSIGN127(&p, &ext_source);
-                          libxsmm_free(p);
-                        }
-                        src[size] = '\0';
-                        ext_source = src;
-                      }
-                      else libxsmm_free(src);
-                    }
-                    ACC_OPENCL_EXPECT(EXIT_SUCCESS == fclose(file));
-                  }
-                }
-              }
-            }
-            buffer[0] = '\0'; /* reset to empty */
-            ACC_OPENCL_EXPECT(EXIT_SUCCESS == unlink(buffer_name));
-            ACC_OPENCL_EXPECT(EXIT_SUCCESS == close(file_tmp));
-          }
         }
+        else file_dmp = open(dump_filename, O_CREAT | O_TRUNC | O_RDWR, S_IREAD | S_IWRITE);
+        if (0 <= file_dmp) {
+          if ((0 != std_flag_len && (3 != write(file_dmp, "/*\n", 3) ||
+                                      std_flag_len != write(file_dmp, c_dbcsr_acc_opencl_config.device.std_flag, std_flag_len) ||
+                                      4 != write(file_dmp, "\n*/\n", 4))) ||
+              size_src != (size_t)write(file_dmp, ext_source, size_src))
+          {
+            file_dmp = -1;
+          }
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS == close(file_dmp));
+        }
+#  if defined(ACC_OPENCL_CPPBIN)
+        if (NULL != file_cpp && 0 <= file_dmp) { /* preprocess source-code */
+          const int std_clevel = 100 * c_dbcsr_acc_opencl_config.device.std_clevel[0] +
+                                 10 * c_dbcsr_acc_opencl_config.device.std_clevel[1];
+          const int std_level = 100 * c_dbcsr_acc_opencl_config.device.std_level[0] +
+                                10 * c_dbcsr_acc_opencl_config.device.std_level[1];
+          const char* sed_pattern = "";
+#    if defined(ACC_OPENCL_SEDBIN)
+          FILE* const file_sed = fopen(ACC_OPENCL_SEDBIN, "rb");
+          if (NULL != file_sed) {
+            sed_pattern = "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*\\(\\/\\/.*\\)*$/d'";
+            fclose(file_sed); /* existence-check */
+          }
+#    endif
+          nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer),
+            ACC_OPENCL_CPPBIN " -P -C -nostdinc -DACC_OPENCL_VERSION=%u -DACC_OPENCL_C_VERSION=%u %s %s %s %s >%s", std_level,
+            std_clevel, 0 == c_dbcsr_acc_opencl_config.device.nv ? "" : "-D__NV_CL_C_VERSION",
+            NULL != build_params ? build_params : "", buffer_name, sed_pattern, dump_filename);
+          if (0 < nchar && (int)sizeof(buffer) > nchar && EXIT_SUCCESS == system(buffer)) {
+            FILE* const file = fopen(dump_filename, "r");
+            if (NULL != file) {
+              const long int size = (EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_END) ? ftell(file) : 0);
+              char* const src = (char*)(EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_SET)
+                                          ? libxsmm_aligned_scratch(size + 1 /*terminator*/, 0 /*auto-align*/)
+                                          : NULL);
+              if (NULL != src) {
+                if ((size_t)size == fread(src, 1 /*sizeof(char)*/, size /*count*/, file)) {
+                  if (source != ext_source) {
+                    void* p = NULL;
+                    LIBXSMM_ASSIGN127(&p, &ext_source);
+                    libxsmm_free(p);
+                  }
+                  src[size] = '\0';
+                  ext_source = src;
+                }
+                else libxsmm_free(src);
+              }
+              ACC_OPENCL_EXPECT(EXIT_SUCCESS == fclose(file));
+            }
+          }
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS == unlink(buffer_name)); /* remove temporary file */
+          buffer[0] = '\0'; /* reset to empty */
+        }
+#  endif
       }
     }
-#  endif
     program = clCreateProgramWithSource(c_dbcsr_acc_opencl_config.device.context, 1 /*nlines*/, &ext_source, NULL, &result);
     if (EXIT_SUCCESS == result) {
       assert(NULL != program);
       result = c_dbcsr_acc_opencl_flags(build_params, build_options, try_build_options, buffer, sizeof(buffer));
       if (EXIT_SUCCESS == result) {
-        result = clBuildProgram(program, 1 /*num_devices*/, &active_id, buffer, NULL /*callback*/, NULL /*user_data*/);
+        result = clBuildProgram(
+          program, 1 /*num_devices*/, &c_dbcsr_acc_opencl_config.device.id, buffer, NULL /*callback*/, NULL /*user_data*/);
       }
       if (EXIT_SUCCESS != result && NULL != try_build_options && '\0' != *try_build_options) {
         result = c_dbcsr_acc_opencl_flags(build_params, build_options, NULL /*try_build_options*/, buffer, sizeof(buffer));
@@ -1511,7 +1532,8 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
           program = clCreateProgramWithSource(c_dbcsr_acc_opencl_config.device.context, 1 /*nlines*/, &ext_source, NULL, &result);
           assert(EXIT_SUCCESS != result || NULL != program);
           if (EXIT_SUCCESS == result) {
-            result = clBuildProgram(program, 1 /*num_devices*/, &active_id, buffer, NULL /*callback*/, NULL /*user_data*/);
+            result = clBuildProgram(
+              program, 1 /*num_devices*/, &c_dbcsr_acc_opencl_config.device.id, buffer, NULL /*callback*/, NULL /*user_data*/);
           }
         }
         ok = EXIT_FAILURE;
@@ -1566,14 +1588,15 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
     else
 #  endif
     {
-      program = clCreateProgramWithBinary(c_dbcsr_acc_opencl_config.device.context, 1, &active_id, &size_src,
-        (const unsigned char**)&source, NULL /*binary_status*/, &result);
+      program = clCreateProgramWithBinary(c_dbcsr_acc_opencl_config.device.context, 1, &c_dbcsr_acc_opencl_config.device.id,
+        &size_src, (const unsigned char**)&source, NULL /*binary_status*/, &result);
     }
     if (EXIT_SUCCESS == result) {
       assert(NULL != program);
       result = c_dbcsr_acc_opencl_flags(build_params, build_options, try_build_options, buffer, sizeof(buffer));
       if (EXIT_SUCCESS == result) {
-        result = clBuildProgram(program, 1 /*num_devices*/, &active_id, buffer, NULL /*callback*/, NULL /*user_data*/);
+        result = clBuildProgram(
+          program, 1 /*num_devices*/, &c_dbcsr_acc_opencl_config.device.id, buffer, NULL /*callback*/, NULL /*user_data*/);
       }
       if (EXIT_SUCCESS != result && NULL != try_build_options && '\0' != *try_build_options) {
         result = c_dbcsr_acc_opencl_flags(build_params, build_options, NULL /*try_build_options*/, buffer, sizeof(buffer));
@@ -1585,12 +1608,13 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
           else
 #  endif
           {
-            program = clCreateProgramWithBinary(c_dbcsr_acc_opencl_config.device.context, 1, &active_id, &size_src,
-              (const unsigned char**)&source, NULL /*binary_status*/, &result);
+            program = clCreateProgramWithBinary(c_dbcsr_acc_opencl_config.device.context, 1, &c_dbcsr_acc_opencl_config.device.id,
+              &size_src, (const unsigned char**)&source, NULL /*binary_status*/, &result);
           }
           assert(EXIT_SUCCESS != result || NULL != program);
           if (EXIT_SUCCESS == result) {
-            result = clBuildProgram(program, 1 /*num_devices*/, &active_id, buffer, NULL /*callback*/, NULL /*user_data*/);
+            result = clBuildProgram(
+              program, 1 /*num_devices*/, &c_dbcsr_acc_opencl_config.device.id, buffer, NULL /*callback*/, NULL /*user_data*/);
           }
         }
         ok = EXIT_FAILURE;
@@ -1622,7 +1646,9 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
       *kernel = NULL;
     }
     if (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-      if (EXIT_SUCCESS == clGetProgramBuildInfo(program, active_id, CL_PROGRAM_BUILD_LOG, ACC_OPENCL_BUFFERSIZE, buffer, NULL)) {
+      if (EXIT_SUCCESS == clGetProgramBuildInfo(program, c_dbcsr_acc_opencl_config.device.id, CL_PROGRAM_BUILD_LOG,
+                            ACC_OPENCL_BUFFERSIZE, buffer, NULL))
+      {
         const char* info = buffer;
         while ('\0' != *info && NULL != strchr("\n\r\t ", *info)) ++info; /* remove preceding newline etc. */
         assert(NULL != kernel_name && '\0' != *kernel_name);
@@ -1638,6 +1664,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
 
 
 int c_dbcsr_acc_opencl_set_kernel_ptr(cl_kernel kernel, cl_uint arg_index, const void* arg_value) {
+  assert(NULL != c_dbcsr_acc_opencl_config.device.context);
   return (NULL != c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL
             ? c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL(kernel, arg_index, arg_value)
             : clSetKernelArg(kernel, arg_index, sizeof(cl_mem), &arg_value));

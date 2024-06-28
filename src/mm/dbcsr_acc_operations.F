@@ -75,7 +75,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, data_type, &
                                     a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, &
-                                    stack_stream, c_stream, success)
+                                    stack_stream, c_stream, success, generated_acc_untuned)
       !! Launch an accelerated kernel for processing a stack.
       INTEGER, DIMENSION(:, :), TARGET, INTENT(IN) :: param_stack_host
       TYPE(acc_devmem_type), INTENT(IN)            :: param_stack_dev
@@ -86,7 +86,7 @@ CONTAINS
       INTEGER, INTENT(IN)                          :: m_max, n_max, k_max
       LOGICAL, INTENT(IN)                          :: def_mnk
       TYPE(acc_stream_type), INTENT(IN)            :: stack_stream, c_stream
-      LOGICAL, INTENT(INOUT)                       :: success
+      LOGICAL, INTENT(INOUT)                       :: success, generated_acc_untuned
 #if ! defined (__DBCSR_ACC)
       MARK_USED(param_stack_host)
       MARK_USED(param_stack_dev)
@@ -102,6 +102,7 @@ CONTAINS
       MARK_USED(stack_stream)
       MARK_USED(c_stream)
       MARK_USED(success)
+      MARK_USED(generated_acc_untuned)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_do_mm_stack'
@@ -132,7 +133,8 @@ CONTAINS
                                     mnk, acc_stream_cptr(stack_stream), acc_stream_cptr(c_stream))
 !      IF (istat == -10) DBCSR_ABORT("Data type not supported with GPU backend.")
 !      IF (istat == -20) DBCSR_ABORT("GPU kernel not JIT-ed.")
-      success = (istat == 0) ! false if no suitable kernel was found
+      success = (istat .GE. 0) ! false if no suitable kernel was found
+      generated_acc_untuned = (istat == 10) ! Generated default untuned kernel
 
       IF (careful_mod) CALL timestop(error_handle)
 #endif

@@ -35,14 +35,14 @@ MODULE dbcsr_tas_types
    ! info on MPI Cartesian grid that is split on MPI subgroups.
    ! info on distribution of matrix rows / columns to different subgroups.
    TYPE dbcsr_tas_split_info
-      TYPE(mp_comm_type) :: mp_comm ! global communicator
-      INTEGER, DIMENSION(2) :: pdims ! dimensions of process grid
-      INTEGER :: igroup ! which subgroup do I belong to
-      INTEGER :: ngroup ! how many groups in total
-      INTEGER :: split_rowcol ! split row or column?
-      INTEGER :: pgrid_split_size ! how many process rows/cols in subgroups
-      INTEGER :: group_size ! group size (how many cores) of subgroups
-      TYPE(mp_comm_type) :: mp_comm_group ! sub communicator
+      TYPE(mp_comm_type) :: mp_comm = mp_comm_type() ! global communicator
+      INTEGER, DIMENSION(2) :: pdims = -1 ! dimensions of process grid
+      INTEGER :: igroup = -1 ! which subgroup do I belong to
+      INTEGER :: ngroup = -1 ! how many groups in total
+      INTEGER :: split_rowcol = -1 ! split row or column?
+      INTEGER :: pgrid_split_size = -1 ! how many process rows/cols in subgroups
+      INTEGER :: group_size = -1 ! group size (how many cores) of subgroups
+      TYPE(mp_comm_type) :: mp_comm_group = mp_comm_type() ! sub communicator
       INTEGER, ALLOCATABLE :: ngroup_opt ! optimal number of groups (split factor)
       LOGICAL, DIMENSION(2) :: strict_split = [.FALSE., .FALSE.]
       ! if .true., split factor should not be modified (2 parameters for current and general settings)
@@ -50,8 +50,8 @@ MODULE dbcsr_tas_types
    END TYPE
 
    TYPE dbcsr_tas_distribution_type
-      TYPE(dbcsr_tas_split_info) :: info
-      TYPE(dbcsr_distribution_obj) :: dbcsr_dist
+      TYPE(dbcsr_tas_split_info) :: info = dbcsr_tas_split_info()
+      TYPE(dbcsr_distribution_obj) :: dbcsr_dist = dbcsr_distribution_obj()
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: row_dist
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: col_dist
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:) :: local_rowcols
@@ -61,23 +61,23 @@ MODULE dbcsr_tas_types
    TYPE dbcsr_tas_mm_storage
       TYPE(dbcsr_tas_type), POINTER :: store_batched => NULL() ! intermediate replicated matrix
       TYPE(dbcsr_tas_type), POINTER :: store_batched_repl => NULL() ! intermediate replicated matrix
-      LOGICAL :: batched_out ! whether replicated matrix has been changed in mm and should be copied to actual matrix
-      LOGICAL :: batched_trans
-      TYPE(dbcsr_scalar_type) :: batched_beta
+      LOGICAL :: batched_out = .FALSE. ! whether replicated matrix has been changed in mm and should be copied to actual matrix
+      LOGICAL :: batched_trans = .FALSE.
+      TYPE(dbcsr_scalar_type) :: batched_beta = dbcsr_scalar_type()
    END TYPE
 
    ! type for tall-and-skinny matrices
    TYPE dbcsr_tas_type
-      TYPE(dbcsr_tas_distribution_type)  :: dist
+      TYPE(dbcsr_tas_distribution_type)  :: dist = dbcsr_tas_distribution_type()
       CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE :: row_blk_size
       CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE :: col_blk_size
 
-      TYPE(dbcsr_type) :: matrix ! matrix on subgroup
-      INTEGER(KIND=int_8) :: nblkrows ! total number of rows
-      INTEGER(KIND=int_8) :: nblkcols ! total number of columns
-      INTEGER(KIND=int_8) :: nblkrowscols_split ! nblkrows or nblkcols depending on which is splitted
-      INTEGER(KIND=int_8) :: nfullrows ! total number of full (not blocked) rows
-      INTEGER(KIND=int_8) :: nfullcols ! total number of full (not blocked) columns
+      TYPE(dbcsr_type) :: matrix = dbcsr_type() ! matrix on subgroup
+      INTEGER(KIND=int_8) :: nblkrows = -1_int_8 ! total number of rows
+      INTEGER(KIND=int_8) :: nblkcols = -1_int_8 ! total number of columns
+      INTEGER(KIND=int_8) :: nblkrowscols_split = -1_int_8 ! nblkrows or nblkcols depending on which is splitted
+      INTEGER(KIND=int_8) :: nfullrows = -1_int_8 ! total number of full (not blocked) rows
+      INTEGER(KIND=int_8) :: nfullcols = -1_int_8 ! total number of full (not blocked) columns
       LOGICAL :: valid = .FALSE. ! has been created?
 
       ! storage and flags for batched matrix multiplication
@@ -87,9 +87,9 @@ MODULE dbcsr_tas_types
    END TYPE
 
    TYPE dbcsr_tas_iterator
-      TYPE(dbcsr_tas_split_info) :: info
-      TYPE(dbcsr_tas_distribution_type) :: dist
-      TYPE(dbcsr_iterator) :: iter
+      TYPE(dbcsr_tas_split_info) :: info = dbcsr_tas_split_info()
+      TYPE(dbcsr_tas_distribution_type) :: dist = dbcsr_tas_distribution_type()
+      TYPE(dbcsr_iterator) :: iter = dbcsr_iterator()
    END TYPE dbcsr_tas_iterator
 
 END MODULE
