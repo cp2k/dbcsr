@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for modules and submodules.">148 statements</a>
+                 title=" 0.2% of total for modules and submodules.">153 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -162,14 +162,14 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -223,7 +223,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_acc_do_mm_stack"></span> <h3>public  subroutine <a href='../proc/dbcsr_acc_do_mm_stack.html'>dbcsr_acc_do_mm_stack</a>(param_stack_host, param_stack_dev, stack_size, data_type, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_acc_do_mm_stack"></span> <h3>public  subroutine <a href='../proc/dbcsr_acc_do_mm_stack.html'>dbcsr_acc_do_mm_stack</a>(param_stack_host, param_stack_dev, stack_size, data_type, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success, generated_acc_untuned)  
 </h3></div>
     <div class="card-body">
           
@@ -287,7 +287,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~25"></span>
+              <span class="anchor" id="variable-data_type~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -302,7 +302,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a_data~11"></span>
+              <span class="anchor" id="variable-a_data"></span>
               type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
 <td>intent(in)</td>
@@ -317,7 +317,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b_data~6"></span>
+              <span class="anchor" id="variable-b_data"></span>
               type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
 <td>intent(in)</td>
@@ -332,7 +332,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~2"></span>
+              <span class="anchor" id="variable-c_data"></span>
               type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -437,7 +437,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-success~2"></span>
+              <span class="anchor" id="variable-success"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -446,6 +446,21 @@ parameter
             </td>
             <td>::</td>
             <td><strong>success</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-generated_acc_untuned"></span>
+              logical,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>generated_acc_untuned</strong></td>
             <td>
 
             </td>
@@ -507,7 +522,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~5"></span>
+              <span class="anchor" id="variable-nblks~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -522,7 +537,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~26"></span>
+              <span class="anchor" id="variable-data_type~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -537,7 +552,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~8"></span>
+              <span class="anchor" id="variable-buffer"></span>
               type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
 <td>intent(in)</td>
@@ -552,7 +567,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~3"></span>
+              <span class="anchor" id="variable-m~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -567,7 +582,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~2"></span>
+              <span class="anchor" id="variable-n~6"></span>
               integer,
             </td>
 <td>intent(in)</td>

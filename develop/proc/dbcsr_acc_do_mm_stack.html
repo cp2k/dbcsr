@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">83 statements</a>
+                 title=" 0.1% of total for procedures.">88 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -139,7 +139,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, data_type, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success)  
+    <h2>public  subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, data_type, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success, generated_acc_untuned)  
 </h2>
     
 
@@ -204,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~25"></span>
+              <span class="anchor" id="variable-data_type~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -219,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a_data~11"></span>
+              <span class="anchor" id="variable-a_data"></span>
               type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
 <td>intent(in)</td>
@@ -234,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b_data~6"></span>
+              <span class="anchor" id="variable-b_data"></span>
               type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
 <td>intent(in)</td>
@@ -249,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~2"></span>
+              <span class="anchor" id="variable-c_data"></span>
               type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -354,7 +354,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-success~2"></span>
+              <span class="anchor" id="variable-success"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -363,6 +363,21 @@
             </td>
             <td>::</td>
             <td><strong>success</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-generated_acc_untuned"></span>
+              logical,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>generated_acc_untuned</strong></td>
             <td>
                 
             </td>
@@ -386,7 +401,7 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_do_mm_stack</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">,</span><span class="w"> </span><span class="n">param_stack_dev</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                    </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="n">b_data</span><span class="p">,</span><span class="w"> </span><span class="n">c_data</span><span class="p">,</span><span class="w"> </span><span class="n">m_max</span><span class="p">,</span><span class="w"> </span><span class="n">n_max</span><span class="p">,</span><span class="w"> </span><span class="n">k_max</span><span class="p">,</span><span class="w"> </span><span class="n">def_mnk</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                    </span><span class="n">stack_stream</span><span class="p">,</span><span class="w"> </span><span class="n">c_stream</span><span class="p">,</span><span class="w"> </span><span class="n">success</span><span class="p">)</span>
+<span class="w">                                    </span><span class="n">stack_stream</span><span class="p">,</span><span class="w"> </span><span class="n">c_stream</span><span class="p">,</span><span class="w"> </span><span class="n">success</span><span class="p">,</span><span class="w"> </span><span class="n">generated_acc_untuned</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Launch an accelerated kernel for processing a stack.</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">TARGET</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">param_stack_host</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">param_stack_dev</span>
@@ -397,7 +412,7 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">m_max</span><span class="p">,</span><span class="w"> </span><span class="n">n_max</span><span class="p">,</span><span class="w"> </span><span class="n">k_max</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">def_mnk</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">stack_stream</span><span class="p">,</span><span class="w"> </span><span class="n">c_stream</span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">success</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">success</span><span class="p">,</span><span class="w"> </span><span class="n">generated_acc_untuned</span>
 <span class="cp">#if ! defined (__DBCSR_ACC)</span>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">)</span>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">param_stack_dev</span><span class="p">)</span>
@@ -413,6 +428,7 @@
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stack_stream</span><span class="p">)</span>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">c_stream</span><span class="p">)</span>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">generated_acc_untuned</span><span class="p">)</span>
 <span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
 <span class="cp">#else</span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_acc_do_mm_stack&#39;</span>
@@ -443,7 +459,8 @@
 <span class="w">                                    </span><span class="n">mnk</span><span class="p">,</span><span class="w"> </span><span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stack_stream</span><span class="p">),</span><span class="w"> </span><span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">c_stream</span><span class="p">))</span>
 <span class="c">!      IF (istat == -10) DBCSR_ABORT(&quot;Data type not supported with GPU backend.&quot;)</span>
 <span class="c">!      IF (istat == -20) DBCSR_ABORT(&quot;GPU kernel not JIT-ed.&quot;)</span>
-<span class="w">      </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="c">! false if no suitable kernel was found</span>
+<span class="w">      </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="p">.</span><span class="n">GE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="c">! false if no suitable kernel was found</span>
+<span class="w">      </span><span class="n">generated_acc_untuned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="c">! Generated default untuned kernel</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
 <span class="cp">#endif</span>
