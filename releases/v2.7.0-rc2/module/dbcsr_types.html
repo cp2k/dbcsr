@@ -1,0 +1,4856 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_types &ndash; DBCSR</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0-rc2</small></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>dbcsr_types
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.4% of total for modules and submodules.">289 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_types.F"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_types.f.html'>dbcsr_types.F</a></li>
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_types</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-modulen~18">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_filter_frobenius">dbcsr_filter_frobenius</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_norm_frobenius">dbcsr_norm_frobenius</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_norm_maxabsnorm">dbcsr_norm_maxabsnorm</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_norm_gershgorin">dbcsr_norm_gershgorin</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_norm_column">dbcsr_norm_column</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_type_invalid">dbcsr_type_invalid</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_type_no_symmetry">dbcsr_type_no_symmetry</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_type_symmetric">dbcsr_type_symmetric</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_type_antisymmetric">dbcsr_type_antisymmetric</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_type_hermitian">dbcsr_type_hermitian</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_type_antihermitian">dbcsr_type_antihermitian</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_no_transpose">dbcsr_no_transpose</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_transpose">dbcsr_transpose</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_conjugate_transpose">dbcsr_conjugate_transpose</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_repl_none">dbcsr_repl_none</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_repl_row">dbcsr_repl_row</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_repl_col">dbcsr_repl_col</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_repl_full">dbcsr_repl_full</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_inverse">dbcsr_func_inverse</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_tanh">dbcsr_func_tanh</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_dtanh">dbcsr_func_dtanh</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_ddtanh">dbcsr_func_ddtanh</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_artanh">dbcsr_func_artanh</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_inverse_special">dbcsr_func_inverse_special</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_spread_from_zero">dbcsr_func_spread_from_zero</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_sin">dbcsr_func_sin</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_dsin">dbcsr_func_dsin</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_ddsin">dbcsr_func_ddsin</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_asin">dbcsr_func_asin</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_cos">dbcsr_func_cos</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_func_truncate">dbcsr_func_truncate</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_size">dbcsr_slot_size</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nblks">dbcsr_slot_nblks</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nze">dbcsr_slot_nze</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_dense">dbcsr_slot_dense</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nblkrows_total">dbcsr_slot_nblkrows_total</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nblkcols_total">dbcsr_slot_nblkcols_total</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nfullrows_total">dbcsr_slot_nfullrows_total</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nfullcols_total">dbcsr_slot_nfullcols_total</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nblkrows_local">dbcsr_slot_nblkrows_local</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nblkcols_local">dbcsr_slot_nblkcols_local</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nfullrows_local">dbcsr_slot_nfullrows_local</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_nfullcols_local">dbcsr_slot_nfullcols_local</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_type">dbcsr_slot_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_home_prow">dbcsr_slot_home_prow</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_home_pcol">dbcsr_slot_home_pcol</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_home_rowi">dbcsr_slot_home_rowi</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_home_coli">dbcsr_slot_home_coli</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_home_vprow">dbcsr_slot_home_vprow</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_home_vpcol">dbcsr_slot_home_vpcol</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_meta_size">dbcsr_meta_size</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_row_p">dbcsr_slot_row_p</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_col_i">dbcsr_slot_col_i</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_blk_p">dbcsr_slot_blk_p</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_thr_c">dbcsr_slot_thr_c</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_slot_coo_l">dbcsr_slot_coo_l</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_num_slots">dbcsr_num_slots</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_mpi_size_limits">dbcsr_mpi_size_limits</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_mp_type">dbcsr_mp_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_mp_obj">dbcsr_mp_obj</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_distribution_type">dbcsr_distribution_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_distribution_obj">dbcsr_distribution_obj</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_imagedistribution_type">dbcsr_imagedistribution_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_imagedistribution_obj">dbcsr_imagedistribution_obj</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_block_buffer_type">dbcsr_block_buffer_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_block_buffer_obj">dbcsr_block_buffer_obj</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_iterator">dbcsr_iterator</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_mutable_type">dbcsr_mutable_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_mutable_obj">dbcsr_mutable_obj</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_work_type">dbcsr_work_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_type">dbcsr_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_work_type_p">dbcsr_work_type_p</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_type_p">dbcsr_type_p</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_1d_array_obj">dbcsr_1d_array_obj</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_2d_array_obj">dbcsr_2d_array_obj</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_1d_array_type">dbcsr_1d_array_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_2d_array_type">dbcsr_2d_array_type</a>
+            <a class="list-group-item" href="../module/dbcsr_types.html#type-dbcsr_mpi_statistics_type">dbcsr_mpi_statistics_type</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>DBCSR data types</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_btree.html'>dbcsr_btree</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      
+      <br>
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-modulen~18"></span>
+              character(len=*),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>moduleN</strong></td>
+<td> =</td>
+                <td>&#39;dbcsr_types&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_filter_frobenius"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_filter_frobenius</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_norm_frobenius"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_norm_frobenius</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_norm_maxabsnorm"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_norm_maxabsnorm</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_norm_gershgorin"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_norm_gershgorin</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_norm_column"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_norm_column</strong></td>
+<td> =</td>
+                <td>4</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_type_invalid"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_type_invalid</strong></td>
+<td> =</td>
+                <td>&#39;0&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_type_no_symmetry"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_type_no_symmetry</strong></td>
+<td> =</td>
+                <td>&#39;N&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_type_symmetric"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_type_symmetric</strong></td>
+<td> =</td>
+                <td>&#39;S&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_type_antisymmetric"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_type_antisymmetric</strong></td>
+<td> =</td>
+                <td>&#39;A&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_type_hermitian"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_type_hermitian</strong></td>
+<td> =</td>
+                <td>&#39;H&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_type_antihermitian"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_type_antihermitian</strong></td>
+<td> =</td>
+                <td>&#39;K&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_no_transpose"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_no_transpose</strong></td>
+<td> =</td>
+                <td>&#39;N&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_transpose"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_transpose</strong></td>
+<td> =</td>
+                <td>&#39;T&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_conjugate_transpose"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_conjugate_transpose</strong></td>
+<td> =</td>
+                <td>&#39;C&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_repl_none"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_repl_none</strong></td>
+<td> =</td>
+                <td>&#39;N&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_repl_row"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_repl_row</strong></td>
+<td> =</td>
+                <td>&#39;R&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_repl_col"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_repl_col</strong></td>
+<td> =</td>
+                <td>&#39;C&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_repl_full"></span>
+              character(len=1),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_repl_full</strong></td>
+<td> =</td>
+                <td>&#39;A&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_inverse"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_inverse</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_tanh"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_tanh</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_dtanh"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_dtanh</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_ddtanh"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_ddtanh</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_artanh"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_artanh</strong></td>
+<td> =</td>
+                <td>4</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_inverse_special"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_inverse_special</strong></td>
+<td> =</td>
+                <td>5</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_spread_from_zero"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_spread_from_zero</strong></td>
+<td> =</td>
+                <td>6</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_sin"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_sin</strong></td>
+<td> =</td>
+                <td>7</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_dsin"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_dsin</strong></td>
+<td> =</td>
+                <td>8</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_ddsin"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_ddsin</strong></td>
+<td> =</td>
+                <td>9</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_asin"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_asin</strong></td>
+<td> =</td>
+                <td>10</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_cos"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_cos</strong></td>
+<td> =</td>
+                <td>11</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_func_truncate"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_func_truncate</strong></td>
+<td> =</td>
+                <td>12</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_size"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_size</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                <p>Size of the assigned values in the index array.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nblks"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nblks</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nze"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nze</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_dense"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_dense</strong></td>
+<td> =</td>
+                <td>4</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nblkrows_total"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nblkrows_total</strong></td>
+<td> =</td>
+                <td>5</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nblkcols_total"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nblkcols_total</strong></td>
+<td> =</td>
+                <td>6</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nfullrows_total"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nfullrows_total</strong></td>
+<td> =</td>
+                <td>7</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nfullcols_total"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nfullcols_total</strong></td>
+<td> =</td>
+                <td>8</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nblkrows_local"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nblkrows_local</strong></td>
+<td> =</td>
+                <td>9</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nblkcols_local"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nblkcols_local</strong></td>
+<td> =</td>
+                <td>10</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nfullrows_local"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nfullrows_local</strong></td>
+<td> =</td>
+                <td>11</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_nfullcols_local"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_nfullcols_local</strong></td>
+<td> =</td>
+                <td>12</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_type"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_type</strong></td>
+<td> =</td>
+                <td>13</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_home_prow"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_home_prow</strong></td>
+<td> =</td>
+                <td>14</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_home_pcol"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_home_pcol</strong></td>
+<td> =</td>
+                <td>15</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_home_rowi"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_home_rowi</strong></td>
+<td> =</td>
+                <td>16</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_home_coli"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_home_coli</strong></td>
+<td> =</td>
+                <td>17</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_home_vprow"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_home_vprow</strong></td>
+<td> =</td>
+                <td>18</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_home_vpcol"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_home_vpcol</strong></td>
+<td> =</td>
+                <td>19</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_meta_size"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_meta_size</strong></td>
+<td> =</td>
+                <td>19</td>
+            <td>
+                <p>The number of meta fields.  Its value should be the index of the last slot listed above.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_row_p"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_row_p</strong></td>
+<td> =</td>
+                <td>dbcsr_meta_size+2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_col_i"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_col_i</strong></td>
+<td> =</td>
+                <td>dbcsr_meta_size+4</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_blk_p"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_blk_p</strong></td>
+<td> =</td>
+                <td>dbcsr_meta_size+6</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_thr_c"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_thr_c</strong></td>
+<td> =</td>
+                <td>dbcsr_meta_size+8</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_slot_coo_l"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_slot_coo_l</strong></td>
+<td> =</td>
+                <td>dbcsr_meta_size+10</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_num_slots"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_num_slots</strong></td>
+<td> =</td>
+                <td>dbcsr_meta_size+11</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dbcsr_mpi_size_limits"></span>
+              integer(kind=int_8),
+            </td>
+              <td>public,</td>
+            <td>
+parameter,               DIMENSION(6)
+            </td>
+            <td>::</td>
+            <td><strong>dbcsr_mpi_size_limits</strong></td>
+<td> =</td>
+                <td>(/2**7, 2**13, 2**15, 2**17, 2**22, 2**24/)</td>
+            <td>
+                <p>MPI message size limits (in bytes): 128, 8192, 32KB, 128KB, 4MB, 16MB</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_mp_type"></span>
+      <h3>
+        type, private&nbsp;::&nbsp;
+        <a href='../type/dbcsr_mp_type.html'>dbcsr_mp_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>A processor (process) grid distribution</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mynode~25"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mynode</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>my processor/node (process) number</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numnodes~17"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>numnodes</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>number of processors/nodes (processes)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-myprow~12"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>myprow</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>my process grid row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mypcol~12"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mypcol</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>my process grid column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_group~3"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_group</strong></td>
+<td> =</td>
+                <td>mp_comm_null</td>
+            <td>
+<p>message-passing group ID</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pgrid~14"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:, :), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>pgrid</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>processor grid</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-refcount"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>refcount</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>reference counter</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-subgroups_defined~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>subgroups_defined</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>whether the subgroups are defined</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-prow_group~3"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prow_group</strong></td>
+<td> =</td>
+                <td>mp_comm_null</td>
+            <td>
+<p>per-process-row communicator</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pcol_group~3"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pcol_group</strong></td>
+<td> =</td>
+                <td>mp_comm_null</td>
+            <td>
+<p>pre-process-column communicator</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-source~41"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>source</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_mp_obj"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Wrapper for the dbcsr_mp_type</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp~2"></span>
+              type(<a href='../type/dbcsr_mp_type.html'>dbcsr_mp_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mp</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>pointer to a dbcsr_mp_type instance</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_distribution_type"></span>
+      <h3>
+        type, private&nbsp;::&nbsp;
+        <a href='../type/dbcsr_distribution_type.html'>dbcsr_distribution_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Matrix distribution on the processor grid</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_dist_block~3"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_dist_block</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>standard row distributions of matrix elements' rows into processor grid rows
+standard column distributions of matrix elements' columns into processor grid columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_dist_block~3"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_dist_block</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>standard row distributions of matrix elements' rows into processor grid rows
+standard column distributions of matrix elements' columns into processor grid columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_rows~8"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local_rows</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>list of rows local to the processor grid row
+list of columns local to the processor grid column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_cols~8"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local_cols</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>list of rows local to the processor grid row
+list of columns local to the processor grid column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_row_dist~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_row_dist</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_col_dist~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_col_dist</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-other_l_rows"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>other_l_rows</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>local rows for each process row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-other_l_cols"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>other_l_cols</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>local columns for each process column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_other_l_rows"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_other_l_rows</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>other_rows is defined</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_other_l_cols"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_other_l_cols</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>other_cols is defined</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-global_row_map"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>global_row_map</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>mapping from rows to sequence in local rows (global to local mapping)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-global_col_map"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>global_col_map</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>mapping from rows to sequence in local columns (global to local mapping)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_global_row_map"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_global_row_map</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>whether other_row_map is defined</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_global_col_map"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_global_col_map</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>whether other_col_map is defined</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_map"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_map</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>distribution map for rows</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_map"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_map</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>distribution map for columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_thread_dist~2"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_thread_dist</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-thread_dist~2"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>thread_dist</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>thread distribution (of the rows)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_threads~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>num_threads</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>number of threads in the environment</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp_env~14"></span>
+              type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp_env</strong></td>
+<td> =</td>
+                <td>dbcsr_mp_obj()</td>
+            <td>
+<p>multiprocessor environment on which the distribution is based</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-refcount~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>refcount</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>reference counter</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_distribution_obj"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d~3"></span>
+              type(<a href='../type/dbcsr_distribution_type.html'>dbcsr_distribution_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>d</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_imagedistribution_type"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_imagedistribution_type.html'>dbcsr_imagedistribution_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Image distributions are used to map incompatible processor row and
+column distributions.
+Used to ease storage or transfer between two different-sizes
+sets. For example, if there are 4 real processor rows that are
+mapped to 8 "virtual" processor rows, then there are two images for
+every real processor row.</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-main"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>main</strong></td>
+<td> =</td>
+                <td>dbcsr_distribution_obj()</td>
+            <td>
+<p>the main distribution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_image"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_image</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>distribution of matrix elements' rows into image  rows</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_image"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_image</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>distribution of matrix elements' columns into image columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_decimation"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_decimation</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>Number of imaged rows mapped to a real row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_decimation"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_decimation</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>Number of imaged columns mapped to a real column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_multiplicity"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_multiplicity</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>Number of real rows mapped to a virtual row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_multiplicity"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_multiplicity</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>Number of real columns mapped to a virtual column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vrow_dist"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vrow_dist</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vcol_dist"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vcol_dist</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-other_vl_rows"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>other_vl_rows</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-other_vl_cols"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>other_vl_cols</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-global_vrow_map"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>global_vrow_map</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-global_vcol_map"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>global_vcol_map</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_other_vl_rows"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_other_vl_rows</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_other_vl_cols"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_other_vl_cols</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_global_vrow_map"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_global_vrow_map</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_global_vcol_map"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_global_vcol_map</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-id"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>id</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-refcount~3"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>refcount</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>count of references</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_imagedistribution_obj"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~52"></span>
+              type(<a href='../type/dbcsr_imagedistribution_type.html'>dbcsr_imagedistribution_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_block_buffer_type"></span>
+      <h3>
+        type, private&nbsp;::&nbsp;
+        <a href='../type/dbcsr_block_buffer_type.html'>dbcsr_block_buffer_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Buffer for blocks</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-refcount~4"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>refcount</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>Reference counter</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dirty"></span>
+              logical,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>dirty</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Whether any buffers are dirty</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffers~2"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>buffers</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Buffers</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcb"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>rcb</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Row and column and offset and dimensions of data in the buffer</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-main~2"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>main</strong></td>
+<td> =</td>
+                <td>dbcsr_data_obj()</td>
+            <td>
+<p>Main memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-backing"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>backing</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Backing memory (in lieu of main memory)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_type~29"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_type</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>Data type used for the buffers</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_block_buffer_obj"></span>
+      <h3>
+        type, private&nbsp;::&nbsp;
+        <a href='../type/dbcsr_block_buffer_obj.html'>dbcsr_block_buffer_obj</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Object for the buffer of blocks</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~5"></span>
+              type(<a href='../type/dbcsr_block_buffer_type.html'>dbcsr_block_buffer_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Block buffer</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_iterator"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>An iterator over a DBCSR matrix.</p><a href="../type/dbcsr_iterator.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~197"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer_2d"></span>
+              type(<a href='../type/dbcsr_block_buffer_obj.html'>dbcsr_block_buffer_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer_2d</strong></td>
+<td> =</td>
+                <td>dbcsr_block_buffer_obj()</td>
+            <td>
+<p>Buffers for repointing 2d pointers (1 per thread)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~11"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>Current position (per thread)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~113"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>Current row (per thread)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_size~63"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_size</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>Size of current row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_offset~40"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_offset</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rbs~7"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>rbs</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Pointer to row size array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cbs~7"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>cbs</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Pointer to column size array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-roff"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>roff</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Pointer to row offset array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coff"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>coff</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Pointer to column offset array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_indexing"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local_indexing</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>The matrix has local indexing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-contiguous_pointers~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>contiguous_pointers</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>Whether pointers to data should be contiguous in memory.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transpose"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transpose</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-read_only~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>read_only</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-shared~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>shared</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>Iterators share matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dynamic~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dynamic</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>Ignores the thread distribution (FCFS by block)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dynamic_byrows~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dynamic_byrows</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>Ignores the thread distribution (FCFS by row)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-common_pos"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>common_pos</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Position when in mixed mode (row or block depending in dynamic_byrows</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblks~10"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblks</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkrows_total~7"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkrows_total</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_p~5"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_p</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_i~3"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_i</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_p~22"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>blk_p</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tdist~2"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>tdist</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_rows~9"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>local_rows</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Mapping of local rows to global rows (if local indexing is enabled)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-global_rows"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>global_rows</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>Mapping of global rows to local rows (if local indexing is enabled)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_area~5"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_area</strong></td>
+<td> =</td>
+                <td>dbcsr_data_obj()</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_mutable_type"></span>
+      <h3>
+        type, private&nbsp;::&nbsp;
+        <a href='../type/dbcsr_mutable_type.html'>dbcsr_mutable_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Data area with random access reads, insertions, and deletions.</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-btree_s"></span>
+              type(<a href='../type/btree_i8_sp2d.html'>btree_i8_sp2d</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>btree_s</strong></td>
+<td> =</td>
+                <td>btree_i8_sp2d()</td>
+            <td>
+<p>Data types for the various types</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-btree_d"></span>
+              type(<a href='../type/btree_i8_dp2d.html'>btree_i8_dp2d</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>btree_d</strong></td>
+<td> =</td>
+                <td>btree_i8_dp2d()</td>
+            <td>
+<p>Data types for the various types</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-btree_c"></span>
+              type(<a href='../type/btree_i8_cp2d.html'>btree_i8_cp2d</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>btree_c</strong></td>
+<td> =</td>
+                <td>btree_i8_cp2d()</td>
+            <td>
+<p>Data types for the various types</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-btree_z"></span>
+              type(<a href='../type/btree_i8_zp2d.html'>btree_i8_zp2d</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>btree_z</strong></td>
+<td> =</td>
+                <td>btree_i8_zp2d()</td>
+            <td>
+<p>Data types for the various types</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-refcount~5"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>refcount</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>Reference counter</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_type~30"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_type</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>The data type that is stored</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_mutable_obj"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_mutable_obj.html'>dbcsr_mutable_obj</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Object for the mutable data type</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~5"></span>
+              type(<a href='../type/dbcsr_mutable_type.html'>dbcsr_mutable_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_work_type"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Used for assembling a real matrix.</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_area~6"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_area</strong></td>
+<td> =</td>
+                <td>dbcsr_data_obj()</td>
+            <td>
+<p>holds actual values.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_i"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>row_i</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the row index of all of the blocks.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_i~4"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>col_i</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the column index of all of the blocks.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_p~23"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>blk_p</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the pointer into the data array of this block.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lastblk"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lastblk</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>index of the last block entered into the row_i, col_i, and blk_p data structures</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-datasize"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>datasize</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>the actual size of data present in the data element</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-datasize_after_filtering"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>datasize_after_filtering</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>tree used to index data blocks (alternative to the row_i, col_i, and blk_p indices when index is scattered).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mutable~6"></span>
+              type(<a href='../type/dbcsr_mutable_obj.html'>dbcsr_mutable_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mutable</strong></td>
+<td> =</td>
+                <td>dbcsr_mutable_obj()</td>
+            <td>
+<p>the final bcsr matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_type"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_type.html'>dbcsr_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>The BCSR sparse matrix type.</p><a href="../type/dbcsr_type.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-serial_number"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>serial_number</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>a unique number of each created matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-valid"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>valid</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>whether the matrix is valid (consistent)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~10"></span>
+              character(len=default_string_length),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+<td> =</td>
+                <td>&#34;&#34;</td>
+            <td>
+<p>name of the matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_area~7"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_area</strong></td>
+<td> =</td>
+                <td>dbcsr_data_obj()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~2"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>agglomeration of the indices and offsets of pointers into this array.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_p~6"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_p</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>points into the col_i and blk_p arrays, each element (1:nblkrows_total+1) points to the previous row's last element. So
+each rows has elements row_p(row)+1:row_p(row+1).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_i~5"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_i</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the global blocked column number of this block.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_p~24"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>blk_p</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the pointer into the data array of this block.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-thr_c"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>thr_c</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>elements/thread for list index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coo_l"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>coo_l</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>coordinate list (used for direct indexing)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_size~15"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_size</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>sizes (rows in a block) of blocked rows</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_size~14"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_size</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>sizes (columns in a block) of blocked columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_offset~3"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_offset</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>row offset (size = nrow+1)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_offset~3"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_offset</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>col offset (size = ncol+1)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_rows~10"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local_rows</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+<p>Map of global to local rows when local indexing is enabled</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-global_rows~2"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>global_rows</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_cols~9"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local_cols</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-global_cols"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>global_cols</strong></td>
+<td> =</td>
+                <td>array_i1d_obj()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_local_rows"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_local_rows</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_global_rows"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_global_rows</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_local_cols"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_local_cols</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-has_global_cols"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_global_cols</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_rbs"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_rbs</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>maximal row sizes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_cbs"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_cbs</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>maximal column sizes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sparsity_id"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sparsity_id</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-id_nr~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>id_nr</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblks~11"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblks</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>number of blocks locally present</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze~33"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nze</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>number of non-zero elements locally present</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkrows_total~8"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkrows_total</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>size of entire matrix in blocked rows</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkcols_total~7"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkcols_total</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>size of entire matrix in blocked columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfullrows_total~6"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfullrows_total</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>size of entire matrix in full rows</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfullcols_total~6"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfullcols_total</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>size of entire matrix in full columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkrows_local~8"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkrows_local</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>size of local part of matrix in blocked rows</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkcols_local~7"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkcols_local</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>size of local part of matrix in blocked columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfullrows_local~5"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfullrows_local</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>size of local part of matrix in full rows</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfullcols_local~5"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfullcols_local</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>size of local part of matrix in full columns</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_type~31"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_type</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>'r'/'R' for single/double precision real or 'c'/'C' for single/double precision complex data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-replication_type~3"></span>
+              character(len=1),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>replication_type</strong></td>
+<td> =</td>
+                <td>&#34;&#34;</td>
+            <td>
+<p>multi-process replication used in the matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-symmetry"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>symmetry</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>matrix has symmetry</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-negate_real"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>negate_real</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>symmetry is realized by negating the real part</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-negate_imaginary"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>negate_imaginary</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>symmetry is realized by negating complex part (i.e., antisymmetric)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bcsc"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bcsc</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>BCS Column instead of BCS Row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_indexing~2"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local_indexing</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>Local indexing of rows instead of global indexing.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-list_indexing"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>list_indexing</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_memory_type~3"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_memory_type</strong></td>
+<td> =</td>
+                <td>dbcsr_memtype_type()</td>
+            <td>
+<p>memory type for data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index_memory_type"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>index_memory_type</strong></td>
+<td> =</td>
+                <td>dbcsr_memtype_type()</td>
+            <td>
+<p>memory type for the index</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffers~3"></span>
+              type(<a href='../type/dbcsr_block_buffer_obj.html'>dbcsr_block_buffer_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffers</strong></td>
+<td> =</td>
+                <td>dbcsr_block_buffer_obj()</td>
+            <td>
+<p>Block buffers</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wms"></span>
+              type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>wms</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist~58"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist</strong></td>
+<td> =</td>
+                <td>dbcsr_distribution_obj()</td>
+            <td>
+<p>distribution used by this matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-refcount~6"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>refcount</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>reference count</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-work_mutable~2"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>work_mutable</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+<p>uses the mutable data for working and not the append-only data</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_work_type_p"></span>
+      <h3>
+        type, private&nbsp;::&nbsp;
+        <a href='../type/dbcsr_work_type_p.html'>dbcsr_work_type_p</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Pointer to a work matrix.</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-w"></span>
+              type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>w</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the work matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_type_p"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_type_p.html'>dbcsr_type_p</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Pointer to a object.</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~198"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the dbcsr_typeect</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_1d_array_obj"></span>
+      <h3>
+        type, private&nbsp;::&nbsp;
+        <a href='../type/dbcsr_1d_array_obj.html'>dbcsr_1d_array_obj</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>A 1-D array of DBCSR matrices</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mats"></span>
+              type(<a href='../type/dbcsr_type_p.html'>dbcsr_type_p</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mats</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the array of matrices</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_2d_array_obj"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_2d_array_obj.html'>dbcsr_2d_array_obj</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>A 2-D array of DBCSR matrices</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mats~2"></span>
+              type(<a href='../type/dbcsr_type_p.html'>dbcsr_type_p</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mats</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the array of matrices</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_1d_array_type"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_1d_array_type.html'>dbcsr_1d_array_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>An array of DBCSR matrices</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mats~3"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mats</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-image_dist"></span>
+              type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>image_dist</strong></td>
+<td> =</td>
+                <td>dbcsr_imagedistribution_obj()</td>
+            <td>
+<p>image distribution</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_2d_array_type"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_2d_array_type.html'>dbcsr_2d_array_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>A 2-d array of DBCSR matrices</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mats~4"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>mats</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+<p>the matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-image_dist~2"></span>
+              type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>image_dist</strong></td>
+<td> =</td>
+                <td>dbcsr_imagedistribution_obj()</td>
+            <td>
+<p>image distribution</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-dbcsr_mpi_statistics_type"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/dbcsr_mpi_statistics_type.html'>dbcsr_mpi_statistics_type</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>DBCSR MPI statistics</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last_mpi_ranks_used"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last_mpi_ranks_used</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nimages~4"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nimages</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nexchanged"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nexchanged</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfiltered"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfiltered</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_size~9"></span>
+              real,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(2, 3)
+            </td>
+            <td>::</td>
+            <td><strong>data_size</strong></td>
+<td> =</td>
+                <td>0.0</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_size_breakdown"></span>
+              integer(kind=int_8),
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(SIZE(dbcsr_mpi_size_limits) + 1, 2, 2)
+            </td>
+            <td>::</td>
+            <td><strong>data_size_breakdown</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  </body>
+</html>

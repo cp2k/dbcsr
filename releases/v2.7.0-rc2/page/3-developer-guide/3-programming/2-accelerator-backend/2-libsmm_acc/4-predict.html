@@ -1,0 +1,319 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../../../../../favicon.png">
+
+    <title>Predictive Modeling Framework &ndash; DBCSR</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../../../../../css/pygments.css" rel="stylesheet">
+    <link href="../../../../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../../../../css/local.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../../../../../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../../../../../index.html">DBCSR <small>2.7.0-rc2</small></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../../../../index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../../../../../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../../../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>Predictive Modeling Framework</h1>
+    <div class="container p-2 mb-4 bg-light border rounded-3">
+      <div class="row align-items-center justify-content-between">
+        <div class="col">
+          <ul class="list-inline" style="margin-bottom:0px; display:inline">
+          </ul>
+        </div>
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../../../../index.html'>Guide</a></li>
+                <li class="breadcrumb-item"><a href='../../../index.html'>Developer Guide</a></li>
+                <li class="breadcrumb-item"><a href='../../index.html'>Programming</a></li>
+                <li class="breadcrumb-item"><a href='../index.html'>Accelerator Backend</a></li>
+                <li class="breadcrumb-item"><a href='index.html'>CUDA/HIP</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Predictive Modeling Framework</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="col-3">
+        <div class="card card-body bg-light" id="sidebar-toc">
+          <ul class="nav flex-column align-items">
+            <li class="nav-item">
+              <a class="nav-link" href="../../../../index.html">Guide</a>
+            </li>
+          </ul>
+          <hr>
+          <nav class="nav nav-pills flex-column">
+              <a class="nav-link" href="../../../../1-DBCSR/index.html">DBCSR</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../../1-DBCSR/publications.html">Publications</a>
+
+                </nav>
+              <a class="nav-link" href="../../../../2-user-guide/index.html">User Guide</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../../2-user-guide/1-installation/index.html">Install</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../../2-user-guide/1-installation/1-cmake-build-recipes.html">CMake Build Recipes</a>
+              <a class="nav-link" href="../../../../2-user-guide/1-installation/2-supported-compilers.html">Supported Compilers</a>
+              <a class="nav-link" href="../../../../2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html">Using DBCSR in a CMake project</a>
+              <a class="nav-link" href="../../../../2-user-guide/1-installation/4-docker.html">Docker Images</a>
+
+                </nav>
+              <a class="nav-link" href="../../../../2-user-guide/2-tests/index.html">Tests</a>
+              <a class="nav-link" href="../../../../2-user-guide/3-examples/index.html">Examples</a>
+              <a class="nav-link" href="../../../../2-user-guide/4-gpu/index.html">GPUs</a>
+
+                </nav>
+              <a class="nav-link" href="../../../index.html">Developer Guide</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../1-tooling/index.html">Tooling</a>
+              <a class="nav-link" href="../../../2-documentation/index.html">Documentation</a>
+              <a class="nav-link" href="../../index.html">Programming</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../1-overview/index.html">Overview</a>
+              <a class="nav-link" href="../index.html">Accelerator Backend</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../1-code-structure.html">Code Structure</a>
+              <a class="nav-link" href="index.html">CUDA/HIP</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="1-kernels.html">Kernels</a>
+              <a class="nav-link" href="2-parameters.html">Kernel Parameters</a>
+              <a class="nav-link" href="3-tune.html">Autotuning Framework</a>
+              <a class="nav-link active disabled" href="4-predict.html">Predictive Modeling Framework</a>
+              <a class="nav-link" href="5-notebooks.html">Notebooks</a>
+
+                </nav>
+              <a class="nav-link" href="../3-libsmm_ocl/index.html">OpenCL</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../3-libsmm_ocl/1-autotune.html">Autotune</a>
+              <a class="nav-link" href="../3-libsmm_ocl/2-bulktune.html">Parameters</a>
+
+                </nav>
+
+                </nav>
+
+                </nav>
+              <a class="nav-link" href="../../../4-performance/index.html">Performance</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../../4-performance/1-insights.html">Insights</a>
+              <a class="nav-link" href="../../../4-performance/2-just-in-time-compilation.html">JIT</a>
+
+                </nav>
+
+                </nav>
+          </nav>
+        </div>
+      </div>
+
+    <div class="col-9" id='text'>
+      <h1>Training Procedure for Predictive Modeling of Optimal Parameters in <code>libsmm_acc</code></h1>
+<p>The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters, this is why <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/README.md"><em>autotuning</em></a> is used to find optimal kernel parameters.</p>
+<p>However, the auto-tuning procedure is expensive, and the space of (m,n,k)-triplets to explore is large. The following predictive modeling procedure is set up to predict optimal parameters for (m,n,k)-triplets that have not been auto-tuned from the data gathered from auto-tuning other (m,n,k)-triplets.</p>
+<hr>
+<h3>Requirements</h3>
+<p>Python version required: <code>python 3.6+</code></p>
+<p>Install all python packages required (if you do not want this project's requirements to interfere with your other Python projects, consider doing so in a <a href="https://docs.python.org/3/tutorial/venv.html">virtual environment</a>), using</p>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</code></pre></div>
+
+<hr>
+<h3>Predictive parameters</h3>
+<p>The input features for the predictive models can be 'raw' parameters, or hand-engineered features 'derived' from the raw features (matrix sizes, launch parameters and resource usage estimations).</p>
+<hr>
+<h3>Predictive modeling procedure</h3>
+<h4>1. Get the data</h4>
+<p>Get the data to be used for training, either by downloading data from the <a href="https://github.com/cp2k/dbcsr-data">dedicated repository</a>, or by auto-tuning new kernels yourself and combining them with pre-existing data.</p>
+<h5>1.a Download pre-collected data from dedicated repository</h5>
+<ul>
+<li>Download data from the dedicated repository:</li>
+</ul>
+<p><code>bash
+  wget https://github.com/cp2k/dbcsr-data/blob/master/GPU/raw_training_data_ALGORITHM.csv  # for ALGORITHM = tiny, small, medium, largeDB1, largeDB2</code></p>
+<ul>
+<li>Compute derived parameters from raw parameters and create a record of baseline and maximum performances: run <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/prepare_training_data.py"><code>prepare_training_data.py</code></a>, providing the CUDA/HIP architecture number and the location of the downloaded data:</li>
+</ul>
+<p><code>bash
+  ./prepare_training_data.py # –arch 60 --folder /scratch/autotuning_dataset, e.g.</code></p>
+<h5>1.b (optional) Aquire data from auto-tuning</h5>
+<ul>
+<li>
+<p>We would appreciate if you would upload the data resulting from your auto-tuning procedure to the <a href="https://github.com/cp2k/dbcsr-data">dedicated repository</a>. For this, please take note, at this stage, of the <a href="https://github.com/cp2k/dbcsr-data/blob/master/git-commit.template">information required to upload your data</a>.</p>
+</li>
+<li>
+<p>If you're auto-tuning data for a new GPU, make sure that the GPU's compute architecture properties are given in the file <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/gpu_properties.json"><code>kernels/gpu_properties.json</code></a>. If not, please add them.</p>
+</li>
+<li>
+<p>Follow the <a href="tune.md">instructions for auto-tuning</a>.</p>
+</li>
+<li>
+<p>If all went well, you now have directories named <code>tune_mxnxk</code> containing log files in which parameter sets and their corresponding measured performances are recorded.</p>
+</li>
+<li>
+<p>Collect the information in all the <code>tune_mxnxk</code> directories into CSV files: run <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/predict/predict_collect.py"><code>predict_collect.py</code></a>, providing the location of the auto-tuning data:</p>
+</li>
+</ul>
+<p><code>bash
+  ./predict_collect.py # --folder /scratch/autotuning_dataset, e.g.</code></p>
+<p>You should now have 5 CSV files containing raw data (<code>raw_training_data_ALGORITHM.csv</code>, for <code>ALGORITHM = tiny, small, medium, largeDB1, largeDB2</code>)</p>
+<h4>2. Prepare the data for predictive modeling</h4>
+<p>A few steps are needed to make the data ready for training:</p>
+<ul>
+<li>Record maximum and baseline performances of (m,n,k)-triplets in JSON files</li>
+<li>Compute derived training data and write it to a CSV file</li>
+<li>Compress training data files from CSV to Parquet files</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>./prepare_training_data.py<span class="w">  </span><span class="c1"># --folder /scratch/autotuning_dataset -a 60 -j12, e.g. to run with 12 threads</span>
+</code></pre></div>
+
+<p>The data preparation is relatively computationally expensive, especially for large data sets.
+A good way of running it, is to</p>
+<ol>
+<li>Compute just the maximum and baseline parameters for each algorithm separately (<code>-l ALGORITHM --skip_derived_data=True</code>), adjusting the <code>-j</code> parameter so it runs fast enough, while not running into "out-of-memory"-errors</li>
+<li>Run again with <code>--skip_derived_data=True</code> to create the files that aggregate maximum and baseline performances for all algorithms.</li>
+<li>Compute derived data records for each algorithm separately (<code>-l ALGORITHM</code>), adjusting the <code>-j</code> option.</li>
+<li>Run the script again without specifying the algorithm nor skipping the derived data to make sure all necessary files have been generated.</li>
+</ol>
+<h5>At the end, you should end up with the following files:</h5>
+<ul>
+<li><code>raw_training_data_ALGORITHM.csv</code> (containing all <em>raw</em> parameters for training a model for algorithm ALGORITHM, obtained in step 1)</li>
+<li><code>training_data_ALGORITHM.csv</code> (containing all <em>derived</em> parameters for training a model for algorithm ALGORITHM)</li>
+<li><code>training_data_ALGORITHM.parquet</code> (containing all <em>raw</em> and <em>derived</em> parameters for training a model for algorithm ALGORITHM in Parquet files, convenient for reading in parallel using Dask)</li>
+<li><code>baseline_performances_ALGORITHM.json</code> and <code>baseline_performances_by_algo.json</code> (containing, for each (m, n, k)-triplet in the training data, its baseline performance, i.e. its performance were it to be run with a set of parameters that are an expert's "best guess"). Additionally, the baseline performances are plotted in <code>baseline_performances.svg</code>.</li>
+<li><code>maximum_performances_ALGORITHM.json</code>, <code>max_performances_by_algo.json</code> and <code>max_performances.json</code> (containing, for each (m, n, k)-triplet, its maximum performance). Additionally, the maximum performances are plotted in <code>maximum_performances.svg</code>.</li>
+</ul>
+<h4>3. (optional) Explore the data</h4>
+<p>Explore the data interactively using the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/inspect_training_data.ipynb">provided Jupyter notebook</a>.</p>
+<h4>4. Train</h4>
+<p>For each algorithm, build a predictive model using decision trees and feature selection based on the features' permutation importance.</p>
+<div class="codehilite"><pre><span></span><code>./predict_train.py<span class="w">  </span><span class="c1"># --algo medium --folder /scratch/autotuning_dataset, e.g.</span>
+</code></pre></div>
+
+<p>Use the command-line parameters <code>--folder</code> and <code>--destination_folder</code> to choose the folder from which data is read, as well as the folder to which models, logs, etc. are written.
+Repeat this step for all algorithms.
+This may take several hours. For example, training algorithm 'medium' for the P100 took 11 hours on a single Greina (CSCS) node.
+Moreover, depending on the size of the training data, large amounts of memory may be needed. For example, training algorithm 'medium' for the P100 was run on a 192 GB node.</p>
+<h4>5. Generate optimal parameters</h4>
+<p>Given predictive models (in the form of serialized <a href="https://scikit-learn.org/">scikit-learn</a> model objects) for all unseen (m,n,k)s, generate or update a file of optimal parameters</p>
+<div class="codehilite"><pre><span></span><code>./predict_genpars.py<span class="w">  </span>-c<span class="w"> </span><span class="m">5000</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># chunk size</span>
+<span class="w">    </span>-j<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="se">\ </span><span class="c1"># 12 threads</span>
+<span class="w">    </span>--largeDB2<span class="w"> </span>/scratch/largeDB2/feature_tree_refit.p<span class="w"> </span><span class="se">\ </span><span class="c1"># path to models</span>
+<span class="w">    </span>--largeDB1<span class="w"> </span>/scratch/largeDB1/feature_tree_refit.p<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--medium<span class="w"> </span>/scratch/medium/feature_tree_refit.p<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--small<span class="w"> </span>/scratch/small/feature_tree_refit.p<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--tiny<span class="w"> </span>/scratch/tiny/feature_tree_refit.p
+</code></pre></div>
+
+<p>This may take several hours. For example, generating parameters for the P100 took 8 hours on a single Piz Daint (CSCS) node. For this reason, intermediate results are stored in JSON files in a folder <code>predict_genpars_ckpt</code>. Once this script has finished running, and you've successfully obtained a new <code>parameters_GPU.json</code> file, you may delete the checkpoint folder <code>predict_genpars_ckpt</code>.</p>
+<h4>6. Evaluate the predicted parameters</h4>
+<div class="codehilite"><pre><span></span><code>./predict_evaluate.py<span class="w"> </span>-f<span class="w"> </span>libsmm_acc_predicted.out<span class="w"> </span>-n<span class="w"> </span>libsmm_acc_baseline.out
+</code></pre></div>
+
+<h4>7. Contribute your new parameters and data</h4>
+<h5>Contribute training data</h5>
+<p>See <a href="https://github.com/cp2k/dbcsr-data#contributing">instructions</a> in our <a href="https://github.com/cp2k/dbcsr-data">dedicated repository</a></p>
+<h5>Contribute predicted parameters</h5>
+<p>Submit a pull request updating the <code>parameters_GPU.json</code> file in question.</p>
+<hr>
+<h3>Contributing to the training procedure</h3>
+<h4>Adding a new predictive feature</h4>
+<ul>
+<li>Choose the new feature's name, "<code>NAME</code>"</li>
+<li>Add the feature as a method of <code>class PredictiveParameters</code>, named <code>get_NAME</code></li>
+<li>Add the derived feature to the data structure <code>derived_parameters</code> in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py"><code>kernels/smm_acc_predict.py</code></a></li>
+</ul>
+    </div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  </body>
+</html>
