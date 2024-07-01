@@ -62,10 +62,17 @@ MODULE dbcsr_tensor_block
       ndims_iterator
 
    TYPE dbcsr_t_iterator_type
-      TYPE(dbcsr_tas_iterator)      :: iter = dbcsr_tas_iterator()
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
+      TYPE(dbcsr_tas_iterator)    :: iter
+      TYPE(nd_to_2d_mapping)      :: nd_index_blk
+      TYPE(nd_to_2d_mapping)      :: nd_index
+      TYPE(array_list)            :: blk_sizes, blk_offsets
+#else
+      TYPE(dbcsr_tas_iterator)    :: iter = dbcsr_tas_iterator()
       TYPE(nd_to_2d_mapping)      :: nd_index_blk = nd_to_2d_mapping()
       TYPE(nd_to_2d_mapping)      :: nd_index = nd_to_2d_mapping()
       TYPE(array_list)            :: blk_sizes = array_list(), blk_offsets = array_list()
+#endif
    END TYPE dbcsr_t_iterator_type
 
    #:for dparam, dtype, dsuffix in dtype_float_list
@@ -82,7 +89,11 @@ MODULE dbcsr_tensor_block
 
    TYPE block_nd
       #:for dparam, dtype, dsuffix in dtype_float_list
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
          TYPE(block_nd_${dsuffix}$) :: ${dsuffix}$
+#else
+         TYPE(block_nd_${dsuffix}$) :: ${dsuffix}$ = block_nd_${dsuffix}$ ()
+#endif
       #:endfor
       INTEGER          :: data_type = -1
    END TYPE
