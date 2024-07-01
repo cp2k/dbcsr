@@ -28,7 +28,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0-rc1</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0-rc2</small></a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -175,7 +175,7 @@ as  C := alpha * op( A ) * op( B ) + beta * C.</p><a href="../proc/dbcsr_multipl
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~5"></span>
+              <span class="anchor" id="variable-transa~6"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -193,7 +193,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~5"></span>
+              <span class="anchor" id="variable-transb~6"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -211,7 +211,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~41"></span>
+              <span class="anchor" id="variable-alpha~27"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -226,7 +226,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~77"></span>
+              <span class="anchor" id="variable-matrix_a~84"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -242,7 +242,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~44"></span>
+              <span class="anchor" id="variable-matrix_b~51"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -258,7 +258,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~12"></span>
+              <span class="anchor" id="variable-beta~6"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -273,7 +273,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~7"></span>
+              <span class="anchor" id="variable-matrix_c~14"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -308,7 +308,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_row~6"></span>
+              <span class="anchor" id="variable-last_row~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -348,7 +348,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_column~13"></span>
+              <span class="anchor" id="variable-last_column~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -408,7 +408,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~15"></span>
+              <span class="anchor" id="variable-retain_sparsity~6"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -423,7 +423,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~17"></span>
+              <span class="anchor" id="variable-filter_eps~11"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -438,7 +438,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~14"></span>
+              <span class="anchor" id="variable-flop~8"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -478,7 +478,7 @@ last full column of limiting inner product</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~8"></span>
+              <span class="anchor" id="variable-transa~11"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -493,7 +493,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~8"></span>
+              <span class="anchor" id="variable-transb~11"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -508,7 +508,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~45"></span>
+              <span class="anchor" id="variable-alpha~51"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -523,7 +523,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~110"></span>
+              <span class="anchor" id="variable-matrix_a~115"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -538,7 +538,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~64"></span>
+              <span class="anchor" id="variable-matrix_b~69"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -553,7 +553,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~15"></span>
+              <span class="anchor" id="variable-beta~17"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -568,7 +568,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~16"></span>
+              <span class="anchor" id="variable-matrix_c~20"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -598,7 +598,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_row~11"></span>
+              <span class="anchor" id="variable-last_row~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -673,7 +673,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~18"></span>
+              <span class="anchor" id="variable-retain_sparsity~16"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -688,7 +688,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~20"></span>
+              <span class="anchor" id="variable-filter_eps~22"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -703,7 +703,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~25"></span>
+              <span class="anchor" id="variable-flop~29"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -743,7 +743,7 @@ last full column of limiting inner product</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~9"></span>
+              <span class="anchor" id="variable-transa~12"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -758,7 +758,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~9"></span>
+              <span class="anchor" id="variable-transb~12"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -773,7 +773,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~46"></span>
+              <span class="anchor" id="variable-alpha~52"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -788,7 +788,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~111"></span>
+              <span class="anchor" id="variable-matrix_a~116"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -803,7 +803,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~65"></span>
+              <span class="anchor" id="variable-matrix_b~70"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -818,7 +818,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~16"></span>
+              <span class="anchor" id="variable-beta~18"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -833,7 +833,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~17"></span>
+              <span class="anchor" id="variable-matrix_c~21"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -863,7 +863,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_row~12"></span>
+              <span class="anchor" id="variable-last_row~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -938,7 +938,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~19"></span>
+              <span class="anchor" id="variable-retain_sparsity~17"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -953,7 +953,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~21"></span>
+              <span class="anchor" id="variable-filter_eps~23"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -968,7 +968,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~26"></span>
+              <span class="anchor" id="variable-flop~30"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1008,7 +1008,7 @@ last full column of limiting inner product</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~10"></span>
+              <span class="anchor" id="variable-transa~13"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -1023,7 +1023,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~10"></span>
+              <span class="anchor" id="variable-transb~13"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -1038,7 +1038,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~47"></span>
+              <span class="anchor" id="variable-alpha~53"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -1053,7 +1053,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~112"></span>
+              <span class="anchor" id="variable-matrix_a~117"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1068,7 +1068,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~66"></span>
+              <span class="anchor" id="variable-matrix_b~71"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1083,7 +1083,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~17"></span>
+              <span class="anchor" id="variable-beta~19"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -1098,7 +1098,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~18"></span>
+              <span class="anchor" id="variable-matrix_c~22"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1128,7 +1128,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_row~13"></span>
+              <span class="anchor" id="variable-last_row~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1203,7 +1203,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~20"></span>
+              <span class="anchor" id="variable-retain_sparsity~18"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1218,7 +1218,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~22"></span>
+              <span class="anchor" id="variable-filter_eps~24"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1233,7 +1233,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~27"></span>
+              <span class="anchor" id="variable-flop~31"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1273,7 +1273,7 @@ last full column of limiting inner product</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~11"></span>
+              <span class="anchor" id="variable-transa~14"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -1288,7 +1288,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~11"></span>
+              <span class="anchor" id="variable-transb~14"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -1303,7 +1303,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~48"></span>
+              <span class="anchor" id="variable-alpha~54"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -1318,7 +1318,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~113"></span>
+              <span class="anchor" id="variable-matrix_a~118"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1333,7 +1333,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~67"></span>
+              <span class="anchor" id="variable-matrix_b~72"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1348,7 +1348,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~18"></span>
+              <span class="anchor" id="variable-beta~20"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -1363,7 +1363,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~19"></span>
+              <span class="anchor" id="variable-matrix_c~23"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1393,7 +1393,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_row~14"></span>
+              <span class="anchor" id="variable-last_row~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1468,7 +1468,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~21"></span>
+              <span class="anchor" id="variable-retain_sparsity~19"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1483,7 +1483,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~23"></span>
+              <span class="anchor" id="variable-filter_eps~25"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1498,7 +1498,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~28"></span>
+              <span class="anchor" id="variable-flop~32"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>

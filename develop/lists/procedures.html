@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0-rc1</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0-rc2</small></a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -3417,13 +3417,13 @@ have to be allocated.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/c_f_string.html'>c_f_string</a></td>
-                 <td><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></td>
+                 <td><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/c_f_string~2.html'>c_f_string</a></td>
-                 <td><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></td>
+                 <td><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -4194,24 +4194,18 @@ MUST be called before logging occurs</p><a href="../proc/dbcsr_add_default_logge
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_binary_read.html'>dbcsr_binary_read</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Subroutine</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_binary_read~2.html'>dbcsr_binary_read</a></td>
                  <td><a href='../module/dbcsr_io.html'>dbcsr_io</a></td>
                  <td>Subroutine</td>
                  <td><p>Reads a DBCSR matrix from a file</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/dbcsr_binary_write.html'>dbcsr_binary_write</a></td>
+                 <td><a href='../proc/dbcsr_binary_read~2.html'>dbcsr_binary_read</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/dbcsr_binary_write~2.html'>dbcsr_binary_write</a></td>
+                 <td><a href='../proc/dbcsr_binary_write.html'>dbcsr_binary_write</a></td>
                  <td><a href='../module/dbcsr_io.html'>dbcsr_io</a></td>
                  <td>Subroutine</td>
                  <td><p>Writes a DBCSR matrix in a file
@@ -4230,6 +4224,12 @@ sub-header3 contains:
 col_i (length = nblks),
 blk_p (length = nblks);
 and the file's body contains the block data</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_binary_write~2.html'>dbcsr_binary_write</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_blk_col_offset.html'>dbcsr_blk_col_offset</a></td>
@@ -4349,15 +4349,15 @@ There are no checks done for correctness!</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_checksum.html'>dbcsr_checksum</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Function</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_checksum~2.html'>dbcsr_checksum</a></td>
                  <td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td>
                  <td>Function</td>
                  <td><p>Calculates the checksum of a DBCSR matrix.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_checksum~2.html'>dbcsr_checksum</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Function</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_clear.html'>dbcsr_clear</a></td>
@@ -5051,15 +5051,15 @@ Workaround for CCE compilation</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_distribution_release.html'>dbcsr_distribution_release</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Releases and potentially destroys a distribution</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_distribution_release~2.html'>dbcsr_distribution_release</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Subroutine</td>
                  <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_distribution_release~2.html'>dbcsr_distribution_release</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Releases and potentially destroys a distribution</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_distribution_row_dist.html'>dbcsr_distribution_row_dist</a></td>
@@ -5590,15 +5590,15 @@ Otherwise found is false and the block number is invalid.</p><a href="../proc/db
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_get_data_size.html'>dbcsr_get_data_size</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
-                 <td>Function</td>
-                 <td><p>Returns the allocated data size of a DBCSR matrix</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_get_data_size~2.html'>dbcsr_get_data_size</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_get_data_size~2.html'>dbcsr_get_data_size</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td>Function</td>
+                 <td><p>Returns the allocated data size of a DBCSR matrix</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_get_data_size_used.html'>dbcsr_get_data_size_used</a></td>
@@ -5608,15 +5608,15 @@ Otherwise found is false and the block number is invalid.</p><a href="../proc/db
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_get_data_type.html'>dbcsr_get_data_type</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
-                 <td>Function</td>
-                 <td><p>Returns the data type stored in the matrix</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_get_data_type~2.html'>dbcsr_get_data_type</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_get_data_type~2.html'>dbcsr_get_data_type</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td>Function</td>
+                 <td><p>Returns the data type stored in the matrix</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_get_data_z.html'>dbcsr_get_data_z</a></td>
@@ -5764,27 +5764,27 @@ Otherwise found is false and the block number is invalid.</p><a href="../proc/db
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_get_matrix_type.html'>dbcsr_get_matrix_type</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_get_matrix_type~2.html'>dbcsr_get_matrix_type</a></td>
                  <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Function</td>
                  <td><p>Returns the matrix type</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/dbcsr_get_matrix_type~2.html'>dbcsr_get_matrix_type</a></td>
+                 <td><a href='../proc/dbcsr_get_num_blocks.html'>dbcsr_get_num_blocks</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_get_num_blocks.html'>dbcsr_get_num_blocks</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
-                 <td>Function</td>
-                 <td><p>Returns the number of blocks in the matrix</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_get_num_blocks~2.html'>dbcsr_get_num_blocks</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Function</td>
-                 <td></td>
+                 <td><p>Returns the number of blocks in the matrix</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_get_nze.html'>dbcsr_get_nze</a></td>
@@ -5889,15 +5889,15 @@ structure and same sparsity pattern</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_has_symmetry.html'>dbcsr_has_symmetry</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
-                 <td>Function</td>
-                 <td><p>Whether matrix has symmetry</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_has_symmetry~2.html'>dbcsr_has_symmetry</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_has_symmetry~2.html'>dbcsr_has_symmetry</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td>Function</td>
+                 <td><p>Whether matrix has symmetry</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_heap_copy_node.html'>dbcsr_heap_copy_node</a></td>
@@ -7085,49 +7085,49 @@ The object is destroy when there is no reference to it left.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nblkcols_local.html'>dbcsr_nblkcols_local</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nblkcols_local~2.html'>dbcsr_nblkcols_local</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nblkcols_total.html'>dbcsr_nblkcols_total</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nblkcols_total~2.html'>dbcsr_nblkcols_total</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nblkrows_local.html'>dbcsr_nblkrows_local</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nblkrows_local~2.html'>dbcsr_nblkrows_local</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Function</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_nblkrows_total.html'>dbcsr_nblkrows_total</a></td>
                  <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/dbcsr_nblkrows_total~2.html'>dbcsr_nblkrows_total</a></td>
+                 <td><a href='../proc/dbcsr_nblkrows_total.html'>dbcsr_nblkrows_total</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_nblkrows_total~2.html'>dbcsr_nblkrows_total</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
@@ -7151,13 +7151,13 @@ The object is destroy when there is no reference to it left.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nfullcols_total.html'>dbcsr_nfullcols_total</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nfullcols_total~2.html'>dbcsr_nfullcols_total</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
@@ -7169,13 +7169,13 @@ The object is destroy when there is no reference to it left.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nfullrows_total.html'>dbcsr_nfullrows_total</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_nfullrows_total~2.html'>dbcsr_nfullrows_total</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
@@ -7223,27 +7223,27 @@ The object is destroy when there is no reference to it left.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_print.html'>dbcsr_print</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Subroutine</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_print~2.html'>dbcsr_print</a></td>
                  <td><a href='../module/dbcsr_io.html'>dbcsr_io</a></td>
                  <td>Subroutine</td>
                  <td><p>Prints a BCSR matrix (block-style, not full)</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/dbcsr_print_block_sum.html'>dbcsr_print_block_sum</a></td>
+                 <td><a href='../proc/dbcsr_print~2.html'>dbcsr_print</a></td>
                  <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Subroutine</td>
-                 <td><p>Prints the sum of the elements in each block</p></td>
+                 <td></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/dbcsr_print_block_sum~2.html'>dbcsr_print_block_sum</a></td>
+                 <td><a href='../proc/dbcsr_print_block_sum.html'>dbcsr_print_block_sum</a></td>
                  <td><a href='../module/dbcsr_io.html'>dbcsr_io</a></td>
                  <td>Subroutine</td>
                  <td><p>Prints the sum of the elements for each block</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_print_block_sum~2.html'>dbcsr_print_block_sum</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Prints the sum of the elements in each block</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_print_config.html'>dbcsr_print_config</a></td>
@@ -7253,16 +7253,16 @@ The object is destroy when there is no reference to it left.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_print_statistics.html'>dbcsr_print_statistics</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Print statistics</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_print_statistics~2.html'>dbcsr_print_statistics</a></td>
                  <td><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></td>
                  <td>Subroutine</td>
                  <td><p>Show the whole DBCSR statistics
 Prepares the DBCSR library for use.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_print_statistics~2.html'>dbcsr_print_statistics</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Print statistics</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_print_timers.html'>dbcsr_print_timers</a></td>
@@ -7450,16 +7450,16 @@ all the compilers)</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_release.html'>dbcsr_release</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_release~2.html'>dbcsr_release</a></td>
                  <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Subroutine</td>
                  <td><p>Releases a reference for a DBCSR matrix
 If there are no references left, the matrix is destroyed.</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_release~2.html'>dbcsr_release</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Subroutine</td>
-                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_release_locals.html'>dbcsr_release_locals</a></td>
@@ -7655,16 +7655,16 @@ been</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Subroutine</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_run_tests~2.html'>dbcsr_run_tests</a></td>
                  <td><a href='../module/dbcsr_tests.html'>dbcsr_tests</a></td>
                  <td>Subroutine</td>
                  <td><p>Performs a variety of matrix multiplies of same matrices on different
 processor grids</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_run_tests~2.html'>dbcsr_run_tests</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../interface/dbcsr_scalar.html'>dbcsr_scalar</a></td>
@@ -8082,13 +8082,13 @@ processor grids</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_setname.html'>dbcsr_setname</a></td>
-                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_setname~2.html'>dbcsr_setname</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -8731,6 +8731,12 @@ tensor dimension.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a></td>
+                 <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_t_nd_mp_comm~2.html'>dbcsr_t_nd_mp_comm</a></td>
                  <td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td>
                  <td>Function</td>
                  <td><p>Create a default nd process topology that is consistent with a given 2d topology.
@@ -8738,12 +8744,6 @@ Purpose: a nd tensor defined on the returned process grid can be represented as 
 matrix with the given 2d topology.
 This is needed to enable contraction of 2 tensors (must have the same 2d process grid).
 \return with nd cartesian grid</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_t_nd_mp_comm~2.html'>dbcsr_t_nd_mp_comm</a></td>
-                 <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
-                 <td>Function</td>
-                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_t_nd_mp_free.html'>dbcsr_t_nd_mp_free</a></td>
@@ -8765,18 +8765,24 @@ This is needed to enable contraction of 2 tensors (must have the same 2d process
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td>
-                 <td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td>
-                 <td>Subroutine</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_t_pgrid_create~2.html'>dbcsr_t_pgrid_create</a></td>
                  <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/dbcsr_t_pgrid_create~2.html'>dbcsr_t_pgrid_create</a></td>
+                 <td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgrid_create_expert</a></td>
+                 <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_t_pgrid_create_expert~2.html'>dbcsr_t_pgrid_create_expert</a></td>
                  <td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td>
                  <td>Subroutine</td>
                  <td><p>Create an n-dimensional process grid.
@@ -8790,12 +8796,6 @@ Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2
 (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
 coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
 cartesian grid.</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_t_pgrid_create_expert~2.html'>dbcsr_t_pgrid_create_expert</a></td>
-                 <td><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></td>
-                 <td>Subroutine</td>
-                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_t_pgrid_destroy.html'>dbcsr_t_pgrid_destroy</a></td>
@@ -9943,27 +9943,27 @@ CSR sparsity (currently only used for testing purposes)</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_valid_index.html'>dbcsr_valid_index</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_valid_index~2.html'>dbcsr_valid_index</a></td>
                  <td><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></td>
                  <td>Function</td>
                  <td><p>Returns whether the index structure of the matrix is valid.</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/dbcsr_valid_index~2.html'>dbcsr_valid_index</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Function</td>
-                 <td></td>
-               </tr>
-			   <tr>
                  <td><a href='../proc/dbcsr_verify_matrix.html'>dbcsr_verify_matrix</a></td>
-                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
-                 <td>Subroutine</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/dbcsr_verify_matrix~2.html'>dbcsr_verify_matrix</a></td>
                  <td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td>
                  <td>Subroutine</td>
                  <td><p>Verify the correctness of a BCSR matrix.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dbcsr_verify_matrix~2.html'>dbcsr_verify_matrix</a></td>
+                 <td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/dbcsr_warn.html'>dbcsr_warn</a></td>
@@ -10917,13 +10917,13 @@ supplied string.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a></td>
-                 <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
+                 <td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/invert_transpose_flag~2.html'>invert_transpose_flag</a></td>
-                 <td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td>
+                 <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -15867,6 +15867,13 @@ Multiplicity is being ignored, maybe this is a bug</p><a href="../proc/reimage_d
                </tr>
 			   <tr>
                  <td><a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a></td>
+                 <td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
+the same split factor.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/reshape_mm_compatible~2.html'>reshape_mm_compatible</a></td>
                  <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
                  <td>Subroutine</td>
                  <td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
@@ -15874,25 +15881,18 @@ matrix multiplication. This routine reshapes the two largest of the three tensor
 is avoided if tensors already in a consistent layout.</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/reshape_mm_compatible~2.html'>reshape_mm_compatible</a></td>
-                 <td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
-the same split factor.</p></td>
-               </tr>
-			   <tr>
                  <td><a href='../proc/reshape_mm_small.html'>reshape_mm_small</a></td>
-                 <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
-matrix multiplication. This routine reshapes the smallest of the three tensors.</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/reshape_mm_small~2.html'>reshape_mm_small</a></td>
                  <td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td>
                  <td>Subroutine</td>
                  <td><p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
 the same process grid as the other 2 matrices.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/reshape_mm_small~2.html'>reshape_mm_small</a></td>
+                 <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+matrix multiplication. This routine reshapes the smallest of the three tensors.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/reshape_mm_template.html'>reshape_mm_template</a></td>
@@ -16251,13 +16251,13 @@ considered.
                </tr>
 			   <tr>
                  <td><a href='../interface/swap.html'>swap</a></td>
-                 <td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td>
+                 <td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td>
                  <td>Interface</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../interface/swap~2.html'>swap</a></td>
-                 <td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td>
+                 <td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td>
                  <td>Interface</td>
                  <td></td>
                </tr>
