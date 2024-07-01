@@ -50,7 +50,11 @@ MODULE dbcsr_tas_types
    END TYPE
 
    TYPE dbcsr_tas_distribution_type
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
+      TYPE(dbcsr_tas_split_info) :: info = dbcsr_tas_split_info(ngroup_opt=NULL())
+#else
       TYPE(dbcsr_tas_split_info) :: info = dbcsr_tas_split_info()
+#endif
       TYPE(dbcsr_distribution_obj) :: dbcsr_dist = dbcsr_distribution_obj()
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: row_dist
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: col_dist
@@ -63,12 +67,20 @@ MODULE dbcsr_tas_types
       TYPE(dbcsr_tas_type), POINTER :: store_batched_repl => NULL() ! intermediate replicated matrix
       LOGICAL :: batched_out = .FALSE. ! whether replicated matrix has been changed in mm and should be copied to actual matrix
       LOGICAL :: batched_trans = .FALSE.
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
+      TYPE(dbcsr_scalar_type) :: batched_beta
+#else
       TYPE(dbcsr_scalar_type) :: batched_beta = dbcsr_scalar_type()
+#endif
    END TYPE
 
    ! type for tall-and-skinny matrices
    TYPE dbcsr_tas_type
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
+      TYPE(dbcsr_tas_distribution_type)  :: dist
+#else
       TYPE(dbcsr_tas_distribution_type)  :: dist = dbcsr_tas_distribution_type()
+#endif
       CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE :: row_blk_size
       CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE :: col_blk_size
 
@@ -87,8 +99,13 @@ MODULE dbcsr_tas_types
    END TYPE
 
    TYPE dbcsr_tas_iterator
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
+      TYPE(dbcsr_tas_split_info) :: info = dbcsr_tas_split_info(ngroup_opt=NULL())
+      TYPE(dbcsr_tas_distribution_type) :: dist
+#else
       TYPE(dbcsr_tas_split_info) :: info = dbcsr_tas_split_info()
       TYPE(dbcsr_tas_distribution_type) :: dist = dbcsr_tas_distribution_type()
+#endif
       TYPE(dbcsr_iterator) :: iter = dbcsr_iterator()
    END TYPE dbcsr_tas_iterator
 
