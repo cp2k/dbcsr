@@ -209,9 +209,9 @@ else
     ifneq (,$(wildcard $(OPENCL_ROOT)/include/CL/cl.h))
       OPENCL_INC := $(OPENCL_ROOT)/include
       LDFLAGS += -L$(OPENCL_ROOT)/lib64
-    else ifneq (,$(wildcard $(OCL_ROOT)/include/CL/cl.h))
-      OPENCL_INC := $(OCL_ROOT)/include
-      LDFLAGS += -L$(OCL_ROOT)/lib64
+    else ifneq (,$(wildcard $(OPENCL_ROOT)/include/sycl/CL/cl.h))
+      OPENCL_INC := $(OPENCL_ROOT)/include/sycl
+      LDFLAGS += -L$(OPENCL_ROOT)/compiler/lib/intel64 -lintlc
     endif
   endif
   # OPENCL_INC: directory containing CL/cl.h.
