@@ -1279,8 +1279,8 @@ int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo,
             }
             else { /* GCN */
               atomic_exp = (c_dbcsr_acc_opencl_atomic_fp_64 == kind
-                              ? "__builtin_amdgcn_global_atomic_fadd_f64(A,B,__ATOMIC_RELAXED)"
-                              : "__builtin_amdgcn_global_atomic_fadd_f32(A,B,__ATOMIC_RELAXED)");
+                              ? "__builtin_amdgcn_global_atomic_fadd_f64(A,B,__ATOMIC_RELAXED,__OPENCL_MEMORY_SCOPE_WORK_GROUP)"
+                              : "__builtin_amdgcn_global_atomic_fadd_f32(A,B,__ATOMIC_RELAXED,__OPENCL_MEMORY_SCOPE_WORK_GROUP)");
             }
           }
           else { /* xchg */
@@ -1342,9 +1342,9 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
   char buffer[ACC_OPENCL_BUFFERSIZE] = "", buffer_name[ACC_OPENCL_MAXSTRLEN * 2];
   int ok = EXIT_SUCCESS, source_is_cl = 1, nchar;
   int result = ((NULL != source && NULL != kernel_name && '\0' != *kernel_name) ? EXIT_SUCCESS : EXIT_FAILURE);
+  size_t size_src = 0, size = 0;
   cl_program program = NULL;
   FILE* file_src = NULL;
-  size_t size_src = 0;
   assert(NULL != c_dbcsr_acc_opencl_config.device.context);
   assert(NULL != kernel);
   *kernel = NULL;
@@ -1492,18 +1492,18 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
           if (0 < nchar && (int)sizeof(buffer) > nchar && EXIT_SUCCESS == system(buffer)) {
             FILE* const file = fopen(dump_filename, "r");
             if (NULL != file) {
-              const long int size = (EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_END) ? ftell(file) : 0);
+              const long int size_file = (EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_END) ? ftell(file) : 0);
               char* const src = (char*)(EXIT_SUCCESS == fseek(file, 0 /*offset*/, SEEK_SET)
-                                          ? libxsmm_aligned_scratch(size + 1 /*terminator*/, 0 /*auto-align*/)
+                                          ? libxsmm_aligned_scratch(size_file + 1 /*terminator*/, 0 /*auto-align*/)
                                           : NULL);
               if (NULL != src) {
-                if ((size_t)size == fread(src, 1 /*sizeof(char)*/, size /*count*/, file)) {
+                if ((size_t)size_file == fread(src, 1 /*sizeof(char)*/, size_file /*count*/, file)) {
                   if (source != ext_source) {
                     void* p = NULL;
                     LIBXSMM_ASSIGN127(&p, &ext_source);
                     libxsmm_free(p);
                   }
-                  src[size] = '\0';
+                  src[size_file] = '\0';
                   ext_source = src;
                 }
                 else libxsmm_free(src);
@@ -1550,7 +1550,6 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
           assert(NULL != *kernel);
           if (NULL == file_src && (2 <= c_dbcsr_acc_opencl_config.dump || 0 > c_dbcsr_acc_opencl_config.dump)) {
             unsigned char* binary = NULL;
-            size_t size;
             binary = (unsigned char*)(EXIT_SUCCESS ==
                                           clGetProgramInfo(program, CL_PROGRAM_BINARY_SIZES, sizeof(size_t), &size, NULL)
                                         ? libxsmm_aligned_scratch(size, 0 /*auto-align*/)
@@ -1647,7 +1646,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
     }
     if (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
       if (EXIT_SUCCESS == clGetProgramBuildInfo(program, c_dbcsr_acc_opencl_config.device.id, CL_PROGRAM_BUILD_LOG,
-                            ACC_OPENCL_BUFFERSIZE, buffer, NULL))
+                            ACC_OPENCL_BUFFERSIZE, buffer, &size))
       {
         const char* info = buffer;
         while ('\0' != *info && NULL != strchr("\n\r\t ", *info)) ++info; /* remove preceding newline etc. */
