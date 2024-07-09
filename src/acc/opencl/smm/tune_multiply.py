@@ -301,6 +301,8 @@ class SmmTuner(MeasurementInterface):
                 str(self.run_result["stdout"]),
             )
         else:
+            if not returncode:
+                returncode = "?"
             performance = None
         if performance and performance.group(1) and performance.group(2):
             mseconds = float(performance.group(1))
@@ -322,7 +324,8 @@ class SmmTuner(MeasurementInterface):
                 if not self.args.verbose
                 else runcmd
             )
-            print("FAILED ({}): {}".format(returncode, failed), flush=True)
+            mnk = "x".join(map(str, self.mnk))
+            print("FAILED[{}] {}: {}".format(returncode, mnk, failed), flush=True)
             return Result(time=float("inf"), accuracy=0.0, size=100.0)
 
     def update_jsons(self, filenames):
