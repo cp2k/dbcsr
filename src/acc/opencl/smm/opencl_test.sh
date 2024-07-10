@@ -28,7 +28,7 @@ sed -n "s/FAILED\[..*\] \(..*\): \(..*\)/\1 \2/p" "$1" | while read -r LINE; do
     EXPORT="${EXPORT} OPENCL_LIBSMM_SMM_${KEYVAL}"
   done
   if [ "${EXPORT}" ]; then
-    OUTPUT=$(eval "${EXPORT} ${EXE} ${MNK} 2>&1" | sed "s/^/  /")
-    echo -e "${MNK}: ${KEYVALS}\n${OUTPUT}"
+    echo "${MNK}: ${KEYVALS}"
+    eval "${EXPORT} ${EXE} ${MNK} 2>&1" | sed "s/^/  /"
   fi
 done

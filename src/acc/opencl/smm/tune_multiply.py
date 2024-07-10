@@ -294,15 +294,13 @@ class SmmTuner(MeasurementInterface):
             cfgenv + ["CHECK={}".format(self.args.check)], verbose=self.args.verbose
         )
         self.run_result = self.call_program(runcmd)
-        returncode = self.run_result["returncode"]
-        if 0 == returncode:
+        result = self.run_result["returncode"]
+        if 0 == result:
             performance = re.search(
                 "device:\\s+([0-9]+[^ ]*) ms\\s+([0-9]+[^ ]*)",
                 str(self.run_result["stdout"]),
             )
         else:
-            if not returncode:
-                returncode = "?"
             performance = None
         if performance and performance.group(1) and performance.group(2):
             mseconds = float(performance.group(1))
@@ -325,7 +323,7 @@ class SmmTuner(MeasurementInterface):
                 else runcmd
             )
             mnk = "x".join(map(str, self.mnk))
-            print("FAILED[{}] {}: {}".format(returncode, mnk, failed), flush=True)
+            print("FAILED[{}] {}: {}".format(result, mnk, failed), flush=True)
             return Result(time=float("inf"), accuracy=0.0, size=100.0)
 
     def update_jsons(self, filenames):
@@ -504,8 +502,8 @@ class SmmTuner(MeasurementInterface):
             return  # nothing to save
         config = configuration.data if configuration else None
         cfgenv = self.environment(config) if config else None
-        result = self.run_result["returncode"] if config and self.run_result else 1
         envchk = os.getenv("CHECK")  # conside CHECKing result unless CHECK=0
+        result = self.run_result["returncode"] if config and self.run_result else 1
         if 0 == result and 0 == self.args.check and (envchk is None or "0" != envchk):
             self.run_result = self.call_program(self.launch(cfgenv + ["CHECK=1"]))
             result = self.run_result["returncode"] if self.run_result else 1
@@ -555,7 +553,8 @@ class SmmTuner(MeasurementInterface):
         # check return code (consider not saving parameters)
         if 0 != result and not final:  # incorrect result
             failed = " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
-            print("FAILED: {}".format(failed))
+            mnk = "x".join(map(str, self.mnk))
+            print("FAILED[{}] {}: {}".format(result, mnk, failed), flush=True)
             return
         if final and os.path.exists(filedot):
             filepattern = "{}-*.json".format(default_basename)
