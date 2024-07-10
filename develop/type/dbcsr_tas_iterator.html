@@ -114,9 +114,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-info~2">info</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-dist~8">dist</a>
-            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-iter~35">iter</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-info~11">info</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-dist~39">dist</a>
+            <a class="list-group-item" href="../type/dbcsr_tas_iterator.html#variable-iter~14">iter</a>
         </div>
       </div>
     </div>
@@ -171,7 +171,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~2"></span>
+              <span class="anchor" id="variable-info~11"></span>
               type(<a href='dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
               <td>public</td>
@@ -188,7 +188,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~8"></span>
+              <span class="anchor" id="variable-dist~39"></span>
               type(<a href='dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
               <td>public</td>
@@ -205,7 +205,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iter~35"></span>
+              <span class="anchor" id="variable-iter~14"></span>
               type(<a href='dbcsr_iterator.html'>dbcsr_iterator</a>),
             </td>
               <td>public</td>
@@ -232,8 +232,13 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_tas_iterator</span>
+<span class="cp">#if defined(__GNUC__) &amp;&amp; defined(__GNUC_MINOR__) &amp;&amp; (TO_VERSION(9, 5) &gt; TO_VERSION(__GNUC__, __GNUC_MINOR__))</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_split_info</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_tas_split_info</span><span class="p">(</span><span class="n">ngroup_opt</span><span class="o">=</span><span class="nb">NULL</span><span class="p">())</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_distribution_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span>
+<span class="cp">#else</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_split_info</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_tas_split_info</span><span class="p">()</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_distribution_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_tas_distribution_type</span><span class="p">()</span>
+<span class="cp">#endif</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_iterator</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_tas_iterator</span>
 </pre></div>
