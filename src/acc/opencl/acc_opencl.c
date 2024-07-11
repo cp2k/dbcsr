@@ -15,12 +15,18 @@
 #    include <windows.h>
 #    include <process.h>
 #  else
+#    if !defined(ACC_OPENCL_DL) && !defined(NDEBUG)
+#      define ACC_OPENCL_DL
+#    endif
 #    include <unistd.h>
 #    include <errno.h>
 #    include <glob.h>
 #  endif
 #  if defined(__DBCSR_ACC)
 #    include "../acc_libsmm.h"
+#  endif
+#  if defined(ACC_OPENCL_DL)
+#    include <dlfcn.h>
 #  endif
 #  include <fcntl.h>
 #  include <sys/stat.h>
@@ -248,6 +254,7 @@ int c_dbcsr_acc_init(void) {
     assert(0 == c_dbcsr_acc_opencl_active_id);
 #  endif
     assert(sizeof(ACC_OPENCL_LOCKTYPE) <= ACC_OPENCL_CACHELINE);
+    assert(EXIT_SUCCESS == result);
     for (i = 0; i < ACC_OPENCL_NLOCKS; ++i) {
       ACC_OPENCL_INIT((ACC_OPENCL_LOCKTYPE*)(c_dbcsr_acc_opencl_locks + ACC_OPENCL_CACHELINE * i));
     }
@@ -268,6 +275,7 @@ int c_dbcsr_acc_init(void) {
     c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/ 0 : atoi(env_dump));
     c_dbcsr_acc_opencl_config.debug = (NULL == env_debug ? c_dbcsr_acc_opencl_config.dump : atoi(env_debug));
     c_dbcsr_acc_opencl_config.wa = neo * (NULL == env_wa ? 31 : atoi(env_wa));
+    assert(EXIT_SUCCESS == result);
     if (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_uid(NULL /*device*/, env_devmatch, &c_dbcsr_acc_opencl_config.devmatch)) {
       c_dbcsr_acc_opencl_config.devmatch = 1;
     }
@@ -283,6 +291,7 @@ int c_dbcsr_acc_init(void) {
       /* environment is populated before touching the compute runtime */
       ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(ze_flat)); /* soft-error */
     }
+    assert(EXIT_SUCCESS == result);
 #  if defined(ACC_OPENCL_NCCS)
     if (NULL == getenv("ZEX_NUMBER_OF_CCS") && 0 != nccs && 0 == (1 & c_dbcsr_acc_opencl_config.wa)) {
       static char zex_nccs[ACC_OPENCL_MAXNDEVS * 8 + 32] = "ZEX_NUMBER_OF_CCS=";
@@ -300,6 +309,7 @@ int c_dbcsr_acc_init(void) {
       if (0 < j) ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(zex_nccs)); /* soft-error */
     }
 #  endif
+    assert(EXIT_SUCCESS == result);
     if (~1 & c_dbcsr_acc_opencl_config.wa) { /* environment is populated before touching the compute runtime */
       static char* key_value[] = {
         "NEOReadDebugKeys=1", "EnableRecoverablePageFaults=0", "DirectSubmissionOverrideBlitterSupport=0"};
@@ -311,6 +321,7 @@ int c_dbcsr_acc_init(void) {
         ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(key_value[2]));
       }
     }
+    assert(EXIT_SUCCESS == result);
 #  if defined(ACC_OPENCL_CACHE_DIR)
     { /* environment is populated before touching the compute runtime */
       const char *const env_cache = getenv("ACC_OPENCL_CACHE"), *env_cachedir = getenv("NEO_CACHE_DIR");
@@ -354,6 +365,27 @@ int c_dbcsr_acc_init(void) {
       }
     }
 #  endif
+    assert(EXIT_SUCCESS == result);
+#  if defined(ACC_OPENCL_DL)
+    { /* initialize L0 to allow, e.g., I_MPI_OFFLOAD */
+      union {
+        const void* dlsym;
+        int (*ptr)(int flags);
+      } ze_init;
+      void* handle_libze = NULL;
+      dlerror(); /* clear an eventual error status */
+      handle_libze = dlopen("libze_intel_gpu.so", RTLD_LAZY);
+      if (NULL == handle_libze) handle_libze = dlopen("libze_intel_gpu.so.1", RTLD_LAZY);
+      ze_init.dlsym = (NULL != handle_libze ? dlsym(handle_libze, "zeInit") : NULL);
+      if (NULL != ze_init.dlsym) {
+        const int ze_init_result = ze_init.ptr(0);
+        if (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+          fprintf(stderr, "INFO ACC/OpenCL: Level-0 initialized (0x%08x)\n", ze_init_result);
+        }
+      }
+    }
+#  endif
+    assert(EXIT_SUCCESS == result);
     if (EXIT_SUCCESS == clGetPlatformIDs(0, NULL, &nplatforms) && 0 < nplatforms) {
       ACC_OPENCL_CHECK(clGetPlatformIDs(nplatforms <= ACC_OPENCL_MAXNDEVS ? nplatforms : ACC_OPENCL_MAXNDEVS, platforms, 0),
         "retrieve platform ids", result);
