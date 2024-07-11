@@ -1120,7 +1120,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               0, 1);
             new_config.al = LIBXSMM_CLMP(/* bug: AL=1 */
               (NULL == env_al || '\0' == *env_al)
-                ? (0 == (8 & c_dbcsr_acc_opencl_config.wa) ? (0 == kernel_idx ? (NULL == config ? 0 : config->al) : 0) : 0)
+                ? (0 == (32 & c_dbcsr_acc_opencl_config.wa) ? (0 == kernel_idx ? (NULL == config ? 0 : config->al) : 0) : 0)
                 : atoi(env_al),
               0, 1);
             new_config.tb = LIBXSMM_CLMP((NULL == env_tb || '\0' == *env_tb)
@@ -1138,7 +1138,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             new_config.aa = LIBXSMM_CLMP(/* bug: AA=2 XF=1 */
               (NULL == env_aa || '\0' == *env_aa) ? (0 == kernel_idx ? (NULL == config ? default_aa : config->aa) : default_aa)
                                                   : atoi(env_aa),
-              0, (0 == (16 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
+              0, (0 == (64 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
             new_config.ab = LIBXSMM_CLMP((NULL == env_ab || '\0' == *env_ab)
                                            ? (0 == kernel_idx ? (NULL == config ? default_ab : config->ab) : default_ab)
                                            : atoi(env_ab),
