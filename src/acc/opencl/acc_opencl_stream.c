@@ -117,7 +117,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   if (NULL != c_dbcsr_acc_opencl_config.device.context)
 #  endif
   {
-    if (0 != (2 & c_dbcsr_acc_opencl_config.xhints) && 0 != c_dbcsr_acc_opencl_config.device.intel) { /* enable queue families */
+    if ((2 & c_dbcsr_acc_opencl_config.xhints) && 0 != c_dbcsr_acc_opencl_config.device.intel) { /* enable queue families */
       struct {
         cl_command_queue_properties properties;
         cl_bitfield capabilities;
