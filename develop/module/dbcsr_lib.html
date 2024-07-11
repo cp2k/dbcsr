@@ -113,11 +113,11 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-modulen~43">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-modulen~29">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-is_initialized">is_initialized</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-check_comm_count">check_comm_count</a>
-            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-logger">logger</a>
-            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-mp_env~42">mp_env</a>
+            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-logger~12">logger</a>
+            <a class="list-group-item" href="../module/dbcsr_lib.html#variable-mp_env~33">mp_env</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-default_group">default_group</a>
             <a class="list-group-item" href="../module/dbcsr_lib.html#variable-ext_io_unit">ext_io_unit</a>
         </div>
@@ -185,20 +185,20 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_machine.html'>dbcsr_machine</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mm.html'>dbcsr_mm</a></li>
                   <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_timings.html'>dbcsr_timings</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_machine.html'>dbcsr_machine</a></li>
                   <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_error_handling.html'>dbcsr_error_handling</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_timings.html'>dbcsr_timings</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_log_handling.html'>dbcsr_log_handling</a></li>
                   <li class="list-inline-item"><a href='dbcsr_acc_init.html'>dbcsr_acc_init</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mm.html'>dbcsr_mm</a></li>
                   <li class="list-inline-item"><a href='dbcsr_timings_report.html'>dbcsr_timings_report</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_log_handling.html'>dbcsr_log_handling</a></li>
               </ul>
             </li>
         </ul>
@@ -223,7 +223,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~43"></span>
+              <span class="anchor" id="variable-modulen~29"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -274,7 +274,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-logger"></span>
+              <span class="anchor" id="variable-logger~12"></span>
               type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),
             </td>
               <td>private,</td>
@@ -291,7 +291,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~42"></span>
+              <span class="anchor" id="variable-mp_env~33"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
               <td>private,</td>
@@ -379,7 +379,7 @@ and convert it here to a communicator type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~38"></span>
+              <span class="anchor" id="variable-mp_comm~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -394,7 +394,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~16"></span>
+              <span class="anchor" id="variable-io_unit~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -409,7 +409,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_active_device_id~2"></span>
+              <span class="anchor" id="variable-accdrv_active_device_id"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -450,7 +450,7 @@ and convert it here to a communicator type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~39"></span>
+              <span class="anchor" id="variable-mp_comm~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -525,7 +525,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~17"></span>
+              <span class="anchor" id="variable-io_unit~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -540,7 +540,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_active_device_id~3"></span>
+              <span class="anchor" id="variable-accdrv_active_device_id~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -591,7 +591,7 @@ and convert it here to a communicator type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~38"></span>
+              <span class="anchor" id="variable-mp_comm~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -606,7 +606,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~16"></span>
+              <span class="anchor" id="variable-io_unit~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -621,7 +621,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_active_device_id~2"></span>
+              <span class="anchor" id="variable-accdrv_active_device_id"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -663,7 +663,7 @@ and convert it here to a communicator type</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~39"></span>
+              <span class="anchor" id="variable-mp_comm~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -738,7 +738,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~17"></span>
+              <span class="anchor" id="variable-io_unit~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -753,7 +753,7 @@ and convert it here to a communicator type</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_active_device_id~3"></span>
+              <span class="anchor" id="variable-accdrv_active_device_id~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -794,7 +794,7 @@ Prepares the DBCSR library for use.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~40"></span>
+              <span class="anchor" id="variable-mp_comm~19"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -809,7 +809,7 @@ Prepares the DBCSR library for use.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~18"></span>
+              <span class="anchor" id="variable-io_unit~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -824,7 +824,7 @@ Prepares the DBCSR library for use.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-accdrv_active_device_id~4"></span>
+              <span class="anchor" id="variable-accdrv_active_device_id~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
