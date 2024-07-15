@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">4 statements</a>
+                 title=" 0.0% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_operations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_sum_replicated</li>
           </ol>
         </nav>
@@ -143,6 +143,7 @@
 </h2>
     
 
+    <p>Sums blocks in a replicated dbcsr matrix, which has the same structure on all ranks.</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +159,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~296"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~389"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -168,7 +169,7 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-                
+                <p>dbcsr matrix to operate on</p>
             </td>
         </tr>
     </tbody>
@@ -189,9 +190,48 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_sum_replicated</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
+<span class="w">      </span><span class="c">!! Sums blocks in a replicated dbcsr matrix, which has the same structure on all ranks.</span>
 
-<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_sum_replicated_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
+<span class="w">         </span><span class="c">!! dbcsr matrix to operate on</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_sum_replicated&#39;</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">index_checksum</span><span class="p">,</span><span class="w"> </span><span class="n">mynode</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                            </span><span class="n">numnodes</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">all_checksums</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">comm</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
+<span class="w">      </span><span class="n">mp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
+<span class="w">      </span><span class="n">comm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span>
+<span class="w">      </span><span class="n">numnodes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span>
+<span class="w">      </span><span class="n">mynode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_mynode</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">all_checksums</span><span class="p">(</span><span class="n">numnodes</span><span class="p">))</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_index_checksum</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">index_checksum</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">mp_allgather</span><span class="p">(</span><span class="n">index_checksum</span><span class="p">,</span><span class="w"> </span><span class="n">all_checksums</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="k">ALL</span><span class="p">(</span><span class="n">all_checksums</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">index_checksum</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Replicated matrices do not all have the same index structure.&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CASE </span><span class="n">default</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect data type&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">END SELECT</span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_sum_replicated</span>
 </pre></div>
 
