@@ -76,9 +76,13 @@ class SmmTuner(MeasurementInterface):
         self.exepath = os.path.join(
             os.path.dirname(sys.argv[0]), "..", "..", self.exename
         )
+        runcmd = self.launch(["ACC_OPENCL_VERBOSE=2"], 0, nrep=1)
         self.run_result = (  # verbosity to capture device name and tuned parameters
-            self.call_program(self.launch(["ACC_OPENCL_VERBOSE=2", "CHECK=0"], nrep=1))
-            if (self.args.merge is None or 0 > self.args.merge)
+            self.call_program(" ".join(runcmd))
+            if (  # consider validating parameters during merge
+                (self.args.merge is None or 0 > self.args.merge)
+                or (self.args.check is None or 0 != self.args.check)
+            )
             and (self.args.update is None or "" == self.args.update)
             else None
         )
@@ -153,10 +157,13 @@ class SmmTuner(MeasurementInterface):
             for param in params + paramt:
                 manipulator.add_parameter(param)
         if (  # consider to update and/or merge JSONS (update first)
-            (self.args.merge is not None and (0 <= self.args.merge or self.typeid))
-            or self.args.update is None
-            or "" != self.args.update
-        ):
+            self.args.merge is not None
+            and (0 <= self.args.merge or self.typeid)
+            and (
+                (self.args.check is not None and 0 == self.args.check)
+                or (self.run_result and 0 == self.run_result["returncode"])
+            )
+        ) or (self.args.update is None or "" != self.args.update):
             filepattern = "{}-*.json".format(default_basename)
             filenames = glob.glob(
                 os.path.normpath(os.path.join(self.args.jsondir, filepattern))
@@ -235,21 +242,26 @@ class SmmTuner(MeasurementInterface):
         if attribute is None:
             setattr(self, name.lower(), value)
 
-    def launch(self, envs, nrep=None, verbose=None):
+    def launch(self, envs, check, nrep=None, verbose=None):
         """Launch executable supplying environment and arguments"""
-        envstrs = " ".join(map(str, envs))
+        envlist = envs if isinstance(envs, list) else self.environment(envs)
+        mnk = (envs["M"], envs["N"], envs["K"]) if "M" in envs else self.mnk
+        env_exe = " ".join(map(str, envlist))
         if verbose is not None and 0 != int(verbose):
-            print(envstrs.replace("OPENCL_LIBSMM_SMM_", "").replace(" CHECK=0", ""))
-        env_defaults = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 NEO_CACHE_PERSISTENT=0"
-        env_exe_args = "{} {} {} {} {} {}".format(  # consider device-id
+            msg = env_exe.replace("OPENCL_LIBSMM_SMM_", "")
+            print("{}: {}".format("x".join(map(str, mnk)), msg))
+        env_std = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 NEO_CACHE_PERSISTENT=0"
+        env_check = "CHECK={}".format(check if check is not None else 1)
+        env_intrn = "{} {}".format(  # consider device-id
             "" if self.idevice is None else "ACC_OPENCL_DEVICE={}".format(self.idevice),
-            "{} {}".format(env_defaults, envstrs),  # environment
-            self.exepath,  # executable file
+            "{} {}".format(env_std, env_check),  # environment
+        ).strip()
+        arg_exe = "{} {} {}".format(
             self.args.r if nrep is None else nrep,
             self.size if self.size else self.args.size,
-            " ".join(map(str, self.mnk)),
-        )
-        return env_exe_args
+            " ".join(map(str, mnk)),
+        ).strip()
+        return [env_exe, env_intrn, self.exepath, arg_exe]
 
     def seed_configurations(self):
         return [
@@ -286,15 +298,19 @@ class SmmTuner(MeasurementInterface):
             if 2 == len(key)
         ]
 
-    def run(self, desired_result, input, limit):
+    def run(self, desired_result, input=None, limit=None):
         """Run a configuration and return performance"""
-        config = desired_result.configuration.data
-        cfgenv = self.environment(config)
-        runcmd = self.launch(
-            cfgenv + ["CHECK={}".format(self.args.check)], verbose=self.args.verbose
-        )
-        self.run_result = self.call_program(runcmd)
-        result = self.run_result["returncode"]
+        try:
+            config = desired_result.configuration.data
+            mnk = self.mnk
+            nrep = 0  # default
+        except AttributeError:
+            config = desired_result
+            mnk = (config["M"], config["N"], config["K"])
+            nrep = 1  # limit
+        runcmd = self.launch(config, self.args.check, nrep, self.args.verbose)
+        self.run_result = self.call_program(" ".join(runcmd))
+        result = self.run_result["returncode"] if self.run_result else 1
         if 0 == result:
             performance = re.search(
                 "device:\\s+([0-9]+[^ ]*) ms\\s+([0-9]+[^ ]*)",
@@ -305,26 +321,31 @@ class SmmTuner(MeasurementInterface):
         if performance and performance.group(1) and performance.group(2):
             mseconds = float(performance.group(1))
             gflops = float(performance.group(2))
-            if self.gflops < gflops:
-                # keep best configuration in case of an early exit
-                self.config = desired_result.configuration
-                self.gflops = gflops
-                if 0 == self.gfbase:  # seed configuration
-                    self.gfbase = gflops
-                else:
-                    self.save_final_config(desired_result.configuration, final=False)
-            kernelreq = round((100.0 * config["BM"] * config["BN"]) / self.wsx)
-            # gflops are reported as "accuracy" (console output)
-            return Result(time=mseconds, accuracy=gflops, size=kernelreq)
+            if config is not desired_result:
+                kernelreq = round((100.0 * config["BM"] * config["BN"]) / self.wsx)
+                # gflops are reported as "accuracy" (console output)
+                result = Result(time=mseconds, accuracy=gflops, size=kernelreq)
+                if self.gflops < gflops:
+                    # keep best configuration in case of an early exit
+                    self.config = desired_result.configuration
+                    self.gflops = gflops
+                    if 0 == self.gfbase:  # seed configuration
+                        self.gfbase = gflops
+                    else:
+                        self.save_final_config(
+                            desired_result.configuration, final=False
+                        )
+            elif not self.args.verbose:
+                print(".", end="", flush=True)
         else:  # return non-competitive/bad result in case of an error
-            failed = (
-                " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
-                if not self.args.verbose
-                else runcmd
-            )
-            mnk = "x".join(map(str, self.mnk))
-            print("FAILED[{}] {}: {}".format(result, mnk, failed), flush=True)
-            return Result(time=float("inf"), accuracy=0.0, size=100.0)
+            if config is not desired_result:
+                result = Result(time=float("inf"), accuracy=0.0, size=100.0)
+            elif not self.args.verbose:
+                print("")
+            failed = runcmd[0].replace("OPENCL_LIBSMM_SMM_", "")
+            msg = "FAILED[{}] {}: {}".format(result, "x".join(map(str, mnk)), failed)
+            print(msg, flush=True)
+        return result
 
     def update_jsons(self, filenames):
         """Update device name of all JSONs"""
@@ -357,8 +378,8 @@ class SmmTuner(MeasurementInterface):
             return  # early exit
         merged, worse = dict(), dict()
         for filename in filenames:
+            data = dict()
             try:
-                data = dict()
                 with open(filename, "r") as file:
                     data = json.load(file)
                 if self.args.merge is not None and (
@@ -394,25 +415,28 @@ class SmmTuner(MeasurementInterface):
                     data["XF"] if "XF" in data else 0,
                     filename,  # last entry
                 )
-                if key not in merged:
-                    merged[key] = value
-                else:
-                    filename2 = merged[key][-1]
-                    if merged[key][1] <= value[1]:  # GFLOPS
-                        merged[key] = value
-                    else:
-                        filename2 = filename
-                    if key in worse:
-                        worse[key].append(filename2)
-                    else:
-                        worse[key] = [filename2]
             except (json.JSONDecodeError, KeyError, TypeError):
                 print("Failed to merge {} into CSV-file.".format(filename))
+                data = dict()
             except:  # noqa: E722
+                data = dict()
                 pass
+            if bool(data) and key in merged:
+                filename2 = merged[key][-1]
+                if value[1] < merged[key][1]:  # GFLOPS
+                    filename2, data = filename, dict()
+                if key in worse:
+                    worse[key].append(filename2)
+                else:
+                    worse[key] = [filename2]
+            if bool(data) and (
+                (self.args.check is not None and 0 == self.args.check)
+                or 0 == self.run(data)
+            ):
+                merged[key] = value
         if bool(merged):
-            with open(self.args.csvfile, "w") as file:
-                file.write(  # CSV header line with termination/newline
+            with open(self.args.csvfile, "w") as csvfile:
+                csvfile.write(  # CSV header line with termination/newline
                     "{}{}{}{}{}{}{}{}{}\n".format(  # key-part
                         self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
                         self.args.csvsep,  # separator for value-part
@@ -428,7 +452,7 @@ class SmmTuner(MeasurementInterface):
                 for key, value in sorted(merged.items()):  # CSV data lines
                     strkey = self.args.csvsep.join([str(k) for k in key])
                     strval = self.args.csvsep.join([str(v) for v in value[:-1]])
-                    file.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
+                    csvfile.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
                 retsld, delsld = [0, 0, 0], [0, 0, 0]  # [min, geo, max]
                 retain, delete = [], []  # lists of filenames
                 retcnt = delcnt = 0  # geo-counter
@@ -494,6 +518,10 @@ class SmmTuner(MeasurementInterface):
             msg = "Merged {} of {} JSONs into {}".format(
                 len(merged), len(filenames), self.args.csvfile
             )
+            if (
+                self.args.check is None or 0 != self.args.check
+            ) and not self.args.verbose:
+                print("")
             print(msg)
 
     def save_final_config(self, configuration, final=True):
@@ -502,10 +530,10 @@ class SmmTuner(MeasurementInterface):
             return  # nothing to save
         config = configuration.data if configuration else None
         cfgenv = self.environment(config) if config else None
-        envchk = os.getenv("CHECK")  # conside CHECKing result unless CHECK=0
+        envchk = os.getenv("CHECK")  # force CHECKing result unless CHECK=0
         result = self.run_result["returncode"] if config and self.run_result else 1
         if 0 == result and 0 == self.args.check and (envchk is None or "0" != envchk):
-            self.run_result = self.call_program(self.launch(cfgenv + ["CHECK=1"]))
+            self.run_result = self.call_program(" ".join(self.launch(cfgenv, 1)))
             result = self.run_result["returncode"] if self.run_result else 1
         # extend result for easier reuse
         if config:
