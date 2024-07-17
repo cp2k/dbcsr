@@ -49,15 +49,10 @@ def ilog2(n):
 
 
 class SmmTuner(MeasurementInterface):
-    def __init__(self, args, argd):
+    def __init__(self, args):
         """Setup common state and define search space"""
         super(SmmTuner, self).__init__(args)
         manipulator = ConfigurationManipulator()
-        if self.args.jsondir == argd.jsondir and os.path.isdir(self.args.mnk):
-            self.args.jsondir = self.args.mnk
-            self.args.mnk = default_mnk
-        elif not self.args.mnk:  # parse and sanitize kernel shape
-            self.args.mnk = default_mnk
         mnk = tuple(max(int(i), 1) for i in self.args.mnk.split("x"))
         self.mnk = (mnk + (mnk[0], mnk[0]))[:3]
         self.wsx = self.mnk[0] * self.mnk[1]
@@ -181,7 +176,7 @@ class SmmTuner(MeasurementInterface):
             and (self.typeid and 0 < self.ndevices)
             and (self.size and 0 < self.size)
         ):  # setup database (DB)
-            if args.database is None:  # adjust DB-location
+            if self.args.database is None:  # adjust DB-location
                 envrank = os.getenv("PMI_RANK", os.getenv("OMPI_COMM_WORLD_LOCAL_RANK"))
                 tmpdir = os.path.join(tempfile.gettempdir(), "opentuner")
                 if envrank:
@@ -288,7 +283,7 @@ class SmmTuner(MeasurementInterface):
         ]
 
     def objective(self):
-        if 0 == args.tlevel:
+        if 0 == self.args.tlevel:
             return opentuner.search.objective.MaximizeAccuracyMinimizeSize()
         else:
             return opentuner.search.objective.MaximizeAccuracy()
@@ -900,11 +895,18 @@ if __name__ == "__main__":
         os.environ["OPENCL_LIBSMM_SMM_LU"] = "{}".format(args.lu)
     if 0 == args.mb:
         args.mb = 64
-    instance = SmmTuner(args, argd)
+    # more flexible handling of positional/first argument
+    if args.jsondir == argd.jsondir and os.path.isdir(args.mnk):
+        args.jsondir = args.mnk
+        args.mnk = default_mnk
+    elif not args.mnk:  # parse and sanitize kernel shape
+        args.mnk = default_mnk
+    # construct tuner instance
+    instance = SmmTuner(args)
     if not default_dbg:
         for retry in range(default_retry):
             try:
-                TuningRunMain(instance, args, argd).main()
+                TuningRunMain(instance, args).main()
                 exit(0)
             except Exception as e:
                 ign = (
@@ -916,4 +918,4 @@ if __name__ == "__main__":
                 pass
         instance.save_final_config(None, True)
     else:
-        TuningRunMain(instance, args, argd).main()
+        TuningRunMain(instance, args).main()
