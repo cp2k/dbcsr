@@ -697,8 +697,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
         const int inplace = ((m == n) && (NULL == env_inplace ? 0 : ('0' != *env_inplace)));
 #  endif
         const int blockm = ((NULL == env_bm || '\0' == *env_bm) ? 0 : atoi(env_bm));
-        const int bm = (0 >= blockm ? (NULL == config ? /*default*/ m : /*LIBXSMM_CLMP(config->bm, 1, m)*/ m)
-                                    : LIBXSMM_MIN(blockm, m));
+        const int bm = (0 >= blockm ? m : LIBXSMM_MIN(blockm, m));
         opencl_libsmm_trans_t new_config;
         memset(&new_config, 0, sizeof(new_config));
         switch (datatype) {
@@ -1060,13 +1059,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             const char *const env_ab = getenv("OPENCL_LIBSMM_SMM_AB"), *const env_ac = getenv("OPENCL_LIBSMM_SMM_AC");
             const char *const env_xf = getenv("OPENCL_LIBSMM_SMM_XF"), *const env_cl = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
             const char* const intel_xf = "-cl-intel-256-GRF-per-thread";
-            const int default_lu = (0 != c_dbcsr_acc_opencl_config.device.intel ? -1 : 0);
-            const int unroll = LIBXSMM_MAX(-2, (NULL == env_lu || '\0' == *env_lu)
-                                                 ? (0 == kernel_idx ? (NULL == config ? default_lu : config->lu) : default_lu)
-                                                 : atoi(env_lu)); /* populate only lower bound */
-            const int blockm = ((NULL == env_bm || '\0' == *env_bm || 1 < unroll) /* 1<LU ignores BM */
-                                  ? (1 >= unroll ? 0 : LIBXSMM_UP(m_max / unroll, OPENCL_LIBSMM_VMIN))
-                                  : atoi(env_bm));
             const int blockn = ((NULL == env_bn || '\0' == *env_bn) ? 0 : atoi(env_bn));
             const int blockk = ((NULL == env_bk || '\0' == *env_bk) ? 0 : atoi(env_bk));
             const int wgmin = ((NULL == env_ws || '\0' == *env_ws) ? 0 : atoi(env_ws));
@@ -1077,7 +1069,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                                          : LIBXSMM_MIN(OPENCL_LIBSMM_VMIN, m_max))
                                       : 1);
             const int default_wg = (((0x0bd0 > devuid || 0x0bdb < devuid)) ? (0 == kernel_idx ? 0 : -2) : -1);
-            int nbm, nbn;
+            const int default_lu = (0 != c_dbcsr_acc_opencl_config.device.intel ? -1 : 0);
+            int defaults, blockm, nbm, nbn;
             opencl_libsmm_smm_t new_config;
             if (NULL == config) {
               memset(&new_config, 0, sizeof(new_config));
@@ -1086,65 +1079,56 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               memcpy(&new_config, config, sizeof(opencl_libsmm_smm_t));
             }
             if (NULL == env_xf || '\0' == *env_xf) {
-              if (0 == c_dbcsr_acc_opencl_config.device.intel || CL_DEVICE_TYPE_GPU != c_dbcsr_acc_opencl_config.device.type ||
-                  NULL == env_cl || NULL == strstr(env_cl, intel_xf))
+              if (0 != c_dbcsr_acc_opencl_config.device.intel && CL_DEVICE_TYPE_GPU == c_dbcsr_acc_opencl_config.device.type &&
+                  NULL != env_cl && NULL != strstr(env_cl, intel_xf))
               {
-                new_config.flags = (NULL == config ? /*default*/ 0 : config->flags);
+                new_config.flags = 1;
               }
-              else new_config.flags = 1;
             }
             else new_config.flags = atoi(env_xf);
-            new_config.lu = unroll;
+            defaults = ((NULL == config || 0 != kernel_idx || (NULL != config && new_config.flags != config->flags)) ? 1 : 0);
+            new_config.lu = LIBXSMM_MAX(-2, (NULL == env_lu || '\0' == *env_lu) ? (0 != defaults ? default_lu : config->lu)
+                                                                                : atoi(env_lu)); /* populate only lower bound */
+            blockm = ((NULL == env_bm || '\0' == *env_bm || 1 < new_config.lu) /* 1<LU ignores BM */
+                        ? (1 >= new_config.lu ? 0 : LIBXSMM_UP(m_max / new_config.lu, OPENCL_LIBSMM_VMIN))
+                        : atoi(env_bm));
             /* two defaults for new_config parameters: 1st - regular, 2nd - BS=1 kernel */
-            new_config.bm = (0 >= blockm ? (0 == kernel_idx ? (NULL == config ? LIBXSMM_MIN(OPENCL_LIBSMM_DEFAULT_BM, m_max)
-                                                                              : LIBXSMM_CLMP(config->bm, 1, m_max))
+            new_config.bm = (0 >= blockm ? (0 == kernel_idx ? (0 != defaults ? LIBXSMM_MIN(OPENCL_LIBSMM_DEFAULT_BM, m_max)
+                                                                             : LIBXSMM_CLMP(config->bm, 1, m_max))
                                                             : LIBXSMM_MIN(OPENCL_LIBSMM_DEFAULT_BM, m_max))
                                          : LIBXSMM_MIN(blockm, m_max));
-            new_config.bn = (0 >= blockn ? (0 == kernel_idx ? (NULL == config ? LIBXSMM_MIN(OPENCL_LIBSMM_DEFAULT_BN, n_max)
-                                                                              : LIBXSMM_CLMP(config->bn, 1, n_max))
+            new_config.bn = (0 >= blockn ? (0 == kernel_idx ? (0 != defaults ? LIBXSMM_MIN(OPENCL_LIBSMM_DEFAULT_BN, n_max)
+                                                                             : LIBXSMM_CLMP(config->bn, 1, n_max))
                                                             : LIBXSMM_MIN(OPENCL_LIBSMM_DEFAULT_BN, n_max))
                                          : LIBXSMM_MIN(blockn, n_max));
-            new_config.bk = (0 >= blockk ? (NULL == config ? default_bk : LIBXSMM_CLMP(config->bk, 1, m_max))
+            new_config.bk = (0 >= blockk ? (0 != defaults ? default_bk : LIBXSMM_CLMP(config->bk, 1, m_max))
                                          : LIBXSMM_MIN(blockk, m_max));
-            new_config.ws = (0 >= wgmin ? (0 == kernel_idx ? (NULL == config ? /*default*/ LIBXSMM_MAX(m_max, n_max)
-                                                                             : LIBXSMM_CLMP(config->ws, 1, n_max * m_max))
-                                                           : /*default*/ LIBXSMM_MAX(m_max, n_max))
+            new_config.ws = (0 >= wgmin ? (0 == kernel_idx ? (0 != defaults ? LIBXSMM_MAX(m_max, n_max)
+                                                                            : LIBXSMM_CLMP(config->ws, 1, n_max * m_max))
+                                                           : LIBXSMM_MAX(m_max, n_max))
                                         : LIBXSMM_MIN(wgmin, n_max * m_max));
             new_config.wg = LIBXSMM_CLMP(
-              (NULL == env_wg || '\0' == *env_wg) ? (NULL == config ? default_wg : config->wg) : atoi(env_wg), -2, 2);
-            new_config.nz = LIBXSMM_CLMP((NULL == env_nz || '\0' == *env_nz)
-                                           ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->nz) : /*default*/ 0)
-                                           : atoi(env_nz),
-              0, 1);
+              (NULL == env_wg || '\0' == *env_wg) ? (0 != defaults ? default_wg : config->wg) : atoi(env_wg), -2, 2);
+            new_config.nz = LIBXSMM_CLMP(
+              (NULL == env_nz || '\0' == *env_nz) ? (0 != defaults ? /*default*/ 0 : config->nz) : atoi(env_nz), 0, 1);
             new_config.al = LIBXSMM_CLMP(/* bug: AL=1 */
               (NULL == env_al || '\0' == *env_al)
-                ? (0 == (32 & c_dbcsr_acc_opencl_config.wa) ? (0 == kernel_idx ? (NULL == config ? 0 : config->al) : 0) : 0)
+                ? (0 == (32 & c_dbcsr_acc_opencl_config.wa) ? (0 != defaults ? 0 : config->al) : 0)
                 : atoi(env_al),
               0, 1);
-            new_config.tb = LIBXSMM_CLMP((NULL == env_tb || '\0' == *env_tb)
-                                           ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->tb) : /*default*/ 0)
-                                           : atoi(env_tb),
-              0, 1);
-            new_config.tc = LIBXSMM_CLMP((NULL == env_tc || '\0' == *env_tc)
-                                           ? (0 == kernel_idx ? (NULL == config ? /*default*/ 1 : config->tc) : /*default*/ 1)
-                                           : atoi(env_tc),
-              0, 1);
-            new_config.ap = LIBXSMM_CLMP((NULL == env_ap || '\0' == *env_ap)
-                                           ? (0 == kernel_idx ? (NULL == config ? /*default*/ 0 : config->ap) : /*default*/ 0)
-                                           : atoi(env_ap),
-              0, 1);
+            new_config.tb = LIBXSMM_CLMP(
+              (NULL == env_tb || '\0' == *env_tb) ? (0 != defaults ? /*default*/ 0 : config->tb) : atoi(env_tb), 0, 1);
+            new_config.tc = LIBXSMM_CLMP(
+              (NULL == env_tc || '\0' == *env_tc) ? (0 != defaults ? /*default*/ 1 : config->tc) : atoi(env_tc), 0, 1);
+            new_config.ap = LIBXSMM_CLMP(
+              (NULL == env_ap || '\0' == *env_ap) ? (0 != defaults ? /*default*/ 0 : config->ap) : atoi(env_ap), 0, 1);
             new_config.aa = LIBXSMM_CLMP(/* bug: AA=2 XF=1 */
-              (NULL == env_aa || '\0' == *env_aa) ? (0 == kernel_idx ? (NULL == config ? default_aa : config->aa) : default_aa)
-                                                  : atoi(env_aa),
-              0, (0 == (64 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
-            new_config.ab = LIBXSMM_CLMP((NULL == env_ab || '\0' == *env_ab)
-                                           ? (0 == kernel_idx ? (NULL == config ? default_ab : config->ab) : default_ab)
-                                           : atoi(env_ab),
-              0, 2);
-            new_config.ac = LIBXSMM_CLMP((NULL == env_ac || '\0' == *env_ac)
-                                           ? (0 == kernel_idx ? (NULL == config ? default_ac : config->ac) : default_ac)
-                                           : atoi(env_ac),
-              0, 1);
+              (NULL == env_aa || '\0' == *env_aa) ? (0 != defaults ? default_aa : config->aa) : atoi(env_aa), 0,
+              (0 == (64 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
+            new_config.ab = LIBXSMM_CLMP(
+              (NULL == env_ab || '\0' == *env_ab) ? (0 != defaults ? default_ab : config->ab) : atoi(env_ab), 0, 2);
+            new_config.ac = LIBXSMM_CLMP(
+              (NULL == env_ac || '\0' == *env_ac) ? (0 != defaults ? default_ac : config->ac) : atoi(env_ac), 0, 1);
             if (0 >= new_config.s) new_config.s = stack_size;
             if (0 == kernel_idx || 1 >= new_config.bs) new_config.bs = bs;
             nbm = (m_max + new_config.bm - 1) / new_config.bm;
