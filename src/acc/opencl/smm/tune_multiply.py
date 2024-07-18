@@ -32,6 +32,27 @@ default_retry = 1
 default_vlen = 8
 
 
+def start(args):
+    """Construct and start tuner instance"""
+    instance = SmmTuner(args)
+    if not default_dbg:
+        for retry in range(default_retry):
+            try:
+                TuningRunMain(instance, args).main()
+                return
+            except Exception as e:
+                ign = (
+                    "[{}/{}]".format(retry + 1, default_retry)
+                    if 1 < default_retry
+                    else ""
+                )
+                print("IGNORED{} {}: {}".format(ign, type(e).__name__, e))
+                pass
+        instance.save_final_config(None, True)
+    else:
+        TuningRunMain(instance, args).main()
+
+
 def env_intvalue(env, default, lookup=True):
     value = os.getenv(env, default) if lookup else env if env is not None else default
     try:
@@ -52,10 +73,10 @@ class SmmTuner(MeasurementInterface):
     def __init__(self, args):
         """Setup common state and define search space"""
         super(SmmTuner, self).__init__(args)
-        manipulator = ConfigurationManipulator()
         mnk = tuple(max(int(i), 1) for i in self.args.mnk.split("x"))
         self.mnk = (mnk + (mnk[0], mnk[0]))[:3]
         self.wsx = self.mnk[0] * self.mnk[1]
+        self.manip = ConfigurationManipulator()
         # sanitize input arguments
         self.args.mb = max(self.args.mb, 1)
         self.args.bs = max(min(self.args.bs, self.args.mb), 1)
@@ -152,7 +173,7 @@ class SmmTuner(MeasurementInterface):
                     "All parameters are fixed with environment variables!"
                 )
             for param in params + paramt:
-                manipulator.add_parameter(param)
+                self.manip.add_parameter(param)
         if (  # consider to update and/or merge JSONS (update first)
             self.args.merge is not None
             and (0 <= self.args.merge or self.typeid)
@@ -201,7 +222,6 @@ class SmmTuner(MeasurementInterface):
         # register signal handler (CTRL-C)
         signal(SIGINT, self.handle_sigint)
         self.handle_sigint_counter = 0
-        self.manip = manipulator
 
     def manipulator(self):
         return self.manip
@@ -441,12 +461,15 @@ class SmmTuner(MeasurementInterface):
                         self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
                     )
                 )
-                geosum = geocnt = 0
+                typeid = geosum = geocnt = 0
                 for key, value in sorted(merged.items()):  # CSV data lines
-                    gflops = value[1]
+                    typeid = key[1] if 0 == typeid or typeid == key[1] else None
+                    # FLOPS are normalized for double-precision
+                    gflops = value[1] if 1 != key[1] else value[1] * 0.5
                     if 0 < gflops:
                         geosum = geosum + math.log(gflops)
                         geocnt = geocnt + 1
+
                     strkey = self.args.csvsep.join([str(k) for k in key])
                     strval = self.args.csvsep.join([str(v) for v in value[:-1]])
                     csvfile.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
@@ -455,8 +478,8 @@ class SmmTuner(MeasurementInterface):
                 retcnt = delcnt = 0  # geo-counter
                 retbad = None
                 for key, value in worse.items():
-                    gflops = round(merged[key][1])
-                    mtime = os.path.getmtime(merged[key][-1])
+                    gflops_raw = merged[key][1] if 1 != key[1] else merged[key][1] * 0.5
+                    gflops, mtime = round(gflops_raw), os.path.getmtime(merged[key][-1])
                     for filename in value:
                         s = 0
                         if 0 < gflops:
@@ -516,8 +539,14 @@ class SmmTuner(MeasurementInterface):
                 len(merged), len(filenames), self.args.csvfile
             )
             if 0 < geocnt:
-                msg = "{} (geometric mean of {} GFLOPS/s)".format(
-                    msg, round(math.exp(geosum / geocnt))
+                precfac, precstr = 1, ""
+                if 1 == typeid:
+                    precstr = "SP-"
+                    precfac = 2
+                elif typeid is not None:
+                    precstr = "DP-"
+                msg = "{} (geometric mean of {} {}GFLOPS/s)".format(
+                    msg, round(math.exp(geosum / geocnt) * precfac), precstr
                 )
             if not self.args.verbose and (
                 self.args.check is None or 0 != self.args.check
@@ -895,27 +924,26 @@ if __name__ == "__main__":
         os.environ["OPENCL_LIBSMM_SMM_LU"] = "{}".format(args.lu)
     if 0 == args.mb:
         args.mb = 64
-    # more flexible handling of positional/first argument
-    if args.jsondir == argd.jsondir and os.path.isdir(args.mnk):
-        args.jsondir = args.mnk
-        args.mnk = default_mnk
-    elif not args.mnk:  # parse and sanitize kernel shape
-        args.mnk = default_mnk
-    # construct tuner instance
-    instance = SmmTuner(args)
-    if not default_dbg:
-        for retry in range(default_retry):
-            try:
-                TuningRunMain(instance, args).main()
-                exit(0)
-            except Exception as e:
-                ign = (
-                    "[{}/{}]".format(retry + 1, default_retry)
-                    if 1 < default_retry
-                    else ""
-                )
-                print("IGNORED{} {}: {}".format(ign, type(e).__name__, e))
-                pass
-        instance.save_final_config(None, True)
+    # construct and start tuner instance
+    if args.jsondir == argd.jsondir:  # flexible first argument
+        if os.path.isfile(args.mnk):
+            with open(args.mnk, "r") as file:
+                while True:
+                    line = file.readline()
+                    if not line:
+                        break
+                    args.mnk = line.strip()
+                    if args.mnk:
+                        start(args)
+                        print("")
+        else:
+            if os.path.isdir(args.mnk):
+                args.jsondir = args.mnk
+                args.mnk = default_mnk
+                if args.merge is None:
+                    args.merge = -1
+            start(args)
     else:
-        TuningRunMain(instance, args).main()
+        if not args.mnk:  # parse and sanitize kernel shape
+            args.mnk = default_mnk
+        start(args)
