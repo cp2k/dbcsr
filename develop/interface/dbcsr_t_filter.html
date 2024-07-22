@@ -173,7 +173,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~161"></span>
+              <span class="anchor" id="variable-tensor~157"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -188,93 +188,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~16"></span>
+              <span class="anchor" id="variable-eps~20"></span>
               real(kind=real_8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>eps</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-method~10"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>method</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-use_absolute~15"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>use_absolute</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_filter_r_sp"></span> <h3>private  subroutine <a href='../proc/dbcsr_t_filter_r_sp.html'>dbcsr_t_filter_r_sp</a>(tensor, eps, method, use_absolute)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>As dbcsr_filter</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tensor~162"></span>
-              type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tensor</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-eps~17"></span>
-              real(kind=real_4),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -324,7 +239,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_filter_c_dp"></span> <h3>private  subroutine <a href='../proc/dbcsr_t_filter_c_dp.html'>dbcsr_t_filter_c_dp</a>(tensor, eps, method, use_absolute)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_filter_r_sp"></span> <h3>private  subroutine <a href='../proc/dbcsr_t_filter_r_sp.html'>dbcsr_t_filter_r_sp</a>(tensor, eps, method, use_absolute)  
 </h3></div>
     <div class="card-body">
           
@@ -343,7 +258,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~163"></span>
+              <span class="anchor" id="variable-tensor~158"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -358,8 +273,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~18"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-eps~21"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -409,7 +324,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_filter_c_sp"></span> <h3>private  subroutine <a href='../proc/dbcsr_t_filter_c_sp.html'>dbcsr_t_filter_c_sp</a>(tensor, eps, method, use_absolute)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_filter_c_dp"></span> <h3>private  subroutine <a href='../proc/dbcsr_t_filter_c_dp.html'>dbcsr_t_filter_c_dp</a>(tensor, eps, method, use_absolute)  
 </h3></div>
     <div class="card-body">
           
@@ -428,7 +343,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~164"></span>
+              <span class="anchor" id="variable-tensor~159"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -443,8 +358,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~19"></span>
-              complex(kind=real_4),
+              <span class="anchor" id="variable-eps~22"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -474,6 +389,91 @@
         <tr>
             <td>
               <span class="anchor" id="variable-use_absolute~18"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_absolute</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_t_filter_c_sp"></span> <h3>private  subroutine <a href='../proc/dbcsr_t_filter_c_sp.html'>dbcsr_t_filter_c_sp</a>(tensor, eps, method, use_absolute)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>As dbcsr_filter</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor~160"></span>
+              type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eps~23"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eps</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-method~14"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>method</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_absolute~19"></span>
               logical,
             </td>
 <td>intent(in),</td>

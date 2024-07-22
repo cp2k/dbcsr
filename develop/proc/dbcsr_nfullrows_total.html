@@ -79,15 +79,15 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_methods.F"> Source File</a>
+              <a href="../src/dbcsr_api.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_methods.f.html'>dbcsr_methods.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_nfullrows_total</li>
           </ol>
         </nav>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~272"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~24"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -176,7 +176,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-nfullrows_total~8"></span>
+          <span class="anchor" id="variable-nfullrows_total"></span>
           integer
         </small>
       </h3>
@@ -199,7 +199,7 @@
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">nfullrows_total</span>
 
-<span class="w">      </span><span class="n">nfullrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nfullrows_total</span>
+<span class="w">      </span><span class="n">nfullrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_nfullrows_total_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
 <span class="w">   </span><span class="k">END FUNCTION </span><span class="n">dbcsr_nfullrows_total</span>
 </pre></div>
 
