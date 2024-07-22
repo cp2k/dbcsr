@@ -32,9 +32,11 @@ if (WITH_C_API)
     set(dbcsr_program_name ${dbcsr_program_name}_cpp)
     add_executable(${dbcsr_program_name} ${dbcsr_program_src})
     target_link_libraries(${dbcsr_program_name} dbcsr_c MPI::MPI_CXX)
-    set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE CXX)
+    set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE
+                                                           Fortran)
     if (OpenMP_FOUND)
-      target_link_libraries(${dbcsr_program_name} OpenMP::OpenMP_CXX)
+      target_compile_options(${dbcsr_program_name} PRIVATE ${OpenMP_CXX_FLAGS})
+      target_link_libraries(${dbcsr_program_name} OpenMP::OpenMP_Fortran)
     endif ()
 
     if (CMAKE_CXX_COMPILER_ID STREQUAL "Cray")
