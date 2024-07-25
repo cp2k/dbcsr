@@ -236,6 +236,10 @@ int c_dbcsr_acc_init(void) {
     const char* const env_async = NULL;
     const int async_default = 0;
 #  endif
+    const char* const env_devsplit = getenv("ACC_OPENCL_DEVSPLIT");
+    /*const char* const env_nranks = getenv("MPI_LOCALNRANKS");
+    const cl_uint nranks = LIBXSMM_MAX(NULL != env_nranks ? atoi(env_nranks) : 1, 1);*/
+    const cl_int devsplit = (NULL == env_devsplit ? /*(1 < nranks ? -1 : 0)*/ 0 : atoi(env_devsplit));
     char* const env_devids = getenv("ACC_OPENCL_DEVIDS");
     int device_id = (NULL == env_device ? 0 : atoi(env_device));
     const int nlocks = (NULL == env_nlocks ? 1 /*default*/ : atoi(env_nlocks));
@@ -274,7 +278,7 @@ int c_dbcsr_acc_init(void) {
     c_dbcsr_acc_opencl_config.async = (NULL == env_async ? async_default : atoi(env_async));
     c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/ 0 : atoi(env_dump));
     c_dbcsr_acc_opencl_config.debug = (NULL == env_debug ? c_dbcsr_acc_opencl_config.dump : atoi(env_debug));
-    c_dbcsr_acc_opencl_config.wa = neo * (NULL == env_wa ? ((8 + 16) + (32 + 64)) : atoi(env_wa));
+    c_dbcsr_acc_opencl_config.wa = neo * (NULL == env_wa ? ((1 != devsplit ? 0 : 4) + (8 + 16) + (32 + 64)) : atoi(env_wa));
     assert(EXIT_SUCCESS == result);
     if (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_uid(NULL /*device*/, env_devmatch, &c_dbcsr_acc_opencl_config.devmatch)) {
       c_dbcsr_acc_opencl_config.devmatch = 1;
@@ -409,41 +413,28 @@ int c_dbcsr_acc_init(void) {
           ACC_OPENCL_CHECK(clGetDeviceIDs(platforms[i], type, ndevices, devices, NULL), "retrieve device ids", result);
           if (EXIT_SUCCESS == result) {
             cl_uint j = 0;
-#  if defined(CL_VERSION_1_2)
-            /* TODO: introduce more advanced syntax (partitioning a device) */
-            const char* const env_devsplit = getenv("ACC_OPENCL_DEVSPLIT");
-            const cl_uint devsplit = (NULL == env_devsplit ? 0 : atoi(env_devsplit));
-            cl_uint n = 0;
-#  endif
             for (; j < ndevices; ++j) {
 #  if defined(CL_VERSION_1_2)
               cl_device_partition_property properties[] = {
                 CL_DEVICE_PARTITION_BY_AFFINITY_DOMAIN, CL_DEVICE_AFFINITY_DOMAIN_NUMA, /*terminator*/ 0};
-              cl_uint nunits = 0;
-              if (0 != devsplit &&
+              cl_uint nunits = 0, n = 0;
+              if ((1 < devsplit || 0 > devsplit) && /* Intel CPU (e.g., out of two sockets) yields thread-count of both sockets */
                   EXIT_SUCCESS == clGetDeviceInfo(devices[j], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(cl_uint), &nunits, NULL) &&
                   1 < nunits)
               {
-                if (1 < devsplit) {
-                  properties[0] = CL_DEVICE_PARTITION_EQUALLY;
-                  properties[1] = (nunits + devsplit - 1) / devsplit;
-                }
+                n = LIBXSMM_MIN(1 < devsplit ? (cl_uint)devsplit : nunits, ACC_OPENCL_MAXNDEVS);
+                properties[0] = CL_DEVICE_PARTITION_EQUALLY;
+                properties[1] = (nunits + n - 1) / n;
               }
-              if ((NULL != env_devsplit && '0' == *env_devsplit) ||
-                  (c_dbcsr_acc_opencl_config.ndevices + 1) == ACC_OPENCL_MAXNDEVS ||
-                  (EXIT_SUCCESS != clCreateSubDevices(devices[j], properties, 0, NULL, &n)))
+              if (0 == devsplit || 1 == devsplit || (c_dbcsr_acc_opencl_config.ndevices + 1) == ACC_OPENCL_MAXNDEVS ||
+                  EXIT_SUCCESS != clCreateSubDevices(devices[j], properties, 0, NULL, &n))
 #  endif
               {
                 c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.ndevices] = devices[j];
                 ++c_dbcsr_acc_opencl_config.ndevices;
               }
 #  if defined(CL_VERSION_1_2)
-              else if (1 < n || 1 < nunits) { /* create subdevices */
-                if (1 < nunits) {
-                  properties[0] = CL_DEVICE_PARTITION_EQUALLY;
-                  properties[1] = 1;
-                  n = nunits;
-                }
+              else if (1 < n) { /* create subdevices */
                 if (ACC_OPENCL_MAXNDEVS < (c_dbcsr_acc_opencl_config.ndevices + n)) {
                   n = (cl_uint)ACC_OPENCL_MAXNDEVS - c_dbcsr_acc_opencl_config.ndevices;
                 }
@@ -661,7 +652,7 @@ int c_dbcsr_acc_init(void) {
               if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(c_dbcsr_acc_opencl_config.devices[i], buffer,
                                     ACC_OPENCL_BUFFERSIZE, platform_name, ACC_OPENCL_BUFFERSIZE, /*cleanup*/ 0))
               {
-                fprintf(stderr, "INFO ACC/OpenCL: DEVICE -> \"%s : %s\"\n", platform_name, buffer);
+                fprintf(stderr, "INFO ACC/OpenCL: DEVICE -> \"%s : %s\" (%u)\n", platform_name, buffer, i);
               }
             }
           }
