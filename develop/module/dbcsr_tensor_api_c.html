@@ -28,7 +28,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0-rc2</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0</small></a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -259,18 +259,18 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_api.html'>dbcsr_api</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tensor_api.html'>dbcsr_tensor_api</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_api.html'>dbcsr_api</a></li>
                   <li class="list-inline-item"><a href='dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_api.html'>dbcsr_tensor_api</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_machine.html'>dbcsr_machine</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
               </ul>
             </li>
         </ul>
@@ -503,7 +503,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-idim~6"></span>
+              <span class="anchor" id="variable-idim~15"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -563,7 +563,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-idim~7"></span>
+              <span class="anchor" id="variable-idim~16"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -898,7 +898,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~4"></span>
+              <span class="anchor" id="variable-str~5"></span>
               character(kind=c_char, len=:),
             </td>
 <td>intent(out),</td>
@@ -1113,7 +1113,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~9"></span>
+              <span class="anchor" id="variable-nsplit~23"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -1128,7 +1128,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dimsplit~4"></span>
+              <span class="anchor" id="variable-dimsplit~7"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -1923,7 +1923,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~44"></span>
+              <span class="anchor" id="variable-data_type~96"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -9648,7 +9648,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblocks~7"></span>
+              <span class="anchor" id="variable-nblocks~8"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -11930,7 +11930,7 @@ nd_col_size = ndims_mapping_column(map)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim_nd"></span>
+              <span class="anchor" id="variable-ndim_nd~4"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out),</td>
@@ -11945,7 +11945,7 @@ nd_col_size = ndims_mapping_column(map)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim1_2d"></span>
+              <span class="anchor" id="variable-ndim1_2d~3"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out),</td>
@@ -11960,7 +11960,7 @@ nd_col_size = ndims_mapping_column(map)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim2_2d"></span>
+              <span class="anchor" id="variable-ndim2_2d~3"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out),</td>
@@ -12095,7 +12095,7 @@ nd_col_size = ndims_mapping_column(map)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-base~13"></span>
+              <span class="anchor" id="variable-base~21"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out),</td>
@@ -12235,7 +12235,7 @@ nd_col_size = ndims_mapping_column(map)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~18"></span>
+              <span class="anchor" id="variable-c_data~19"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -12350,7 +12350,7 @@ nd_col_size = ndims_mapping_column(map)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~19"></span>
+              <span class="anchor" id="variable-c_data~20"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -12465,7 +12465,7 @@ nd_col_size = ndims_mapping_column(map)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~20"></span>
+              <span class="anchor" id="variable-c_data~21"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>
@@ -12580,7 +12580,7 @@ nd_col_size = ndims_mapping_column(map)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~21"></span>
+              <span class="anchor" id="variable-c_data~22"></span>
               type(c_ptr),
             </td>
 <td>intent(inout)</td>

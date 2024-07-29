@@ -28,7 +28,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0-rc2</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0</small></a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 91 statements,  0.1% of total for procedures.">3 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 23 statements,  0.0% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_operations.F"> Source File</a>
+              <a href="../src/dbcsr_api.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_set</li>
           </ol>
         </nav>
@@ -131,8 +131,8 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_set.html#moduleprocedure-dbcsr_set_s">dbcsr_set_s</a>
             <a class="list-group-item" href="../interface/dbcsr_set.html#moduleprocedure-dbcsr_set_d">dbcsr_set_d</a>
+            <a class="list-group-item" href="../interface/dbcsr_set.html#moduleprocedure-dbcsr_set_s">dbcsr_set_s</a>
             <a class="list-group-item" href="../interface/dbcsr_set.html#moduleprocedure-dbcsr_set_c">dbcsr_set_c</a>
             <a class="list-group-item" href="../interface/dbcsr_set.html#moduleprocedure-dbcsr_set_z">dbcsr_set_z</a>
         </div>
@@ -154,66 +154,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_s.html'>dbcsr_set_s</a>(matrix, alpha)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Interface for dbcsr_set</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~129"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-alpha~8"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>alpha</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_d"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_d.html'>dbcsr_set_d</a>(matrix, alpha)  
 </h3></div>
     <div class="card-body">
           
-  <p>Interface for dbcsr_set</p>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -228,8 +173,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~124"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~69"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -264,11 +209,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_c"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_c.html'>dbcsr_set_c</a>(matrix, alpha)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_s.html'>dbcsr_set_s</a>(matrix, alpha)  
 </h3></div>
     <div class="card-body">
           
-  <p>Interface for dbcsr_set</p>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -283,8 +228,63 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~139"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~82"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~8"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_set_c"></span> <h3>private  subroutine <a href='../proc/dbcsr_set_c.html'>dbcsr_set_c</a>(matrix, alpha)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~108"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -323,7 +323,7 @@
 </h3></div>
     <div class="card-body">
           
-  <p>Interface for dbcsr_set</p>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -338,8 +338,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~134"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~95"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
