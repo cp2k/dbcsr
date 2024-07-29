@@ -59,6 +59,7 @@ gpu_architectures = {
     "parameters_P100.json": "sm_60",
     "parameters_V100.json": "sm_70",
     "parameters_A100.json": "sm_80",
+    "parameters_H100.json": "sm_90",
     "parameters_Vega10.json": "gfx900",
     "parameters_Mi50.json": "gfx906",
     "parameters_Mi100.json": "gfx908",
