@@ -1,0 +1,774 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_iterator &ndash; DBCSR </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.7.0</small></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>dbcsr_iterator
+      <small>Derived Type</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 2.6% of total for derived types.</p>Including implementation: 29 statements,  1.7% of total for derived types.">29 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_types.F"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_types.f.html'>dbcsr_types.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_iterator</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-matrix~158">matrix</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-buffer_2d">buffer_2d</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-pos~13">pos</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row~129">row</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row_size~68">row_size</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row_offset~27">row_offset</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-rbs~7">rbs</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-cbs~7">cbs</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-roff">roff</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-coff">coff</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-local_indexing~2">local_indexing</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-contiguous_pointers~3">contiguous_pointers</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-transpose~4">transpose</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-read_only~3">read_only</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-shared~3">shared</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-dynamic~3">dynamic</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-dynamic_byrows~3">dynamic_byrows</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-common_pos">common_pos</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-nblks~17">nblks</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-nblkrows_total~5">nblkrows_total</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row_p~11">row_p</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-col_i~8">col_i</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-blk_p~32">blk_p</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-tdist~2">tdist</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-local_rows~12">local_rows</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-global_rows">global_rows</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-data_area~2">data_area</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../type/dbcsr_iterator.html#src">dbcsr_iterator</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2 id="type-def-statement">
+        type, public :: dbcsr_iterator</h2>
+    <p>An iterator over a DBCSR matrix.</p>
+<div class="alert alert-info">
+<p class="alert-title h4">Note</p>
+<p>This is briefly changed to allow being included in the dbcsr_type type
+What is written here is what the structure should be and not what it
+is.</p>
+</div>
+    <br>
+
+    <section>
+    <h2>Components</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~158"></span>
+              type(<a href='dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                <p>the matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer_2d"></span>
+              type(<a href='dbcsr_block_buffer_obj.html'>dbcsr_block_buffer_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer_2d</strong></td>
+<td> =</td>
+                <td>dbcsr_block_buffer_obj()</td>
+            <td>
+                <p>Buffers for repointing 2d pointers (1 per thread)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~13"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                <p>Current position (per thread)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~129"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                <p>Current row (per thread)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_size~68"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_size</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                <p>Size of current row</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_offset~27"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_offset</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rbs~7"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>rbs</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                <p>Pointer to row size array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cbs~7"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>cbs</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                <p>Pointer to column size array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-roff"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>roff</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                <p>Pointer to row offset array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coff"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>coff</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                <p>Pointer to column offset array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_indexing~2"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local_indexing</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+                <p>The matrix has local indexing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-contiguous_pointers~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>contiguous_pointers</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+                <p>Whether pointers to data should be contiguous in memory.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transpose~4"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transpose</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-read_only~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>read_only</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-shared~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>shared</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+                <p>Iterators share matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dynamic~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dynamic</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+                <p>Ignores the thread distribution (FCFS by block)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dynamic_byrows~3"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dynamic_byrows</strong></td>
+<td> =</td>
+                <td>.FALSE.</td>
+            <td>
+                <p>Ignores the thread distribution (FCFS by row)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-common_pos"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              POINTER
+            </td>
+            <td>::</td>
+            <td><strong>common_pos</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                <p>Position when in mixed mode (row or block depending in dynamic_byrows</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblks~17"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblks</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblkrows_total~5"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblkrows_total</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_p~11"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>row_p</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_i~8"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>col_i</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blk_p~32"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>blk_p</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tdist~2"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>tdist</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_rows~12"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>local_rows</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                <p>Mapping of local rows to global rows (if local indexing is enabled)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-global_rows"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>global_rows</strong></td>
+<td>=&gt; </td>
+                <td>Null()</td>
+            <td>
+                <p>Mapping of global rows to local rows (if local indexing is enabled)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_area~2"></span>
+              type(<a href='dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_area</strong></td>
+<td> =</td>
+                <td>dbcsr_data_obj()</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+
+
+
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_iterator</span>
+<span class="w">      </span><span class="c">!! An iterator over a DBCSR matrix.</span>
+<span class="w">      </span><span class="c">!! @note This is briefly changed to allow being included in the dbcsr_type type</span>
+<span class="w">      </span><span class="c">!! What is written here is what the structure should be and not what it</span>
+<span class="w">      </span><span class="c">!! is.</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">         </span><span class="c">!! the matrix</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_block_buffer_obj</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">buffer_2d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_block_buffer_obj</span><span class="p">()</span>
+<span class="w">         </span><span class="c">!! Buffers for repointing 2d pointers (1 per thread)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">         </span><span class="c">!! Current position (per thread)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">         </span><span class="c">!! Current row (per thread)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">         </span><span class="c">!! Size of current row</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">row_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">rbs</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">         </span><span class="c">!! Pointer to row size array</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">cbs</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">         </span><span class="c">!! Pointer to column size array</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">roff</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">         </span><span class="c">!! Pointer to row offset array</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">coff</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">         </span><span class="c">!! Pointer to column offset array</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">local_indexing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">         </span><span class="c">!! The matrix has local indexing</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">contiguous_pointers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">         </span><span class="c">!! Whether pointers to data should be contiguous in memory.</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="nb">transpose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">shared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">         </span><span class="c">!! Iterators share matrix</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">dynamic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">         </span><span class="c">!! Ignores the thread distribution (FCFS by block)</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">dynamic_byrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">         </span><span class="c">!! Ignores the thread distribution (FCFS by row)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">common_pos</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">         </span><span class="c">!! Position when in mixed mode (row or block depending in dynamic_byrows</span>
+
+<span class="w">      </span><span class="c">! Copies from the matrix.</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">nblkrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">row_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">col_i</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">tdist</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">local_rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">         </span><span class="c">!! Mapping of local rows to global rows (if local indexing is enabled)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">global_rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Null</span><span class="p">()</span>
+<span class="w">         </span><span class="c">!! Mapping of global rows to local rows (if local indexing is enabled)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">data_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_data_obj</span><span class="p">()</span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_iterator</span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  </body>
+</html>
