@@ -114,7 +114,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Debug \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_ACCEL=cuda \
-          -DWITH_GPU=V100 \
+          -DWITH_GPU=H100 \
           -DWITH_EXAMPLES=ON \
           -DWITH_CUDA_PROFILING=ON \
           ..
