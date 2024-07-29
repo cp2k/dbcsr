@@ -99,7 +99,14 @@ set(USE_ACCEL
     CACHE STRING "Build with acceleration support (default: none)")
 set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
 
-set(SUPPORTED_CUDA_ARCHITECTURES K20X K40 K80 P100 V100 A100 H100)
+set(SUPPORTED_CUDA_ARCHITECTURES
+    K20X
+    K40
+    K80
+    P100
+    V100
+    A100
+    H100)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250)
 set(WITH_GPU
     $<IF:$<STREQUAL:${USE_ACCEL},"opencl">,"","P100">
