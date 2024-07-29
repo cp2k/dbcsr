@@ -120,6 +120,28 @@
         "Shared_memory_access_latency": 4,
         "Global_memory_access_latency": 500
     },
+    "sm_90": {
+        "Compute_Capability": 9.0,
+        "SM_Version": "sm_90",
+        "Threads_/_Warp" : 32,
+        "Warps_/_Multiprocessor": 64,
+        "Threads_/_Multiprocessor": 2048,
+        "Thread_Blocks_/_Multiprocessor": 32,
+        "Max_Thread_Block_Size": 1024,
+        "Shared_Memory_/_Multiprocessor_(bytes)": 65536,
+        "Max_Shared_Memory_/_Block_(bytes)": 65536,
+        "Register_File_Size_/_Multiprocessor_(32-bit_registers)": 65536,
+        "Max_Registers_/_Block": 65536,
+        "Register_Allocation_Unit_Size": 256,
+        "Register_Allocation_Granularity": "warp",
+        "Max_Registers_/_Thread": 255,
+        "Shared_Memory_Allocation_Unit_Size": 128,
+        "Warp_Allocation_Granularity": 4,
+        "Shared_Memory_Size_Configurations_(bytes)": 114688,
+        "Warp_register_allocation_granularities": 256,
+        "Shared_memory_access_latency": 4,
+        "Global_memory_access_latency": 500
+    },
     "nvidia_lingo_to_amd" : {
 	"Reference": "https://rocm-documentation.readthedocs.io/en/latest/Programming_Guides/HIP-terminology.html?highlight=wavefront%20size#hip-terminology-comparison-with-opencl-cuda-c-amp-and-hcc",
         "Thread": "Work_Item, (a single element of work: one element from the dispatch grid)",

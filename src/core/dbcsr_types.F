@@ -143,13 +143,13 @@ MODULE dbcsr_types
    TYPE dbcsr_distribution_type
       !! Matrix distribution on the processor grid
 
-      TYPE(array_i1d_obj)                        :: row_dist_block, col_dist_block
+      TYPE(array_i1d_obj)                        :: row_dist_block = array_i1d_obj(), col_dist_block = array_i1d_obj()
          !! standard row distributions of matrix elements' rows into processor grid rows
          !! standard column distributions of matrix elements' columns into processor grid columns
-      TYPE(array_i1d_obj)                        :: local_rows, local_cols
+      TYPE(array_i1d_obj)                        :: local_rows = array_i1d_obj(), local_cols = array_i1d_obj()
          !! list of rows local to the processor grid row
          !! list of columns local to the processor grid column
-      INTEGER                                    :: max_row_dist, max_col_dist
+      INTEGER                                    :: max_row_dist = -1, max_col_dist = -1
       TYPE(array_i1d_obj), DIMENSION(:), POINTER :: other_l_rows => Null()
          !! local rows for each process row
       TYPE(array_i1d_obj), DIMENSION(:), POINTER :: other_l_cols => Null()
@@ -158,24 +158,24 @@ MODULE dbcsr_types
          !! other_rows is defined
       LOGICAL                                    :: has_other_l_cols = .FALSE.
          !! other_cols is defined
-      TYPE(array_i1d_obj)                        :: global_row_map
+      TYPE(array_i1d_obj)                        :: global_row_map = array_i1d_obj()
          !! mapping from rows to sequence in local rows (global to local mapping)
-      TYPE(array_i1d_obj)                        :: global_col_map
+      TYPE(array_i1d_obj)                        :: global_col_map = array_i1d_obj()
          !! mapping from rows to sequence in local columns (global to local mapping)
       LOGICAL                                    :: has_global_row_map = .FALSE.
          !! whether other_row_map is defined
       LOGICAL                                    :: has_global_col_map = .FALSE.
          !! whether other_col_map is defined
-      TYPE(array_i1d_obj)                        :: row_map
+      TYPE(array_i1d_obj)                        :: row_map = array_i1d_obj()
          !! distribution map for rows
-      TYPE(array_i1d_obj)                        :: col_map
+      TYPE(array_i1d_obj)                        :: col_map = array_i1d_obj()
          !! distribution map for columns
       LOGICAL                                    :: has_thread_dist = .FALSE.
-      TYPE(array_i1d_obj)                        :: thread_dist
+      TYPE(array_i1d_obj)                        :: thread_dist = array_i1d_obj()
          !! thread distribution (of the rows)
       INTEGER                                    :: num_threads = -1
          !! number of threads in the environment
-      TYPE(dbcsr_mp_obj)                         :: mp_env
+      TYPE(dbcsr_mp_obj)                         :: mp_env = dbcsr_mp_obj()
          !! multiprocessor environment on which the distribution is based
       INTEGER                                    :: refcount = 0
          !! reference counter
@@ -193,11 +193,11 @@ MODULE dbcsr_types
       !! mapped to 8 "virtual" processor rows, then there are two images for
       !! every real processor row.
 
-      TYPE(dbcsr_distribution_obj)               :: main
+      TYPE(dbcsr_distribution_obj)               :: main = dbcsr_distribution_obj()
          !! the main distribution
-      TYPE(array_i1d_obj)                        :: row_image
+      TYPE(array_i1d_obj)                        :: row_image = array_i1d_obj()
          !! distribution of matrix elements' rows into image  rows
-      TYPE(array_i1d_obj)                        :: col_image
+      TYPE(array_i1d_obj)                        :: col_image = array_i1d_obj()
          !! distribution of matrix elements' columns into image columns
       INTEGER                                    :: row_decimation = -1
          !! Number of imaged rows mapped to a real row
@@ -207,12 +207,12 @@ MODULE dbcsr_types
          !! Number of real rows mapped to a virtual row
       INTEGER                                    :: col_multiplicity = -1
          !! Number of real columns mapped to a virtual column
-      TYPE(array_i1d_obj)                        :: vrow_dist
-      TYPE(array_i1d_obj)                        :: vcol_dist
+      TYPE(array_i1d_obj)                        :: vrow_dist = array_i1d_obj()
+      TYPE(array_i1d_obj)                        :: vcol_dist = array_i1d_obj()
       TYPE(array_i1d_obj), DIMENSION(:), POINTER :: other_vl_rows => Null()
       TYPE(array_i1d_obj), DIMENSION(:), POINTER :: other_vl_cols => Null()
-      TYPE(array_i1d_obj)                        :: global_vrow_map
-      TYPE(array_i1d_obj)                        :: global_vcol_map
+      TYPE(array_i1d_obj)                        :: global_vrow_map = array_i1d_obj()
+      TYPE(array_i1d_obj)                        :: global_vcol_map = array_i1d_obj()
       LOGICAL                                    :: has_other_vl_rows = .FALSE.
       LOGICAL                                    :: has_other_vl_cols = .FALSE.
       LOGICAL                                    :: has_global_vrow_map = .FALSE.
@@ -246,7 +246,7 @@ MODULE dbcsr_types
          !! Buffers
       INTEGER, DIMENSION(:, :), POINTER           :: rcb => Null()
          !! Row and column and offset and dimensions of data in the buffer
-      TYPE(dbcsr_data_obj)                        :: main
+      TYPE(dbcsr_data_obj)                        :: main = dbcsr_data_obj()
          !! Main memory
       TYPE(dbcsr_data_obj), DIMENSION(:), POINTER :: backing => Null()
          !! Backing memory (in lieu of main memory)
@@ -270,7 +270,7 @@ MODULE dbcsr_types
 
       TYPE(dbcsr_type), POINTER                       :: matrix => Null()
          !! the matrix
-      TYPE(dbcsr_block_buffer_obj)                   :: buffer_2d
+      TYPE(dbcsr_block_buffer_obj)                   :: buffer_2d = dbcsr_block_buffer_obj()
          !! Buffers for repointing 2d pointers (1 per thread)
       INTEGER                                        :: pos = -1
          !! Current position (per thread)
@@ -313,19 +313,19 @@ MODULE dbcsr_types
          !! Mapping of local rows to global rows (if local indexing is enabled)
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS     :: global_rows => Null()
          !! Mapping of global rows to local rows (if local indexing is enabled)
-      TYPE(dbcsr_data_obj)                           :: data_area
+      TYPE(dbcsr_data_obj)                           :: data_area = dbcsr_data_obj()
    END TYPE dbcsr_iterator
 
    TYPE dbcsr_mutable_type
       !! Data area with random access reads, insertions, and deletions.
 
-      TYPE(btree_i8_sp2d)          :: btree_s
+      TYPE(btree_i8_sp2d)          :: btree_s = btree_i8_sp2d()
          !! Data types for the various types
-      TYPE(btree_i8_dp2d)          :: btree_d
+      TYPE(btree_i8_dp2d)          :: btree_d = btree_i8_dp2d()
          !! Data types for the various types
-      TYPE(btree_i8_cp2d)          :: btree_c
+      TYPE(btree_i8_cp2d)          :: btree_c = btree_i8_cp2d()
          !! Data types for the various types
-      TYPE(btree_i8_zp2d)          :: btree_z
+      TYPE(btree_i8_zp2d)          :: btree_z = btree_i8_zp2d()
          !! Data types for the various types
       INTEGER                   :: refcount = 0
          !! Reference counter
@@ -341,7 +341,7 @@ MODULE dbcsr_types
    TYPE dbcsr_work_type
       !! Used for assembling a real matrix.
 
-      TYPE(dbcsr_data_obj)                    :: data_area
+      TYPE(dbcsr_data_obj)                    :: data_area = dbcsr_data_obj()
          !! holds actual values.
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: row_i => Null()
          !! the row index of all of the blocks.
@@ -354,9 +354,9 @@ MODULE dbcsr_types
       INTEGER                                 :: datasize = -1
          !! the actual size of data present in the data element
       INTEGER                                 :: datasize_after_filtering = -1
-      !TYPE(btree_i8_dp2d)                       :: tree
+      !TYPE(btree_i8_dp2d)                       :: tree = btree_i8_dp2d()
          !! tree used to index data blocks (alternative to the row_i, col_i, and blk_p indices when index is scattered).
-      TYPE(dbcsr_mutable_obj)                 :: mutable
+      TYPE(dbcsr_mutable_obj)                 :: mutable = dbcsr_mutable_obj()
          !! the final bcsr matrix
    END TYPE dbcsr_work_type
 
@@ -562,7 +562,7 @@ MODULE dbcsr_types
 
       TYPE(dbcsr_type), DIMENSION(:), POINTER :: mats => Null()
          !! the matrices
-      TYPE(dbcsr_imagedistribution_obj)      :: image_dist
+      TYPE(dbcsr_imagedistribution_obj)      :: image_dist = dbcsr_imagedistribution_obj()
          !! image distribution
    END TYPE dbcsr_1d_array_type
 
@@ -571,7 +571,7 @@ MODULE dbcsr_types
 
       TYPE(dbcsr_type), DIMENSION(:, :), POINTER :: mats => Null()
          !! the matrices
-      TYPE(dbcsr_imagedistribution_obj)         :: image_dist
+      TYPE(dbcsr_imagedistribution_obj)         :: image_dist = dbcsr_imagedistribution_obj()
          !! image distribution
    END TYPE dbcsr_2d_array_type
 

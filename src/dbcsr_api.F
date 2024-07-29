@@ -306,7 +306,7 @@ MODULE dbcsr_api
 
    ! -----------------------------------------------------------------------------------------------
    TYPE dbcsr_type
-      TYPE(dbcsr_prv_type), PRIVATE        :: prv
+      TYPE(dbcsr_prv_type), PRIVATE        :: prv = dbcsr_prv_type()
    END TYPE dbcsr_type
 
    TYPE dbcsr_p_type
@@ -316,11 +316,11 @@ MODULE dbcsr_api
    ! the components of this type must remain private to encapsulate better the internals
    ! of the dbcsr library.
    TYPE dbcsr_distribution_type
-      TYPE(dbcsr_dist_prv_obj), PRIVATE        :: prv
+      TYPE(dbcsr_dist_prv_obj), PRIVATE        :: prv = dbcsr_dist_prv_obj()
    END TYPE dbcsr_distribution_type
 
    TYPE dbcsr_iterator_type
-      TYPE(dbcsr_iterator_prv), PRIVATE        :: prv
+      TYPE(dbcsr_iterator_prv), PRIVATE        :: prv = dbcsr_iterator_prv()
    END TYPE dbcsr_iterator_type
 
    INTERFACE dbcsr_create

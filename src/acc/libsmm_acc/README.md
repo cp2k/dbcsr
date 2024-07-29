@@ -50,6 +50,8 @@ The performance of the matrix-matrix multiplication kernels is highly dependent 
 
 ## Contributing to libsmm_acc
 
+We expect users to contribute to the library by providing new optimized kernels and support for new GPUs.
+
 #### Autotuning procedure
 
 Follow the [autotuning procedure](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/tune/README.md)

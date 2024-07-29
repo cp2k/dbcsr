@@ -5,7 +5,7 @@
 #                                                                                                  #
 # For information on the license, see the LICENSE file.                                            #
 # For further information please visit https://dbcsr.cp2k.org                                      #
-# SPDX-License-Identifier: GPL-2.0+                                                                #
+# SPDX-License-Identifier: BSD-3-Clause                                                            #
 ####################################################################################################
 
 XARGS=$(command -v xargs)
@@ -83,39 +83,13 @@ then
       break;;
     esac
   done
-  if [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
-    ECHO=">&2 echo"
-  else
-    ECHO="echo"
-  fi
-  eval "${ECHO} \"Usage: $0 [options] [<triplet-spec>]\""
-  eval "${ECHO} \"       Options must precede triplet specification\""
-  eval "${ECHO} \"       -w|--wait N: initial delay before auto-tuning (default: ${WAIT_DEFAULT} s)\""
-  eval "${ECHO} \"       -c|--continue: proceed with plan if tuning is interrupted\""
-  eval "${ECHO} \"       -u|--update: retune all JSONs found in directory (see -p)\""
-  eval "${ECHO} \"       -s|--batchsize N: Number of batched SMMs (a.k.a. stacksize)\""
-  eval "${ECHO} \"       -a|--tuning-level N=0..3: all, most, some, least tunables\""
-  eval "${ECHO} \"       -b|--backwards: tune in descending order of triplets\""
-  eval "${ECHO} \"       -t|--maxtime N: number of seconds spent per kernel\""
-  eval "${ECHO} \"       -p|--jsondir P: path to JSON-files (tuned params)\""
-  eval "${ECHO} \"       -i|--part N (1-based): Nth session out of nparts\""
-  eval "${ECHO} \"       -j|--nparts N: number of total sessions (see -i)\""
-  eval "${ECHO} \"       -r|--bound L U: limit L**3 < MNK <= U**3\""
-  eval "${ECHO} \"       -m|--limit N: limit any shape extent to N\""
-  eval "${ECHO} \"       -n|--triplets N: limit number of triplet\""
-  eval "${ECHO} \"       -k|--specid N: predefined triplets\""
-  eval "${ECHO} \"        0-10: older to newer (larger), e.g.,\""
-  eval "${ECHO} \"           0:  201 kernels\""
-  eval "${ECHO} \"          10: 1266 kernels\""
-  eval "${ECHO} \"       <triplet-spec>, e.g., 134 kernels\""
-  eval "${ECHO} \"         23, 5 32 13 24 26, 4 9\""
-  eval "${ECHO}"
-  # default settings
+  # default/basic settings
   if [ ! "${BATCHSIZE}" ]; then BATCHSIZE=0; fi
   if [ ! "${JSONDIR}" ]; then JSONDIR=.; fi
   if [ ! "${TLEVEL}" ]; then TLEVEL=-1; fi
-  if [ ! "${NPARTS}" ]; then NPARTS=1; fi
-  if [ ! "${PART}" ]; then PART=1; fi
+  if [ ! "${NPARTS}" ]; then NPARTS=${PMI_SIZE:-1}; fi
+  if [ ! "${PART}" ]; then PART=${PMI_RANK:-0}; PART=$((PART+1)); fi
+  if [ ! "${WAIT}" ] && [ "1" != "${NPARTS}" ]; then WAIT=0; fi
   # sanity checks
   if [ "0" != "$((NPARTS<PART))" ]; then
     >&2 echo "ERROR: part-number ${PART} is larger than the requested ${NPARTS} parts!"
@@ -124,14 +98,16 @@ then
     >&2 echo "ERROR: part-number must be 1-based!"
     exit 1
   fi
-  HERE=$(cd "$(dirname "$0")" && pwd -P)
-  JSONS=$(${LS} -1 ${JSONDIR}/tune_multiply-*-*x*x*-*gflops.json 2>/dev/null)
   if [ "${SPECID}" ] && [ "$1" ]; then
     >&2 echo "ERROR: --specid and <triplet-spec> are mutual exclusive!"
     exit 1
-  elif [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
+  fi
+  # how to print standard vs error messages
+  if [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
+    JSONS=$(${LS} -1 ${JSONDIR}/tune_multiply-*-*x*x*-*gflops.json 2>/dev/null)
+    HERE=$(cd "$(dirname "$0")" && pwd -P)
+    ECHO=">&2 echo"
     if [ "${UPDATE}" ] && [ "0" != "${UPDATE}" ]; then
-      if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=1; fi
       MNKS=$(${SED} -n "s/.*tune_multiply-..*-\(..*x..*x.[^-]*\)-..*gflops\.json/\1/p" <<<"${JSONS}" \
          | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3)
     elif [ "${SPECID}" ]; then
@@ -140,7 +116,32 @@ then
       MNKS=$(eval "${HERE}/../../acc_triplets.sh $* 2>/dev/null")
     fi
   else
-    exit 0
+    ECHO="echo"
+  fi
+  if [ ! "${WAIT}" ] || [[ ("${HELP}" && "0" != "${HELP}") ]]; then
+    eval "${ECHO} \"Usage: $0 [options] [<triplet-spec>]\""
+    eval "${ECHO} \"       Options must precede triplet specification\""
+    eval "${ECHO} \"       -w|--wait N: initial delay before auto-tuning (default: ${WAIT_DEFAULT} s)\""
+    eval "${ECHO} \"       -c|--continue: proceed with plan if tuning is interrupted\""
+    eval "${ECHO} \"       -u|--update: retune all JSONs found in directory (see -p)\""
+    eval "${ECHO} \"       -s|--batchsize N: Number of batched SMMs (a.k.a. stacksize)\""
+    eval "${ECHO} \"       -a|--tuning-level N=0..3: all, most, some, least tunables\""
+    eval "${ECHO} \"       -b|--backwards: tune in descending order of triplets\""
+    eval "${ECHO} \"       -t|--maxtime N: number of seconds spent per kernel\""
+    eval "${ECHO} \"       -p|--jsondir P: path to JSON-files (tuned params)\""
+    eval "${ECHO} \"       -i|--part N (1-based): Nth session out of nparts\""
+    eval "${ECHO} \"       -j|--nparts N: number of total sessions (see -i)\""
+    eval "${ECHO} \"       -r|--bound L U: limit L**3 < MNK <= U**3\""
+    eval "${ECHO} \"       -m|--limit N: limit any shape extent to N\""
+    eval "${ECHO} \"       -n|--triplets N: limit number of triplet\""
+    eval "${ECHO} \"       -k|--specid N: predefined triplets\""
+    eval "${ECHO} \"        0-10: older to newer (larger), e.g.,\""
+    eval "${ECHO} \"           0:  201 kernels\""
+    eval "${ECHO} \"          10: 1266 kernels\""
+    eval "${ECHO} \"       <triplet-spec>, e.g., 134 kernels\""
+    eval "${ECHO} \"         23, 5 32 13 24 26, 4 9\""
+    eval "${ECHO}"
+    if [ "${HELP}" ] && [ "0" != "${HELP}" ]; then exit 0; fi
   fi
   if [ "${MNKS}" ]; then
     if [ "${BOUNDL}" ] || [ "${BOUNDU}" ]; then
@@ -184,13 +185,12 @@ then
     >&2 echo "ERROR: invalid or no <triplet-spec> given!"
     exit 1
   fi
-  PARTSIZE=$(((NTRIPLETS+NPARTS-1)/NPARTS))
-  PARTOFFS=$(((PART-1)*PARTSIZE))
-  PARTSIZE=$((PARTSIZE<=(NTRIPLETS-PARTOFFS)?PARTSIZE:(NTRIPLETS-PARTOFFS)))
-  if [ "0" != "$((NPARTS<=NTRIPLETS))" ]; then
-    echo "Session ${PART} of ${NPARTS} part(s)."
-  else
-    echo "Session ${PART} of ${NPARTS} part(s). The problem is over-decomposed!"
+  if [ ! "${WAIT}" ] || [ "0" != "${WAIT}" ]; then
+    if [ "0" != "$((NPARTS<=NTRIPLETS))" ]; then
+      echo "Session ${PART} of ${NPARTS} part(s)."
+    else
+      echo "Session ${PART} of ${NPARTS} part(s). The problem is over-decomposed!"
+    fi
   fi
   if [ ! "${MAXTIME}" ] && [[ (! "${CONTINUE}"  || \
       "${CONTINUE}" = "false"                   || \
@@ -199,11 +199,16 @@ then
   then
     MAXTIME=160
   fi
+  PARTSIZE=$((NPARTS<NTRIPLETS?(NTRIPLETS/NPARTS):1))
+  PARTOFFS=$(((PART-1)*PARTSIZE))
+  PARTSIZE=$((PART<NPARTS?PARTSIZE:(NTRIPLETS-PARTOFFS)))
   if [ "${MAXTIME}" ] && [ "0" != "$((0<MAXTIME))" ]; then
-    HRS=$((MAXTIME*PARTSIZE/3600))
-    MNS=$(((MAXTIME*PARTSIZE-HRS*3600+59)/60))
-    echo "Tuning ${PARTSIZE} kernels in this session will take about" \
-         "${MAXTIME}s per kernel and ${HRS}h${MNS}m in total."
+    if [ ! "${WAIT}" ] || [ "0" != "${WAIT}" ]; then
+      HRS=$((MAXTIME*PARTSIZE/3600))
+      MNS=$(((MAXTIME*PARTSIZE-HRS*3600+59)/60))
+      echo "Tuning ${PARTSIZE} kernels in this session will take about" \
+           "${MAXTIME}s per kernel and ${HRS}h${MNS}m in total."
+    fi
     MAXTIME="--stop-after=${MAXTIME}"
   else
     echo "Tuning ${PARTSIZE} kernels will take an unknown time (no limit given)."
@@ -227,8 +232,9 @@ then
   MNKPART=$(${CUT} -d' ' -f $((PARTOFFS+1))-$((PARTOFFS+PARTSIZE)) <<<"${MNKS}")
   for MNK in ${MNKPART}; do
     if [ "0" != "$(((N)<PARTSIZE))" ]; then
+      if [ "1" != "${NPARTS}" ] && [ "${HOSTNAME}" ]; then STEP="@${HOSTNAME}"; fi
       echo
-      echo "[$((N+1))/${PARTSIZE}]: auto-tuning ${MNK}-kernel..."
+      echo "[$((N+1))/${PARTSIZE}]${STEP}: auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf ./opentuner.db
       eval "${HERE}/tune_multiply.py ${MNK} ${DELETE} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"

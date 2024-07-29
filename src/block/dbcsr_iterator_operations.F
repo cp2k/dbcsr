@@ -71,15 +71,15 @@ MODULE dbcsr_iterator_operations
    LOGICAL, PARAMETER, PRIVATE :: detailed_timing = .FALSE.
 
    TYPE block_parameters
-      LOGICAL :: tr
-      INTEGER :: logical_rows, logical_cols
-      INTEGER :: offset, nze
+      LOGICAL :: tr = .FALSE.
+      INTEGER :: logical_rows = -1, logical_cols = -1
+      INTEGER :: offset = -1, nze = -1
    END TYPE block_parameters
 
    TYPE dgemm_join
-      INTEGER :: p_a, p_b, p_c
-      INTEGER :: last_k, last_n
-      TYPE(dbcsr_scalar_type) :: alpha, beta
+      INTEGER :: p_a = -1, p_b = -1, p_c = -1
+      INTEGER :: last_k = -1, last_n = -1
+      TYPE(dbcsr_scalar_type) :: alpha = dbcsr_scalar_type(), beta = dbcsr_scalar_type()
    END TYPE dgemm_join
 
 CONTAINS

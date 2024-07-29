@@ -4,7 +4,7 @@
 /*                                                                                                */
 /* For information on the license, see the LICENSE file.                                          */
 /* For further information please visit https://dbcsr.cp2k.org                                    */
-/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/* SPDX-License-Identifier: BSD-3-Clause                                                          */
 /*------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
@@ -40,6 +40,7 @@ const c_dbcsr_acc_opencl_stream_t* c_dbcsr_acc_opencl_stream(ACC_OPENCL_LOCKTYPE
     else break; /* error */
   }
   if (NULL == result) { /* fallback */
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     result = (NULL != result_main ? result_main : &c_dbcsr_acc_opencl_config.device.stream);
   }
   if (NULL != lock) ACC_OPENCL_RELEASE(lock);
@@ -103,44 +104,50 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   }
   else offset = c_dbcsr_acc_opencl_stream_counter_base++;
 #  endif
-  if (NULL != c_dbcsr_acc_opencl_config.device.context) {
-    cl_device_id device = NULL;
-    result = clGetContextInfo(c_dbcsr_acc_opencl_config.device.context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL);
-    if (EXIT_SUCCESS == result) {
-      if (0 != (2 & c_dbcsr_acc_opencl_config.xhints) && 0 != c_dbcsr_acc_opencl_config.device.intel) { /* enable queue families */
-        struct {
-          cl_command_queue_properties properties;
-          cl_bitfield capabilities;
-          cl_uint count;
-          char name[64 /*CL_QUEUE_FAMILY_MAX_NAME_SIZE_INTEL*/];
-        } intel_qfprops[16];
-        size_t nbytes = 0, i;
-        if (EXIT_SUCCESS == clGetDeviceInfo(device, 0x418B /*CL_DEVICE_QUEUE_FAMILY_PROPERTIES_INTEL*/, sizeof(intel_qfprops),
-                              intel_qfprops, &nbytes))
-        {
-          for (i = 0; (i * sizeof(*intel_qfprops)) < nbytes; ++i) {
-            if (0 /*CL_QUEUE_DEFAULT_CAPABILITIES_INTEL*/ == intel_qfprops[i].capabilities && 1 < intel_qfprops[i].count) {
-              const int j = (0 /*terminator*/ == properties[2] ? 2 : 4);
-              properties[j + 0] = 0x418C; /* CL_QUEUE_FAMILY_INTEL */
-              properties[j + 1] = (int)i;
-              properties[j + 2] = 0x418D; /* CL_QUEUE_INDEX_INTEL */
-              properties[j + 3] = (i + offset) % intel_qfprops[i].count;
-              properties[j + 4] = 0; /* terminator */
-              break;
-            }
+  if (NULL == c_dbcsr_acc_opencl_config.device.context)
+#  if defined(ACC_OPENCL_ACTIVATE)
+  {
+    result = EXIT_FAILURE;
+  }
+  else
+#  else
+  {
+    result = c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, (int)c_dbcsr_acc_opencl_config.device.uid);
+  }
+  if (NULL != c_dbcsr_acc_opencl_config.device.context)
+#  endif
+  {
+    if ((2 & c_dbcsr_acc_opencl_config.xhints) && 0 != c_dbcsr_acc_opencl_config.device.intel) { /* enable queue families */
+      struct {
+        cl_command_queue_properties properties;
+        cl_bitfield capabilities;
+        cl_uint count;
+        char name[64 /*CL_QUEUE_FAMILY_MAX_NAME_SIZE_INTEL*/];
+      } intel_qfprops[16];
+      size_t nbytes = 0, i;
+      if (EXIT_SUCCESS == clGetDeviceInfo(c_dbcsr_acc_opencl_config.device.id, 0x418B /*CL_DEVICE_QUEUE_FAMILY_PROPERTIES_INTEL*/,
+                            sizeof(intel_qfprops), intel_qfprops, &nbytes))
+      {
+        for (i = 0; (i * sizeof(*intel_qfprops)) < nbytes; ++i) {
+          if (0 /*CL_QUEUE_DEFAULT_CAPABILITIES_INTEL*/ == intel_qfprops[i].capabilities && 1 < intel_qfprops[i].count) {
+            const int j = (0 /*terminator*/ == properties[2] ? 2 : 4);
+            properties[j + 0] = 0x418C; /* CL_QUEUE_FAMILY_INTEL */
+            properties[j + 1] = (int)i;
+            properties[j + 2] = 0x418D; /* CL_QUEUE_INDEX_INTEL */
+            properties[j + 3] = (i + offset) % intel_qfprops[i].count;
+            properties[j + 4] = 0; /* terminator */
+            break;
           }
         }
       }
-      if ((c_dbcsr_acc_opencl_timer_device == c_dbcsr_acc_opencl_config.timer) &&
-          (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
-      {
-        properties[1] = CL_QUEUE_PROFILING_ENABLE;
-      }
-      queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(c_dbcsr_acc_opencl_config.device.context, device, properties, &result);
     }
-  }
-  else {
-    result = EXIT_FAILURE;
+    if ((c_dbcsr_acc_opencl_timer_device == c_dbcsr_acc_opencl_config.timer) &&
+        (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
+    {
+      properties[1] = CL_QUEUE_PROFILING_ENABLE;
+    }
+    queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(
+      c_dbcsr_acc_opencl_config.device.context, c_dbcsr_acc_opencl_config.device.id, properties, &result);
   }
   if (EXIT_SUCCESS == result) { /* register stream */
     assert(NULL != c_dbcsr_acc_opencl_config.streams && NULL != queue);
@@ -214,18 +221,15 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
   if (0 < c_dbcsr_acc_opencl_config.ndevices) {
     char buffer[ACC_OPENCL_BUFFERSIZE];
     cl_platform_id platform = NULL;
-    cl_device_id active_id = NULL;
-    if (EXIT_SUCCESS == result) {
-      result = clGetContextInfo(
-        c_dbcsr_acc_opencl_config.device.context, CL_CONTEXT_DEVICES, sizeof(cl_device_id), &active_id, NULL);
-    }
-    ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL),
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
+    ACC_OPENCL_CHECK(
+      clGetDeviceInfo(c_dbcsr_acc_opencl_config.device.id, CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL),
       "retrieve platform associated with active device", result);
     ACC_OPENCL_CHECK(clGetPlatformInfo(platform, CL_PLATFORM_EXTENSIONS, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
       "retrieve platform extensions", result);
     if (EXIT_SUCCESS == result) {
       if (NULL != strstr(buffer, "cl_khr_priority_hints") ||
-          EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia", 0 /*use_platform_name*/))
+          EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(c_dbcsr_acc_opencl_config.device.id, "nvidia", 0 /*use_platform_name*/))
       {
         priohi = CL_QUEUE_PRIORITY_HIGH_KHR;
         priolo = CL_QUEUE_PRIORITY_LOW_KHR;

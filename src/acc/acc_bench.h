@@ -4,7 +4,7 @@
 /*                                                                                                */
 /* For information on the license, see the LICENSE file.                                          */
 /* For further information please visit https://dbcsr.cp2k.org                                    */
-/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/* SPDX-License-Identifier: BSD-3-Clause                                                          */
 /*------------------------------------------------------------------------------------------------*/
 #ifndef DBCSR_ACC_BENCH_H
 #define DBCSR_ACC_BENCH_H
@@ -23,6 +23,10 @@
 #  define INLINE inline
 #else
 #  define INLINE
+#endif
+
+#if !defined(MAX_KERNEL_DIM)
+#  define MAX_KERNEL_DIM 80
 #endif
 
 #define INIT_MAT(ELEM_TYPE, SEED, MAT, M, N, SCALE) \

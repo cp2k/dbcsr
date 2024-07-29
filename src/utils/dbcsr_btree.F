@@ -62,28 +62,28 @@ MODULE dbcsr_btree
 
    #:for nametype, nametype1, nametype2, type1, type2, defaultFormatType1, defaultFormatType2, accessorType2 in inst_params
       TYPE btree_node_${nametype}$
-         INTEGER id
-         INTEGER :: filled
-         ${type1}$, DIMENSION(:), POINTER :: keys
-         ${type2}$, DIMENSION(:), POINTER :: values
-         TYPE(btree_node_p_${nametype}$), DIMENSION(:), POINTER :: subtrees
-         TYPE(btree_node_${nametype}$), POINTER :: parent
+         INTEGER :: id = -1
+         INTEGER :: filled = -1
+         ${type1}$, DIMENSION(:), POINTER :: keys => NULL()
+         ${type2}$, DIMENSION(:), POINTER :: values => NULL()
+         TYPE(btree_node_p_${nametype}$), DIMENSION(:), POINTER :: subtrees => NULL()
+         TYPE(btree_node_${nametype}$), POINTER :: parent => NULL()
       END TYPE btree_node_${nametype}$
 
       TYPE btree_node_p_${nametype}$
-         TYPE(btree_node_${nametype}$), POINTER :: node
+         TYPE(btree_node_${nametype}$), POINTER :: node => NULL()
       END TYPE btree_node_p_${nametype}$
 
       TYPE btree_node_structure_${nametype}$
-         INTEGER :: min_fill, max_fill
-         INTEGER :: n
-         INTEGER :: lastid
-         INTEGER :: refcount
-         TYPE(btree_node_${nametype}$), POINTER :: root
+         INTEGER :: min_fill = -1, max_fill = -1
+         INTEGER :: n = -1
+         INTEGER :: lastid = -1
+         INTEGER :: refcount = -1
+         TYPE(btree_node_${nametype}$), POINTER :: root => NULL()
       END TYPE btree_node_structure_${nametype}$
 
       TYPE btree_${nametype}$
-         TYPE(btree_node_structure_${nametype}$) :: b
+         TYPE(btree_node_structure_${nametype}$) :: b = btree_node_structure_${nametype}$ ()
       END TYPE btree_${nametype}$
    #:endfor
 

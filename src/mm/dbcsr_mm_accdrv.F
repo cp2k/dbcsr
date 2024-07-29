@@ -79,7 +79,7 @@ MODULE dbcsr_mm_accdrv
    TYPE dbcsr_mm_accdrv_type
       PRIVATE
       TYPE(dbcsr_work_type), POINTER           :: product_wm => Null()
-      TYPE(dbcsr_data_obj)                     :: c_buffer
+      TYPE(dbcsr_data_obj)                     :: c_buffer = dbcsr_data_obj()
       LOGICAL                                  :: c_area_copy = .TRUE.
       LOGICAL                                  :: keep_product_data = .TRUE.
       LOGICAL                                  :: do_gpu_c_redux = .FALSE.
@@ -100,18 +100,18 @@ MODULE dbcsr_mm_accdrv
    ! Therefore, the memory is allocated once and stored in global variables.
 
    TYPE stack_buffer_type
-      TYPE(acc_devmem_type)                  :: devmem
+      TYPE(acc_devmem_type)                  :: devmem = acc_devmem_type()
       INTEGER, DIMENSION(:, :), POINTER       :: hostmem => Null()
-      TYPE(acc_event_type)                   :: ready
-      TYPE(acc_event_type)                   :: calculated
-      TYPE(acc_stream_type)                  :: stream
+      TYPE(acc_event_type)                   :: ready = acc_event_type()
+      TYPE(acc_event_type)                   :: calculated = acc_event_type()
+      TYPE(acc_stream_type)                  :: stream = acc_stream_type()
    END TYPE stack_buffer_type
 
    TYPE thread_private_type
       TYPE(stack_buffer_type), DIMENSION(:), POINTER     :: stack_buffers => Null()
-      TYPE(dbcsr_memtype_type)                           :: memtype_cbuffer
+      TYPE(dbcsr_memtype_type)                           :: memtype_cbuffer = dbcsr_memtype_type()
       ! ensure that array-elements are on different cache lines
-      INTEGER(kind=int_4), DIMENSION(64)                 :: padding
+      INTEGER(kind=int_4), DIMENSION(64)                 :: padding = -1_int_4
    END TYPE thread_private_type
 
    TYPE(thread_private_type), SAVE, DIMENSION(:), ALLOCATABLE, TARGET :: all_thread_privates
@@ -432,14 +432,14 @@ CONTAINS
 
    SUBROUTINE dbcsr_mm_accdrv_process(this, left, right, params, stack_size, &
       !! Processes a given stack using accelerator
-                                      stack_descr, success)
+                                      stack_descr, success, generated_acc_untuned)
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
       TYPE(dbcsr_type), INTENT(IN)                       :: left, right
       INTEGER, INTENT(IN)                                :: stack_size
       INTEGER, DIMENSION(dbcsr_ps_width, stack_size), &
          INTENT(INOUT)                                   :: params
       TYPE(stack_descriptor_type), INTENT(IN)            :: stack_descr
-      LOGICAL, INTENT(OUT)                               :: success
+      LOGICAL, INTENT(OUT)                               :: success, generated_acc_untuned
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_process'
 
@@ -525,7 +525,8 @@ CONTAINS
                                  def_mnk=stack_descr%defined_mnk, &
                                  stack_stream=stackbuf%stream, &
                                  c_stream=c_area%memory_type%acc_stream, &
-                                 success=success)
+                                 success=success, &
+                                 generated_acc_untuned=generated_acc_untuned)
 
       IF (success) THEN
          CALL acc_event_record(stackbuf%calculated, stream=stackbuf%stream)

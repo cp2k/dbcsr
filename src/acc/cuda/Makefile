@@ -22,7 +22,7 @@ OBJSMM := $(SRCSMM:.cpp=.o)
 
 INCALL := $(INCACC) $(INCSMM)
 
-LIBXSMMROOT := $(wildcard $(ACCDIR)/../../../libxsmm)
+LIBXSMMROOT := $(wildcard $(ACCDIR)/../../../../../libxsmm)
 ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
@@ -32,6 +32,9 @@ STATIC ?= 1
 INTEL ?= 0
 GNU ?= 0
 DEV ?= 0
+
+# C++ baseline standard
+CXXSTD ?= -std=c++14
 
 # select from set of predefined triplet specifications
 SPECID ?= 0
@@ -80,8 +83,6 @@ else ifeq ($(WITH_GPU),V100)
 else ifeq ($(WITH_GPU),A100)
   ARCH_NUMBER = 80
 else ifeq ($(WITH_GPU),H100)
-  # TODO: update for H100 tuned parameters
-  override WITH_GPU := A100
   ARCH_NUMBER = 90
 else ifeq (,$(ARCH_NUMBER))
   $(error Unknown ARCH_NUMBER since WITH_GPU="$(WITH_GPU)" is not recognized)
@@ -118,7 +119,7 @@ else ifneq (0,$(GNU))
   else
     override AR := ar
   endif
-  override LD_LIBRARY_DIRS := $(NULL)
+  #override LD_LIBRARY_DIRS := $(NULL)
 else
   CXX := g++
   CC := gcc
@@ -211,7 +212,7 @@ LD_LIBSTUB_PATH := $(wildcard $(patsubst %,%/stubs,$(LD_LIBRARY_DIRS)))
 LIBPATHS := $(foreach DIR,$(LD_LIBRARY_DIRS),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
 LIBSTUBS := $(foreach DIR,$(LD_LIBSTUB_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),$(NULL),-L$(DIR)))
 LDFLAGS += $(LIBPATHS) $(LIBSTUBS) -lcudart -lcublas -lnvrtc -lcuda
-CXXFLAGS += -std=c++11 $(CFLAGS)
+CXXFLAGS += $(CXXSTD) $(CFLAGS)
 
 .PHONY: bench
 bench: $(ACCDIR)/acc_bench_smm $(ACCDIR)/acc_bench_trans
@@ -296,15 +297,16 @@ libsmm: $(ACCDIR)/dbcsr_acc_smm.a
 $(ACCDIR)/dbcsr_acc_smm.a: $(OBJSMM)
 	$(AR) -rs $@ $^
 
-%.o: %.cu $(INCALL) $(MAKDIR)/Makefile
-	$(NVCC) $(DFLAGS) -allow-unsupported-compiler --compiler-options="$(CXXFLAGS) $(CFLAGS_XSMM)" -c $< -o $@
-
 %.o: %.cpp $(INCALL) $(MAKDIR)/Makefile
 	$(CXX) $(DFLAGS) $(CXXFLAGS) $(CFLAGS_XSMM) -c $< -o $@
 
+%.o: %.cu $(INCALL) $(MAKDIR)/Makefile
+	$(NVCC) $(DFLAGS) -allow-unsupported-compiler $(CXXSTD) \
+		--compiler-options="$(filter-out $(CXXSTD),$(CXXFLAGS)) $(CFLAGS_XSMM)" -c $< -o $@
+
 $(ACCDIR)/cuda_hip/calculate_norms.o: $(ACCDIR)/cuda_hip/calculate_norms.cpp $(INCALL) $(MAKDIR)/Makefile
-	$(NVCC) $(DFLAGS) -x cu -allow-unsupported-compiler \
-		--compiler-options="$(filter-out -pedantic,$(CXXFLAGS)) $(CFLAGS_XSMM)" -c $< -o $@
+	$(NVCC) $(DFLAGS) -allow-unsupported-compiler $(CXXSTD) -x cu \
+		--compiler-options="$(filter-out $(CXXSTD) -pedantic,$(CXXFLAGS)) $(CFLAGS_XSMM)" -c $< -o $@
 
 $(MAKDIR)/acc_bench_smm.o: $(ACCDIR)/acc_bench_smm.c $(MAKDIR)/Makefile
 ifneq (0,$(LIBXSMM))

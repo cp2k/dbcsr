@@ -5,7 +5,7 @@
 #                                                                                                  #
 # For information on the license, see the LICENSE file.                                            #
 # For further information please visit https://dbcsr.cp2k.org                                      #
-# SPDX-License-Identifier: GPL-2.0+                                                                #
+# SPDX-License-Identifier: BSD-3-Clause                                                            #
 ####################################################################################################
 import opentuner
 from opentuner.search.manipulator import IntegerParameter
@@ -15,7 +15,6 @@ from opentuner import MeasurementInterface
 from opentuner import Result
 from signal import signal, SIGINT
 import tempfile
-import socket
 import shutil
 import copy
 import json
@@ -31,6 +30,27 @@ default_mnk = "23x23x23"
 default_dbg = False
 default_retry = 1
 default_vlen = 8
+
+
+def start(args):
+    """Construct and start tuner instance"""
+    instance = SmmTuner(args)
+    if not default_dbg:
+        for retry in range(default_retry):
+            try:
+                TuningRunMain(instance, args).main()
+                return
+            except Exception as e:
+                ign = (
+                    "[{}/{}]".format(retry + 1, default_retry)
+                    if 1 < default_retry
+                    else ""
+                )
+                print("IGNORED{} {}: {}".format(ign, type(e).__name__, e))
+                pass
+        instance.save_final_config(None, True)
+    else:
+        TuningRunMain(instance, args).main()
 
 
 def env_intvalue(env, default, lookup=True):
@@ -53,14 +73,10 @@ class SmmTuner(MeasurementInterface):
     def __init__(self, args):
         """Setup common state and define search space"""
         super(SmmTuner, self).__init__(args)
-        dbdir = os.path.join(tempfile.gettempdir(), "opentuner")
-        manipulator = ConfigurationManipulator()
-        # parse and sanitize kernel shape argument
-        if not self.args.mnk:
-            self.args.mnk = default_mnk
         mnk = tuple(max(int(i), 1) for i in self.args.mnk.split("x"))
         self.mnk = (mnk + (mnk[0], mnk[0]))[:3]
         self.wsx = self.mnk[0] * self.mnk[1]
+        self.manip = ConfigurationManipulator()
         # sanitize input arguments
         self.args.mb = max(self.args.mb, 1)
         self.args.bs = max(min(self.args.bs, self.args.mb), 1)
@@ -78,9 +94,13 @@ class SmmTuner(MeasurementInterface):
         self.exepath = os.path.join(
             os.path.dirname(sys.argv[0]), "..", "..", self.exename
         )
+        runcmd = self.launch(["ACC_OPENCL_VERBOSE=2"], 0, nrep=1)
         self.run_result = (  # verbosity to capture device name and tuned parameters
-            self.launch(["ACC_OPENCL_VERBOSE=2", "CHECK=0"], nrep=1)
-            if (self.args.merge is None or 0 > self.args.merge)
+            self.call_program(" ".join(runcmd))
+            if (  # consider validating parameters during merge
+                (self.args.merge is None or 0 > self.args.merge)
+                or (self.args.check is None or 0 != self.args.check)
+            )
             and (self.args.update is None or "" == self.args.update)
             else None
         )
@@ -153,12 +173,15 @@ class SmmTuner(MeasurementInterface):
                     "All parameters are fixed with environment variables!"
                 )
             for param in params + paramt:
-                manipulator.add_parameter(param)
+                self.manip.add_parameter(param)
         if (  # consider to update and/or merge JSONS (update first)
-            (self.args.merge is not None and (0 <= self.args.merge or self.typeid))
-            or self.args.update is None
-            or "" != self.args.update
-        ):
+            self.args.merge is not None
+            and (0 <= self.args.merge or self.typeid)
+            and (
+                (self.args.check is not None and 0 == self.args.check)
+                or (self.run_result and 0 == self.run_result["returncode"])
+            )
+        ) or (self.args.update is None or "" != self.args.update):
             filepattern = "{}-*.json".format(default_basename)
             filenames = glob.glob(
                 os.path.normpath(os.path.join(self.args.jsondir, filepattern))
@@ -174,18 +197,17 @@ class SmmTuner(MeasurementInterface):
             and (self.typeid and 0 < self.ndevices)
             and (self.size and 0 < self.size)
         ):  # setup database (DB)
-            if args.database is None:  # adjust DB-location
+            if self.args.database is None:  # adjust DB-location
                 envrank = os.getenv("PMI_RANK", os.getenv("OMPI_COMM_WORLD_LOCAL_RANK"))
+                tmpdir = os.path.join(tempfile.gettempdir(), "opentuner")
                 if envrank:
                     self.idevice = int(envrank) % self.ndevices
-                    directory = "{}-{}.db".format(dbdir, self.idevice)
-                else:
-                    directory = "{}.db".format(dbdir)
-                if os.path.isdir(directory):
-                    shutil.rmtree(directory)
-                os.mkdir(directory)
+                    tmpdir += str(self.idevice)
+                if os.path.isdir(tmpdir):
+                    shutil.rmtree(tmpdir)
+                os.mkdir(tmpdir)
                 self.args.database = "sqlite:///" + os.path.join(
-                    directory, "{}.db".format(socket.gethostname())
+                    tmpdir, "{}.db".format(os.getpid())
                 )
             if not self.args.label:  # label for DB-session
                 self.args.label = "{}-{}-{}-s{}".format(
@@ -200,7 +222,6 @@ class SmmTuner(MeasurementInterface):
         # register signal handler (CTRL-C)
         signal(SIGINT, self.handle_sigint)
         self.handle_sigint_counter = 0
-        self.manip = manipulator
 
     def manipulator(self):
         return self.manip
@@ -238,21 +259,26 @@ class SmmTuner(MeasurementInterface):
         if attribute is None:
             setattr(self, name.lower(), value)
 
-    def launch(self, envs, nrep=None, verbose=None):
+    def launch(self, envs, check, nrep=None, verbose=None):
         """Launch executable supplying environment and arguments"""
-        envstrs = " ".join(map(str, envs))
+        envlist = envs if isinstance(envs, list) else self.environment(envs)
+        mnk = (envs["M"], envs["N"], envs["K"]) if "M" in envs else self.mnk
+        env_exe = " ".join(map(str, envlist))
         if verbose is not None and 0 != int(verbose):
-            print(envstrs.replace("OPENCL_LIBSMM_SMM_", "").replace(" CHECK=0", ""))
-        env_defaults = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 NEO_CACHE_PERSISTENT=0"
-        env_exe_args = "{} {} {} {} {} {}".format(  # consider device-id
+            msg = env_exe.replace("OPENCL_LIBSMM_SMM_", "")
+            print("{}: {}".format("x".join(map(str, mnk)), msg))
+        env_std = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 NEO_CACHE_PERSISTENT=0"
+        env_check = "CHECK={}".format(check if check is not None else 1)
+        env_intrn = "{} {}".format(  # consider device-id
             "" if self.idevice is None else "ACC_OPENCL_DEVICE={}".format(self.idevice),
-            "{} {}".format(env_defaults, envstrs),  # environment
-            self.exepath,  # executable file
+            "{} {}".format(env_std, env_check),  # environment
+        ).strip()
+        arg_exe = "{} {} {}".format(
             self.args.r if nrep is None else nrep,
             self.size if self.size else self.args.size,
-            " ".join(map(str, self.mnk)),
-        )
-        return self.call_program(env_exe_args)
+            " ".join(map(str, mnk)),
+        ).strip()
+        return [env_exe, env_intrn, self.exepath, arg_exe]
 
     def seed_configurations(self):
         return [
@@ -277,7 +303,7 @@ class SmmTuner(MeasurementInterface):
         ]
 
     def objective(self):
-        if 0 == args.tlevel:
+        if 0 == self.args.tlevel:
             return opentuner.search.objective.MaximizeAccuracyMinimizeSize()
         else:
             return opentuner.search.objective.MaximizeAccuracy()
@@ -289,38 +315,49 @@ class SmmTuner(MeasurementInterface):
             if 2 == len(key)
         ]
 
-    def run(self, desired_result, input, limit):
+    def run(self, desired_result, input=None, limit=None):
         """Run a configuration and return performance"""
-        config = desired_result.configuration.data
-        cfgenv = self.environment(config)
-        self.run_result = self.launch(
-            cfgenv + ["CHECK={}".format(self.args.check)], verbose=self.args.verbose
-        )
-        if 0 == self.run_result["returncode"]:
+        try:
+            config = desired_result.configuration.data
+            mnk = self.mnk
+        except AttributeError:
+            config = desired_result
+            mnk = (config["M"], config["N"], config["K"])
+        runcmd = self.launch(config, self.args.check, verbose=self.args.verbose)
+        self.run_result = self.call_program(" ".join(runcmd))
+        result = self.run_result["returncode"] if self.run_result else 1
+        if 0 == result:
             performance = re.search(
                 "device:\\s+([0-9]+[^ ]*) ms\\s+([0-9]+[^ ]*)",
                 str(self.run_result["stdout"]),
             )
         else:
-            failed = " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
-            print("FAILED: {}".format(failed))
             performance = None
         if performance and performance.group(1) and performance.group(2):
             mseconds = float(performance.group(1))
             gflops = float(performance.group(2))
-            if self.gflops < gflops:
-                # keep best configuration in case of an early exit
-                self.config = desired_result.configuration
-                self.gflops = gflops
-                if 0 == self.gfbase:  # seed configuration
-                    self.gfbase = gflops
-                else:
-                    self.save_final_config(desired_result.configuration, final=False)
-            kernelreq = round((100.0 * config["BM"] * config["BN"]) / self.wsx)
-            # gflops are reported as "accuracy" (console output)
-            return Result(time=mseconds, accuracy=gflops, size=kernelreq)
+            if config is not desired_result:
+                kernelreq = round((100.0 * config["BM"] * config["BN"]) / self.wsx)
+                # gflops are reported as "accuracy" (console output)
+                result = Result(time=mseconds, accuracy=gflops, size=kernelreq)
+                if self.gflops < gflops:  # keep best config in case of early exit
+                    self.config = desired_result.configuration
+                    self.gflops = gflops
+                    if 0 != self.gfbase:
+                        self.save_final_config(self.config, final=False)
+                    else:  # seed configuration
+                        self.gfbase = gflops
+            elif not self.args.verbose:
+                print(".", end="", flush=True)
         else:  # return non-competitive/bad result in case of an error
-            return Result(time=float("inf"), accuracy=0.0, size=100.0)
+            failed = runcmd[0].replace("OPENCL_LIBSMM_SMM_", "")
+            msg = "FAILED[{}] {}: {}".format(result, "x".join(map(str, mnk)), failed)
+            if config is not desired_result:
+                result = Result(time=float("inf"), accuracy=0.0, size=100.0)
+            elif not self.args.verbose:
+                print("")
+            print(msg, flush=True)
+        return result
 
     def update_jsons(self, filenames):
         """Update device name of all JSONs"""
@@ -353,8 +390,8 @@ class SmmTuner(MeasurementInterface):
             return  # early exit
         merged, worse = dict(), dict()
         for filename in filenames:
+            data = dict()
             try:
-                data = dict()
                 with open(filename, "r") as file:
                     data = json.load(file)
                 if self.args.merge is not None and (
@@ -390,25 +427,28 @@ class SmmTuner(MeasurementInterface):
                     data["XF"] if "XF" in data else 0,
                     filename,  # last entry
                 )
-                if key not in merged:
-                    merged[key] = value
-                else:
-                    filename2 = merged[key][-1]
-                    if merged[key][1] <= value[1]:  # GFLOPS
-                        merged[key] = value
-                    else:
-                        filename2 = filename
-                    if key in worse:
-                        worse[key].append(filename2)
-                    else:
-                        worse[key] = [filename2]
             except (json.JSONDecodeError, KeyError, TypeError):
                 print("Failed to merge {} into CSV-file.".format(filename))
+                data = dict()
             except:  # noqa: E722
+                data = dict()
                 pass
+            if bool(data) and key in merged:
+                filename2 = merged[key][-1]
+                if value[1] < merged[key][1]:  # GFLOPS
+                    filename2, data = filename, dict()
+                if key in worse:
+                    worse[key].append(filename2)
+                else:
+                    worse[key] = [filename2]
+            if bool(data) and (
+                (self.args.check is not None and 0 == self.args.check)
+                or 0 == self.run(data)
+            ):
+                merged[key] = value
         if bool(merged):
-            with open(self.args.csvfile, "w") as file:
-                file.write(  # CSV header line with termination/newline
+            with open(self.args.csvfile, "w") as csvfile:
+                csvfile.write(  # CSV header line with termination/newline
                     "{}{}{}{}{}{}{}{}{}\n".format(  # key-part
                         self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
                         self.args.csvsep,  # separator for value-part
@@ -421,22 +461,30 @@ class SmmTuner(MeasurementInterface):
                         self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
                     )
                 )
+                typeid = geosum = geocnt = 0
                 for key, value in sorted(merged.items()):  # CSV data lines
+                    typeid = key[1] if 0 == typeid or typeid == key[1] else None
+                    # FLOPS are normalized for double-precision
+                    gflops = value[1] if 1 != key[1] else value[1] * 0.5
+                    if 0 < gflops:
+                        geosum = geosum + math.log(gflops)
+                        geocnt = geocnt + 1
+
                     strkey = self.args.csvsep.join([str(k) for k in key])
                     strval = self.args.csvsep.join([str(v) for v in value[:-1]])
-                    file.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
+                    csvfile.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
                 retsld, delsld = [0, 0, 0], [0, 0, 0]  # [min, geo, max]
                 retain, delete = [], []  # lists of filenames
                 retcnt = delcnt = 0  # geo-counter
                 retbad = None
                 for key, value in worse.items():
-                    gflops = round(merged[key][1])
-                    mtime = os.path.getmtime(merged[key][-1])
+                    gflops_raw = merged[key][1] if 1 != key[1] else merged[key][1] * 0.5
+                    gflops, mtime = round(gflops_raw), os.path.getmtime(merged[key][-1])
                     for filename in value:
                         s = 0
                         if 0 < gflops:
                             g = int(filename.split("-")[-1].split("g")[0])
-                            s = gflops / g  # slowdown
+                            s = gflops / g if 0 < g else 0  # slowdown
                         if mtime < os.path.getmtime(filename):
                             if 0 < s:
                                 retsld[1] = retsld[1] + math.log(s)
@@ -469,7 +517,7 @@ class SmmTuner(MeasurementInterface):
                             msg = "Worse and older (delete {} @ {}x): {}"
                             rnd = [str(round(i, 2)) for i in delsld]
                             print(msg.format(num, "..".join(rnd), lst))
-                    else:
+                    else:  # delete outperformed parameter sets
                         for file in retain + delete:
                             try:
                                 os.remove(file)
@@ -490,6 +538,20 @@ class SmmTuner(MeasurementInterface):
             msg = "Merged {} of {} JSONs into {}".format(
                 len(merged), len(filenames), self.args.csvfile
             )
+            if 0 < geocnt:
+                precfac, precstr = 1, ""
+                if 1 == typeid:
+                    precstr = "SP-"
+                    precfac = 2
+                elif typeid is not None:
+                    precstr = "DP-"
+                msg = "{} (geometric mean of {} {}GFLOPS/s)".format(
+                    msg, round(math.exp(geosum / geocnt) * precfac), precstr
+                )
+            if not self.args.verbose and (
+                self.args.check is None or 0 != self.args.check
+            ):
+                print("")
             print(msg)
 
     def save_final_config(self, configuration, final=True):
@@ -498,10 +560,10 @@ class SmmTuner(MeasurementInterface):
             return  # nothing to save
         config = configuration.data if configuration else None
         cfgenv = self.environment(config) if config else None
+        envchk = os.getenv("CHECK")  # force CHECKing result unless CHECK=0
         result = self.run_result["returncode"] if config and self.run_result else 1
-        envchk = os.getenv("CHECK")  # conside CHECKing result unless CHECK=0
         if 0 == result and 0 == self.args.check and (envchk is None or "0" != envchk):
-            self.run_result = self.launch(cfgenv + ["CHECK=1"])
+            self.run_result = self.call_program(" ".join(self.launch(cfgenv, 1)))
             result = self.run_result["returncode"] if self.run_result else 1
         # extend result for easier reuse
         if config:
@@ -549,7 +611,8 @@ class SmmTuner(MeasurementInterface):
         # check return code (consider not saving parameters)
         if 0 != result and not final:  # incorrect result
             failed = " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
-            print("FAILED: {}".format(failed))
+            mnk = "x".join(map(str, self.mnk))
+            print("FAILED[{}] {}: {}".format(result, mnk, failed), flush=True)
             return
         if final and os.path.exists(filedot):
             filepattern = "{}-*.json".format(default_basename)
@@ -838,10 +901,12 @@ if __name__ == "__main__":
         dest="size",
         help="Size of batch (a.k.a. stacksize)",
     )
-    args = argparser.parse_args()
+    args, argd = argparser.parse_args(), argparser.parse_args([])
     # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
     if os.getenv("OPENCL_LIBSMM_SMM_WS") not in default_enable_tune:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
+    if os.getenv("OPENCL_LIBSMM_SMM_AL") not in default_enable_tune:
+        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
@@ -859,20 +924,26 @@ if __name__ == "__main__":
         os.environ["OPENCL_LIBSMM_SMM_LU"] = "{}".format(args.lu)
     if 0 == args.mb:
         args.mb = 64
-    instance = SmmTuner(args)
-    if not default_dbg:
-        for retry in range(default_retry):
-            try:
-                TuningRunMain(instance, args).main()
-                exit(0)
-            except Exception as e:
-                ign = (
-                    "[{}/{}]".format(retry + 1, default_retry)
-                    if 1 < default_retry
-                    else ""
-                )
-                print("IGNORED{} {}: {}".format(ign, type(e).__name__, e))
-                pass
-        instance.save_final_config(None, True)
+    # construct and start tuner instance
+    if args.jsondir == argd.jsondir:  # flexible first argument
+        if os.path.isfile(args.mnk):
+            with open(args.mnk, "r") as file:
+                while True:
+                    line = file.readline()
+                    if not line:
+                        break
+                    args.mnk = line.strip()
+                    if args.mnk:
+                        start(args)
+                        print("")
+        else:
+            if os.path.isdir(args.mnk):
+                args.jsondir = args.mnk
+                args.mnk = default_mnk
+                if args.merge is None:
+                    args.merge = -1
+            start(args)
     else:
-        TuningRunMain(instance, args).main()
+        if not args.mnk:  # parse and sanitize kernel shape
+            args.mnk = default_mnk
+        start(args)

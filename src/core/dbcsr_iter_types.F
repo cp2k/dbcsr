@@ -30,13 +30,13 @@ MODULE dbcsr_iter_types
       !! contains the information about the current state of the program
       !! to be able to decide if output is necessary
 
-      INTEGER                              :: ref_count, id_nr
-      INTEGER                              :: print_level, n_rlevel
-      INTEGER, DIMENSION(:), POINTER       :: iteration
-      LOGICAL, DIMENSION(:), POINTER       :: last_iter
-      CHARACTER(len=default_string_length) :: project_name
+      INTEGER                              :: ref_count = -1, id_nr = -1
+      INTEGER                              :: print_level = -1, n_rlevel = -1
+      INTEGER, DIMENSION(:), POINTER       :: iteration => NULL()
+      LOGICAL, DIMENSION(:), POINTER       :: last_iter => NULL()
+      CHARACTER(len=default_string_length) :: project_name = ""
       CHARACTER(LEN=default_string_length), &
-         DIMENSION(:), POINTER           :: level_name
+         DIMENSION(:), POINTER           :: level_name => NULL()
    END TYPE dbcsr_iteration_info_type
 
 CONTAINS

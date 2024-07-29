@@ -1,4 +1,12 @@
 #!/bin/bash -l
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
 
 #SBATCH --export=ALL
 #SBATCH --constraint="gpu"
@@ -32,7 +40,7 @@ export OMP_PROC_BIND=TRUE # set thread affinity
 # OMP_NUM_THREADS is set by cmake
 
 # use default parameters (omit loading tuned parameters)
-export OPENCL_LIBSMM_SMM_PARAMS=0
+#export OPENCL_LIBSMM_SMM_PARAMS=0
 
 # document the current environment
 env |& tee -a "${STAGE_NAME}.out"

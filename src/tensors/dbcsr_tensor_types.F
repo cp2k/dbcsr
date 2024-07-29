@@ -103,21 +103,30 @@ MODULE dbcsr_tensor_types
       dbcsr_t_copy_contraction_storage
 
    TYPE dbcsr_t_pgrid_type
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
       TYPE(nd_to_2d_mapping)                  :: nd_index_grid
-      TYPE(mp_comm_type)                      :: mp_comm_2d
+#else
+      TYPE(nd_to_2d_mapping)                  :: nd_index_grid = nd_to_2d_mapping()
+#endif
+      TYPE(mp_comm_type)                      :: mp_comm_2d = mp_comm_type()
       TYPE(dbcsr_tas_split_info), ALLOCATABLE :: tas_split_info
-      INTEGER                                 :: nproc
+      INTEGER                                 :: nproc = -1
    END TYPE
 
    TYPE dbcsr_t_contraction_storage
-      REAL(real_8) :: nsplit_avg
-      INTEGER :: ibatch
+      REAL(real_8) :: nsplit_avg = -1.0_real_8
+      INTEGER :: ibatch = -1
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
       TYPE(array_list) :: batch_ranges
-      LOGICAL :: static
+#else
+      TYPE(array_list) :: batch_ranges = array_list()
+#endif
+      LOGICAL :: static = .FALSE.
    END TYPE
 
    TYPE dbcsr_t_type
       TYPE(dbcsr_tas_type), POINTER        :: matrix_rep => NULL()
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
       TYPE(nd_to_2d_mapping)               :: nd_index_blk
       TYPE(nd_to_2d_mapping)               :: nd_index
       TYPE(array_list)                     :: blk_sizes
@@ -125,20 +134,35 @@ MODULE dbcsr_tensor_types
       TYPE(array_list)                     :: nd_dist
       TYPE(dbcsr_t_pgrid_type)             :: pgrid
       TYPE(array_list)                     :: blks_local
+#else
+      TYPE(nd_to_2d_mapping)               :: nd_index_blk = nd_to_2d_mapping()
+      TYPE(nd_to_2d_mapping)               :: nd_index = nd_to_2d_mapping()
+      TYPE(array_list)                     :: blk_sizes = array_list()
+      TYPE(array_list)                     :: blk_offsets = array_list()
+      TYPE(array_list)                     :: nd_dist = array_list()
+      TYPE(dbcsr_t_pgrid_type)             :: pgrid = dbcsr_t_pgrid_type()
+      TYPE(array_list)                     :: blks_local = array_list()
+#endif
       INTEGER, DIMENSION(:), ALLOCATABLE   :: nblks_local
       INTEGER, DIMENSION(:), ALLOCATABLE   :: nfull_local
       LOGICAL                              :: valid = .FALSE.
       LOGICAL                              :: owns_matrix = .FALSE.
-      CHARACTER(LEN=default_string_length) :: name
+      CHARACTER(LEN=default_string_length) :: name = ""
       ! lightweight reference counting for communicators:
       INTEGER, POINTER                     :: refcount => NULL()
       TYPE(dbcsr_t_contraction_storage), ALLOCATABLE :: contraction_storage
    END TYPE dbcsr_t_type
 
    TYPE dbcsr_t_distribution_type
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
       TYPE(dbcsr_tas_distribution_type) :: dist
       TYPE(dbcsr_t_pgrid_type)      :: pgrid
       TYPE(array_list)              :: nd_dist
+#else
+      TYPE(dbcsr_tas_distribution_type) :: dist = dbcsr_tas_distribution_type()
+      TYPE(dbcsr_t_pgrid_type)      :: pgrid = dbcsr_t_pgrid_type()
+      TYPE(array_list)              :: nd_dist = array_list()
+#endif
       ! lightweight reference counting for communicators:
       INTEGER, POINTER :: refcount => NULL()
    END TYPE
@@ -150,7 +174,11 @@ MODULE dbcsr_tensor_types
       ! grid dimensions only for this matrix dimension:
       INTEGER, DIMENSION(:), ALLOCATABLE :: dims_grid
       ! dist only for tensor dimensions belonging to this matrix dimension:
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
       TYPE(array_list)       :: nd_dist
+#else
+      TYPE(array_list)       :: nd_dist = array_list()
+#endif
    CONTAINS
       ! map matrix index to process grid:
       PROCEDURE :: dist => tas_dist_t
@@ -163,7 +191,11 @@ MODULE dbcsr_tensor_types
       ! tensor dimensions only for this matrix dimension:
       INTEGER, DIMENSION(:), ALLOCATABLE :: dims
       ! block size only for this matrix dimension:
-      TYPE(array_list) :: blk_size
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (TO_VERSION(9, 5) > TO_VERSION(__GNUC__, __GNUC_MINOR__))
+      TYPE(array_list)       :: blk_size
+#else
+      TYPE(array_list)       :: blk_size = array_list()
+#endif
    CONTAINS
       PROCEDURE :: data => tas_blk_size_t
    END TYPE

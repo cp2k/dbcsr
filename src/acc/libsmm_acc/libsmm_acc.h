@@ -22,6 +22,7 @@
 
 #include <cstdio>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 enum libsmm_acc_algo { largeDB1 = 1, largeDB2 = 2, medium = 3, small = 4, tiny = 5 };
@@ -36,6 +37,7 @@ struct kernel_launcher {
 typedef std::unordered_map<Triplet, kernel_launcher>::iterator kernel_map_iterator;
 
 static std::unordered_map<Triplet, kernel_launcher> kernel_handles;
+static std::unordered_set<Triplet> failed_acc_kernels;
 
 int libsmm_acc_process_blas(const int* param_stack_host, int stack_size, ACC_DRV(stream) stream, int m, int n, int k,
   const double* a_data, const double* b_data, double* c_data);

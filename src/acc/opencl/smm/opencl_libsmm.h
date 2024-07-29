@@ -4,7 +4,7 @@
 /*                                                                                                */
 /* For information on the license, see the LICENSE file.                                          */
 /* For further information please visit https://dbcsr.cp2k.org                                    */
-/* SPDX-License-Identifier: GPL-2.0+                                                              */
+/* SPDX-License-Identifier: BSD-3-Clause                                                          */
 /*------------------------------------------------------------------------------------------------*/
 #ifndef OPENCL_LIBSMM_H
 #define OPENCL_LIBSMM_H
@@ -99,8 +99,8 @@ int opencl_libsmm_write_smm_params(FILE* stream, int only_key, const opencl_libs
   const char* delim, const char* begin, const char* close);
 
 /** Tokenize parambuf and initialize key/value pair. */
-int opencl_libsmm_read_smm_params(
-  char* parambuf, opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value, opencl_libsmm_perfest_t* perfest, char* device);
+int opencl_libsmm_read_smm_params(char* parambuf, opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value,
+  opencl_libsmm_perfest_t* perfest, char* device, int* key_ok);
 
 #if defined(OPENCL_LIBSMM_VALIDATE) && defined(_DEBUG)
 void opencl_libsmm_print_matrix(FILE* ostream, const char* label, libsmm_acc_data_t type, const void* mat, int m, int n);

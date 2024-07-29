@@ -20,9 +20,9 @@ from contextlib import contextmanager
 
 TYPES = {
     "c_cpp": [".c", ".h", ".cc", ".hh", ".cxx", ".hxx", ".cpp", ".hpp", ".cu", ".cl"],
-    "python": [".py"],
-    "fypp": [".fypp"],
     "fortran": [".F", ".f", ".f90", ".f03"],
+    "script": [".py", ".sh"],
+    "fypp": [".fypp"],
 }
 
 # max number of lines allowed between header and top of file

@@ -76,8 +76,8 @@ make
 -DWITH_GPU=<P100|K20X|K40|K80|V100|Mi50|Mi100|Mi250>
 -DCMAKE_BUILD_TYPE=<Release|Debug|Coverage>
 -DBUILD_TESTING=<ON|OFF>
--DTEST_MPI_RANKS=<auto,N>
--DTEST_OMP_THREADS=<2,N>
+-DTEST_MPI_RANKS=<2|auto|N>
+-DTEST_OMP_THREADS=<2|N>
 ```
 
 When providing a build of LIBXSMM, make sure the `lib` directory is added to the `PKG_CONFIG_PATH` variable prior

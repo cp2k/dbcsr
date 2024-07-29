@@ -108,7 +108,7 @@ MODULE dbcsr_work_operations
    END INTERFACE
 
    TYPE i_array_p
-      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: p
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: p => NULL()
    END TYPE i_array_p
 
 CONTAINS
@@ -910,7 +910,7 @@ CONTAINS
          ! (needed when there are multiple work matrices but we are not
          ! in an OpenMP parallel section.)
          !
-         ! A parallel section is created is used when the matrix has
+         ! A parallel section is created and used when the matrix has
          ! more work matrices. It's a shortcut when the finalize is
          ! called from a non-parallel environment whereas the matrix was
          ! built/modified in a parallel environment
@@ -1466,8 +1466,8 @@ CONTAINS
       ALLOCATE (all_blk_p(nwms))
       ALLOCATE (all_data_sizes(0:nwms))
       ALLOCATE (all_data_offsets(nwms))
-      IF (sort_data) ALLOCATE (all_data_areas(0:nwms))
       IF (sort_data) THEN
+         ALLOCATE (all_data_areas(0:nwms))
          CALL dbcsr_data_init(all_data_areas(0))
          all_data_areas(0) = matrix%data_area
 !$OMP        CRITICAL (crit_data)

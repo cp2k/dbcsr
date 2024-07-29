@@ -98,30 +98,30 @@ MODULE dbcsr_log_handling
       !! are public.
       !! DO NOT USE THE INTERNAL COMPONENTS DIRECTLY!!!
 
-      INTEGER :: id_nr, ref_count
+      INTEGER :: id_nr = -1, ref_count = -1
          !! unique number to identify the logger
          !! reference count (see cp2k/doc/ReferenceCounting.html)
-      INTEGER :: print_level
+      INTEGER :: print_level = -1
          !! the level starting at which something gets printed
-      INTEGER :: default_local_unit_nr
+      INTEGER :: default_local_unit_nr = -1
          !! default unit for local logging (-1 if not yet initialized). Local logging guarantee to each task its own file.
-      INTEGER :: default_global_unit_nr
+      INTEGER :: default_global_unit_nr = -1
          !! default unit for global logging (-1 if not yet initialized). This unit is valid only on the processor with
          !! %mp_env%mp%mynode==%mv_env%mp%source.
-      LOGICAL :: close_local_unit_on_dealloc, close_global_unit_on_dealloc
+      LOGICAL :: close_local_unit_on_dealloc = .FALSE., close_global_unit_on_dealloc = .FALSE.
          !! if the local unit should be closed when this logger is deallocated
          !! whether the global unit should be closed when this logger is deallocated
-      CHARACTER(len=default_string_length)  :: suffix
+      CHARACTER(len=default_string_length)  :: suffix = ""
          !! a short string that is used as suffix in all the filenames created by this logger. Can be used to guarantee the
          !! uniqueness of generated filename
-      CHARACTER(len=default_path_length)    :: local_filename, global_filename
+      CHARACTER(len=default_path_length)    :: local_filename = "", global_filename = ""
          !! the root of the name of the file used for local logging (can be different from the name of the file corresponding to
          !! default_local_unit_nr, only the one used if the unit needs to be opened)
          !! the root of the name of the file used for global logging (can be different from the name of the file corresponding to
          !! default_global_unit_nr, only the one used if the unit needs to be opened)
-      TYPE(dbcsr_mp_obj)                    :: mp_env
+      TYPE(dbcsr_mp_obj)                    :: mp_env = dbcsr_mp_obj()
          !! the parallel environment for the output.
-      TYPE(dbcsr_iteration_info_type), POINTER :: iter_info
+      TYPE(dbcsr_iteration_info_type), POINTER :: iter_info => NULL()
    END TYPE dbcsr_logger_type
 
    TYPE dbcsr_logger_p_type

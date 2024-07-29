@@ -38,12 +38,12 @@ MODULE dbcsr_tensor_index
       permute_index
 
    TYPE nd_to_2d_mapping
-      INTEGER                                      :: ndim_nd
-      INTEGER                                      :: ndim1_2d
-      INTEGER                                      :: ndim2_2d
+      INTEGER                                      :: ndim_nd = -1
+      INTEGER                                      :: ndim1_2d = -1
+      INTEGER                                      :: ndim2_2d = -1
 
       INTEGER, DIMENSION(:), ALLOCATABLE           :: dims_nd
-      INTEGER(KIND=int_8), DIMENSION(2)            :: dims_2d
+      INTEGER(KIND=int_8), DIMENSION(2)            :: dims_2d = -1_int_8
       INTEGER, DIMENSION(:), ALLOCATABLE           :: dims1_2d
       INTEGER, DIMENSION(:), ALLOCATABLE           :: dims2_2d
 
@@ -51,8 +51,8 @@ MODULE dbcsr_tensor_index
       INTEGER, DIMENSION(:), ALLOCATABLE           :: map2_2d
       INTEGER, DIMENSION(:), ALLOCATABLE           :: map_nd
 
-      INTEGER                                      :: base
-      LOGICAL                                      :: col_major
+      INTEGER                                      :: base = -1
+      LOGICAL                                      :: col_major = .FALSE.
    END TYPE nd_to_2d_mapping
 
 CONTAINS

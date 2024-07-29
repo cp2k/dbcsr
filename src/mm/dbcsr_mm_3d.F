@@ -28,7 +28,7 @@ MODULE dbcsr_mm_3d
                                      dbcsr_data_clear, &
                                      dbcsr_data_set
    USE dbcsr_config, ONLY: dbcsr_cfg, &
-                           has_acc
+                           use_acc
    USE dbcsr_data_methods, ONLY: &
       dbcsr_data_clear_pointer, dbcsr_data_ensure_size, dbcsr_data_exists, &
       dbcsr_data_get_memory_type, dbcsr_data_get_size, dbcsr_data_get_size_referenced, &
@@ -119,29 +119,29 @@ MODULE dbcsr_mm_3d
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
    TYPE dbcsr_buffer
-      TYPE(dbcsr_data_obj)                        :: DATA, &
-                                                     data_before_resize, &
-                                                     trs_stackbuf
-      INTEGER                                     :: vprow, vpcol
+      TYPE(dbcsr_data_obj)                        :: DATA = dbcsr_data_obj(), &
+                                                     data_before_resize = dbcsr_data_obj(), &
+                                                     trs_stackbuf = dbcsr_data_obj()
+      INTEGER                                     :: vprow = -1, vpcol = -1
       INTEGER                                     :: myproc = -1
       TYPE(mp_comm_type)                          :: grp = mp_comm_null, & ! Global communicator
                                                      subgrp = mp_comm_null ! Communicator for A and B
-      TYPE(mp_win_type)                           :: data_win, meta_win
+      TYPE(mp_win_type)                           :: data_win = mp_win_type(), meta_win = mp_win_type()
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS  :: meta => Null(), &
                                                      meta_before_resize => Null(), &
                                                      meta_red3D => Null()
       TYPE(mp_request_type), DIMENSION(2)         :: get_requests = mp_request_null
-      INTEGER                                     :: meta_size
+      INTEGER                                     :: meta_size = -1
       INTEGER                                     :: num_layers_3D = 1
       INTEGER                                     :: coord3D = 1
-      TYPE(dbcsr_type)                            :: matrix
+      TYPE(dbcsr_type)                            :: matrix = dbcsr_type()
       LOGICAL                                     :: is_valid = .FALSE., &
                                                      is_comm = .FALSE., &
                                                      has_rma_win = .FALSE.
    END TYPE dbcsr_buffer
 
    TYPE dbcsr_buffers
-      TYPE(dbcsr_buffer)                 :: left, right
+      TYPE(dbcsr_buffer)                 :: left = dbcsr_buffer(), right = dbcsr_buffer()
    END TYPE dbcsr_buffers
 
    TYPE mn_local_sizes
@@ -158,7 +158,7 @@ MODULE dbcsr_mm_3d
       ! Use a buffer per each thread
       TYPE(dbcsr_data_obj), &
          DIMENSION(:), ALLOCATABLE       :: data_red3D
-      INTEGER                            :: data_type
+      INTEGER                            :: data_type = -1
    END TYPE dbcsr_layers_3D_C_reduction
 
    ! Buffers
@@ -1436,7 +1436,7 @@ CONTAINS
       IF (ASSOCIATED(memtype_abpanel_2%pool)) &
          CALL dbcsr_mempool_limit_capacity(memtype_abpanel_2%pool, &
                                            capacity=2)
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          ! enumerate the blocksizes to keep the following 2D-arrays small.
          CALL enumerate_blk_sizes(matrix_right%row_blk_size%low%data, &
                                   dbcsr_max_row_size(matrix_right), &
@@ -1544,7 +1544,7 @@ CONTAINS
       !
       ! Evaluate sizes for workspaces
       size_guess_init = 1
-      IF (.NOT. keep_sparsity .AND. has_acc) THEN
+      IF (.NOT. keep_sparsity .AND. use_acc()) THEN
          size_guess_init = product_matrix_size_guess(matrix_left, matrix_right, product_matrix, &
                                                      left_max_data_size, right_max_data_size, &
                                                      left_col_nimages, right_row_nimages, &
@@ -1733,7 +1733,7 @@ CONTAINS
                   IF (is_not_comm) THEN
                      ! Right
                      IF (do_comm_right(icol3D)) THEN
-                        IF (has_acc) THEN
+                        IF (use_acc()) THEN
                            CALL timeset(routineN//"_acc_sync_right", handle2)
                            CALL acc_event_synchronize(right_buffer_p%data%d%acc_ready)
                            CALL timestop(handle2)
@@ -1749,7 +1749,7 @@ CONTAINS
                      END IF
                      ! Left
                      IF (do_comm_left(irow3D)) THEN
-                        IF (has_acc) THEN
+                        IF (use_acc()) THEN
                            CALL timeset(routineN//"_acc_sync_left", handle2)
                            CALL acc_event_synchronize(left_buffer_p%data%d%acc_ready)
                            CALL timestop(handle2)
@@ -1967,7 +1967,7 @@ CONTAINS
                ileft_buffer_calc = MIN(ileft_buffer_calc, nbuffers_norms)
                ! check if right matrix was already initialized
                IF (.NOT. right_buffer_p%matrix%valid) THEN
-                  IF (has_acc) CALL dbcsr_data_host2dev(right_buffer_p%data)
+                  IF (use_acc()) CALL dbcsr_data_host2dev(right_buffer_p%data)
                   ! Repoint indices of matrices
                   CALL make_meta(right_buffer_p, &
                                  right_row_total_nimages, &
@@ -1985,7 +1985,7 @@ CONTAINS
                                           right_norms(:, iright_buffer_calc), &
                                           k_sizes, n_sizes(icol3D)%sizes)
                   END IF
-                  IF (has_acc) THEN
+                  IF (use_acc()) THEN
                      CALL acc_transpose_blocks(right_buffer_p%matrix, &
                                                right_buffer_p%trs_stackbuf, &
                                                k_sizes, n_sizes(icol3D)%sizes, &
@@ -1996,7 +1996,7 @@ CONTAINS
                END IF
                ! check if left matrix was already initialized
                IF (.NOT. left_buffer_p%matrix%valid) THEN
-                  IF (has_acc) CALL dbcsr_data_host2dev(left_buffer_p%data)
+                  IF (use_acc()) CALL dbcsr_data_host2dev(left_buffer_p%data)
                   ! Repoint indices of matrices
                   CALL make_meta(left_buffer_p, &
                                  left_col_total_nimages, &
@@ -2012,7 +2012,7 @@ CONTAINS
                   END IF
                END IF
                !  Wait for left and right buffers transfer to device before proceeding
-               IF (has_acc) THEN
+               IF (use_acc()) THEN
                   CALL timeset(routineN//"_sync_h2d", handle2)
                   CALL acc_device_synchronize()
                   CALL timestop(handle2)
@@ -2224,7 +2224,7 @@ CONTAINS
          CALL dbcsr_data_release(right_buffers(v_ki)%data)
          NULLIFY (right_buffers(v_ki)%matrix%index)
          CALL dbcsr_release(right_buffers(v_ki)%matrix)
-         IF (has_acc) THEN
+         IF (use_acc()) THEN
             CALL dbcsr_data_clear_pointer(right_buffers(v_ki)%trs_stackbuf)
             IF (right_buffers(v_ki)%trs_stackbuf%d%memory_type%acc_devalloc) THEN
                CALL acc_event_destroy(right_buffers(v_ki)%trs_stackbuf%d%acc_ready)
@@ -2235,7 +2235,7 @@ CONTAINS
       DEALLOCATE (left_buffers, right_buffers)
       DEALLOCATE (do_comm_left, do_comm_right)
       DEALLOCATE (right_vcol, left_vrow)
-      IF (has_acc) THEN
+      IF (use_acc()) THEN
          DEALLOCATE (row_blk_sizes2enum, enum2row_blk_sizes)
          DEALLOCATE (col_blk_sizes2enum, enum2col_blk_sizes)
       END IF
@@ -2544,7 +2544,7 @@ CONTAINS
          CALL dbcsr_data_init(buffer%data_before_resize)
          CALL dbcsr_data_new(buffer%data_before_resize, data_type, memory_type=data_memory_type)
       END IF
-      new_trs_stackbuf = PRESENT(trs_memory_type) .AND. has_acc
+      new_trs_stackbuf = PRESENT(trs_memory_type) .AND. use_acc()
       !
       IF (buffer%is_valid) THEN
          ! Invalid buffers if data_type is different

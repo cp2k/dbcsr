@@ -32,8 +32,8 @@ MODULE dbcsr_mm_types
    INTEGER, PARAMETER, PUBLIC :: p_c_blk = 7
 
    TYPE stack_descriptor_type
-      INTEGER :: m, n, k, max_m, max_n, max_k
-      LOGICAL :: defined_mnk
+      INTEGER :: m = -1, n = -1, k = -1, max_m = -1, max_n = -1, max_k = -1
+      LOGICAL :: defined_mnk = .FALSE.
    END TYPE stack_descriptor_type
 
 END MODULE dbcsr_mm_types

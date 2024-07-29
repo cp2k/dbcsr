@@ -39,7 +39,7 @@
     STRIDE_C, INDEX_STRIDE, INDEX_BASE, BATCHSIZE) \
     ACC_BENCH_USEOMP(libxsmm_gemm_batch) \
     (IPREC, OPREC, TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, STRIDE_A, B, LDB, STRIDE_B, BETA, C, LDC, STRIDE_C, INDEX_STRIDE, \
-      INDEX_BASE, BATCHSIZE, 0 /*batchcheck*/)
+      INDEX_BASE, BATCHSIZE)
 #  define PRINTF(...) \
     do { \
       const size_t print_buffer_size = sizeof(print_buffer) - print_offset; \
@@ -227,9 +227,7 @@ int main(int argc, char* argv[]) {
     int ndevices = 0;
     result = c_dbcsr_acc_get_ndevices(&ndevices);
     if (0 < ndevices && (0 == device || EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device))) {
-#if defined(_DEBUG)
-      fprintf(stderr, "Activated device %i of %i (device%i).\n", device + 1, ndevices, device);
-#endif
+      printf("Activated device%i (ndevices=%i)\n", device, ndevices);
     }
     else {
       if (0 >= ndevices) {

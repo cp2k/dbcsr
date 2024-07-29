@@ -43,15 +43,15 @@ MODULE dbcsr_data_types
       !! Reasoning
       !! Easier routine interfaces
 
-      REAL(KIND=real_4)    :: r_sp
+      REAL(KIND=real_4)    :: r_sp = -1.0_real_4
          !! stores real values in single precision
-      REAL(KIND=real_8)    :: r_dp
+      REAL(KIND=real_8)    :: r_dp = -1.0_real_8
          !! stores real values in double precision
-      COMPLEX(KIND=real_4) :: c_sp
+      COMPLEX(KIND=real_4) :: c_sp = (-1.0_real_4, -1.0_real_4)
          !! stores complex values in single precision
-      COMPLEX(KIND=real_8) :: c_dp
+      COMPLEX(KIND=real_8) :: c_dp = (-1.0_real_8, -1.0_real_8)
          !! stores complex values in double precision
-      INTEGER              :: data_type
+      INTEGER              :: data_type = -1
          !! which of the data types is actually used
    END TYPE dbcsr_scalar_type
 
@@ -63,11 +63,11 @@ MODULE dbcsr_data_types
       !! Memory related types
       TYPE(dbcsr_mempool_entry_type), POINTER :: root => Null()
       INTEGER                                 :: capacity = 1
-!$    INTEGER(KIND=omp_lock_kind)          :: lock
+!$    INTEGER(KIND=omp_lock_kind)          :: lock = -1_omp_lock_kind
    END TYPE dbcsr_mempool_type
 
    TYPE dbcsr_mempool_entry_type
-      TYPE(dbcsr_data_obj)                    :: area
+      TYPE(dbcsr_data_obj)                    :: area = dbcsr_data_obj()
       TYPE(dbcsr_mempool_entry_type), POINTER :: next => Null()
    END TYPE dbcsr_mempool_entry_type
 
@@ -109,8 +109,8 @@ MODULE dbcsr_data_types
          !! type of memory where data lives
       INTEGER                                  :: data_type = -1
          !! which of the data types is actually used
-      TYPE(acc_devmem_type)                    :: acc_devmem
-      TYPE(acc_event_type)                     :: acc_ready
+      TYPE(acc_devmem_type)                    :: acc_devmem = acc_devmem_type()
+      TYPE(acc_event_type)                     :: acc_ready = acc_event_type()
    END TYPE dbcsr_data_area_type
 
    ! Type definitions:

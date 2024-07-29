@@ -1,4 +1,12 @@
 #!/bin/bash -l
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
 
 #SBATCH --export=ALL
 #SBATCH --constraint="mc"
@@ -27,7 +35,7 @@ if [ ! -d "${HOME}/libxsmm" ]; then
 fi
 cd "${HOME}/libxsmm"
 git fetch
-git checkout 05705477183444a82c8d9be8d7c2627efd6d67fa
+git checkout d009b33e8742a93c9e1549323587fb6197451294
 make -j
 cd ..
 
