@@ -27,7 +27,7 @@ repos:
   - id: check-yaml
   - id: check-symlinks
   - id: trailing-whitespace
-- repo: https://github.com/pseewald/fprettify
+- repo: https://github.com/fortran-lang/fprettify
   rev: v0.3.7
   hooks:
   - id: fprettify
