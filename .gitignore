@@ -232,3 +232,4 @@ spack-*
 .DS_Store
 
 BUILD/
+!tools/fedora/dbcsr.spec
