@@ -65,7 +65,6 @@ The `tune_setup.py` script generates job files. You have to adapt the script to 
     output += "date\n"
 
     ...
-
 ...
 ```
 
@@ -235,11 +234,7 @@ Wrote parameters.new.json
 
 The file `parameters.new.json` can now be used as a parameter file. Rename it to `parameters_GPU.json`, with the appropriate `GPU`.
 
-#### 8. (optional) Explore the data
-
-Explore the data interactively using the [provided Jupyter Notebook](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/notebooks/inspect_training_data.ipynb).
-
-#### 9. Contribute parameters to the community
+#### 8. Contribute parameters to the community
 
 **Contribute new optimal parameters**
 
