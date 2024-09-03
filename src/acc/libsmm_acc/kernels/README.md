@@ -14,8 +14,6 @@
 
   * `smm_acc_dnt_ALGORITHM.h` Batched Multiply Kernel CUDA/HIP code
 
-* [`smm_acc_predict.py`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_predict.py) Class and helper functions for parameter prediction procedure
-
 * [`smm_acc_transpose.h`](https://github.com/cp2k/dbcsr/blob/develop/src/acc/libsmm_acc/kernels/smm_acc_transpose.h) Transpose CUDA/HIP code
 
 ## Batched Multiplication Kernels
