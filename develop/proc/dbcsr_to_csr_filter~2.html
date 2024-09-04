@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">41 statements</a>
+                 title=" 0.0% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_csr_conversions.F"> Source File</a>
+              <a href="../src/dbcsr_api.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_csr_conversions.f.html'>dbcsr_csr_conversions.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_to_csr_filter</li>
           </ol>
         </nav>
@@ -160,8 +160,8 @@ CSR sparsity (currently only used for testing purposes)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dbcsr_mat~12"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-dbcsr_mat~11"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -176,7 +176,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         <tr>
             <td>
               <span class="anchor" id="variable-csr_sparsity~5"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>
@@ -190,7 +190,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~23"></span>
+              <span class="anchor" id="variable-eps~22"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -228,55 +228,8 @@ CSR sparsity (currently only used for testing purposes)</p>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">csr_sparsity</span>
 <span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">eps</span>
 
-<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">blkcol</span><span class="p">,</span><span class="w"> </span><span class="n">blkrow</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                                            </span><span class="n">row_blk_size</span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">block_abs</span><span class="p">,</span><span class="w"> </span><span class="n">csr_sparsity_blk</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="k">block</span>
-<span class="k">      TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span>
-
-<span class="c">!REAL(kind=real_8), DIMENSION(:), POINTER :: block</span>
-
-<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                        </span><span class="n">template</span><span class="o">=</span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                        </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;CSR sparsity&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                        </span><span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">)</span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_set</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">)</span>
-
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">eps</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">)</span>
-<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="k">block</span><span class="p">)</span>
-<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">)</span>
-<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="n">read_only</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<span class="w">         </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span>
-<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">blkrow</span><span class="p">,</span><span class="w"> </span><span class="n">blkcol</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="o">=</span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                           </span><span class="n">row_size</span><span class="o">=</span><span class="n">row_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="o">=</span><span class="n">col_blk_size</span><span class="p">)</span>
-
-<span class="w">            </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">block_abs</span><span class="p">(</span><span class="n">row_blk_size</span><span class="o">*</span><span class="n">col_blk_size</span><span class="p">))</span>
-<span class="w">            </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">csr_sparsity_blk</span><span class="p">(</span><span class="n">row_blk_size</span><span class="o">*</span><span class="n">col_blk_size</span><span class="p">))</span>
-<span class="w">            </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
-<span class="w">            </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
-<span class="w">               </span><span class="n">block_abs</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(:)),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-<span class="w">            </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
-<span class="w">               </span><span class="n">block_abs</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(:)),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-<span class="w">            </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
-<span class="w">               </span><span class="n">block_abs</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(:)),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-<span class="w">            </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
-<span class="w">               </span><span class="n">block_abs</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(:)),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-<span class="w">            </span><span class="k">END SELECT</span>
-
-<span class="k">            </span><span class="n">csr_sparsity_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span>
-<span class="w">            </span><span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">block_abs</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">eps</span><span class="p">)</span><span class="w"> </span><span class="n">csr_sparsity_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
-<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">blkrow</span><span class="p">,</span><span class="w"> </span><span class="n">blkcol</span><span class="p">,</span><span class="w"> </span><span class="n">csr_sparsity_blk</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span>
-<span class="w">            </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">csr_sparsity_blk</span><span class="p">,</span><span class="w"> </span><span class="n">block_abs</span><span class="p">)</span>
-<span class="w">         </span><span class="k">END DO</span>
-<span class="k">         CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
-<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="k">block</span><span class="p">)</span>
-<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="k">block</span><span class="p">)</span>
-<span class="w">      </span><span class="k">END IF</span>
-
-<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_to_csr_filter</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_to_csr_filter_prv</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">csr_sparsity</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">eps</span><span class="p">)</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_to_csr_filter</span>
 </pre></div>
 
     </section>
