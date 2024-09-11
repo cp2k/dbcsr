@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 17 statements,  0.0% of total for procedures.">3 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 18 statements,  0.0% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_toollib.F"> Source File</a>
+              <a href="../src/dbcsr_tas_util.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_toollib.f.html'>dbcsr_toollib.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tas_util.f.html'>dbcsr_tas_util.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
             <li class="breadcrumb-item active" aria-current="page">swap</li>
           </ol>
         </nav>
@@ -131,8 +131,8 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/swap~2.html#moduleprocedure-iswap">iswap</a>
-            <a class="list-group-item" href="../interface/swap~2.html#moduleprocedure-bswap">bswap</a>
+            <a class="list-group-item" href="../interface/swap~2.html#moduleprocedure-swap_i8">swap_i8</a>
+            <a class="list-group-item" href="../interface/swap~2.html#moduleprocedure-swap_i">swap_i</a>
         </div>
       </div>
     </div>
@@ -152,11 +152,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-iswap"></span> <h3>private elemental subroutine <a href='../proc/iswap.html'>iswap</a>(a, b)  
+    <div class="card-header codesum"><span class="anchor" id="proc-swap_i8"></span> <h3>private  subroutine <a href='../proc/swap_i8.html'>swap_i8</a>(arr)  
 </h3></div>
     <div class="card-body">
           
-  <p>Swaps two integers</p>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -171,34 +171,17 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3"></span>
-              integer,
+              <span class="anchor" id="variable-arr~2"></span>
+              integer(kind=int_8),
             </td>
-<td>intent(inout)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
-              
+              DIMENSION(2)
             </td>
             <td>::</td>
-            <td><strong>a</strong></td>
+            <td><strong>arr</strong></td>
             <td>
-<p>Integers to swap
-Integers to swap</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-b~3"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>b</strong></td>
-            <td>
-<p>Integers to swap
-Integers to swap</p>
+
             </td>
         </tr>
     </tbody>
@@ -209,11 +192,11 @@ Integers to swap</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-bswap"></span> <h3>private elemental subroutine <a href='../proc/bswap.html'>bswap</a>(a, b)  
+    <div class="card-header codesum"><span class="anchor" id="proc-swap_i"></span> <h3>private  subroutine <a href='../proc/swap_i.html'>swap_i</a>(arr)  
 </h3></div>
     <div class="card-body">
           
-  <p>Swaps two logicals</p>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -228,34 +211,17 @@ Integers to swap</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~4"></span>
-              logical,
+              <span class="anchor" id="variable-arr~3"></span>
+              integer,
             </td>
-<td>intent(inout)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
-              
+              DIMENSION(2)
             </td>
             <td>::</td>
-            <td><strong>a</strong></td>
+            <td><strong>arr</strong></td>
             <td>
-<p>Logicals to swap
-Logicals to swap</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-b~4"></span>
-              logical,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>b</strong></td>
-            <td>
-<p>Logicals to swap
-Logicals to swap</p>
+
             </td>
         </tr>
     </tbody>

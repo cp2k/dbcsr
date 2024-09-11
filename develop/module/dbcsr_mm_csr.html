@@ -113,9 +113,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_mm_csr.html#variable-modulen~18">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_mm_csr.html#variable-debug_mod~5">debug_mod</a>
-            <a class="list-group-item" href="../module/dbcsr_mm_csr.html#variable-careful_mod~6">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_csr.html#variable-modulen~49">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_csr.html#variable-debug_mod~10">debug_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_csr.html#variable-careful_mod~13">careful_mod</a>
             <a class="list-group-item" href="../module/dbcsr_mm_csr.html#variable-max_stack_block_size">max_stack_block_size</a>
         </div>
       </div>
@@ -213,18 +213,18 @@ dbcsr_mm_methods.
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_mm_sched.html'>dbcsr_mm_sched</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
                   <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
               </ul>
             </li>
         </ul>
@@ -249,7 +249,7 @@ dbcsr_mm_methods.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~18"></span>
+              <span class="anchor" id="variable-modulen~49"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -266,7 +266,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-debug_mod~5"></span>
+              <span class="anchor" id="variable-debug_mod~10"></span>
               logical,
             </td>
               <td>private,</td>
@@ -283,7 +283,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~6"></span>
+              <span class="anchor" id="variable-careful_mod~13"></span>
               logical,
             </td>
               <td>private,</td>
@@ -470,7 +470,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_m"></span>
+              <span class="anchor" id="variable-max_m~2"></span>
               integer,
             </td>
               <td>private</td>
@@ -487,7 +487,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_n"></span>
+              <span class="anchor" id="variable-max_n~2"></span>
               integer,
             </td>
               <td>private</td>
@@ -504,7 +504,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_k"></span>
+              <span class="anchor" id="variable-max_k~2"></span>
               integer,
             </td>
               <td>private</td>
@@ -606,7 +606,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-product_wm"></span>
+              <span class="anchor" id="variable-product_wm~4"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
               <td>private,</td>
@@ -674,7 +674,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_product_data~4"></span>
+              <span class="anchor" id="variable-keep_product_data~6"></span>
               logical,
             </td>
               <td>private</td>
@@ -723,7 +723,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~3"></span>
+              <span class="anchor" id="variable-c~10"></span>
               integer,
             </td>
               <td>public</td>
@@ -740,7 +740,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~5"></span>
+              <span class="anchor" id="variable-p~28"></span>
               integer,
             </td>
               <td>public</td>
@@ -823,7 +823,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nmax"></span>
+              <span class="anchor" id="variable-nmax~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -889,7 +889,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~106"></span>
+              <span class="anchor" id="variable-row~147"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -905,7 +905,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~29"></span>
+              <span class="anchor" id="variable-column~26"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -951,7 +951,7 @@ The absolute matrix column.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~52"></span>
+              <span class="anchor" id="variable-i~147"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1011,7 +1011,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~5"></span>
+              <span class="anchor" id="variable-c~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1102,7 +1102,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~2"></span>
+              <span class="anchor" id="variable-left~16"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1117,7 +1117,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~2"></span>
+              <span class="anchor" id="variable-right~16"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1327,7 +1327,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_local_rows"></span>
+              <span class="anchor" id="variable-c_local_rows~3"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1342,7 +1342,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_local_cols"></span>
+              <span class="anchor" id="variable-c_local_cols~3"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1357,7 +1357,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_has_symmetry"></span>
+              <span class="anchor" id="variable-c_has_symmetry~2"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -1372,7 +1372,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_sparsity~8"></span>
+              <span class="anchor" id="variable-keep_sparsity~11"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -1417,7 +1417,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~21"></span>
+              <span class="anchor" id="variable-flop~24"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout)</td>
@@ -1532,7 +1532,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~3"></span>
+              <span class="anchor" id="variable-left~17"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1547,7 +1547,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~3"></span>
+              <span class="anchor" id="variable-right~17"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1712,7 +1712,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_blk_p"></span>
+              <span class="anchor" id="variable-c_blk_p~2"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1727,7 +1727,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lastblk~2"></span>
+              <span class="anchor" id="variable-lastblk"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -1802,7 +1802,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_local_rows~2"></span>
+              <span class="anchor" id="variable-c_local_rows~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1817,7 +1817,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_local_cols~2"></span>
+              <span class="anchor" id="variable-c_local_cols~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1832,7 +1832,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_has_symmetry~2"></span>
+              <span class="anchor" id="variable-c_has_symmetry~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1847,7 +1847,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_sparsity~9"></span>
+              <span class="anchor" id="variable-keep_sparsity~12"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1892,7 +1892,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~22"></span>
+              <span class="anchor" id="variable-flop~25"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout)</td>
@@ -2202,7 +2202,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~4"></span>
+              <span class="anchor" id="variable-left~18"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in),</td>
@@ -2217,7 +2217,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~4"></span>
+              <span class="anchor" id="variable-right~18"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in),</td>
@@ -2307,7 +2307,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nlayers"></span>
+              <span class="anchor" id="variable-nlayers~2"></span>
               integer,
             </td>
 <td></td>
@@ -2322,7 +2322,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_product_data~5"></span>
+              <span class="anchor" id="variable-keep_product_data~7"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -2377,7 +2377,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~156"></span>
+              <span class="anchor" id="variable-matrix~279"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2572,7 +2572,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_buffer~2"></span>
+              <span class="anchor" id="variable-data_buffer~4"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2587,7 +2587,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~23"></span>
+              <span class="anchor" id="variable-flop~26"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout)</td>
@@ -2677,7 +2677,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_sparsity~10"></span>
+              <span class="anchor" id="variable-keep_sparsity~13"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -2732,7 +2732,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~5"></span>
+              <span class="anchor" id="variable-left~19"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2747,7 +2747,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~5"></span>
+              <span class="anchor" id="variable-right~19"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2802,7 +2802,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~6"></span>
+              <span class="anchor" id="variable-left~20"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2817,7 +2817,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~6"></span>
+              <span class="anchor" id="variable-right~20"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2932,7 +2932,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_p~6"></span>
+              <span class="anchor" id="variable-row_p~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -3158,7 +3158,7 @@ the hash table will expand as needed (but this requires rehashing)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~4"></span>
+              <span class="anchor" id="variable-c~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3174,7 +3174,7 @@ this is being stored</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~6"></span>
+              <span class="anchor" id="variable-p~29"></span>
               integer,
             </td>
 <td>intent(in)</td>
