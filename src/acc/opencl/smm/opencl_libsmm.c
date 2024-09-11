@@ -501,7 +501,9 @@ int libsmm_acc_init(void) {
                     memcpy(config_init, &config, sizeof(config));
                   }
 #    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
-                  if (active_match == i && c_dbcsr_acc_opencl_config.device.uid != key.devuid) {
+                  if (active_match == i && 0 != c_dbcsr_acc_opencl_config.device.uid &&
+                      c_dbcsr_acc_opencl_config.device.uid != key.devuid)
+                  {
                     key.devuid = c_dbcsr_acc_opencl_config.device.uid;
                     config_init = (opencl_libsmm_smm_t*)libxsmm_xdispatch(&key, sizeof(key));
                     if (NULL == config_init && NULL != libxsmm_xregister(&key, sizeof(key), sizeof(config), &config)) {
