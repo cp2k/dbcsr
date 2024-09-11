@@ -39,8 +39,8 @@
 #      define OPENCL_LIBSMM_VALIDATE_EXIT
 #    endif
 #    if !defined(OPENCL_LIBSMM_VALIDATE_SCRATCH)
-#      define OPENCL_LIBSMM_VALIDATE_SCRATCH(SIZE, ALIGN) /*libxsmm_aligned_scratch(SIZE, ALIGN)*/malloc(SIZE)
-#      define OPENCL_LIBSMM_VALIDATE_FREE(PTR) /*libxsmm_free(PTR)*/free(PTR)
+#      define OPENCL_LIBSMM_VALIDATE_SCRATCH(SIZE, ALIGN) /*libxsmm_aligned_scratch(SIZE, ALIGN)*/ malloc(SIZE)
+#      define OPENCL_LIBSMM_VALIDATE_FREE(PTR) /*libxsmm_free(PTR)*/ free(PTR)
 #    endif
 #  endif
 #  if !defined(OPENCL_LIBSMM_KERNELNAME_TRANS)
