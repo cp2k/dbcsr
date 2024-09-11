@@ -843,6 +843,9 @@ int c_dbcsr_acc_opencl_device_name(
   cl_device_id device, char name[], size_t name_maxlen, char platform[], size_t platform_maxlen, int cleanup) {
   int result_name = 0, result_platform = 0;
   assert(NULL != name || NULL != platform);
+  if (NULL == device && 0 < c_dbcsr_acc_opencl_config.ndevices) {
+    device = c_dbcsr_acc_opencl_config.devices[0]; /* NULL-device refers to device 0 */
+  }
   if (NULL != name && 0 != name_maxlen) {
     result_name = clGetDeviceInfo(device, CL_DEVICE_NAME, name_maxlen, name, NULL);
     if (0 != cleanup && EXIT_SUCCESS == result_name) {
@@ -1157,7 +1160,7 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
 
 int c_dbcsr_acc_set_active_device(int device_id) {
   int result = EXIT_SUCCESS;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE) && 0
   int routine_handle;
   static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
   static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
@@ -1177,7 +1180,7 @@ int c_dbcsr_acc_set_active_device(int device_id) {
 #  if !defined(NDEBUG)
   else result = EXIT_FAILURE;
 #  endif
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
+#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE) && 0
   c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);

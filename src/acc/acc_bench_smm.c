@@ -280,7 +280,7 @@ int main(int argc, char* argv[]) {
 #if defined(USE_LIBXSMM)
       libxsmm_timer_tickint start;
       int print_offset = 0;
-      char print_buffer[1024];
+      char print_buffer[1024] = "";
 #  if defined(__OPENCL)
       const char* const env_smm_repeat = getenv("SMM_NREPEAT");
       const int smm_nrepeat = (NULL == env_smm_repeat ? 1 : MAX(atoi(env_smm_repeat), 1));
@@ -497,7 +497,7 @@ int main(int argc, char* argv[]) {
                 if (maxdiff < epsilon && NULL != file) maxdiff = epsilon;
                 if (0 < epsilon) {
                   if (LIBXSMM_NOTNAN(diff.v_tst)) {
-                    PRINTF(" (|%g-%g|=%g)\n", diff.v_ref, diff.v_tst, fabs(diff.v_ref - diff.v_tst));
+                    PRINTF(" (|%g-%g|=%g)\n", diff.v_ref, diff.v_tst, diff.linf_abs);
                   }
                   else {
                     PRINTF(" (%g)\n", diff.v_tst);
@@ -508,6 +508,7 @@ int main(int argc, char* argv[]) {
                 }
                 if (0 < check && check < epsilon) result = EXIT_FAILURE;
               }
+              else fprintf(stderr, "ERROR: failed to validate!\n");
             }
 #    endif
           }
