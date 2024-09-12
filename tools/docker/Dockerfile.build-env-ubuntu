@@ -55,12 +55,12 @@ RUN set -ex ; \
         git-archive-all \
         ;
 
-ARG libxsmm_version=1.17
+ARG libxsmm_version=6e6e718566679c73e248902e68f02683feca1885
 
 RUN set -ex ; \
-    curl -LsS https://github.com/hfp/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt ; \
+    curl -LsS https://github.com/libxsmm/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt ; \
     ln -s libxsmm-${libxsmm_version} /opt/libxsmm ; \
-    make -j -C /opt/libxsmm MALLOC=0
+    make -j -C /opt/libxsmm WRAP=0
 
 ENV PKG_CONFIG_PATH="/opt/libxsmm/lib:${PKG_CONFIG_PATH}"
 
