@@ -222,21 +222,25 @@ int main(int argc, char* argv[]) {
 #endif
   CHECK(libsmm_acc_init(), &result, check); /* note: libsmm_acc_init() may imply acc_init() */
   if (EXIT_SUCCESS == result) {
-    const char* const env_device = getenv("DEVICE");
-    const int device = ((NULL == env_device || '\0' == *env_device) ? 0 : atoi(env_device));
     int ndevices = 0;
     result = c_dbcsr_acc_get_ndevices(&ndevices);
-    if (0 < ndevices && (0 == device || EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device))) {
-      printf("Activated device%i (ndevices=%i)\n", device, ndevices);
-    }
-    else {
-      if (0 >= ndevices) {
-        fprintf(stderr, "ERROR: No ACC-device found!\n");
+    if (EXIT_SUCCESS == result && 0 < ndevices) {
+      const char* const env_device = getenv("DEVICE");
+      const char* const env_rank = (NULL != getenv("PMI_RANK") ? getenv("PMI_RANK") : getenv("OMPI_COMM_WORLD_LOCAL_RANK"));
+      const int rank = (NULL != env_rank ? atoi(env_rank) : -1);
+      int device = ((NULL == env_device || '\0' == *env_device) ? 0 : atoi(env_device));
+      device = ((0 <= device && device < ndevices) ? (0 <= rank ? (rank % ndevices) : device) : -1);
+      result = c_dbcsr_acc_set_active_device(device);
+      if (EXIT_SUCCESS == result) {
+        printf("Activated device%i (ndevices=%i)\n", device, ndevices);
       }
       else {
-        fprintf(stderr, "ERROR: Failed to activate device %i of %i!\n", device, ndevices);
+        fprintf(stderr, "ERROR: Failed to activate device!\n");
       }
-      result = EXIT_FAILURE;
+    }
+    else {
+      fprintf(stderr, "ERROR: No ACC-device found!\n");
+      if (EXIT_SUCCESS == result) result = EXIT_FAILURE;
     }
     if (EXIT_SUCCESS == result) {
       rnd = (int*)malloc(sizeof(int) * NRAND);
