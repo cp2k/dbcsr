@@ -113,7 +113,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_mm_common.html#variable-modulen~29">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_common.html#variable-modulen~22">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_mm_common.html#variable-memtype_product_wm">memtype_product_wm</a>
             <a class="list-group-item" href="../module/dbcsr_mm_common.html#variable-dbcsr_mpi_statistics">dbcsr_mpi_statistics</a>
             <a class="list-group-item" href="../module/dbcsr_mm_common.html#variable-num_multiplications">num_multiplications</a>
@@ -214,20 +214,20 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
                   <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_acc_operations.html'>dbcsr_acc_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mm_multrec.html'>dbcsr_mm_multrec</a></li>
                   <li class="list-inline-item"><a href='dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
                   <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mm_multrec.html'>dbcsr_mm_multrec</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
               </ul>
             </li>
         </ul>
@@ -252,7 +252,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~29"></span>
+              <span class="anchor" id="variable-modulen~22"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -575,7 +575,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~18"></span>
+              <span class="anchor" id="variable-p~22"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
               <td>public,</td>
@@ -641,7 +641,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~19"></span>
+              <span class="anchor" id="variable-p~23"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
               <td>public,</td>
@@ -737,7 +737,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-product_matrix~3"></span>
+              <span class="anchor" id="variable-product_matrix~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -812,7 +812,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nthreads~11"></span>
+              <span class="anchor" id="variable-nthreads~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -947,7 +947,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~147"></span>
+              <span class="anchor" id="variable-matrix~108"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1007,7 +1007,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_buffer~4"></span>
+              <span class="anchor" id="variable-data_buffer~2"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1022,7 +1022,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_memory_type~4"></span>
+              <span class="anchor" id="variable-data_memory_type~2"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1137,7 +1137,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2"></span>
+              <span class="anchor" id="variable-a~6"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1152,7 +1152,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d"></span>
+              <span class="anchor" id="variable-d~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1207,7 +1207,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3"></span>
+              <span class="anchor" id="variable-a~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1222,7 +1222,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split~4"></span>
+              <span class="anchor" id="variable-split"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1322,7 +1322,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_sizes"></span>
+              <span class="anchor" id="variable-blk_sizes~2"></span>
               integer,
             </td>
 <td></td>
@@ -1407,7 +1407,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~148"></span>
+              <span class="anchor" id="variable-matrix~109"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1567,7 +1567,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~149"></span>
+              <span class="anchor" id="variable-matrix~110"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1698,7 +1698,7 @@ Rewritten to be very low-level.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~150"></span>
+              <span class="anchor" id="variable-matrix~111"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1813,7 +1813,7 @@ Rewritten to be very low-level.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_elements"></span>
+              <span class="anchor" id="variable-local_elements~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1883,7 +1883,122 @@ Rewritten to be very low-level.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~20"></span>
+              <span class="anchor" id="variable-nblks~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nblks</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blki"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(3, nblks)
+            </td>
+            <td>::</td>
+            <td><strong>blki</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rbs~4"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>rbs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cbs~4"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>cbs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data~29"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>DATA</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_norms_s"></span> <h3>private  subroutine <a href='../proc/calc_norms_s.html'>calc_norms_s</a>(norms, nblks, blki, rbs, cbs, DATA)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Calculates norms of the entire matrix with minimal overhead.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-norms~4"></span>
+              real(kind=sp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>norms</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nblks~9"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1943,8 +2058,8 @@ Rewritten to be very low-level.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~44"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-data~30"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -1964,7 +2079,7 @@ Rewritten to be very low-level.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_norms_s"></span> <h3>private  subroutine <a href='../proc/calc_norms_s.html'>calc_norms_s</a>(norms, nblks, blki, rbs, cbs, DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_norms_z"></span> <h3>private  subroutine <a href='../proc/calc_norms_z.html'>calc_norms_z</a>(norms, nblks, blki, rbs, cbs, DATA)  
 </h3></div>
     <div class="card-body">
           
@@ -1983,7 +2098,7 @@ Rewritten to be very low-level.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-norms~4"></span>
+              <span class="anchor" id="variable-norms~5"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -1998,7 +2113,7 @@ Rewritten to be very low-level.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~21"></span>
+              <span class="anchor" id="variable-nblks~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2058,8 +2173,8 @@ Rewritten to be very low-level.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~45"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-data~31"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -2079,7 +2194,7 @@ Rewritten to be very low-level.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_norms_z"></span> <h3>private  subroutine <a href='../proc/calc_norms_z.html'>calc_norms_z</a>(norms, nblks, blki, rbs, cbs, DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_norms_c"></span> <h3>private  subroutine <a href='../proc/calc_norms_c.html'>calc_norms_c</a>(norms, nblks, blki, rbs, cbs, DATA)  
 </h3></div>
     <div class="card-body">
           
@@ -2098,7 +2213,7 @@ Rewritten to be very low-level.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-norms~5"></span>
+              <span class="anchor" id="variable-norms~6"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -2113,7 +2228,7 @@ Rewritten to be very low-level.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~22"></span>
+              <span class="anchor" id="variable-nblks~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2173,122 +2288,7 @@ Rewritten to be very low-level.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~46"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>DATA</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_norms_c"></span> <h3>private  subroutine <a href='../proc/calc_norms_c.html'>calc_norms_c</a>(norms, nblks, blki, rbs, cbs, DATA)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Calculates norms of the entire matrix with minimal overhead.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-norms~6"></span>
-              real(kind=sp),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>norms</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nblks~23"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nblks</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-blki~5"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(3, nblks)
-            </td>
-            <td>::</td>
-            <td><strong>blki</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rbs~8"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>rbs</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-cbs~8"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>cbs</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-data~47"></span>
+              <span class="anchor" id="variable-data~32"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
