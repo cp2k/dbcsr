@@ -190,8 +190,12 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
   if (EXIT_SUCCESS == result) {
     const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
                                                                    : c_dbcsr_acc_opencl_stream_default());
-    void* const mapped = clEnqueueMapBuffer(
-      str->queue, memory, CL_TRUE /*always block*/, CL_MAP_READ | CL_MAP_WRITE, 0 /*offset*/, nbytes, 0, NULL, NULL, &result);
+    void* const mapped = clEnqueueMapBuffer(str->queue, memory, CL_TRUE /*always block*/,
+#  if defined(CL_VERSION_1_2) || defined(CL_MAP_WRITE_INVALIDATE_REGION)
+      (4 & c_dbcsr_acc_opencl_config.xhints) ? CL_MAP_WRITE_INVALIDATE_REGION :
+#  endif
+                                             (CL_MAP_READ | CL_MAP_WRITE),
+      0 /*offset*/, nbytes, 0, NULL, NULL, &result);
     assert(EXIT_SUCCESS == result || NULL == mapped);
     if (EXIT_SUCCESS == result) {
       const uintptr_t address = (uintptr_t)mapped;
