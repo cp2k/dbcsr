@@ -189,7 +189,7 @@ int opencl_libsmm_read_smm_params(char* parambuf, opencl_libsmm_smmkey_t* key, o
   LIBXSMM_MEMZERO127(key); /* potentially heterogeneous key-data (alignment gaps) */
   memset(value, 0, sizeof(opencl_libsmm_smm_t));
   for (; NULL != s;
-       ++i, s = (c != consumed ? ((s + 1) < end ? strtok((s + 1) + strlen(s), ACC_OPENCL_DELIMS) : NULL) : s), c = consumed)
+    ++i, s = (c != consumed ? ((s + 1) < end ? strtok((s + 1) + strlen(s), ACC_OPENCL_DELIMS) : NULL) : s), c = consumed)
   {
     switch (i) {
       case 0:

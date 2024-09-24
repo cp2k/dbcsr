@@ -114,7 +114,7 @@ __global__ void __launch_bounds__(threads, minblocks) smm_acc_dnt_small(const in
   nrun = grouping;
   if (((bidx + 1) * grouping) > stack_size) nrun = stack_size % grouping;
 
-    /* Set the partial sum (tile T) to zero */
+  /* Set the partial sum (tile T) to zero */
 #pragma unroll
   for (int i = 0; i < M * N; i++) myc[i] = 0.0;
 
@@ -203,7 +203,7 @@ __global__ void __launch_bounds__(threads, minblocks) smm_acc_dnt_small(const in
 
         if (need_sync) syncthreads();
 
-          /* Add results from shared memory buffer to global C block. */
+        /* Add results from shared memory buffer to global C block. */
 #pragma unroll
         for (int i = tidx; i < mn; i += threads) atomicAdd(&c_data[srcC + i], buff[i]);
       }

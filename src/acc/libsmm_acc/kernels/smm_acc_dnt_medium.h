@@ -422,7 +422,7 @@ __global__ void __launch_bounds__(threads, minblocks) smm_acc_dnt_medium(const i
         }
         if (need_sync) syncthreads();
 
-          /* Add results from shared memory buffer to global C block. */
+        /* Add results from shared memory buffer to global C block. */
 #pragma unroll
         for (int i = tidx; i < mn; i += threads) {
           atomicAdd(&c_data[srcC + i], buff[i]);
