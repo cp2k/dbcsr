@@ -65,4 +65,5 @@ repos:
     language: python
     files: \.(c|cc|cxx|cpp|cl|frag|glsl|h|hpp|hxx|ih|ispc|ipp|java|js|m|mm|proto|textproto|vert)$
     args: ['-i', '-fallback-style=none', '--style=file']
-    additional_dependencies: ['clang-format']
+    # specify version since clang-format is not stable version-to-version
+    additional_dependencies: ['clang-format~=19.1.0']
