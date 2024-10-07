@@ -104,6 +104,9 @@
 #if !defined(ACC_OPENCL_ASYNC) && 1
 #  define ACC_OPENCL_ASYNC getenv("ACC_OPENCL_ASYNC")
 #endif
+#if !defined(ACC_OPENCL_XHINTS) && 1
+#  define ACC_OPENCL_XHINTS getenv("ACC_OPENCL_XHINTS")
+#endif
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 0
 #  if defined(CL_QUEUE_PRIORITY_KHR)
 #    define ACC_OPENCL_STREAM_PRIORITIES
