@@ -217,8 +217,8 @@ int c_dbcsr_acc_init(void) {
     cl_platform_id platforms[ACC_OPENCL_MAXNDEVS] = {NULL};
     cl_device_id devices[ACC_OPENCL_MAXNDEVS];
     char buffer[ACC_OPENCL_BUFFERSIZE];
+    const char *const env_devsplit = getenv("ACC_OPENCL_DEVSPLIT"), *const env_priority = getenv("ACC_OPENCL_PRIORITY");
     const char *const env_devmatch = getenv("ACC_OPENCL_DEVMATCH"), *const env_devtype = getenv("ACC_OPENCL_DEVTYPE");
-    const char *const env_priority = getenv("ACC_OPENCL_PRIORITY"), *const env_xhints = getenv("ACC_OPENCL_XHINTS");
     const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE"), *const env_debug = getenv("ACC_OPENCL_DEBUG");
     const char *const env_device = getenv("ACC_OPENCL_DEVICE"), *const env_dump_acc = getenv("ACC_OPENCL_DUMP");
     const char *const env_timer = getenv("ACC_OPENCL_TIMER"), *const env_nlocks = getenv("ACC_OPENCL_NLOCKS");
@@ -229,14 +229,20 @@ int c_dbcsr_acc_init(void) {
 #  endif
     const char *const env_neo = getenv("NEOReadDebugKeys"), *const env_wa = getenv("ACC_OPENCL_WA");
     const int neo = (NULL == env_neo ? 1 : atoi(env_neo));
+#  if defined(ACC_OPENCL_XHINTS)
+    const char* const env_xhints = (ACC_OPENCL_XHINTS);
+    const int xhints_default = 1 + 2 + 4 + 8;
+#  else
+    const char* const env_xhints = NULL;
+    const int xhints_default = 0;
+#  endif
 #  if defined(ACC_OPENCL_ASYNC)
     const char* const env_async = (ACC_OPENCL_ASYNC);
-    const int async_default = 3;
+    const int async_default = 1 + 2;
 #  else
     const char* const env_async = NULL;
     const int async_default = 0;
 #  endif
-    const char* const env_devsplit = getenv("ACC_OPENCL_DEVSPLIT");
     /*const char* const env_nranks = getenv("MPI_LOCALNRANKS");
     const cl_uint nranks = LIBXSMM_MAX(NULL != env_nranks ? atoi(env_nranks) : 1, 1);*/
     const cl_int devsplit = (NULL == env_devsplit ? /*(1 < nranks ? -1 : 0)*/ 0 : atoi(env_devsplit));
@@ -274,7 +280,7 @@ int c_dbcsr_acc_init(void) {
                                                   : c_dbcsr_acc_opencl_config.lock_main);
     c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
     c_dbcsr_acc_opencl_config.priority = (NULL == env_priority ? /*default*/ 3 : atoi(env_priority));
-    c_dbcsr_acc_opencl_config.xhints = (NULL == env_xhints ? (1 + 2 + 4) : atoi(env_xhints));
+    c_dbcsr_acc_opencl_config.xhints = (NULL == env_xhints ? xhints_default : atoi(env_xhints));
     c_dbcsr_acc_opencl_config.async = (NULL == env_async ? async_default : atoi(env_async));
     c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/ 0 : atoi(env_dump));
     c_dbcsr_acc_opencl_config.debug = (NULL == env_debug ? c_dbcsr_acc_opencl_config.dump : atoi(env_debug));
@@ -1109,7 +1115,7 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
           else {
             c_dbcsr_acc_opencl_config.device.wgsize[2] = 0;
           }
-#  if defined(ACC_OPENCL_MEM_DEVPTR)
+#  if defined(ACC_OPENCL_XHINTS) && defined(ACC_OPENCL_MEM_DEVPTR)
           if (0 != (1 & c_dbcsr_acc_opencl_config.xhints) && 2 <= *c_dbcsr_acc_opencl_config.device.std_level &&
               0 != c_dbcsr_acc_opencl_config.device.intel && 0 == c_dbcsr_acc_opencl_config.device.unified &&
               EXIT_SUCCESS == clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL) &&

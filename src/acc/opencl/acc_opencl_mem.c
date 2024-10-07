@@ -168,6 +168,8 @@ int c_dbcsr_acc_opencl_info_devptr(
 int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) {
   const size_t size_meminfo = sizeof(c_dbcsr_acc_opencl_info_memptr_t);
   int result = EXIT_SUCCESS, alignment = sizeof(void*);
+  cl_mem_flags flags = CL_MEM_ALLOC_HOST_PTR;
+  void* host_ptr = NULL;
   cl_mem memory = NULL;
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   int routine_handle;
@@ -186,16 +188,25 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
       EXIT_SUCCESS == c_dbcsr_acc_opencl_set_active_device(NULL /*lock*/, (int)c_dbcsr_acc_opencl_config.device.uid));
   }
 #  endif
-  memory = clCreateBuffer(c_dbcsr_acc_opencl_config.device.context, CL_MEM_ALLOC_HOST_PTR, nbytes, NULL /*host_ptr*/, &result);
-  if (EXIT_SUCCESS == result) {
-    const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
-                                                                   : c_dbcsr_acc_opencl_stream_default());
-    void* const mapped = clEnqueueMapBuffer(str->queue, memory, CL_TRUE /*always block*/,
-#  if defined(CL_VERSION_1_2) || defined(CL_MAP_WRITE_INVALIDATE_REGION)
-      (4 & c_dbcsr_acc_opencl_config.xhints) ? CL_MAP_WRITE_INVALIDATE_REGION :
+#  if defined(ACC_OPENCL_XHINTS)
+  if (0 != (8 & c_dbcsr_acc_opencl_config.xhints) && (0 != c_dbcsr_acc_opencl_config.device.nv || NULL != (ACC_OPENCL_XHINTS))) {
+    host_ptr = malloc(nbytes);
+    if (NULL != host_ptr) flags = CL_MEM_USE_HOST_PTR;
+  }
 #  endif
-                                             (CL_MAP_READ | CL_MAP_WRITE),
-      0 /*offset*/, nbytes, 0, NULL, NULL, &result);
+  memory = clCreateBuffer(c_dbcsr_acc_opencl_config.device.context, flags, nbytes, host_ptr, &result);
+  if (EXIT_SUCCESS == result) {
+    void* mapped = host_ptr;
+    if (NULL == host_ptr) {
+      const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
+                                                                     : c_dbcsr_acc_opencl_stream_default());
+      mapped = clEnqueueMapBuffer(str->queue, memory, CL_TRUE /*always block*/,
+#  if defined(ACC_OPENCL_XHINTS) && (defined(CL_VERSION_1_2) || defined(CL_MAP_WRITE_INVALIDATE_REGION))
+        (4 & c_dbcsr_acc_opencl_config.xhints) ? CL_MAP_WRITE_INVALIDATE_REGION :
+#  endif
+                                               (CL_MAP_READ | CL_MAP_WRITE),
+        0 /*offset*/, nbytes, 0, NULL, NULL, &result);
+    }
     assert(EXIT_SUCCESS == result || NULL == mapped);
     if (EXIT_SUCCESS == result) {
       const uintptr_t address = (uintptr_t)mapped;
@@ -214,6 +225,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
   if (EXIT_SUCCESS != result) {
     if (NULL != memory) ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseMemObject(memory));
     *host_mem = NULL;
+    free(host_ptr);
   }
   assert(EXIT_SUCCESS == result || NULL == *host_mem);
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
@@ -235,13 +247,25 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream) {
     c_dbcsr_acc_opencl_info_memptr_t* const meminfo = c_dbcsr_acc_opencl_info_hostptr(host_mem);
     if (NULL != meminfo->memory) {
       const c_dbcsr_acc_opencl_info_memptr_t info = *meminfo; /* copy meminfo prior to unmap */
-      const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
-                                                                     : c_dbcsr_acc_opencl_stream_default());
+      void* host_ptr = NULL;
       int result_release;
-      cl_event event;
-      assert(NULL != str && NULL != str->queue);
-      result = clEnqueueUnmapMemObject(str->queue, info.memory, info.memptr, 0, NULL, &event);
-      if (NULL == stream && EXIT_SUCCESS == result) result = clWaitForEvents(1, &event);
+#  if defined(ACC_OPENCL_XHINTS)
+      if (0 != (8 & c_dbcsr_acc_opencl_config.xhints) &&
+          (0 != c_dbcsr_acc_opencl_config.device.nv || NULL != (ACC_OPENCL_XHINTS)) &&
+          EXIT_SUCCESS == clGetMemObjectInfo(info.memory, CL_MEM_HOST_PTR, sizeof(void*), &host_ptr, NULL) && NULL != host_ptr)
+      {
+        free(host_ptr);
+      }
+      if (NULL == host_ptr)
+#  endif
+      {
+        const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
+                                                                       : c_dbcsr_acc_opencl_stream_default());
+        cl_event event;
+        assert(NULL != str && NULL != str->queue);
+        result = clEnqueueUnmapMemObject(str->queue, info.memory, info.memptr, 0, NULL, &event);
+        if (NULL == stream && EXIT_SUCCESS == result) result = clWaitForEvents(1, &event);
+      }
       result_release = clReleaseMemObject(info.memory);
       if (EXIT_SUCCESS == result) result = result_release;
     }
