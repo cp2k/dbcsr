@@ -19,6 +19,13 @@ MODULE dbcsr_array_list_methods
    USE dbcsr_allocate_wrap, ONLY: allocate_any
 
 #include "base/dbcsr_base_uses.f90"
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+   USE libxsmm, ONLY: libxsmm_diff
+#  define PURE_ARRAY_EQ
+#else
+#  define PURE_ARRAY_EQ PURE
+#endif
+
    IMPLICIT NONE
    PRIVATE
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_array_list_methods'
@@ -275,15 +282,18 @@ CONTAINS
       check_equal = array_eq_i(list1%col_data, list2%col_data) .AND. array_eq_i(list1%ptr, list2%ptr)
    END FUNCTION
 
-   PURE FUNCTION array_eq_i(arr1, arr2)
+   PURE_ARRAY_EQ FUNCTION array_eq_i(arr1, arr2)
       !! check whether two arrays are equal
       INTEGER, INTENT(IN), DIMENSION(:) :: arr1
       INTEGER, INTENT(IN), DIMENSION(:) :: arr2
       LOGICAL                           :: array_eq_i
 
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+      array_eq_i = .NOT. libxsmm_diff(arr1, arr2)
+#else
       array_eq_i = .FALSE.
       IF (SIZE(arr1) .EQ. SIZE(arr2)) array_eq_i = ALL(arr1 == arr2)
-
+#endif
    END FUNCTION
 
 END MODULE dbcsr_array_list_methods
