@@ -24,6 +24,13 @@ MODULE dbcsr_array_list_methods
    USE dbcsr_allocate_wrap, ONLY: allocate_any
 
 #include "base/dbcsr_base_uses.f90"
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+   USE libxsmm, ONLY: libxsmm_diff
+#  define PURE_ARRAY_EQ
+#else
+#  define PURE_ARRAY_EQ PURE
+#endif
+
    IMPLICIT NONE
    PRIVATE
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_array_list_methods'
@@ -95,27 +102,27 @@ CONTAINS
 
       size_all = 0
 
-# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata .GE. 1) THEN
             DBCSR_ASSERT(PRESENT(data_1))
             size_all = size_all + SIZE(data_1)
          END IF
-# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata .GE. 2) THEN
             DBCSR_ASSERT(PRESENT(data_2))
             size_all = size_all + SIZE(data_2)
          END IF
-# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata .GE. 3) THEN
             DBCSR_ASSERT(PRESENT(data_3))
             size_all = size_all + SIZE(data_3)
          END IF
-# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata .GE. 4) THEN
             DBCSR_ASSERT(PRESENT(data_4))
             size_all = size_all + SIZE(data_4)
          END IF
-# 99 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 106 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
 
       ALLOCATE (list%ptr(ndata + 1))
       ALLOCATE (list%col_data(size_all))
@@ -123,31 +130,31 @@ CONTAINS
       ptr = 1
       list%ptr(1) = ptr
 
-# 107 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata .GE. 1) THEN
             list%col_data(ptr:ptr + SIZE(data_1) - 1) = data_1 (:)
             ptr = ptr + SIZE(data_1)
             list%ptr(2) = ptr
          END IF
-# 107 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata .GE. 2) THEN
             list%col_data(ptr:ptr + SIZE(data_2) - 1) = data_2 (:)
             ptr = ptr + SIZE(data_2)
             list%ptr(3) = ptr
          END IF
-# 107 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata .GE. 3) THEN
             list%col_data(ptr:ptr + SIZE(data_3) - 1) = data_3 (:)
             ptr = ptr + SIZE(data_3)
             list%ptr(4) = ptr
          END IF
-# 107 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata .GE. 4) THEN
             list%col_data(ptr:ptr + SIZE(data_4) - 1) = data_4 (:)
             ptr = ptr + SIZE(data_4)
             list%ptr(5) = ptr
          END IF
-# 113 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
 
    END SUBROUTINE
 
@@ -164,27 +171,27 @@ CONTAINS
 
       ndata = SIZE(i_selected)
 
-# 130 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 137 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata == 1) THEN
             CALL get_arrays(list, data_1, i_selected=i_selected)
             CALL create_array_list(array_sublist, ndata, data_1)
          END IF
-# 130 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 137 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata == 2) THEN
             CALL get_arrays(list, data_1, data_2, i_selected=i_selected)
             CALL create_array_list(array_sublist, ndata, data_1, data_2)
          END IF
-# 130 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 137 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata == 3) THEN
             CALL get_arrays(list, data_1, data_2, data_3, i_selected=i_selected)
             CALL create_array_list(array_sublist, ndata, data_1, data_2, data_3)
          END IF
-# 130 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 137 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata == 4) THEN
             CALL get_arrays(list, data_1, data_2, data_3, data_4, i_selected=i_selected)
             CALL create_array_list(array_sublist, ndata, data_1, data_2, data_3, data_4)
          END IF
-# 135 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 142 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
    END FUNCTION
 
    SUBROUTINE destroy_array_list(list)
@@ -216,23 +223,23 @@ CONTAINS
       END IF
 
       ASSOCIATE (ptr => list%ptr, col_data => list%col_data)
-# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 174 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
             IF (ndata > 0) THEN
                CALL allocate_any(data_1, source=col_data(ptr(o(1)):ptr(o(1) + 1) - 1))
             END IF
-# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 174 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
             IF (ndata > 1) THEN
                CALL allocate_any(data_2, source=col_data(ptr(o(2)):ptr(o(2) + 1) - 1))
             END IF
-# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 174 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
             IF (ndata > 2) THEN
                CALL allocate_any(data_3, source=col_data(ptr(o(3)):ptr(o(3) + 1) - 1))
             END IF
-# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 174 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
             IF (ndata > 3) THEN
                CALL allocate_any(data_4, source=col_data(ptr(o(4)):ptr(o(4) + 1) - 1))
             END IF
-# 171 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 178 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
       END ASSOCIATE
 
    END SUBROUTINE get_arrays
@@ -322,25 +329,25 @@ CONTAINS
       INTEGER, DIMENSION(number_of_arrays(list_in)), &
          INTENT(IN)                                    :: order
 
-# 261 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 268 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (number_of_arrays(list_in) == 2) THEN
             CALL get_arrays(list_in, data_1, data_2, i_selected=dbcsr_t_inverse_order(order))
             CALL create_array_list(list_out, number_of_arrays(list_in), &
                                    data_1, data_2)
          END IF
-# 261 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 268 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (number_of_arrays(list_in) == 3) THEN
             CALL get_arrays(list_in, data_1, data_2, data_3, i_selected=dbcsr_t_inverse_order(order))
             CALL create_array_list(list_out, number_of_arrays(list_in), &
                                    data_1, data_2, data_3)
          END IF
-# 261 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 268 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (number_of_arrays(list_in) == 4) THEN
             CALL get_arrays(list_in, data_1, data_2, data_3, data_4, i_selected=dbcsr_t_inverse_order(order))
             CALL create_array_list(list_out, number_of_arrays(list_in), &
                                    data_1, data_2, data_3, data_4)
          END IF
-# 267 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
+# 274 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
 
    END SUBROUTINE
 
@@ -352,15 +359,18 @@ CONTAINS
       check_equal = array_eq_i(list1%col_data, list2%col_data) .AND. array_eq_i(list1%ptr, list2%ptr)
    END FUNCTION
 
-   PURE FUNCTION array_eq_i(arr1, arr2)
+   PURE_ARRAY_EQ FUNCTION array_eq_i(arr1, arr2)
       !! check whether two arrays are equal
       INTEGER, INTENT(IN), DIMENSION(:) :: arr1
       INTEGER, INTENT(IN), DIMENSION(:) :: arr2
       LOGICAL                           :: array_eq_i
 
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+      array_eq_i = .NOT. libxsmm_diff(arr1, arr2)
+#else
       array_eq_i = .FALSE.
       IF (SIZE(arr1) .EQ. SIZE(arr2)) array_eq_i = ALL(arr1 == arr2)
-
+#endif
    END FUNCTION
 
 END MODULE dbcsr_array_list_methods
