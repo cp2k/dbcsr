@@ -906,8 +906,6 @@ if __name__ == "__main__":
     # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
     if os.getenv("OPENCL_LIBSMM_SMM_WS") not in default_enable_tune:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
-    if os.getenv("OPENCL_LIBSMM_SMM_AL") not in default_enable_tune:
-        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
@@ -945,6 +943,4 @@ if __name__ == "__main__":
                     args.merge = -1
             start(args)
     else:
-        if not args.mnk:  # parse and sanitize kernel shape
-            args.mnk = default_mnk
         start(args)
