@@ -28,8 +28,6 @@ MODULE dbcsr_ptr_util
                             mp_deallocate
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
    IMPLICIT NONE
 
    PRIVATE
@@ -294,15 +292,9 @@ CONTAINS
         !! length of copy
          ${type1}$, DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-         ${type1}$, DIMENSION(1:n), INTENT(IN) :: src
+         ${type1}$, DIMENSION(1:n), INTENT(IN)  :: src
         !! source memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
-#endif
          dst(:) = src(:)
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_copy_${nametype1}$
 
       SUBROUTINE mem_zero_${nametype1}$ (dst, n)
@@ -312,13 +304,7 @@ CONTAINS
         !! length of elements to zero
          ${type1}$, DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
-#endif
          dst(:) = ${zero1}$
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_zero_${nametype1}$
 
       SUBROUTINE mem_alloc_${nametype1}$ (mem, n, mem_type)

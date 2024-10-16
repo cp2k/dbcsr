@@ -13,6 +13,8 @@ MODULE dbcsr_acc_device
 #endif
 #include "base/dbcsr_base_uses.f90"
 
+!$ USE OMP_LIB, ONLY: omp_get_level
+
    IMPLICIT NONE
 
    PUBLIC :: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device, dbcsr_acc_clear_errors
@@ -83,11 +85,16 @@ CONTAINS
 #if defined (__DBCSR_ACC)
       INTEGER :: istat
 
-!$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(device_id)
-      istat = acc_set_active_device_cu(device_id)
+!$    IF (0 == omp_get_level()) THEN
+         istat = 0
+!$OMP    PARALLEL DEFAULT(NONE) SHARED(device_id) REDUCTION(MAX:istat)
+         istat = acc_set_active_device_cu(device_id)
+!$OMP    END PARALLEL
+!$    ELSE
+         istat = acc_set_active_device_cu(device_id)
+!$    END IF
       IF (istat /= 0) &
          DBCSR_ABORT("dbcsr_acc_set_active_device: failed")
-!$OMP END PARALLEL
 
 #else
       MARK_USED(device_id)
