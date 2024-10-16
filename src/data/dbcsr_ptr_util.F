@@ -28,7 +28,7 @@ MODULE dbcsr_ptr_util
                             mp_deallocate
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
+!$ USE OMP_LIB, ONLY: omp_in_parallel
 
    IMPLICIT NONE
 
@@ -294,14 +294,18 @@ CONTAINS
         !! length of copy
          ${type1}$, DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-         ${type1}$, DIMENSION(1:n), INTENT(IN) :: src
+         ${type1}$, DIMENSION(1:n), INTENT(IN)  :: src
         !! source memory
 #if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
+!$       IF (.NOT. omp_in_parallel()) THEN
+!$OMP       PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
+            dst(:) = src(:)
+!$OMP       END PARALLEL WORKSHARE
+!$       ELSE
 #endif
-         dst(:) = src(:)
+            dst(:) = src(:)
 #if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
+!$       END IF
 #endif
       END SUBROUTINE mem_copy_${nametype1}$
 
@@ -313,11 +317,15 @@ CONTAINS
          ${type1}$, DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
 #if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
+!$       IF (.NOT. omp_in_parallel()) THEN
+!$OMP       PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
+            dst(:) = ${zero1}$
+!$OMP       END PARALLEL WORKSHARE
+!$       ELSE
 #endif
-         dst(:) = ${zero1}$
+            dst(:) = ${zero1}$
 #if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
+!$       END IF
 #endif
       END SUBROUTINE mem_zero_${nametype1}$
 
