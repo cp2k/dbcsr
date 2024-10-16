@@ -284,8 +284,7 @@ int c_dbcsr_acc_opencl_memcpy_d2h(
 int c_dbcsr_acc_opencl_memcpy_d2h(
   cl_mem dev_mem, void* host_mem, size_t offset, size_t nbytes, cl_command_queue queue, int blocking) {
 #  if defined(ACC_OPENCL_ASYNC)
-  const cl_bool finish = (0 != blocking || 0 == (2 & c_dbcsr_acc_opencl_config.async) ||
-                          (0 != c_dbcsr_acc_opencl_config.device.nv && NULL == (ACC_OPENCL_ASYNC)));
+  const cl_bool finish = (0 != blocking || 0 == (2 & c_dbcsr_acc_opencl_config.async));
 #  else
   const cl_bool finish = CL_TRUE;
 #  endif
@@ -507,8 +506,7 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
     const c_dbcsr_acc_opencl_stream_t* const str =
       (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream(NULL /*lock*/, ACC_OPENCL_OMP_TID()));
 #  if defined(ACC_OPENCL_ASYNC)
-    const cl_bool finish = (0 == (1 & c_dbcsr_acc_opencl_config.async) || NULL == stream ||
-                            (0 != c_dbcsr_acc_opencl_config.device.nv && NULL == (ACC_OPENCL_ASYNC)));
+    const cl_bool finish = (0 == (1 & c_dbcsr_acc_opencl_config.async) || NULL == stream);
 #  else
         const cl_bool finish = CL_TRUE;
 #  endif
