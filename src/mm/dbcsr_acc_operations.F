@@ -23,8 +23,6 @@ MODULE dbcsr_acc_operations
    USE dbcsr_kinds, ONLY: real_8, dp
    USE dbcsr_types, ONLY: dbcsr_type_real_8
 
-!$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
-
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE

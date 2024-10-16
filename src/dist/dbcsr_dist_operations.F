@@ -36,8 +36,6 @@ MODULE dbcsr_dist_operations
                           dbcsr_type
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
    IMPLICIT NONE
 
    PRIVATE

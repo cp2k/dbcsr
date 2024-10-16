@@ -17,7 +17,7 @@ MODULE dbcsr_machine
       m_abort, m_chdir, m_flush_internal => m_flush, m_getarg, m_getcwd, m_getlog, m_getpid, &
       m_hostnm, m_iargc, m_memory, m_memory_details, m_memory_max, m_mov, m_procrun
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, OMP_GET_WTIME
+!$ USE OMP_LIB, ONLY: omp_get_wtime
 
    IMPLICIT NONE
 
@@ -100,7 +100,7 @@ CONTAINS
          wt = (REAL(count, KIND=dp) + REAL(cycles, KIND=dp)*(1.0_dp + REAL(count_max, KIND=dp))) &
               /REAL(count_rate, KIND=dp)
 !$    ELSE
-!$       wt = OMP_GET_WTIME()
+!$       wt = omp_get_wtime()
 !$    END IF
 #endif
    END FUNCTION m_walltime

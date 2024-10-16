@@ -39,7 +39,7 @@ MODULE dbcsr_dist_methods
                           dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, OMP_IN_PARALLEL
+!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_num_threads, omp_in_parallel
    IMPLICIT NONE
 
    PRIVATE
@@ -467,7 +467,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       dist_p => dist
-!$    IF (.NOT. OMP_IN_PARALLEL()) THEN
+!$    IF (.NOT. omp_in_parallel()) THEN
 ! GCC 10.2 refused to build with DEFAULT(NONE) SHARED(dist_p, row_sizes) here:
 !$OMP        PARALLEL DEFAULT(SHARED)
 !$       CALL make_threads(dist_p, row_sizes=row_sizes)
