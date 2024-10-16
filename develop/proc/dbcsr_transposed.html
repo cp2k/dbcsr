@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">11 statements</a>
+                 title=" 0.0% of total for procedures.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_transformations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_transformations.f.html'>dbcsr_transformations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_transposed</li>
           </ol>
         </nav>
@@ -143,6 +143,7 @@
 </h2>
     
 
+    <p>Transposes a DBCSR matrix, keeping the same distribution</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +159,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~38"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-transposed~28"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,8 +174,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-normal"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-normal~3"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -188,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-shallow_data_copy"></span>
+              <span class="anchor" id="variable-shallow_data_copy~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -203,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transpose_data"></span>
+              <span class="anchor" id="variable-transpose_data~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -218,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transpose_distribution"></span>
+              <span class="anchor" id="variable-transpose_distribution~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -233,8 +234,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_distribution"></span>
-              type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),
+              <span class="anchor" id="variable-use_distribution~3"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -264,24 +265,33 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_transposed</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">shallow_data_copy</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="c">!! Transposes a DBCSR matrix, keeping the same distribution</span>
 <span class="w">                               </span><span class="n">transpose_data</span><span class="p">,</span><span class="w"> </span><span class="n">transpose_distribution</span><span class="p">,</span><span class="w"> </span><span class="n">use_distribution</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">transposed</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">normal</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">shallow_data_copy</span><span class="p">,</span><span class="w"> </span><span class="n">transpose_data</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                            </span><span class="n">transpose_distribution</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">OPTIONAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">use_distribution</span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_distribution</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">dbcsr_transposed_prv</span><span class="p">(</span><span class="n">transposed</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">shallow_data_copy</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                   </span><span class="n">transpose_data</span><span class="p">,</span><span class="w"> </span><span class="n">transpose_distribution</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                   </span><span class="n">use_distribution</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
-<span class="w">      </span><span class="k">ELSE</span>
-<span class="k">         CALL </span><span class="n">dbcsr_transposed_prv</span><span class="p">(</span><span class="n">transposed</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">shallow_data_copy</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                   </span><span class="n">transpose_data</span><span class="p">,</span><span class="w"> </span><span class="n">transpose_distribution</span><span class="p">)</span>
-<span class="w">      </span><span class="k">END IF</span>
-<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_transposed</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">myshallow_data_copy</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                            </span><span class="n">mytranspose_distribution</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">myuse_distribution</span>
+
+<span class="c">!   set some defaults to make usage a bit less painful (fschiff)</span>
+
+<span class="w">      </span><span class="n">myshallow_data_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">      </span><span class="n">myuse_distribution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normal</span><span class="p">%</span><span class="n">dist</span>
+<span class="w">      </span><span class="n">mytranspose_distribution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">shallow_data_copy</span><span class="p">))</span><span class="w"> </span><span class="n">myshallow_data_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shallow_data_copy</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_distribution</span><span class="p">))</span><span class="w"> </span><span class="n">myuse_distribution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">use_distribution</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">transpose_distribution</span><span class="p">))</span><span class="w"> </span><span class="n">mytranspose_distribution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transpose_distribution</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">myshallow_data_copy</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                </span><span class="n">transpose_data</span><span class="p">,</span><span class="w"> </span><span class="n">mytranspose_distribution</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                </span><span class="n">use_distribution</span><span class="o">=</span><span class="n">myuse_distribution</span><span class="p">)</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_transposed</span>
 </pre></div>
 
     </section>

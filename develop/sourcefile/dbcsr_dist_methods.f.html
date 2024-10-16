@@ -193,7 +193,7 @@
 <a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">                          </span><span class="n">dbcsr_mp_obj</span>
 <a id="ln-41" name="ln-41" href="#ln-41"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
 <a id="ln-42" name="ln-42" href="#ln-42"></a>
-<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, OMP_IN_PARALLEL</span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_num_threads, omp_in_parallel</span>
 <a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">   </span><span class="k">IMPLICIT NONE</span>
 <a id="ln-45" name="ln-45" href="#ln-45"></a>
 <a id="ln-46" name="ln-46" href="#ln-46"></a><span class="k">   PRIVATE</span>
@@ -621,7 +621,7 @@
 <a id="ln-468" name="ln-468" href="#ln-468"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a id="ln-469" name="ln-469" href="#ln-469"></a>
 <a id="ln-470" name="ln-470" href="#ln-470"></a><span class="w">      </span><span class="n">dist_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dist</span>
-<a id="ln-471" name="ln-471" href="#ln-471"></a><span class="c">!$    IF (.NOT. OMP_IN_PARALLEL()) THEN</span>
+<a id="ln-471" name="ln-471" href="#ln-471"></a><span class="c">!$    IF (.NOT. omp_in_parallel()) THEN</span>
 <a id="ln-472" name="ln-472" href="#ln-472"></a><span class="c">! GCC 10.2 refused to build with DEFAULT(NONE) SHARED(dist_p, row_sizes) here:</span>
 <a id="ln-473" name="ln-473" href="#ln-473"></a><span class="c">!$OMP        PARALLEL DEFAULT(SHARED)</span>
 <a id="ln-474" name="ln-474" href="#ln-474"></a><span class="c">!$       CALL make_threads(dist_p, row_sizes=row_sizes)</span>

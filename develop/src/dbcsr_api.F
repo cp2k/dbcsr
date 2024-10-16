@@ -141,7 +141,6 @@ MODULE dbcsr_api
                           real_4, &
                           real_8
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -1251,8 +1250,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
-# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1247 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
+# 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_d (matrix, row, col, block, transposed, existed)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
@@ -1510,7 +1509,7 @@ CONTAINS
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_d
-# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_s (matrix, row, col, block, transposed, existed)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
@@ -1768,7 +1767,7 @@ CONTAINS
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_s
-# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_z (matrix, row, col, block, transposed, existed)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
@@ -2026,7 +2025,7 @@ CONTAINS
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_z
-# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_c (matrix, row, col, block, transposed, existed)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
@@ -2284,6 +2283,6 @@ CONTAINS
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_c
-# 1507 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1506 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 END MODULE dbcsr_api

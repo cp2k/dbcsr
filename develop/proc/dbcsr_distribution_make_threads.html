@@ -159,7 +159,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~64"></span>
+              <span class="anchor" id="variable-dist~43"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout),</td>
@@ -218,7 +218,7 @@
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
 <span class="w">      </span><span class="n">dist_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dist</span>
-<span class="c">!$    IF (.NOT. OMP_IN_PARALLEL()) THEN</span>
+<span class="c">!$    IF (.NOT. omp_in_parallel()) THEN</span>
 <span class="c">! GCC 10.2 refused to build with DEFAULT(NONE) SHARED(dist_p, row_sizes) here:</span>
 <span class="c">!$OMP        PARALLEL DEFAULT(SHARED)</span>
 <span class="c">!$       CALL make_threads(dist_p, row_sizes=row_sizes)</span>

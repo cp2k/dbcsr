@@ -39,8 +39,6 @@ MODULE dbcsr_mm_hostdrv
                           sp
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
    IMPLICIT NONE
 
    PRIVATE
@@ -267,8 +265,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 264 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F" 2
-# 265 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 262 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F" 2
+# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_d (params, &
                                                       stack_size, &
                                                       a_data, b_data, c_data)
@@ -600,7 +598,7 @@ CONTAINS
          REAL(kind=real_8), INTENT(IN)                      :: A(M, K)
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_d_nn
-# 265 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_s (params, &
                                                       stack_size, &
                                                       a_data, b_data, c_data)
@@ -932,7 +930,7 @@ CONTAINS
          REAL(kind=real_4), INTENT(IN)                      :: A(M, K)
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_s_nn
-# 265 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_z (params, &
                                                       stack_size, &
                                                       a_data, b_data, c_data)
@@ -1264,7 +1262,7 @@ CONTAINS
          COMPLEX(kind=real_8), INTENT(IN)                      :: A(M, K)
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_z_nn
-# 265 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_c (params, &
                                                       stack_size, &
                                                       a_data, b_data, c_data)
@@ -1596,6 +1594,6 @@ CONTAINS
          COMPLEX(kind=real_4), INTENT(IN)                      :: A(M, K)
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_c_nn
-# 597 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 595 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 END MODULE dbcsr_mm_hostdrv

@@ -1070,7 +1070,7 @@
 <a id="ln-917" name="ln-917" href="#ln-917"></a><span class="w">         </span><span class="c">! built/modified in a parallel environment</span>
 <a id="ln-918" name="ln-918" href="#ln-918"></a><span class="w">         </span><span class="n">nwms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
 <a id="ln-919" name="ln-919" href="#ln-919"></a><span class="w">         </span><span class="n">spawn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a id="ln-920" name="ln-920" href="#ln-920"></a><span class="c">!$       IF (.NOT. OMP_IN_PARALLEL()) THEN</span>
+<a id="ln-920" name="ln-920" href="#ln-920"></a><span class="c">!$       IF (.NOT. omp_in_parallel()) THEN</span>
 <a id="ln-921" name="ln-921" href="#ln-921"></a><span class="c">!$          IF (nwms .GT. 1) spawn = .TRUE.</span>
 <a id="ln-922" name="ln-922" href="#ln-922"></a><span class="c">!$       END IF</span>
 <a id="ln-923" name="ln-923" href="#ln-923"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">spawn</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>

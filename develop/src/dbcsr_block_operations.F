@@ -31,7 +31,6 @@ MODULE dbcsr_block_operations
                           sp
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
    IMPLICIT NONE
 #if defined(__LIBXSMM) && TO_VERSION(1, 10) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
 #  define __LIBXSMM_BLOCKOPS
@@ -1452,8 +1451,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
-# 1449 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
-# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1448 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
+# 1449 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_d (dst, dst_rs, dst_cs, dst_tr, &
                                                                  src, src_rs, src_cs, src_tr, &
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -2002,7 +2001,7 @@ CONTAINS
          REAL(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
          block_a(1:len) = block_a(1:len) + block_b(1:len)
       END SUBROUTINE block_add_d
-# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1449 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_s (dst, dst_rs, dst_cs, dst_tr, &
                                                                  src, src_rs, src_cs, src_tr, &
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -2551,7 +2550,7 @@ CONTAINS
          REAL(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
          block_a(1:len) = block_a(1:len) + block_b(1:len)
       END SUBROUTINE block_add_s
-# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1449 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_z (dst, dst_rs, dst_cs, dst_tr, &
                                                                  src, src_rs, src_cs, src_tr, &
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -3100,7 +3099,7 @@ CONTAINS
          COMPLEX(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
          block_a(1:len) = block_a(1:len) + block_b(1:len)
       END SUBROUTINE block_add_z
-# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1449 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_c (dst, dst_rs, dst_cs, dst_tr, &
                                                                  src, src_rs, src_cs, src_tr, &
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -3649,6 +3648,6 @@ CONTAINS
          COMPLEX(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
          block_a(1:len) = block_a(1:len) + block_b(1:len)
       END SUBROUTINE block_add_c
-# 1999 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1998 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 END MODULE dbcsr_block_operations

@@ -31,8 +31,6 @@ MODULE dbcsr_data_methods_low
                           real_8
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
    IMPLICIT NONE
 
    PRIVATE
@@ -1049,8 +1047,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 1046 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F" 2
-# 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1044 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F" 2
+# 1045 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
       SUBROUTINE set_data_p_d (area, p)
      !! Sets a data pointer.
      !!
@@ -1323,7 +1321,7 @@ CONTAINS
 
          value = encapsulated_scalar%r_dp
       END SUBROUTINE dbcsr_scalar_get_value_d
-# 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1045 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
       SUBROUTINE set_data_p_s (area, p)
      !! Sets a data pointer.
      !!
@@ -1596,7 +1594,7 @@ CONTAINS
 
          value = encapsulated_scalar%r_sp
       END SUBROUTINE dbcsr_scalar_get_value_s
-# 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1045 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
       SUBROUTINE set_data_p_z (area, p)
      !! Sets a data pointer.
      !!
@@ -1869,7 +1867,7 @@ CONTAINS
 
          value = encapsulated_scalar%c_dp
       END SUBROUTINE dbcsr_scalar_get_value_z
-# 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1045 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
       SUBROUTINE set_data_p_c (area, p)
      !! Sets a data pointer.
      !!
@@ -2142,6 +2140,6 @@ CONTAINS
 
          value = encapsulated_scalar%c_sp
       END SUBROUTINE dbcsr_scalar_get_value_c
-# 1320 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1318 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
 
 END MODULE dbcsr_data_methods_low
