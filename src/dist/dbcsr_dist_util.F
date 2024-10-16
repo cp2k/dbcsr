@@ -47,7 +47,6 @@ MODULE dbcsr_dist_util
       dbcsr_type_complex_8, dbcsr_type_real_4, dbcsr_type_real_8
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
    IMPLICIT NONE
    PRIVATE
 

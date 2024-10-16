@@ -107,8 +107,9 @@ MODULE dbcsr_mm_3d
                                     dbcsr_work_destroy
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, &
-!$                    omp_set_lock, omp_unset_lock, omp_init_lock, omp_lock_kind, omp_destroy_lock
+!$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads, &
+!$                    omp_set_lock, omp_unset_lock, omp_init_lock, &
+!$                    omp_lock_kind, omp_destroy_lock
 
    IMPLICIT NONE
 
