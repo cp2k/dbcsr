@@ -60,7 +60,7 @@ void c_dbcsr_acc_opencl_pfree(ACC_OPENCL_LOCKTYPE* lock, const void* pointer, vo
 }
 
 
-c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory) {
+c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(const void* memory) {
   assert(NULL == memory || sizeof(c_dbcsr_acc_opencl_info_memptr_t) <= (uintptr_t)memory);
   return (NULL != memory ? (c_dbcsr_acc_opencl_info_memptr_t*)((uintptr_t)memory - sizeof(c_dbcsr_acc_opencl_info_memptr_t))
                          : (c_dbcsr_acc_opencl_info_memptr_t*)NULL);
@@ -291,6 +291,7 @@ int c_dbcsr_acc_opencl_memcpy_d2h(
   int result = EXIT_SUCCESS;
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
   if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL) {
+    assert(0 == c_dbcsr_acc_opencl_config.device.unified);
     result = c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL(queue, finish, host_mem, dev_mem, nbytes, 0, NULL, NULL);
   }
   else
@@ -302,6 +303,7 @@ int c_dbcsr_acc_opencl_memcpy_d2h(
     int result_sync = EXIT_SUCCESS;
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
     if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL) {
+      assert(0 == c_dbcsr_acc_opencl_config.device.unified);
       result_sync = c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL(queue, CL_TRUE, host_mem, dev_mem, nbytes, 0, NULL, NULL);
     }
     else
@@ -343,6 +345,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
   assert(NULL != dev_mem && NULL != context);
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
   if (NULL != c_dbcsr_acc_opencl_config.device.clDeviceMemAllocINTEL) {
+    assert(0 == c_dbcsr_acc_opencl_config.device.unified);
     *dev_mem = memptr = c_dbcsr_acc_opencl_config.device.clDeviceMemAllocINTEL(
       context, c_dbcsr_acc_opencl_config.device.id, NULL /*properties*/, nbytes, 0 /*alignment*/, &result);
     if (EXIT_SUCCESS != result) *dev_mem = NULL;
@@ -436,6 +439,7 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
 #  else
     assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     if (NULL != c_dbcsr_acc_opencl_config.device.clMemFreeINTEL) {
+      assert(0 == c_dbcsr_acc_opencl_config.device.unified);
       result = c_dbcsr_acc_opencl_config.device.clMemFreeINTEL(c_dbcsr_acc_opencl_config.device.context, dev_mem);
     }
     else {
@@ -513,6 +517,7 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
     assert(NULL != str && NULL != str->queue);
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
     if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL) {
+      assert(0 == c_dbcsr_acc_opencl_config.device.unified);
       result = c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL(str->queue, finish, dev_mem, host_mem, nbytes, 0, NULL, NULL);
     }
     else
@@ -592,6 +597,7 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
     assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL) {
+      assert(0 == c_dbcsr_acc_opencl_config.device.unified);
       result = c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL(
         str->queue, CL_FALSE /*blocking*/, devmem_dst, devmem_src, nbytes, 0, NULL, &event);
     }
@@ -642,6 +648,7 @@ int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nb
 #  if defined(ACC_OPENCL_MEM_DEVPTR)
     assert(NULL != c_dbcsr_acc_opencl_config.device.context);
     if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemFillINTEL) {
+      assert(0 == c_dbcsr_acc_opencl_config.device.unified);
       result = c_dbcsr_acc_opencl_config.device.clEnqueueMemFillINTEL(
         str->queue, (char*)dev_mem + offset, &value, size_of_value, nbytes, 0, NULL, &event);
     }

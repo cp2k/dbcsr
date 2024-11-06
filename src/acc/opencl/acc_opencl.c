@@ -380,8 +380,8 @@ int c_dbcsr_acc_init(void) {
     assert(EXIT_SUCCESS == result);
 #  endif
     if (~(1 + 2) & c_dbcsr_acc_opencl_config.wa) { /* environment is populated before touching the compute runtime */
-      static char* key_value[] = {"NEOReadDebugKeys=1", "ZE_FLAT_DEVICE_HIERARCHY=COMPOSITE", "EnableRecoverablePageFaults=0",
-        "DirectSubmissionOverrideBlitterSupport=0"};
+      static char a[] = "NEOReadDebugKeys=1", b[] = "ZE_FLAT_DEVICE_HIERARCHY=COMPOSITE", c[] = "EnableRecoverablePageFaults=0";
+      static char d[] = "DirectSubmissionOverrideBlitterSupport=0", *key_value[] = {a, b, c, d};
       if (NULL == env_neo) ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(key_value[0]));
       if ((4 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("ZE_FLAT_DEVICE_HIERARCHY")) {
         ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(key_value[1]));

@@ -103,23 +103,15 @@ ifneq (,$(ELEM_TYPE))
   DFLAGS += -DELEM_TYPE=$(ELEM_TYPE)
 endif
 
-ifeq (1,$(INTEL))
-  CXX := icpc
-  CC := icc
-  AR := xiar
-else ifneq (0,$(INTEL))
-  CXX := icpx
-  CC := icx
-  AR := xiar
-else ifneq (0,$(GNU))
-  override CXX := g++
-  override CC := gcc
-  ifneq (Darwin,$(UNAME))
-    override AR := gcc-ar
+ifneq (0,$(INTEL))
+  ifneq (1,$(INTEL))
+    CXX := icpx
+    CC := icx
   else
-    override AR := ar
+    CXX := icpc
+    CC := icc
   endif
-  #override LD_LIBRARY_DIRS := $(NULL)
+  AR := $(if $(call which,xiar),xiar,ar)
 else
   CXX := g++
   CC := gcc

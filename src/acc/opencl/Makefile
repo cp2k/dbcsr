@@ -73,23 +73,15 @@ ifneq (,$(ELEM_TYPE))
   CFLAGS += -DELEM_TYPE=$(ELEM_TYPE)
 endif
 
-ifeq (1,$(INTEL))
-  CXX := icpc
-  CC := icc
-  AR := xiar
-else ifneq (0,$(INTEL))
-  CXX := icpx
-  CC := icx
-  AR := xiar
-else ifneq (0,$(GNU))
-  override CXX := g++
-  override CC := gcc
-  ifneq (Darwin,$(UNAME))
-    override AR := gcc-ar
+ifneq (0,$(INTEL))
+  ifneq (1,$(INTEL))
+    CXX := icpx
+    CC := icx
   else
-    override AR := ar
+    CXX := icpc
+    CC := icc
   endif
-  #override LD_LIBRARY_DIRS := $(NULL)
+  AR := $(if $(call which,xiar),xiar,ar)
 else
   CXX := g++
   CC := gcc
@@ -109,13 +101,14 @@ ifneq (0,$(DEV))
     CFLAGS += -D__DBCSR_ACC
     CFLAGS += -Wno-deprecated -Werror
     ifneq (2,$(DEV))
+      $(info DEBUG: $(CC) $(CXX))
       ifneq (,$(findstring clang,$(CC) $(CXX)))
         override CC := clang++ --analyze
       else
-        CC := $(CXX) -xc++
+        override CC := $(CXX) -xc++
       endif
     else
-      CC := $(CXX) -xc++
+      override CC := $(CXX) -xc++
     endif
     $(info CC: $(shell $(CC) --version | head -n1))
     OMP := 0
