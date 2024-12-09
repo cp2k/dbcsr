@@ -159,7 +159,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~48"></span>
+              <span class="anchor" id="variable-matrix_a~36"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -198,7 +198,6 @@
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
 <span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span>
-<span class="cp">#if defined(__DBCSR_DISABLE_WORKSHARE)</span>
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
 <span class="w">         </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
@@ -207,24 +206,6 @@
 <span class="w">         </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span>
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
 <span class="w">         </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
-<span class="cp">#else</span>
-<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
-<span class="c">!$OMP       PARALLEL WORKSHARE DEFAULT(NONE), SHARED(matrix_a)</span>
-<span class="w">         </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span>
-<span class="c">!$OMP       END PARALLEL WORKSHARE</span>
-<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
-<span class="c">!$OMP       PARALLEL WORKSHARE DEFAULT(NONE), SHARED(matrix_a)</span>
-<span class="w">         </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">)</span>
-<span class="c">!$OMP       END PARALLEL WORKSHARE</span>
-<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
-<span class="c">!$OMP       PARALLEL WORKSHARE DEFAULT(NONE), SHARED(matrix_a)</span>
-<span class="w">         </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span>
-<span class="c">!$OMP       END PARALLEL WORKSHARE</span>
-<span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
-<span class="c">!$OMP       PARALLEL WORKSHARE DEFAULT(NONE), SHARED(matrix_a)</span>
-<span class="w">         </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
-<span class="c">!$OMP       END PARALLEL WORKSHARE</span>
-<span class="cp">#endif</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 <span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_zero</span>

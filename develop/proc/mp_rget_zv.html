@@ -163,7 +163,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-base~19"></span>
+              <span class="anchor" id="variable-base~14"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -178,7 +178,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~84"></span>
+              <span class="anchor" id="variable-source~116"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -193,7 +193,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-win~18"></span>
+              <span class="anchor" id="variable-win~16"></span>
               type(<a href='../type/mp_win_type.html'>mp_win_type</a>),
             </td>
 <td>intent(in)</td>
@@ -208,7 +208,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-win_data~6"></span>
+              <span class="anchor" id="variable-win_data~5"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -223,7 +223,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-myproc~9"></span>
+              <span class="anchor" id="variable-myproc~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -238,7 +238,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-disp~6"></span>
+              <span class="anchor" id="variable-disp~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -253,7 +253,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-request~111"></span>
+              <span class="anchor" id="variable-request~106"></span>
               type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
             </td>
 <td>intent(out)</td>
@@ -268,7 +268,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-origin_datatype~6"></span>
+              <span class="anchor" id="variable-origin_datatype~5"></span>
               type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),
             </td>
 <td>intent(in),</td>
@@ -283,7 +283,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-target_datatype~6"></span>
+              <span class="anchor" id="variable-target_datatype~5"></span>
               type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),
             </td>
 <td>intent(in),</td>
@@ -369,13 +369,7 @@
 <span class="w">            </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span>
 <span class="cp">#endif</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="cp">#if !defined(__DBCSR_DISABLE_WORKSHARE)</span>
-<span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
-<span class="cp">#endif</span>
-<span class="w">               </span><span class="n">base</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="p">)</span>
-<span class="cp">#if !defined(__DBCSR_DISABLE_WORKSHARE)</span>
-<span class="c">!$OMP           END PARALLEL WORKSHARE</span>
-<span class="cp">#endif</span>
+<span class="k">               </span><span class="n">base</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="p">)</span>
 <span class="w">               </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_request_null</span>
 <span class="w">               </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">            </span><span class="k">ELSE</span>

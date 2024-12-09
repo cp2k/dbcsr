@@ -29,8 +29,6 @@ MODULE dbcsr_ptr_util
                             mp_deallocate
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
    IMPLICIT NONE
 
    PRIVATE
@@ -140,8 +138,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 137 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F" 2
-# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 135 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F" 2
+# 136 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_d (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -301,15 +299,9 @@ CONTAINS
         !! length of copy
          REAL(kind=real_8), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-         REAL(kind=real_8), DIMENSION(1:n), INTENT(IN) :: src
+         REAL(kind=real_8), DIMENSION(1:n), INTENT(IN)  :: src
         !! source memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
-#endif
          dst(:) = src(:)
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_copy_d
 
       SUBROUTINE mem_zero_d (dst, n)
@@ -319,13 +311,7 @@ CONTAINS
         !! length of elements to zero
          REAL(kind=real_8), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
-#endif
          dst(:) = 0.0_real_8
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_zero_d
 
       SUBROUTINE mem_alloc_d (mem, n, mem_type)
@@ -452,7 +438,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_d_rank_remap2
-# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 136 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_s (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -612,15 +598,9 @@ CONTAINS
         !! length of copy
          REAL(kind=real_4), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-         REAL(kind=real_4), DIMENSION(1:n), INTENT(IN) :: src
+         REAL(kind=real_4), DIMENSION(1:n), INTENT(IN)  :: src
         !! source memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
-#endif
          dst(:) = src(:)
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_copy_s
 
       SUBROUTINE mem_zero_s (dst, n)
@@ -630,13 +610,7 @@ CONTAINS
         !! length of elements to zero
          REAL(kind=real_4), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
-#endif
          dst(:) = 0.0_real_4
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_zero_s
 
       SUBROUTINE mem_alloc_s (mem, n, mem_type)
@@ -763,7 +737,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_s_rank_remap2
-# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 136 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_z (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -923,15 +897,9 @@ CONTAINS
         !! length of copy
          COMPLEX(kind=real_8), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-         COMPLEX(kind=real_8), DIMENSION(1:n), INTENT(IN) :: src
+         COMPLEX(kind=real_8), DIMENSION(1:n), INTENT(IN)  :: src
         !! source memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
-#endif
          dst(:) = src(:)
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_copy_z
 
       SUBROUTINE mem_zero_z (dst, n)
@@ -941,13 +909,7 @@ CONTAINS
         !! length of elements to zero
          COMPLEX(kind=real_8), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
-#endif
          dst(:) = CMPLX(0.0, 0.0, real_8)
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_zero_z
 
       SUBROUTINE mem_alloc_z (mem, n, mem_type)
@@ -1074,7 +1036,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_z_rank_remap2
-# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 136 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_c (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1234,15 +1196,9 @@ CONTAINS
         !! length of copy
          COMPLEX(kind=real_4), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-         COMPLEX(kind=real_4), DIMENSION(1:n), INTENT(IN) :: src
+         COMPLEX(kind=real_4), DIMENSION(1:n), INTENT(IN)  :: src
         !! source memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
-#endif
          dst(:) = src(:)
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_copy_c
 
       SUBROUTINE mem_zero_c (dst, n)
@@ -1252,13 +1208,7 @@ CONTAINS
         !! length of elements to zero
          COMPLEX(kind=real_4), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
-#endif
          dst(:) = CMPLX(0.0, 0.0, real_4)
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_zero_c
 
       SUBROUTINE mem_alloc_c (mem, n, mem_type)
@@ -1385,7 +1335,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_c_rank_remap2
-# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 136 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_i (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1545,15 +1495,9 @@ CONTAINS
         !! length of copy
          INTEGER(kind=int_4), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-         INTEGER(kind=int_4), DIMENSION(1:n), INTENT(IN) :: src
+         INTEGER(kind=int_4), DIMENSION(1:n), INTENT(IN)  :: src
         !! source memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
-#endif
          dst(:) = src(:)
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_copy_i
 
       SUBROUTINE mem_zero_i (dst, n)
@@ -1563,13 +1507,7 @@ CONTAINS
         !! length of elements to zero
          INTEGER(kind=int_4), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
-#endif
          dst(:) = 0
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_zero_i
 
       SUBROUTINE mem_alloc_i (mem, n, mem_type)
@@ -1696,7 +1634,7 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_i_rank_remap2
-# 138 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 136 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
       FUNCTION pointer_view_l (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1856,15 +1794,9 @@ CONTAINS
         !! length of copy
          INTEGER(kind=int_8), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-         INTEGER(kind=int_8), DIMENSION(1:n), INTENT(IN) :: src
+         INTEGER(kind=int_8), DIMENSION(1:n), INTENT(IN)  :: src
         !! source memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
-#endif
          dst(:) = src(:)
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_copy_l
 
       SUBROUTINE mem_zero_l (dst, n)
@@ -1874,13 +1806,7 @@ CONTAINS
         !! length of elements to zero
          INTEGER(kind=int_8), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
-#endif
          dst(:) = 0
-#if !defined(__DBCSR_DISABLE_WORKSHARE)
-!$OMP     END PARALLEL WORKSHARE
-#endif
       END SUBROUTINE mem_zero_l
 
       SUBROUTINE mem_alloc_l (mem, n, mem_type)
@@ -2007,6 +1933,6 @@ CONTAINS
 
          r2p(1:d1, 1:d2) => r1p(1:d1*d2)
       END SUBROUTINE pointer_l_rank_remap2
-# 449 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 435 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
 
 END MODULE dbcsr_ptr_util
