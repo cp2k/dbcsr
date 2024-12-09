@@ -120,13 +120,7 @@ set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
 
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
-option(WITH_G2G "Enable GPU aware MPI within CUDA/HIP backends" OFF)
 
-if (WITH_G2G AND ((NOT USE_ACCEL) OR ((NOT USE_ACCEL MATCHES "cuda")
-                                      AND (NOT USE_ACCEL MATCHES "hip"))))
-  message(
-    FATAL_ERROR "GPU aware MPI can only be enabled for HIP/CUDA GPU backends")
-endif ()
 # =================================================================================================
 # LANGUAGES AND TESTING
 enable_language(Fortran)
@@ -274,7 +268,6 @@ if (USE_ACCEL MATCHES "cuda")
   message(STATUS "Kernel parameters: " ${WITH_GPU_PARAMS})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "GPU profiling enabled: " ${WITH_CUDA_PROFILING})
-  message(STATUS "GPU aware MPI enabled: " ${WITH_G2G})
 endif ()
 
 if (USE_ACCEL MATCHES "hip")
@@ -319,7 +312,6 @@ if (USE_ACCEL MATCHES "hip")
   message(STATUS "Kernel parameters: " ${WITH_GPU_PARAMS})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "GPU profiling enabled: " ${WITH_HIP_PROFILING})
-  message(STATUS "GPU aware MPI enabled: " ${WITH_G2G})
 
   # =================================== BLAS on GPU backend
   find_package(hipblas CONFIG REQUIRED HINTS ${ROCM_PATH})
