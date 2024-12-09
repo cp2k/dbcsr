@@ -906,7 +906,6 @@ CONTAINS
                           flop=my_flop, keep_product_data=keep_product_data)
       ELSE
          data_type = dbcsr_get_data_type(product_matrix)
-#if defined (__DBCSR_ACC_G2G)
          IF (data_type .NE. dbcsr_type_real_8 .OR. (.NOT. dbcsr_cfg%use_acc_g2g%val)) THEN
             ! If G2G is enabled, norms have to be calculated on the GPU.
             ! Since the norms kernel expects only real_8 type data, we
@@ -921,12 +920,6 @@ CONTAINS
                                      filter_eps=filter_eps, &
                                      flop=my_flop, keep_product_data=keep_product_data)
          END IF
-#else
-         CALL multiply_cannon(m2s_left, m2s_right, product_matrix, &
-                              retain_sparsity=retain_sparsity, &
-                              filter_eps=filter_eps, &
-                              flop=my_flop, keep_product_data=keep_product_data)
-#endif
          CALL dbcsr_finalize(product_matrix, reshuffle=PRESENT(filter_eps) .AND. .NOT. keep_sparsity)
       END IF
       !

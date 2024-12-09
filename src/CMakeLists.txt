@@ -284,18 +284,6 @@ if (USE_ACCEL)
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
             $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>)
-
-  if (WITH_G2G)
-    target_compile_definitions(
-      dbcsr
-      PRIVATE __DBCSR_ACC_G2G
-              $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>
-              $<$<STREQUAL:${USE_ACCEL},cuda>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
-              $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
-              $<$<STREQUAL:${USE_ACCEL},hip>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
-              $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
-              $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
-  endif ()
 endif ()
 
 # =================================================================================================
