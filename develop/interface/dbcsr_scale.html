@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 27 statements,  0.0% of total for procedures.">3 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 140 statements,  0.2% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_operations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_scale</li>
           </ol>
         </nav>
@@ -131,8 +131,9 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_scale.html#moduleprocedure-dbcsr_scale_d">dbcsr_scale_d</a>
+            <a class="list-group-item" href="../interface/dbcsr_scale.html#moduleprocedure-dbcsr_scale_anytype">dbcsr_scale_anytype</a>
             <a class="list-group-item" href="../interface/dbcsr_scale.html#moduleprocedure-dbcsr_scale_s">dbcsr_scale_s</a>
+            <a class="list-group-item" href="../interface/dbcsr_scale.html#moduleprocedure-dbcsr_scale_d">dbcsr_scale_d</a>
             <a class="list-group-item" href="../interface/dbcsr_scale.html#moduleprocedure-dbcsr_scale_c">dbcsr_scale_c</a>
             <a class="list-group-item" href="../interface/dbcsr_scale.html#moduleprocedure-dbcsr_scale_z">dbcsr_scale_z</a>
         </div>
@@ -154,11 +155,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_d"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_d.html'>dbcsr_scale_d</a>(matrix_a, alpha_scalar, last_column)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_anytype"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_anytype.html'>dbcsr_scale_anytype</a>(matrix_a, alpha_scalar, limits)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Scales a DBCSR matrix by alpha</p><a href="../proc/dbcsr_scale_anytype.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -173,8 +174,78 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~11"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~2"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+            <td>
+<p>DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha_scalar"></span>
+              type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha_scalar</strong></td>
+            <td>
+<p>a scalar</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-limits"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(4)
+            </td>
+            <td>::</td>
+            <td><strong>limits</strong></td>
+            <td>
+<p>Scale only a subbox</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_s.html'>dbcsr_scale_s</a>(matrix_a, alpha_scalar, last_column)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Interface for matrix scaling by a scalar</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_a~27"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -188,8 +259,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-alpha_scalar~8"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -224,11 +295,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_s.html'>dbcsr_scale_s</a>(matrix_a, alpha_scalar, last_column)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_d"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_d.html'>dbcsr_scale_d</a>(matrix_a, alpha_scalar, last_column)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Interface for matrix scaling by a scalar</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -243,8 +314,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~17"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~21"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -258,8 +329,78 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar~4"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-alpha_scalar~7"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha_scalar</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last_column"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last_column</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_c"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_c.html'>dbcsr_scale_c</a>(matrix_a, alpha_scalar, last_column)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Interface for matrix scaling by a scalar</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_a~39"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha_scalar~10"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -294,81 +435,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_c"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_c.html'>dbcsr_scale_c</a>(matrix_a, alpha_scalar, last_column)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix_a~29"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix_a</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-alpha_scalar~10"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>alpha_scalar</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-last_column~8"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>last_column</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_z"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_z.html'>dbcsr_scale_z</a>(matrix_a, alpha_scalar, last_column)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Interface for matrix scaling by a scalar</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -383,8 +454,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~23"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~33"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -398,7 +469,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha_scalar~7"></span>
+              <span class="anchor" id="variable-alpha_scalar~9"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -413,7 +484,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_column~6"></span>
+              <span class="anchor" id="variable-last_column~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
