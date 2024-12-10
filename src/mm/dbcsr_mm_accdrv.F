@@ -531,6 +531,9 @@ CONTAINS
       IF (success) THEN
          CALL acc_event_record(stackbuf%calculated, stream=stackbuf%stream)
       ELSE
+         IF (dbcsr_cfg%use_acc_g2g%val) THEN
+            DBCSR_ABORT("MPI G2G requires all kernels to be evaluated on the GPU!")
+         END IF
          this%do_gpu_c_redux = .TRUE.
       END IF
 
